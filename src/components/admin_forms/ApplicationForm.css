@@ -1,0 +1,16 @@
+.form-control
+{
+    height:auto;
+}
+
+#applicationFormNav .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+    background-color: #223e87;
+    color: #fff;
+}
+
+#applicationFormNav .nav-pills .nav-link
+{
+    border-radius: 0px;
+    background-color:#b4b4b4;
+    color:black;
+}

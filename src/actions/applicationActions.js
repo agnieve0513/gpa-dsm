@@ -1,0 +1,239 @@
+
+import axios from 'axios'
+import {
+    APPLICATION_LIST_REQUEST,
+    APPLICATION_LIST_SUCCESS,
+    APPLICATION_LIST_FAIL,
+    APPLICATION_LIST_RESET,
+
+    APPLICATION_DETAIL_REQUEST,
+    APPLICATION_DETAIL_SUCCESS,
+    APPLICATION_DETAIL_FAIL,
+
+    APPLICATION_COMMENTS_REQUEST,
+    APPLICATION_COMMENTS_SUCCESS,
+    APPLICATION_COMMENTS_FAIL,
+    APPLICATION_COMMENTS_RESET,
+
+    APPLICATION_LOGS_REQUEST,
+    APPLICATION_LOGS_SUCCESS,
+    APPLICATION_LOGS_FAIL,
+    APPLICATION_LOGS_RESET,
+
+    APPLICATION_UPDATE_REQUEST,
+    APPLICATION_UPDATE_SUCCESS,
+    APPLICATION_UPDATE_FAIL
+    
+} from '../constants/applicationConstants'
+
+import{
+    USER_LOGOUT
+} from '../constants/userConstants'
+
+
+const URL = 'https://gpadev-api-rebate.xtendly.com/api/v1'
+
+
+export const listApplications = () => async (dispatch, getState) => {
+    try{
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+
+        dispatch({
+            type: APPLICATION_LIST_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        const {data} = await axios.post(
+            URL+'/application-list',
+            {'roleId': obj.message.original.roleId},
+            config
+        )
+
+        dispatch({
+            type: APPLICATION_LIST_SUCCESS,
+            payload: data.table
+        })
+
+
+    }catch(error){
+        dispatch({
+            type: APPLICATION_LIST_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message
+        })
+    }
+}
+
+export const logsApplication = (application_id) => async (dispatch, getState) => {
+    try{
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+
+        dispatch({
+            type: APPLICATION_LOGS_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        const {data} = await axios.post(
+            URL+'/log-list',
+            {'applicationId': application_id},
+            config
+        )
+
+        dispatch({
+            type: APPLICATION_LOGS_SUCCESS,
+            payload: data.table
+        })
+
+
+    }catch(error){
+        dispatch({
+            type: APPLICATION_LOGS_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message
+        })
+    }
+}
+
+export const commentsApplication = (application_id) => async (dispatch, getState) => {
+    try{
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+
+        dispatch({
+            type: APPLICATION_COMMENTS_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        const {data} = await axios.post(
+            URL+'/comment-list',
+            {'applicationId': application_id},
+            config
+        )
+
+        dispatch({
+            type: APPLICATION_COMMENTS_SUCCESS,
+            payload: data.table
+        })
+
+    }catch(error){
+        dispatch({
+            type: APPLICATION_COMMENTS_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message
+        })
+    }
+}
+
+export const detailApplication = (application_id) => async (dispatch) => {
+    try{
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+
+        dispatch({
+            type: APPLICATION_DETAIL_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        const {data} = await axios.post(
+            URL+'/view-information',
+            {'applicationId': application_id},
+            config
+        )
+
+        dispatch({
+            type: APPLICATION_DETAIL_SUCCESS,
+            payload: data
+        })
+
+
+    }catch(error){
+        dispatch({
+            type: APPLICATION_DETAIL_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message
+        })
+    }
+}
+
+export const updateApplication = (applicationId, status, stage, reason) => async (dispatch) => {
+    try{
+
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+       
+
+
+        dispatch({
+            type: APPLICATION_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        
+        const {data} = await axios.post(URL+'/update-status',
+        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'status':status, 'stage':stage, 'reason':reason},
+        config
+        )
+
+        dispatch({
+            type: APPLICATION_UPDATE_SUCCESS,
+            payload:data
+        })
+
+        // localStorage.setItem('userInfo', JSON.stringify(data))
+
+
+
+    }catch(error)
+    {
+        dispatch({
+            type: APPLICATION_UPDATE_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        })
+    }
+}
+
+export const logout = () => (dispatch) => {
+    localStorage.removeItem('userInfo')
+    dispatch({type:USER_LOGOUT})
+    dispatch({type:APPLICATION_LIST_RESET})
+    dispatch({type:APPLICATION_COMMENTS_RESET})
+    dispatch({type:APPLICATION_LOGS_RESET})
+}

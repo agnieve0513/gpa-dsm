@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
+import HomeScreen from './screens/HomeScreen'
+import ApplicationScreen from './screens/ApplicationScreen'
+import TrackApplicationScreen from './screens/TrackApplicationScreen'
+import AdminLoginScreen from './screens/AdminLoginScreen'
+import AdminDashboardScreen from './screens/AdminDashboardScreen'
+
+
+import UserForm from './components/admin_forms/UserForm'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+          <Route path='/' component={HomeScreen} exact />
+          <Route path='/application' component={ApplicationScreen} exact />
+          <Route path='/track' component={TrackApplicationScreen} exact />
+          <Route path='/admin' component={AdminLoginScreen} exact />
+          <Route path='/dashboard' component={AdminDashboardScreen} exact />
+          <Route path='/register' component={UserForm} />
+      {/* <Footer /> */}
+    </Router>
   );
 }
 

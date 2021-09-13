@@ -1,0 +1,14 @@
+#homeScreen
+{
+    background-image: linear-gradient( to top, rgb(34, 62, 135, 1), rgba(15, 54, 153, 0.7)), url('backgroud2.png');
+    background-repeat: no-repeat;
+}
+
+h1, h2, h4, p, a
+{
+  font-family:'Montserrat Bold', sans-serif;
+}
+
+.btn .btn-success{
+    background-color:rgb(139, 196, 63) !important
+}

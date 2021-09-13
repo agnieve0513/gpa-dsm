@@ -1,0 +1,119 @@
+import React, {useState, useEffect} from 'react'
+
+import Footer from '../components/Footer'
+import Header from '../components/Header'
+import { useDispatch, useSelector } from 'react-redux'
+
+import './AdminDashboardScreen.css'
+
+import UserForm from '../components/admin_forms/UserForm'
+import ApplicationForm from '../components/admin_forms/ApplicationForm'
+import EquipmentForm from '../components/admin_forms/EquipmentForm'
+import TcTemplateForm from '../components/admin_forms/TcTemplateForm'
+import BatchForm from '../components/admin_forms/BatchForm'
+
+import { Container, Row, Col, Nav, Tab } from 'react-bootstrap'
+
+function AdminDashboardScreen({location, history}) {
+
+    const redirect = location.search ? location.search.split('=')[1] :'/admin'
+    const [applicationForm, setApplicationForm] = useState(true)
+    const [equipmentForm, setEquipmentForm] = useState(false)
+    const [usersForm, setUsersForm] = useState(false)
+    const [tcForm, setTcForm] = useState(false)
+    const [batchForm, setBatchForm] = useState(false)
+
+    useEffect(() => {
+      if(!localStorage.getItem('userInfo'))
+      {
+        history.push(redirect)
+      }
+      else
+      {
+        let obj = JSON.parse(localStorage.getItem('userInfo'))
+        let roleId = obj.message.original.roleId
+
+        console.log(obj)
+
+        if(roleId === 4 || roleId === 5)
+        {
+            setBatchForm(true)
+        }
+        else if(roleId === 1)
+        {
+            setUsersForm(true)
+            setBatchForm(true)
+            setEquipmentForm(true)
+            setTcForm(true)
+        }
+      }
+    }, [history, redirect])
+
+    return (
+        <div>
+            <Header />
+            <div className="mt-4">
+                <Container fluid>
+                    <Tab.Container id="left-tabs-example" defaultActiveKey="application">
+                    <Container className="mb-4">
+                        <Row>
+                            <Col md={8} id="adminDashBoardNav">
+                                    
+                                    <Nav variant="pills">
+                                        {applicationForm? 
+                                        <Nav.Item className="me-1">
+                                            <Nav.Link eventKey="application">APPLICATION</Nav.Link>
+                                        </Nav.Item>: <></>}
+
+                                        {batchForm?
+                                        <Nav.Item className="me-1">
+                                            <Nav.Link eventKey="batch">BATCH</Nav.Link>
+                                        </Nav.Item>: <></>}
+
+                                        {usersForm?
+                                        <Nav.Item className="me-1">
+                                            <Nav.Link eventKey="users">USERS</Nav.Link>
+                                        </Nav.Item>:<></>}
+
+                                        {equipmentForm ?
+                                        <Nav.Item className="me-1">
+                                            <Nav.Link eventKey="equipment">EQUIPMENT</Nav.Link>
+                                        </Nav.Item>:<></>}
+
+                                        {tcForm ?
+                                        <Nav.Item className="mr-1">
+                                            <Nav.Link eventKey="template">T & C TEMPLATE</Nav.Link>
+                                        </Nav.Item>:<></>}
+                                    </Nav>
+                            </Col>
+                            <Col md={4}>
+                                <h3 className="float-end text-info">Admin Dashboard</h3>
+                            </Col>
+                        </Row>
+                    </Container>
+                            <Tab.Content>
+                                <Tab.Pane eventKey="users">
+                                    {usersForm ? <UserForm /> : <></>}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="application">
+                                    {applicationForm ? <ApplicationForm />: <></>}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="batch">
+                                    {batchForm? <BatchForm /> : <></>}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="equipment">
+                                    {equipmentForm? <EquipmentForm /> :<></>}
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="template">
+                                    {tcForm?<TcTemplateForm />:<></>}
+                                </Tab.Pane>
+                            </Tab.Content>
+                    </Tab.Container>
+                </Container>
+            </div>
+            <Footer />
+        </div>
+    )
+}
+
+export default AdminDashboardScreen
