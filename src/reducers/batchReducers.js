@@ -1,4 +1,3 @@
-
 import {
 
     BATCH_LIST_REQUEST,
@@ -14,6 +13,10 @@ import {
     BATCH_CURRENT_REQUEST,
     BATCH_CURRENT_SUCCESS,
     BATCH_CURRENT_FAIL,
+
+    BATCH_ADD_REQUEST,
+    BATCH_ADD_SUCCESS,
+    BATCH_ADD_FAIL
 
 
 } from '../constants/batchConstants'
@@ -37,13 +40,13 @@ export const batchListReducer = (state ={batches:[]}, action) => {
     }
 }
 
-export const batchCurrentReducer = (state ={batchCurrent:[]}, action) => {
+export const batchCurrentReducer = (state ={batch_current:[]}, action) => {
     switch(action.type){
         case BATCH_CURRENT_REQUEST:
             return {loading: true}
 
         case BATCH_CURRENT_SUCCESS:
-            return {loading:false, batchCurrent: action.payload}
+            return {loading:false, batch_current: action.payload}
 
         case BATCH_CURRENT_FAIL:
             return {loading:false, error: action.payload}
@@ -66,6 +69,23 @@ export const batchApplicationReducer = (state ={batch_applications:[]}, action) 
 
         case BATCH_APPLICATION_RESET:
             return {batch_applications:[]}
+        default:
+            return state
+    }
+}
+
+export const batchAddReducer = (state = {}, action) => {
+    
+    switch(action.type)
+    {
+        case BATCH_ADD_REQUEST:
+            return {loading: true}
+
+        case BATCH_ADD_SUCCESS:
+            return {loading: false, success:true}
+
+        case BATCH_ADD_FAIL:
+            return {loading: false, error: action.payload}
         default:
             return state
     }

@@ -15,8 +15,10 @@ function App() {
           <Route path='/' component={HomeScreen} exact />
           <Route path='/application' component={ApplicationScreen} exact />
           <Route path='/track' component={TrackApplicationScreen} exact />
+
           <Route path='/admin' component={AdminLoginScreen} exact />
           <Route path='/dashboard' component={AdminDashboardScreen} exact />
+          
           <Route path='/register' component={UserForm} />
       {/* <Footer /> */}
     </Router>

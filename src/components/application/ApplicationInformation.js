@@ -1,0 +1,403 @@
+import React, {useState, useEffect} from 'react'
+import { Row, Col, Form, Container, Button, InputGroup } from 'react-bootstrap';
+
+
+import { verifyCustomer } from '../../actions/customerAction'
+import { useDispatch, useSelector } from 'react-redux'
+
+import city_zipcode from './source_files/city_zipcode'
+
+function ApplicationInformation(props) {
+    
+    const [verify, setVerify] = useState(false)
+    const dispatch = useDispatch()
+
+    const customerVerify = useSelector(state => state.customerVerify)
+    const {loading:verifyLoading,error:verifyError, success:verifySuccess,customer_verification} = customerVerify
+    console.log(customer_verification)
+
+    const submitHandler = (e) => {
+        e.preventDefault()
+    }
+
+    const changeZipCode = (e) => {
+       props.setCityVillage(e.target.value)
+       const result =  city_zipcode.find((p) => p._id === props.city_village);
+       if(result)
+       {
+          props.setZipCode(result.zip_code); 
+       }
+    }
+
+    const changeEmailZipCode = (e) => {
+       props.setMailingCityVillage(e.target.value)
+       const result =  city_zipcode.find((p) => p._id === props.mailing_city_village)
+       if(result)
+       {
+          props.setMailingZipCode(result.zip_code); 
+       }
+    }
+
+    const verifyCustomerHandler = () =>
+    {
+        dispatch(verifyCustomer(props.account_no, props.bill_id))
+        if(customer_verification)
+        {
+            if(customer_verification.BillId === props.bill_id)
+            {
+                setVerify(true)
+            }
+            else
+            {
+                setVerify(false)
+            }
+        }
+    }
+
+    return (
+        <Container>
+            <h4 className="text-center text-info mb-5">APPLICATION INFORMATION</h4>
+            <Row>
+                <Col md={2}></Col>
+                <Col md={8}>
+                    <Form onSubmit={submitHandler}>
+                <Row>
+                    <Col md={6} className="mb-3">
+                        <Form.Group controlId='account_no'>
+                            <Form.Label>GPA ELECTRIC ACCOUNT NUMBER*</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setAccountNo(e.target.value)} value={props.account_no}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                       {
+                           verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>
+                       }
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='bill_id'>
+                            <Form.Label>BILL ID* </Form.Label> <br />
+                            <InputGroup className="mb-3">
+                                <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setBillId(e.target.value)} value={props.bill_id}
+                                required
+                                />
+                                <Button onClick={()=> verifyCustomerHandler()} variant="danger" id="button-addon2">
+                                Verify
+                                </Button>
+                            </InputGroup>
+                        </Form.Group>
+                    </Col>
+                    </Row>
+                 
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group controlId='firstname' className="mb-3">
+                                <Form.Label>Firstname</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setFirstname(e.target.value)} value={props.firstname}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                            <Form.Group controlId='lastname' className="mb-3">
+                                <Form.Label>Lastname</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setLastname(e.target.value)} value={props.lastname}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={2}>
+                            <Form.Group controlId='middlename' className="mb-3">
+                                <Form.Label>Middlename</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMiddlename(e.target.value)} value={props.middlename}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <Form.Group controlId='service_location' className="mb-3">
+                                <Form.Label>SERVICE LOCATION (Address where equipment was installed)*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setServiceLocation(e.target.value)} value={props.service_location}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group controlId='city_village' className="mb-3">
+                                <Form.Label>CITY/VILLAGE</Form.Label>
+                                <Form.Select onChange={(e)=>changeZipCode(e)} value={props.city_village} required>
+                                    {city_zipcode.map(p => (
+                                        <option key={p._id} value={p._id}>{p.village}</option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId='zip_code' className="mb-3">
+                                <Form.Label>ZIP CODE</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setZipCode(e.target.value)}
+                                    value={props.zipcode}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group controlId='zip_code' className="mb-3">
+                                <Form.Label>EMAIL</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setEmail(e.target.value)}
+                                    value={props.email}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId='zip_code' className="mb-3">
+                                <Form.Label>TELEPHONE NUMBER</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setTelNo(e.target.value)}
+                                    value={props.tel_no}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={6}>
+                            <p>
+                                Applicant must be either the GPA account holder or
+                                the property owner to claim a rebate. Is applicant
+                                the owner of the residential property?
+                            </p>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Check
+                                inline
+                                label="Yes"
+                                name="is_applicant_owner"
+                                type={"radio"}
+                                id={`inline-${"radio"}-1`}
+                                value="true"
+                                checked={"true" === props.is_applicant_owner}
+                                onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
+
+                            />
+                            <Form.Check
+                                inline
+                                label="No"
+                                name="is_applicant_owner"
+                                type={"radio"}
+                                value="false"
+                                checked={"false" === props.is_applicant_owner}
+                                onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
+                            />
+                        </Col>
+                    </Row>
+
+                    <Row className="mb-3">
+                        <Col md={12}>
+                            An Exception may be made if the tenant or property owner
+                            representative provides an authorization letter
+                            with a copy of photo I.D. Residential customers
+                            with Commercial Accounts must provide proof of residency
+                            in order to participate in this rebate program.
+                            Condominium or property managers may apply for tennants.
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={12}>
+                            <Form.Group controlId='mailing_address' className="mb-3">
+                                <Form.Label>MAILING ADDRESS <b>(Current address where we will send your rebate check)*</b></Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMailingAddress(e.target.value)}
+                                    value={props.mailing_address}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={6}>
+                            <div className="form-group">
+                                <Form.Group controlId='mailing_city_village' className="mb-3">
+                                    <Form.Label>CITY/VILLAGE</Form.Label>
+                                    <Form.Select onChange={(e)=>changeEmailZipCode(e)} value={props.mailing_city_village} required>
+                                        {city_zipcode.map(p => (
+                                            <option key={p._id} value={p._id}>{p.village}</option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId='mailing_zipcode' className="mb-3">
+                                <Form.Label>ZIP CODE</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    value={props.mailing_zipcode}
+                                    onChange={(e)=>props.setMailingZipCode(e.target.value)}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={4}>
+                            <Form.Group controlId='home_size' className="mb-3">
+                                <Form.Label>HOME SIZE (approx.sq ft.)*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    value={props.home_size}
+                                    onChange={(e)=>props.setHomeSize(e.target.value)}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                            <Form.Group controlId='home_age' className="mb-3">
+                                
+                                <Form.Label>HOME AGE (approx.year built?)*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    value={props.home_age}
+                                    onChange={(e)=>props.setHomeAge(e.target.value)}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={4}>
+                            <Form.Label>NEW CONSTRUCTION</Form.Label> <br />
+                            <Form.Check
+                                inline
+                                label="Yes"
+                                name="is_new_construction"
+                                type={"radio"}
+                                value="true"
+                                checked={"true" === props.is_new_construction}
+                                onChange={(e)=>props.setIsNewConstruction(e.target.value)}
+
+                            />
+                            <Form.Check
+                                inline
+                                label="No"
+                                name="is_new_construction"
+                                type={"radio"}
+                                value="false"
+                                checked={"false" === props.is_new_construction}
+                                onChange={(e)=>props.setIsNewConstruction(e.target.value)}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <Form.Label>HOME TYPE (check one)</Form.Label> <br />
+                            <Form.Check
+                                inline
+                                label="Single Family"
+                                name="home_type"
+                                type={"radio"}
+                                value="Single Family"
+                                checked={"Single Family" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+
+                            />
+                            <Form.Check
+                                inline
+                                label="Apartment"
+                                name="home_type"
+                                type={"radio"}
+                                value="Apartment"
+                                checked={"Apartment" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                            />
+                            <Form.Check
+                                inline
+                                label="Condo"
+                                name="home_type"
+                                type={"radio"}
+                                value="Condo"
+                                checked={"Condo" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+
+                            />
+                            <Form.Check
+                                inline
+                                label="Mobile Home"
+                                name="home_type"
+                                type={"radio"}
+                                value="Mobile Home"
+                                checked={"Mobile Home" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                            />
+                            <Form.Check
+                                inline
+                                label="Other"
+                                name="home_type"
+                                type={"radio"}
+                                value="Other"
+                                checked={"Other" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                            />
+                        </Col>
+                    </Row>
+                    </Form>
+                </Col>
+                <Col md={2}></Col>
+            </Row>
+            
+        </Container>
+    )
+}
+
+export default ApplicationInformation

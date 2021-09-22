@@ -8,6 +8,7 @@ import {login} from '../actions/userActions'
 
 function AdminLoginScreen({location, history}) {
 
+    const [attempt, setAttempt] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -19,16 +20,26 @@ function AdminLoginScreen({location, history}) {
     const {error, loading, userInfo} = userLogin
 
     useEffect(() => {
-      if(userInfo)
+      if(localStorage.getItem('userInfo'))
       {
         history.push(redirect)
       }
-    }, [history, userInfo, redirect])
+      else
+      {
+        if(attempt === true)
+        {
+          alert("Wrong Credentials")
+        }
+        history.push('/admin')
+      }
+    }, [history, userInfo])
 
     const submitHandler = (e) => {
       e.preventDefault()
       dispatch(login(email, password))
+      setAttempt(true)
     }
+
     return (
         <Row md={3} xs={12} sm={12} id="homeScreen">
               <Col md={2} sm={12} xs={12}></Col>

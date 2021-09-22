@@ -3,6 +3,9 @@ import { Row, Col, Table, Form, ListGroup, Tabs, Modal, Tab, Container, Button, 
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
 import { listApplications, detailApplication, commentsApplication, logsApplication, updateApplication} from '../../actions/applicationActions'
+import { listBatchCurrent, addNewBatch } from '../../actions/batchActions'
+
+
 import { useDispatch, useSelector } from 'react-redux'
 import MaterialTable from "material-table";
 
@@ -14,6 +17,7 @@ function ApplicationForm() {
     let roleId = obj.message.original.roleId
 
     const [showModal, setShowModal] = useState(false)
+    const [showBatchModal, setBatchShowModal] = useState(false)
     const [show, setShow] = useState(false)
     const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false)
     const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false)
@@ -22,8 +26,10 @@ function ApplicationForm() {
     const [status, setStatus] = useState("")
     const [stage, setStage] = useState("")
     const [reason, setReason] = useState("")
+    const [batch, setBatch] = useState("")
 
     const handleModalClose = () => setShowModal(false)
+    const handleBatchModalClose = () => setBatchShowModal(false)
     
     const dispatch = useDispatch()
      
@@ -43,9 +49,16 @@ function ApplicationForm() {
     const applicationUpdate = useSelector(state => state.applicationUpdate)
     const {error:updateError, loading:updateLoading, success:successUpdate} = applicationUpdate
 
+    const batchCurrent = useSelector(state => state.batchCurrent)
+    const { batch_current } = batchCurrent
+
+    const batchAdd = useSelector(state => state.batchAdd)
+    const { success:addBatchSuccess } = batchAdd
+
     useEffect(() => {
         dispatch(listApplications())
-    }, [dispatch, application, successUpdate])
+        dispatch(listBatchCurrent())
+    }, [dispatch, application, successUpdate, addBatchSuccess])
 
     const selectHandler = (rowdata) => {
         setApplicationId(rowdata.Application_Id)
@@ -74,19 +87,52 @@ function ApplicationForm() {
                 setShowModal(false)
             }
         }else{
-            setStatus(status)
-            setStage(stage)
-                dispatch(updateApplication(applicationId,status,stage,reason))
-            if(window.confirm('Are you sure you want to process application?'))
+            if(status === 1 && stage === 3)
             {
-                alert("Saved!")
+                setStatus(1)
+                setStage(3)
                 setShowModal(false)
+                setBatchShowModal(true)
+            }
+            else
+            {
+                setStatus(status)
+                setStage(stage)
+                    dispatch(updateApplication(applicationId,status,stage,reason, batch))
+                if(window.confirm('Are you sure you want to process application?'))
+                {
+                    alert("Saved!")
+                    setShowModal(false)
+                }
             }
         }
     }
 
     const resetHandler = () =>{
         setShow(false)
+    }
+
+    const addBatchHandler = () =>{
+        if(window.confirm('Are you sure you want to create new Batch?'))
+        {
+            dispatch(addNewBatch())
+        }
+    }
+
+    const selectBatchHandler = (rowdata)=>{
+        if(window.confirm('Are you sure you want to add Application to this Batch?'))
+        {
+            setBatch(rowdata.Id)
+            setStatus(status)
+            setStage(stage)
+            setBatchShowModal(false)
+
+            if(window.confirm('Are you sure you want to process application?'))
+            {
+                dispatch(updateApplication(applicationId,status,stage,reason, rowdata.Id))
+                alert("Saved!")
+            }
+        }
     }
 
     const selectEquipment = (id, equipmentType) => {
@@ -232,6 +278,7 @@ function ApplicationForm() {
                                                         </ListGroup>
                                                     </Col>
                                                     <Col md={6}>
+                                                    
                                                         <Table striped bordered hover>
                                                             <thead className="bg-info text-white">
                                                                 <tr className="py-5">
@@ -247,7 +294,7 @@ function ApplicationForm() {
                                                                     <td>{equipment.newEquip_Quantity}</td>
                                                                     <td>{equipment.newEquip_rebate}</td>
                                                                 </tr>
-                                                            )):  <tr><td>'Lodaing . . '</td></tr>
+                                                            )):  <tr><td>'Loading . . '</td></tr>
                                                             }
                                                             </tbody>
                                                         </Table>
@@ -304,6 +351,45 @@ function ApplicationForm() {
                                                 <h3 className="mt-3 mb-3">Update Status</h3>
                                                 <Row>
                                                     <Col md={12}>
+
+                                                        <Modal show={showBatchModal} onHide={handleBatchModalClose}>
+                                                            <Modal.Header closeButton>
+                                                            <Modal.Title>
+                                                                Batch Selection
+                                                            </Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Body>
+                                                                <Button onClick={() => addBatchHandler()}>Add Batch</Button> <br />
+                                                                {batch_current?
+                                                                    <MaterialTable 
+                                                                        columns={[
+                                                                            { title: "Code", field: "Batch_code" },
+                                                                            {
+                                                                            title: "Action",
+                                                                            field:"actions",
+                                                                            width:"10%",
+                                                                            editComponent: (props) =>{
+                                                                                return (
+                                                                                    <Button>Payts</Button>
+                                                                                )
+                                                                            },
+                                                                            render: (rowdata) => (
+                                                                                <>
+                                                                                <Button size="sm" variant="info" onClick={() => selectBatchHandler(rowdata)} ><i className="fa fa-edit"></i></Button>
+                                                                                </>)
+                                                                            }
+                                                                        ]}
+                                                                        data={
+                                                                            (batch_current) ? batch_current : []
+                                                                        }
+                                                                        title="Batches"
+                                                                    />
+                                                                    : <></>
+                                                                }
+                                                            </Modal.Body>
+                                                        </Modal>
+
+
                                                         <Modal show={showModal} onHide={handleModalClose}>
                                                             <Modal.Header closeButton>
                                                             <Modal.Title>
@@ -314,7 +400,7 @@ function ApplicationForm() {
                                                                 {
                                                                     status === 3 ?
                                                                         <>
-                                                                            <Form.Group controlId='role_id' className="mb-3">
+                                                                            <Form.Group controlId='role_id' className="mb-1">
                                                                                 <Form.Select onChange={(e)=>setReason(e.target.value)} value={reason} required>
                                                                                     <option >Open this select menu</option>
                                                                                     <option value="0">None</option>
@@ -337,7 +423,7 @@ function ApplicationForm() {
                                                                         :
                                                                             roleId === 3 ?
                                                                             <>
-                                                                            <Button onClick={() => updateStatus(1, 3)}>Send to Supervisor</Button>
+                                                                            <Button onClick={() => updateStatus(1, 3)} className="mb-1">Send to Supervisor</Button> <br />
                                                                             <Button onClick={() => updateStatus(1, 4)}>Send Back to Customer Service</Button>
                                                                             </>
                                                                             :

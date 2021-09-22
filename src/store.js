@@ -5,7 +5,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { userLoginReducer, userRegisterReducer, userListReducer, userDeleteReducer, userUpdateReducer } from './reducers/userReducers'
 import { applicationListReducer, applicationDetailReducer, applicationCommentsReducer, applicationLogsReducer, applicationUpdateReducer } from './reducers/applicationReducers'
 import { equipmentListReducer } from './reducers/equipmentReducers'
-import { batchListReducer, batchApplicationReducer, batchCurrentReducer} from './reducers/batchReducers'
+import { batchListReducer, batchApplicationReducer, batchCurrentReducer, batchAddReducer} from './reducers/batchReducers'
+import { customerVerifyReducer, customerRegisterReducer, customerGenerateControlNoReducer, customerEquipManufacturersReducer,customerEquipModelReducer, customerEquipmentDetailReducer } from './reducers/customerReducers'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
@@ -20,11 +21,19 @@ const reducer = combineReducers({
     applicationLogs:applicationLogsReducer,
     applicationUpdate:applicationUpdateReducer,
 
+    batchAdd: batchAddReducer,
     batchList: batchListReducer,
     batchApplication: batchApplicationReducer,
-    batchCurent: batchCurrentReducer,
+    batchCurrent: batchCurrentReducer,
 
-    equipmentList: equipmentListReducer
+    equipmentList: equipmentListReducer,
+
+    customerRegister: customerRegisterReducer,
+    customerGenerateControlNo: customerGenerateControlNoReducer,
+    customerEquipManufacturer: customerEquipManufacturersReducer,
+    customerEquipmentDetail:customerEquipmentDetailReducer,
+    customerEquipModel:customerEquipModelReducer,
+    customerVerify: customerVerifyReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

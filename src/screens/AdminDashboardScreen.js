@@ -47,7 +47,7 @@ function AdminDashboardScreen({location, history}) {
             setTcForm(true)
         }
       }
-    }, [history, redirect])
+    }, [history])
 
     return (
         <div>

@@ -29,12 +29,10 @@ import{
 
 const URL = 'https://gpadev-api-rebate.xtendly.com/api/v1'
 
-export const addBatch = () => async (dispatch) => {
+
+export const addNewBatch = () => async (dispatch, getState) => {
     try{
-
         let obj = JSON.parse(localStorage.getItem('userInfo'));
-       
-
 
         dispatch({
             type: BATCH_ADD_REQUEST
@@ -47,23 +45,25 @@ export const addBatch = () => async (dispatch) => {
                 'Authorization' : `Bearer ${obj.message.original.access_token}`
             }
         }
-        
-        const {data} = await axios.post(URL+'/batch-add',
-        config
+
+        const {data} = await axios.post(
+            URL+'/batch-add',
+            {'roleId': obj.message.original.roleId},
+            config
         )
 
         dispatch({
             type: BATCH_ADD_SUCCESS,
-            payload:data
+            payload: data.table
         })
 
-    }catch(error)
-    {
+
+    }catch(error){
         dispatch({
             type: BATCH_ADD_FAIL,
             payload: error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
+            ? error.reponse.data.detail
+            : error.message
         })
     }
 }
@@ -86,7 +86,7 @@ export const listBatch = () => async (dispatch, getState) => {
 
         const {data} = await axios.post(
             URL+'/batch-list',
-            {},
+            {'roleId': obj.message.original.roleId},
             config
         )
 
@@ -144,6 +144,7 @@ export const listBatchApplication = (batch_id) => async (dispatch, getState) => 
     }
 }
 
+// listBatchCurrent
 export const listBatchCurrent = () => async (dispatch, getState) => {
     try{
         let obj = JSON.parse(localStorage.getItem('userInfo'));
@@ -162,6 +163,7 @@ export const listBatchCurrent = () => async (dispatch, getState) => {
 
         const {data} = await axios.post(
             URL+'/batch-current',
+            {'roleId': obj.message.original.roleId},
             config
         )
 

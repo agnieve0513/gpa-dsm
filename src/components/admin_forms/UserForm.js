@@ -33,7 +33,7 @@ function UserForm({history, location}) {
     const {success:successDelete} = userDelete
 
 
-     useEffect(() => {
+    useEffect(() => {
         dispatch(listUsers())
     }, [dispatch, successDelete, successRegister, successUpdate])
 

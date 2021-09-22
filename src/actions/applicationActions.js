@@ -185,7 +185,7 @@ export const detailApplication = (application_id) => async (dispatch) => {
     }
 }
 
-export const updateApplication = (applicationId, status, stage, reason) => async (dispatch) => {
+export const updateApplication = (applicationId, status, stage, reason, batchId) => async (dispatch) => {
     try{
 
         let obj = JSON.parse(localStorage.getItem('userInfo'));
@@ -206,7 +206,7 @@ export const updateApplication = (applicationId, status, stage, reason) => async
 
         
         const {data} = await axios.post(URL+'/update-status',
-        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'status':status, 'stage':stage, 'reason':reason},
+        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'status':status, 'stage':stage, 'reason':reason, 'batchId':batchId},
         config
         )
 

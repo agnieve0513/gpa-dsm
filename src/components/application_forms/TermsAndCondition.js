@@ -12,7 +12,9 @@ export default class TermsAndCondition extends Component {
         this.props.prevStep();
     };
 
-
+    handleSubmit = () => {
+        console.log(this.props.state)
+    }
     render() {
         const { values, inputChange } = this.props;
         return (
@@ -155,7 +157,7 @@ export default class TermsAndCondition extends Component {
                             <button className ="btn btn-secondary btn-lg px-5" onClick={this.back}><h4>Back</h4></button>
                         </div>
                         <div className="col-6 d-flex justify-content-start">
-                            <button className ="btn btn-success btn-lg px-5" onClick={this.continue}><h4>Continue</h4></button>
+                            <button className ="btn btn-success btn-lg px-5" onClick={this.handleSubmit}><h4>Continue</h4></button>
                         </div>
                     </div>
                
