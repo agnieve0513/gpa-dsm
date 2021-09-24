@@ -6,7 +6,7 @@ import MaterialTable from "material-table"
 
 function ExistingEquipmentInformation(props) {
 
-    const [no_existing, setNoExisting] = useState(false)
+    
     const dispatch = useDispatch()
 
     const customerEquipManufacturer = useSelector(state => state.customerEquipManufacturer)
@@ -21,12 +21,12 @@ function ExistingEquipmentInformation(props) {
         if(e.target.checked)
         {
             props.seIsNoExistingToReplace(true)
-            setNoExisting(true)
+            props.setNoExisting(true)
         }
         else
         {
             props.seIsNoExistingToReplace(false)
-            setNoExisting(false)
+            props.setNoExisting(false)
         }
     }
 
@@ -115,7 +115,7 @@ function ExistingEquipmentInformation(props) {
                         <Form.Check
                             inline
                             label="Check if there is no existing/old equipment being replaced"
-                            name="is_no_existing_to_replace"
+                            name="props.is_no_existing_to_replace"
                             type={"checkbox"}
                             id={`inline-${"check"}-1`}
                             checked={props.is_no_existing_to_replace === true}
@@ -129,7 +129,7 @@ function ExistingEquipmentInformation(props) {
                             <Form.Label>SYSTEM TYPE</Form.Label>
                             <Form.Select onChange={(e)=>changeSystemTypeHandler(e)}
                             value={props.old_system_type} 
-                            disabled={no_existing? true: false}
+                            disabled={props.no_existing? true: false}
                             >
                             <option value="Central AC">Central AC</option>
                             <option value="Split AC">Split AC</option>
@@ -150,7 +150,7 @@ function ExistingEquipmentInformation(props) {
                                 value={props.old_btu}
                                 onChange={(e)=>props.setOldBtu(e.target.value)}
                                 required
-                                disabled={no_existing? true: false}
+                                disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
@@ -164,7 +164,7 @@ function ExistingEquipmentInformation(props) {
                                 value={props.old_years}
                                 onChange={(e)=>props.setOldYears(e.target.value)}
                                 required
-                                disabled={no_existing? true: false}
+                                disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
@@ -180,7 +180,7 @@ function ExistingEquipmentInformation(props) {
                                 value={props.old_quantity}
                                 onChange={(e)=>props.setOldQuantity(e.target.value)}
                                 required
-                                disabled={no_existing? true: false}
+                                disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
@@ -194,7 +194,7 @@ function ExistingEquipmentInformation(props) {
                                 value={props.old_tons}
                                 onChange={(e)=>props.setOldTons(e.target.value)}
                                 required
-                                disabled={no_existing? true: false}
+                                disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
@@ -213,7 +213,7 @@ function ExistingEquipmentInformation(props) {
                             value="Operational"
                             checked={"Operational" === props.is_equipment_condition}
                             onChange={(e)=>props.setIsEquipmentCondition(e.target.value)}
-                            disabled={no_existing? true: false}
+                            disabled={props.no_existing? true: false}
 
                         />
                         <Form.Check
@@ -224,7 +224,7 @@ function ExistingEquipmentInformation(props) {
                             value="Failed"
                             checked={"Failed" === props.is_equipment_condition}
                             onChange={(e)=>props.setIsEquipmentCondition(e.target.value)}
-                            disabled={no_existing? true: false}
+                            disabled={props.no_existing? true: false}
                         />
                     </Col>
                 </Row>
@@ -238,7 +238,7 @@ function ExistingEquipmentInformation(props) {
                                 value={props.seer}
                                 onChange={(e)=>props.setSeer(e.target.value)}
                                 required
-                                disabled={no_existing? true: false}
+                                disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
@@ -256,7 +256,7 @@ function ExistingEquipmentInformation(props) {
                             value="Customer"
                             checked={"Customer" === props.disposal_party}
                             onChange={(e)=>props.setDisposalParty(e.target.value)}
-                            disabled={no_existing? true: false}
+                            disabled={props.no_existing? true: false}
 
                         />
                         <Form.Check
@@ -267,7 +267,7 @@ function ExistingEquipmentInformation(props) {
                             value="Installer"
                             checked={"Installer" === props.disposal_party}
                             onChange={(e)=>props.setDisposalParty(e.target.value)}
-                            disabled={no_existing? true: false}
+                            disabled={props.no_existing? true: false}
                         />
                     </Col>
                 </Row>
@@ -281,7 +281,7 @@ function ExistingEquipmentInformation(props) {
                             id={`inline-${"check"}-1`}
                             checked={props.agree_terms === "true"}
                             onChange={(e)=>handleAgreeBox(e)}
-                            disabled={no_existing? true: false}
+                            disabled={props.no_existing? true: false}
                         />
                     </Col>
                 </Row>
@@ -296,7 +296,7 @@ function ExistingEquipmentInformation(props) {
                                 value={props.date}
                                 onChange={(e)=>props.setDate(e.target.value)}
                                 required
-                                disabled={no_existing? true: false}
+                                disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
@@ -310,7 +310,7 @@ function ExistingEquipmentInformation(props) {
                     <Button variant="success" size="lg"
                     onClick={()=> addEquipmentHandler()}
                     className="d-flex justify-content-center"
-                    disabled={no_existing? true: false}
+                    disabled={props.no_existing? true: false}
                     >Add Equipment</Button>
                     </Row>
                     </Col>

@@ -89,6 +89,7 @@ function ApplicationScreen() {
 
     // Old Equipment
     const [old_equipments, setOldEquipments] = useState([])
+    const [no_existing, setNoExisting] = useState(false)
 
     const [old_system_type, setOldSystemType] = useState("")
     const [old_quantity, setOldQuantity] = useState("")
@@ -261,7 +262,8 @@ function ApplicationScreen() {
                             />
                             : step === 4? <ExistingEquipmentInformation 
 
-                                 old_equipments={old_equipments} setOldEquipments={setOldEquipments}
+                                no_existing={no_existing} setNoExisting={setNoExisting}
+                                old_equipments={old_equipments} setOldEquipments={setOldEquipments}
                                 is_no_existing_to_replace={is_no_existing_to_replace} seIsNoExistingToReplace={seIsNoExistingToReplace}
                                 old_system_type={old_system_type} setOldSystemType={setOldSystemType}
                                 old_years={old_years} setOldYears={setOldYears}
@@ -297,7 +299,6 @@ function ApplicationScreen() {
                                 home_age={home_age} setHomeAge={setHomeAge}
                                 home_type={home_type} setHomeType={setHomeType}
                                 is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
-
                                 
                             />
                             : step === 6? <SubmissionOfDocumentation
@@ -345,7 +346,6 @@ function ApplicationScreen() {
                             />
                             : step === 9? <>{handleSave()}</>
                             :<></>
-                            
                     }
                     <div className="d-flex justify-content-center mt-5">
                         <Button onClick={()=> handleBackClick(step)} variant={"secondary"} className="px-5 me-2" size={"lg"}>BACK</Button>
