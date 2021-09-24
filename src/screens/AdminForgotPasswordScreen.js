@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // import './AdminLoginScreen.css'
 
 import {forgotPassword} from '../actions/userActions'
+import { LinkContainer } from 'react-router-bootstrap'
 
 function AdminForgotPasswordScreen({location, history}) {
 
@@ -37,8 +38,12 @@ function AdminForgotPasswordScreen({location, history}) {
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mx-auto bg-info">
+                    <LinkContainer to="/admin">
+                    <a>
                     <Image src='/icon.png' width="270"
                         height="78" />
+                    </a>
+                    </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
       </Navbar>
