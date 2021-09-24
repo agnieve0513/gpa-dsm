@@ -51,7 +51,7 @@ function EquipmentReview(props) {
                             >
                             <Tab eventKey="application_information" title="Applicant Information">
                                 <Container className="ml-2 mr-2">
-                                    <h3 className="mt-3">Applicant Info <button className="btn btn-danger btn-sm" onClick={()=> backToApplicationHandler()}><i className="fa fa-edit"></i> Edit Information</button></h3>
+                                    <h3 className="mt-3 text-info">Applicant Info <button className="btn btn-danger btn-sm" onClick={()=> backToApplicationHandler()}><i className="fa fa-edit"></i> Edit Information</button></h3>
                                     <ListGroup>
                                         <p>GPA Electric Account Number  <b>{props.account_no}</b> </p>
                                         <p>Bill ID <b>{props.bill_id}</b> </p>
@@ -142,7 +142,7 @@ function EquipmentReview(props) {
                                                     </tr>
                                                     ))}
                                                     <tr>
-                                                        <td className="p-3" colspan="2" className="text-end">TOTAL</td>
+                                                        <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
                                                         <td className="p-3">$0.00</td>
                                                     </tr>
                                                 </tbody>
@@ -153,7 +153,7 @@ function EquipmentReview(props) {
                             </Tab>
                             <Tab eventKey="old_quipment_info" title="Old/Existing Equipment Information">
                                 <Container className="ml-2 mr-2">
-                                    <h3 className="mt-3 mb-3">Existing/Old Equipment Info <button  onClick={()=> backToOldEquipmentHandler()} className="btn btn-danger btn-sm" ><i className="fa fa-edit"></i> Edit Information</button></h3>
+                                    <h3 className="mt-3 mb-3 text-info">Existing/Old Equipment Info <button  onClick={()=> backToOldEquipmentHandler()} className="btn btn-danger btn-sm" ><i className="fa fa-edit"></i> Edit Information</button></h3>
 
                                     {
                                         props.old_equipments.length >= 1?

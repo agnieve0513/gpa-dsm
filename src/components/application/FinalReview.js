@@ -146,7 +146,7 @@ function FinalReview(props) {
                                                     </tr>
                                                     ))}
                                                     <tr>
-                                                        <td className="p-3" colspan="2" className="text-end">TOTAL</td>
+                                                        <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
                                                         <td className="p-3">$0.00</td>
                                                     </tr>
                                                 </tbody>

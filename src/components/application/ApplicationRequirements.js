@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react'
 import { Row, Col, Card,Table } from 'react-bootstrap';
 import prerequisites from './source_files/document-prerequisites'
 
+
+import './ApplicationInformation.css'
+
 function ApplicationRequirements(props) {
 
 
@@ -17,7 +20,7 @@ function ApplicationRequirements(props) {
                     may cause a delay or even result in a denial of your application. </span>
                 </p>
 
-                <Card>
+                <Card id="tableCard">
                 <Card.Header>
                     <Card.Title className="text-center">Application Document and Information Pre-requisites</Card.Title>
                 </Card.Header>

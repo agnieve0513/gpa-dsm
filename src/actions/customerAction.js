@@ -233,7 +233,8 @@ export const loadCustomerDetail = (bill_id) => async (dispatch, getState) => {
 
         dispatch({
             type: CUSTOMER_DETAIL_SUCCESS,
-            payload: data.info["@attributes"]
+            payload: data
+            // payload: data.info["@attributes"]
         })
     }catch(error){
         dispatch({

@@ -23,7 +23,10 @@ function ApplicationInformation(props) {
 
     const changeZipCode = (e) => {
        props.setCityVillage(e.target.value)
-       const result =  city_zipcode.find((p) => p._id === props.city_village);
+
+
+       const result =  city_zipcode.find((p) => p._id === e.target.value);
+
        if(result)
        {
           props.setZipCode(result.zip_code); 
@@ -32,7 +35,7 @@ function ApplicationInformation(props) {
 
     const changeEmailZipCode = (e) => {
        props.setMailingCityVillage(e.target.value)
-       const result =  city_zipcode.find((p) => p._id === props.mailing_city_village)
+       const result =  city_zipcode.find((p) => p._id === e.target.value)
        if(result)
        {
           props.setMailingZipCode(result.zip_code); 
@@ -72,40 +75,39 @@ function ApplicationInformation(props) {
                 <Col md={2}></Col>
                 <Col md={8}>
                     <Form onSubmit={submitHandler}>
-                <Row>
-                    <Col md={6} className="mb-3">
-                        <Form.Group controlId='account_no'>
-                            <Form.Label>GPA ELECTRIC ACCOUNT NUMBER*</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setAccountNo(e.target.value)} value={props.account_no}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                       {
-                           props.verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>
-                       }
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='bill_id'>
-                            <Form.Label>BILL ID* </Form.Label> <br />
-                            <InputGroup className="mb-3">
+                    <Row>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='account_no'>
+                                <Form.Label>GPA ELECTRIC ACCOUNT NUMBER*</Form.Label>
                                 <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setBillId(e.target.value)} value={props.bill_id}
-                                required
-                                />
-                                <Button onClick={()=> verifyCustomerHandler()} variant="danger" id="button-addon2">
-                                Verify
-                                </Button>
-                            </InputGroup>
-                        </Form.Group>
-                    </Col>
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setAccountNo(e.target.value)} value={props.account_no}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        {
+                            props.verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>
+                        }
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group controlId='bill_id'>
+                                <Form.Label>BILL ID* </Form.Label> <br />
+                                <InputGroup className="mb-3">
+                                    <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setBillId(e.target.value)} value={props.bill_id}
+                                    required
+                                    />
+                                    <Button onClick={()=> verifyCustomerHandler()} variant="danger" id="button-addon2">
+                                    Verify
+                                    </Button>
+                                </InputGroup>
+                            </Form.Group>
+                        </Col>
                     </Row>
-                 
                     <Row>
                         <Col md={6}>
                             <Form.Group controlId='firstname' className="mb-3">
@@ -166,7 +168,11 @@ function ApplicationInformation(props) {
                         <Col md={6}>
                             <Form.Group controlId='city_village' className="mb-3">
                                 <Form.Label>CITY/VILLAGE</Form.Label>
-                                <Form.Select onChange={(e)=>changeZipCode(e)} value={props.city_village} required disabled={props.verify? false: true}>
+                                <Form.Select
+                                onChange={(e)=>changeZipCode(e)}
+                                value={props.city_village}
+                                disabled={props.verify? false: true}
+                                >
                                     {city_zipcode.map(p => (
                                         <option key={p._id} value={p._id}>{p.village}</option>
                                     ))}

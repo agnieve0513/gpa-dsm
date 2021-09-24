@@ -186,7 +186,7 @@ function NewEuipmentInformation(props) {
                         <Form.Group controlId='tech_email' className="mb-3">
                             <Form.Label>EMAIL*</Form.Label>
                             <Form.Control
-                                type='text'
+                                type='email'
                                 placeholder=''
                                 onChange={(e)=>props.setTechEmail(e.target.value)}
                                 value={props.tech_email}
@@ -244,7 +244,7 @@ function NewEuipmentInformation(props) {
                         <Form.Group controlId='quantity' className="mb-3">
                             <Form.Label>QUANTITY</Form.Label>
                             <Form.Control
-                                type='text'
+                                type='number'
                                 placeholder=''
                                 onChange={(e)=>props.setQuantity(e.target.value)}
                                 value={props.quantity}
