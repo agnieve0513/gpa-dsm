@@ -12,3 +12,8 @@
     margin-left: -1rem;
     border-bottom: 0;
 }
+
+#CardForFinalReview .card-body
+{
+    padding:0;
+}

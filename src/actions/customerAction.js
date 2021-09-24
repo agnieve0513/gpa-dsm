@@ -104,45 +104,6 @@ export const generateControlNo = () => async (dispatch) => {
     }
 }
 
-export const customerDetail = (user) => async (dispatch, getState) => {
-    try{
-        let obj = JSON.parse(localStorage.getItem('userInfo'));
-
-        dispatch({
-            type: CUSTOMER_DETAIL_REQUEST
-        })
-
-        const {
-            userLogin: {userInfo},
-        } = getState()
-
-        const config = {
-            headers: {
-                'Content-type':'application/json',
-                'Authorization' : `Bearer ${obj.message.original.access_token}`
-            }
-        }
-
-        const {data} = await axios.get(
-            URL+'/users',
-            config
-        )
-
-        dispatch({
-            type: CUSTOMER_DETAIL_SUCCESS,
-            payload: data.lists
-        })
-
-
-    }catch(error){
-        dispatch({
-            type: CUSTOMER_DETAIL_FAIL,
-            payload: error.response && error.response.data.detail
-            ? error.reponse.data.detail
-            : error.message
-        })
-    }
-}
 
 export const loadCustomerEquipManufacturer = (system_type) => async (dispatch, getState) => {
 
@@ -216,7 +177,7 @@ export const loadCustomerEquipModel = (system_type, manufacturer) => async (disp
 
 }
 
-export const verifyCustomer = (accountId, billId) => async (dispatch, getState) => {
+export const verifyCustomer = (accountId) => async (dispatch, getState) => {
 
     try{
 
@@ -231,7 +192,7 @@ export const verifyCustomer = (accountId, billId) => async (dispatch, getState) 
         }
 
         const {data} = await axios.get(
-            URL+'/verify-bill-id?accountId='+accountId,
+            URL+'/verify-account-id?accountId='+accountId,
             config
         )
 
@@ -243,6 +204,40 @@ export const verifyCustomer = (accountId, billId) => async (dispatch, getState) 
     }catch(error){
         dispatch({
             type: CUSTOMER_VERIFY_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message
+        })
+    }
+
+}
+
+export const loadCustomerDetail = (bill_id) => async (dispatch, getState) => {
+
+    try{
+
+        dispatch({
+            type: CUSTOMER_DETAIL_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+            }
+        }
+
+        const {data} = await axios.get(
+            URL+`/verify-bill-id?BillId=${bill_id}`,
+            config
+        )
+
+        dispatch({
+            type: CUSTOMER_DETAIL_SUCCESS,
+            payload: data.info["@attributes"]
+        })
+    }catch(error){
+        dispatch({
+            type: CUSTOMER_DETAIL_FAIL,
             payload: error.response && error.response.data.detail
             ? error.reponse.data.detail
             : error.message

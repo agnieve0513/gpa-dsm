@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import './AdminLoginScreen.css'
 
 import {login} from '../actions/userActions'
+import { LinkContainer } from 'react-router-bootstrap'
 
 function AdminLoginScreen({location, history}) {
 
@@ -86,7 +87,9 @@ function AdminLoginScreen({location, history}) {
                           <div className="d-grid gap-2 mt-3 mb-4">
                             <Button type='submit' variant='success'>LOGIN</Button>
                           </div>
-                          <a href="#" className="d-flex justify-content-center text-light mb-3">Forgot Password?</a>
+                          <LinkContainer to="/forgot" className="d-flex justify-content-center text-light mb-3">
+                            <a>Forgot Password?</a>
+                          </LinkContainer>
                       </Col>
                       <Col md={3}></Col>
                   </Row>

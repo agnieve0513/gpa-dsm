@@ -1,0 +1,46 @@
+
+#StepsContent li {
+    width: 6.5em;
+    height: 5em;
+    text-align: center;
+    line-height: 2em;
+    border-radius: 1em;
+    margin: 0 1em;
+    display: inline-block;
+    color: white;
+    position: relative;
+  }
+  
+  #StepsContent li::before{
+    content: '';
+    position: absolute;
+    top: 2em;
+    left: -4em;
+    width: 6.5em;
+    height: .1em;
+    background: lightgrey !important;
+    z-index: -1;
+  }
+  
+  
+  #StepsContent li:first-child::before {
+    display: none;
+  }
+  
+ #StepsContent .active {
+    background: dodgerblue;
+  }
+  
+ #StepsContent .active ~ li {
+    background: lightblue;
+  }
+  
+ #StepsContent .active ~ li::before {
+    background: lightblue;
+  }
+  
+
+  #ForSteps p{
+    font-size: 0.7rem;
+    line-height: normal;
+  }

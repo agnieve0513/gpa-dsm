@@ -1,8 +1,30 @@
-import React, {useState} from 'react'
+import React,  {useState, useEffect} from 'react'
 import { Container, Row, Col,Button, FormControl, InputGroup } from 'react-bootstrap'
 import { PDFViewer, Document, Text, Page } from '@react-pdf/renderer';
 
+import { useDispatch, useSelector } from 'react-redux'
+import { uploadFile } from '../../actions/termsAndConditionActions'
+
+
 function TcTemplateForm() {
+    
+    const [selectedFile, setSelectedFile] = useState();
+	const [isFilePicked, setIsFilePicked] = useState(false);
+
+    const dispatch = useDispatch()
+    
+    const uploadTermsAndCondition = useSelector(state => state.uploadTermsAndCondition)
+    const {loading:fileLoading,error:fileError, success:fileSuccess} = uploadTermsAndCondition
+
+    const handleUploadFile = () => {
+
+        dispatch(uploadFile(selectedFile, "invoice", "1234343"))
+    }
+
+    const changeHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
+		setIsFilePicked(true);
+	};
 
     return (
             <Container>
@@ -12,8 +34,9 @@ function TcTemplateForm() {
                             <FormControl
                             placeholder="Terms and Condition"
                             type="file"
+                            onChange={(e)=>changeHandler(e)}
                             />
-                            <Button variant="info" id="button-addon2">
+                            <Button variant="info" id="button-addon2" onClick={() => handleUploadFile()}>
                             Upload
                             </Button>
                         </InputGroup>

@@ -22,7 +22,11 @@ import {
 
     APPLICATION_UPDATE_REQUEST,
     APPLICATION_UPDATE_SUCCESS,
-    APPLICATION_UPDATE_FAIL
+    APPLICATION_UPDATE_FAIL,
+
+    APPLICATION_TRACK_REQUEST,
+    APPLICATION_TRACK_SUCCESS,
+    APPLICATION_TRACK_FAIL
     
 } from '../constants/applicationConstants'
 
@@ -33,6 +37,40 @@ import{
 
 const URL = 'https://gpadev-api-rebate.xtendly.com/api/v1'
 
+export const trackApplications = (control_no) => async (dispatch, getState) => {
+    try{
+        dispatch({
+            type: APPLICATION_TRACK_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+            }
+        }
+
+        const {data} = await axios.post(
+            URL+'/view-application',
+            {'controlNo': control_no},
+            config
+        )
+
+        dispatch({
+            type: APPLICATION_TRACK_SUCCESS,
+            payload: data.userInfo
+        })
+
+
+    }catch(error){
+        dispatch({
+            type: APPLICATION_TRACK_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message
+        })
+    }
+}
 
 export const listApplications = () => async (dispatch, getState) => {
     try{

@@ -38,7 +38,7 @@ function Header() {
 
     return (
     <header>
-        <Navbar bg="info" variant="" expand="lg" collapseOnSelect className="p-3">
+        <Navbar bg="info" variant="dark" expand="lg" collapseOnSelect className="p-3">
             <Container>
                 <Link to={`/`}>
                     <img
@@ -51,9 +51,14 @@ function Header() {
                 </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="ms-auto bg-info">
+                    <Nav className="ms-auto">
                         {isLogin ? (
-                        <NavDropdown className="text-white"  title={name} id='username'>
+                        <NavDropdown className="text-white"  title={<i className="fa fa-user"></i>} id='username'>
+                            <NavDropdown.Item>Hi! {name}</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <LinkContainer to='/change'>
+                                <NavDropdown.Item>Change Password</NavDropdown.Item>
+                            </LinkContainer>
                             <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                         </NavDropdown>
                         

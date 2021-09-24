@@ -47,20 +47,155 @@ function NewEuipmentInformation(props) {
     }
 
     useEffect(() => {
-    }, [dispatch,])
+        showTable()
+    }, [dispatch, props.new_equipments])
 
     const addEquipmentHandler = ()=> {
+        
         const obj = {
+            "id":  props.new_equipments.length,
             "system_type": props.system_type,
-            "manufacturer": props.manufacturer
+            "manufacturer": props.manufacturer,
+            "model_no": props.model_no,
+            "quantity": props.quantity,
+            "btu": props.btu,
+            "vendor": props.vendor,
+            "type": props.type,
+            "invoice_no": props.invoice_no,
+            "purchase_date": props.purchase_date,
+
+            "installer_information" : {
+                "technician_name" : props.technician_name, 
+                "work_tel" : props.work_tel,
+                "company_name" : props.company_name,
+                "technician_cert_no" : props.technician_cert_no,
+                "date_final_installation": props.date_final_installation,
+                "email" : props.tech_email
+            }
         }
         props.setNewEquipments(props.new_equipments.concat(obj))
+    }
+
+    const deleteEquipmentHandler= (rowdata)=> {
+        const index = props.new_equipments.indexOf(rowdata)
+        const eqs = props.new_equipments
+        
+        if (index > -1) {
+            eqs.splice(index, 1)
+            props.setNewEquipments(eqs)
+        }
+        console.log(props.new_equipments)
+        dispatch(loadCustomerEquipManufacturer("Central AC"))
+    }
+
+    const showTable = () =>{
+        return (<MaterialTable 
+                            
+            columns={[
+                { title: "System Type", field: "system_type" },
+                { title: "Manufacturer", field: "manufacturer" },
+                { title: "Quantity", field: "quantity",},
+                { title: "Type", field: "type",},
+                { title: "Purchase Date", field: "purchase_date",},
+                {
+                title: "Action",
+                field:"actions",
+                width:"10%",
+                editComponent: (props) =>{
+                    return (
+                        <Button></Button>
+                    )
+                },
+                render: (rowdata) => (
+                    <>
+                    {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
+                    <Button variant="danger" onClick={()=>deleteEquipmentHandler(rowdata)} size="sm" ><i className="fa fa-trash"></i></Button>
+                    </>)
+                }
+            ]}
+            data={
+                 props.new_equipments.length ===0 ? [] : props.new_equipments
+            }
+            title="Equipments"
+        />)
     }
 
     return (
         <Row>
             <Col md={3}></Col>
             <Col md={6}>
+            <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>               
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='technician_name' className="mb-3">
+                            <Form.Label>TECHNICIAN NAME*</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setTechnicianName(e.target.value)}
+                                value={props.technician_name}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='work_tel' className="mb-3">
+                            <Form.Label>WORK TELEPHONE*</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setWorkTel(e.target.value)}
+                                value={props.work_tel}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={12}>
+                        <Form.Group controlId='company_name' className="mb-3">
+                            <Form.Label>COMPANY NAME*</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setCompanyName(e.target.value)}
+                                value={props.company_name}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row className="mb-3">
+                    <Col md={6}>
+                        <Form.Group controlId='date_final_installation' className="mb-3">
+                            <Form.Label>DATE OF FINAL INSTALLATION*</Form.Label>
+                            <Form.Control
+                                type='date'
+                                placeholder=''
+                                onChange={(e)=>props.setDateFinalInstallation(e.target.value)}
+                                value={props.date_final_installation}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='tech_email' className="mb-3">
+                            <Form.Label>EMAIL*</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setTechEmail(e.target.value)}
+                                value={props.tech_email}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
                 <h4 className="text-center text-info">NEW EQUIPMENT INFORMATION</h4>
                 <Row>
                     <Col md={8}>
@@ -150,10 +285,15 @@ function NewEuipmentInformation(props) {
                     <Col md={6}>
                         <Form.Group controlId='type' className="mb-3">
                             <Form.Label>TYPE</Form.Label>
-                            <Form.Select onChange={(e)=>props.setType(e.target.value)} 
-                            value={props.type} >
-                                
-                            </Form.Select>
+                            
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setType(e.target.value)}
+                                value={props.type}
+                                required
+                            >
+                            </Form.Control>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -199,113 +339,8 @@ function NewEuipmentInformation(props) {
 
                 <Row className="mt-3">
                     <Col md={12}>
-                        <MaterialTable 
-                            
-                            columns={[
-                                { title: "System Type", field: "system_type" },
-                                { title: "Manufacturer", field: "manufacturer" },
-                                { title: "Package", field: "model",},
-                                { title: "Energy Start Certification", field: "is_energy_start_certificate",
-                                    render: (rowdata) => (
-                                        (rowdata.is_energy_start_certificate === 1)? 'True' : 'False'
-                                    ),
-                                    lookup: {'True': 'True', 'False':'False'},
-                                },
-                                {
-                                title: "Action",
-                                field:"actions",
-                                width:"10%",
-                                editComponent: (props) =>{
-                                    return (
-                                        <Button>Payts</Button>
-                                    )
-                                },
-                                render: (rowdata) => (
-                                    <>
-                                    <Button className="btn btn-sm btn-light" ><i className="fa fa-edit"></i></Button>
-                                    </>)
-                                }
-                            ]}
-                            data={
-                                (props.new_equipments) ? props.new_equipments : []
-                            }
-                            title="Equipments"
-                        />
+                        {showTable()}
                        
-                    </Col>
-                </Row>
-
-                
-                <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>               
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='technician_name' className="mb-3">
-                            <Form.Label>TECHNICIAN NAME*</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setTechnicianName(e.target.value)}
-                                value={props.technician_name}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='work_tel' className="mb-3">
-                            <Form.Label>WORK TELEPHONE*</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setWorkTel(e.target.value)}
-                                value={props.work_tel}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={12}>
-                        <Form.Group controlId='company_name' className="mb-3">
-                            <Form.Label>COMPANY NAME*</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setCompanyName(e.target.value)}
-                                value={props.company_name}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='date_final_installation' className="mb-3">
-                            <Form.Label>DATE OF FINAL INSTALLATION*</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setDateFinalInstallation(e.target.value)}
-                                value={props.date_final_installation}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='tech_email' className="mb-3">
-                            <Form.Label>EMAIL*</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setTechEmail(e.target.value)}
-                                value={props.tech_email}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
                     </Col>
                 </Row>
             </Col>

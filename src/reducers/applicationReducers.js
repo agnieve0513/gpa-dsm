@@ -23,11 +23,27 @@ import {
 
     APPLICATION_UPDATE_REQUEST,
     APPLICATION_UPDATE_SUCCESS,
-    APPLICATION_UPDATE_FAIL
+    APPLICATION_UPDATE_FAIL,
+    
+    APPLICATION_TRACK_REQUEST,
+    APPLICATION_TRACK_SUCCESS,
+    APPLICATION_TRACK_FAIL,
 
 
 } from '../constants/applicationConstants'
 
+export const applicationTrackReducer = (state ={track_application:[]}, action) => {
+    switch(action.type){
+        case APPLICATION_TRACK_REQUEST:
+            return {loading: true}
+        case APPLICATION_TRACK_SUCCESS:
+            return {loading:false, track_application: action.payload}
+        case APPLICATION_TRACK_FAIL:
+            return {loading:false, error: action.payload}
+        default:
+            return state
+    }
+}
 
 export const applicationListReducer = (state ={applications:[]}, action) => {
     switch(action.type){

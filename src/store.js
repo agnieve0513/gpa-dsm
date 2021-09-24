@@ -2,11 +2,16 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
-import { userLoginReducer, userRegisterReducer, userListReducer, userDeleteReducer, userUpdateReducer } from './reducers/userReducers'
-import { applicationListReducer, applicationDetailReducer, applicationCommentsReducer, applicationLogsReducer, applicationUpdateReducer } from './reducers/applicationReducers'
+import { userLoginReducer, userRegisterReducer, userListReducer, userDeleteReducer,
+    userUpdateReducer, userForgotPasswordReducer, userChangePasswordReducer } from './reducers/userReducers'
+import { applicationListReducer, applicationDetailReducer, applicationCommentsReducer,
+    applicationLogsReducer, applicationUpdateReducer, applicationTrackReducer} from './reducers/applicationReducers'
 import { equipmentListReducer } from './reducers/equipmentReducers'
 import { batchListReducer, batchApplicationReducer, batchCurrentReducer, batchAddReducer} from './reducers/batchReducers'
-import { customerVerifyReducer, customerRegisterReducer, customerGenerateControlNoReducer, customerEquipManufacturersReducer,customerEquipModelReducer, customerEquipmentDetailReducer } from './reducers/customerReducers'
+import { customerVerifyReducer, customerRegisterReducer, customerGenerateControlNoReducer,
+    customerEquipManufacturersReducer,customerEquipModelReducer, customerEquipmentDetailReducer,
+    customerDetailReducer} from './reducers/customerReducers'
+import { uploadTermsAndConditionReducer } from './reducers/termsAndConditionReducers'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
@@ -14,12 +19,15 @@ const reducer = combineReducers({
     userList:userListReducer,
     userDelete: userDeleteReducer,
     userUpdate: userUpdateReducer,
+    userForgotPassword:userForgotPasswordReducer,
+    userChangePassword:userChangePasswordReducer,
 
     applicationList: applicationListReducer,
     applicationDetail: applicationDetailReducer,
     applicationComments: applicationCommentsReducer,
     applicationLogs:applicationLogsReducer,
     applicationUpdate:applicationUpdateReducer,
+    applicationTrack:applicationTrackReducer,
 
     batchAdd: batchAddReducer,
     batchList: batchListReducer,
@@ -34,6 +42,9 @@ const reducer = combineReducers({
     customerEquipmentDetail:customerEquipmentDetailReducer,
     customerEquipModel:customerEquipModelReducer,
     customerVerify: customerVerifyReducer,
+    customerDetail:customerDetailReducer,
+
+    uploadTermsAndCondition: uploadTermsAndConditionReducer
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo') ?

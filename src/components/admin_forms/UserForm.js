@@ -57,10 +57,21 @@ function UserForm({history, location}) {
     }
 
     const selectHandler = (data) => {
+        
+        let role_id =0
+
+        if(data.role_name === "Admin"){role_id = 1}
+        else if(data.role_name === "Customer Service"){ role_id = 2}
+        else if(data.role_name === "Spord"){ role_id = 3}
+        else if(data.role_name === "Budget"){ role_id = 4}
+        else if(data.role_name === "Accounting"){ role_id = 5}
+        else if(data.role_name === "Supervisor"){ role_id = 6}
+        else if(data.role_name === "Guest"){ role_id = 7}
+
         setId(data.id)
         setName(data.name)
         setEmail(data.email)
-        setRoleId(data.role_id)
+        setRoleId(role_id)
         setAction('update')
     }
 
@@ -89,7 +100,7 @@ function UserForm({history, location}) {
                             <Form onSubmit={submitHandler}>
 
                                 <Form.Group controlId='role_id' className="mb-3">
-                                    <Form.Select onChange={(e)=>setRoleId(e.target.value)} value={role_id} required>
+                                    <Form.Select onChange={(e)=>setRoleId(e.target.value)} value={role_id}>
                                         <option >Open this select menu</option>
                                         <option value="1">Admin</option>
                                         <option value="2">Customer Service</option>
@@ -124,28 +135,35 @@ function UserForm({history, location}) {
                                         >
                                         </Form.Control>
                                 </Form.Group>
+                                {
+                                    action === 'add'?
+                                    <>
+                                        <Form.Group controlId='password' className="mb-3">
+                                                <Form.Label>Password</Form.Label>
+                                                <Form.Control
+                                                type='password'
+                                                placeholder='Enter Password'
+                                                value={password}
+                                                onChange={(e)=>setPassword(e.target.value)}
+                                                >
+                                                </Form.Control>
+                                        </Form.Group>
 
-                                <Form.Group controlId='password' className="mb-3">
-                                        <Form.Label>Password</Form.Label>
-                                        <Form.Control
-                                        type='password'
-                                        placeholder='Enter Password'
-                                        value={password}
-                                        onChange={(e)=>setPassword(e.target.value)}
-                                        >
-                                        </Form.Control>
-                                </Form.Group>
+                                        <Form.Group controlId='passwordConfirm' className="mb-3">
+                                                <Form.Label>Confirm Password</Form.Label>
+                                                <Form.Control
+                                                type='password'
+                                                placeholder='Confirm Password'
+                                                value={confirmPassword}
+                                                onChange={(e)=>setConfirmPassword(e.target.value)}
+                                                >
+                                                </Form.Control>
+                                        </Form.Group>
+                                    </>
 
-                                <Form.Group controlId='passwordConfirm' className="mb-3">
-                                        <Form.Label>Confirm Password</Form.Label>
-                                        <Form.Control
-                                        type='password'
-                                        placeholder='Confirm Password'
-                                        value={confirmPassword}
-                                        onChange={(e)=>setConfirmPassword(e.target.value)}
-                                        >
-                                        </Form.Control>
-                                </Form.Group>
+                                    :<></>
+                                }
+                                
 
                                 <Button type='submit' variant='primary'>
                                     Save

@@ -2,19 +2,20 @@ import React, {useState, useEffect} from 'react'
 import { Row, Col, Form, Container, Button, InputGroup } from 'react-bootstrap';
 
 
-import { verifyCustomer } from '../../actions/customerAction'
+import { verifyCustomer,loadCustomerDetail } from '../../actions/customerAction'
 import { useDispatch, useSelector } from 'react-redux'
 
 import city_zipcode from './source_files/city_zipcode'
 
 function ApplicationInformation(props) {
     
-    const [verify, setVerify] = useState(false)
     const dispatch = useDispatch()
 
     const customerVerify = useSelector(state => state.customerVerify)
-    const {loading:verifyLoading,error:verifyError, success:verifySuccess,customer_verification} = customerVerify
-    console.log(customer_verification)
+    const {loading:verifyLoading,error:verifyError, success:verifySuccess, customer_verification} = customerVerify
+
+    const customerDetail = useSelector(state => state.customerDetail)
+    const {loading:customerLoading,error:customerError, customer_detail} = customerDetail
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -40,18 +41,28 @@ function ApplicationInformation(props) {
 
     const verifyCustomerHandler = () =>
     {
-        dispatch(verifyCustomer(props.account_no, props.bill_id))
-        if(customer_verification)
+        if(props.bill_id !== "" && props.account_no !=="")
         {
-            if(customer_verification.BillId === props.bill_id)
+            dispatch(verifyCustomer(props.account_no, props.bill_id))
+            if(customer_verification)
             {
-                setVerify(true)
-            }
-            else
-            {
-                setVerify(false)
+                if(customer_verification.status === true)
+                {
+                    dispatch(loadCustomerDetail(props.bill_id))
+                    console.log(customer_detail)
+                    if(customer_detail.AccountID)
+                    {
+                        props.setVerify(true)
+                    }
+                    else{ props.setVerify(false)}
+                }
             }
         }
+        else
+        {
+            alert("Account Number & Bill ID is required to verify customer")
+        }
+        
     }
 
     return (
@@ -74,7 +85,7 @@ function ApplicationInformation(props) {
                             </Form.Control>
                         </Form.Group>
                        {
-                           verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>
+                           props.verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>
                        }
                     </Col>
                     <Col md={6}>
@@ -104,6 +115,7 @@ function ApplicationInformation(props) {
                                     placeholder=''
                                     onChange={(e)=>props.setFirstname(e.target.value)} value={props.firstname}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -116,6 +128,7 @@ function ApplicationInformation(props) {
                                     placeholder=''
                                     onChange={(e)=>props.setLastname(e.target.value)} value={props.lastname}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -128,6 +141,7 @@ function ApplicationInformation(props) {
                                     placeholder=''
                                     onChange={(e)=>props.setMiddlename(e.target.value)} value={props.middlename}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -142,6 +156,7 @@ function ApplicationInformation(props) {
                                     placeholder=''
                                     onChange={(e)=>props.setServiceLocation(e.target.value)} value={props.service_location}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -151,7 +166,7 @@ function ApplicationInformation(props) {
                         <Col md={6}>
                             <Form.Group controlId='city_village' className="mb-3">
                                 <Form.Label>CITY/VILLAGE</Form.Label>
-                                <Form.Select onChange={(e)=>changeZipCode(e)} value={props.city_village} required>
+                                <Form.Select onChange={(e)=>changeZipCode(e)} value={props.city_village} required disabled={props.verify? false: true}>
                                     {city_zipcode.map(p => (
                                         <option key={p._id} value={p._id}>{p.village}</option>
                                     ))}
@@ -167,6 +182,7 @@ function ApplicationInformation(props) {
                                     onChange={(e)=>props.setZipCode(e.target.value)}
                                     value={props.zipcode}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -183,6 +199,7 @@ function ApplicationInformation(props) {
                                     onChange={(e)=>props.setEmail(e.target.value)}
                                     value={props.email}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -196,6 +213,7 @@ function ApplicationInformation(props) {
                                     onChange={(e)=>props.setTelNo(e.target.value)}
                                     value={props.tel_no}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -220,7 +238,7 @@ function ApplicationInformation(props) {
                                 value="true"
                                 checked={"true" === props.is_applicant_owner}
                                 onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
-
+                                disabled={props.verify? false: true}
                             />
                             <Form.Check
                                 inline
@@ -230,6 +248,7 @@ function ApplicationInformation(props) {
                                 value="false"
                                 checked={"false" === props.is_applicant_owner}
                                 onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
                         </Col>
                     </Row>
@@ -255,6 +274,7 @@ function ApplicationInformation(props) {
                                     onChange={(e)=>props.setMailingAddress(e.target.value)}
                                     value={props.mailing_address}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -266,7 +286,10 @@ function ApplicationInformation(props) {
                             <div className="form-group">
                                 <Form.Group controlId='mailing_city_village' className="mb-3">
                                     <Form.Label>CITY/VILLAGE</Form.Label>
-                                    <Form.Select onChange={(e)=>changeEmailZipCode(e)} value={props.mailing_city_village} required>
+                                    <Form.Select onChange={(e)=>changeEmailZipCode(e)} value={props.mailing_city_village} 
+                                    required
+                                    disabled={props.verify? false: true}
+                                    >
                                         {city_zipcode.map(p => (
                                             <option key={p._id} value={p._id}>{p.village}</option>
                                         ))}
@@ -283,6 +306,7 @@ function ApplicationInformation(props) {
                                     value={props.mailing_zipcode}
                                     onChange={(e)=>props.setMailingZipCode(e.target.value)}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -298,6 +322,7 @@ function ApplicationInformation(props) {
                                     value={props.home_size}
                                     onChange={(e)=>props.setHomeSize(e.target.value)}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -312,6 +337,7 @@ function ApplicationInformation(props) {
                                     value={props.home_age}
                                     onChange={(e)=>props.setHomeAge(e.target.value)}
                                     required
+                                    disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
@@ -326,7 +352,7 @@ function ApplicationInformation(props) {
                                 value="true"
                                 checked={"true" === props.is_new_construction}
                                 onChange={(e)=>props.setIsNewConstruction(e.target.value)}
-
+                                disabled={props.verify? false: true}
                             />
                             <Form.Check
                                 inline
@@ -336,6 +362,7 @@ function ApplicationInformation(props) {
                                 value="false"
                                 checked={"false" === props.is_new_construction}
                                 onChange={(e)=>props.setIsNewConstruction(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
                         </Col>
                     </Row>
@@ -350,7 +377,7 @@ function ApplicationInformation(props) {
                                 value="Single Family"
                                 checked={"Single Family" === props.home_type}
                                 onChange={(e)=>props.setHomeType(e.target.value)}
-
+                                disabled={props.verify? false: true}
                             />
                             <Form.Check
                                 inline
@@ -360,6 +387,7 @@ function ApplicationInformation(props) {
                                 value="Apartment"
                                 checked={"Apartment" === props.home_type}
                                 onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
                             <Form.Check
                                 inline
@@ -369,7 +397,7 @@ function ApplicationInformation(props) {
                                 value="Condo"
                                 checked={"Condo" === props.home_type}
                                 onChange={(e)=>props.setHomeType(e.target.value)}
-
+                                disabled={props.verify? false: true}
                             />
                             <Form.Check
                                 inline
@@ -379,6 +407,7 @@ function ApplicationInformation(props) {
                                 value="Mobile Home"
                                 checked={"Mobile Home" === props.home_type}
                                 onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
                             <Form.Check
                                 inline
@@ -388,6 +417,7 @@ function ApplicationInformation(props) {
                                 value="Other"
                                 checked={"Other" === props.home_type}
                                 onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
                         </Col>
                     </Row>

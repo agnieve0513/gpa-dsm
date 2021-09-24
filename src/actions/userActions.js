@@ -22,9 +22,89 @@ import {
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAIL,
+
+    USER_FORGOT_PASSWORD_REQUEST,
+    USER_FORGOT_PASSWORD_SUCCESS,
+    USER_FORGOT_PASSWORD_FAIL,
+
+    USER_CHANGE_PASSWORD_REQUEST,
+    USER_CHANGE_PASSWORD_SUCCESS,
+    USER_CHANGE_PASSWORD_FAIL,
+
 } from '../constants/userConstants'
 
 const URL = 'https://gpadev-api-rebate.xtendly.com/api/v1'
+
+export const changePassword = (oldPassword, newPassword) => async (dispatch) => {
+    try{
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+
+        dispatch({
+            type: USER_CHANGE_PASSWORD_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+        
+        const {data} = await axios.post(URL+`/update-password?userPass=${obj.message.original.userPass}&userId=${obj.message.original.details.id}`,
+        {"newPass": newPassword, "oldPass": oldPassword},
+        config
+        )
+
+        dispatch({
+            type: USER_CHANGE_PASSWORD_SUCCESS,
+            payload:data
+        })
+
+    }catch(error)
+    {
+        dispatch({
+            type: USER_CHANGE_PASSWORD_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        })
+    }
+}
+
+export const forgotPassword = (email) => async (dispatch) => {
+    try{
+
+        dispatch({
+            type: USER_FORGOT_PASSWORD_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json'
+            }
+        }
+        
+        const {data} = await axios.post(URL+'/forgot-password',
+        {'email':email, 'link':"https://gparebate.xtendly.com"},
+        config
+        )
+
+        dispatch({
+            type: USER_FORGOT_PASSWORD_SUCCESS,
+            payload:data
+        })
+
+    }catch(error)
+    {
+        dispatch({
+            type: USER_FORGOT_PASSWORD_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        })
+    }
+}
 
 export const login = (email, password) => async (dispatch) => {
     try{
@@ -82,9 +162,9 @@ export const register = (role_id, name, email, password, role_name) => async (di
         else if(role_id === 2){role_name = 'Customer Service'}
         else if (role_id === 3){role_name = 'Spord'}
         else if(role_id === 4){role_name = 'Budget'}
-        else if(role_id === 4){role_name = 'Accounting'}
-        else if(role_id === 4){role_name = 'Supervisor'}
-        else if(role_id === 4){role_name = 'Guest'}
+        else if(role_id === 5){role_name = 'Accounting'}
+        else if(role_id === 6){role_name = 'Supervisor'}
+        else if(role_id === 7){role_name = 'Guest'}
         else {role_name = 'Unknown Role'}
 
 

@@ -4,6 +4,8 @@ import { Button } from 'react-bootstrap';
 
 
 import { generateControlNo, register} from '../actions/customerAction'
+import { uploadFile } from '../actions/termsAndConditionActions'
+
 import { useDispatch, useSelector } from 'react-redux'
 
 import Steps from '../components/application/Steps'
@@ -34,6 +36,9 @@ function ApplicationScreen() {
     // Application Information
     const [saved, setSaved] = useState(false)
     const [step, setStep] = useState(1)
+
+    // For verification
+    const [verify, setVerify] = useState(true)
 
     const [account_no, setAccountNo] = useState("")
     const [bill_id, setBillId] = useState("")
@@ -83,6 +88,9 @@ function ApplicationScreen() {
         const [rebate, setRebate] = useState("")
 
     // Old Equipment
+    const [old_equipments, setOldEquipments] = useState([])
+
+    const [old_system_type, setOldSystemType] = useState("")
     const [old_quantity, setOldQuantity] = useState("")
     const [old_btu, setOldBtu] = useState("")
     const [old_size, setOldSize] = useState("")
@@ -92,7 +100,7 @@ function ApplicationScreen() {
     const [seer, setSeer] = useState("")
     const [disposal_party, setDisposalParty] = useState("")
     const [date, setDate] = useState("")
-    const [is_no_existing_to_replace, seIsNoExistingToReplace] = useState("")
+    const [is_no_existing_to_replace, seIsNoExistingToReplace] = useState(false)
     const [agree_terms, setAgreeTerms] = useState("")
 
     // Submitted Documents
@@ -104,104 +112,80 @@ function ApplicationScreen() {
     const [other_doc2, setOtherDoc2] = useState("")
     const [other_doc3, setOtherDoc3] = useState("")
 
-    const [terms_and_agreement, setTermsAndAgreement] = useState("")
+    const [terms_and_agreement, setTermsAndAgreement] = useState(false)
 
     useEffect(() => {
         dispatch(generateControlNo())
     }, [dispatch])
 
     const handleSave = () => {
-        if(window.confirm('Are you sure you want to submit application?'))
+        console.log(terms_and_agreement)
+        if(!terms_and_agreement)
         {
-            const obj = {
-                "application_information": {
-                    "control_no":customerNo,
-                    "account_no" : account_no,
-                    "bill_id" : bill_id,
-                    "customer_name" : firstname+" "+middlename+" "+lastname,
-                    "service_location" : service_location,
-                    "city_village" : city_village ,
-                    "zipcode" : zipcode,
-                    "email" : email,
-                    "tel_no" : tel_no,
-                    "is_applicant_owner" : is_applicant_owner,
-                    "mailing_address" : mailing_address,
-                    "mailing_city_village" : mailing_city_village,
-                    "mailing_zipcode" : mailing_zipcode, 
-                    "home_size" : home_size,
-                    "home_age" : home_age,
-                    "home_type" : home_type,
-                    "is_new_construction" : is_new_construction
-                    },
-                    "new_equipment_information" : 
-                    [{
-                        "installer_information" : {
-                            "technician_name" : technician_name, 
-                            "work_tel" : work_tel,
-                            "company_name" : company_name,
-                            "technician_cert_no" : technician_cert_no,
-                            "date_final_installation": date_final_installation,
-                            "email" : tech_email
-                        },
-                        "control_no" : customerNo,
-                        "system_type" : system_type,
-                        "vendor": vendor,
-                        "quantity" : quantity,
-                        "btu" : btu,
-                        "size": size,
-                        "manufacturer" : manufacturer,
-                        "model_no" : model_no,
-                        "invoice_no" : invoice_no,
-                        "purchase_date": purchase_date,
-                        "type": type,
-                        "tons": tons
-                    }],
-                    "existing_old_equipment_information" : 
-                    [{
-                        "control_no" : customerNo,
-                        "system_type" : "CENTRAL AC",
-                        "btu" : old_btu,
-                        "size": old_size,
-                        "years" : old_years,
-                        "quantity" : old_quantity,
-                        "tons" : old_tons,
-                        "is_equipment_condition": is_equipment_condition,
-                        "seer": seer,
-                        "disposal_party" : disposal_party,
-                        "date" : date
-                    }],
-                    "submitted_documents" : {
-                        "control_no" : customerNo,
-                        "invoice" : invoice,
-                        "irs_form": irs_form,
-                        "disposal_slip" : disposal_slip,
-                        "letter_authorization" : letter_authorization,
-                        "other_doc1" : other_doc1,
-                        "other_doc2" : other_doc2,
-                        "other_doc3" : other_doc3
-                    }
-            }
-            console.log(customerNo)
-            if(customerNo !== "")
-            {
-                dispatch(register(obj)).then(
-                   () => {
-                    if(registerSuccess)
-                    {
-                        setSaved(true)
-                        alert("saved!")
-                    }
-                    else
-                    {
-                        alert("There are some error!: "+registerError)
-                    }
-                   }
-                )
-            }
-
-        }else
-        {
+            alert("Please Check the terms and agreement to proceed")
             setStep(step-1)
+        }
+        else
+        {
+            if(window.confirm('Are you sure you want to submit application?'))
+            {
+                const obj = {
+                    "application_information": {
+                        "control_no":customerNo,
+                        "account_no" : account_no,
+                        "bill_id" : bill_id,
+                        "customer_name" : firstname+" "+middlename+" "+lastname,
+                        "service_location" : service_location,
+                        "city_village" : city_village ,
+                        "zipcode" : zipcode,
+                        "email" : email,
+                        "tel_no" : tel_no,
+                        "is_applicant_owner" : is_applicant_owner,
+                        "mailing_address" : mailing_address,
+                        "mailing_city_village" : mailing_city_village,
+                        "mailing_zipcode" : mailing_zipcode, 
+                        "home_size" : home_size,
+                        "home_age" : home_age,
+                        "home_type" : home_type,
+                        "is_new_construction" : is_new_construction
+                        },
+                        "new_equipment_information" : 
+                        new_equipments,
+                        "existing_old_equipment_information" : 
+                        old_equipments,
+                        "submitted_documents" : {
+                            "control_no" : customerNo,
+                            "invoice" : invoice,
+                            "irs_form": irs_form,
+                            "disposal_slip" : disposal_slip,
+                            "letter_authorization" : letter_authorization,
+                            "other_doc1" : other_doc1,
+                            "other_doc2" : other_doc2,
+                            "other_doc3" : other_doc3
+                        }
+                }
+                console.log(customerNo)
+                if(customerNo !== "")
+                {
+                    dispatch(register(obj)).then(
+                    () => {
+                        if(registerSuccess)
+                        {
+                            setSaved(true)
+                            alert("saved!")
+                        }
+                        else
+                        {
+                            alert("There are some error!: "+registerError)
+                        }
+                    }
+                    )
+                }
+
+            }else
+            {
+                setStep(step-1)
+            }
         }
     }
     const handleNextClick = (currentStep) => {
@@ -230,6 +214,7 @@ function ApplicationScreen() {
                                 
                             />
                             : step === 2? <ApplicationInformation 
+                                verify={verify} setVerify={setVerify} 
                                 account_no={account_no} setAccountNo={setAccountNo} 
                                 bill_id={bill_id} setBillId={setBillId} 
                                 firstname={firstname} setFirstname={setFirstname}
@@ -275,8 +260,10 @@ function ApplicationScreen() {
                                 tech_email={tech_email} setTechEmail={setTechEmail}
                             />
                             : step === 4? <ExistingEquipmentInformation 
+
+                                 old_equipments={old_equipments} setOldEquipments={setOldEquipments}
                                 is_no_existing_to_replace={is_no_existing_to_replace} seIsNoExistingToReplace={seIsNoExistingToReplace}
-                                system_type={system_type} setSystemType={setSystemType}
+                                old_system_type={old_system_type} setOldSystemType={setOldSystemType}
                                 old_years={old_years} setOldYears={setOldYears}
                                 old_tons={old_tons} setOldTons={setOldTons}
                                 is_equipment_condition={is_equipment_condition} setIsEquipmentCondition={setIsEquipmentCondition}
@@ -287,7 +274,32 @@ function ApplicationScreen() {
                                 old_quantity={old_quantity} setOldQuantity={setOldQuantity}
                                 agree_terms={agree_terms} setAgreeTerms={setAgreeTerms}
                             />
-                            : step === 5? <EquipmentReview />
+                            : step === 5? <EquipmentReview 
+
+                                step={step} setStep={setStep}
+                                old_equipments={old_equipments} setOldEquipments={setOldEquipments}
+                                new_equipments={new_equipments} setNewEquipments={setNewEquipments}
+                                account_no={account_no} setAccountNo={setAccountNo} 
+                                bill_id={bill_id} setBillId={setBillId} 
+                                firstname={firstname} setFirstname={setFirstname}
+                                lastname={lastname} setLastname={setLastname}
+                                middlename={middlename} setMiddlename={setMiddlename}
+                                service_location={service_location} setServiceLocation={setServiceLocation}
+                                city_village={city_village} setCityVillage={setCityVillage}
+                                zipcode={zipcode} setZipCode={setZipCode}
+                                tel_no={tel_no} setTelNo={setTelNo}
+                                email={email} setEmail={setEmail}
+                                is_applicant_owner={is_applicant_owner} setIsApplicantOwner={setIsApplicantOwner}
+                                mailing_address={mailing_address} setMailingAddress={setMailingAddress}
+                                mailing_city_village={mailing_city_village} setMailingCityVillage={setMailingCityVillage}
+                                mailing_zipcode={mailing_zipcode} setMailingZipCode={setMailingZipCode}
+                                home_size={home_size} setHomeSize={setHomeSize}
+                                home_age={home_age} setHomeAge={setHomeAge}
+                                home_type={home_type} setHomeType={setHomeType}
+                                is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
+
+                                
+                            />
                             : step === 6? <SubmissionOfDocumentation
                                 invoice={invoice} setInvoice={setInvoice}
                                 irs_form={irs_form} setIrsForm={setIrsForm}
@@ -297,7 +309,37 @@ function ApplicationScreen() {
                                 other_doc2={other_doc2} setOtherDoc2={setOtherDoc2}
                                 other_doc3={other_doc3} setOtherDoc3={setOtherDoc3}
                             />
-                            : step === 7? <FinalReview />
+                            : step === 7? <FinalReview 
+                                invoice={invoice} setInvoice={setInvoice}
+                                irs_form={irs_form} setIrsForm={setIrsForm}
+                                disposal_slip={disposal_slip} setDisposalSlip={setDisposalSlip}
+                                letter_authorization={letter_authorization} setLetterAuthorization={setLetterAuthorization}
+                                other_doc1={other_doc1} setOtherDoc1={setOtherDoc1}
+                                other_doc2={other_doc2} setOtherDoc2={setOtherDoc2}
+                                other_doc3={other_doc3} setOtherDoc3={setOtherDoc3}
+
+                                step={step} setStep={setStep}
+                                old_equipments={old_equipments} setOldEquipments={setOldEquipments}
+                                new_equipments={new_equipments} setNewEquipments={setNewEquipments}
+                                account_no={account_no} setAccountNo={setAccountNo} 
+                                bill_id={bill_id} setBillId={setBillId} 
+                                firstname={firstname} setFirstname={setFirstname}
+                                lastname={lastname} setLastname={setLastname}
+                                middlename={middlename} setMiddlename={setMiddlename}
+                                service_location={service_location} setServiceLocation={setServiceLocation}
+                                city_village={city_village} setCityVillage={setCityVillage}
+                                zipcode={zipcode} setZipCode={setZipCode}
+                                tel_no={tel_no} setTelNo={setTelNo}
+                                email={email} setEmail={setEmail}
+                                is_applicant_owner={is_applicant_owner} setIsApplicantOwner={setIsApplicantOwner}
+                                mailing_address={mailing_address} setMailingAddress={setMailingAddress}
+                                mailing_city_village={mailing_city_village} setMailingCityVillage={setMailingCityVillage}
+                                mailing_zipcode={mailing_zipcode} setMailingZipCode={setMailingZipCode}
+                                home_size={home_size} setHomeSize={setHomeSize}
+                                home_age={home_age} setHomeAge={setHomeAge}
+                                home_type={home_type} setHomeType={setHomeType}
+                                is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
+                            />
                             : step === 8? <TermsAndCondition 
                                 terms_and_agreement={terms_and_agreement} setTermsAndAgreement={setTermsAndAgreement}
                             />
@@ -307,7 +349,7 @@ function ApplicationScreen() {
                     }
                     <div className="d-flex justify-content-center mt-5">
                         <Button onClick={()=> handleBackClick(step)} variant={"secondary"} className="px-5 me-2" size={"lg"}>BACK</Button>
-                        <Button onClick={()=> handleNextClick(step)} variant={"success"} size={"lg"} className="px-5">CONTINUE</Button>
+                        <Button onClick={()=> handleNextClick(step)} disabled={step > 1? verify? false: true: ""} variant={"success"} size={"lg"} className="px-5">CONTINUE</Button>
                     </div>
                 </>
             }
