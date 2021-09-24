@@ -21,7 +21,7 @@ function AdminForgotPasswordScreen({location, history}) {
     const submitHandler = (e) => {
       e.preventDefault()
       dispatch(forgotPassword(email))
-      if(success)
+      if(userForgotPassword.userInfo.status)
       {
         alert('password reset is sent to your email!')
         history.push('/admin')
@@ -34,8 +34,7 @@ function AdminForgotPasswordScreen({location, history}) {
     return (
       <>
       <Navbar bg="info" variant="" expand="lg" collapseOnSelect className="p-2 mb-5">
-           
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mx-auto bg-info">
                     <LinkContainer to="/admin">

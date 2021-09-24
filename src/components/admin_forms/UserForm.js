@@ -7,7 +7,7 @@ import MaterialTable from "material-table";
 
 function UserForm({history, location}) {
 
-    const [action, setAction] = useState('')
+    const [action, setAction] = useState('add')
 
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')

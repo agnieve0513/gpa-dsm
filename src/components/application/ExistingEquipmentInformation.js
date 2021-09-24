@@ -44,6 +44,7 @@ function ExistingEquipmentInformation(props) {
     const addEquipmentHandler = ()=> {
         
         const obj = {
+            "control_no":  props.control_no,
             "id":  props.old_equipments.length,
             "system_type": props.old_system_type,
             "btu": props.old_btu,
@@ -57,6 +58,7 @@ function ExistingEquipmentInformation(props) {
             "agree_terms":props.agree_terms
         }
         props.setOldEquipments(props.old_equipments.concat(obj))
+        console.log(obj)
     }
 
     const deleteEquipmentHandler = (rowdata)=> {

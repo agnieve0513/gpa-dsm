@@ -36,9 +36,11 @@ function ApplicationScreen() {
     // Application Information
     const [saved, setSaved] = useState(false)
     const [step, setStep] = useState(1)
+    const [is_set_control_no, setIsSetControlNo] = useState(false)
 
     // For verification
     const [verify, setVerify] = useState(true)
+    const [control_no, setControlNo] = useState('')
 
     const [account_no, setAccountNo] = useState("")
     const [bill_id, setBillId] = useState("")
@@ -73,7 +75,6 @@ function ApplicationScreen() {
         const [manufacturers, setManufacturerList] = useState([])
         const [models, setModelList] = useState([])
 
-        const [control_no, setControlNo] = useState("")
         const [system_type, setSystemType] = useState("")
         const [vendor, setVendor] = useState("")
         const [quantity, setQuantity] = useState("")
@@ -120,7 +121,6 @@ function ApplicationScreen() {
     }, [dispatch])
 
     const handleSave = () => {
-        console.log(terms_and_agreement)
         if(!terms_and_agreement)
         {
             alert("Please Check the terms and agreement to proceed")
@@ -132,7 +132,7 @@ function ApplicationScreen() {
             {
                 const obj = {
                     "application_information": {
-                        "control_no":customerNo,
+                        "control_no":control_no,
                         "account_no" : account_no,
                         "bill_id" : bill_id,
                         "customer_name" : firstname+" "+middlename+" "+lastname,
@@ -165,22 +165,11 @@ function ApplicationScreen() {
                             "other_doc3" : other_doc3
                         }
                 }
-                console.log(customerNo)
-                if(customerNo !== "")
+                if(control_no !== "")
                 {
-                    dispatch(register(obj)).then(
-                    () => {
-                        if(registerSuccess)
-                        {
-                            setSaved(true)
-                            alert("saved!")
-                        }
-                        else
-                        {
-                            alert("There are some error!: "+registerError)
-                        }
-                    }
-                    )
+                    dispatch(register(obj))
+                    setSaved(true)
+                    alert("saved!")
                 }
 
             }else
@@ -193,6 +182,12 @@ function ApplicationScreen() {
         if(step <= 8 || step > 0)
         {
             setStep(currentStep+1)
+            if(is_set_control_no === false)
+            {
+                dispatch(generateControlNo())
+                setControlNo(customerNo)
+                setIsSetControlNo(true)
+            }
         }
     }
 
@@ -236,6 +231,8 @@ function ApplicationScreen() {
                                 is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
                             />
                             : step === 3? <NewEuipmentInformation 
+
+                                control_no={control_no} setControlNo={setControlNo}
                                 new_equipments={new_equipments} setNewEquipments={setNewEquipments}
                                 control_no={control_no} setControlNo={setControlNo}
                                 system_type={system_type} setSystemType={setSystemType}
@@ -261,7 +258,7 @@ function ApplicationScreen() {
                                 tech_email={tech_email} setTechEmail={setTechEmail}
                             />
                             : step === 4? <ExistingEquipmentInformation 
-
+                                control_no={control_no} setControlNo={setControlNo}
                                 no_existing={no_existing} setNoExisting={setNoExisting}
                                 old_equipments={old_equipments} setOldEquipments={setOldEquipments}
                                 is_no_existing_to_replace={is_no_existing_to_replace} seIsNoExistingToReplace={seIsNoExistingToReplace}

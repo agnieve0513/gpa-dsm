@@ -7,6 +7,8 @@ import MaterialTable from "material-table"
 
 function NewEuipmentInformation(props) {
     
+    console.log(props.control_no)
+
     const dispatch = useDispatch()
 
     const customerEquipManufacturer = useSelector(state => state.customerEquipManufacturer)
@@ -53,6 +55,8 @@ function NewEuipmentInformation(props) {
     const addEquipmentHandler = ()=> {
         
         const obj = {
+
+            "control_no":  props.control_no,
             "id":  props.new_equipments.length,
             "system_type": props.system_type,
             "manufacturer": props.manufacturer,
@@ -74,6 +78,7 @@ function NewEuipmentInformation(props) {
             }
         }
         props.setNewEquipments(props.new_equipments.concat(obj))
+        console.log(props.new_equipments)
     }
 
     const deleteEquipmentHandler= (rowdata)=> {

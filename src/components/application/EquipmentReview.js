@@ -136,7 +136,7 @@ function EquipmentReview(props) {
                                                 </thead>
                                                 <tbody>
                                                     {props.new_equipments.map(eq =>(
-                                                        <tr>
+                                                        <tr key={(eq.id + 1)}>
                                                         <td className="p-3">{(eq.id+1)}</td>
                                                         <td className="p-3">{eq.quantity}</td>
                                                     </tr>

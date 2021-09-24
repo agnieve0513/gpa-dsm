@@ -70,7 +70,7 @@ function ApplicationInformation(props) {
 
     return (
         <Container>
-            <h4 className="text-center text-info mb-5">APPLICATION INFORMATION</h4>
+            <h4 className="text-center text-info mb-4">APPLICANT'S INFORMATION</h4>
             <Row>
                 <Col md={2}></Col>
                 <Col md={8}>
