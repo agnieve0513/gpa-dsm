@@ -8,7 +8,7 @@ import {logout} from '../actions/userActions'
 import  { useHistory } from 'react-router-dom'
 
 
-function Header() {
+function CustomerHeader() {
 
 
     
@@ -40,7 +40,7 @@ function Header() {
     <header>
         <Navbar bg="info" variant="dark" expand="lg" collapseOnSelect className="p-3">
             <Container>
-                <Link to={`/dashboard`}>
+                <Link to={`/`}>
                     <img
                         src="/icon.png"
                         width="200"
@@ -52,21 +52,7 @@ function Header() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        {isLogin ? (
-                        <NavDropdown className="text-white"  title={<i className="fa fa-user"></i>} id='username'>
-                            <NavDropdown.Item>Hi! {name}</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <LinkContainer to='/change'>
-                                <NavDropdown.Item>Change Password</NavDropdown.Item>
-                            </LinkContainer>
-                            <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
-                        </NavDropdown>
-                        
-                    ) : (
-                        <Nav className="ms-auto">
-                            <h2 className="text-light">Energy Sense Rebate Program</h2>
-                        </Nav>
-                    )}
+                        <h2 className="text-light">Energy Sense Rebate Program</h2>
                     </Nav>
                 </Navbar.Collapse>
             </Container>
@@ -75,4 +61,4 @@ function Header() {
     );
 }
 
-export default Header
+export default CustomerHeader

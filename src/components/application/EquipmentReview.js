@@ -7,9 +7,7 @@ import './EquipmentReview.css';
 
 
 function EquipmentReview(props) {
-
-    console.log("new equipment length",props.new_equipments.length)
-    console.log(props.old_equipments)
+    console.log(props.new_equipments.length)
 
     const [new_eq_index, setNewEqIndex] = useState(0)
     const [old_eq_index, setOldEqIndex] = useState(0)
@@ -68,7 +66,6 @@ function EquipmentReview(props) {
                                         <p>Home Age (appox. year built) <b>{ props.home_age }</b> </p>
                                         <p>New Construction <b>{props.is_new_construction}</b> </p>
                                         <p>Home Type <b>{props.home_type}</b> </p>
-                                        
                                     </ListGroup>
                                 </Container>
                             </Tab>
@@ -78,14 +75,20 @@ function EquipmentReview(props) {
                                     {
                                         props.new_equipments.length >=1?
                                         <ButtonGroup className="me-2 mb-3" aria-label="First group">
-                                        <Button className="btn btn-sm" onClick={()=>showNewEquipmentInformation(0)} variant="info">E1</Button>{' '}
+                                        <Button className="btn btn-sm" onClick={()=>showNewEquipmentInformation(0)} variant="info">E1</Button>
                                         {
                                             props.new_equipments.length > 1 ?
-                                            <Button onClick={()=>showNewEquipmentInformation(1)} className="btn btn-sm" variant="secondary">E2</Button>:
+                                            <Button onClick={()=>showNewEquipmentInformation(1)} className="btn btn-sm" variant="secondary">E2</Button>: <></>
+                                        }
+                                        {
                                             props.new_equipments.length > 2 ?
-                                            <Button onClick={()=>showNewEquipmentInformation(2)} className="btn btn-sm" variant="secondary">E3</Button>:
+                                            <Button onClick={()=>showNewEquipmentInformation(2)} className="btn btn-sm" variant="secondary">E3</Button>: <></>
+                                        }
+                                        {
                                             props.new_equipments.length > 3 ?
-                                            <Button onClick={()=>showNewEquipmentInformation(3)} className="btn btn-sm" variant="secondary">E4</Button>:
+                                            <Button onClick={()=>showNewEquipmentInformation(3)} className="btn btn-sm" variant="secondary">E4</Button>:<></>
+                                        }
+                                        {
                                             props.new_equipments.length > 4 ?
                                             <Button onClick={()=>showNewEquipmentInformation(4)} className="btn btn-sm" variant="secondary">E5</Button>:<></>
                                         }

@@ -16,9 +16,6 @@ function EquipmentForm() {
     const equipmentList = useSelector(state => state.equipmentList)
     const {equipments} = equipmentList
 
-
-    console.log(equipments)
-
     useEffect(() => {
         dispatch(listEquipments())
     }, [dispatch])
@@ -47,7 +44,6 @@ function EquipmentForm() {
 
                                     <MaterialTable 
                                         detailPanel={equipmentDetail => {
-                                            {console.log(equipmentDetail)}
                                             return (
                                                 <Container className="m-3">
                                                     <h4>Details</h4>

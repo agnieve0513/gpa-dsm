@@ -58,7 +58,6 @@ function ExistingEquipmentInformation(props) {
             "agree_terms":props.agree_terms
         }
         props.setOldEquipments(props.old_equipments.concat(obj))
-        console.log(obj)
     }
 
     const deleteEquipmentHandler = (rowdata)=> {
@@ -69,7 +68,6 @@ function ExistingEquipmentInformation(props) {
             eqs.splice(index, 1)
             props.setOldEquipments(eqs)
         }
-        console.log(props.old_equipments)
         dispatch(loadCustomerEquipManufacturer("Central AC"))
     }
 

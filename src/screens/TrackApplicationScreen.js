@@ -65,7 +65,7 @@ function ApplicationScreen() {
                                 <ListGroup.Item>Application Date: <b>{tp.Application_Date}</b></ListGroup.Item>
                             </ListGroup>
                         ))
-                        : <h6>No Data</h6>
+                        : <h6>Loading . . .</h6>
                     }
                 </Col>
                 <Col md={3}></Col>
@@ -74,12 +74,6 @@ function ApplicationScreen() {
             <Row>
                 <Col md={2}></Col>
                 <Col md={8}>
-                    <p className="text-center">
-                        <span> <i className="fa fa-cog text-warning"></i>  Processing </span> |
-                        <span> <i className="fa fa-times text-danger"></i>Denied/More Info Needed (Date)</span> |
-                        <i className="fa fa-check text-success"></i> <span> Approved (Date)</span> |
-                        <i className="fa fa-user text-secondary"></i> <span>Check Mailed (Date)</span>
-                    </p>
 
                     <div className="d-flex mb-5">
                         <Link to={`/`} className="btn btn-success btn-lg mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>

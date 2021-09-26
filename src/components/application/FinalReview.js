@@ -8,9 +8,6 @@ import './FinalReview.css';
 
 function FinalReview(props) {
 
-    console.log("new equipment length",props.new_equipments.length)
-    console.log(props.old_equipments)
-
     const [new_eq_index, setNewEqIndex] = useState(0)
     const [old_eq_index, setOldEqIndex] = useState(0)
 
@@ -44,7 +41,7 @@ function FinalReview(props) {
         <Row>
             <Col md={1}></Col>
             <Col md={10}>
-                <h4 className="text-center text-info mb-3">Equipment Review</h4>
+                <h4 className="text-center text-info mb-3">Final Review</h4>
                 <Card className="mb-5" id="CardForReview">
                     <Card.Body>
                             <Tabs

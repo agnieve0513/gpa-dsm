@@ -21,6 +21,7 @@ import Confirm from '../components/application/Confirm'
 
 
 import Header from '../components/Header'
+import CustomerHeader from '../components/CustomerHeader'
 import Footer from '../components/Footer'
 
 function ApplicationScreen() {
@@ -169,7 +170,7 @@ function ApplicationScreen() {
                 {
                     dispatch(register(obj))
                     setSaved(true)
-                    alert("saved!")
+                    alert("Saved!")
                 }
 
             }else
@@ -197,7 +198,7 @@ function ApplicationScreen() {
 
     return (
         <div>
-            <Header />
+            <CustomerHeader />
             {
                 saved ?
                     <Confirm />

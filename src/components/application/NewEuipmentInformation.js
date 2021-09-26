@@ -7,8 +7,6 @@ import MaterialTable from "material-table"
 
 function NewEuipmentInformation(props) {
     
-    console.log(props.control_no)
-
     const dispatch = useDispatch()
 
     const customerEquipManufacturer = useSelector(state => state.customerEquipManufacturer)
@@ -23,7 +21,6 @@ function NewEuipmentInformation(props) {
     const changeSystemTypeHandler = (e) => {
         props.setSystemType(e.target.value)
         dispatch(loadCustomerEquipManufacturer(e.target.value))
-        console.log(manufacturers)
     }
 
     const changeManufacturerHandler = (e) => {
@@ -78,7 +75,6 @@ function NewEuipmentInformation(props) {
             }
         }
         props.setNewEquipments(props.new_equipments.concat(obj))
-        console.log(props.new_equipments)
     }
 
     const deleteEquipmentHandler= (rowdata)=> {
@@ -89,7 +85,6 @@ function NewEuipmentInformation(props) {
             eqs.splice(index, 1)
             props.setNewEquipments(eqs)
         }
-        console.log(props.new_equipments)
         dispatch(loadCustomerEquipManufacturer("Central AC"))
     }
 

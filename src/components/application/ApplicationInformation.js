@@ -52,7 +52,6 @@ function ApplicationInformation(props) {
                 if(customer_verification.status === true)
                 {
                     dispatch(loadCustomerDetail(props.bill_id))
-                    console.log(customer_detail)
                     if(customer_detail.AccountID)
                     {
                         props.setVerify(true)

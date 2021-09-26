@@ -17,6 +17,8 @@ import { Container, Row, Col, Nav, Tab } from 'react-bootstrap'
 function AdminDashboardScreen({location, history}) {
 
     const redirect = location.search ? location.search.split('=')[1] :'/admin'
+
+    const [role_name, setRoleName] = useState("")
     const [applicationForm, setApplicationForm] = useState(true)
     const [equipmentForm, setEquipmentForm] = useState(false)
     const [usersForm, setUsersForm] = useState(false)
@@ -32,6 +34,20 @@ function AdminDashboardScreen({location, history}) {
       {
         let obj = JSON.parse(localStorage.getItem('userInfo'))
         let roleId = obj.message.original.roleId
+        let role_name = ""
+
+        if(roleId == 1){
+            role_name = 'Admin'
+        }  
+        else if(roleId === 2){role_name = 'Customer Service'}
+        else if (roleId === 3){role_name = 'Spord'}
+        else if(roleId === 4){role_name = 'Budget'}
+        else if(roleId === 5){role_name = 'Accounting'}
+        else if(roleId === 6){role_name = 'Supervisor'}
+        else if(roleId === 7){role_name = 'Guest'}
+        else {role_name = 'Unknown Role'}
+
+        setRoleName(role_name)
 
         console.log(obj)
 
@@ -87,7 +103,7 @@ function AdminDashboardScreen({location, history}) {
                                     </Nav>
                             </Col>
                             <Col md={4}>
-                                <h3 className="float-end text-info">Admin Dashboard</h3>
+                                <h3 className="float-end text-info">{role_name} Dashboard</h3>
                             </Col>
                         </Row>
                     </Container>

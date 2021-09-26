@@ -10,12 +10,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import MaterialTable from "material-table";
 
 import './ApplicationForm.css'
+import { ContactSupportOutlined } from '@material-ui/icons'
 
 function ApplicationForm() {
 
     let obj = JSON.parse(localStorage.getItem('userInfo'))
     let roleId = obj.message.original.roleId
 
+
+    const [new_eq_index, setNewEqIndex] = useState(0)
+    const [old_eq_index, setOldEqIndex] = useState(0)
+    const [count_equipment, setCountEquipment] = useState(0)
+    
     const [showModal, setShowModal] = useState(false)
     const [showBatchModal, setBatchShowModal] = useState(false)
     const [show, setShow] = useState(false)
@@ -154,6 +160,12 @@ function ApplicationForm() {
             }
         }
     }
+
+    const showNewEquipmentInformation = (index)=>
+    {
+        setNewEqIndex(index)
+        console.log(application)
+    }
     return (
         <div>
             {
@@ -177,9 +189,9 @@ function ApplicationForm() {
                                         <Nav.Item className="me-1">
                                         <Nav.Link eventKey="submission_of_documentation">Submitted Documents</Nav.Link>
                                         </Nav.Item>
-                                        <Nav.Item className="me-1">
+                                        {/* <Nav.Item className="me-1">
                                         <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
-                                        </Nav.Item>
+                                        </Nav.Item> */}
                                     </Nav>
                                 </Col>
                                 
@@ -190,45 +202,25 @@ function ApplicationForm() {
                                     <Tab.Content>
                                         <Tab.Pane eventKey="application_information">
                                             <Container className="ml-2 mr-2">
-                                                <h3 className="mt-3">Applicant Info</h3>
-                                                <ListGroup>
-                                                    <Row>
-                                                        <Col md={3}>
-                                                            <p>GPA Electric Account Number </p>
-                                                            <p>Bill ID  </p>
-                                                            <p>Applicant Name </p>
-                                                            <p>Installation Address </p>
-                                                            <p>City  </p>
-                                                            <p>ZIP  </p>
-                                                            <p>Email </p>
-                                                            <p>Telephone Number  </p>
-                                                            <p>Owner of the Residential Property </p>
-                                                            <p>Mailing Address</p>
-                                                            <p>Home Size (approx. sq. ft.)</p>
-                                                            <p>New Construction</p>
-                                                            <p>Home Type </p>
-                                                        </Col>
-                                                        <Col md={7}>
-                                                            {application ? 
-                                                            <>
-                                                            <p>{application.Info_Account_no}</p>
-                                                            <p>{application.Info_Bill_id}</p>
-                                                            <p>{application.Info_Customer_name}</p>
-                                                            <p>{application.Info_Service_location}</p>
-                                                            <p>{application.Info_City_village}</p>
-                                                            <p>{application.Info_Zipcode}</p>
-                                                            <p>{application.Info_Email}</p>
-                                                            <p>{application.Info_Tel_no}</p>
-                                                            <p>{application.Info_Is_owner}</p>
-                                                            <p>{application.Info_Mailing_address}</p>
-                                                            <p>{application.Info_Home_size}</p>
-                                                            <p>{application.Info_New_construction}</p>
-                                                            <p>{application.Info_Home_type}</p>
-                                                            </>: 'Loading . . .'}
-                                                        </Col>
-                                                    </Row>
-                                                    
-                                                </ListGroup>
+                                                <h3 className="mt-3 text-info">Applicant Info</h3>
+                                                {application?
+                                                    <ListGroup>
+                                                    <p>GPA Electric Account Number  <b>{application.Info_Account_no}</b> </p>
+                                                    <p>Bill ID <b>{application.Info_Bill_id}</b> </p>
+                                                    <p>Applicant Name <b>{application.Info_Customer_name} </b>
+                                                    </p>
+                                                    <p>Installation Address <b>{application.Info_Service_location}</b> </p>
+                                                    <p>City <b>{application.Info_City_village}</b> </p>
+                                                    <p>ZIP <b>{application.Info_Zipcode}</b> </p>
+                                                    <p>Email <b>{application.Info_Email}</b> </p>
+                                                    <p>Telephone Number <b>{application.Info_Tel_no}</b> </p>
+                                                    <p>Owner of the Residential Property <b>{application.Info_Is_owner}</b> </p>
+                                                    <p>Mailing Address <b>{application.Info_Mailing_address}</b> </p>
+                                                    <p>Home Size (approx. sq. ft.) <b>{application.Info_Home_size}</b> </p>
+                                                    <p>New Construction <b>{application.Info_New_construction}</b> </p>
+                                                    <p>Home Type <b>{application.Info_Home_type}</b> </p>
+                                                </ListGroup>:<></>
+                                                }
                                             </Container>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="new_quipment_info">
@@ -236,75 +228,107 @@ function ApplicationForm() {
                                                 <h3 className="mt-3 mb-3 text-info">New Equipment Info</h3>
                                                 <Row>
                                                     <Col md={6}>
-                                                        <ButtonGroup className="me-2 mb-3" aria-label="First group">
-                                                            <Button className="btn btn-sm" variant="info" onClick={() => selectEquipment(0, "new_equipment")}>E1</Button>{' '}
-                                                            <Button className="btn btn-sm" variant="secondary" onClick={() => selectEquipment(1, "new_equipment")}>E2</Button>{' '}
-                                                            <Button className="btn btn-sm" variant="secondary" onClick={() => selectEquipment(2, "new_equipment")}>E3</Button>{' '}
-                                                            <Button className="btn btn-sm" variant="secondary" onClick={() => selectEquipment(3, "new_equipment")}>E4</Button>
-                                                        </ButtonGroup>
-                                                        <ListGroup className="mb-3">
-                                                            {showNewEquipmentInfo ?
-                                                                <>
-                                                                <p>Rebate: <b> {equipmentInfo.newEquip_rebate}</b></p>
-                                                                <p>System Type: <b> {equipmentInfo.newEquip_System_type}</b></p>
-                                                                <p>Vendor: <b>{equipmentInfo.newEquip_Vendor}</b></p>
-                                                                <p>Quantity: <b>{equipmentInfo.newEquip_Quantity}</b></p>
-                                                                <p>BTU: <b>{equipmentInfo.newEquip_Btu}</b></p>
-                                                                <p>Manufacturer: <b>{equipmentInfo.newEquip_Manufacturer}</b></p>
-                                                                <p>Model Number: <b>{equipmentInfo.newEquip_Model_no}</b></p>
-                                                                <p>Invoice#: <b>{equipmentInfo.newEquip_Invoice_no}</b></p>
-                                                                <p>Purchase Date: <b>{equipmentInfo.newEquip_Purchase_date}</b></p>
-                                                                <p>Type: <b>{equipmentInfo.newEquip_Type}</b></p>
-                                                                <p>Tons: <b>{equipmentInfo.newEquip_Tons}</b></p>
-                                                                <p>Install Date: <b>{equipmentInfo.newEquip_Purchase_date}</b></p>
-                                                                </>
-                                                            :<p>No Data</p>
-                                                            }
-                                                            
-                                                        </ListGroup>
-
-                                                        <h3 className="mt-3 mb-3 text-info">Installer Information</h3>
-                                                        <ListGroup className="mb-3">
-                                                            {application ? 
-                                                            <>
-                                                                <p>Technician Name <b>{application.Installer_New_name}</b></p>
-                                                                <p>Work Telephone <b>{application.Installer_New_worktel}</b></p>
-                                                                <p>Company <b>{application.Installer_New_companyname}</b></p>
-                                                                <p>Certification No. <b>{application.Installer_New_certno}</b></p>
-                                                                <p className="mb-3">Email <b>{application.Installer_New_email}</b></p>
-                                                                <p>Date of Final <b>{application.Installer_New_finaldate}</b></p>
-                                                            </>    
-                                                        : <p>No Data</p>}
-                                                        </ListGroup>
-                                                    </Col>
-                                                    <Col md={6}>
-                                                    
-                                                        <Table striped bordered hover>
-                                                            <thead className="bg-info text-white">
-                                                                <tr className="py-5">
-                                                                    <th>Equipment No.</th>
-                                                                    <th>QTY</th>
-                                                                    <th>Rebate</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            {application ? application.New_equipment.map(equipment => (
-                                                                <tr key={equipment.newEquip_Invoice_no}>
-                                                                    <td>{equipment.newEquip_Btu}</td>
-                                                                    <td>{equipment.newEquip_Quantity}</td>
-                                                                    <td>{equipment.newEquip_rebate}</td>
-                                                                </tr>
-                                                            )):  <tr><td>'Loading . . '</td></tr>
-                                                            }
-                                                            </tbody>
-                                                        </Table>
+                                                    {
+                                                        application? 
+                                                            application.New_equipment.length >=1?
+                                                            <ButtonGroup className="me-2 mb-3" aria-label="First group">
+                                                                    <Button className="btn btn-sm" onClick={()=>showNewEquipmentInformation(0)} variant="info">E1</Button>
+                                                                    {
+                                                                        application.New_equipment.length > 1 ?
+                                                                        <Button onClick={()=>showNewEquipmentInformation(1)} className="btn btn-sm" variant="secondary">E2</Button>: <></>
+                                                                    }
+                                                                    {
+                                                                        application.New_equipment.length > 2 ?
+                                                                        <Button onClick={()=>showNewEquipmentInformation(2)} className="btn btn-sm" variant="secondary">E3</Button>: <></>
+                                                                    }
+                                                                    {
+                                                                        application.New_equipment.length > 3 ?
+                                                                        <Button onClick={()=>showNewEquipmentInformation(3)} className="btn btn-sm" variant="secondary">E4</Button>:<></>
+                                                                    }
+                                                                    {
+                                                                        application.New_equipment.length > 4 ?
+                                                                        <Button onClick={()=>showNewEquipmentInformation(4)} className="btn btn-sm" variant="secondary">E5</Button>:<></>
+                                                                    }
+                                                                </ButtonGroup>
+                                                                :<></>
+                                                        :<></>
+                                                    } 
                                                     </Col>
                                                 </Row>
+                                                <Row>
+                                                        <Col md={6}>
+                                                        {
+                                                            application ?
+
+                                                            application.New_equipment.length >= 1 ?
+                                                            <>
+                                                            <ListGroup className="mb-3">
+                                                            <p>System Type <b> { application.New_equipment[new_eq_index].newEquip_System_type } </b> </p>
+                                                            <p>Vendor <b>{ application.New_equipment[new_eq_index].newEquip_Vendor }</b> </p>
+                                                            <p>Quantity <b>{ application.New_equipment[new_eq_index].newEquip_Quantity }</b></p>
+                                                            <p>BTU  <b>{ application.New_equipment[new_eq_index].newEquip_Btu }</b></p>
+                                                            <p>Manufacturer  <b>{ application.New_equipment[new_eq_index].newEquip_Manufacturer }</b></p>
+                                                            <p>Model Number  <b>{ application.New_equipment[new_eq_index].newEquip_Model_no }</b></p>
+                                                            <p>Invoice#  <b>{ application.New_equipment[new_eq_index].newEquip_Invoice_no }</b></p>
+                                                            <p>Purchase Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
+                                                            <p>Type <b>{ application.New_equipment[new_eq_index].newEquip_Type }</b></p>
+                                                            <p>Tons <b>{ application.New_equipment[new_eq_index].newEquip_Tons }</b></p>
+                                                            <p>Install Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
+                                                            </ListGroup>
+
+                                                            <h3 className="mt-3 mb-3 text-info">Installer Information</h3>
+                                                            <ListGroup className="mb-3">
+                                                                <p>Technician Name <b> { application.Installer_New_name } </b></p>
+                                                                <p>Work Telephone <b> { application.Installer_New_worktel } </b></p>
+                                                                <p>Company <b> { application.Installer_New_companyname } </b></p>
+                                                                <p>Certification No. <b> { application.Installer_New_certno } </b></p>
+                                                                <p className="mb-3">Email <b> { application.Installer_New_email } </b></p>
+                                                                <p>Date of Final <b> { application.Installer_New_finaldate } </b></p>
+                                                            </ListGroup>
+                                                            </>
+                                                            :<>No Equipment</>
+                                                             :<></>
+                                                        }
+                                                        </Col>
+                                                        <Col md={6}>
+                                                            <Table size="lg" striped bordered hover>
+                                                                <thead className="bg-info text-white">
+                                                                    <tr className="py-5">
+                                                                        <th className="p-3">Equipment No.</th>
+                                                                        <th className="p-3">QTY</th>
+                                                                        <th className="p-3">Rebate</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        application? 
+                                                                        <>
+                                                                            {
+                                                                                application.New_equipment.map((eq, id) =>(
+                                                                                    
+                                                                                <tr key={(id+1)}>
+                                                                                    <td className="p-3">{(id+1)}</td>
+                                                                                    <td className="p-3">{eq.newEquip_Quantity}</td>
+                                                                                    <td className="p-3">{eq.newEquip_rebate}</td>
+                                                                                </tr>
+                                                                                ))
+                                                                            }
+                                                                        </>
+                                                                        :<></>
+                                                                    }
+                                                                    <tr>
+                                                                        <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
+                                                                        <td className="p-3">$0.00</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </Table>
+                                                        </Col>
+                                                    </Row>
                                             </Container>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="old_quipment_info">
                                             <Container className="ml-2 mr-2">
-                                                <h3 className="mt-3 mb-3">Existing/Old Equipment Info </h3>
+                                                <h3 className="mt-3 mb-3 text-info">Existing/Old Equipment Info </h3>
 
                                                 <ButtonGroup className="me-2 mb-3" aria-label="First group">
                                                     <Button className="btn btn-sm" variant="info" onClick={() => selectEquipment(0, "old_equipment")}>E1</Button>{' '}
@@ -333,7 +357,7 @@ function ApplicationForm() {
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="submission_of_documentation">
                                             <Container className="ml-2 mr-2">
-                                                <h3 className="mt-3 mb-3">Submitted Documents</h3>
+                                                <h3 className="mt-3 mb-3 text-info">Submitted Documents</h3>
 
                                                 <ListGroup className="mb-3">
                                                     <p>Invoice</p>
@@ -345,8 +369,6 @@ function ApplicationForm() {
                                                     <p>Other support documents 2</p>
                                                 </ListGroup>
                                             </Container>
-                                        </Tab.Pane>
-                                        <Tab.Pane eventKey="verify_information">
                                             <Container className="ml-2 mr-2">
                                                 <h3 className="mt-3 mb-3">Update Status</h3>
                                                 <Row>
@@ -463,6 +485,7 @@ function ApplicationForm() {
                                                 </Row>
                                             </Container>
                                         </Tab.Pane>
+                                      
                                     </Tab.Content>
                                 </Col>
                                 <Col md={3}>
