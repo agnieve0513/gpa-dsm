@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import { userLoginReducer, userRegisterReducer, userListReducer, userDeleteReducer,
-    userUpdateReducer, userForgotPasswordReducer, userChangePasswordReducer } from './reducers/userReducers'
+    userUpdateReducer, userForgotPasswordReducer, userChangePasswordReducer, emailChangePasswordReducer } from './reducers/userReducers'
 import { applicationListReducer, applicationDetailReducer, applicationCommentsReducer,
     applicationLogsReducer, applicationUpdateReducer, applicationTrackReducer} from './reducers/applicationReducers'
 import { equipmentListReducer } from './reducers/equipmentReducers'
@@ -21,6 +21,7 @@ const reducer = combineReducers({
     userUpdate: userUpdateReducer,
     userForgotPassword:userForgotPasswordReducer,
     userChangePassword:userChangePasswordReducer,
+    emailChangePassword: emailChangePasswordReducer,
 
     applicationList: applicationListReducer,
     applicationDetail: applicationDetailReducer,

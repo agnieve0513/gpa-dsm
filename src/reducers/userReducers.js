@@ -30,7 +30,27 @@ import {
     USER_CHANGE_PASSWORD_SUCCESS,
     USER_CHANGE_PASSWORD_FAIL,
 
+    EMAIL_CHANGE_PASSWORD_REQUEST,
+    EMAIL_CHANGE_PASSWORD_SUCCESS,
+    EMAIL_CHANGE_PASSWORD_FAIL,
+
 } from '../constants/userConstants'
+
+export const emailChangePasswordReducer = (state ={email_change_pass:[]}, action) => {
+    switch(action.type)
+    {
+        case EMAIL_CHANGE_PASSWORD_REQUEST:
+            return {loading: true}
+
+        case EMAIL_CHANGE_PASSWORD_SUCCESS:
+            return {loading: false, email_change_pass: action.payload}
+
+        case EMAIL_CHANGE_PASSWORD_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
 
 export const userChangePasswordReducer = (state ={change_pass:[]}, action) => {
     switch(action.type)

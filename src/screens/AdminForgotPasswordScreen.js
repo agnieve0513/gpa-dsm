@@ -21,6 +21,7 @@ function AdminForgotPasswordScreen({location, history}) {
     const submitHandler = (e) => {
       e.preventDefault()
       dispatch(forgotPassword(email))
+      console.log(userForgotPassword)
       if(userForgotPassword.userInfo.status)
       {
         alert('password reset is sent to your email!')

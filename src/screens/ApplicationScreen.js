@@ -193,7 +193,11 @@ function ApplicationScreen() {
     }
 
     const handleBackClick = (currentStep) =>{
-        setStep(currentStep-1)
+        if(step > 1)
+        {
+            setStep(currentStep-1)
+        }       
+
     }
 
     return (

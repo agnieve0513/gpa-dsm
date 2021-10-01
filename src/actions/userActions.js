@@ -31,9 +31,47 @@ import {
     USER_CHANGE_PASSWORD_SUCCESS,
     USER_CHANGE_PASSWORD_FAIL,
 
+    EMAIL_CHANGE_PASSWORD_REQUEST,
+    EMAIL_CHANGE_PASSWORD_SUCCESS,
+    EMAIL_CHANGE_PASSWORD_FAIL,
+
 } from '../constants/userConstants'
 
 const URL = 'https://gpadev-api-rebate.xtendly.com/api/v1'
+
+export const emailChangePasswordAction = (creds, password) => async (dispatch) => {
+    try{
+        dispatch({
+            type: EMAIL_CHANGE_PASSWORD_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+            }
+        }
+        
+        const {data} = await axios.post(URL+`/email-reset-password`,
+        {"creds": creds, "password": password},
+        config
+        )
+
+        dispatch({
+            type: EMAIL_CHANGE_PASSWORD_SUCCESS,
+            payload:data
+        })
+
+    }catch(error)
+    {
+        dispatch({
+            type: EMAIL_CHANGE_PASSWORD_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        })
+    }
+}
 
 export const changePassword = (oldPassword, newPassword) => async (dispatch) => {
     try{

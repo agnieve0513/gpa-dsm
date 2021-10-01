@@ -24,6 +24,7 @@ function AdminDashboardScreen({location, history}) {
     const [usersForm, setUsersForm] = useState(false)
     const [tcForm, setTcForm] = useState(false)
     const [batchForm, setBatchForm] = useState(false)
+    const [show_ui, setShowUi] = useState(false)
 
     useEffect(() => {
       if(!localStorage.getItem('userInfo'))
@@ -32,6 +33,7 @@ function AdminDashboardScreen({location, history}) {
       }
       else
       {
+          setShowUi(true)
         let obj = JSON.parse(localStorage.getItem('userInfo'))
         let roleId = obj.message.original.roleId
         let role_name = ""
@@ -51,7 +53,7 @@ function AdminDashboardScreen({location, history}) {
 
         console.log(obj)
 
-        if(roleId === 4 || roleId === 5)
+        if(roleId === 4 || roleId === 5 || roleId === 6)
         {
             setBatchForm(true)
         }
@@ -70,43 +72,45 @@ function AdminDashboardScreen({location, history}) {
             <Header />
             <div className="mt-4">
                 <Container fluid>
-                    <Tab.Container id="left-tabs-example" defaultActiveKey="application">
-                    <Container className="mb-4">
-                        <Row>
-                            <Col md={8} id="adminDashBoardNav">
-                                    
-                                    <Nav variant="pills">
-                                        {applicationForm? 
-                                        <Nav.Item className="me-1">
-                                            <Nav.Link eventKey="application">APPLICATION</Nav.Link>
-                                        </Nav.Item>: <></>}
+                    {
+                        show_ui ?
+                        <Tab.Container id="left-tabs-example" defaultActiveKey="application">
+                            <Container className="mb-4">
+                                <Row>
+                                    <Col md={8} id="adminDashBoardNav">
+                                            
+                                            <Nav variant="pills">
+                                                {applicationForm? 
+                                                <Nav.Item className="me-1">
+                                                    <Nav.Link eventKey="application">APPLICATION</Nav.Link>
+                                                </Nav.Item>: <></>}
 
-                                        {batchForm?
-                                        <Nav.Item className="me-1">
-                                            <Nav.Link eventKey="batch">BATCH</Nav.Link>
-                                        </Nav.Item>: <></>}
+                                                {batchForm?
+                                                <Nav.Item className="me-1">
+                                                    <Nav.Link eventKey="batch">BATCH</Nav.Link>
+                                                </Nav.Item>: <></>}
 
-                                        {usersForm?
-                                        <Nav.Item className="me-1">
-                                            <Nav.Link eventKey="users">USERS</Nav.Link>
-                                        </Nav.Item>:<></>}
+                                                {usersForm?
+                                                <Nav.Item className="me-1">
+                                                    <Nav.Link eventKey="users">USERS</Nav.Link>
+                                                </Nav.Item>:<></>}
 
-                                        {equipmentForm ?
-                                        <Nav.Item className="me-1">
-                                            <Nav.Link eventKey="equipment">EQUIPMENT</Nav.Link>
-                                        </Nav.Item>:<></>}
+                                                {equipmentForm ?
+                                                <Nav.Item className="me-1">
+                                                    <Nav.Link eventKey="equipment">EQUIPMENT</Nav.Link>
+                                                </Nav.Item>:<></>}
 
-                                        {tcForm ?
-                                        <Nav.Item className="mr-1">
-                                            <Nav.Link eventKey="template">T & C TEMPLATE</Nav.Link>
-                                        </Nav.Item>:<></>}
-                                    </Nav>
-                            </Col>
-                            <Col md={4}>
-                                <h3 className="float-end text-info">{role_name} Dashboard</h3>
-                            </Col>
-                        </Row>
-                    </Container>
+                                                {tcForm ?
+                                                <Nav.Item className="mr-1">
+                                                    <Nav.Link eventKey="template">T & C TEMPLATE</Nav.Link>
+                                                </Nav.Item>:<></>}
+                                            </Nav>
+                                    </Col>
+                                    <Col md={4}>
+                                        <h3 className="float-end text-info">{role_name} Dashboard</h3>
+                                    </Col>
+                                </Row>
+                            </Container>
                             <Tab.Content>
                                 <Tab.Pane eventKey="users">
                                     {usersForm ? <UserForm /> : <></>}
@@ -125,6 +129,8 @@ function AdminDashboardScreen({location, history}) {
                                 </Tab.Pane>
                             </Tab.Content>
                     </Tab.Container>
+                        :<>Loading . . </>
+                    }
                 </Container>
             </div>
             <Footer />

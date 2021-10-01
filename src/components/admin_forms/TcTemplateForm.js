@@ -43,7 +43,7 @@ function TcTemplateForm() {
                 </Col>
                     <Col md={8}></Col>
                 </Row>
-                <PDFViewer width={"100%"} height={"900"}>
+                <PDFViewer width={"100%"} height={"900"} showToolbar={false}>
                     <Document>
                         <Page size="A4">
                             <Text fixed>

@@ -37,8 +37,8 @@ function ApplicationRequirements(props) {
                         <tbody>
                             {prerequisites.map(p => (
                                 <tr key={p._id}>
-                                    <td className="text-center" key={"id_"+p._id}><a className="text-secondary" href={p.image_sample} rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a>{p._id}</td>
-                                    <td key={"description_"+p._id}><b>{p.description}</b></td>
+                                    <td className="text-center" key={"id_"+p._id}>{p._id}</td>
+                                    <td key={"description_"+p._id}><b>{p.description}</b> <a className="text-secondary" href={p.image_sample} rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></td>
                                     <td key={"information_"+p._id}>{p.information.map(i => 
                                         (<div key={"info_"+i}><span>{i}</span> <br /></div>))}</td>
                                     <td key={"additional_"+p._id}>{p.additional}</td>

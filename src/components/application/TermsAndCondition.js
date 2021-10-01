@@ -23,7 +23,7 @@ function TermsAndCondition(props) {
                 <Col md={2}></Col>
                 <Col md={8}>
                     <h4 className="text-center text-info mb-3">Terms and Condition</h4>
-                    <PDFViewer width={"100%"} height={"600"}>
+                    <PDFViewer width={"100%"} height={"600"} showToolbar={false}>
                         <Document>
                             <Page size="LEGAL" style={styles.page}>
                             <View style={styles.section}>

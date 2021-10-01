@@ -15,6 +15,7 @@ function ExistingEquipmentInformation(props) {
 
     const changeSystemTypeHandler = (e) => {
         props.setOldSystemType(e.target.value)
+        props.setOldEquipments([])
     }
 
     const handleCheckBox = (e) => {

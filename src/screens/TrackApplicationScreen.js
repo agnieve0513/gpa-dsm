@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 // import Form from '../components/Form'
-import Header from '../components/Header'
+import CustomerHeader from '../components/CustomerHeader'
 import { Row, Col, Form,ListGroup } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
@@ -26,7 +26,7 @@ function ApplicationScreen() {
     }
     return (
         <div>
-            <Header />
+            <CustomerHeader />
             <Row>
                 <Col md={3}></Col>
                 <Col md={6} className="mt-5 mb-5">

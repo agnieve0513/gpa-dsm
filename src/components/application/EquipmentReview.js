@@ -34,6 +34,8 @@ function EquipmentReview(props) {
         setOldEqIndex(index)
     }
 
+    let total_rebate = 0;
+
     return (
         <Row>
             <Col md={1}></Col>
@@ -142,11 +144,13 @@ function EquipmentReview(props) {
                                                         <tr key={(eq.id + 1)}>
                                                         <td className="p-3">{(eq.id+1)}</td>
                                                         <td className="p-3">{eq.quantity}</td>
+                                                        <td className="p-3">{eq.rebate}</td>
+                                                        <td hidden>{total_rebate+=parseInt(eq.rebate)}</td>
                                                     </tr>
                                                     ))}
                                                     <tr>
                                                         <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
-                                                        <td className="p-3">$0.00</td>
+                                                        <td className="p-3">${total_rebate}</td>
                                                     </tr>
                                                 </tbody>
                                             </Table>
