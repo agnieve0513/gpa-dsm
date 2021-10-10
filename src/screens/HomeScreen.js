@@ -9,13 +9,6 @@ import './HomeScreen.css'
 
 function HomeScreen() {
 
-  const MySwal = withReactContent(Swal)
-  MySwal.fire(
-      'Good job!',
-    'You clicked the button!',
-    'success'
-    )
-
     return (
               <Row md={3} xs={12} sm={12} id="homeScreen">
               <Col md={2} sm={12} xs={12}></Col>

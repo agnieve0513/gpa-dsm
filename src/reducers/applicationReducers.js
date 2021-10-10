@@ -28,6 +28,10 @@ import {
     APPLICATION_TRACK_REQUEST,
     APPLICATION_TRACK_SUCCESS,
     APPLICATION_TRACK_FAIL,
+    
+    COMMENT_ADD_REQUEST,
+    COMMENT_ADD_SUCCESS,
+    COMMENT_ADD_FAIL
 
 
 } from '../constants/applicationConstants'
@@ -127,6 +131,22 @@ export const applicationUpdateReducer = (state = {}, action) => {
             return {loading: false, success:true}
 
         case APPLICATION_UPDATE_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
+
+export const addCommentReducer = (state = {}, action) => {
+    switch(action.type)
+    {
+        case COMMENT_ADD_REQUEST:
+            return {loading: true}
+
+        case COMMENT_ADD_SUCCESS:
+            return {loading: false, success:true}
+
+        case COMMENT_ADD_FAIL:
             return {loading: false, error: action.payload}
         default:
             return state

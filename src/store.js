@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { userLoginReducer, userRegisterReducer, userListReducer, userDeleteReducer,
     userUpdateReducer, userForgotPasswordReducer, userChangePasswordReducer, emailChangePasswordReducer } from './reducers/userReducers'
 import { applicationListReducer, applicationDetailReducer, applicationCommentsReducer,
-    applicationLogsReducer, applicationUpdateReducer, applicationTrackReducer} from './reducers/applicationReducers'
+    applicationLogsReducer, applicationUpdateReducer, applicationTrackReducer, addCommentReducer} from './reducers/applicationReducers'
 import { equipmentListReducer } from './reducers/equipmentReducers'
 import { batchListReducer, batchApplicationReducer, batchCurrentReducer, batchAddReducer} from './reducers/batchReducers'
 import { customerVerifyReducer, customerRegisterReducer, customerGenerateControlNoReducer,
@@ -29,6 +29,7 @@ const reducer = combineReducers({
     applicationLogs:applicationLogsReducer,
     applicationUpdate:applicationUpdateReducer,
     applicationTrack:applicationTrackReducer,
+    addComment: addCommentReducer,
 
     batchAdd: batchAddReducer,
     batchList: batchListReducer,

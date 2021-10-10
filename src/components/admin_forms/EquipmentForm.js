@@ -32,6 +32,9 @@ function EquipmentForm() {
                                     <Nav.Item className="mr-1">
                                         <Nav.Link eventKey="washer_dryer">Washer/Dryer</Nav.Link>
                                     </Nav.Item>
+                                    <Nav.Item className="mr-1">
+                                        <Nav.Link eventKey="commercial_air_conditioner">Commercial Air Conditioner</Nav.Link>
+                                    </Nav.Item>
                                 </Nav>
                         </Col>
                         <Col md={6}>
@@ -40,6 +43,80 @@ function EquipmentForm() {
                     <Row className="mt-4">
                         <Col md={12}>
                             <Tab.Content>
+                                <Tab.Pane eventKey="commercial_air_conditioner">
+                                <MaterialTable 
+                                        detailPanel={equipmentDetail => {
+                                            return (
+                                                <Container className="m-3">
+                                                    <h4>Details</h4>
+                                                    <Table borderless hover>
+                                                        <thead></thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Vendor 1</td>
+                                                                <td>{equipmentDetail.vendor_1}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Vendor 2</td>
+                                                                <td>{equipmentDetail.vendor_2}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Vendor 3</td>
+                                                                <td>{equipmentDetail.vendor_3}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Seer</td>
+                                                                <td>{equipmentDetail.seer}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tons</td>
+                                                                <td>{equipmentDetail.tons}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>BTU</td>
+                                                                <td>{equipmentDetail.cu_ft}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Notes</td>
+                                                                <td>{equipmentDetail.notes}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Date Added</td>
+                                                                <td>{equipmentDetail.date_added}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Last Date Updated</td>
+                                                                <td>{equipmentDetail.last_updated}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </Table>
+                                                </Container>
+                                            )
+                                        }}
+
+                                        // options={{
+                                        //     filtering: true
+                                        // }}
+                                        
+                                        columns={[
+                                            { title: "Type", field: "type" },
+                                            { title: "Manufacturer", field: "manufacturer" },
+                                            { title: "Package", field: "model",},
+                                            { title: "Energy Start Certification", field: "is_energy_start_certificate",
+                                                render: (rowdata) => (
+                                                    (rowdata.is_energy_start_certificate === 1)? 'True' : 'False'
+                                                ),
+                                                lookup: {'True': 'True', 'False':'False'},
+                                            },
+                                            { title: "Rebate", field: "rebate"},
+                                            { title: "Cu. Ft", field: "cu_ft"},
+                                        ]}
+                                        data={
+                                            (equipments) ? equipments.dryer_list: []
+                                        }
+                                        title=""
+                                    />
+                                </Tab.Pane>
                                 <Tab.Pane eventKey="air_condition">
 
                                     <MaterialTable 

@@ -42,6 +42,7 @@ function NewEuipmentInformation(props) {
             props.setBtu(equipment_detail[0].btu)
             props.setVendor(equipment_detail[0].vendor)
             props.setRebate(equipment_detail[0].rebate)
+            props.setSeer(equipment_detail[0].seer)
         }
         else
         {
@@ -95,102 +96,16 @@ function NewEuipmentInformation(props) {
         dispatch(loadCustomerEquipManufacturer("Central AC"))
     }
 
-    const showTable = () =>{
-        return (<MaterialTable 
-            columns={[
-                { title: "System Type", field: "system_type" },
-                { title: "Manufacturer", field: "manufacturer" },
-                { title: "Quantity", field: "quantity",},
-                { title: "Type", field: "type",},
-                { title: "Purchase Date", field: "purchase_date",},
-                {
-                title: "Action",
-                field:"actions",
-                width:"10%",
-                editComponent: (props) =>
-                {
-                    return (
-                        <Button></Button>
-                    )
-                },
-                render: (rowdata) => (
-                    <>
-                    {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
-                    <Button variant="danger" onClick={()=>deleteEquipmentHandler(rowdata)} size="sm" ><i className="fa fa-trash"></i></Button>
-                    </>)
-                }
-            ]}
-            data={
-                 props.new_equipments.length ===0 ? [] : props.new_equipments
-            }
-            title="Equipments"
-        />)
-    }
-
-    const showRebateHandler = () => {
+    const installerInformationHandler = () => {
         if(props.system_type === "Dryer" || props.system_type === "Washer")
         {
-            return (
-                <Row>
-                    <Form.Group controlId='rebate' className="mb-3">
-                        <Form.Label>REBATE</Form.Label>
-                        <Form.Control
-                            type='text'
-                            onChange={(e)=>props.setRebate(e.target.value)}
-                            value={props.rebate}
-                            required
-                            disabled="true"
-                        >
-                        </Form.Control>
-                    </Form.Group>
-                </Row>
-            )
-        }
-        else
-        {
-            return (<></>)
-        }
-    }
-
-    const btuSizeHandler = () => {
-        if(props.system_type === "Dryer" || props.system_type === "Washer")
-        {
-            return (
-                <Form.Group controlId='btu' className="mb-3">
-                    <Form.Label>BTU</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder=''
-                        onChange={(e)=>props.setBtu(e.target.value)}
-                        value={props.btu}
-                        required
-                    >
-                    </Form.Control>
-                </Form.Group>
-            )
+            return(<></>)
         }
         else
         {
             return (
-                <Form.Group controlId='size' className="mb-3">
-                    <Form.Label>SIZE(Cu. Ft.)</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder=''
-                        onChange={(e)=>props.setSize(e.target.value)}
-                        value={props.size}
-                        required
-                    >
-                    </Form.Control>
-                </Form.Group>
-            )
-        }
-    }
-    return (
-        <Row>
-            <Col md={3}></Col>
-            <Col md={6}>
-            <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>               
+                <>
+                <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>               
                 <Row>
                     <Col md={6}>
                         <Form.Group controlId='technician_name' className="mb-3">
@@ -262,14 +177,141 @@ function NewEuipmentInformation(props) {
                         </Form.Group>
                     </Col>
                 </Row>
+                </>
+            )
+        }
+    }
+
+    const showTable = () =>{
+        return (<MaterialTable 
+            columns={[
+                { title: "System Type", field: "system_type" },
+                { title: "Manufacturer", field: "manufacturer" },
+                { title: "Quantity", field: "quantity",},
+                { title: "Type", field: "type",},
+                { title: "Purchase Date", field: "purchase_date",},
+                {
+                title: "Action",
+                field:"actions",
+                width:"10%",
+                editComponent: (props) =>
+                {
+                    return (
+                        <Button></Button>
+                    )
+                },
+                render: (rowdata) => (
+                    <>
+                    {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
+                    <Button variant="danger" onClick={()=>deleteEquipmentHandler(rowdata)} size="sm" ><i className="fa fa-trash"></i></Button>
+                    </>)
+                }
+            ]}
+            data={
+                 props.new_equipments.length ===0 ? [] : props.new_equipments
+            }
+            title="Equipments"
+        />)
+    }
+
+    const showRebateHandler = () => {
+        if(props.system_type !== "Dryer" || props.system_type !== "Washer")
+        {
+            return (
+                    <Form.Group controlId='rebate' className="mb-3">
+                        <Form.Label>REBATE</Form.Label>
+                        <Form.Control
+                            type='text'
+                            onChange={(e)=>props.setRebate(e.target.value)}
+                            value={props.rebate}
+                            required
+                            disabled={true}
+                        >
+                        </Form.Control>
+                    </Form.Group>
+            )
+        }
+        else
+        {
+            return (<></>)
+        }
+    }
+
+    const showSeerHandler = () => {
+        if(props.system_type === "Dryer" || props.system_type === "Washer")
+        {
+            return(
+                <></>
+            )
+        }
+        else
+        {
+            return (
+                    <Form.Group controlId='seer' className="mb-3">
+                        <Form.Label>SEER</Form.Label>
+                        <Form.Control
+                            type='text'
+                            onChange={(e)=>props.setSeer(e.target.value)}
+                            value={props.seer}
+                            required
+                            disabled={true}
+                        >
+                        </Form.Control>
+                    </Form.Group>
+            )
+        }
+    }
+
+    const btuSizeHandler = () => {
+        if(props.system_type === "Dryer" || props.system_type === "Washer")
+        {
+            return (
+                <Form.Group controlId='size' className="mb-3">
+                    <Form.Label>SIZE(Cu. Ft.)</Form.Label>
+                    <Form.Control
+                        type='text'
+                        placeholder=''
+                        onChange={(e)=>props.setSize(e.target.value)}
+                        value={props.size}
+                        required
+                    >
+                    </Form.Control>
+                </Form.Group>
+            )
+        }
+        else
+        {
+            return (
+                <Form.Group controlId='btu' className="mb-3">
+                    <Form.Label>BTU</Form.Label>
+                    <Form.Control
+                        type='text'
+                        placeholder=''
+                        onChange={(e)=>props.setBtu(e.target.value)}
+                        value={props.btu}
+                        required
+                    >
+                    </Form.Control>
+                </Form.Group>
+            )
+        }
+    }
+    return (
+            <Row>
+            <Col md={3}></Col>
+            <Col md={6}>
+                
                 <h4 className="text-center text-info">NEW EQUIPMENT INFORMATION</h4>
                 <Row>
                     <Col md={8}>
                         <Form.Group controlId='system_type' className="mb-3">
                             <Form.Label>SYSTEM TYPE</Form.Label>
                             <Form.Select onChange={(e)=>changeSystemTypeHandler(e)} value={props.system_type} >
+                            
                             <option value="Central AC">Central AC</option>
+                            <option value="Central AC">Central AC - Commercial</option>
                             <option value="Split AC">Split AC</option>
+                            <option value="Split AC">Split AC - Commercial</option>
                             <option value="Window AC">Window AC</option>
                             <option value="Dryer">Dryer</option>
                             <option value="Washer">Washer</option>
@@ -379,14 +421,32 @@ function NewEuipmentInformation(props) {
                             >
                             </Form.Control>
                         </Form.Group>
-
                     </Col>
-
                 </Row>
+                
+               <Row>
+                    <Col md={6}>
+                        {/* Row for rebate */}
+                        {
+                            showRebateHandler()
+                        }
+                    </Col>
+                    <Col md={6}>
+                        {/* Row for rebate */}
+                        {
+                            showSeerHandler()
+                        }
+                    </Col>
+               </Row>
+
+
+                {/* Row for installer's information */}
 
                 {
-                    showRebateHandler()
+                    installerInformationHandler()
                 }
+
+               
 
                 <Row>
                     <Col md={4}></Col>
@@ -404,6 +464,18 @@ function NewEuipmentInformation(props) {
                        
                     </Col>
                 </Row>
+
+                <Row className="mt-3">
+                    <Form.Group controlId='total_qualified_equipment' className="mb-3">
+                        <Form.Label>Total Qualified Equipment</Form.Label>
+                        <Form.Control
+                            type='text'
+                            required
+                        >
+                        </Form.Control>
+                    </Form.Group>
+                </Row>
+
             </Col>
             <Col md={3}></Col>
         </Row>

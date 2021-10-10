@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react'
 import { Row, Col, Table, Form, ListGroup, Tabs, Modal, Tab, Container, Button, ButtonGroup, Nav} from 'react-bootstrap'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 
-import { listApplications, detailApplication, commentsApplication, logsApplication, updateApplication} from '../../actions/applicationActions'
+import { listApplications, detailApplication, commentsApplication,
+    addCommentAction,logsApplication, updateApplication} from '../../actions/applicationActions'
 import { listBatchCurrent, addNewBatch } from '../../actions/batchActions'
 
 
@@ -33,6 +34,7 @@ function ApplicationForm() {
     const [stage, setStage] = useState("")
     const [reason, setReason] = useState("")
     const [batch, setBatch] = useState("")
+    const [comment, setComment] = useState("")
 
     const handleModalClose = () => setShowModal(false)
     const handleBatchModalClose = () => setBatchShowModal(false)
@@ -55,6 +57,9 @@ function ApplicationForm() {
     const applicationUpdate = useSelector(state => state.applicationUpdate)
     const {error:updateError, loading:updateLoading, success:successUpdate} = applicationUpdate
 
+    const addComment = useSelector(state => state.addComment)
+    const {error:commentError, loading:commentLoading, success:commentSucess} = addComment
+
     const batchCurrent = useSelector(state => state.batchCurrent)
     const { batch_current } = batchCurrent
 
@@ -64,7 +69,9 @@ function ApplicationForm() {
     useEffect(() => {
         dispatch(listApplications())
         dispatch(listBatchCurrent())
-    }, [dispatch, application, successUpdate, addBatchSuccess])
+        dispatch(commentsApplication(applicationId))
+
+    }, [dispatch, application, successUpdate, addBatchSuccess,commentSucess])
 
     const selectHandler = (rowdata) => {
         setApplicationId(rowdata.Application_Id)
@@ -166,6 +173,74 @@ function ApplicationForm() {
         setNewEqIndex(index)
         console.log(application)
     }
+
+    const addCommentHandler = () => 
+    {
+        dispatch(addCommentAction(applicationId, comment))
+        setComment("")
+    }
+
+    const changeCommentHandler = (text) => 
+    {
+        setComment(text)
+    }
+
+    const applicationTableHandler = () =>
+    {
+        return (
+            <MaterialTable 
+
+                            columns={[
+                                { title: "Name", field: "Control_Number", width:"20%" },
+                                { title: "Creation Date", field: "Application_Date", width:"10%" },
+                                { title: "Stage", field: "Stage", width:"10%" },
+                                { title: "Status", field: "Status", width:"10%",
+                                lookup: {'Processing':'Processing', 'Approved':'Approved'}
+                                },
+                                { title: "System Type", field: "System_Type", width:"10%",
+                                lookup: {'CENTRAL AC':'CENTRAL AC'}
+                                },
+                                {
+                                    title: "Action",
+                                    field:"actions",
+                                    filtering: false,
+                                    editComponent: (props) =>{
+                                        console.log(props);
+                                        return (
+                                            <Button>Payts</Button>
+                                        )
+                                    },
+                                    render: (rowdata) => (
+                                        <>
+                                            <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
+                                        </>
+                                    )
+                                },
+                               
+                            ]}
+                            data={
+                                applications
+                            }
+                            title="Applications"
+
+                            actions={[
+                                {
+                                icon: "clear_box",
+                                tooltip: "Clear Filter",
+                                position: "toolbar",
+                                onClick: () => {
+                                    applicationTableHandler()
+                                }
+                                }
+                            ]}
+
+                            options={{
+                            filtering: true
+                            }}
+                        />
+        )
+    }
+
     return (
         <div>
             {
@@ -269,7 +344,7 @@ function ApplicationForm() {
                                                             <p>BTU  <b>{ application.New_equipment[new_eq_index].newEquip_Btu }</b></p>
                                                             <p>Manufacturer  <b>{ application.New_equipment[new_eq_index].newEquip_Manufacturer }</b></p>
                                                             <p>Model Number  <b>{ application.New_equipment[new_eq_index].newEquip_Model_no }</b></p>
-                                                            <p>Invoice#  <b>{ application.New_equipment[new_eq_index].newEquip_Invoice_no }</b></p>
+                                                            <p>Invoice#  <b><a href="./sample.png" rel="noreferrer" target="_blank">{ application.New_equipment[new_eq_index].newEquip_Invoice_no }</a></b></p>
                                                             <p>Purchase Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
                                                             <p>Type <b>{ application.New_equipment[new_eq_index].newEquip_Type }</b></p>
                                                             <p>Tons <b>{ application.New_equipment[new_eq_index].newEquip_Tons }</b></p>
@@ -528,9 +603,12 @@ function ApplicationForm() {
                                         <Form>
                                             <Form.Group className="mb-3" controlId="comment">
                                                 <Form.Label>Comments</Form.Label>
-                                                <Form.Control as="textarea" rows={5} />
+                                                <Form.Control as="textarea" rows={5}
+                                                    onChange={(e)=>changeCommentHandler(e.target.value)}
+                                                    value={comment}
+                                                />
                                             </Form.Group>
-                                            <Button>Submit</Button>
+                                            <Button onClick={()=> addCommentHandler()}>Submit</Button>
                                         </Form>
                                         <hr />
                                         
@@ -555,40 +633,7 @@ function ApplicationForm() {
                     </>
                 :
                 <Container>
-                  <MaterialTable 
-
-                            columns={[
-                                { title: "Name", field: "Control_Number", width:"20%" },
-                                { title: "Creation Date", field: "Application_Date", width:"10%" },
-                                { title: "Stage", field: "Stage", width:"10%" },
-                                { title: "Status", field: "Status", width:"10%",
-                                lookup: {'Processing':'Processing', 'Approved':'Approved'}
-                                },
-                                { title: "System Type", field: "System_Type", width:"10%",
-                                lookup: {'CENTRAL AC':'CENTRAL AC'}
-                                },
-                                {
-                                    title: "Action",
-                                    field:"actions",
-                                    filtering: false,
-                                    editComponent: (props) =>{
-                                        console.log(props);
-                                        return (
-                                            <Button>Payts</Button>
-                                        )
-                                    },
-                                    render: (rowdata) => (
-                                        <>
-                                            <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
-                                        </>
-                                    )
-                                }
-                            ]}
-                            data={
-                                applications
-                            }
-                            title="Applications"
-                        />
+                  {applicationTableHandler()}
                 </Container>
             }
             

@@ -26,7 +26,11 @@ import {
 
     APPLICATION_TRACK_REQUEST,
     APPLICATION_TRACK_SUCCESS,
-    APPLICATION_TRACK_FAIL
+    APPLICATION_TRACK_FAIL,
+
+    COMMENT_ADD_REQUEST,
+    COMMENT_ADD_SUCCESS,
+    COMMENT_ADD_FAIL
     
 } from '../constants/applicationConstants'
 
@@ -219,6 +223,45 @@ export const detailApplication = (application_id) => async (dispatch) => {
             payload: error.response && error.response.data.detail
             ? error.reponse.data.detail
             : error.message
+        })
+    }
+}
+
+export const addCommentAction = (applicationId,  comment) => async (dispatch) => {
+    try{
+
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+
+        dispatch({
+            type: COMMENT_ADD_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        
+        const {data} = await axios.post(URL+'/add-comment',
+        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'comment':comment},
+        config
+        )
+
+        dispatch({
+            type: COMMENT_ADD_SUCCESS,
+            payload:data
+        })
+
+    }catch(error)
+    {
+        dispatch({
+            type: COMMENT_ADD_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
         })
     }
 }

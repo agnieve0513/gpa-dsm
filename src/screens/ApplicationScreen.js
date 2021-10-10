@@ -254,6 +254,7 @@ function ApplicationScreen() {
                                 rebate={rebate} setRebate={setRebate}
                                 manufacturers={manufacturers} setManufacturerList={setManufacturerList}
                                 models={models} setModelList={setModelList}
+                                seer={seer} setSeer={setSeer}
 
                                 technician_name={technician_name} setTechnicianName={setTechnicianName}
                                 work_tel={work_tel} setWorkTel={setWorkTel}
@@ -268,6 +269,7 @@ function ApplicationScreen() {
                                 old_equipments={old_equipments} setOldEquipments={setOldEquipments}
                                 is_no_existing_to_replace={is_no_existing_to_replace} seIsNoExistingToReplace={seIsNoExistingToReplace}
                                 old_system_type={old_system_type} setOldSystemType={setOldSystemType}
+                                system_type={system_type} setSystemType={setSystemType}
                                 old_years={old_years} setOldYears={setOldYears}
                                 old_tons={old_tons} setOldTons={setOldTons}
                                 is_equipment_condition={is_equipment_condition} setIsEquipmentCondition={setIsEquipmentCondition}

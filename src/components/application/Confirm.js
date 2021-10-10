@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 
 import { FiThumbsUp } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
-export default class Confirm extends Component {
+import PrintApplication from './PrintApplication'
 
-    continue = e => {
-        e.preventDefault();
-        this.props.nextStep();
-    };
+function Confirm() {
 
-    back = e => {
-        e.preventDefault();
-        this.props.prevStep();
-    };
+    const [print, setPrint] = useState(false)
 
-    render() {
+    const printButtonHandler = ()=> {
+        setPrint(true)
+    }
 
-        return (
+    return (
+        print ?
+        <PrintApplication />
+        :
+        <div>
             <div className="container mt-5">
                 
                 <Container className="text-center">
@@ -40,7 +40,7 @@ export default class Confirm extends Component {
                     </Row>
 
                     <div className="">
-                        <h2 className="mb-3">Thank you!</h2>
+                        <h2 className="mb-3">Thank you for your interest in GPA's Energy Sense Rebate Program.</h2>
                     </div>
                     <p> Your confirmation number is <b>2101-D0001</b>. </p>
 
@@ -60,9 +60,11 @@ export default class Confirm extends Component {
                     <Link to={`/`} className ="btn btn-success btn-lg px-5"><h4>BACK TO GPA HOMEPAGE </h4></Link>
                 </Container>
                 <Container className="text-center">
-                    <button className ="btn btn-info btn-lg px-5"><h4>Print Application</h4></button>
+                    <button className ="btn btn-info btn-lg px-5" onClick={()=> printButtonHandler()}><h4>Print Application</h4></button>
                 </Container>
             </div>
-        )
-    }
+        </div>
+    )
 }
+
+export default Confirm

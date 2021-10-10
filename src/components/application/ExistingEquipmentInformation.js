@@ -114,6 +114,7 @@ function ExistingEquipmentInformation(props) {
                 <Row>
                     <Col md={12}>
                         <Form.Check
+                            className="mb-3"
                             inline
                             label="Check if there is no existing/old equipment being replaced"
                             name="props.is_no_existing_to_replace"
@@ -122,15 +123,28 @@ function ExistingEquipmentInformation(props) {
                             checked={props.is_no_existing_to_replace === true}
                             onChange={(e)=>handleCheckBox(e)}
                         />
+                        <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i></a>
+                        {
+                            props.is_no_existing_to_replace ?
+                            <Form.Group controlId='disposal_slip' className="mb-3">
+                            <Form.Label>DISPOSAL RECEIPT <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
+                            <Form.Control
+                                type='file'
+                                placeholder=''
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>: <></>
+                        }
                     </Col>
                 </Row>
                 <Row>
                     <Col md={12}>
-                        <Form.Group controlId='old_system_type' className="mb-3">
+                        <Form.Group controlId='system_type' className="mb-3">
                             <Form.Label>SYSTEM TYPE</Form.Label>
                             <Form.Select onChange={(e)=>changeSystemTypeHandler(e)}
-                            value={props.old_system_type} 
-                            disabled={props.no_existing? true: false}
+                            value={props.system_type} 
+                            disabled={true}
                             >
                             <option value="Central AC">Central AC</option>
                             <option value="Split AC">Split AC</option>

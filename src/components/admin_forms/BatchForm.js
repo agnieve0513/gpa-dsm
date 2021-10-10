@@ -18,6 +18,7 @@ function BatchForm() {
     const [stage, setStage] = useState("")
     const [reason, setReason] = useState("")
     const [selectIds, setSelectedIds] = useState([])
+    const [showBatchApplicationTable,setShowBatchApplicationTable] = useState(false)
 
     const handleModalClose = () => setShowModal(false)
 
@@ -34,10 +35,11 @@ function BatchForm() {
 
     useEffect(() => {
         dispatch(listBatch())
-    }, [dispatch, batch_applications,successUpdate])
+    }, [dispatch])
 
     const selectHandler = (rowdata) => {
         dispatch(listBatchApplication(rowdata.Id))
+        console.log(batch_applications)
     }
 
     const changeStatusHandler = (status) => {
@@ -192,61 +194,66 @@ function BatchForm() {
                         title="Batch"
                     />
                 </Col>
-                <Col md={7}>
-                    <MaterialTable 
-                        columns={[
-                            {
-                                title: "#",
-                                field:"check_actions",
-                                width:"10%",
-                                editComponent: (props) =>{
-                                    return (
-                                        <Button>Payts</Button>
-                                    )
-                                },
-                                render: (rowdata) => (
-                                    <>
-                                    <input type="checkbox"
-                                    onChange={ (e) => getSelected(e, rowdata.Application_Id) }
-                                    ></input>
-                                    </>
-                                )
-                            },
-                            { title: "Control No.", field: "Control_Number"},
-                            { title: "Status", field: "Status"},
-                            { title: "Stage", field: "Stage"},
-                            {
-                                title: "Action",
-                                field:"actions",
-                                width:"10%",
-                                editComponent: (props) =>{
-                                    return (
-                                        <Button>Payts</Button>
-                                    )
-                                },
-                                render: (rowdata) => (
-                                    <>
+                    <Col md={7}>
+                        <MaterialTable 
+                            columns={[
+                                {
+                                    title: "#",
+                                    field:"check_actions",
+                                    width:"10%",
+                                    editComponent: (props) =>{
+                                        return (
+                                            <Button>Payts</Button>
+                                        )
+                                    },
+                                    render: (rowdata) => (
+                                        <>
                                         {
-                                            batch_applications ? 
+                                            Object.keys(batch_applications[0]).length > 3? 
                                             <>
-                                                <Button className="me-2" variant={"info"} onClick={()=> changeStatusHandler(1) } size={"sm"}><i className="fa fa-check"></i></Button>
-                                                <Button className="me-2" variant={"danger"} onClick={()=> changeStatusHandler(3) } size={"sm"}><i className="fa fa-times"></i></Button>
-                                            </>
-                                            : <></>
+                                            <input type="checkbox"
+                                            onChange={ (e) => getSelected(e, rowdata.Application_Id) }
+                                            ></input>
+                                            </> : <></>
                                         }
-                                    </>
-                                )
-                            }
-
-                        ]}
-                        data={batch_applications}
-                        title="Batch Application"
-                    />
-                    <div className="d-flex flex-row-reverse">
-                        <Button className="ms-1 mt-1 px-5" variant={"danger"} onClick={()=> changeStatusHandler(3) }>Reject</Button>
-                        <Button className="ms-1 mt-1 px-5" variant={"success"} onClick={()=> changeStatusHandler(1) }>Proccess</Button>
-                    </div>
-                </Col>
+                                        </>
+                                        
+                                    )
+                                },
+                                { title: "Control No.", field: "Control_Number"},
+                                { title: "Status", field: "Status"},
+                                { title: "Stage", field: "Stage"},
+                                {
+                                    title: "Action",
+                                    field:"actions",
+                                    width:"10%",
+                                    editComponent: (props) =>{
+                                        return (
+                                            <Button>Payts</Button>
+                                        )
+                                    },
+                                    render: (rowdata) => (
+                                        <>
+                                            {
+                                                Object.keys(batch_applications[0]).length > 3? 
+                                                <>
+                                                    <Button className="me-2" variant={"info"} onClick={()=> changeStatusHandler(1) } size={"sm"}><i className="fa fa-check"></i></Button>
+                                                    <Button className="me-2" variant={"danger"} onClick={()=> changeStatusHandler(3) } size={"sm"}><i className="fa fa-times"></i></Button>
+                                                </>
+                                                : <></>
+                                            }
+                                        </>
+                                    )
+                                }
+                            ]}
+                            data={batch_applications}
+                            title="Batch Application"
+                        />
+                        <div className="d-flex flex-row-reverse">
+                            <Button className="ms-1 mt-1 px-5" variant={"danger"} onClick={()=> changeStatusHandler(3) }>Reject</Button>
+                            <Button className="ms-1 mt-1 px-5" variant={"success"} onClick={()=> changeStatusHandler(1) }>Proccess</Button>
+                        </div>
+                    </Col>
             </Row>
         </Container>
     )
