@@ -77,7 +77,7 @@ function ApplicationInformation(props) {
                     <Row>
                         <Col md={6} className="mb-3">
                             <Form.Group controlId='account_no'>
-                                <Form.Label>GPA ELECTRIC ACCOUNT NUMBER* <a className="text-secondary" href="javascript:0" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
+                                <Form.Label>GPA ELECTRIC ACCOUNT NUMBER* <a className="text-secondary" href="" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder=''
@@ -92,7 +92,7 @@ function ApplicationInformation(props) {
                         </Col>
                         <Col md={6}>
                             <Form.Group controlId='bill_id'>
-                                <Form.Label>BILL ID* <a className="text-secondary" href="javascript:0" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label> <br />
+                                <Form.Label>BILL ID* <a className="text-secondary" href="" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label> <br />
                                 <InputGroup className="mb-3">
                                     <Form.Control
                                     type='text'
