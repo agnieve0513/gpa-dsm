@@ -159,7 +159,7 @@ function NewEuipmentInformation(props) {
                     <Form.Group controlId='rebate' className="mb-3">
                         <Form.Label>REBATE</Form.Label>
                         <Form.Control
-                            type='text'
+                            type='number'
                             onChange={(e)=>props.setRebate(e.target.value)}
                             value={props.rebate}
                             required
