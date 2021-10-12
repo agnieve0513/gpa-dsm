@@ -1,127 +1,144 @@
 import React, {useState, useEffect} from 'react'
-import { Container, Row, Col, Button,Modal, Form, Dropdown, Tabs, Tab, ListGroup, Nav, ButtonGroup,Table } from 'react-bootstrap'
-import { listBatch, listBatchApplication} from '../../actions/batchActions'
+import { Row, Col, Table, Form, ListGroup, Tab, Container, Button, ButtonGroup, Nav} from 'react-bootstrap'
+
 import { listApplications, detailApplication, commentsApplication,
     addCommentAction,logsApplication, updateApplication} from '../../actions/applicationActions'
+import { listBatchCurrent, addNewBatch } from '../../actions/batchActions'
+
 
 import { useDispatch, useSelector } from 'react-redux'
+import MaterialTable from "material-table";
 
-import MaterialTable from "material-table"
+import './ApplicationForm.css'
 
-function BatchForm() {
+function RecordsForm() {
 
-    let obj = JSON.parse(localStorage.getItem('userInfo'))
-    let roleId = obj.message.original.roleId
-
+    const [new_eq_index, setNewEqIndex] = useState(0)
+    const [count_equipment, setCountEquipment] = useState(0)
+    
     const [showModal, setShowModal] = useState(false)
+    const [showBatchModal, setBatchShowModal] = useState(false)
+    const [show, setShow] = useState(false)
+    const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false)
+    const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false)
+    const [equipmentInfo, setEquipmentInfo] = useState([])
     const [applicationId, setApplicationId] = useState(0)
     const [status, setStatus] = useState("")
     const [stage, setStage] = useState("")
     const [reason, setReason] = useState("")
-    const [selectIds, setSelectedIds] = useState([])
-    const [showBatchApplicationTable,setShowBatchApplicationTable] = useState(false)
-    const [show, setShow] = useState(false)
-    const [new_eq_index, setNewEqIndex] = useState(0)
-    const [equipmentInfo, setEquipmentInfo] = useState([])
-    const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false)
-    const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false)
+    const [batch, setBatch] = useState("")
     const [comment, setComment] = useState("")
 
-
     const handleModalClose = () => setShowModal(false)
-
+    const handleBatchModalClose = () => setBatchShowModal(false)
+    
     const dispatch = useDispatch()
+     
 
-    const batchList = useSelector(state => state.batchList)
-    const {batches} = batchList
+    const applicationList = useSelector(state => state.applicationList)
+    const {applications} = applicationList
 
     const applicationDetail = useSelector(state => state.applicationDetail)
     const {application} = applicationDetail
-
-    const batchApplication = useSelector(state => state.batchApplication)
-    const {batch_applications} = batchApplication
 
     const applicationComments = useSelector(state => state.applicationComments)
     const {comments} = applicationComments
 
     const applicationLogs = useSelector(state => state.applicationLogs)
     const {logs} = applicationLogs
-
+    
     const applicationUpdate = useSelector(state => state.applicationUpdate)
     const {error:updateError, loading:updateLoading, success:successUpdate} = applicationUpdate
 
+    const addComment = useSelector(state => state.addComment)
+    const {error:commentError, loading:commentLoading, success:commentSucess} = addComment
+
+    const batchCurrent = useSelector(state => state.batchCurrent)
+    const { batch_current } = batchCurrent
+
+    const batchAdd = useSelector(state => state.batchAdd)
+    const { success:addBatchSuccess } = batchAdd
+
     useEffect(() => {
-        dispatch(listBatch())
-    }, [dispatch])
+        dispatch(listApplications())
+        dispatch(listBatchCurrent())
+        dispatch(commentsApplication(applicationId))
+
+    }, [dispatch, application, successUpdate, addBatchSuccess,commentSucess])
 
     const selectHandler = (rowdata) => {
-        dispatch(listBatchApplication(rowdata.Id))
-        console.log(batch_applications)
+        setApplicationId(rowdata.Application_Id)
+        dispatch(detailApplication(rowdata.Application_Id))
+        dispatch(commentsApplication(rowdata.Application_Id))
+        dispatch(logsApplication(rowdata.Application_Id))
+        setShow(true)
     }
 
     const changeStatusHandler = (status) => {
         setStatus(status)
         setShowModal(true)
+
+        console.log(status)
     }
 
     const updateStatus = (status, stage) => {
         if(status === 3){
+            console.log(reason)
+            console.log(status)
              if(window.confirm('Are you sure you want to reject application?'))
             {
                 dispatch(updateApplication(applicationId,status,stage,reason))
                 alert("Saved!")
+                setShow(false)
                 setShowModal(false)
             }
         }else{
-            setStatus(status)
-            setStage(stage)
-                dispatch(updateApplication(applicationId,status,stage,reason))
-            if(window.confirm('Are you sure you want to process application?'))
+            if(status === 1 && stage === 3)
             {
-                alert("Saved!")
+                setStatus(1)
+                setStage(3)
                 setShowModal(false)
+                setBatchShowModal(true)
+            }
+            else
+            {
+                setStatus(status)
+                setStage(stage)
+                    dispatch(updateApplication(applicationId,status,stage,reason, batch))
+                if(window.confirm('Are you sure you want to process application?'))
+                {
+                    alert("Saved!")
+                    setShowModal(false)
+                }
             }
         }
-    }
-
-    const getSelected = (e, application_id) =>{
-        
-        const checked = e.target.checked;
-        if(checked)
-        {
-            selectIds.push(application_id)
-        }
-        else
-        {
-            
-            const index = selectIds.indexOf(application_id)
-            delete selectIds[index]
-        }
-
-        console.log(selectIds)
-
-    }
-
-    
-    const changeCommentHandler = (text) => 
-    {
-        setComment(text)
     }
 
     const resetHandler = () =>{
         setShow(false)
     }
 
-    const addCommentHandler = () => 
-    {
-        dispatch(addCommentAction(applicationId, comment))
-        setComment("")
+    const addBatchHandler = () =>{
+        if(window.confirm('Are you sure you want to create new Batch?'))
+        {
+            dispatch(addNewBatch())
+        }
     }
 
-    const showNewEquipmentInformation = (index)=>
-    {
-        setNewEqIndex(index)
-        console.log(application)
+    const selectBatchHandler = (rowdata)=>{
+        if(window.confirm('Are you sure you want to add Application to this Batch?'))
+        {
+            setBatch(rowdata.Id)
+            setStatus(status)
+            setStage(stage)
+            setBatchShowModal(false)
+
+            if(window.confirm('Are you sure you want to process application?'))
+            {
+                dispatch(updateApplication(applicationId,status,stage,reason, rowdata.Id))
+                alert("Saved!")
+            }
+        }
     }
 
     const selectEquipment = (id, equipmentType) => {
@@ -144,25 +161,89 @@ function BatchForm() {
         }
     }
 
-    const applicationViewHandler = (rowdata) =>
+    const showNewEquipmentInformation = (index)=>
     {
-        console.log(rowdata)
-        setApplicationId(rowdata.Application_Id)
-        dispatch(detailApplication(rowdata.Application_Id))
-        dispatch(commentsApplication(rowdata.Application_Id))
-        dispatch(logsApplication(rowdata.Application_Id))
-        setShow(true)
+        setNewEqIndex(index)
+        console.log(application)
     }
 
+    const addCommentHandler = () => 
+    {
+        dispatch(addCommentAction(applicationId, comment))
+        setComment("")
+    }
+
+    const changeCommentHandler = (text) => 
+    {
+        setComment(text)
+    }
+
+    const applicationTableHandler = () =>
+    {
+        return (
+            <MaterialTable 
+
+                            columns={[
+                                { title: "Name", field: "Control_Number", width:"20%" },
+                                { title: "Creation Date", field: "Application_Date", width:"10%" },
+                                { title: "Stage", field: "Stage", width:"10%" },
+                                { title: "Status", field: "Status", width:"10%",
+                                lookup: {'Processing':'Processing', 'Approved':'Approved'}
+                                },
+                                { title: "System Type", field: "System_Type", width:"10%",
+                                lookup: {'CENTRAL AC':'CENTRAL AC'}
+                                },
+                                {
+                                    title: "Action",
+                                    field:"actions",
+                                    filtering: false,
+                                    editComponent: (props) =>{
+                                        console.log(props);
+                                        return (
+                                            <Button>Payts</Button>
+                                        )
+                                    },
+                                    render: (rowdata) => (
+                                        <>
+                                            <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
+                                        </>
+                                    )
+                                },
+                               
+                            ]}
+                            data={
+                                applications
+                            }
+                            title="Applications"
+
+                            actions={[
+                                {
+                                icon: "clear_box",
+                                tooltip: "Clear Filter",
+                                position: "toolbar",
+                                onClick: () => {
+                                    applicationTableHandler()
+                                }
+                                }
+                            ]}
+
+                            options={{
+                            filtering: true
+                            }}
+                        />
+        )
+    }
 
     return (
-        <>
-        {
-            show ?
-            <Container>
+        <div>
+            {
+                show ?  
+                    <>
                         <Tab.Container id="left-tabs-example" defaultActiveKey="application_information">
-                                <Button className="mb-3 btn btn-light" onClick={()=>resetHandler()}><i className="fa fa-arrow-left"></i> Back to Application</Button>
-                                <div id="applicationFormNav">
+                            <Row>
+                                <Col md={1}></Col>
+                                <Col md={11} id="applicationFormNav">
+                                    <Button className="mb-3 btn btn-light" onClick={()=>resetHandler()}><i className="fa fa-arrow-left"></i> Back to Application</Button>
                                     <Nav variant="pills">
                                         <Nav.Item className="me-1">
                                         <Nav.Link eventKey="application_information">Applicant Information</Nav.Link>
@@ -180,9 +261,12 @@ function BatchForm() {
                                         <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
                                         </Nav.Item> */}
                                     </Nav>
-                                </div>
+                                </Col>
+                                
+                            </Row>
                             <Row>
-                                <Col md={9}>
+                                <Col md={1}></Col>
+                                <Col md={8}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="application_information">
                                             <Container className="ml-2 mr-2">
@@ -353,86 +437,7 @@ function BatchForm() {
                                                     <p>Other support documents 2</p>
                                                 </ListGroup>
                                             </Container>
-                                            <Container className="ml-2 mr-2">
-                                                <h3 className="mt-3 mb-3">Update Status</h3>
-                                                <Row>
-                                                    <Col md={12}>
-
-                                                    
-
-
-                                                        <Modal show={showModal} onHide={handleModalClose}>
-                                                            <Modal.Header closeButton>
-                                                            <Modal.Title>
-                                                                {status === 3 ? <>Reject Application</>: <>Process Application</>}
-                                                            </Modal.Title>
-                                                            </Modal.Header>
-                                                            <Modal.Body>
-                                                                {
-                                                                    status === 3 ?
-                                                                        <>
-                                                                            <Form.Group controlId='role_id' className="mb-1">
-                                                                                <Form.Select onChange={(e)=>setReason(e.target.value)} value={reason} required>
-                                                                                    <option >Open this select menu</option>
-                                                                                    <option value="0">None</option>
-                                                                                    <option value="1">Applicant is not a GPA Account holder or property owner.</option>
-                                                                                    <option value="2">Application information provided was incorrect.</option>
-                                                                                    <option value="3">Equipment was not installed within 120 days from invoice date.</option>
-                                                                                    <option value="4">Application was not submitted within 120 days from install date.</option>
-                                                                                    <option value="5">Missing or incorrect Invoice.</option>
-                                                                                    <option value="6">Missing or incorrect W-9.</option>
-                                                                                    <option value="7">Missing or Incorrect Installer Information.</option>
-                                                                                    <option value="8">Other: Please contact GPA for more information.</option>
-                                                                                </Form.Select>
-                                                                            </Form.Group>
-                                                                            <Button variant={"danger"} onClick={() => updateStatus(3,0)}>Reject Application</Button>
-                                                                        </>
-                                                                    :
-                                                                    
-                                                                        roleId === 2 ?
-                                                                            <Button onClick={() => updateStatus(1, 1)}>Send to SPORD</Button>
-                                                                        :
-                                                                            roleId === 3 ?
-                                                                            <>
-                                                                            <Button onClick={() => updateStatus(1, 3)} className="mb-1">Send to Supervisor</Button> <br />
-                                                                            <Button onClick={() => updateStatus(1, 4)}>Send Back to Customer Service</Button>
-                                                                            </>
-                                                                            :
-                                                                            roleId === 6 ?
-                                                                            <>
-                                                                            <Button onClick={() => updateStatus(1, 5)}>Send to Budget</Button>
-                                                                            <Button onClick={() => updateStatus(1, 1)}>Send Back to SPORD</Button>
-                                                                            </>
-                                                                            :
-                                                                            roleId === 4 ?
-                                                                            <>
-                                                                            <Button onClick={() => updateStatus(1, 2)}>Send to Accounting</Button>
-                                                                            <Button onClick={() => updateStatus(1, 3)}>Send Back to Supervisor</Button>
-                                                                            </>
-                                                                            :
-                                                                            roleId === 5 ?
-                                                                            <>
-                                                                            <Button variant={"success"} className="mb-1" onClick={() => updateStatus(1, 0)}>Approve Application</Button><br />
-                                                                            <Button variant={"danger"} className="mb-1" onClick={() => updateStatus(1, 1)}>(Decline) Send to Spord</Button><br />
-                                                                            <Button variant={"danger"} className="mb-1" onClick={() => updateStatus(1, 4)}>(Decline) Send to CS</Button>
-                                                                            </>: 
-                                                                             roleId === 1 ?
-                                                                                <>
-                                                                                    <Button variant={"success"} className="mb-1" onClick={() => updateStatus(1, 0)}>Approve Application</Button><br />
-                                                                                    <Button className="mb-1" onClick={() => updateStatus(1, 4)}>Send to CS</Button> <br />
-                                                                                    <Button className="mb-1" onClick={() => updateStatus(1, 1)}>Send to SPORD</Button> <br />
-                                                                                    <Button className="mb-1" onClick={() => updateStatus(1, 3)}>Send to Supervisor</Button> <br />
-                                                                                    <Button className="mb-1" onClick={() => updateStatus(1, 5)}>Send to Budget</Button> <br />
-                                                                                    <Button className="mb-1" onClick={() => updateStatus(1, 2)}>Send to Accounting</Button> <br />
-                                                                                </>:<></>
-                                                                }
-                                                            </Modal.Body>
-                                                        </Modal>
-                                                        <Button className="me-2" variant={"info"} onClick={()=> changeStatusHandler(1) }>Process Sending</Button>
-                                                        <Button className="me-2" variant={"danger"} onClick={()=> changeStatusHandler(3) }>Reject</Button>
-                                                    </Col>
-                                                </Row>
-                                            </Container>
+                                            
                                         </Tab.Pane>
                                       
                                     </Tab.Content>
@@ -506,197 +511,15 @@ function BatchForm() {
                             </Container>
                         
                         </Tab.Container>
-                    </Container>
-            :
-            <Container>
+                    </>
+                :
+                <Container>
+                  {applicationTableHandler()}
+                </Container>
+            }
             
-                <Modal show={showModal} onHide={handleModalClose}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>
-                        {status === 3 ? <>Reject Application</>: <>Process Application</>}
-                    </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {
-                            status === 3 ?
-                                <>
-                                    <Form.Group controlId='role_id' className="mb-3">
-                                        <Form.Select onChange={(e)=>setReason(e.target.value)} value={reason} required>
-                                            <option >Open this select menu</option>
-                                            <option value="0">None</option>
-                                            <option value="1">Applicant is not a GPA Account holder or property owner.</option>
-                                            <option value="2">Application information provided was incorrect.</option>
-                                            <option value="3">Equipment was not installed within 120 days from invoice date.</option>
-                                            <option value="4">Application was not submitted within 120 days from install date.</option>
-                                            <option value="5">Missing or incorrect Invoice.</option>
-                                            <option value="6">Missing or incorrect W-9.</option>
-                                            <option value="7">Missing or Incorrect Installer Information.</option>
-                                            <option value="8">Other: Please contact GPA for more information.</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                    <Button variant={"danger"} onClick={() => updateStatus(3,0)}>Reject Application</Button>
-                                </>
-                            :
-                            
-                                roleId === 2 ?
-                                    <Button onClick={() => updateStatus(1, 1)}>Send to SPORD</Button>
-                                :
-                                    roleId === 3 ?
-                                    <>
-                                    <Button onClick={() => updateStatus(1, 3)}>Send to Supervisor</Button>
-                                    <Button onClick={() => updateStatus(1, 4)}>Send Back to Customer Service</Button>
-                                    </>
-                                    :
-                                    roleId === 6 ?
-                                    <>
-                                    <Button onClick={() => updateStatus(1, 5)}>Send to Budget</Button>
-                                    <Button onClick={() => updateStatus(1, 1)}>Send Back to SPORD</Button>
-                                    </>
-                                    :
-                                    roleId === 4 ?
-                                    <>
-                                    <Button onClick={() => updateStatus(1, 2)}>Send to Accounting</Button>
-                                    <Button onClick={() => updateStatus(1, 3)}>Send Back to Supervisor</Button>
-                                    </>
-                                    :
-                                    roleId === 5 ?
-                                    <>
-                                    <Button variant={"success"} className="mb-1" onClick={() => updateStatus(1, 0)}>Approve Application</Button><br />
-                                    <Button variant={"danger"} className="mb-1" onClick={() => updateStatus(1, 1)}>(Decline) Send to Spord</Button><br />
-                                    <Button variant={"danger"} className="mb-1" onClick={() => updateStatus(1, 4)}>(Decline) Send to CS</Button>
-                                    </>: 
-                                        roleId === 1 ?
-                                        <>
-                                            <Button variant={"success"} className="mb-1" onClick={() => updateStatus(1, 0)}>Approve Application</Button><br />
-                                            <Button className="mb-1" onClick={() => updateStatus(1, 4)}>Send to CS</Button> <br />
-                                            <Button className="mb-1" onClick={() => updateStatus(1, 1)}>Send to SPORD</Button> <br />
-                                            <Button className="mb-1" onClick={() => updateStatus(1, 3)}>Send to Supervisor</Button> <br />
-                                            <Button className="mb-1" onClick={() => updateStatus(1, 5)}>Send to Budget</Button> <br />
-                                            <Button className="mb-1" onClick={() => updateStatus(1, 2)}>Send to Accounting</Button> <br />
-                                        </>:<></>
-                        }
-                    </Modal.Body>
-                </Modal>
-                
-                <Row >
-                    <Col md={5}>
-                        <Row className="mb-1">
-                            <Col md={10}>
-                                <h4>GLA Funds</h4>
-                            </Col>
-                            <Col md={2} className="d-flex flex-row-reverse bd-highlight">
-                                <Button variant={"info"} size={"sm"} className=""><i className="fa fa-edit"></i></Button>
-                            </Col>
-                        </Row>
-                        <MaterialTable 
-                            columns={[
-                                
-                                { title: "Batch Code", field: "Batch_code"},
-                                {
-                                    title: 'MadeOn',
-                                    render: rowData=> {
-                                        let d = new Date(rowData.Made_On)
-                                        return <>{d.toLocaleDateString()}</>
-                                    }
-                                    
-                                },
-                                
-                                
-                                {
-                                    title: "Action",
-                                    field:"actions",
-                                    width:"10%",
-                                    editComponent: (props) =>{
-                                        return (
-                                            <Button>Payts</Button>
-                                        )
-                                    },
-                                    render: (rowdata) => (
-                                        <>
-                                        <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
-                                        </>
-                                    )
-                                },
-
-                            ]}
-                            data={batches}
-                            title="Batch"
-                        />
-                    </Col>
-                        <Col md={7}>
-                            <MaterialTable 
-                                columns={[
-                                    {
-                                        title: "#",
-                                        field:"check_actions",
-                                        width:"10%",
-                                        editComponent: (props) =>{
-                                            return (
-                                                <Button>Payts</Button>
-                                            )
-                                        },
-                                        render: (rowdata) => (
-                                            <>
-                                            {
-                                                Object.keys(batch_applications[0]).length > 3? 
-                                                <>
-                                                <input type="checkbox"
-                                                onChange={ (e) => getSelected(e, rowdata.Application_Id) }
-                                                ></input>
-                                                </> : <></>
-                                            }
-                                            </>
-                                            
-                                        )
-                                    },
-                                    { title: "Control No.", field: "Control_Number"},
-                                    { title: "Status", field: "Status"},
-                                    { title: "Stage", field: "Stage"},
-                                    {
-                                        title: "Action",
-                                        field:"actions",
-                                        width:"10%",
-                                        editComponent: (props) =>{
-                                            return (
-                                                <Button>Payts</Button>
-                                            )
-                                        },
-                                        render: (rowdata) => (
-                                            <>
-                                                {
-                                                    Object.keys(batch_applications[0]).length > 3? 
-                                                    <>
-                                                    <Dropdown >
-                                                    <Dropdown.Toggle variant="success" id="dropdown-basic" size="sm">
-                                                        Actions
-                                                    </Dropdown.Toggle>
-
-                                                    <Dropdown.Menu>
-                                                        <Dropdown.Item onClick={()=> applicationViewHandler(rowdata) }>View</Dropdown.Item>
-                                                        <Dropdown.Item onClick={()=> changeStatusHandler(1)}>Process</Dropdown.Item>
-                                                        <Dropdown.Item onClick={()=> changeStatusHandler(3) }>Reject</Dropdown.Item>
-                                                    </Dropdown.Menu>
-                                                    </Dropdown>
-                                                    </>
-                                                    : <></>
-                                                }
-                                            </>
-                                        )
-                                    }
-                                ]}
-                                data={batch_applications}
-                                title="Batch Application"
-                            />
-                            <div className="d-flex flex-row-reverse">
-                                <Button className="ms-1 mt-1 px-5" variant={"danger"} onClick={()=> changeStatusHandler(3) }>Reject</Button>
-                                <Button className="ms-1 mt-1 px-5" variant={"success"} onClick={()=> changeStatusHandler(1) }>Proccess</Button>
-                            </div>
-                        </Col>
-                </Row>
-            </Container>
-        }
-        </>
+        </div>
     )
 }
 
-export default BatchForm
+export default RecordsForm

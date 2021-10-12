@@ -8,6 +8,7 @@ import './AdminDashboardScreen.css'
 
 import UserForm from '../components/admin_forms/UserForm'
 import ApplicationForm from '../components/admin_forms/ApplicationForm'
+import RecordsForm from '../components/admin_forms/RecordsForm'
 import EquipmentForm from '../components/admin_forms/EquipmentForm'
 import TcTemplateForm from '../components/admin_forms/TcTemplateForm'
 import BatchForm from '../components/admin_forms/BatchForm'
@@ -24,6 +25,7 @@ function AdminDashboardScreen({location, history}) {
     const [usersForm, setUsersForm] = useState(false)
     const [tcForm, setTcForm] = useState(false)
     const [batchForm, setBatchForm] = useState(false)
+    const [recordForm, setRecordForm] = useState(true)
     const [show_ui, setShowUi] = useState(false)
 
     useEffect(() => {
@@ -101,9 +103,15 @@ function AdminDashboardScreen({location, history}) {
                                                 </Nav.Item>:<></>}
 
                                                 {tcForm ?
-                                                <Nav.Item className="mr-1">
+                                                <Nav.Item className="me-1">
                                                     <Nav.Link eventKey="template">T & C TEMPLATE</Nav.Link>
                                                 </Nav.Item>:<></>}
+
+                                                {recordForm ?
+                                                <Nav.Item className="mr-1">
+                                                    <Nav.Link eventKey="records">Records</Nav.Link>
+                                                </Nav.Item>:<></>}
+
                                             </Nav>
                                     </Col>
                                     <Col md={4}>
@@ -112,6 +120,9 @@ function AdminDashboardScreen({location, history}) {
                                 </Row>
                             </Container>
                             <Tab.Content>
+                                <Tab.Pane eventKey="records">
+                                    {usersForm ? <RecordsForm /> : <></>}
+                                </Tab.Pane>
                                 <Tab.Pane eventKey="users">
                                     {usersForm ? <UserForm /> : <></>}
                                 </Tab.Pane>

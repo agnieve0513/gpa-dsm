@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import {logout} from '../actions/userActions'
 
@@ -9,8 +9,6 @@ import  { useHistory } from 'react-router-dom'
 
 
 function Header() {
-
-
     
     const [isLogin, setIsLogin] = useState(false)
     const [name, setName] = useState("")

@@ -18,7 +18,7 @@ function AdminLoginScreen({location, history}) {
     const redirect = location.search ? location.search.split('=')[1] :'/dashboard'
 
     const userLogin = useSelector(state => state.userLogin)
-    const {error, loading, userInfo} = userLogin
+    const {userInfo} = userLogin
 
     useEffect(() => {
       if(localStorage.getItem('userInfo'))
@@ -33,7 +33,7 @@ function AdminLoginScreen({location, history}) {
         }
         history.push('/admin')
       }
-    }, [history, userInfo])
+    }, [userInfo])
 
     const submitHandler = (e) => {
       e.preventDefault()
@@ -88,7 +88,7 @@ function AdminLoginScreen({location, history}) {
                             <Button type='submit' variant='success'>LOGIN</Button>
                           </div>
                           <LinkContainer to="/forgot" className="d-flex justify-content-center text-light mb-3">
-                            <a>Forgot Password?</a>
+                            <a href="#">Forgot Password?</a>
                           </LinkContainer>
                       </Col>
                       <Col md={3}></Col>

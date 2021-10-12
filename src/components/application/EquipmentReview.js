@@ -134,18 +134,18 @@ function EquipmentReview(props) {
                                             <Table size="lg" striped bordered hover>
                                                 <thead className="bg-info text-white">
                                                     <tr className="py-5">
-                                                        <th className="p-3">Equipment No.</th>
                                                         <th className="p-3">QTY</th>
                                                         <th className="p-3">Rebate</th>
+                                                        <th className="p-3">Partial Total</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {props.new_equipments.map(eq =>(
                                                         <tr key={(eq.id + 1)}>
-                                                        <td className="p-3">{(eq.id+1)}</td>
                                                         <td className="p-3">{eq.quantity}</td>
                                                         <td className="p-3">{eq.rebate}</td>
-                                                        <td hidden>{total_rebate+=parseInt(eq.rebate)}</td>
+                                                        <td className="p-3">{parseInt(eq.quantity) * parseInt(eq.rebate)}</td>
+                                                        <td hidden>{total_rebate+=parseInt(eq.quantity) * parseInt(eq.rebate)}</td>
                                                     </tr>
                                                     ))}
                                                     <tr>

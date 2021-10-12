@@ -105,7 +105,8 @@ function ApplicationForm() {
                 setStatus(1)
                 setStage(3)
                 setShowModal(false)
-                setBatchShowModal(true)
+                selectBatchHandler(1)
+                // setBatchShowModal(true)
             }
             else
             {
@@ -132,18 +133,20 @@ function ApplicationForm() {
         }
     }
 
-    const selectBatchHandler = (rowdata)=>{
-        if(window.confirm('Are you sure you want to add Application to this Batch?'))
+    // TODO: Needed some revisions here if how to automate the adding of batch
+    // This one is for adding to supervisor with batch
+    const selectBatchHandler = (batch_id)=>{
+        if(window.confirm('Are you sure you want to send to Supervisor?'))
         {
-            setBatch(rowdata.Id)
+            setBatch(batch_id)
             setStatus(status)
             setStage(stage)
             setBatchShowModal(false)
 
             if(window.confirm('Are you sure you want to process application?'))
             {
-                dispatch(updateApplication(applicationId,status,stage,reason, rowdata.Id))
-                alert("Saved!")
+                dispatch(updateApplication(applicationId,status,stage,reason, batch_id))
+                alert("The Application was added to a batch and is sent to supervisor!")
             }
         }
     }
@@ -189,55 +192,54 @@ function ApplicationForm() {
     {
         return (
             <MaterialTable 
+                columns={[
+                    { title: "Name", field: "Control_Number", width:"20%" },
+                    { title: "Creation Date", field: "Application_Date", width:"10%" },
+                    { title: "Stage", field: "Stage", width:"10%" },
+                    { title: "Status", field: "Status", width:"10%",
+                    lookup: {'Processing':'Processing', 'Approved':'Approved'}
+                    },
+                    { title: "System Type", field: "System_Type", width:"10%",
+                    lookup: {'CENTRAL AC':'CENTRAL AC'}
+                    },
+                    {
+                        title: "Action",
+                        field:"actions",
+                        filtering: false,
+                        editComponent: (props) =>{
+                            console.log(props);
+                            return (
+                                <Button>Payts</Button>
+                            )
+                        },
+                        render: (rowdata) => (
+                            <>
+                                <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
+                            </>
+                        )
+                    },
+                    
+                ]}
+                data={
+                    applications
+                }
+                title="Applications"
 
-                            columns={[
-                                { title: "Name", field: "Control_Number", width:"20%" },
-                                { title: "Creation Date", field: "Application_Date", width:"10%" },
-                                { title: "Stage", field: "Stage", width:"10%" },
-                                { title: "Status", field: "Status", width:"10%",
-                                lookup: {'Processing':'Processing', 'Approved':'Approved'}
-                                },
-                                { title: "System Type", field: "System_Type", width:"10%",
-                                lookup: {'CENTRAL AC':'CENTRAL AC'}
-                                },
-                                {
-                                    title: "Action",
-                                    field:"actions",
-                                    filtering: false,
-                                    editComponent: (props) =>{
-                                        console.log(props);
-                                        return (
-                                            <Button>Payts</Button>
-                                        )
-                                    },
-                                    render: (rowdata) => (
-                                        <>
-                                            <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
-                                        </>
-                                    )
-                                },
-                               
-                            ]}
-                            data={
-                                applications
-                            }
-                            title="Applications"
+                actions={[
+                    {
+                    icon: "clear_box",
+                    tooltip: "Clear Filter",
+                    position: "toolbar",
+                    onClick: () => {
+                        applicationTableHandler()
+                    }
+                    }
+                ]}
 
-                            actions={[
-                                {
-                                icon: "clear_box",
-                                tooltip: "Clear Filter",
-                                position: "toolbar",
-                                onClick: () => {
-                                    applicationTableHandler()
-                                }
-                                }
-                            ]}
-
-                            options={{
-                            filtering: true
-                            }}
-                        />
+                options={{
+                filtering: true
+                }}
+            />
         )
     }
 
@@ -245,12 +247,10 @@ function ApplicationForm() {
         <div>
             {
                 show ?  
-                    <>
+                    <Container>
                         <Tab.Container id="left-tabs-example" defaultActiveKey="application_information">
-                            <Row>
-                                <Col md={1}></Col>
-                                <Col md={11} id="applicationFormNav">
-                                    <Button className="mb-3 btn btn-light" onClick={()=>resetHandler()}><i className="fa fa-arrow-left"></i> Back to Application</Button>
+                                <Button className="mb-3 btn btn-light" onClick={()=>resetHandler()}><i className="fa fa-arrow-left"></i> Back to Application</Button>
+                                <div id="applicationFormNav">
                                     <Nav variant="pills">
                                         <Nav.Item className="me-1">
                                         <Nav.Link eventKey="application_information">Applicant Information</Nav.Link>
@@ -268,12 +268,9 @@ function ApplicationForm() {
                                         <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
                                         </Nav.Item> */}
                                     </Nav>
-                                </Col>
-                                
-                            </Row>
+                                </div>
                             <Row>
-                                <Col md={1}></Col>
-                                <Col md={8}>
+                                <Col md={9}>
                                     <Tab.Content>
                                         <Tab.Pane eventKey="application_information">
                                             <Container className="ml-2 mr-2">
@@ -449,44 +446,6 @@ function ApplicationForm() {
                                                 <Row>
                                                     <Col md={12}>
 
-                                                        <Modal show={showBatchModal} onHide={handleBatchModalClose}>
-                                                            <Modal.Header closeButton>
-                                                            <Modal.Title>
-                                                                Batch Selection
-                                                            </Modal.Title>
-                                                            </Modal.Header>
-                                                            <Modal.Body>
-                                                                <Button onClick={() => addBatchHandler()}>Add Batch</Button> <br />
-                                                                {batch_current?
-                                                                    <MaterialTable 
-                                                                        columns={[
-                                                                            { title: "Code", field: "Batch_code" },
-                                                                            {
-                                                                            title: "Action",
-                                                                            field:"actions",
-                                                                            width:"10%",
-                                                                            editComponent: (props) =>{
-                                                                                return (
-                                                                                    <Button>Payts</Button>
-                                                                                )
-                                                                            },
-                                                                            render: (rowdata) => (
-                                                                                <>
-                                                                                <Button size="sm" variant="info" onClick={() => selectBatchHandler(rowdata)} ><i className="fa fa-edit"></i></Button>
-                                                                                </>)
-                                                                            }
-                                                                        ]}
-                                                                        data={
-                                                                            (batch_current) ? batch_current : []
-                                                                        }
-                                                                        title="Batches"
-                                                                    />
-                                                                    : <></>
-                                                                }
-                                                            </Modal.Body>
-                                                        </Modal>
-
-
                                                         <Modal show={showModal} onHide={handleModalClose}>
                                                             <Modal.Header closeButton>
                                                             <Modal.Title>
@@ -583,8 +542,10 @@ function ApplicationForm() {
                                                 {
                                                     logs.map((log, index) => (
                                                     <div key={index}>
-                                                        <h6>Commented test by armando</h6>
-                                                        <small className="text-muted">August 27, 2021 3:56 PM</small>
+                                                        
+                                                        <h6>{log.Action}</h6>
+                                                        <small className="text-muted">Made By: {log.Made_By}</small><br />
+                                                        <small className="text-muted">Made On: {log.Made_On}</small>
                                                         <hr />
                                                     </div>
                                                     ))
@@ -630,7 +591,7 @@ function ApplicationForm() {
                             </Container>
                         
                         </Tab.Container>
-                    </>
+                    </Container>
                 :
                 <Container>
                   {applicationTableHandler()}

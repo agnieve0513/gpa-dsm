@@ -1,40 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap'
+import React from 'react'
+import { Navbar, Nav, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import {logout} from '../actions/userActions'
-
-import  { useHistory } from 'react-router-dom'
-
 
 function CustomerHeader() {
-
-
-    
-    const [isLogin, setIsLogin] = useState(false)
-    const [name, setName] = useState("")
-
-    const dispatch = useDispatch()
-
-    let history = useHistory();
-
-    const logoutHandler = () => {
-        dispatch(logout())
-        history.push('/admin')
-    }
-
-    useEffect(() => {
-      if(localStorage.getItem('userInfo'))
-      {
-        let obj = JSON.parse(localStorage.getItem('userInfo'))
-        let name = obj.message.original.details.name
-
-        setIsLogin(true)
-        setName(name)
-
-      }
-    }, [])
 
     return (
     <header>

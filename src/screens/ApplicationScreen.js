@@ -4,7 +4,6 @@ import { Button } from 'react-bootstrap';
 
 
 import { generateControlNo, register} from '../actions/customerAction'
-import { uploadFile } from '../actions/termsAndConditionActions'
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -20,7 +19,6 @@ import TermsAndCondition from '../components/application/TermsAndCondition'
 import Confirm from '../components/application/Confirm'
 
 
-import Header from '../components/Header'
 import CustomerHeader from '../components/CustomerHeader'
 import Footer from '../components/Footer'
 
@@ -29,10 +27,10 @@ function ApplicationScreen() {
     const dispatch = useDispatch()
 
     const customerGenerateControlNo = useSelector(state => state.customerGenerateControlNo)
-    const {loading:controlNoLoading,error:controlNoError, success:controlNoSuccess, customerNo} = customerGenerateControlNo
+    const {customerNo} = customerGenerateControlNo
 
-    const customerRegister = useSelector(state => state.customerRegister)
-    const {loading:registerLoading,error:registerError, success:registerSuccess} = customerRegister
+    // const customerRegister = useSelector(state => state.customerRegister)
+    // const {loading:registerLoading,error:registerError, success:registerSuccess} = customerRegister
 
     // Application Information
     const [saved, setSaved] = useState(false)
@@ -96,7 +94,7 @@ function ApplicationScreen() {
     const [old_system_type, setOldSystemType] = useState("")
     const [old_quantity, setOldQuantity] = useState("")
     const [old_btu, setOldBtu] = useState("")
-    const [old_size, setOldSize] = useState("")
+    // const [old_size, setOldSize] = useState("")
     const [old_years, setOldYears] = useState("")
     const [old_tons, setOldTons] = useState("")
     const [is_equipment_condition, setIsEquipmentCondition] = useState("")
@@ -205,7 +203,9 @@ function ApplicationScreen() {
             <CustomerHeader />
             {
                 saved ?
-                    <Confirm />
+                    <Confirm 
+                        control_no={control_no} setControlNo={setControlNo}
+                    />
                 :
                 <>
                     <Steps currentStep={step} />
@@ -239,7 +239,6 @@ function ApplicationScreen() {
 
                                 control_no={control_no} setControlNo={setControlNo}
                                 new_equipments={new_equipments} setNewEquipments={setNewEquipments}
-                                control_no={control_no} setControlNo={setControlNo}
                                 system_type={system_type} setSystemType={setSystemType}
                                 vendor={vendor} setVendor={setVendor}
                                 quantity={quantity} setQuantity={setQuantity}

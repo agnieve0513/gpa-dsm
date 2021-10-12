@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import { Row, Col, Image, Form, Button } from 'react-bootstrap'
+import React, {useState} from 'react'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {emailChangePasswordAction, logout} from '../actions/userActions'
@@ -17,12 +17,11 @@ function ChangePasswordScreen({location, history}) {
 
     const dispatch = useDispatch()
 
-    const redirect = location.search ? location.search.split('&')[1] :'/admin'
 
     let {creds} = useParams()
 
     const emailChangePassword = useSelector(state => state.emailChangePassword)
-    const {error, loading, email_change_pass} = emailChangePassword
+    const {email_change_pass} = emailChangePassword
 
     const submitHandler = (e) => {
       e.preventDefault()

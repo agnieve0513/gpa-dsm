@@ -108,6 +108,10 @@ function ApplicationInformation(props) {
                         </Col>
                     </Row>
                     <Row>
+                        <Col md={12}>
+                            <span><b>Account Holder's Name : </b></span>
+                            <hr />
+                        </Col>
                         <Col md={6}>
                             <Form.Group controlId='firstname' className="mb-3">
                                 <Form.Label>Firstname</Form.Label>

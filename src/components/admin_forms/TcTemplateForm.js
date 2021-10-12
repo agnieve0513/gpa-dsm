@@ -1,5 +1,5 @@
 import React,  {useState, useEffect} from 'react'
-import { Container, Row, Col,Button, FormControl, InputGroup } from 'react-bootstrap'
+import { Container, Row, Col,Button, FormControl, InputGroup, Form } from 'react-bootstrap'
 import { PDFViewer, Document, Text, Page, View, StyleSheet } from '@react-pdf/renderer';
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -33,8 +33,9 @@ function TcTemplateForm() {
 
     return (
             <Container>
-                <Row>
+                <Row className="mb-3">
                     <Col md={4}>
+                    <Form.Label>Terms & Condition For Residential</Form.Label>
                         <InputGroup className="mb-3">
                             <FormControl
                             placeholder="Terms and Condition"
@@ -42,12 +43,25 @@ function TcTemplateForm() {
                             onChange={(e)=>changeHandler(e)}
                             />
                             <Button variant="info" id="button-addon2" onClick={() => handleUploadFile()}>
-                            Upload
+                            View
                             </Button>
                         </InputGroup>
                 </Col>
-                    <Col md={8}></Col>
+                    <Col md={4}>
+                    <Form.Label>Terms & Condition For Commercial</Form.Label>
+                        <InputGroup className="mb-3">
+                            <FormControl
+                            placeholder="Terms and Condition"
+                            type="file"
+                            onChange={(e)=>changeHandler(e)}
+                            />
+                            <Button variant="info" id="button-addon2" onClick={() => handleUploadFile()}>
+                            View
+                            </Button>
+                        </InputGroup>
+                    </Col>
                 </Row>
+                <Button>Upload File <i className="fa fa-upload"></i></Button>
                 <PDFViewer width={"100%"} height={"900"} showToolbar={false}>
                     <Document>
                         <Page size="A4">

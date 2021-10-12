@@ -113,6 +113,7 @@ function ExistingEquipmentInformation(props) {
                 <h4 className="text-center text-info">Existing Equipment Information</h4>
                 <Row>
                     <Col md={12}>
+                   
                         <Form.Check
                             className="mb-3"
                             inline
@@ -123,9 +124,9 @@ function ExistingEquipmentInformation(props) {
                             checked={props.is_no_existing_to_replace === true}
                             onChange={(e)=>handleCheckBox(e)}
                         />
-                        <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i></a>
+                        <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"><i className="fa fa-question-circle"></i></a>
                         {
-                            props.is_no_existing_to_replace ?
+                            ! props.is_no_existing_to_replace ?
                             <Form.Group controlId='disposal_slip' className="mb-3">
                             <Form.Label>DISPOSAL RECEIPT <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
                             <Form.Control

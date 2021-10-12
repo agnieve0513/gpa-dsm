@@ -15,7 +15,7 @@ function ApplicationScreen() {
     const [control_no, setControlNo] = useState("")
     
     const applicationTrack = useSelector(state => state.applicationTrack)
-    const {loading:trackLoading,error:trackError, track_application } = applicationTrack
+    const {track_application } = applicationTrack
 
     useEffect(() => {
     }, [dispatch, track_application])

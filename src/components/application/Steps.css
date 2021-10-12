@@ -10,6 +10,54 @@
     color: white;
     position: relative;
   }
+
+  
+#StepsContent li span{
+  position: absolute;
+  color: black;
+  font-size: 0.7rem;
+  line-height: normal;
+}
+
+#one{
+  top:71px;
+  left: -5px;
+}
+
+#two{
+  top:71px;
+  left:-2px;
+}
+
+#three{
+  top:71px;
+  left:2px;
+}
+
+#four{
+  top:71px;
+  left:0px;
+}
+
+#five{
+  top:71px;
+  left:7px;
+}
+
+#six{
+  top:71px;
+  left:2px;
+}
+
+#seven{
+  top:71px;
+  left:23px;
+}
+
+#eight{
+  top:71px;
+  left:2px;
+}
   
   #StepsContent li::before{
     content: '';
@@ -40,7 +88,6 @@
   }
   
 
-  #ForSteps p{
-    font-size: 0.7rem;
-    line-height: normal;
+  #ForSteps span{
+    
   }

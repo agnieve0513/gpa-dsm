@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 import PrintApplication from './PrintApplication'
 
-function Confirm() {
+function Confirm(props) {
 
     const [print, setPrint] = useState(false)
 
@@ -42,7 +42,7 @@ function Confirm() {
                     <div className="">
                         <h2 className="mb-3">Thank you for your interest in GPA's Energy Sense Rebate Program.</h2>
                     </div>
-                    <p> Your confirmation number is <b>2101-D0001</b>. </p>
+                    <p> Your confirmation number is <b>{props.control_no}</b>. </p>
 
                     <Row>
                         <Col md={2}></Col>

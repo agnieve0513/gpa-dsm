@@ -194,7 +194,7 @@ export const register = (role_id, name, email, password, role_name) => async (di
     try{
 
         let obj = JSON.parse(localStorage.getItem('userInfo'));
-        if(role_id == 1){
+        if(role_id === 1){
             role_name = 'Admin';
         }  
         else if(role_id === 2){role_name = 'Customer Service'}
@@ -304,9 +304,9 @@ export const listUsers = (user) => async (dispatch, getState) => {
             type: USER_LIST_REQUEST
         })
 
-        const {
-            userLogin: {userInfo},
-        } = getState()
+        // const {
+        //     userLogin: {userInfo},
+        // } = getState()
 
         const config = {
             headers: {

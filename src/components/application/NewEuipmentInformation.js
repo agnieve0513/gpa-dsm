@@ -20,7 +20,6 @@ function NewEuipmentInformation(props) {
 
     const changeSystemTypeHandler = (e) => {
         showRebateHandler()
-        btuSizeHandler()
 
         props.setSystemType(e.target.value)
         props.setNewEquipments([])
@@ -96,7 +95,7 @@ function NewEuipmentInformation(props) {
         dispatch(loadCustomerEquipManufacturer("Central AC"))
     }
 
-    const installerInformationHandler = () => {
+    const installerCertificationHandler = () => {
         if(props.system_type === "Dryer" || props.system_type === "Washer")
         {
             return(<></>)
@@ -104,7 +103,218 @@ function NewEuipmentInformation(props) {
         else
         {
             return (
-                <>
+                <Row>
+                <Col md={12}>
+                        <Form.Group controlId='installer_certification' className="mb-3">
+                            <Form.Label>INSALLER'S CERTIFICATION*</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+            )
+        }
+    }
+
+    const showTable = () =>{
+        return (<MaterialTable 
+            columns={[
+                { title: "System Type", field: "system_type" },
+                { title: "Manufacturer", field: "manufacturer" },
+                { title: "Quantity", field: "quantity",},
+                { title: "Type", field: "type",},
+                { title: "Purchase Date", field: "purchase_date",},
+                {
+                title: "Action",
+                field:"actions",
+                width:"10%",
+                editComponent: (props) =>
+                {
+                    return (
+                        <Button></Button>
+                    )
+                },
+                render: (rowdata) => (
+                    <>
+                    {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
+                    <Button variant="danger" onClick={()=>deleteEquipmentHandler(rowdata)} size="sm" ><i className="fa fa-trash"></i></Button>
+                    </>)
+                }
+            ]}
+            data={
+                 props.new_equipments.length ===0 ? [] : props.new_equipments
+            }
+            title="Equipments"
+        />)
+    }
+
+    const showRebateHandler = () => {
+        if(props.system_type !== "Dryer" || props.system_type !== "Washer")
+        {
+            return (
+                    <Form.Group controlId='rebate' className="mb-3">
+                        <Form.Label>REBATE</Form.Label>
+                        <Form.Control
+                            type='text'
+                            onChange={(e)=>props.setRebate(e.target.value)}
+                            value={props.rebate}
+                            required
+                            disabled={true}
+                        >
+                        </Form.Control>
+                    </Form.Group>
+            )
+        }
+        else
+        {
+            return (<></>)
+        }
+    }
+   
+    return (
+            <Row>
+            <Col md={3}></Col>
+            <Col md={6}>
+                
+                <h4 className="text-center text-info">NEW EQUIPMENT INFORMATION</h4>
+                <Row>
+                    <Col md={8}>
+                        <Form.Group controlId='system_type' className="mb-3">
+                            <Form.Label>SYSTEM TYPE</Form.Label>
+                            <Form.Select onChange={(e)=>changeSystemTypeHandler(e)} value={props.system_type} >
+                            
+                            <option value="Central AC">Central AC</option>
+                            <option value="Central AC">Central AC - Commercial</option>
+                            <option value="Split AC">Split AC</option>
+                            <option value="Split AC">Split AC - Commercial</option>
+                            <option value="Window AC">Window AC</option>
+                            <option value="Dryer">Dryer</option>
+                            <option value="Washer">Washer</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='manufacturer' className="mb-3">
+                            <Form.Label>MANUFACTURER</Form.Label>
+                            <Form.Select onChange={(e)=>changeManufacturerHandler(e)} 
+                            value={props.manufacturer} >
+                                    {manufacturers?
+                                        manufacturers.map(ce => (
+                                         <option key={ce.Manufacturer} value={ce.Manufacturer}>{ce.Manufacturer}</option>
+                                    ))
+                                      : <option>Loading . . .</option>}
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='model_no' className="mb-3">
+                            <Form.Label>MODEL NUMBER</Form.Label>
+                            <Form.Select onChange={(e)=>changeModelHandler(e)} 
+                            value={props.model_no} >
+                                {models? 
+                                models.map(me => 
+                                    {
+                                        if(props.system_type === "Dryer" || props.system_type === "Washer")
+                                        {
+                                            return <option key={me.id} value={me.id}>{me.model} </option>
+                                        }
+                                        else
+                                        {
+                                            if(me.model === "Indoor / Outdoor")
+                                            {
+                                                return <option key={me.id} value={me.id}>{me.indoor_model} / {me.outdoor_model}</option>
+                                            }
+                                            else if(me.model === "Both")
+                                            {
+                                                return <option key={me.id} value={me.id}>{me.indoor_model} / {me.outdoor_model}/ {me.package_model}</option>
+                                            }
+                                            else
+                                            {
+                                                return <option key={me.id} value={me.id}>{me.package_model}</option>
+                                            }
+                                        }
+                                    }
+                                )
+                                : <option>Loading . . . </option>}
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='quantity' className="mb-3">
+                            <Form.Label>QUANTITY</Form.Label>
+                            <Form.Control
+                                type='number'
+                                placeholder=''
+                                onChange={(e)=>props.setQuantity(e.target.value)}
+                                value={props.quantity}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='vendor' className="mb-3">
+                            <Form.Label>VENDOR</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setVendor(e.target.value)}
+                                value={props.vendor}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+               
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='invoice_no' className="mb-3">
+                            <Form.Label>INVOICE#</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setInvoiceNo(e.target.value)}
+                                value={props.invoice_no}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='purchase_date' className="mb-3">
+                            <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
+                            <Form.Control
+                                type='date'
+                                onChange={(e)=>props.setPurchaseDate(e.target.value)}
+                                value={props.purchase_date}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                    </Col>
+                </Row>
+                
+               <Row>
+                    <Col md={12}>
+                        {/* Row for rebate */}
+                        {
+                            showRebateHandler()
+                        }
+                    </Col>
+                 
+               </Row>
+
+
+                {/* Row for installer's information */}
                 <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>               
                 <Row>
                     <Col md={6}>
@@ -177,273 +387,8 @@ function NewEuipmentInformation(props) {
                         </Form.Group>
                     </Col>
                 </Row>
-                </>
-            )
-        }
-    }
-
-    const showTable = () =>{
-        return (<MaterialTable 
-            columns={[
-                { title: "System Type", field: "system_type" },
-                { title: "Manufacturer", field: "manufacturer" },
-                { title: "Quantity", field: "quantity",},
-                { title: "Type", field: "type",},
-                { title: "Purchase Date", field: "purchase_date",},
                 {
-                title: "Action",
-                field:"actions",
-                width:"10%",
-                editComponent: (props) =>
-                {
-                    return (
-                        <Button></Button>
-                    )
-                },
-                render: (rowdata) => (
-                    <>
-                    {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
-                    <Button variant="danger" onClick={()=>deleteEquipmentHandler(rowdata)} size="sm" ><i className="fa fa-trash"></i></Button>
-                    </>)
-                }
-            ]}
-            data={
-                 props.new_equipments.length ===0 ? [] : props.new_equipments
-            }
-            title="Equipments"
-        />)
-    }
-
-    const showRebateHandler = () => {
-        if(props.system_type !== "Dryer" || props.system_type !== "Washer")
-        {
-            return (
-                    <Form.Group controlId='rebate' className="mb-3">
-                        <Form.Label>REBATE</Form.Label>
-                        <Form.Control
-                            type='text'
-                            onChange={(e)=>props.setRebate(e.target.value)}
-                            value={props.rebate}
-                            required
-                            disabled={true}
-                        >
-                        </Form.Control>
-                    </Form.Group>
-            )
-        }
-        else
-        {
-            return (<></>)
-        }
-    }
-
-    const showSeerHandler = () => {
-        if(props.system_type === "Dryer" || props.system_type === "Washer")
-        {
-            return(
-                <></>
-            )
-        }
-        else
-        {
-            return (
-                    <Form.Group controlId='seer' className="mb-3">
-                        <Form.Label>SEER</Form.Label>
-                        <Form.Control
-                            type='text'
-                            onChange={(e)=>props.setSeer(e.target.value)}
-                            value={props.seer}
-                            required
-                            disabled={true}
-                        >
-                        </Form.Control>
-                    </Form.Group>
-            )
-        }
-    }
-
-    const btuSizeHandler = () => {
-        if(props.system_type === "Dryer" || props.system_type === "Washer")
-        {
-            return (
-                <Form.Group controlId='size' className="mb-3">
-                    <Form.Label>SIZE(Cu. Ft.)</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder=''
-                        onChange={(e)=>props.setSize(e.target.value)}
-                        value={props.size}
-                        required
-                    >
-                    </Form.Control>
-                </Form.Group>
-            )
-        }
-        else
-        {
-            return (
-                <Form.Group controlId='btu' className="mb-3">
-                    <Form.Label>BTU</Form.Label>
-                    <Form.Control
-                        type='text'
-                        placeholder=''
-                        onChange={(e)=>props.setBtu(e.target.value)}
-                        value={props.btu}
-                        required
-                    >
-                    </Form.Control>
-                </Form.Group>
-            )
-        }
-    }
-    return (
-            <Row>
-            <Col md={3}></Col>
-            <Col md={6}>
-                
-                <h4 className="text-center text-info">NEW EQUIPMENT INFORMATION</h4>
-                <Row>
-                    <Col md={8}>
-                        <Form.Group controlId='system_type' className="mb-3">
-                            <Form.Label>SYSTEM TYPE</Form.Label>
-                            <Form.Select onChange={(e)=>changeSystemTypeHandler(e)} value={props.system_type} >
-                            
-                            <option value="Central AC">Central AC</option>
-                            <option value="Central AC">Central AC - Commercial</option>
-                            <option value="Split AC">Split AC</option>
-                            <option value="Split AC">Split AC - Commercial</option>
-                            <option value="Window AC">Window AC</option>
-                            <option value="Dryer">Dryer</option>
-                            <option value="Washer">Washer</option>
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='manufacturer' className="mb-3">
-                            <Form.Label>MANUFACTURER</Form.Label>
-                            <Form.Select onChange={(e)=>changeManufacturerHandler(e)} 
-                            value={props.manufacturer} >
-                                    {manufacturers?
-                                        manufacturers.map(ce => (
-                                         <option key={ce.Manufacturer} value={ce.Manufacturer}>{ce.Manufacturer}</option>
-                                    ))
-                                      : <option>Loading . . .</option>}
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='model_no' className="mb-3">
-                            <Form.Label>MODEL NUMBER</Form.Label>
-                            <Form.Select onChange={(e)=>changeModelHandler(e)} 
-                            value={props.model_no} >
-                                {models? 
-                                models.map(me => (
-                                    <option key={me.id} value={me.id}>{me.indoor_model}</option>
-                                ))
-                                : <option>Loading . . . </option>}
-                            </Form.Select>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='quantity' className="mb-3">
-                            <Form.Label>QUANTITY</Form.Label>
-                            <Form.Control
-                                type='number'
-                                placeholder=''
-                                onChange={(e)=>props.setQuantity(e.target.value)}
-                                value={props.quantity}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                        {btuSizeHandler()}
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='vendor' className="mb-3">
-                            <Form.Label>VENDOR</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setVendor(e.target.value)}
-                                value={props.vendor}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='type' className="mb-3">
-                            <Form.Label>TYPE</Form.Label>
-                            
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setType(e.target.value)}
-                                value={props.type}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='invoice_no' className="mb-3">
-                            <Form.Label>INVOICE#</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setInvoiceNo(e.target.value)}
-                                value={props.invoice_no}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='purchase_date' className="mb-3">
-                            <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
-                            <Form.Control
-                                type='date'
-                                onChange={(e)=>props.setPurchaseDate(e.target.value)}
-                                value={props.purchase_date}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Col>
-                </Row>
-                
-               <Row>
-                    <Col md={6}>
-                        {/* Row for rebate */}
-                        {
-                            showRebateHandler()
-                        }
-                    </Col>
-                    <Col md={6}>
-                        {/* Row for rebate */}
-                        {
-                            showSeerHandler()
-                        }
-                    </Col>
-               </Row>
-
-
-                {/* Row for installer's information */}
-
-                {
-                    installerInformationHandler()
+                    installerCertificationHandler()
                 }
 
                
@@ -464,18 +409,6 @@ function NewEuipmentInformation(props) {
                        
                     </Col>
                 </Row>
-
-                <Row className="mt-3">
-                    <Form.Group controlId='total_qualified_equipment' className="mb-3">
-                        <Form.Label>Total Qualified Equipment</Form.Label>
-                        <Form.Control
-                            type='text'
-                            required
-                        >
-                        </Form.Control>
-                    </Form.Group>
-                </Row>
-
             </Col>
             <Col md={3}></Col>
         </Row>
