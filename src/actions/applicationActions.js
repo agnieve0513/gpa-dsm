@@ -243,7 +243,6 @@ export const addCommentAction = (applicationId,  comment) => async (dispatch) =>
                 'Authorization' : `Bearer ${obj.message.original.access_token}`
             }
         }
-
         
         const {data} = await axios.post(URL+'/add-comment',
         {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'comment':comment},
