@@ -5,6 +5,9 @@ import { register, listUsers, deleteUser, update } from '../../actions/userActio
 import { useDispatch, useSelector } from 'react-redux'
 import MaterialTable from "material-table";
 
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 function UserForm({history, location}) {
 
     const [action, setAction] = useState('add')
@@ -76,8 +79,20 @@ function UserForm({history, location}) {
     }
 
     const deleteHandler = (data) => {
-       if(window.confirm('Are you sure you want to delete this user?'))
-       {dispatch(deleteUser(data.id))}
+           Swal.fire({
+            icon: 'question',
+            title: 'Do you want to Delete the User?',
+            showDenyButton: true,
+            confirmButtonText: 'Delete',
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    dispatch(deleteUser(data.id));
+                    Swal.fire('Success!', 'User Successfully Deleted', 'success')
+                } else if (result.isDenied) {
+                }
+          });
     }
 
     const clearHandler = () => {

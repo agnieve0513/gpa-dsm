@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Navbar, Nav, Container,NavDropdown } from 'react-bootstrap'
+import { Navbar, Image, Nav, Container,NavDropdown } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -7,6 +7,7 @@ import {logout} from '../actions/userActions'
 
 import  { useHistory } from 'react-router-dom'
 
+import './Header.css';
 
 function Header() {
     
@@ -51,7 +52,7 @@ function Header() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
                         {isLogin ? (
-                        <NavDropdown className="text-white"  title={<i className="fa fa-user"></i>} id='username'>
+                        <NavDropdown className="text-white"  title={<Image src='/profile.png' width={"40"} />} id='username'>
                             <NavDropdown.Item>Hi! {name}</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <LinkContainer to='/change'>

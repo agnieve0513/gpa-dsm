@@ -1,29 +1,48 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react';
 // import Form from '../components/Form'
-import CustomerHeader from '../components/CustomerHeader'
-import { Row, Col, Form,ListGroup } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import CustomerHeader from '../components/CustomerHeader';
+import { Row, Col, Form,ListGroup, Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { trackApplications } from '../actions/applicationActions';
 
-import { useDispatch, useSelector } from 'react-redux'
-import { trackApplications } from '../actions/applicationActions'
+import { PDFViewer,View, Document, Text, Page,StyleSheet  } from '@react-pdf/renderer';
+
 
 function ApplicationScreen() {
 
-    const dispatch = useDispatch()
+    // style for pdf
+    const styles = StyleSheet.create({
+        section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
+    });
 
-    const [control_no, setControlNo] = useState("")
+    const dispatch = useDispatch();
+
+    const [control_no, setControlNo] = useState("");
+    const [viewPdf, setViewPdf] = useState(false);
     
-    const applicationTrack = useSelector(state => state.applicationTrack)
-    const {track_application } = applicationTrack
+    const applicationTrack = useSelector(state => state.applicationTrack);
+    const {track_application } = applicationTrack;
 
     useEffect(() => {
-    }, [dispatch, track_application])
+    }, [dispatch, track_application]);
 
 
     const trackApplicationHandler = () => {
-        dispatch(trackApplications(control_no))
-    }
+        dispatch(trackApplications(control_no));
+    };
+
+    const printApplicaitonHandler = () =>
+    {
+        setViewPdf(true);
+    };
+
+    const backApplicaitonHandler = () =>
+    {
+        setViewPdf(false);
+    };
+
     return (
         <div>
             <CustomerHeader />
@@ -54,16 +73,40 @@ function ApplicationScreen() {
                     {
                         track_application?
                         track_application.map(tp => (
-                            <ListGroup className="mb-2">
-                                <ListGroup.Item>Entry Number: <b>{tp.Entry_no}</b></ListGroup.Item>
-                                <ListGroup.Item>Account Number: <b>{tp.Account_no}</b></ListGroup.Item>
-                                <ListGroup.Item>Bill ID: <b>{tp.Bill_id}</b></ListGroup.Item>
-                                <ListGroup.Item>Sysytem Type: <b>{tp.System_Type}</b></ListGroup.Item>
-                                <ListGroup.Item>Customer's Name: <b>{tp.customer_name}</b></ListGroup.Item>
-                                <ListGroup.Item>Status: <b>{tp.Status}</b></ListGroup.Item>
-                                <ListGroup.Item>Stage: <b>{tp.Stage}</b></ListGroup.Item>
-                                <ListGroup.Item>Application Date: <b>{tp.Application_Date}</b></ListGroup.Item>
-                            </ListGroup>
+                            <>
+                                {
+                                    viewPdf ?
+                                    <>
+                                        <Button variant='info' onClick={()=> backApplicaitonHandler()}><i className="fa fa-arrow-left"></i> Back to Tracking</Button>
+                                        <PDFViewer width={"100%"} height={"500"} showToolbar={true}>
+                                            <Document>
+                                                <Page size="LEGAL" style={styles.page}>
+                                                <View style={styles.section}>
+                                                <Text>
+                                                    Application Detail
+                                                </Text>
+                                                </View>
+                                                    
+                                                </Page>
+                                            </Document>
+                                        </PDFViewer>
+                                    </>
+                                    :
+                                    <>
+                                    <Button variant='info' onClick={()=> printApplicaitonHandler()}>Click to Print Application <i className="fa fa-file"></i></Button>
+                                    <ListGroup className="mb-2">
+                                        <ListGroup.Item>Entry Number: <b>{tp.Entry_no}</b></ListGroup.Item>
+                                        <ListGroup.Item>Account Number: <b>{tp.Account_no}</b></ListGroup.Item>
+                                        <ListGroup.Item>Bill ID: <b>{tp.Bill_id}</b></ListGroup.Item>
+                                        <ListGroup.Item>Sysytem Type: <b>{tp.System_Type}</b></ListGroup.Item>
+                                        <ListGroup.Item>Customer's Name: <b>{tp.customer_name}</b></ListGroup.Item>
+                                        <ListGroup.Item>Status: <b>{tp.Status}</b></ListGroup.Item>
+                                        <ListGroup.Item>Stage: <b>{tp.Stage}</b></ListGroup.Item>
+                                        <ListGroup.Item>Application Date: <b>{tp.Application_Date}</b></ListGroup.Item>
+                                    </ListGroup>
+                                    </>
+                                }
+                            </>
                         ))
                         : <h6>Loading . . .</h6>
                     }
@@ -76,7 +119,7 @@ function ApplicationScreen() {
                 <Col md={8}>
 
                     <div className="d-flex mb-5">
-                        <Link to={`/`} className="btn btn-success btn-lg mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>
+                        <Link to={`/`} className="btn btn-success btn-md mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>
                     </div>
                 </Col>
                 <Col md={2}></Col>

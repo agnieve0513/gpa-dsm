@@ -143,14 +143,14 @@ function EquipmentReview(props) {
                                                     {props.new_equipments.map(eq =>(
                                                         <tr key={(eq.id + 1)}>
                                                         <td className="p-3">{eq.quantity}</td>
-                                                        <td className="p-3">{eq.rebate}</td>
-                                                        <td className="p-3">{parseInt(eq.quantity) * parseInt(eq.rebate)}</td>
+                                                        <td className="p-3">{!eq.rebate ? 0 : eq.rebate}</td>
+                                                        <td className="p-3">{!eq.rebate ?0 : parseInt(eq.quantity) * parseInt(eq.rebate)}</td>
                                                         <td hidden>{total_rebate+=parseInt(eq.quantity) * parseInt(eq.rebate)}</td>
                                                     </tr>
                                                     ))}
                                                     <tr>
                                                         <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
-                                                        <td className="p-3">${total_rebate}</td>
+                                                        <td className="p-3">${! total_rebate ? "0.00" : total_rebate}</td>
                                                     </tr>
                                                 </tbody>
                                             </Table>

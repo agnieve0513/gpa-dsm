@@ -22,6 +22,14 @@ import Confirm from '../components/application/Confirm'
 import CustomerHeader from '../components/CustomerHeader'
 import Footer from '../components/Footer'
 
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
+import './ApplicationScreen.css'
+
+const MySwal = withReactContent(Swal)
+
+
 function ApplicationScreen() {
 
     const dispatch = useDispatch()
@@ -127,66 +135,156 @@ function ApplicationScreen() {
         }
         else
         {
-            if(window.confirm('Are you sure you want to submit application?'))
-            {
-                const obj = {
-                    "application_information": {
-                        "control_no":control_no,
-                        "account_no" : account_no,
-                        "bill_id" : bill_id,
-                        "customer_name" : firstname+" "+middlename+" "+lastname,
-                        "service_location" : service_location,
-                        "city_village" : city_village ,
-                        "zipcode" : zipcode,
-                        "email" : email,
-                        "tel_no" : tel_no,
-                        "is_applicant_owner" : is_applicant_owner,
-                        "mailing_address" : mailing_address,
-                        "mailing_city_village" : mailing_city_village,
-                        "mailing_zipcode" : mailing_zipcode, 
-                        "home_size" : home_size,
-                        "home_age" : home_age,
-                        "home_type" : home_type,
-                        "is_new_construction" : is_new_construction
-                        },
-                        "new_equipment_information" : 
-                        new_equipments,
-                        "existing_old_equipment_information" : 
-                        old_equipments,
-                        "submitted_documents" : {
-                            "control_no" : customerNo,
-                            "invoice" : invoice,
-                            "irs_form": irs_form,
-                            "disposal_slip" : disposal_slip,
-                            "letter_authorization" : letter_authorization,
-                            "other_doc1" : other_doc1,
-                            "other_doc2" : other_doc2,
-                            "other_doc3" : other_doc3
-                        }
+            Swal.fire({
+                icon: 'question',
+                title: 'Do you want to save the changes?',
+                showDenyButton: true,
+                confirmButtonText: 'Save',
+                denyButtonText: `Don't save`,
+              }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    const obj = {
+                        "application_information": {
+                            "control_no":control_no,
+                            "account_no" : account_no,
+                            "bill_id" : bill_id,
+                            "customer_name" : firstname+" "+middlename+" "+lastname,
+                            "service_location" : service_location,
+                            "city_village" : city_village ,
+                            "zipcode" : zipcode,
+                            "email" : email,
+                            "tel_no" : tel_no,
+                            "is_applicant_owner" : is_applicant_owner,
+                            "mailing_address" : mailing_address,
+                            "mailing_city_village" : mailing_city_village,
+                            "mailing_zipcode" : mailing_zipcode, 
+                            "home_size" : home_size,
+                            "home_age" : home_age,
+                            "home_type" : home_type,
+                            "is_new_construction" : is_new_construction
+                            },
+                            "new_equipment_information" : 
+                            new_equipments,
+                            "existing_old_equipment_information" : 
+                            old_equipments,
+                            "submitted_documents" : {
+                                "control_no" : customerNo,
+                                "invoice" : invoice,
+                                "irs_form": irs_form,
+                                "disposal_slip" : disposal_slip,
+                                "letter_authorization" : letter_authorization,
+                                "other_doc1" : other_doc1,
+                                "other_doc2" : other_doc2,
+                                "other_doc3" : other_doc3
+                            }
+                    }
+                    if(control_no !== "")
+                    {
+                        dispatch(register(obj))
+                        setSaved(true)
+                        MySwal.fire({
+                            icon: 'success',
+                            title: 'Successfully Saved',
+                            text: 'You will be directed to Success Page'
+                          })
+                    }
+                } else if (result.isDenied) {
+                  Swal.fire('Changes are not yet saved', '', 'info')
+                    setStep(step-1)
                 }
-                if(control_no !== "")
-                {
-                    dispatch(register(obj))
-                    setSaved(true)
-                    alert("Saved!")
-                }
-
-            }else
-            {
-                setStep(step-1)
-            }
+              })
         }
+    }
+
+    const errorMessage = () =>
+    {
+        const Toast = MySwal.mixin({
+            toast: true,
+            position: 'top-right',
+            iconColor: 'white',
+            customClass: {
+              popup: 'colored-toast'
+            },
+            showConfirmButton: false,
+            timer: 3500,
+            timerProgressBars: true
+          })
+          
+          Toast.fire({
+            icon: 'info',
+            title: 'All Fields are required',
+            text: 'Fields should not be empty in order to proceed to next step'
+          })
     }
     const handleNextClick = (currentStep) => {
         if(step <= 8 || step > 0)
         {
-            setStep(currentStep+1)
             if(is_set_control_no === false)
             {
                 dispatch(generateControlNo())
                 setControlNo(customerNo)
                 setIsSetControlNo(true)
             }
+
+            if(currentStep === 2)
+            {
+                if(account_no === "" || bill_id===""
+                || firstname==="" ||  lastname==="" || service_location ===""
+                || city_village==="" || zipcode==="" || email==="" || tel_no===""
+                || is_applicant_owner === "" || mailing_address==="" ||
+                mailing_city_village==="" || mailing_zipcode==="" || home_size===""
+                || home_age==="" || is_new_construction ==="" || home_type ==="")
+                {
+                    errorMessage();
+                }
+                else
+                {
+                    setStep(currentStep+1)
+                }
+            }
+            else if(currentStep === 3)
+            {
+                if(new_equipments.length === 0 || system_type ==="" || manufacturer==="" || model_no===""
+                || quantity ==="" || vendor==="" || invoice_no===""
+                || purchase_date==="" || technician_name==="" || work_tel===""
+                || company_name==="" || date_final_installation===""
+                || tech_email===""
+                )
+                {
+                    errorMessage();
+                }
+                else
+                {
+                    setStep(currentStep+1)
+                }
+            }
+            else if(currentStep === 4)
+            {
+                if(no_existing)
+                {
+                    setStep(currentStep+1)
+                }
+                else
+                {
+                    if(agree_terms === "" || disposal_party===""
+                    || seer==="" || is_equipment_condition===""
+                    || old_tons==="" || old_quantity===""
+                    || old_years==="" || old_btu==="")
+                    {
+                        errorMessage();
+                    }
+                    else
+                    {
+                        errorMessage();
+                    }
+                }
+            }
+            else
+            {
+                setStep(currentStep+1)
+            }
+            
         }
     }
 

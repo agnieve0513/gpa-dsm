@@ -61,7 +61,7 @@ function TcTemplateForm() {
                         </InputGroup>
                     </Col>
                 </Row>
-                <Button>Upload File <i className="fa fa-upload"></i></Button>
+                <Button>Upload File/s <i className="fa fa-upload"></i></Button>
                 <PDFViewer width={"100%"} height={"900"} showToolbar={false}>
                     <Document>
                         <Page size="A4">

@@ -1,11 +1,12 @@
 #equipmentFormNav .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
-    background-color: #223e87;
-    color: #fff;
+    /* background-color: #223e87; */
+    border-bottom: 5px solid #223e87;
+    color: black;
 }
 
 #equipmentFormNav .nav-pills .nav-link
 {
     border-radius: 0px;
-    background-color:#b4b4b4;
+    background-color:#ffffff;
     color:black;
 }

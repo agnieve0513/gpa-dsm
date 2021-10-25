@@ -1,24 +1,37 @@
 import React, {useState, useEffect} from 'react'
-import { Row, Col, Table, Form, ListGroup, Tab, Container, Button, ButtonGroup, Nav} from 'react-bootstrap'
+import { Row, Col, Table, Form, ListGroup, Tabs, Modal, Tab, Container, Button, ButtonGroup, Nav, Offcanvas} from 'react-bootstrap'
 
 import { listApplications, detailApplication, commentsApplication,
     addCommentAction,logsApplication, updateApplication} from '../../actions/applicationActions'
 import { listBatchCurrent, addNewBatch } from '../../actions/batchActions'
 
+import {AgGridColumn, AgGridReact} from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import {GridOptions} from "ag-grid-community";
 
 import { useDispatch, useSelector } from 'react-redux'
-import MaterialTable from "material-table";
+// import MaterialTable from "material-table";
 
 import './ApplicationForm.css'
 
 function RecordsForm() {
 
+    const [commentShow, setCommentShow] = useState(false);
+    const [show, setShow] = useState(false);
+
+    const handleCommentClose = () => setCommentShow(false);
+    const handleCommentShow = () => setCommentShow(true);
+
+    let obj = JSON.parse(localStorage.getItem('userInfo'))
+    let roleId = obj.message.original.roleId
+
     const [new_eq_index, setNewEqIndex] = useState(0)
+    const [old_eq_index, setOldEqIndex] = useState(0)
     const [count_equipment, setCountEquipment] = useState(0)
     
     const [showModal, setShowModal] = useState(false)
     const [showBatchModal, setBatchShowModal] = useState(false)
-    const [show, setShow] = useState(false)
     const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false)
     const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false)
     const [equipmentInfo, setEquipmentInfo] = useState([])
@@ -33,7 +46,6 @@ function RecordsForm() {
     const handleBatchModalClose = () => setBatchShowModal(false)
     
     const dispatch = useDispatch()
-     
 
     const applicationList = useSelector(state => state.applicationList)
     const {applications} = applicationList
@@ -59,6 +71,168 @@ function RecordsForm() {
     const batchAdd = useSelector(state => state.batchAdd)
     const { success:addBatchSuccess } = batchAdd
 
+    // Grid State . . . 
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
+    const [rowData, setRowData] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
+
+    // Grid Functions . . .
+    const onGridReady = (params) => {
+
+        setGridApi(params.api);
+        setGridColumnApi(params.columnApi);
+    
+        const updateData = (data) => {
+            var differentHeights = [80, 80, 80, 80];
+            data.forEach(function (dataItem, index) {
+                dataItem.rowHeight = differentHeights[index % 4];
+            });
+          setRowData(data);
+        };
+    
+        updateData(applications);
+      };
+
+      const getRowHeight = (params) => {
+        return params.data.rowHeight;
+      };
+
+        
+        const onSelectionChanged = () => {
+        var selectedRows = gridApi.getSelectedRows();
+        setApplicationId(selectedRows[0].Application_Id)
+        dispatch(detailApplication(selectedRows[0].Application_Id))
+        dispatch(commentsApplication(selectedRows[0].Application_Id))
+        dispatch(logsApplication(selectedRows[0].Application_Id))
+        setShow(true)
+      };
+
+      const printState = () => {
+        var filterState = gridApi.getFilterModel();
+        console.log('filterState: ', filterState);
+      };
+    
+      const saveState = () => {
+        window.filterState = gridApi.getFilterModel();
+        console.log('filter state saved');
+      };
+    
+      const restoreState = () => {
+        gridApi.setFilterModel(window.filterState);
+        console.log('filter state restored');
+      };
+    
+      const resetState = () => {
+        gridApi.setFilterModel(null);
+        console.log('column state reset');
+      };
+
+      //for filtering . . .
+      const filterParams = {
+        filterOptions: [
+          'empty',
+          {
+            displayKey: 'evenNumbers',
+            displayName: 'Even Numbers',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue % 2 === 0;
+            },
+            hideFilterInput: true,
+          },
+          {
+            displayKey: 'oddNumbers',
+            displayName: 'Odd Numbers',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue % 2 !== 0;
+            },
+            hideFilterInput: true,
+          },
+          {
+            displayKey: 'blanks',
+            displayName: 'Blanks',
+            test: function (filterValue, cellValue) {
+              return cellValue == null;
+            },
+            hideFilterInput: true,
+          },
+        ],
+        suppressAndOrCondition: true,
+      };
+      const containsFilterParams = {
+        filterOptions: [
+          'contains',
+          {
+            displayKey: 'startsC',
+            displayName: 'Starts With "C"',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue.indexOf('a') === 0;
+            },
+            hideFilterInput: true,
+          },
+          {
+            displayKey: 'startsR',
+            displayName: 'Starts With "R"',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue.indexOf('n') === 0;
+            },
+            hideFilterInput: true,
+          },
+        ],
+      };
+      const equalsFilterParams = {
+        filterOptions: [
+          'equals',
+          {
+            displayKey: 'equalsWithNulls',
+            displayName: 'Equals (with Nulls)',
+            test: function (filterValue, cellValue) {
+              if (cellValue == null) return true;
+              const parts = cellValue.split('/');
+              const cellDate = new Date(
+                Number(parts[2]),
+                Number(parts[1] - 1),
+                Number(parts[0])
+              );
+              return cellDate.getTime() === filterValue.getTime();
+            },
+          },
+        ],
+        comparator: function (filterLocalDateAtMidnight, cellValue) {
+          const dateAsString = cellValue;
+          if (dateAsString == null) return -1;
+          const dateParts = dateAsString.split('/');
+          const cellDate = new Date(
+            Number(dateParts[2]),
+            Number(dateParts[1]) - 1,
+            Number(dateParts[0])
+          );
+          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+            return 0;
+          }
+          if (cellDate < filterLocalDateAtMidnight) {
+            return -1;
+          }
+          if (cellDate > filterLocalDateAtMidnight) {
+            return 1;
+          }
+        },
+        browserDatePicker: true,
+      };
+      const notEqualsFilterParams = {
+        filterOptions: [
+          'notEqual',
+          {
+            displayKey: 'notEqualNoNulls',
+            displayName: 'Not Equals without Nulls',
+            test: function (filterValue, cellValue) {
+              if (cellValue == null) return false;
+              return cellValue !== filterValue.toLowerCase();
+            },
+          },
+        ],
+      };
+
     useEffect(() => {
         dispatch(listApplications())
         dispatch(listBatchCurrent())
@@ -66,12 +240,9 @@ function RecordsForm() {
 
     }, [dispatch, application, successUpdate, addBatchSuccess,commentSucess])
 
-    const selectHandler = (rowdata) => {
-        setApplicationId(rowdata.Application_Id)
-        dispatch(detailApplication(rowdata.Application_Id))
-        dispatch(commentsApplication(rowdata.Application_Id))
-        dispatch(logsApplication(rowdata.Application_Id))
-        setShow(true)
+    const selectHandler = () => {
+        
+        
     }
 
     const changeStatusHandler = (status) => {
@@ -98,7 +269,8 @@ function RecordsForm() {
                 setStatus(1)
                 setStage(3)
                 setShowModal(false)
-                setBatchShowModal(true)
+                selectBatchHandler(1)
+                // setBatchShowModal(true)
             }
             else
             {
@@ -125,18 +297,20 @@ function RecordsForm() {
         }
     }
 
-    const selectBatchHandler = (rowdata)=>{
-        if(window.confirm('Are you sure you want to add Application to this Batch?'))
+    // TODO: Needed some revisions here if how to automate the adding of batch
+    // !This one is for adding to supervisor with batch
+    const selectBatchHandler = (batch_id)=>{
+        if(window.confirm('Are you sure you want to send to Supervisor?'))
         {
-            setBatch(rowdata.Id)
+            setBatch(batch_id)
             setStatus(status)
             setStage(stage)
             setBatchShowModal(false)
 
             if(window.confirm('Are you sure you want to process application?'))
             {
-                dispatch(updateApplication(applicationId,status,stage,reason, rowdata.Id))
-                alert("Saved!")
+                dispatch(updateApplication(applicationId,status,stage,reason, batch_id))
+                alert("The Application was added to a batch and is sent to supervisor!")
             }
         }
     }
@@ -178,72 +352,22 @@ function RecordsForm() {
         setComment(text)
     }
 
-    const applicationTableHandler = () =>
-    {
-        return (
-            <MaterialTable 
-
-                            columns={[
-                                { title: "Name", field: "Control_Number", width:"20%" },
-                                { title: "Creation Date", field: "Application_Date", width:"10%" },
-                                { title: "Stage", field: "Stage", width:"10%" },
-                                { title: "Status", field: "Status", width:"10%",
-                                lookup: {'Processing':'Processing', 'Approved':'Approved'}
-                                },
-                                { title: "System Type", field: "System_Type", width:"10%",
-                                lookup: {'CENTRAL AC':'CENTRAL AC'}
-                                },
-                                {
-                                    title: "Action",
-                                    field:"actions",
-                                    filtering: false,
-                                    editComponent: (props) =>{
-                                        console.log(props);
-                                        return (
-                                            <Button>Payts</Button>
-                                        )
-                                    },
-                                    render: (rowdata) => (
-                                        <>
-                                            <Button className="btn btn-sm btn-light" onClick={() => selectHandler(rowdata)}><i className="fa fa-edit"></i></Button>
-                                        </>
-                                    )
-                                },
-                               
-                            ]}
-                            data={
-                                applications
-                            }
-                            title="Applications"
-
-                            actions={[
-                                {
-                                icon: "clear_box",
-                                tooltip: "Clear Filter",
-                                position: "toolbar",
-                                onClick: () => {
-                                    applicationTableHandler()
-                                }
-                                }
-                            ]}
-
-                            options={{
-                            filtering: true
-                            }}
-                        />
-        )
+    // testing lng ...
+    const ButtonClick = () => {
+        return(
+            <Button size="sm" onClick={()=>selectHandler(rowData)}>View</Button>
+        );
     }
+
 
     return (
         <div>
             {
                 show ?  
-                    <>
+                    <Container>
                         <Tab.Container id="left-tabs-example" defaultActiveKey="application_information">
-                            <Row>
-                                <Col md={1}></Col>
-                                <Col md={11} id="applicationFormNav">
-                                    <Button className="mb-3 btn btn-light" onClick={()=>resetHandler()}><i className="fa fa-arrow-left"></i> Back to Application</Button>
+                                <Button className="mb-3 btn btn-light" onClick={()=>resetHandler()}><i className="fa fa-arrow-left"></i> Back to Application</Button>
+                                <div id="applicationFormNav">
                                     <Nav variant="pills">
                                         <Nav.Item className="me-1">
                                         <Nav.Link eventKey="application_information">Applicant Information</Nav.Link>
@@ -261,13 +385,11 @@ function RecordsForm() {
                                         <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
                                         </Nav.Item> */}
                                     </Nav>
-                                </Col>
-                                
-                            </Row>
+                                </div>
                             <Row>
-                                <Col md={1}></Col>
-                                <Col md={8}>
+                                <Col md={9}>
                                     <Tab.Content>
+                                        {/* Applicaiton Information */}
                                         <Tab.Pane eventKey="application_information">
                                             <Container className="ml-2 mr-2">
                                                 <h3 className="mt-3 text-info">Applicant Info</h3>
@@ -291,6 +413,7 @@ function RecordsForm() {
                                                 }
                                             </Container>
                                         </Tab.Pane>
+                                        {/* New equipment */}
                                         <Tab.Pane eventKey="new_quipment_info">
                                             <Container className="ml-2 mr-2">
                                                 <h3 className="mt-3 mb-3 text-info">New Equipment Info</h3>
@@ -322,77 +445,77 @@ function RecordsForm() {
                                                         :<></>
                                                     } 
                                                     </Col>
-                                                </Row>
-                                                <Row>
-                                                        <Col md={6}>
-                                                        {
-                                                            application ?
-
-                                                            application.New_equipment.length >= 1 ?
-                                                            <>
-                                                            <ListGroup className="mb-3">
-                                                            <p>System Type <b> { application.New_equipment[new_eq_index].newEquip_System_type } </b> </p>
-                                                            <p>Vendor <b>{ application.New_equipment[new_eq_index].newEquip_Vendor }</b> </p>
-                                                            <p>Quantity <b>{ application.New_equipment[new_eq_index].newEquip_Quantity }</b></p>
-                                                            <p>BTU  <b>{ application.New_equipment[new_eq_index].newEquip_Btu }</b></p>
-                                                            <p>Manufacturer  <b>{ application.New_equipment[new_eq_index].newEquip_Manufacturer }</b></p>
-                                                            <p>Model Number  <b>{ application.New_equipment[new_eq_index].newEquip_Model_no }</b></p>
-                                                            <p>Invoice#  <b><a href="./sample.png" rel="noreferrer" target="_blank">{ application.New_equipment[new_eq_index].newEquip_Invoice_no }</a></b></p>
-                                                            <p>Purchase Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
-                                                            <p>Type <b>{ application.New_equipment[new_eq_index].newEquip_Type }</b></p>
-                                                            <p>Tons <b>{ application.New_equipment[new_eq_index].newEquip_Tons }</b></p>
-                                                            <p>Install Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
-                                                            </ListGroup>
-
-                                                            <h3 className="mt-3 mb-3 text-info">Installer Information</h3>
-                                                            <ListGroup className="mb-3">
-                                                                <p>Technician Name <b> { application.Installer_New_name } </b></p>
-                                                                <p>Work Telephone <b> { application.Installer_New_worktel } </b></p>
-                                                                <p>Company <b> { application.Installer_New_companyname } </b></p>
-                                                                <p>Certification No. <b> { application.Installer_New_certno } </b></p>
-                                                                <p className="mb-3">Email <b> { application.Installer_New_email } </b></p>
-                                                                <p>Date of Final <b> { application.Installer_New_finaldate } </b></p>
-                                                            </ListGroup>
-                                                            </>
-                                                            :<>No Equipment</>
-                                                             :<></>
-                                                        }
-                                                        </Col>
-                                                        <Col md={6}>
-                                                            <Table size="lg" striped bordered hover>
-                                                                <thead className="bg-info text-white">
-                                                                    <tr className="py-5">
-                                                                        <th className="p-3">Equipment No.</th>
-                                                                        <th className="p-3">QTY</th>
-                                                                        <th className="p-3">Rebate</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    {
-                                                                        application? 
-                                                                        <>
-                                                                            {
-                                                                                application.New_equipment.map((eq, id) =>(
-                                                                                    
-                                                                                <tr key={(id+1)}>
-                                                                                    <td className="p-3">{(id+1)}</td>
-                                                                                    <td className="p-3">{eq.newEquip_Quantity}</td>
-                                                                                    <td className="p-3">{eq.newEquip_rebate}</td>
-                                                                                </tr>
-                                                                                ))
-                                                                            }
-                                                                        </>
-                                                                        :<></>
-                                                                    }
-                                                                    <tr>
-                                                                        <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
-                                                                        <td className="p-3">$0.00</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </Table>
-                                                        </Col>
                                                     </Row>
-                                            </Container>
+                                                    <Row>
+                                                            <Col md={6}>
+                                                            {
+                                                                application ?
+
+                                                                application.New_equipment.length >= 1 ?
+                                                                <>
+                                                                <ListGroup className="mb-3">
+                                                                <p>System Type <b> { application.New_equipment[new_eq_index].newEquip_System_type } </b> </p>
+                                                                <p>Vendor <b>{ application.New_equipment[new_eq_index].newEquip_Vendor }</b> </p>
+                                                                <p>Quantity <b>{ application.New_equipment[new_eq_index].newEquip_Quantity }</b></p>
+                                                                <p>BTU  <b>{ application.New_equipment[new_eq_index].newEquip_Btu }</b></p>
+                                                                <p>Manufacturer  <b>{ application.New_equipment[new_eq_index].newEquip_Manufacturer }</b></p>
+                                                                <p>Model Number  <b>{ application.New_equipment[new_eq_index].newEquip_Model_no }</b></p>
+                                                                <p>Invoice#  <b><a href="./sample.png" rel="noreferrer" target="_blank">{ application.New_equipment[new_eq_index].newEquip_Invoice_no }</a></b></p>
+                                                                <p>Purchase Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
+                                                                <p>Type <b>{ application.New_equipment[new_eq_index].newEquip_Type }</b></p>
+                                                                <p>Tons <b>{ application.New_equipment[new_eq_index].newEquip_Tons }</b></p>
+                                                                <p>Install Date <b>{ application.New_equipment[new_eq_index].newEquip_Purchase_date }</b></p>
+                                                                </ListGroup>
+
+                                                                <h3 className="mt-3 mb-3 text-info">Installer Information</h3>
+                                                                <ListGroup className="mb-3">
+                                                                    <p>Technician Name <b> { application.Installer_New_name } </b></p>
+                                                                    <p>Work Telephone <b> { application.Installer_New_worktel } </b></p>
+                                                                    <p>Company <b> { application.Installer_New_companyname } </b></p>
+                                                                    <p>Certification No. <b> { application.Installer_New_certno } </b></p>
+                                                                    <p className="mb-3">Email <b> { application.Installer_New_email } </b></p>
+                                                                    <p>Date of Final <b> { application.Installer_New_finaldate } </b></p>
+                                                                </ListGroup>
+                                                                </>
+                                                                :<>No Equipment</>
+                                                                :<></>
+                                                            }
+                                                            </Col>
+                                                            <Col md={6}>
+                                                                <Table size="lg" striped bordered hover>
+                                                                    <thead className="bg-info text-white">
+                                                                        <tr className="py-5">
+                                                                            <th className="p-3">Equipment No.</th>
+                                                                            <th className="p-3">QTY</th>
+                                                                            <th className="p-3">Rebate</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {
+                                                                            application? 
+                                                                            <>
+                                                                                {
+                                                                                    application.New_equipment.map((eq, id) =>(
+                                                                                        
+                                                                                    <tr key={(id+1)}>
+                                                                                        <td className="p-3">{(id+1)}</td>
+                                                                                        <td className="p-3">{eq.newEquip_Quantity}</td>
+                                                                                        <td className="p-3">{eq.newEquip_rebate}</td>
+                                                                                    </tr>
+                                                                                    ))
+                                                                                }
+                                                                            </>
+                                                                            :<></>
+                                                                        }
+                                                                        <tr>
+                                                                            <td className="p-3" colSpan="2" className="text-end">TOTAL</td>
+                                                                            <td className="p-3">$0.00</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </Table>
+                                                            </Col>
+                                                        </Row>
+                                                </Container>
                                         </Tab.Pane>
                                         <Tab.Pane eventKey="old_quipment_info">
                                             <Container className="ml-2 mr-2">
@@ -439,7 +562,6 @@ function RecordsForm() {
                                             </Container>
                                             
                                         </Tab.Pane>
-                                      
                                     </Tab.Content>
                                 </Col>
                                 <Col md={3}>
@@ -470,6 +592,9 @@ function RecordsForm() {
                                                     </div>
                                                     ))
                                                 }
+                                                <Button variant="info" onClick={handleCommentShow} className="me-2">
+                                                    View Comments Section
+                                                </Button>
                                             </div>
                                             : <p>Loading...</p>
                                         }
@@ -478,43 +603,84 @@ function RecordsForm() {
                                 </Col>
                             </Row>
                             <hr />
-                            <Container>
-                                <Row>
-                                    <Col md={8}>
-                                        <Form>
-                                            <Form.Group className="mb-3" controlId="comment">
-                                                <Form.Label>Comments</Form.Label>
-                                                <Form.Control as="textarea" rows={5}
-                                                    onChange={(e)=>changeCommentHandler(e.target.value)}
-                                                    value={comment}
-                                                />
-                                            </Form.Group>
-                                            <Button onClick={()=> addCommentHandler()}>Submit</Button>
-                                        </Form>
-                                        <hr />
-                                        
-                                            {
-                                                comments ?
-                                                comments.map(comment => (
-                                                    <ListGroup className="mb-3" key={comment.Made_On}>
-                                                        <ListGroup.Item>{comment.Made_By} <small className="text-muted">{comment.role}</small></ListGroup.Item>
-                                                        <ListGroup.Item>{comment.Comment}</ListGroup.Item>
-                                                        <ListGroup.Item>{comment.Made_On}</ListGroup.Item>
-                                                    </ListGroup>
-                                                ))
-                                                : <p>Loading . . .</p>
-                                            }
+                            {/* Comments section */}
+                            
+                            <Offcanvas show={commentShow} placement={'bottom'}  onHide={handleCommentClose} id="commentCanvas">
+                                <Offcanvas.Header closeButton>
+                                <Offcanvas.Title>Comments</Offcanvas.Title>
+                                </Offcanvas.Header>
+                                <Offcanvas.Body>
+                                    <Row>
+                                        <Col md={8}>
+                                            <Form>
+                                                <Form.Group className="mb-3" controlId="comment">
+                                                    <Form.Label>Comments</Form.Label>
+                                                    <Form.Control as="textarea" rows={5}
+                                                        onChange={(e)=>changeCommentHandler(e.target.value)}
+                                                        value={comment}
+                                                    />
+                                                </Form.Group>
+                                                <Button onClick={()=> addCommentHandler()}>Submit</Button>
+                                            </Form>
+                                            <hr />
+                                            
+                                                {
+                                                    comments ?
+                                                    comments.map(comment => (
+                                                        <ListGroup className="mb-3" key={comment.Made_On}>
+                                                            <ListGroup.Item>{comment.Made_By} <small className="text-muted">{comment.role}</small></ListGroup.Item>
+                                                            <ListGroup.Item>{comment.Comment}</ListGroup.Item>
+                                                            <ListGroup.Item>{comment.Made_On}</ListGroup.Item>
+                                                        </ListGroup>
+                                                    ))
+                                                    : <p>Loading . . .</p>
+                                                }
 
 
-                                    </Col>
-                                </Row>
-                            </Container>
-                        
+                                        </Col>
+                                    </Row>
+                                </Offcanvas.Body>
+                            </Offcanvas>
                         </Tab.Container>
-                    </>
+                    </Container>
                 :
                 <Container>
-                  {applicationTableHandler()}
+                    <div className="ag-theme-alpine" style={{height: 400, width: 100+'%'}}>
+                    <div className="mb-2">
+                        {/* <Button onClick={() => printState()} className="me-2" variant={"info"}>Print State</Button> */}
+                        <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
+                        <Button onClick={() => restoreState()} className="me-2" size='sm' variant={"secondary"}>Restore State</Button>
+                        <Button onClick={() => resetState()} className="me-2" size='sm' variant={"danger"}>Reset Filter</Button>
+                    </div>
+                        <AgGridReact
+                            frameworkComponents={{
+                                buttonAction: ButtonClick
+                            }}
+                            defaultColDef={{
+                            flex: 1,
+                            minWidth: 150,
+                            sortable: true,
+                            filter: true,
+                            resizable: true,
+                            }}
+                            localeTextFunc={function (key, defaultValue) {
+                            if (key === 'notEqualNoNulls') {
+                                return '* Not Equals (No Nulls) *';
+                            }
+                            return defaultValue;
+                            }}
+                            rowSelection={'single'}
+                            onCellDoubleClicked ={onSelectionChanged}
+                            getRowHeight={getRowHeight}
+                            onGridReady={onGridReady}
+                            rowData={applications}>
+                            <AgGridColumn field="Control_Number" filterParams={containsFilterParams} />
+                            <AgGridColumn field="Application_Date" filterParams={containsFilterParams} />
+                            <AgGridColumn field="Stage" filterParams={containsFilterParams}/>
+                            <AgGridColumn field="Status" filterParams={containsFilterParams}/>
+                            <AgGridColumn field="System_Type" filterParams={containsFilterParams}/>
+                        </AgGridReact>
+                    </div>
                 </Container>
             }
             

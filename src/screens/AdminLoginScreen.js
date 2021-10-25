@@ -7,6 +7,9 @@ import './AdminLoginScreen.css'
 import {login} from '../actions/userActions'
 import { LinkContainer } from 'react-router-bootstrap'
 
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 function AdminLoginScreen({location, history}) {
 
     const [attempt, setAttempt] = useState(false)
@@ -29,20 +32,20 @@ function AdminLoginScreen({location, history}) {
       {
         if(attempt === true)
         {
-          alert("Wrong Credentials")
+          Swal.fire('Login Failed', 'Wrong Credentials', 'error')
         }
         history.push('/admin')
       }
     }, [userInfo])
 
     const submitHandler = (e) => {
-      e.preventDefault()
-      dispatch(login(email, password))
-      setAttempt(true)
+      e.preventDefault();
+      dispatch(login(email, password));
+      Swal.fire('Login Success', 'Your are redirected to Dashboard', 'success').then(setAttempt(true));
     }
 
     return (
-        <Row md={3} xs={12} sm={12} id="homeScreen">
+        <Row md={3} xs={12} sm={12} id="homeScreen2">
               <Col md={2} sm={12} xs={12}></Col>
               <Col className="mt-4" md={8} sm={12} xs={12}>
                 <Row className="mb-5">
@@ -67,6 +70,7 @@ function AdminLoginScreen({location, history}) {
                             <Form.Label className="text-light">Email Address</Form.Label>
                             <Form.Control
                             type='email'
+                            className="py-2"
                             // placeholder='Enter Email'
                             value={email}
                             onChange={(e)=>setEmail(e.target.value)}
@@ -77,6 +81,7 @@ function AdminLoginScreen({location, history}) {
                           <Form.Group controlId='password'>
                             <Form.Label className="text-light">Password</Form.Label>
                             <Form.Control
+                            className="py-2"
                             type='password'
                             // placeholder='Enter Password'
                             value={password}
@@ -85,7 +90,7 @@ function AdminLoginScreen({location, history}) {
                             </Form.Control>
                           </Form.Group>
                           <div className="d-grid gap-2 mt-3 mb-4">
-                            <Button type='submit' variant='success'>LOGIN</Button>
+                            <Button type='submit' className="py-2" variant='success'>LOGIN</Button>
                           </div>
                           <LinkContainer to="/forgot" className="d-flex justify-content-center text-light mb-3">
                             <a href="#">Forgot Password?</a>

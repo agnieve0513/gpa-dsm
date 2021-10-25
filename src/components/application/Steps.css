@@ -71,23 +71,32 @@
   }
   
   
-  #StepsContent li:first-child::before {
+  #StepsContent li:first-child::before 
+  {
     display: none;
   }
   
- #StepsContent .active {
+ #StepsContent .active 
+ {
     background: dodgerblue;
   }
   
- #StepsContent .active ~ li {
+ #StepsContent .active ~ li 
+ {
     background: lightblue;
   }
   
- #StepsContent .active ~ li::before {
+ #StepsContent .active ~ li::before 
+ {
     background: lightblue;
-  }
-  
+ }
 
   #ForSteps span{
     
+  }
+
+  #stepsBackground
+  {
+    padding-bottom: 5vh;
+    background:#ebebeb;
   }

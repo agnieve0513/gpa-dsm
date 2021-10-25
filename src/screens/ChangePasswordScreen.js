@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-import { Row, Col, Form, Button } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import React, {useState} from 'react';
+import { Row, Col, Form, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {emailChangePasswordAction, logout} from '../actions/userActions'
-import { LinkContainer } from 'react-router-bootstrap'
+import {emailChangePasswordAction, logout} from '../actions/userActions';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import {
   useParams
@@ -11,27 +11,27 @@ import {
 
 function ChangePasswordScreen({location, history}) {
 
-    const [new_password, setNewPassword] = useState('')
-    const [confirm_new_password, setConfirmNewPassword] = useState('')
-    const [is_confirm, setIsConfirm] = useState()
+    const [new_password, setNewPassword] = useState('');
+    const [confirm_new_password, setConfirmNewPassword] = useState('');
+    const [is_confirm, setIsConfirm] = useState();
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
 
-    let {creds} = useParams()
+    let {creds} = useParams();
 
-    const emailChangePassword = useSelector(state => state.emailChangePassword)
-    const {email_change_pass} = emailChangePassword
+    const emailChangePassword = useSelector(state => state.emailChangePassword);
+    const {email_change_pass} = emailChangePassword;
 
     const submitHandler = (e) => {
-      e.preventDefault()
+      e.preventDefault();
 
       if(confirm_new_password === new_password)
       {
-          setIsConfirm(true)
-          dispatch(emailChangePasswordAction(creds, new_password))
-          console.log("redirect: ",creds)
-          console.log("new password: ",new_password)
+          setIsConfirm(true);
+          dispatch(emailChangePasswordAction(creds, new_password));
+          console.log("redirect: ",creds);
+          console.log("new password: ",new_password);
 
 
           if(email_change_pass)
@@ -42,15 +42,15 @@ function ChangePasswordScreen({location, history}) {
                 }
                 else
                 {
-                    alert("changing password success")
-                    dispatch(logout())
-                    history.push('/admin')
+                    alert("changing password success");
+                    dispatch(logout());
+                    history.push('/admin');
                 }
           }
       }
       else
       {
-          setIsConfirm(false)
+          setIsConfirm(false);
       }
     }
 
