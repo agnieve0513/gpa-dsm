@@ -258,6 +258,8 @@ function ApplicationForm() {
     }
 
     const updateStatus = (status, stage) => {
+
+        console.log(status," - ", stage);
         if(status === 3){
             console.log(reason)
             console.log(status)
@@ -269,25 +271,16 @@ function ApplicationForm() {
                 setShowModal(false)
             }
         }else{
-            if(status === 1 && stage === 3)
-            {
-                setStatus(1)
-                setStage(3)
-                setShowModal(false)
-                selectBatchHandler(1)
-                // setBatchShowModal(true)
-            }
-            else
-            {
+          
                 setStatus(status)
                 setStage(stage)
-                    dispatch(updateApplication(applicationId,status,stage,reason, batch))
                 if(window.confirm('Are you sure you want to process application?'))
                 {
+                    dispatch(updateApplication(applicationId,status,stage,reason, batch))
                     alert("Saved!")
                     setShowModal(false)
                 }
-            }
+            
         }
     }
 
@@ -315,7 +308,6 @@ function ApplicationForm() {
             if(window.confirm('Are you sure you want to process application?'))
             {
                 dispatch(updateApplication(applicationId,status,stage,reason, batch_id))
-                alert("The Application was added to a batch and is sent to supervisor!")
             }
         }
     }

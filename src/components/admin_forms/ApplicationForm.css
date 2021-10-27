@@ -21,3 +21,14 @@
 {
     height: 60vh !important;
 }
+
+.ag-header-viewport
+{
+    background-color: #233f88;
+    color: #ffffff;
+}
+
+.ag-header-cell-text
+{
+    color:#ffffff;
+}
