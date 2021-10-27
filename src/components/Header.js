@@ -11,29 +11,29 @@ import './Header.css';
 
 function Header() {
     
-    const [isLogin, setIsLogin] = useState(false)
-    const [name, setName] = useState("")
+    const [isLogin, setIsLogin] = useState(false);
+    const [name, setName] = useState("");
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     let history = useHistory();
 
     const logoutHandler = () => {
-        dispatch(logout())
-        history.push('/admin')
+        dispatch(logout());
+        history.push('/admin');
     }
 
     useEffect(() => {
-      if(localStorage.getItem('userInfo'))
+      if(localStorage.getItem('userInfo'));
       {
-        let obj = JSON.parse(localStorage.getItem('userInfo'))
-        let name = obj.message.original.details.name
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+        let name = obj.message.original.details.name;
 
-        setIsLogin(true)
-        setName(name)
+        setIsLogin(true);
+        setName(name);
 
       }
-    }, [])
+    }, []);
 
     return (
     <header>
