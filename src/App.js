@@ -1,5 +1,4 @@
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-
+import React from 'react';
 import HomeScreen from './screens/HomeScreen';
 import ApplicationScreen from './screens/ApplicationScreen';
 import TrackApplicationScreen from './screens/TrackApplicationScreen';
@@ -11,6 +10,7 @@ import ChangePasswordScreen from './screens/ChangePasswordScreen';
 import ModelListingScreen from './screens/ModelListingScreen';
 import FaqScreen from './screens/FaqScreen';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import UserForm from './components/admin_forms/UserForm';
 
