@@ -29,7 +29,7 @@ function AdminDashboardScreen({location, history}) {
     const [recordForm, setRecordForm] = useState(true);
     const [batchPaymentForm, setBatchPaymentForm] = useState(true);
     const [show_ui, setShowUi] = useState(false);
-
+    
     useEffect(() => {
       if(!localStorage.getItem('userInfo'))
       {

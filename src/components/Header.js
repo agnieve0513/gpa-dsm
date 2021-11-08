@@ -24,15 +24,21 @@ function Header() {
     }
 
     useEffect(() => {
-      if(localStorage.getItem('userInfo'));
+
+      if(!localStorage.getItem('userInfo'))
       {
-        let obj = JSON.parse(localStorage.getItem('userInfo'));
-        let name = obj.message.original.details.name;
+        return;
+      }
+      else
+      {
+        const obj = JSON.parse(localStorage.getItem('userInfo'));
+        const name = obj.message.original.details.name;
 
         setIsLogin(true);
         setName(name);
 
       }
+      
     }, []);
 
     return (

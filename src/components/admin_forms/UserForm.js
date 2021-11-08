@@ -8,6 +8,13 @@ import MaterialTable from "material-table";
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
+
+import {AgGridColumn, AgGridReact} from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import {GridOptions} from "ag-grid-community";
+
+
 function UserForm({history, location}) {
 
     const [action, setAction] = useState('add')
@@ -35,6 +42,185 @@ function UserForm({history, location}) {
     const userDelete = useSelector(state => state.userDelete)
     const {success:successDelete} = userDelete
 
+    // Grid State . . . 
+    const [gridApi, setGridApi] = useState(null);
+    const [gridColumnApi, setGridColumnApi] = useState(null);
+    const [rowData, setRowData] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
+
+    // Grid Functions . . .
+    const onGridReady = (params) => {
+
+        setGridApi(params.api);
+        setGridColumnApi(params.columnApi);
+    
+        const updateData = (data) => {
+            var differentHeights = [80, 80, 80, 80];
+            data.forEach(function (dataItem, index) {
+                dataItem.rowHeight = differentHeights[index % 4];
+            });
+          setRowData(data);
+        };
+    
+        updateData(users);
+      };
+
+      const getRowHeight = (params) => {
+        return params.data.rowHeight;
+      };
+
+        
+        const onSelectionChanged = () => {
+        var selectedRows = gridApi.getSelectedRows()[0];
+        console.log(selectedRows);
+        
+        let role_id =0
+
+        if(selectedRows.role_name === "Admin"){role_id = 1}
+        else if(selectedRows.role_name === "Customer Service"){ role_id = 2}
+        else if(selectedRows.role_name === "Spord"){ role_id = 3}
+        else if(selectedRows.role_name === "Budget"){ role_id = 4}
+        else if(selectedRows.role_name === "Accounting"){ role_id = 5}
+        else if(selectedRows.role_name === "Supervisor"){ role_id = 6}
+        else if(selectedRows.role_name === "Guest"){ role_id = 7}
+
+        setId(selectedRows.id)
+        setName(selectedRows.name)
+        setEmail(selectedRows.email)
+        setRoleId(role_id)
+        setAction('update')
+
+        // setApplicationId(selectedRows[0].Application_Id)
+        // dispatch(detailApplication(selectedRows[0].Application_Id))
+        // dispatch(commentsApplication(selectedRows[0].Application_Id))
+        // dispatch(logsApplication(selectedRows[0].Application_Id))
+        // setShow(true)
+      };
+
+      const printState = () => {
+        var filterState = gridApi.getFilterModel();
+        console.log('filterState: ', filterState);
+      };
+    
+      const saveState = () => {
+        window.filterState = gridApi.getFilterModel();
+        console.log('filter state saved');
+      };
+    
+      const restoreState = () => {
+        gridApi.setFilterModel(window.filterState);
+        console.log('filter state restored');
+      };
+    
+      const resetState = () => {
+        gridApi.setFilterModel(null);
+        console.log('column state reset');
+      };
+
+      //for filtering . . .
+      const filterParams = {
+        filterOptions: [
+          'empty',
+          {
+            displayKey: 'evenNumbers',
+            displayName: 'Even Numbers',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue % 2 === 0;
+            },
+            hideFilterInput: true,
+          },
+          {
+            displayKey: 'oddNumbers',
+            displayName: 'Odd Numbers',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue % 2 !== 0;
+            },
+            hideFilterInput: true,
+          },
+          {
+            displayKey: 'blanks',
+            displayName: 'Blanks',
+            test: function (filterValue, cellValue) {
+              return cellValue == null;
+            },
+            hideFilterInput: true,
+          },
+        ],
+        suppressAndOrCondition: true,
+      };
+      const containsFilterParams = {
+        filterOptions: [
+          'contains',
+          {
+            displayKey: 'startsC',
+            displayName: 'Starts With "C"',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue.indexOf('a') === 0;
+            },
+            hideFilterInput: true,
+          },
+          {
+            displayKey: 'startsR',
+            displayName: 'Starts With "R"',
+            test: function (filterValue, cellValue) {
+              return cellValue != null && cellValue.indexOf('n') === 0;
+            },
+            hideFilterInput: true,
+          },
+        ],
+      };
+      const equalsFilterParams = {
+        filterOptions: [
+          'equals',
+          {
+            displayKey: 'equalsWithNulls',
+            displayName: 'Equals (with Nulls)',
+            test: function (filterValue, cellValue) {
+              if (cellValue == null) return true;
+              const parts = cellValue.split('/');
+              const cellDate = new Date(
+                Number(parts[2]),
+                Number(parts[1] - 1),
+                Number(parts[0])
+              );
+              return cellDate.getTime() === filterValue.getTime();
+            },
+          },
+        ],
+        comparator: function (filterLocalDateAtMidnight, cellValue) {
+          const dateAsString = cellValue;
+          if (dateAsString == null) return -1;
+          const dateParts = dateAsString.split('/');
+          const cellDate = new Date(
+            Number(dateParts[2]),
+            Number(dateParts[1]) - 1,
+            Number(dateParts[0])
+          );
+          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+            return 0;
+          }
+          if (cellDate < filterLocalDateAtMidnight) {
+            return -1;
+          }
+          if (cellDate > filterLocalDateAtMidnight) {
+            return 1;
+          }
+        },
+        browserDatePicker: true,
+      };
+      const notEqualsFilterParams = {
+        filterOptions: [
+          'notEqual',
+          {
+            displayKey: 'notEqualNoNulls',
+            displayName: 'Not Equals without Nulls',
+            test: function (filterValue, cellValue) {
+              if (cellValue == null) return false;
+              return cellValue !== filterValue.toLowerCase();
+            },
+          },
+        ],
+      };
 
     useEffect(() => {
         dispatch(listUsers())
@@ -45,23 +231,27 @@ function UserForm({history, location}) {
         e.preventDefault()
         if(password !== confirmPassword)
         {
-            setMessage('Password do not Match')
+            setMessage('Password do not Match');
         }
         else
         {
             if(action === 'update')
             {
-                dispatch(update(id,role_id, name, email))
+                dispatch(update(id,role_id, name, email));
+                Swal.fire('Success!', 'User Info Successfully Updated', 'success');
+                clearHandler();
             }
             else{
-                dispatch(register(role_id, name, email, password))
+                dispatch(register(role_id, name, email, password));
+                Swal.fire('Success!', 'User Successfully Added', 'success');
+                clearHandler();
             }
         }
     }
 
     const selectHandler = (data) => {
         
-        let role_id =0
+        let role_id =0;
 
         if(data.role_name === "Admin"){role_id = 1}
         else if(data.role_name === "Customer Service"){ role_id = 2}
@@ -71,14 +261,14 @@ function UserForm({history, location}) {
         else if(data.role_name === "Supervisor"){ role_id = 6}
         else if(data.role_name === "Guest"){ role_id = 7}
 
-        setId(data.id)
-        setName(data.name)
-        setEmail(data.email)
-        setRoleId(role_id)
-        setAction('update')
+        setId(data.id);
+        setName(data.name);
+        setEmail(data.email);
+        setRoleId(role_id);
+        setAction('update');
     }
 
-    const deleteHandler = (data) => {
+    const deleteHandler = () => {
            Swal.fire({
             icon: 'question',
             title: 'Do you want to Delete the User?',
@@ -88,7 +278,7 @@ function UserForm({history, location}) {
           }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    dispatch(deleteUser(data.id));
+                    dispatch(deleteUser(id));
                     Swal.fire('Success!', 'User Successfully Deleted', 'success')
                 } else if (result.isDenied) {
                 }
@@ -96,12 +286,12 @@ function UserForm({history, location}) {
     }
 
     const clearHandler = () => {
-        setName("")
-        setEmail("")
-        setRoleId("")
-        setPassword("")
-        setConfirmPassword("")
-        setAction('add')
+        setName("");
+        setEmail("");
+        setRoleId("");
+        setPassword("");
+        setConfirmPassword("");
+        setAction('add');
     }
 
     return (
@@ -180,11 +370,13 @@ function UserForm({history, location}) {
                                 }
                                 
 
-                                <Button type='submit' variant='primary'>
+                                <Button type='submit' variant='success' className="me-2">
                                     Save
                                 </Button>
 
-                                <Button variant='secondary' className="ms-2" onClick={() => clearHandler()}>
+                                <Button type='button' variant='danger' disabled = {action === 'add' ? true: false} onClick={deleteHandler}>Delete</Button>
+
+                                <Button type='button' variant='secondary' className="ms-2" onClick={() => clearHandler()}>
                                     Clear All
                                 </Button>
                             </Form>
@@ -195,7 +387,34 @@ function UserForm({history, location}) {
                     </Card>
                 </Col>
                 <Col md={8}>
-                    <MaterialTable 
+                    <div className="ag-theme-alpine" style={{height: 530, width: 100+'%'}}>
+                        <AgGridReact
+                            frameworkComponents={{
+                            }}
+                            defaultColDef={{
+                            flex: 1,
+                            minWidth: 150,
+                            sortable: true,
+                            filter: true,
+                            resizable: true,
+                            }}
+                            localeTextFunc={function (key, defaultValue) {
+                            if (key === 'notEqualNoNulls') {
+                                return '* Not Equals (No Nulls) *';
+                            }
+                            return defaultValue;
+                            }}
+                            rowSelection={'single'}
+                            onCellDoubleClicked ={onSelectionChanged}
+                            getRowHeight={getRowHeight}
+                            onGridReady={onGridReady}
+                            rowData={users}>
+                            <AgGridColumn field="name" filterParams={containsFilterParams} />
+                            <AgGridColumn field="email" filterParams={containsFilterParams}/>
+                            <AgGridColumn field="role_name" filterParams={containsFilterParams}/>
+                        </AgGridReact>
+                    </div>
+                    {/* <MaterialTable 
                         
                         columns={[
                             { title: "Name", field: "name", width:"50%" },
@@ -223,7 +442,7 @@ function UserForm({history, location}) {
                         }
                         title="Current Users"
                     
-                    />
+                    /> */}
                 </Col>
             </Row>
         </Container>
