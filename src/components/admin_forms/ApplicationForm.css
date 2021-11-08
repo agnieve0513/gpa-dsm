@@ -3,6 +3,19 @@
     height:auto;
 }
 
+#applicationFormNa .nav-pills .nav-link
+{
+    border-radius:0px;
+    color: black;
+    background-color: #d0d5db;
+}
+
+#applicationFormNa .nav-pills .nav-link.active, .nav-pills .show>.nav-link
+{
+    background-color: #223e87;
+    color: #fff;
+}
+
 #applicationFormNav .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
     /* background-color: #223e87;
     color: #fff; */
