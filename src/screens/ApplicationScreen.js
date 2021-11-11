@@ -44,6 +44,7 @@ function ApplicationScreen() {
     const [saved, setSaved] = useState(false)
     const [step, setStep] = useState(1)
     const [is_set_control_no, setIsSetControlNo] = useState(false)
+    const [editing, setEditing] = useState(false)
 
     // For verification
     const [verify, setVerify] = useState(true)
@@ -77,7 +78,7 @@ function ApplicationScreen() {
         const [company_name, setCompanyName] = useState("")
         const [technician_cert_no, setTechnicianCertNo] = useState("")
         const [date_final_installation, setDateFinalInstallation] = useState("")
-        const [tech_email, setTechEmail] = useState("")
+        const [tech_contact, setTechContact] = useState("")
         // Equipment
         const [manufacturers, setManufacturerList] = useState([])
         const [models, setModelList] = useState([])
@@ -240,7 +241,14 @@ function ApplicationScreen() {
                 }
                 else
                 {
-                    setStep(currentStep+1)
+                    if(editing)
+                    {
+                        setStep(currentStep+3)
+                    }
+                    else
+                    {
+                        setStep(currentStep+1)
+                    }
                 }
             }
             else if(currentStep === 3)
@@ -249,14 +257,21 @@ function ApplicationScreen() {
                 || quantity ==="" || vendor==="" || invoice_no===""
                 || purchase_date==="" || technician_name==="" || work_tel===""
                 || company_name==="" || date_final_installation===""
-                || tech_email===""
+                || tech_contact===""
                 )
                 {
                     errorMessage();
                 }
                 else
                 {
-                    setStep(currentStep+1)
+                    if(editing)
+                    {
+                        setStep(currentStep+2)
+                    }
+                    else
+                    {
+                        setStep(currentStep+1)
+                    }
                 }
             }
             else if(currentStep === 4)
@@ -292,6 +307,7 @@ function ApplicationScreen() {
         if(step > 1)
         {
             setStep(currentStep-1)
+            setEditing(false)
         }       
 
     }
@@ -358,7 +374,7 @@ function ApplicationScreen() {
                                 company_name={company_name} setCompanyName={setCompanyName}
                                 technician_cert_no={technician_cert_no} setTechnicianCertNo={setTechnicianCertNo}
                                 date_final_installation={date_final_installation} setDateFinalInstallation={setDateFinalInstallation}
-                                tech_email={tech_email} setTechEmail={setTechEmail}
+                                tech_contact={tech_contact} setTechContact={setTechContact}
                             />
                             : step === 4? <ExistingEquipmentInformation 
                                 control_no={control_no} setControlNo={setControlNo}
@@ -378,7 +394,7 @@ function ApplicationScreen() {
                                 agree_terms={agree_terms} setAgreeTerms={setAgreeTerms}
                             />
                             : step === 5? <EquipmentReview 
-
+                                setEditing={setEditing}
                                 step={step} setStep={setStep}
                                 old_equipments={old_equipments} setOldEquipments={setOldEquipments}
                                 new_equipments={new_equipments} setNewEquipments={setNewEquipments}
@@ -400,7 +416,6 @@ function ApplicationScreen() {
                                 home_age={home_age} setHomeAge={setHomeAge}
                                 home_type={home_type} setHomeType={setHomeType}
                                 is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
-                                
                             />
                             : step === 6? <SubmissionOfDocumentation
                                 invoice={invoice} setInvoice={setInvoice}

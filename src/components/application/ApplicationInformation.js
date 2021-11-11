@@ -33,15 +33,6 @@ function ApplicationInformation(props) {
        }
     }
 
-    const changeEmailZipCode = (e) => {
-       props.setMailingCityVillage(e.target.value)
-       const result =  city_zipcode.find((p) => p._id === e.target.value)
-       if(result)
-       {
-          props.setMailingZipCode(result.zip_code); 
-       }
-    }
-
     const verifyCustomerHandler = () =>
     {
         if(props.bill_id !== "" && props.account_no !=="")
@@ -70,6 +61,21 @@ function ApplicationInformation(props) {
     const handleFocus = () =>
     {
         console.log("focused!");
+    }
+
+    const handleNumericFields = (input, propVar) => {
+        const re = /^[0-9\b]+$/;
+
+        // if value is not blank, then test the regex
+        if (input.value === '' || re.test(input.value)) {
+            props[propVar](input.value)
+        }
+    }
+
+    const today = new Date()
+    let years = []
+    for(var i=today.getFullYear(); i>=1950; i--) {
+        years.push(i)
     }
 
     return (
@@ -119,7 +125,7 @@ function ApplicationInformation(props) {
                     </Row>
                     <Row>
                         <Col md={12}>
-                            <span><b>Account Holder's Name : </b></span>
+                            <span><b>Applicant's Name : </b></span>
                             <hr />
                         </Col>
                         <Col md={6} className="mb-3">
@@ -153,7 +159,7 @@ function ApplicationInformation(props) {
                         </Col>
                         <Col md={2} className="mb-3">
                             <Form.Group controlId='middlename'>
-                                <Form.Label>Middlename</Form.Label>
+                                <Form.Label>M. I.</Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder=''
@@ -188,13 +194,14 @@ function ApplicationInformation(props) {
                             <Form.Group controlId='city_village' >
                                 <Form.Label>CITY/VILLAGE</Form.Label>
                                 <Form.Select
-                                onChange={(e)=>changeZipCode(e)}
-                                value={props.city_village}
-                                disabled={props.verify? false: true}
-                                >
-                                    {city_zipcode.map(p => (
-                                        <option key={p._id} value={p._id}>{p.village}</option>
-                                    ))}
+                                    onChange={(e)=>changeZipCode(e)}
+                                    value={props.city_village}
+                                    disabled={props.verify? false: true}
+                                    >
+                                        <option />
+                                        {city_zipcode.map(p => (
+                                            <option key={p._id} value={p._id}>{p.village}</option>
+                                        ))}
                                 </Form.Select>
                             </Form.Group>
                             { props.city_village === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
@@ -206,7 +213,7 @@ function ApplicationInformation(props) {
                                 <Form.Control
                                     type='text'
                                     placeholder=''
-                                    onChange={(e)=>props.setZipCode(e.target.value)}
+                                    onChange={(e)=>handleNumericFields(e.target, 'setZipCode')}
                                     value={props.zipcode}
                                     required
                                     disabled={props.verify? false: true}
@@ -239,7 +246,7 @@ function ApplicationInformation(props) {
                                 <Form.Control
                                     type='text'
                                     placeholder=''
-                                    onChange={(e)=>props.setTelNo(e.target.value)}
+                                    onChange={(e)=> props.setTelNo(e.target.value)}
                                     value={props.tel_no}
                                     required
                                     disabled={props.verify? false: true}
@@ -316,21 +323,20 @@ function ApplicationInformation(props) {
                     </Row>
 
                     <Row>
-                        <Col md={6}>
-                            <div className="form-group">
-                                <Form.Group controlId='mailing_city_village' className="mb-3">
-                                    <Form.Label>CITY/VILLAGE</Form.Label>
-                                    <Form.Select onChange={(e)=>changeEmailZipCode(e)} value={props.mailing_city_village} 
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='mailing_city_village'>
+                                <Form.Label>CITY/VILLAGE</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMailingCityVillage(e.target.value)}
+                                    value={props.mailing_city_village}
                                     required
                                     disabled={props.verify? false: true}
-                                    >
-                                        {city_zipcode.map(p => (
-                                            <option key={p._id} value={p._id}>{p.village}</option>
-                                        ))}
-                                    </Form.Select>
-                                </Form.Group>
-                                { props.mailing_city_village === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-                            </div>
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.mailing_city_village === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                         </Col>
                         <Col md={6} className="mb-3">
                             <Form.Group controlId='mailing_zipcode'>
@@ -338,8 +344,8 @@ function ApplicationInformation(props) {
                                 <Form.Control
                                     type='text'
                                     placeholder=''
+                                    onChange={(e)=>handleNumericFields(e.target, 'setMailingZipCode')}
                                     value={props.mailing_zipcode}
-                                    onChange={(e)=>props.setMailingZipCode(e.target.value)}
                                     required
                                     disabled={props.verify? false: true}
                                 >
@@ -356,27 +362,28 @@ function ApplicationInformation(props) {
                                     type='text'
                                     placeholder=''
                                     value={props.home_size}
-                                    onChange={(e)=>props.setHomeSize(e.target.value)}
+                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeSize')}
                                     required
                                     disabled={props.verify? false: true}
+                                    maxLength="6"
                                 >
                                 </Form.Control>
                             </Form.Group>
                             { props.home_size === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                         </Col>
-                        <Col md={4}>
-                            <Form.Group controlId='home_age' className="mb-3">
-                                
+                        <Col md={4} className="mb-3">
+                            <Form.Group controlId='home_age'>
                                 <Form.Label>HOME AGE (approx.year built?)*</Form.Label>
-                                <Form.Control
-                                    type='text'
-                                    placeholder=''
+                                <Form.Select
+                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeAge')}
                                     value={props.home_age}
-                                    onChange={(e)=>props.setHomeAge(e.target.value)}
-                                    required
                                     disabled={props.verify? false: true}
-                                >
-                                </Form.Control>
+                                    >
+                                        <option />
+                                        {years.map(p => (
+                                            <option>{p}</option>
+                                        ))}
+                                </Form.Select>
                             </Form.Group>
                             { props.home_age === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                         </Col>
@@ -465,7 +472,6 @@ function ApplicationInformation(props) {
                 </Col>
                 <Col md={2}></Col>
             </Row>
-            
         </Container>
     )
 }
