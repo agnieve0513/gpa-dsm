@@ -239,6 +239,7 @@ function ApplicationScreen() {
         errorMessage();
       } else {
         setStep(currentStep + 3);
+        return;
       }
     }
 
@@ -261,6 +262,7 @@ function ApplicationScreen() {
         errorMessage();
       } else {
         setStep(currentStep + 2);
+        return;
       }
     }
 
@@ -287,6 +289,7 @@ function ApplicationScreen() {
         errorMessage();
       } else {
         setStep(currentStep + 5);
+        return;
       }
     }
 
@@ -309,12 +312,14 @@ function ApplicationScreen() {
         errorMessage();
       } else {
         setStep(currentStep + 4);
+        return;
       }
     }
 
     if(currentStep === 3 && stepOneToStepSix)
     {
       setStep(currentStep + 2);
+      return;
     }
 
 
@@ -347,6 +352,7 @@ function ApplicationScreen() {
           errorMessage();
         } else {
           setStep(currentStep + 1);
+          return;
         }
       } else if (currentStep === 3) {
         if (
@@ -366,6 +372,7 @@ function ApplicationScreen() {
           errorMessage();
         } else {
           setStep(currentStep + 1);
+          return;
         }
       } else if (currentStep === 4) {
         if (no_existing) {
@@ -380,6 +387,7 @@ function ApplicationScreen() {
         }
       } else {
         setStep(currentStep + 1);
+        return;
       }
     }
   };

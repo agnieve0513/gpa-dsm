@@ -99,7 +99,9 @@ function ApplicationInformation(props) {
                                 <Form.Control
                                     type='text'
                                     placeholder=''
-                                    onChange={(e)=>props.setAccountNo(e.target.value)} value={props.account_no}
+                                    onChange={(e)=>handleNumericFields(e.target, 'setAccountNo')}
+                                    maxLength="10"
+                                    value={props.account_no}
                                     required
                                 >
                                 </Form.Control>
@@ -175,8 +177,8 @@ function ApplicationInformation(props) {
                             <hr />
                         </Col>
                         <Col md={6} className="mb-3">
-                            <Form.Group controlId='firstname' >
-                                <Form.Label>Firstname</Form.Label>
+                            <Form.Group controlId='first Name' >
+                                <Form.Label>First Name</Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder=''
@@ -190,7 +192,7 @@ function ApplicationInformation(props) {
                         </Col>
                         <Col md={4} className="mb-3">
                             <Form.Group controlId='lastname'>
-                                <Form.Label>Lastname</Form.Label>
+                                <Form.Label>Last Name</Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder=''
