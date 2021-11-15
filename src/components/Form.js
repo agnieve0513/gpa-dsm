@@ -325,7 +325,6 @@ export default class Form extends Component {
                                 values={values}
                             />
                             <Footer />
-
                     </div >
                 );
             case 5:

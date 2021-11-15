@@ -135,7 +135,7 @@ function ExistingEquipmentInformation(props) {
                                 required
                             >
                             </Form.Control>
-                        </Form.Group>: <></>
+                            </Form.Group>: <></>
                         }
                     </Col>
                 </Row>
@@ -260,7 +260,7 @@ function ExistingEquipmentInformation(props) {
                             <Form.Control
                                 type='text'
                                 placeholder=''
-                                value={props.seer}
+                                // value={props.seer}
                                 onChange={(e)=>props.setSeer(e.target.value)}
                                 required
                                 disabled={props.no_existing? true: false}
