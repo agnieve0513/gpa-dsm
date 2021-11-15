@@ -46,8 +46,8 @@ function ExistingEquipmentInformation(props) {
         
         const obj = {
             "control_no":  props.control_no,
-            "id":  props.old_equipments.length,
-            "system_type": props.old_system_type,
+            "id":  props.old_equipments.length + 1,
+            "system_type": props.system_type,
             "btu": props.old_btu,
             "years":props.old_years,
             "tons":props.old_tons,
@@ -82,7 +82,6 @@ function ExistingEquipmentInformation(props) {
             columns={[
                 { title: "#", field: "id" },
                 { title: "System Type", field: "system_type" },
-                { title: "BTU", field: "btu" },
                 { title: "Quantity", field: "quantity"},
                 {
                 title: "Action",
@@ -125,18 +124,7 @@ function ExistingEquipmentInformation(props) {
                             onChange={(e)=>handleCheckBox(e)}
                         />
                         <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"><i className="fa fa-question-circle"></i></a>
-                        {
-                            ! props.is_no_existing_to_replace ?
-                            <Form.Group controlId='disposal_slip' className="mb-3">
-                            <Form.Label>DISPOSAL RECEIPT <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
-                            <Form.Control
-                                type='file'
-                                placeholder=''
-                                required
-                            >
-                            </Form.Control>
-                            </Form.Group>: <></>
-                        }
+                        
                     </Col>
                 </Row>
                 <Row>
@@ -156,7 +144,9 @@ function ExistingEquipmentInformation(props) {
                         </Form.Group>
                     </Col>
                 </Row>
-                <Row>
+                {
+                    props.system_type === "Dryer" || props.system_type === "Washer"?
+                    <Row>
                     <Col md={6}  className="mb-3">
                         <Form.Group controlId='old_btu'>
                             <Form.Label>BTU</Form.Label>
@@ -174,21 +164,23 @@ function ExistingEquipmentInformation(props) {
 
                     </Col>
                     <Col md={6} className="mb-3">
-                        <Form.Group controlId='old_years' >
-                            <Form.Label>YEARS</Form.Label>
+                    <Form.Group controlId='old_tons' >
+                            <Form.Label>TONS</Form.Label>
                             <Form.Control
                                 type='number'
                                 placeholder=''
-                                value={props.old_years}
-                                onChange={(e)=>props.setOldYears(e.target.value)}
+                                value={props.old_tons}
+                                onChange={(e)=>props.setOldTons(e.target.value)}
                                 required
                                 disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
-                        {props.no_existing ? <> </>: props.old_years === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        {props.no_existing ? <> </>: props.old_tons === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        
                     </Col>
-                </Row>
+                </Row>:<></>
+                }
                 <Row>
                     <Col md={6} className="mb-3">
                         <Form.Group controlId='old_quantity' >
@@ -204,23 +196,21 @@ function ExistingEquipmentInformation(props) {
                             </Form.Control>
                         </Form.Group>
                         {props.no_existing ? <> </>: props.old_quantity === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
                     </Col>
                     <Col md={6} className="mb-3">
-                        <Form.Group controlId='old_quantity' >
-                            <Form.Label>TONS</Form.Label>
+                    <Form.Group controlId='old_years' >
+                            <Form.Label>YEARS</Form.Label>
                             <Form.Control
                                 type='number'
                                 placeholder=''
-                                value={props.old_tons}
-                                onChange={(e)=>props.setOldTons(e.target.value)}
+                                value={props.old_years}
+                                onChange={(e)=>props.setOldYears(e.target.value)}
                                 required
                                 disabled={props.no_existing? true: false}
                             >
                             </Form.Control>
                         </Form.Group>
-                        {props.no_existing ? <> </>: props.old_tons === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
+                        {props.no_existing ? <> </>: props.old_years === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                     </Col>
                 </Row>
                 
@@ -260,8 +250,6 @@ function ExistingEquipmentInformation(props) {
                             <Form.Control
                                 type='text'
                                 placeholder=''
-                                // value={props.seer}
-                                onChange={(e)=>props.setSeer(e.target.value)}
                                 required
                                 disabled={props.no_existing? true: false}
                             >
@@ -297,8 +285,22 @@ function ExistingEquipmentInformation(props) {
                             disabled={props.no_existing? true: false}
                         />
                         { props.no_existing ? <> </>:props.disposal_party === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
+                        <br />
+                        {
+                            props.disposal_party === "Installer" ?
+                            <Form.Group controlId='disposal_slip' className="mb-3">
+                            <Form.Label>DISPOSAL RECEIPT <a className="text-success" href="./sample_invoice.png" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
+                            <Form.Control
+                                type='file'
+                                placeholder=''
+                                required
+                            >
+                            </Form.Control>
+                            </Form.Group>
+                            :<></>
+                        }
                     </Col>
+                    
                 </Row>
                 <Row className="mt-3">
                     <Col md={12}>

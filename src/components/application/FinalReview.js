@@ -12,14 +12,17 @@ function FinalReview(props) {
     const [old_eq_index, setOldEqIndex] = useState(0)
 
     const backToApplicationHandler = () => {
+        props.setStepOneToStepSix(true)
         props.setStep(2)
     }
 
     const backToNewEquipmentHandler = ()=> {
+        props.setStepOneToStepSix(true)
         props.setStep(3)
     }
 
     const backToOldEquipmentHandler = ()=> {
+        props.setStepOneToStepSix(true)
         props.setStep(4)
     }
 

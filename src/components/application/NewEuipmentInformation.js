@@ -10,9 +10,21 @@ import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 function NewEuipmentInformation(props) {
   const dispatch = useDispatch();
+
+  const [totalQuantity, setTotalQuantity] = useState(0);
   const [modalShow, setModalShow] = useState(false);
+    const [modalData, setModalData] = useState({
+        description: "",
+        image_sample: "",
+    });
+
+    let p = {}
 
   const customerEquipManufacturer = useSelector(
     (state) => state.customerEquipManufacturer
@@ -76,6 +88,38 @@ function NewEuipmentInformation(props) {
   }, [dispatch, props.new_equipments]);
 
   const addEquipmentHandler = () => {
+
+    setTotalQuantity(parseInt(totalQuantity)+ parseInt(props.quantity))
+    if(props.system_type === "" ||
+    props.manufacturer === "" ||
+    props.model_no === "" ||
+    props.quantity === "" ||
+    props.vendor === "" ||
+    props.invoice_no === "" ||
+    props.purchase_date === "" ||
+    props.technician_name === "" ||
+    props.work_tel === "" ||
+    props.company_name === "" ||
+    props.date_final_installation === "")
+    {
+      const Toast = MySwal.mixin({
+        toast: true,
+        position: "top-right",
+        iconColor: "white",
+        customClass: {
+          popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBars: true,
+      });
+  
+      Toast.fire({
+        icon: "info",
+        title: "All Fields are required",
+        text: "Fields should not be empty in order to proceed to next step",
+      });
+    }
     const obj = {
       control_no: props.control_no,
       id: props.new_equipments.length,
@@ -120,10 +164,22 @@ function NewEuipmentInformation(props) {
     } else {
       return (
         <Row>
+          <ModalImage
+                data={modalData}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
-              <Form.Label>INSALLER'S CERTIFICATION*</Form.Label>
-              <Form.Control type="text" placeholder="" required></Form.Control>
+              <p>INSTALLER'S CERTIFICATION*
+              <span className="text-secondary"
+                  onClick={() => {
+                  setModalData(p = {description: "INSTALLER'S CERTIFICATION", image_sample: "./GPADSM8.png"});
+                  setModalShow(true);
+                  }}> 
+                  <i className="fa fa-question-circle"></i> </span>
+              </p>
+              <Form.Control type="file" placeholder="" required></Form.Control>
             </Form.Group>
           </Col>
         </Row>
@@ -166,21 +222,21 @@ function NewEuipmentInformation(props) {
       />
     );
   };
+  
+  const handleNumericFields = (input, propVar) => {
+    const re = /^[0-9\b]+$/;
+
+    // if value is not blank, then test the regex
+    if (input.value === '' || re.test(input.value)) {
+        props[propVar](input.value)
+    }
+}
 
   const showRebateHandler = () => {
     if (props.system_type !== "Dryer" || props.system_type !== "Washer") {
       return (
         <>
-          <Form.Group controlId="rebate">
-            <Form.Label>REBATE</Form.Label>
-            <Form.Control
-              type="number"
-              onChange={(e) => props.setRebate(e.target.value)}
-              value={props.rebate}
-              required
-              disabled={true}
-            ></Form.Control>
-          </Form.Group>
+          
         </>
       );
     } else {
@@ -192,31 +248,11 @@ function NewEuipmentInformation(props) {
     <Row>
       <Col md={3}></Col>
       <Col md={6}>
-        <Row>
-          <Col md={4}></Col>
-          <Col md={4}>
-            <Row>
-              <Button
-                variant="success"
-                size="lg"
-                onClick={() => addEquipmentHandler()}
-                className="d-flex justify-content-center"
-              >
-                Add Equipment
-              </Button>
-            </Row>
-          </Col>
-          <Col md={4}></Col>
-        </Row>
 
-        <Row className="mt-3">
-          <Col md={12}>{showTable()}</Col>
-        </Row>
-        <h4 className="text-center text-info mt-5">
-          NEW EQUIPMENT INFORMATION
-        </h4>
+
+        {/* Row for installer's information */}
         <Row>
-          <Col md={8} className="mb-3">
+          <Col md={12} className="mb-3">
             <Form.Group controlId="system_type">
               <Form.Label>SYSTEM TYPE</Form.Label>
               <Form.Select
@@ -224,9 +260,15 @@ function NewEuipmentInformation(props) {
                 value={props.system_type}
               >
                 <option value="Central AC">Central AC</option>
-                <option value="Central AC">Central AC - Commercial</option>
                 <option value="Split AC">Split AC</option>
-                <option value="Split AC">Split AC - Commercial</option>
+                {
+                  props.customer_type === "RESID" ? <></>
+                  :
+                  <>
+                    <option value="Central AC">Central AC - Commercial</option>
+                    <option value="Split AC">Split AC - Commercial</option>
+                  </>
+                }
                 <option value="Window AC">Window AC</option>
                 <option value="Dryer">Dryer</option>
                 <option value="Washer">Washer</option>
@@ -239,193 +281,8 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <Row>
-          <Col md={6}>
-            <Form.Group controlId="manufacturer" className="mb-3">
-              <Form.Label>MANUFACTURER</Form.Label>
-              <Form.Select
-                onChange={(e) => changeManufacturerHandler(e)}
-                value={props.manufacturer}
-              >
-                <option disabled selected>
-                  Select Manufacturer
-                </option>
-
-                {manufacturers ? (
-                  manufacturers.map((ce) => (
-                    <option key={ce.Manufacturer} value={ce.Manufacturer}>
-                      {ce.Manufacturer}
-                    </option>
-                  ))
-                ) : (
-                  <option>Loading . . .</option>
-                )}
-              </Form.Select>
-            </Form.Group>
-            {props.manufacturer === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-          <Col md={6}>
-            <Form.Group controlId="model_no" className="mb-3">
-              <Form.Label>MODEL NUMBER</Form.Label>
-              <Form.Select
-                onChange={(e) => changeModelHandler(e)}
-                value={props.model_no}
-              >
-                <option disabled selected>
-                  Select Model
-                </option>
-                {models ? (
-                  models.map((me) => {
-                    if (
-                      props.system_type === "Dryer" ||
-                      props.system_type === "Washer"
-                    ) {
-                      return (
-                        <option key={me.id} value={me.id}>
-                          {me.model}{" "}
-                        </option>
-                      );
-                    } else {
-                      if (me.model === "Indoor / Outdoor") {
-                        return (
-                          <option key={me.id} value={me.id}>
-                            {me.indoor_model} / {me.outdoor_model}
-                          </option>
-                        );
-                      } else if (me.model === "Both") {
-                        return (
-                          <option key={me.id} value={me.id}>
-                            {me.indoor_model} / {me.outdoor_model}/{" "}
-                            {me.package_model}
-                          </option>
-                        );
-                      } else {
-                        return (
-                          <option key={me.id} value={me.id}>
-                            {me.package_model}
-                          </option>
-                        );
-                      }
-                    }
-                  })
-                ) : (
-                  <option>Loading . . . </option>
-                )}
-              </Form.Select>
-            </Form.Group>
-            {props.model_no === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col md={6}>
-            <Form.Group controlId="quantity" className="mb-3">
-              <Form.Label>QUANTITY</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder=""
-                onChange={(e) => props.setQuantity(e.target.value)}
-                value={props.quantity}
-                required
-              ></Form.Control>
-            </Form.Group>
-            {props.quantity === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-          <Col md={6}>
-            <Form.Group controlId="vendor" className="mb-3">
-              <Form.Label>VENDOR</Form.Label>
-              <Form.Select
-                onChange={(e) => props.setVendor(e.target.value)}
-                value={props.vendor}
-              >
-                <option>{props.vendor}</option>
-              </Form.Select>
-            </Form.Group>
-            {props.vendor === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={6}>
-            <Form.Group controlId="invoice_no" className="mb-3">
-              <ModalImage
-                data={{
-                  description: "Invoice",
-                  image_sample: "./sample_invoice.png",
-                }}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-              />
-              <Form.Label>
-                INVOICE#{" "}
-                <a
-                  className="text-secondary"
-                  rel="noreferrer"
-                  target="_blank"
-                  onClick={() => {
-                    setModalShow(true);
-                  }}
-                >
-                  {" "}
-                  <i className="fa fa-question-circle"></i>{" "}
-                </a>
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder=""
-                onChange={(e) => props.setInvoiceNo(e.target.value)}
-                value={props.invoice_no}
-                required
-              ></Form.Control>
-            </Form.Group>
-            {props.invoice_no === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-          <Col md={6}>
-            <Form.Group controlId="purchase_date" className="mb-3">
-              <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
-              <Form.Control
-                type="date"
-                onChange={(e) => props.setPurchaseDate(e.target.value)}
-                value={props.purchase_date}
-                required
-              ></Form.Control>
-            </Form.Group>
-            {props.purchase_date === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={12}>
-            {/* Row for rebate */}
-            {showRebateHandler()}
-          </Col>
-        </Row>
-
-        {/* Row for installer's information */}
-        <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>
+        <h4 className="text-center text-info mt-2">INSTALLER'S INFORMATION</h4>
+        
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
@@ -446,12 +303,13 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="work_tel">
-              <Form.Label>WORK TELEPHONE*</Form.Label>
+              <Form.Label>WORK CONTACT NUMBER*</Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
-                onChange={(e) => props.setWorkTel(e.target.value)}
                 value={props.work_tel}
+                onChange={(e)=>handleNumericFields(e.target, 'setWorkTel')}
+                maxLength="14"
                 required
               ></Form.Control>
             </Form.Group>
@@ -510,14 +368,252 @@ function NewEuipmentInformation(props) {
                 required
               ></Form.Control>
             </Form.Group>
-            {props.tech_email === "" ? (
+            
+          </Col>
+        </Row>
+        {installerCertificationHandler()}
+
+
+        <h4 className="text-center text-info mt-5">
+          NEW EQUIPMENT INFORMATION
+        </h4>
+        
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="manufacturer" >
+              <Form.Label>MANUFACTURER</Form.Label>
+              <Form.Select
+                onChange={(e) => changeManufacturerHandler(e)}
+                value={props.manufacturer}
+              >
+                <option disabled selected>
+                  Select Manufacturer
+                </option>
+
+                {manufacturers ? (
+                  manufacturers.map((ce) => (
+                    <option key={ce.Manufacturer} value={ce.Manufacturer}>
+                      {ce.Manufacturer}
+                    </option>
+                  ))
+                ) : (
+                  <option>Loading . . .</option>
+                )}
+              </Form.Select>
+            </Form.Group>
+            {props.manufacturer === "" ? (
+              <p className="validate text-danger">*This Field is Required</p>
+            ) : (
+              <></>
+            )}
+          </Col>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="model_no" >
+              <Form.Label>MODEL NUMBER</Form.Label>
+              <Form.Select
+                onChange={(e) => changeModelHandler(e)}
+                value={props.model_no}
+              >
+                <option disabled selected>
+                  Select Model
+                </option>
+                {models ? (
+                  models.map((me) => {
+                    if (
+                      props.system_type === "Dryer" ||
+                      props.system_type === "Washer"
+                    ) {
+                      return (
+                        <option key={me.id} value={me.id}>
+                          {me.model}{" "}
+                        </option>
+                      );
+                    } else {
+                      if (me.model === "Indoor / Outdoor") {
+                        return (
+                          <option key={me.id} value={me.id}>
+                            {me.indoor_model} / {me.outdoor_model}
+                          </option>
+                        );
+                      } else if (me.model === "Both") {
+                        return (
+                          <option key={me.id} value={me.id}>
+                            {me.indoor_model} / {me.outdoor_model}/{" "}
+                            {me.package_model}
+                          </option>
+                        );
+                      } else {
+                        return (
+                          <option key={me.id} value={me.id}>
+                            {me.package_model}
+                          </option>
+                        );
+                      }
+                    }
+                  })
+                ) : (
+                  <option>Loading . . . </option>
+                )}
+              </Form.Select>
+            </Form.Group>
+            {props.model_no === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
         </Row>
-        {installerCertificationHandler()}
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="quantity" >
+              <Form.Label>QUANTITY</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder=""
+                onChange={(e) => props.setQuantity(e.target.value)}
+                value={props.quantity}
+                required
+              ></Form.Control>
+            </Form.Group>
+            {props.quantity === "" ? (
+              <p className="validate text-danger">*This Field is Required</p>
+            ) : (
+              <></>
+            )}
+          </Col>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="vendor" >
+              <Form.Label>VENDOR</Form.Label>
+              <Form.Select
+                onChange={(e) => props.setVendor(e.target.value)}
+                value={props.vendor}
+              >
+                <option>{props.vendor}</option>
+              </Form.Select>
+            </Form.Group>
+            {props.vendor === "" ? (
+              <p className="validate text-danger">*This Field is Required</p>
+            ) : (
+              <></>
+            )}
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="invoice_no" >
+              <ModalImage
+                data={{
+                  description: "Invoice",
+                  image_sample: "./sample_invoice.png",
+                }}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
+              <Form.Label>
+                INVOICE#{" "}
+                <a
+                  className="text-secondary"
+                  rel="noreferrer"
+                  target="_blank"
+                  onClick={() => {
+                    setModalShow(true);
+                  }}
+                >
+                  {" "}
+                  <i className="fa fa-question-circle"></i>{" "}
+                </a>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder=""
+                onChange={(e) => props.setInvoiceNo(e.target.value)}
+                value={props.invoice_no}
+                required
+              ></Form.Control>
+            </Form.Group>
+            {props.invoice_no === "" ? (
+              <p className="validate text-danger">*This Field is Required</p>
+            ) : (
+              <></>
+            )}
+          </Col>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="purchase_date" >
+              <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
+              <Form.Control
+                type="date"
+                onChange={(e) => props.setPurchaseDate(e.target.value)}
+                value={props.purchase_date}
+                required
+              ></Form.Control>
+            </Form.Group>
+            {props.purchase_date === "" ? (
+              <p className="validate text-danger">*This Field is Required</p>
+            ) : (
+              <></>
+            )}
+          </Col>
+        </Row>
+        
+
+        
+        <Row>
+          <Col md={6}>
+            <Form.Group controlId="rebate">
+            <Form.Label>REBATE</Form.Label>
+            <Form.Control
+              type="number"
+              onChange={(e) => props.setRebate(e.target.value)}
+              value={props.rebate}
+              required
+              disabled={true}
+            ></Form.Control>
+            </Form.Group>
+          </Col>
+          <Col md={6}>
+            <Form.Group controlId="disposal_slip">
+            <span>INVOICE
+            <span className="text-secondary mb-1"
+                  onClick={() => {
+                  setModalData(p = {description: "DISPOSAL SLIP", image_sample: "./GPADSM5.png"});
+                  setModalShow(true);
+                  }}> 
+                  <i className="fa fa-question-circle"></i> </span>
+            </span>
+            <Form.Control
+              type="file"
+              required
+            ></Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
+        
+        {/* Table and button Add Equipment */}
+        <Row className="mt-3">
+          <Col md={4}></Col>
+          <Col md={4}>
+            <Row>
+              <Button
+                variant="success"
+                size="lg"
+                onClick={() => addEquipmentHandler()}
+                className="d-flex justify-content-center"
+              >
+                Add Equipment
+              </Button>
+            </Row>
+          </Col>
+          <Col md={4}></Col>
+        </Row>
+
+        <Row className="mt-3">
+          <Col md={12}>
+            Total Quantity {totalQuantity}
+            {showTable()}
+          </Col>
+        </Row>
+
       </Col>
       <Col md={3}></Col>
     </Row>

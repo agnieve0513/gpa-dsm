@@ -1,15 +1,24 @@
 import React, {useState, useEffect} from 'react'
-import { Row, Col, Form, Container, Button, InputGroup } from 'react-bootstrap';
+import { Row, Col, Form, Container, Button, InputGroup, Spinner} from 'react-bootstrap';
 
-
+import ModalImage from "../ModalImage";
 import { verifyCustomer,loadCustomerDetail } from '../../actions/customerAction'
 import { useDispatch, useSelector } from 'react-redux'
 
 import city_zipcode from './source_files/city_zipcode'
 
+
+
 function ApplicationInformation(props) {
     
+    const [modalShow, setModalShow] = useState(false);
+    const [modalData, setModalData] = useState({
+        description: "",
+        image_sample: "",
+    });
     const dispatch = useDispatch()
+    let pp = {}
+    let p = {}
 
     const customerVerify = useSelector(state => state.customerVerify)
     const {loading:verifyLoading,error:verifyError, success:verifySuccess, customer_verification} = customerVerify
@@ -37,19 +46,7 @@ function ApplicationInformation(props) {
     {
         if(props.bill_id !== "" && props.account_no !=="")
         {
-            dispatch(verifyCustomer(props.account_no, props.bill_id))
-            if(customer_verification)
-            {
-                if(customer_verification.status === true)
-                {
-                    dispatch(loadCustomerDetail(props.bill_id))
-                    if(customer_detail.AccountID)
-                    {
-                        props.setVerify(true)
-                    }
-                    else{ props.setVerify(false)}
-                }
-            }
+             dispatch(loadCustomerDetail(props.bill_id, props.account_no))
         }
         else
         {
@@ -80,6 +77,11 @@ function ApplicationInformation(props) {
 
     return (
         <Container>
+            <ModalImage
+                data={modalData}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+            />
             <h4 className="text-center text-info mb-4">APPLICANT'S INFORMATION</h4>
             <Row>
                 <Col md={2}></Col>
@@ -88,7 +90,12 @@ function ApplicationInformation(props) {
                     <Row>
                         <Col md={6} className="mb-3">
                             <Form.Group controlId='account_no'>
-                                <Form.Label>GPA ELECTRIC ACCOUNT NUMBER* <a className="text-secondary" href="" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
+                                <Form.Label>GPA ELECTRIC ACCOUNT NUMBER* <span className="text-secondary"
+                                onClick={() => {
+                                setModalData(p = {description: "GPA ACCOUNT NUMBER", image_sample: "./GPADSM1.png"});
+                                setModalShow(true);
+                                }}> 
+                                <i className="fa fa-question-circle"></i> </span></Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder=''
@@ -100,12 +107,44 @@ function ApplicationInformation(props) {
                             {
                                 props.account_no === "" ? <p className="validate text-danger">*This Field is Required</p>
                                 :
-                                props.verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>                            
+                                customerLoading
+                                ?
+                                <Spinner animation="border" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </Spinner>
+                                :
+                                    customerError
+                                    ?
+                                    <>
+                                        {props.setVerify(false)}
+                                        <span className="text-danger">Customer Not Verified</span>
+                                    </>
+                                    :
+                                    <>
+                                        {props.setVerify(true)}
+
+                                        {customer_detail.type
+                                        ?
+                                        <>
+                                        {props.setCustomerType(customer_detail.type.original.message)}
+                                        <span className="text-success">Customer is Verified</span>
+
+                                        </>
+                                        :''}
+                                    </>                      
                             }
                         </Col>
                         <Col md={6}  className="mb-3">
                             <Form.Group controlId='bill_id'>
-                                <Form.Label>BILL ID* <a className="text-secondary" href="" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label> <br />
+                                <Form.Label>BILL ID* 
+                                    <span className="text-secondary"
+                                     onClick={() => {
+                                        setModalData(pp = {description: "Bill ID", image_sample: "./GPADSM3.png"});
+                                        setModalShow(true);
+                                        }}
+                                    >
+                                        <i className="fa fa-question-circle"></i>
+                                        </span></Form.Label> <br />
                                 <InputGroup>
                                     <Form.Control
                                     type='text'
@@ -125,7 +164,14 @@ function ApplicationInformation(props) {
                     </Row>
                     <Row>
                         <Col md={12}>
-                            <span><b>Applicant's Name : </b></span>
+                            <span><b>Applicant's Name : {
+                            customer_detail
+                            ? 
+                                customer_detail.info?
+                                customer_detail.info["@attributes"].Name: ''
+                            :
+                                ''
+                            } </b></span>
                             <hr />
                         </Col>
                         <Col md={6} className="mb-3">
@@ -233,20 +279,19 @@ function ApplicationInformation(props) {
                                     placeholder=''
                                     onChange={(e)=>props.setEmail(e.target.value)}
                                     value={props.email}
-                                    required
                                     disabled={props.verify? false: true}
                                 >
                                 </Form.Control>
                             </Form.Group>
-                            { props.email === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                         </Col>
                         <Col md={6} className="mb-3">
                             <Form.Group controlId='telephone_no' >
-                                <Form.Label>TELEPHONE NUMBER</Form.Label>
+                                <Form.Label>CONTACT NUMBER</Form.Label>
                                 <Form.Control
                                     type='text'
                                     placeholder=''
-                                    onChange={(e)=> props.setTelNo(e.target.value)}
+                                    onChange={(e)=>handleNumericFields(e.target, 'setTelNo')}
+                                    maxLength="14"
                                     value={props.tel_no}
                                     required
                                     disabled={props.verify? false: true}
@@ -323,7 +368,22 @@ function ApplicationInformation(props) {
                     </Row>
 
                     <Row>
-                        <Col md={6} className="mb-3">
+                        <Col md={4} className="mb-3">
+                            <Form.Group controlId='mailing_country'>
+                                <Form.Label>COUNTRY*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMailingCountry(e.target.value)}
+                                    value={props.mailing_country}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.mailing_country === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                        <Col md={4} className="mb-3">
                             <Form.Group controlId='mailing_city_village'>
                                 <Form.Label>CITY/VILLAGE</Form.Label>
                                 <Form.Control
@@ -338,7 +398,7 @@ function ApplicationInformation(props) {
                             </Form.Group>
                             { props.mailing_city_village === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                         </Col>
-                        <Col md={6} className="mb-3">
+                        <Col md={4} className="mb-3">
                             <Form.Group controlId='mailing_zipcode'>
                                 <Form.Label>ZIP CODE</Form.Label>
                                 <Form.Control
@@ -362,9 +422,9 @@ function ApplicationInformation(props) {
                                     type='text'
                                     placeholder=''
                                     value={props.home_size}
-                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeSize')}
                                     required
                                     disabled={props.verify? false: true}
+                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeSize')}
                                     maxLength="6"
                                 >
                                 </Form.Control>
@@ -373,17 +433,17 @@ function ApplicationInformation(props) {
                         </Col>
                         <Col md={4} className="mb-3">
                             <Form.Group controlId='home_age'>
-                                <Form.Label>HOME AGE (approx.year built?)*</Form.Label>
-                                <Form.Select
-                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeAge')}
+                                <Form.Label>YEAR BUILT*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
                                     value={props.home_age}
+                                    required
                                     disabled={props.verify? false: true}
-                                    >
-                                        <option />
-                                        {years.map(p => (
-                                            <option>{p}</option>
-                                        ))}
-                                </Form.Select>
+                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeAge')}
+                                    maxLength="4"
+                                >
+                                </Form.Control>
                             </Form.Group>
                             { props.home_age === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
                         </Col>

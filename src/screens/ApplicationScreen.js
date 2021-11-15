@@ -42,6 +42,10 @@ function ApplicationScreen() {
   const [saved, setSaved] = useState(false);
   const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
+  
+
+  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
+  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
   const [verify, setVerify] = useState(true);
@@ -49,6 +53,7 @@ function ApplicationScreen() {
 
   const [account_no, setAccountNo] = useState("");
   const [bill_id, setBillId] = useState("");
+  const [customer_type, setCustomerType] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [middlename, setMiddlename] = useState("");
@@ -59,6 +64,7 @@ function ApplicationScreen() {
   const [email, setEmail] = useState("");
   const [is_applicant_owner, setIsApplicantOwner] = useState(true);
   const [mailing_address, setMailingAddress] = useState("");
+  const [mailing_country, setMailingCountry] = useState("");
   const [mailing_city_village, setMailingCityVillage] = useState("");
   const [mailing_zipcode, setMailingZipCode] = useState("");
   const [home_size, setHomeSize] = useState("");
@@ -209,6 +215,109 @@ function ApplicationScreen() {
     });
   };
   const handleNextClick = (currentStep) => {
+
+    if(currentStep === 2 && stepOneToStepFive)
+    {
+      if (
+        account_no === "" ||
+        bill_id === "" ||
+        firstname === "" ||
+        lastname === "" ||
+        service_location === "" ||
+        city_village === "" ||
+        zipcode === "" ||
+        tel_no === "" ||
+        is_applicant_owner === "" ||
+        mailing_address === "" ||
+        mailing_city_village === "" ||
+        mailing_zipcode === "" ||
+        home_size === "" ||
+        home_age === "" ||
+        is_new_construction === "" ||
+        home_type === ""
+      ) {
+        errorMessage();
+      } else {
+        setStep(currentStep + 3);
+      }
+    }
+
+    if(currentStep === 3 && stepOneToStepFive)
+    {
+      if (
+        new_equipments.length === 0 ||
+        system_type === "" ||
+        manufacturer === "" ||
+        model_no === "" ||
+        quantity === "" ||
+        vendor === "" ||
+        invoice_no === "" ||
+        purchase_date === "" ||
+        technician_name === "" ||
+        work_tel === "" ||
+        company_name === "" ||
+        date_final_installation === ""
+      ) {
+        errorMessage();
+      } else {
+        setStep(currentStep + 2);
+      }
+    }
+
+    if(currentStep === 2 && stepOneToStepSix)
+    {
+      if (
+        account_no === "" ||
+        bill_id === "" ||
+        firstname === "" ||
+        lastname === "" ||
+        service_location === "" ||
+        city_village === "" ||
+        zipcode === "" ||
+        tel_no === "" ||
+        is_applicant_owner === "" ||
+        mailing_address === "" ||
+        mailing_city_village === "" ||
+        mailing_zipcode === "" ||
+        home_size === "" ||
+        home_age === "" ||
+        is_new_construction === "" ||
+        home_type === ""
+      ) {
+        errorMessage();
+      } else {
+        setStep(currentStep + 5);
+      }
+    }
+
+    if(currentStep === 3 && stepOneToStepSix)
+    {
+      if (
+        new_equipments.length === 0 ||
+        system_type === "" ||
+        manufacturer === "" ||
+        model_no === "" ||
+        quantity === "" ||
+        vendor === "" ||
+        invoice_no === "" ||
+        purchase_date === "" ||
+        technician_name === "" ||
+        work_tel === "" ||
+        company_name === "" ||
+        date_final_installation === ""
+      ) {
+        errorMessage();
+      } else {
+        setStep(currentStep + 4);
+      }
+    }
+
+    if(currentStep === 3 && stepOneToStepSix)
+    {
+      setStep(currentStep + 2);
+    }
+
+
     if (step <= 8 || step > 0) {
       if (is_set_control_no === false) {
         dispatch(generateControlNo());
@@ -225,7 +334,6 @@ function ApplicationScreen() {
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||
-          email === "" ||
           tel_no === "" ||
           is_applicant_owner === "" ||
           mailing_address === "" ||
@@ -253,8 +361,7 @@ function ApplicationScreen() {
           technician_name === "" ||
           work_tel === "" ||
           company_name === "" ||
-          date_final_installation === "" ||
-          tech_email === ""
+          date_final_installation === ""
         ) {
           errorMessage();
         } else {
@@ -264,20 +371,12 @@ function ApplicationScreen() {
         if (no_existing) {
           setStep(currentStep + 1);
         } else {
-          if (
-            agree_terms === "" ||
-            disposal_party === "" ||
-            seer === "" ||
-            is_equipment_condition === "" ||
-            old_tons === "" ||
-            old_quantity === "" ||
-            old_years === "" ||
-            old_btu === ""
-          ) {
-            errorMessage();
-          } else {
-            errorMessage();
-          }
+          // if (
+          // ) {
+          //   errorMessage();
+          // } else {
+          //   errorMessage();
+          // }
         }
       } else {
         setStep(currentStep + 1);
@@ -305,6 +404,8 @@ function ApplicationScreen() {
             <ApplicationInformation
               verify={verify}
               setVerify={setVerify}
+              customer_type={customer_type}
+              setCustomerType={setCustomerType}
               account_no={account_no}
               setAccountNo={setAccountNo}
               bill_id={bill_id}
@@ -329,6 +430,8 @@ function ApplicationScreen() {
               setIsApplicantOwner={setIsApplicantOwner}
               mailing_address={mailing_address}
               setMailingAddress={setMailingAddress}
+              mailing_country={mailing_country}
+              setMailingCountry={setMailingCountry}
               mailing_city_village={mailing_city_village}
               setMailingCityVillage={setMailingCityVillage}
               mailing_zipcode={mailing_zipcode}
@@ -346,6 +449,7 @@ function ApplicationScreen() {
             <NewEuipmentInformation
               control_no={control_no}
               setControlNo={setControlNo}
+              customer_type={customer_type}
               new_equipments={new_equipments}
               setNewEquipments={setNewEquipments}
               system_type={system_type}
@@ -426,6 +530,8 @@ function ApplicationScreen() {
             />
           ) : step === 5 ? (
             <EquipmentReview
+              stepOneToStepFive={stepOneToStepFive}
+              setStepOneToStepFive={setStepOneToStepFive}
               step={step}
               setStep={setStep}
               old_equipments={old_equipments}
@@ -489,6 +595,8 @@ function ApplicationScreen() {
           ) : step === 7 ? (
             <FinalReview
               invoice={invoice}
+              stepOneToStepSix = {stepOneToStepSix}
+              setStepOneToStepSix = {setStepOneToStepSix}
               setInvoice={setInvoice}
               irs_form={irs_form}
               setIrsForm={setIrsForm}

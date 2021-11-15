@@ -13,12 +13,12 @@ function EquipmentReview(props) {
     const [old_eq_index, setOldEqIndex] = useState(0)
 
     const backToApplicationHandler = () => {
-        props.setEditing(true)
+        props.setStepOneToStepFive(true)
         props.setStep(2)
     }
 
     const backToNewEquipmentHandler = ()=> {
-        props.setEditing(true)
+        props.setStepOneToStepFive(true)
         props.setStep(3)
     }
 
