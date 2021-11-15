@@ -78,7 +78,7 @@ function NewEuipmentInformation(props) {
                 "company_name" : props.company_name,
                 "technician_cert_no" : props.technician_cert_no,
                 "date_final_installation": props.date_final_installation,
-                "email" : props.tech_email
+                "contact" : props.tech_contact
             }
         }
         props.setNewEquipments(props.new_equipments.concat(obj))
@@ -98,27 +98,48 @@ function NewEuipmentInformation(props) {
     const installerCertificationHandler = () => {
         if(props.system_type === "Dryer" || props.system_type === "Washer")
         {
-            return(<></>)
+            return(
+                <Row>
+                    {
+                        invoiceReceipt(12)
+                    }
+                </Row>
+            )
         }
         else
         {
             return (
                 <Row>
-                <Col md={12}>
+                    <Col md={6} className="mb-3">
                         <Form.Group controlId='installer_certification' className="mb-3">
                             <Form.Label>INSALLER'S CERTIFICATION*</Form.Label>
                             <Form.Control
-                                type='text'
+                                type='file'
                                 placeholder=''
                                 required
                             >
                             </Form.Control>
                         </Form.Group>
-
                     </Col>
+                    {
+                        invoiceReceipt(6)
+                    }
                 </Row>
             )
         }
+    }
+
+    const invoiceReceipt = (colLen) => {
+        return (
+            <Col md={colLen} className="mb-3">
+                <Form.Label>INVOICE RECEIPT*</Form.Label>
+                <Form.Control
+                    type='file'
+                    placeholder=''
+                    required
+                />
+            </Col>
+        )
     }
 
     const showTable = () =>{
@@ -179,155 +200,25 @@ function NewEuipmentInformation(props) {
         }
     }
    
+    const handleNumericFields = (input, propVar) => {
+        const re = /^[0-9\b]+$/;
+
+        // if value is not blank, then test the regex
+        if (input.value === '' || re.test(input.value)) {
+            props[propVar](input.value)
+        }
+    }
+
+    const today = new Date()
+    let years = []
+    for(var i=today.getFullYear(); i>=1950; i--) {
+        years.push(i)
+    }
+
     return (
             <Row>
             <Col md={3}></Col>
             <Col md={6}>
-                
-                <h4 className="text-center text-info">NEW EQUIPMENT INFORMATION</h4>
-                <Row>
-                    <Col md={8} className="mb-3">
-                        <Form.Group controlId='system_type'>
-                            <Form.Label>SYSTEM TYPE</Form.Label>
-                            <Form.Select onChange={(e)=>changeSystemTypeHandler(e)} value={props.system_type} >
-                            
-                            <option value="Central AC">Central AC</option>
-                            <option value="Central AC">Central AC - Commercial</option>
-                            <option value="Split AC">Split AC</option>
-                            <option value="Split AC">Split AC - Commercial</option>
-                            <option value="Window AC">Window AC</option>
-                            <option value="Dryer">Dryer</option>
-                            <option value="Washer">Washer</option>
-                            </Form.Select>
-                        </Form.Group>
-                        { props.system_type === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='manufacturer' className="mb-3">
-                            <Form.Label>MANUFACTURER</Form.Label>
-                            <Form.Select onChange={(e)=>changeManufacturerHandler(e)} 
-                            value={props.manufacturer} >
-                                    <option disabled selected>Select Manufacturer</option>
-
-                                    {manufacturers?
-                                        manufacturers.map(ce => (
-                                         <option key={ce.Manufacturer} value={ce.Manufacturer}>{ce.Manufacturer}</option>
-                                    ))
-                                      : <option>Loading . . .</option>}
-                            </Form.Select>
-                        </Form.Group>
-                        { props.manufacturer === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='model_no' className="mb-3">
-                            <Form.Label>MODEL NUMBER</Form.Label>
-                            <Form.Select onChange={(e)=>changeModelHandler(e)} 
-                            value={props.model_no} >
-                                <option disabled selected>Select Model</option>
-                                {models? 
-                                    models.map(me => 
-                                    {
-                                        if(props.system_type === "Dryer" || props.system_type === "Washer")
-                                        {
-                                            return <option key={me.id} value={me.id}>{me.model} </option>
-                                        }
-                                        else
-                                        {
-                                            if(me.model === "Indoor / Outdoor")
-                                            {
-                                                return <option key={me.id} value={me.id}>{me.indoor_model} / {me.outdoor_model}</option>
-                                            }
-                                            else if(me.model === "Both")
-                                            {
-                                                return <option key={me.id} value={me.id}>{me.indoor_model} / {me.outdoor_model}/ {me.package_model}</option>
-                                            }
-                                            else
-                                            {
-                                                return <option key={me.id} value={me.id}>{me.package_model}</option>
-                                            }
-                                        }
-                                    }
-                                )
-                                : <option>Loading . . . </option>}
-                            </Form.Select>
-                        </Form.Group>
-                        { props.model_no === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='quantity' className="mb-3">
-                            <Form.Label>QUANTITY</Form.Label>
-                            <Form.Control
-                                type='number'
-                                placeholder=''
-                                onChange={(e)=>props.setQuantity(e.target.value)}
-                                value={props.quantity}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                        { props.quantity === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='vendor' className="mb-3">
-                            <Form.Label>VENDOR</Form.Label>
-                            <Form.Select onChange={(e)=>props.setVendor(e.target.value)} 
-                            value={props.vendor} >
-                                    <option>{props.vendor}</option>
-                            </Form.Select>
-                        </Form.Group>
-                        { props.vendor === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-
-                    </Col>
-                </Row>
-               
-                <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='invoice_no' className="mb-3">
-                            <Form.Label>INVOICE#</Form.Label>
-                            <Form.Control
-                                type='text'
-                                placeholder=''
-                                onChange={(e)=>props.setInvoiceNo(e.target.value)}
-                                value={props.invoice_no}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                        { props.invoice_no === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-                    </Col>
-                    <Col md={6}>
-                        <Form.Group controlId='purchase_date' className="mb-3">
-                            <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
-                            <Form.Control
-                                type='date'
-                                onChange={(e)=>props.setPurchaseDate(e.target.value)}
-                                value={props.purchase_date}
-                                required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                        { props.purchase_date === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
-                    </Col>
-                </Row>
-                
-               <Row>
-                    <Col md={12}>
-                        {/* Row for rebate */}
-                        {
-                            showRebateHandler()
-                        }
-                    </Col>
-                 
-               </Row>
-
-
                 {/* Row for installer's information */}
                 <h4 className="text-center text-info mt-5">INSTALLER'S INFORMATION</h4>               
                 <Row>
@@ -396,18 +287,17 @@ function NewEuipmentInformation(props) {
 
                     </Col>
                     <Col md={6} className="mb-3">
-                        <Form.Group controlId='tech_email'>
-                            <Form.Label>EMAIL*</Form.Label>
+                        <Form.Group controlId='tech_contact'>
+                            <Form.Label>CONTACT NO*</Form.Label>
                             <Form.Control
-                                type='email'
+                                type='text'
                                 placeholder=''
-                                onChange={(e)=>props.setTechEmail(e.target.value)}
-                                value={props.tech_email}
-                                required
+                                onChange={(e)=>handleNumericFields(e.target, 'setTechContact')}
+                                value={props.tech_contact}
                             >
                             </Form.Control>
                         </Form.Group>
-                        { props.tech_email === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        { props.tech_contact === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
 
                     </Col>
                 </Row>
@@ -415,7 +305,149 @@ function NewEuipmentInformation(props) {
                     installerCertificationHandler()
                 }
 
-               
+                <h4 className="text-center text-info">NEW EQUIPMENT INFORMATION</h4>
+                <Row>
+                    <Col md={8} className="mb-3">
+                        <Form.Group controlId='system_type'>
+                            <Form.Label>SYSTEM TYPE</Form.Label>
+                            <Form.Select onChange={(e)=>changeSystemTypeHandler(e)} value={props.system_type} >
+                            
+                            <option value="Central AC">Central AC</option>
+                            <option value="Central AC">Central AC - Commercial</option>
+                            <option value="Split AC">Split AC</option>
+                            <option value="Split AC">Split AC - Commercial</option>
+                            <option value="Window AC">Window AC</option>
+                            <option value="Dryer">Dryer</option>
+                            <option value="Washer">Washer</option>
+                            </Form.Select>
+                        </Form.Group>
+                        { props.system_type === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='manufacturer' className="mb-3">
+                            <Form.Label>MANUFACTURER</Form.Label>
+                            <Form.Select onChange={(e)=>changeManufacturerHandler(e)} 
+                            value={props.manufacturer} >
+                                    <option disabled selected>Select Manufacturer</option>
+
+                                    {manufacturers?
+                                        manufacturers.map(ce => (
+                                         <option key={ce.Manufacturer} value={ce.Manufacturer}>{ce.Manufacturer}</option>
+                                    ))
+                                      : <option>Loading . . .</option>}
+                            </Form.Select>
+                        </Form.Group>
+                        { props.manufacturer === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='model_no' className="mb-3">
+                            <Form.Label>MODEL NUMBER</Form.Label>
+                            <Form.Select onChange={(e)=>changeModelHandler(e)} 
+                            value={props.model_no} >
+                                <option disabled selected>Select Model</option>
+                                {models? 
+                                    models.map(me => 
+                                    {
+                                        if(props.system_type === "Dryer" || props.system_type === "Washer")
+                                        {
+                                            return <option key={me.id} value={me.id}>{me.model} </option>
+                                        }
+                                        else
+                                        {
+                                            if(me.model === "Indoor / Outdoor")
+                                            {
+                                                return <option key={me.id} value={me.id}>{me.indoor_model} / {me.outdoor_model}</option>
+                                            }
+                                            else if(me.model === "Both")
+                                            {
+                                                return <option key={me.id} value={me.id}>{me.indoor_model} / {me.outdoor_model}/ {me.package_model}</option>
+                                            }
+                                            else
+                                            {
+                                                return <option key={me.id} value={me.id}>{me.package_model}</option>
+                                            }
+                                        }
+                                    }
+                                )
+                                : <option>Loading . . . </option>}
+                            </Form.Select>
+                        </Form.Group>
+                        { props.model_no === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='quantity' className="mb-3">
+                            <Form.Label>QUANTITY</Form.Label>
+                            <Form.Control
+                                type='number'
+                                placeholder=''
+                                onChange={(e)=>props.setQuantity(e.target.value)}
+                                value={props.quantity}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                        { props.quantity === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='vendor' className="mb-3">
+                            <Form.Label>VENDOR</Form.Label>
+                            <Form.Select onChange={(e)=>props.setVendor(e.target.value)} 
+                            value={props.vendor} >
+                                    <option>{props.vendor}</option>
+                            </Form.Select>
+                        </Form.Group>
+                        { props.vendor === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+
+                    </Col>
+                </Row>
+
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='invoice_no' className="mb-3">
+                            <Form.Label>INVOICE#</Form.Label>
+                            <Form.Control
+                                type='text'
+                                placeholder=''
+                                onChange={(e)=>props.setInvoiceNo(e.target.value)}
+                                value={props.invoice_no}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                        { props.invoice_no === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='purchase_date' className="mb-3">
+                            <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
+                            <Form.Control
+                                type='date'
+                                onChange={(e)=>props.setPurchaseDate(e.target.value)}
+                                value={props.purchase_date}
+                                required
+                            >
+                            </Form.Control>
+                        </Form.Group>
+                        { props.purchase_date === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                    </Col>
+                </Row>
+                
+               <Row>
+                    <Col md={12}>
+                        {/* Row for rebate */}
+                        {
+                            showRebateHandler()
+                        }
+                    </Col>
+               </Row>
 
                 <Row>
                     <Col md={4}></Col>
