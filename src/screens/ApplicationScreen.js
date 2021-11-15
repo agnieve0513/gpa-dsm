@@ -1,478 +1,479 @@
 import React, {useState, useEffect} from 'react'
+import { Row, Col, Form, Container, Button, InputGroup } from 'react-bootstrap';
 
-import { Button } from 'react-bootstrap';
 
-
-import { generateControlNo, register} from '../actions/customerAction'
-
+import { verifyCustomer,loadCustomerDetail } from '../../actions/customerAction'
 import { useDispatch, useSelector } from 'react-redux'
 
-import Steps from '../components/application/Steps'
-import ApplicationRequirements from '../components/application/ApplicationRequirements'
-import ApplicationInformation from '../components/application/ApplicationInformation'
-import NewEuipmentInformation from '../components/application/NewEuipmentInformation'
-import ExistingEquipmentInformation from '../components/application/ExistingEquipmentInformation'
-import EquipmentReview from '../components/application/EquipmentReview'
-import SubmissionOfDocumentation from '../components/application/SubmissionOfDocumentation'
-import FinalReview from '../components/application/FinalReview'
-import TermsAndCondition from '../components/application/TermsAndCondition'
-import Confirm from '../components/application/Confirm'
+import city_zipcode from './source_files/city_zipcode'
 
-
-import CustomerHeader from '../components/CustomerHeader'
-import Footer from '../components/Footer'
-
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
-
-import './ApplicationScreen.css'
-
-const MySwal = withReactContent(Swal)
-
-
-function ApplicationScreen() {
-
+function ApplicationInformation(props) {
+    
     const dispatch = useDispatch()
 
-    const customerGenerateControlNo = useSelector(state => state.customerGenerateControlNo)
-    const {customerNo} = customerGenerateControlNo
+    const customerVerify = useSelector(state => state.customerVerify)
+    const {loading:verifyLoading,error:verifyError, success:verifySuccess, customer_verification} = customerVerify
 
-    // const customerRegister = useSelector(state => state.customerRegister)
-    // const {loading:registerLoading,error:registerError, success:registerSuccess} = customerRegister
+    const customerDetail = useSelector(state => state.customerDetail)
+    const {loading:customerLoading,error:customerError, customer_detail} = customerDetail
 
-    // Application Information
-    const [saved, setSaved] = useState(false)
-    const [step, setStep] = useState(1)
-    const [is_set_control_no, setIsSetControlNo] = useState(false)
-    const [editing, setEditing] = useState(false)
+    const submitHandler = (e) => {
+        e.preventDefault()
+    }
 
-    // For verification
-    const [verify, setVerify] = useState(true)
-    const [control_no, setControlNo] = useState('')
+    const changeZipCode = (e) => {
+       props.setCityVillage(e.target.value)
 
-    const [account_no, setAccountNo] = useState("")
-    const [bill_id, setBillId] = useState("")
-    const [firstname, setFirstname] = useState("")
-    const [lastname, setLastname] = useState("")
-    const [middlename, setMiddlename] = useState("")
-    const [service_location, setServiceLocation] = useState("")
-    const [city_village, setCityVillage] = useState("")
-    const [zipcode, setZipCode] = useState("")
-    const [tel_no, setTelNo] = useState("")
-    const [email, setEmail] = useState("")
-    const [is_applicant_owner, setIsApplicantOwner] = useState(true)
-    const [mailing_address, setMailingAddress] = useState("")
-    const [mailing_city_village, setMailingCityVillage] = useState("")
-    const [mailing_zipcode, setMailingZipCode] = useState("")
-    const [home_size, setHomeSize] = useState("")
-    const [home_age, setHomeAge] = useState("")
-    const [home_type, setHomeType] = useState("")
-    const [is_new_construction, setIsNewConstruction] = useState("")
 
-    // New Equipment
-        const [new_equipments, setNewEquipments] = useState([])
+       const result =  city_zipcode.find((p) => p._id === e.target.value);
 
-        // Installer Information
-        const [technician_name, setTechnicianName] = useState("")
-        const [work_tel, setWorkTel] = useState("")
-        const [company_name, setCompanyName] = useState("")
-        const [technician_cert_no, setTechnicianCertNo] = useState("")
-        const [date_final_installation, setDateFinalInstallation] = useState("")
-        const [tech_contact, setTechContact] = useState("")
-        // Equipment
-        const [manufacturers, setManufacturerList] = useState([])
-        const [models, setModelList] = useState([])
+       if(result)
+       {
+          props.setZipCode(result.zip_code); 
+       }
+    }
 
-        const [system_type, setSystemType] = useState("")
-        const [vendor, setVendor] = useState("")
-        const [quantity, setQuantity] = useState("")
-        const [btu, setBtu] = useState("")
-        const [size, setSize] = useState("")
-        const [manufacturer, setManufacturer] = useState("")
-        const [model_no, setModelNo] = useState("")
-        const [invoice_no, setInvoiceNo] = useState("")
-        const [purchase_date, setPurchaseDate] = useState("")
-        const [type, setType] = useState("")
-        const [tons, setTons] = useState("")
-        const [rebate, setRebate] = useState("")
-
-    // Old Equipment
-    const [old_equipments, setOldEquipments] = useState([])
-    const [no_existing, setNoExisting] = useState(false)
-
-    const [old_system_type, setOldSystemType] = useState("")
-    const [old_quantity, setOldQuantity] = useState("")
-    const [old_btu, setOldBtu] = useState("")
-    // const [old_size, setOldSize] = useState("")
-    const [old_years, setOldYears] = useState("")
-    const [old_tons, setOldTons] = useState("")
-    const [is_equipment_condition, setIsEquipmentCondition] = useState("")
-    const [seer, setSeer] = useState("")
-    const [disposal_party, setDisposalParty] = useState("")
-    const [date, setDate] = useState("")
-    const [is_no_existing_to_replace, seIsNoExistingToReplace] = useState(false)
-    const [agree_terms, setAgreeTerms] = useState("")
-
-    // Submitted Documents
-    const [invoice, setInvoice] = useState("")
-    const [irs_form, setIrsForm] = useState("")
-    const [disposal_slip, setDisposalSlip] = useState("")
-    const [letter_authorization, setLetterAuthorization] = useState("")
-    const [other_doc1, setOtherDoc1] = useState("")
-    const [other_doc2, setOtherDoc2] = useState("")
-    const [other_doc3, setOtherDoc3] = useState("")
-
-    const [terms_and_agreement, setTermsAndAgreement] = useState(false)
-
-    useEffect(() => {
-        dispatch(generateControlNo())
-    }, [dispatch])
-
-    const handleSave = () => {
-        if(!terms_and_agreement)
+    const verifyCustomerHandler = () =>
+    {
+        if(props.bill_id !== "" && props.account_no !=="")
         {
-            alert("Please Check the terms and agreement to proceed")
-            setStep(step-1)
+            dispatch(verifyCustomer(props.account_no, props.bill_id))
+            if(customer_verification)
+            {
+                if(customer_verification.status === true)
+                {
+                    dispatch(loadCustomerDetail(props.bill_id))
+                    if(customer_detail.AccountID)
+                    {
+                        props.setVerify(true)
+                    }
+                    else{ props.setVerify(false)}
+                }
+            }
         }
         else
         {
-            Swal.fire({
-                icon: 'question',
-                title: 'Do you want to save the changes?',
-                showDenyButton: true,
-                confirmButtonText: 'Save',
-                denyButtonText: `Don't save`,
-              }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    const obj = {
-                        "application_information": {
-                            "control_no":control_no,
-                            "account_no" : account_no,
-                            "bill_id" : bill_id,
-                            "customer_name" : firstname+" "+middlename+" "+lastname,
-                            "service_location" : service_location,
-                            "city_village" : city_village ,
-                            "zipcode" : zipcode,
-                            "email" : email,
-                            "tel_no" : tel_no,
-                            "is_applicant_owner" : is_applicant_owner,
-                            "mailing_address" : mailing_address,
-                            "mailing_city_village" : mailing_city_village,
-                            "mailing_zipcode" : mailing_zipcode, 
-                            "home_size" : home_size,
-                            "home_age" : home_age,
-                            "home_type" : home_type,
-                            "is_new_construction" : is_new_construction
-                            },
-                            "new_equipment_information" : 
-                            new_equipments,
-                            "existing_old_equipment_information" : 
-                            old_equipments,
-                            "submitted_documents" : {
-                                "control_no" : customerNo,
-                                "invoice" : invoice,
-                                "irs_form": irs_form,
-                                "disposal_slip" : disposal_slip,
-                                "letter_authorization" : letter_authorization,
-                                "other_doc1" : other_doc1,
-                                "other_doc2" : other_doc2,
-                                "other_doc3" : other_doc3
-                            }
-                    }
-                    if(control_no !== "")
-                    {
-                        dispatch(register(obj))
-                        setSaved(true)
-                        MySwal.fire({
-                            icon: 'success',
-                            title: 'Successfully Saved',
-                            text: 'You will be directed to Success Page'
-                          })
-                    }
-                } else if (result.isDenied) {
-                  Swal.fire('Changes are not yet saved', '', 'info')
-                    setStep(step-1)
-                }
-              })
+            alert("Account Number & Bill ID is required to verify customer")
         }
+        
     }
 
-    const errorMessage = () =>
+    const handleFocus = () =>
     {
-        const Toast = MySwal.mixin({
-            toast: true,
-            position: 'top-right',
-            iconColor: 'white',
-            customClass: {
-              popup: 'colored-toast'
-            },
-            showConfirmButton: false,
-            timer: 3500,
-            timerProgressBars: true
-          })
-          
-          Toast.fire({
-            icon: 'info',
-            title: 'All Fields are required',
-            text: 'Fields should not be empty in order to proceed to next step'
-          })
+        console.log("focused!");
     }
-    const handleNextClick = (currentStep) => {
-        if(step <= 8 || step > 0)
-        {
-            if(is_set_control_no === false)
-            {
-                dispatch(generateControlNo())
-                setControlNo(customerNo)
-                setIsSetControlNo(true)
-            }
 
-            if(currentStep === 2)
-            {
-                if(account_no === "" || bill_id===""
-                || firstname==="" ||  lastname==="" || service_location ===""
-                || city_village==="" || zipcode==="" || email==="" || tel_no===""
-                || is_applicant_owner === "" || mailing_address==="" ||
-                mailing_city_village==="" || mailing_zipcode==="" || home_size===""
-                || home_age==="" || is_new_construction ==="" || home_type ==="")
-                {
-                    errorMessage();
-                }
-                else
-                {
-                    if(editing)
-                    {
-                        setStep(currentStep+3)
-                    }
-                    else
-                    {
-                        setStep(currentStep+1)
-                    }
-                }
-            }
-            else if(currentStep === 3)
-            {
-                if(new_equipments.length === 0 || system_type ==="" || manufacturer==="" || model_no===""
-                || quantity ==="" || vendor==="" || invoice_no===""
-                || purchase_date==="" || technician_name==="" || work_tel===""
-                || company_name==="" || date_final_installation===""
-                || tech_contact===""
-                )
-                {
-                    errorMessage();
-                }
-                else
-                {
-                    if(editing)
-                    {
-                        setStep(currentStep+2)
-                    }
-                    else
-                    {
-                        setStep(currentStep+1)
-                    }
-                }
-            }
-            else if(currentStep === 4)
-            {
-                if(no_existing)
-                {
-                    setStep(currentStep+1)
-                }
-                else
-                {
-                    if(agree_terms === "" || disposal_party===""
-                    || seer==="" || is_equipment_condition===""
-                    || old_tons==="" || old_quantity===""
-                    || old_years==="" || old_btu==="")
-                    {
-                        errorMessage();
-                    }
-                    else
-                    {
-                        errorMessage();
-                    }
-                }
-            }
-            else
-            {
-                setStep(currentStep+1)
-            }
-            
+    const handleNumericFields = (input, propVar) => {
+        const re = /^[0-9\b]+$/;
+
+        // if value is not blank, then test the regex
+        if (input.value === '' || re.test(input.value)) {
+            props[propVar](input.value)
         }
     }
 
-    const handleBackClick = (currentStep) =>{
-        if(step > 1)
-        {
-            setStep(currentStep-1)
-            setEditing(false)
-        }       
-
+    const today = new Date()
+    let years = []
+    for(var i=today.getFullYear(); i>=1950; i--) {
+        years.push(i)
     }
 
     return (
-        <div>
-            <CustomerHeader />
-            {
-                saved ?
-                    <Confirm 
-                        control_no={control_no} setControlNo={setControlNo}
-                    />
-                :
-                <>
-                    <Steps currentStep={step} />
-                    {
-                        step === 1?
-                            <ApplicationRequirements 
-                                
-                            />
-                            : step === 2? <ApplicationInformation 
-                                verify={verify} setVerify={setVerify} 
-                                account_no={account_no} setAccountNo={setAccountNo} 
-                                bill_id={bill_id} setBillId={setBillId} 
-                                firstname={firstname} setFirstname={setFirstname}
-                                lastname={lastname} setLastname={setLastname}
-                                middlename={middlename} setMiddlename={setMiddlename}
-                                service_location={service_location} setServiceLocation={setServiceLocation}
-                                city_village={city_village} setCityVillage={setCityVillage}
-                                zipcode={zipcode} setZipCode={setZipCode}
-                                tel_no={tel_no} setTelNo={setTelNo}
-                                email={email} setEmail={setEmail}
-                                is_applicant_owner={is_applicant_owner} setIsApplicantOwner={setIsApplicantOwner}
-                                mailing_address={mailing_address} setMailingAddress={setMailingAddress}
-                                mailing_city_village={mailing_city_village} setMailingCityVillage={setMailingCityVillage}
-                                mailing_zipcode={mailing_zipcode} setMailingZipCode={setMailingZipCode}
-                                home_size={home_size} setHomeSize={setHomeSize}
-                                home_age={home_age} setHomeAge={setHomeAge}
-                                home_type={home_type} setHomeType={setHomeType}
-                                is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
-                            />
-                            : step === 3? <NewEuipmentInformation 
+        <Container>
+            <h4 className="text-center text-info mb-4">APPLICANT'S INFORMATION</h4>
+            <Row>
+                <Col md={2}></Col>
+                <Col md={8}>
+                    <Form onSubmit={submitHandler}>
+                    <Row>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='account_no'>
+                                <Form.Label>GPA ELECTRIC ACCOUNT NUMBER* <a className="text-secondary" href="" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setAccountNo(e.target.value)} value={props.account_no}
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            {
+                                props.account_no === "" ? <p className="validate text-danger">*This Field is Required</p>
+                                :
+                                props.verify ? <p className="text-success">Customer Verified</p> : <p className="text-danger">Customer Not Verified</p>                            
+                            }
+                        </Col>
+                        <Col md={6}  className="mb-3">
+                            <Form.Group controlId='bill_id'>
+                                <Form.Label>BILL ID* <a className="text-secondary" href="" rel="noreferrer" target="_blank"> <i className="fa fa-question-circle"></i> </a></Form.Label> <br />
+                                <InputGroup>
+                                    <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setBillId(e.target.value)} value={props.bill_id}
+                                    required
+                                    />
+                                    <Button onClick={()=> verifyCustomerHandler()} variant="danger" id="button-addon2">
+                                    Verify
+                                    </Button>
+                                </InputGroup>
+                            </Form.Group>
+                            {
+                                props.bill_id === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>
+                            }
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <span><b>Applicant's Name : </b></span>
+                            <hr />
+                        </Col>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='firstname' >
+                                <Form.Label>Firstname</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setFirstname(e.target.value)} value={props.firstname}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.firstname === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                        <Col md={4} className="mb-3">
+                            <Form.Group controlId='lastname'>
+                                <Form.Label>Lastname</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setLastname(e.target.value)} value={props.lastname}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.lastname === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
 
-                                control_no={control_no} setControlNo={setControlNo}
-                                new_equipments={new_equipments} setNewEquipments={setNewEquipments}
-                                system_type={system_type} setSystemType={setSystemType}
-                                vendor={vendor} setVendor={setVendor}
-                                quantity={quantity} setQuantity={setQuantity}
-                                btu={btu} setBtu={setBtu}
-                                size={size} setSize={setSize}
-                                manufacturer={manufacturer} setManufacturer={setManufacturer}
-                                model_no={model_no} setModelNo={setModelNo}
-                                invoice_no={invoice_no} setInvoiceNo={setInvoiceNo}
-                                purchase_date={purchase_date} setPurchaseDate={setPurchaseDate}
-                                type={type} setType={setType}
-                                tons={tons} setTons={setTons}
-                                rebate={rebate} setRebate={setRebate}
-                                manufacturers={manufacturers} setManufacturerList={setManufacturerList}
-                                models={models} setModelList={setModelList}
-                                seer={seer} setSeer={setSeer}
+                        </Col>
+                        <Col md={2} className="mb-3">
+                            <Form.Group controlId='middlename'>
+                                <Form.Label>M. I.</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMiddlename(e.target.value)} value={props.middlename}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12} className="mb-3">
+                            <Form.Group controlId='service_location' >
+                                <Form.Label>SERVICE LOCATION (Address where equipment was installed)*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setServiceLocation(e.target.value)} value={props.service_location}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.service_location === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
 
-                                technician_name={technician_name} setTechnicianName={setTechnicianName}
-                                work_tel={work_tel} setWorkTel={setWorkTel}
-                                company_name={company_name} setCompanyName={setCompanyName}
-                                technician_cert_no={technician_cert_no} setTechnicianCertNo={setTechnicianCertNo}
-                                date_final_installation={date_final_installation} setDateFinalInstallation={setDateFinalInstallation}
-                                tech_contact={tech_contact} setTechContact={setTechContact}
-                            />
-                            : step === 4? <ExistingEquipmentInformation 
-                                control_no={control_no} setControlNo={setControlNo}
-                                no_existing={no_existing} setNoExisting={setNoExisting}
-                                old_equipments={old_equipments} setOldEquipments={setOldEquipments}
-                                is_no_existing_to_replace={is_no_existing_to_replace} seIsNoExistingToReplace={seIsNoExistingToReplace}
-                                old_system_type={old_system_type} setOldSystemType={setOldSystemType}
-                                system_type={system_type} setSystemType={setSystemType}
-                                old_years={old_years} setOldYears={setOldYears}
-                                old_tons={old_tons} setOldTons={setOldTons}
-                                is_equipment_condition={is_equipment_condition} setIsEquipmentCondition={setIsEquipmentCondition}
-                                seer={seer} setSeer={setSeer}
-                                disposal_party={disposal_party} setDisposalParty={setDisposalParty}
-                                date={date} setDate={setDate}
-                                old_btu={old_btu} setOldBtu={setOldBtu}
-                                old_quantity={old_quantity} setOldQuantity={setOldQuantity}
-                                agree_terms={agree_terms} setAgreeTerms={setAgreeTerms}
-                            />
-                            : step === 5? <EquipmentReview 
-                                setEditing={setEditing}
-                                step={step} setStep={setStep}
-                                old_equipments={old_equipments} setOldEquipments={setOldEquipments}
-                                new_equipments={new_equipments} setNewEquipments={setNewEquipments}
-                                account_no={account_no} setAccountNo={setAccountNo} 
-                                bill_id={bill_id} setBillId={setBillId} 
-                                firstname={firstname} setFirstname={setFirstname}
-                                lastname={lastname} setLastname={setLastname}
-                                middlename={middlename} setMiddlename={setMiddlename}
-                                service_location={service_location} setServiceLocation={setServiceLocation}
-                                city_village={city_village} setCityVillage={setCityVillage}
-                                zipcode={zipcode} setZipCode={setZipCode}
-                                tel_no={tel_no} setTelNo={setTelNo}
-                                email={email} setEmail={setEmail}
-                                is_applicant_owner={is_applicant_owner} setIsApplicantOwner={setIsApplicantOwner}
-                                mailing_address={mailing_address} setMailingAddress={setMailingAddress}
-                                mailing_city_village={mailing_city_village} setMailingCityVillage={setMailingCityVillage}
-                                mailing_zipcode={mailing_zipcode} setMailingZipCode={setMailingZipCode}
-                                home_size={home_size} setHomeSize={setHomeSize}
-                                home_age={home_age} setHomeAge={setHomeAge}
-                                home_type={home_type} setHomeType={setHomeType}
-                                is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
-                            />
-                            : step === 6? <SubmissionOfDocumentation
-                                invoice={invoice} setInvoice={setInvoice}
-                                irs_form={irs_form} setIrsForm={setIrsForm}
-                                disposal_slip={disposal_slip} setDisposalSlip={setDisposalSlip}
-                                letter_authorization={letter_authorization} setLetterAuthorization={setLetterAuthorization}
-                                other_doc1={other_doc1} setOtherDoc1={setOtherDoc1}
-                                other_doc2={other_doc2} setOtherDoc2={setOtherDoc2}
-                                other_doc3={other_doc3} setOtherDoc3={setOtherDoc3}
-                            />
-                            : step === 7? <FinalReview 
-                                invoice={invoice} setInvoice={setInvoice}
-                                irs_form={irs_form} setIrsForm={setIrsForm}
-                                disposal_slip={disposal_slip} setDisposalSlip={setDisposalSlip}
-                                letter_authorization={letter_authorization} setLetterAuthorization={setLetterAuthorization}
-                                other_doc1={other_doc1} setOtherDoc1={setOtherDoc1}
-                                other_doc2={other_doc2} setOtherDoc2={setOtherDoc2}
-                                other_doc3={other_doc3} setOtherDoc3={setOtherDoc3}
+                        </Col>
 
-                                step={step} setStep={setStep}
-                                old_equipments={old_equipments} setOldEquipments={setOldEquipments}
-                                new_equipments={new_equipments} setNewEquipments={setNewEquipments}
-                                account_no={account_no} setAccountNo={setAccountNo} 
-                                bill_id={bill_id} setBillId={setBillId} 
-                                firstname={firstname} setFirstname={setFirstname}
-                                lastname={lastname} setLastname={setLastname}
-                                middlename={middlename} setMiddlename={setMiddlename}
-                                service_location={service_location} setServiceLocation={setServiceLocation}
-                                city_village={city_village} setCityVillage={setCityVillage}
-                                zipcode={zipcode} setZipCode={setZipCode}
-                                tel_no={tel_no} setTelNo={setTelNo}
-                                email={email} setEmail={setEmail}
-                                is_applicant_owner={is_applicant_owner} setIsApplicantOwner={setIsApplicantOwner}
-                                mailing_address={mailing_address} setMailingAddress={setMailingAddress}
-                                mailing_city_village={mailing_city_village} setMailingCityVillage={setMailingCityVillage}
-                                mailing_zipcode={mailing_zipcode} setMailingZipCode={setMailingZipCode}
-                                home_size={home_size} setHomeSize={setHomeSize}
-                                home_age={home_age} setHomeAge={setHomeAge}
-                                home_type={home_type} setHomeType={setHomeType}
-                                is_new_construction={is_new_construction} setIsNewConstruction={setIsNewConstruction}
+                    </Row>
+                    <Row>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='city_village' >
+                                <Form.Label>CITY/VILLAGE</Form.Label>
+                                <Form.Select
+                                    onChange={(e)=>changeZipCode(e)}
+                                    value={props.city_village}
+                                    disabled={props.verify? false: true}
+                                    >
+                                        <option />
+                                        {city_zipcode.map(p => (
+                                            <option key={p._id} value={p._id}>{p.village}</option>
+                                        ))}
+                                </Form.Select>
+                            </Form.Group>
+                            { props.city_village === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+
+                        </Col>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='zip_code' >
+                                <Form.Label>ZIP CODE</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>handleNumericFields(e.target, 'setZipCode')}
+                                    value={props.zipcode}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.zipcode === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                    </Row>
+                    
+                    <Row>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='email' >
+                                <Form.Label>EMAIL</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setEmail(e.target.value)}
+                                    value={props.email}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.email === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='telephone_no' >
+                                <Form.Label>TELEPHONE NUMBER</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=> props.setTelNo(e.target.value)}
+                                    value={props.tel_no}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.tel_no === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={6}>
+                            <p>
+                                Applicant must be either the GPA account holder or
+                                the property owner to claim a rebate. Is applicant
+                                the owner of the residential property?
+                            </p>
+
+                        </Col>
+                        <Col md={6}>
+                            <Form.Check
+                                inline
+                                label="Yes"
+                                name="is_applicant_owner"
+                                type={"radio"}
+                                id={`inline-${"radio"}-1`}
+                                value="true"
+                                checked={"true" === props.is_applicant_owner}
+                                onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
-                            : step === 8? <TermsAndCondition 
-                                terms_and_agreement={terms_and_agreement} setTermsAndAgreement={setTermsAndAgreement}
+                            <Form.Check
+                                inline
+                                label="No"
+                                name="is_applicant_owner"
+                                type={"radio"}
+                                value="false"
+                                checked={"false" === props.is_applicant_owner}
+                                onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
+                                disabled={props.verify? false: true}
                             />
-                            : step === 9? <>{handleSave()}</>
-                            :<></>
-                    }
-                    <div className="d-flex justify-content-center mt-5">
-                        <Button onClick={()=> handleBackClick(step)} variant={"secondary"} className="px-5 me-2" size={"lg"}>BACK</Button>
-                        <Button onClick={()=> handleNextClick(step)} disabled={step > 1? verify? false: true: ""} variant={"success"} size={"lg"} className="px-5">CONTINUE</Button>
-                    </div>
-                </>
-            }
-            
-            <Footer />
-        </div>
+                        </Col>
+                        { props.is_applicant_owner === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+
+                    </Row>
+
+                    <Row className="mb-3">
+                        <Col md={12}>
+                            An Exception may be made if the tenant or property owner
+                            representative provides an authorization letter
+                            with a copy of photo I.D. Residential customers
+                            with Commercial Accounts must provide proof of residency
+                            in order to participate in this rebate program.
+                            Condominium or property managers may apply for tennants.
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={12} className="mb-3">
+                            <Form.Group controlId='mailing_address' >
+                                <Form.Label>MAILING ADDRESS <b>(Current address where we will send your rebate check)*</b></Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMailingAddress(e.target.value)}
+                                    value={props.mailing_address}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.mailing_address === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                    </Row>
+
+                    <Row>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='mailing_city_village'>
+                                <Form.Label>CITY/VILLAGE</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>props.setMailingCityVillage(e.target.value)}
+                                    value={props.mailing_city_village}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.mailing_city_village === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                        <Col md={6} className="mb-3">
+                            <Form.Group controlId='mailing_zipcode'>
+                                <Form.Label>ZIP CODE</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    onChange={(e)=>handleNumericFields(e.target, 'setMailingZipCode')}
+                                    value={props.mailing_zipcode}
+                                    required
+                                    disabled={props.verify? false: true}
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.mailing_zipcode === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={4} className="mb-3">
+                            <Form.Group controlId='home_size' >
+                                <Form.Label>HOME SIZE (approx.sq ft.)*</Form.Label>
+                                <Form.Control
+                                    type='text'
+                                    placeholder=''
+                                    value={props.home_size}
+                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeSize')}
+                                    required
+                                    disabled={props.verify? false: true}
+                                    maxLength="6"
+                                >
+                                </Form.Control>
+                            </Form.Group>
+                            { props.home_size === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                        <Col md={4} className="mb-3">
+                            <Form.Group controlId='home_age'>
+                                <Form.Label>HOME AGE (approx.year built?)*</Form.Label>
+                                <Form.Select
+                                    onChange={(e)=>handleNumericFields(e.target, 'setHomeAge')}
+                                    value={props.home_age}
+                                    disabled={props.verify? false: true}
+                                    >
+                                        <option />
+                                        {years.map(p => (
+                                            <option>{p}</option>
+                                        ))}
+                                </Form.Select>
+                            </Form.Group>
+                            { props.home_age === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                        <Col md={4}>
+                            <Form.Label>NEW CONSTRUCTION</Form.Label> <br />
+                            <Form.Check
+                                inline
+                                label="Yes"
+                                name="is_new_construction"
+                                type={"radio"}
+                                value="true"
+                                checked={"true" === props.is_new_construction}
+                                onChange={(e)=>props.setIsNewConstruction(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                            <Form.Check
+                                inline
+                                label="No"
+                                name="is_new_construction"
+                                type={"radio"}
+                                value="false"
+                                checked={"false" === props.is_new_construction}
+                                onChange={(e)=>props.setIsNewConstruction(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                            { props.is_new_construction === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12}>
+                            <Form.Label>HOME TYPE (check one)</Form.Label> <br />
+                            <Form.Check
+                                inline
+                                label="Single Family"
+                                name="home_type"
+                                type={"radio"}
+                                value="Single Family"
+                                checked={"Single Family" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                            <Form.Check
+                                inline
+                                label="Apartment"
+                                name="home_type"
+                                type={"radio"}
+                                value="Apartment"
+                                checked={"Apartment" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                            <Form.Check
+                                inline
+                                label="Condo"
+                                name="home_type"
+                                type={"radio"}
+                                value="Condo"
+                                checked={"Condo" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                            <Form.Check
+                                inline
+                                label="Mobile Home"
+                                name="home_type"
+                                type={"radio"}
+                                value="Mobile Home"
+                                checked={"Mobile Home" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                            <Form.Check
+                                inline
+                                label="Other"
+                                name="home_type"
+                                type={"radio"}
+                                value="Other"
+                                checked={"Other" === props.home_type}
+                                onChange={(e)=>props.setHomeType(e.target.value)}
+                                disabled={props.verify? false: true}
+                            />
+                        </Col>
+                        { props.home_type === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
+                    </Row>
+                    </Form>
+                </Col>
+                <Col md={2}></Col>
+            </Row>
+        </Container>
     )
 }
 
-export default ApplicationScreen
+export default ApplicationInformation
