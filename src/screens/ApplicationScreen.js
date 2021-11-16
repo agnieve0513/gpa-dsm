@@ -48,7 +48,7 @@ function ApplicationScreen() {
   const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
-  const [verify, setVerify] = useState(true);
+  const [verify, setVerify] = useState(false);
   const [control_no, setControlNo] = useState("");
 
   const [account_no, setAccountNo] = useState("");

@@ -334,7 +334,29 @@ function ApplicationInformation(props) {
                                 checked={"false" === props.is_applicant_owner}
                                 onChange={(e)=>props.setIsApplicantOwner(e.target.value)}
                                 disabled={props.verify? false: true}
-                            />
+                            /><br />
+
+                            {
+                                props.is_applicant_owner === "false" ?
+                                <Form.Group controlId='telephone_no' >
+                                <Form.Label>Upload LOA 
+                                    <span className="text-secondary"
+                                    onClick={() => {
+                                    setModalData(p = {description: "LOA", image_sample: "./GPADSM7.png"});
+                                    setModalShow(true);
+                                    }}> 
+                                <i className="fa fa-question-circle"></i> </span>
+                                </Form.Label>
+                                <Form.Control
+                                    type='file'
+                                    placeholder=''
+                                    maxLength="14"
+                                    required
+                                >
+                                </Form.Control>
+                            </Form.Group>:<></>
+                            }
+
                         </Col>
                         { props.is_applicant_owner === "" ? <p className="validate text-danger">*This Field is Required</p> : <></>}
 
