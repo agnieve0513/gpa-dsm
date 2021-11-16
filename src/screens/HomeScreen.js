@@ -47,12 +47,16 @@ function HomeScreen() {
                 </Link>
                 <br />
                 <p className="mb-3"><Link to={`/track`} className="text-white"><u>TRACK YOUR APPLICATION</u></Link></p>
-                <p className="mb-3 text-white"><Link to={`/model-listing`} className="text-white"><u>View Approved Model Listing</u></Link></p>
+                <p className="mb-3 text-white">
+                  <a className="text-white" href="http://guampowerauthority.com/gpa_authority/EnergySense/es-home.html">
+                    <u>View Approved Model Listing</u>
+                  </a>
+                  </p>
                 <p className="mb-3 text-white"><Link to={`/faq`} className="text-white"><u>Online Rebate Requirements and FAQ</u></Link></p>
-
-                <Row className="mt-2">
+                <br />
+                <Row className="mt-5">
                     <Col className="text-center">
-                        <small className="text-secondary">Energy Sense Rebate Program for Central, Ducted Systems <br/>
+                        <small className="text-secondary">Energy Sense Rebate Program <br/>
                         Copyright &copy; 2020 GPA Powered By Xtendly</small>
                     </Col>
                 </Row>

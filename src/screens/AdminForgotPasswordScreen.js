@@ -22,14 +22,18 @@ function AdminForgotPasswordScreen({location, history}) {
       e.preventDefault()
       dispatch(forgotPassword(email))
       console.log(userForgotPassword)
-      if(userForgotPassword.userInfo.status)
+      if(userForgotPassword.userInfo)
       {
-        alert('password reset is sent to your email!')
-        history.push('/admin')
-      }else
-      {
-        alert('user was not found')
+        if(userForgotPassword.userInfo.status)
+        {
+          alert('password reset is sent to your email!')
+          history.push('/admin')
+        }else
+        {
+          alert('user was not found')
+        }
       }
+      
     }
 
     return (

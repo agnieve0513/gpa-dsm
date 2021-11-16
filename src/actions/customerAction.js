@@ -209,7 +209,7 @@ export const verifyCustomer = (accountId) => async (dispatch, getState) => {
 
 }
 
-export const loadCustomerDetail = (bill_id) => async (dispatch, getState) => {
+export const loadCustomerDetail = (bill_id, account_no) => async (dispatch, getState) => {
 
     try{
 
@@ -224,7 +224,13 @@ export const loadCustomerDetail = (bill_id) => async (dispatch, getState) => {
         }
 
         const {data} = await axios.get(
-            URL+`/verify-bill-id?BillId=${bill_id}`,
+            URL+`/verify-bill-id`,
+            {
+                params: {
+                    accountId: account_no,
+                    billId: bill_id
+                }
+            },
             config
         )
 

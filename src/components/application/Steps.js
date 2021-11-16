@@ -4,7 +4,6 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import './Steps.css';
 
 function Steps(props) {
-
     return (
         <Container fluid className="mb-4" id="StepsContent">
             <Row className="text-center text-white" id="stepsBackground">
