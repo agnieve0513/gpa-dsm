@@ -19,12 +19,16 @@ function NewEuipmentInformation(props) {
 
   const [totalQuantity, setTotalQuantity] = useState(0);
   const [modalShow, setModalShow] = useState(false);
-    const [modalData, setModalData] = useState({
-        description: "",
-        image_sample: "",
-    });
+  const [modalData, setModalData] = useState({
+    description: "",
+    image_sample: "",
+  });
 
-    let p = {}
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  let p = {};
 
   const customerEquipManufacturer = useSelector(
     (state) => state.customerEquipManufacturer
@@ -88,20 +92,20 @@ function NewEuipmentInformation(props) {
   }, [dispatch, props.new_equipments]);
 
   const addEquipmentHandler = () => {
-
-    setTotalQuantity(parseInt(totalQuantity)+ parseInt(props.quantity))
-    if(props.system_type === "" ||
-    props.manufacturer === "" ||
-    props.model_no === "" ||
-    props.quantity === "" ||
-    props.vendor === "" ||
-    props.invoice_no === "" ||
-    props.purchase_date === "" ||
-    props.technician_name === "" ||
-    props.work_tel === "" ||
-    props.company_name === "" ||
-    props.date_final_installation === "")
-    {
+    setTotalQuantity(parseInt(totalQuantity) + parseInt(props.quantity));
+    if (
+      props.system_type === "" ||
+      props.manufacturer === "" ||
+      props.model_no === "" ||
+      props.quantity === "" ||
+      props.vendor === "" ||
+      props.invoice_no === "" ||
+      props.purchase_date === "" ||
+      props.technician_name === "" ||
+      props.work_tel === "" ||
+      props.company_name === "" ||
+      props.date_final_installation === ""
+    ) {
       const Toast = MySwal.mixin({
         toast: true,
         position: "top-right",
@@ -113,7 +117,7 @@ function NewEuipmentInformation(props) {
         timer: 3500,
         timerProgressBars: true,
       });
-  
+
       Toast.fire({
         icon: "info",
         title: "All Fields are required",
@@ -165,19 +169,28 @@ function NewEuipmentInformation(props) {
       return (
         <Row>
           <ModalImage
-                data={modalData}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-            />
+            data={modalData}
+            show={modalShow}
+            onHide={() => setModalShow(false)}
+          />
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
-              <p>INSTALLER'S CERTIFICATION*
-              <span className="text-secondary"
+              <p>
+                INSTALLER'S CERTIFICATION*
+                <span
+                  className="text-secondary"
                   onClick={() => {
-                  setModalData(p = {description: "INSTALLER'S CERTIFICATION", image_sample: "./GPADSM8.png"});
-                  setModalShow(true);
-                  }}> 
-                  <i className="fa fa-question-circle"></i> </span>
+                    setModalData(
+                      (p = {
+                        description: "INSTALLER'S CERTIFICATION",
+                        image_sample: "./GPADSM8.png",
+                      })
+                    );
+                    setModalShow(true);
+                  }}
+                >
+                  <i className="fa fa-question-circle"></i>{" "}
+                </span>
               </p>
               <Form.Control type="file" placeholder="" required></Form.Control>
             </Form.Group>
@@ -222,23 +235,19 @@ function NewEuipmentInformation(props) {
       />
     );
   };
-  
+
   const handleNumericFields = (input, propVar) => {
     const re = /^[0-9\b]+$/;
 
     // if value is not blank, then test the regex
-    if (input.value === '' || re.test(input.value)) {
-        props[propVar](input.value)
+    if (input.value === "" || re.test(input.value)) {
+      props[propVar](input.value);
     }
-}
+  };
 
   const showRebateHandler = () => {
     if (props.system_type !== "Dryer" || props.system_type !== "Washer") {
-      return (
-        <>
-          
-        </>
-      );
+      return <></>;
     } else {
       return <></>;
     }
@@ -248,8 +257,6 @@ function NewEuipmentInformation(props) {
     <Row>
       <Col md={3}></Col>
       <Col md={6}>
-
-
         {/* Row for installer's information */}
         <Row>
           <Col md={12} className="mb-3">
@@ -261,14 +268,14 @@ function NewEuipmentInformation(props) {
               >
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
-                {
-                  props.customer_type === "RESID" ? <></>
-                  :
+                {props.customer_type === "RESID" ? (
+                  <></>
+                ) : (
                   <>
                     <option value="Central AC">Central AC - Commercial</option>
                     <option value="Split AC">Split AC - Commercial</option>
                   </>
-                }
+                )}
                 <option value="Window AC">Window AC</option>
                 <option value="Dryer">Dryer</option>
                 <option value="Washer">Washer</option>
@@ -282,7 +289,7 @@ function NewEuipmentInformation(props) {
           </Col>
         </Row>
         <h4 className="text-center text-info mt-2">INSTALLER'S INFORMATION</h4>
-        
+
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
@@ -308,7 +315,7 @@ function NewEuipmentInformation(props) {
                 type="text"
                 placeholder=""
                 value={props.work_tel}
-                onChange={(e)=>handleNumericFields(e.target, 'setWorkTel')}
+                onChange={(e) => handleNumericFields(e.target, "setWorkTel")}
                 maxLength="14"
                 required
               ></Form.Control>
@@ -368,19 +375,17 @@ function NewEuipmentInformation(props) {
                 required
               ></Form.Control>
             </Form.Group>
-            
           </Col>
         </Row>
         {installerCertificationHandler()}
 
-
         <h4 className="text-center text-info mt-5">
           NEW EQUIPMENT INFORMATION
         </h4>
-        
+
         <Row>
           <Col md={6} className="mb-3">
-            <Form.Group controlId="manufacturer" >
+            <Form.Group controlId="manufacturer">
               <Form.Label>MANUFACTURER</Form.Label>
               <Form.Select
                 onChange={(e) => changeManufacturerHandler(e)}
@@ -408,7 +413,7 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
           <Col md={6} className="mb-3">
-            <Form.Group controlId="model_no" >
+            <Form.Group controlId="model_no">
               <Form.Label>MODEL NUMBER</Form.Label>
               <Form.Select
                 onChange={(e) => changeModelHandler(e)}
@@ -465,7 +470,7 @@ function NewEuipmentInformation(props) {
         </Row>
         <Row>
           <Col md={6} className="mb-3">
-            <Form.Group controlId="quantity" >
+            <Form.Group controlId="quantity">
               <Form.Label>QUANTITY</Form.Label>
               <Form.Control
                 type="number"
@@ -482,7 +487,7 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
           <Col md={6} className="mb-3">
-            <Form.Group controlId="vendor" >
+            <Form.Group controlId="vendor">
               <Form.Label>VENDOR</Form.Label>
               <Form.Select
                 onChange={(e) => props.setVendor(e.target.value)}
@@ -501,7 +506,7 @@ function NewEuipmentInformation(props) {
 
         <Row>
           <Col md={6} className="mb-3">
-            <Form.Group controlId="invoice_no" >
+            <Form.Group controlId="invoice_no">
               <ModalImage
                 data={{
                   description: "Invoice",
@@ -539,7 +544,7 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
           <Col md={6} className="mb-3">
-            <Form.Group controlId="purchase_date" >
+            <Form.Group controlId="purchase_date">
               <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
               <Form.Control
                 type="date"
@@ -555,40 +560,44 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        
 
-        
         <Row>
           <Col md={6}>
             <Form.Group controlId="rebate">
-            <Form.Label>REBATE</Form.Label>
-            <Form.Control
-              type="number"
-              onChange={(e) => props.setRebate(e.target.value)}
-              value={props.rebate}
-              required
-              disabled={true}
-            ></Form.Control>
+              <Form.Label>REBATE</Form.Label>
+              <Form.Control
+                type="number"
+                onChange={(e) => props.setRebate(e.target.value)}
+                value={props.rebate}
+                required
+                disabled={true}
+              ></Form.Control>
             </Form.Group>
           </Col>
           <Col md={6}>
             <Form.Group controlId="disposal_slip">
-            <span>INVOICE
-            <span className="text-secondary mb-1"
+              <span>
+                INVOICE
+                <span
+                  className="text-secondary mb-1"
                   onClick={() => {
-                  setModalData(p = {description: "DISPOSAL SLIP", image_sample: "./GPADSM5.png"});
-                  setModalShow(true);
-                  }}> 
-                  <i className="fa fa-question-circle"></i> </span>
-            </span>
-            <Form.Control
-              type="file"
-              required
-            ></Form.Control>
+                    setModalData(
+                      (p = {
+                        description: "DISPOSAL SLIP",
+                        image_sample: "./GPADSM5.png",
+                      })
+                    );
+                    setModalShow(true);
+                  }}
+                >
+                  <i className="fa fa-question-circle"></i>{" "}
+                </span>
+              </span>
+              <Form.Control type="file" required></Form.Control>
             </Form.Group>
           </Col>
         </Row>
-        
+
         {/* Table and button Add Equipment */}
         <Row className="mt-3">
           <Col md={4}></Col>
@@ -613,7 +622,6 @@ function NewEuipmentInformation(props) {
             {showTable()}
           </Col>
         </Row>
-
       </Col>
       <Col md={3}></Col>
     </Row>

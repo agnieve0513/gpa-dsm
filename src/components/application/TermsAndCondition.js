@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import {
   PDFViewer,
@@ -13,6 +13,10 @@ import dayjs from "dayjs";
 function TermsAndCondition(props) {
   const [date, setDate] = useState(dayjs(new Date()).format("YYYY-MM-DD"));
   console.log(date);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const styles = StyleSheet.create({
     section: { textAlign: "justify", margin: 30, fontSize: 12, lineHeight: 2 },
