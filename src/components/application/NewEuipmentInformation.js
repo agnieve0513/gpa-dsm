@@ -195,6 +195,28 @@ function NewEuipmentInformation(props) {
               <Form.Control type="file" placeholder="" required></Form.Control>
             </Form.Group>
           </Col>
+          <Col md={12}>
+          <Form.Group controlId="disposal_slip">
+              <span>
+                INVOICE
+                <span
+                  className="text-secondary mb-1"
+                  onClick={() => {
+                    setModalData(
+                      (p = {
+                        description: "DISPOSAL SLIP",
+                        image_sample: "./GPADSM5.png",
+                      })
+                    );
+                    setModalShow(true);
+                  }}
+                >
+                  <i className="fa fa-question-circle"></i>{" "}
+                </span>
+              </span>
+              <Form.Control type="file" required></Form.Control>
+            </Form.Group>
+          </Col>
         </Row>
       );
     }
@@ -391,7 +413,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeManufacturerHandler(e)}
                 value={props.manufacturer}
               >
-                <option disabled selected>
+                <option selected>
                   Select Manufacturer
                 </option>
 
@@ -419,7 +441,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeModelHandler(e)}
                 value={props.model_no}
               >
-                <option disabled selected>
+                <option selected>
                   Select Model
                 </option>
                 {models ? (
@@ -562,7 +584,7 @@ function NewEuipmentInformation(props) {
         </Row>
 
         <Row>
-          <Col md={6}>
+          <Col md={12}>
             <Form.Group controlId="rebate">
               <Form.Label>REBATE</Form.Label>
               <Form.Control
@@ -574,28 +596,7 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
           </Col>
-          <Col md={6}>
-            <Form.Group controlId="disposal_slip">
-              <span>
-                INVOICE
-                <span
-                  className="text-secondary mb-1"
-                  onClick={() => {
-                    setModalData(
-                      (p = {
-                        description: "DISPOSAL SLIP",
-                        image_sample: "./GPADSM5.png",
-                      })
-                    );
-                    setModalShow(true);
-                  }}
-                >
-                  <i className="fa fa-question-circle"></i>{" "}
-                </span>
-              </span>
-              <Form.Control type="file" required></Form.Control>
-            </Form.Group>
-          </Col>
+          
         </Row>
 
         {/* Table and button Add Equipment */}
@@ -618,7 +619,7 @@ function NewEuipmentInformation(props) {
 
         <Row className="mt-3">
           <Col md={12}>
-            Total Quantity {totalQuantity}
+            <b>Total Quantity {totalQuantity} </b>
             {showTable()}
           </Col>
         </Row>

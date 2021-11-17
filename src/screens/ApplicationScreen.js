@@ -40,12 +40,11 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(6);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
-  
-
-  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
-  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
+    
+  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);    
+  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);  
 
   // For verification
   const [verify, setVerify] = useState(false);
