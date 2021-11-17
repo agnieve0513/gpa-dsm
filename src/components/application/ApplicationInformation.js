@@ -53,7 +53,6 @@ function ApplicationInformation(props) {
 
   const changeZipCode = (e) => {
     props.setCityVillage(e.target.value);
-
     const result = city_zipcode.find((p) => p._id === e.target.value);
 
     if (result) {
@@ -166,7 +165,7 @@ function ApplicationInformation(props) {
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
                   <Form.Label>
-                    BILL ID*
+                    BILL ID (Last 5 Digits)*
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -187,9 +186,11 @@ function ApplicationInformation(props) {
                     <Form.Control
                       type="text"
                       placeholder=""
-                      onChange={(e) => props.setBillId(e.target.value)}
+                      onChange={(e) => 
+                        handleNumericFields(e.target, "setBillId")}
                       value={props.bill_id}
                       required
+                      maxLength="5"
                     />
                     <Button
                       onClick={() => verifyCustomerHandler()}

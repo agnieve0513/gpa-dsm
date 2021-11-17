@@ -3,7 +3,7 @@ const city_zipcode =
     {
         '_id': '1',
         'village': 'AGANA HEIGHTS',
-        'zip_coe': '96910'
+        'zip_code': '96910'
     },
     {
         '_id': '2',

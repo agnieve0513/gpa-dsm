@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // import Form from '../components/Form'
 import CustomerHeader from '../components/CustomerHeader';
-import { Row, Col, Form,ListGroup, Button} from 'react-bootstrap';
+import { Row, Col, Form,ListGroup, Button, Badge, Card, InputGroup} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { trackApplications } from '../actions/applicationActions';
 
 import { PDFViewer,View, Document, Text, Page,StyleSheet  } from '@react-pdf/renderer';
 
+import './TrackApplicationScreen.css';
 
 function ApplicationScreen() {
 
@@ -21,9 +22,11 @@ function ApplicationScreen() {
 
     const [control_no, setControlNo] = useState("");
     const [viewPdf, setViewPdf] = useState(false);
-    
+    const [stepNumber, setStepNumber] = useState(0);
+
     const applicationTrack = useSelector(state => state.applicationTrack);
-    const {track_application } = applicationTrack;
+    const { error, success,track_application } = applicationTrack;
+
 
     useEffect(() => {
     }, [dispatch, track_application]);
@@ -43,68 +46,74 @@ function ApplicationScreen() {
         setViewPdf(false);
     };
 
+    const stages = ["Customer Service", "Spord", "Supervisor", "Budget", "Accounting"];
+
+
     return (
         <div>
             <CustomerHeader />
             <Row>
                 <Col md={3}></Col>
-                <Col md={6} className="mt-5 mb-5">
+                <Col md={6} className="mt-5 mb-2">
                     <h2 className="text-center text-info mb-5">TRACK YOUR APPLICATION</h2>
                     <Row>
-                        <Col md={5}>
-                            <p><b>ENTER YOUR CONTROL NUMBER</b></p>
-                        </Col>
-                        <Col md={5}>
-                        <Form.Group controlId='control_no' className="mb-3">
-                            <Form.Control
+                    <Form.Label htmlFor="basic-url">ENTER YOUR CONTROL NUMBER</Form.Label>
+                    <InputGroup className="mb-3">
+                    <Form.Control
                                 type='text'
                                 placeholder=''
                                 onChange={(e)=>setControlNo(e.target.value)}
                                 value={control_no}
                                 required
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                        </Col>
-                        <Col md={1}>
-                            <button className="btn btn-success" onClick={()=> trackApplicationHandler()}><b>SUBMIT</b></button>
-                        </Col>
+                            />
+                           <button className="btn btn-success" onClick={()=> trackApplicationHandler()}><b>SUBMIT</b></button>
+
+                    </InputGroup>
                     </Row>
                     {
                         track_application?
                         track_application.map(tp => (
                             <>
                                 {
-                                    viewPdf ?
-                                    <>
-                                        <Button variant='info' onClick={()=> backApplicaitonHandler()}><i className="fa fa-arrow-left"></i> Back to Tracking</Button>
-                                        <PDFViewer width={"100%"} height={"500"} showToolbar={true}>
-                                            <Document>
-                                                <Page size="LEGAL" style={styles.page}>
-                                                <View style={styles.section}>
-                                                <Text>
-                                                    Application Detail
-                                                </Text>
-                                                </View>
-                                                    
-                                                </Page>
-                                            </Document>
-                                        </PDFViewer>
-                                    </>
-                                    :
-                                    <>
-                                    <Button variant='info' onClick={()=> printApplicaitonHandler()}>Click to Print Application <i className="fa fa-file"></i></Button>
-                                    <ListGroup className="mb-2">
-                                        <ListGroup.Item>Entry Number: <b>{tp.Entry_no}</b></ListGroup.Item>
-                                        <ListGroup.Item>Account Number: <b>{tp.Account_no}</b></ListGroup.Item>
-                                        <ListGroup.Item>Bill ID: <b>{tp.Bill_id}</b></ListGroup.Item>
-                                        <ListGroup.Item>Sysytem Type: <b>{tp.System_Type}</b></ListGroup.Item>
-                                        <ListGroup.Item>Customer's Name: <b>{tp.customer_name}</b></ListGroup.Item>
-                                        <ListGroup.Item>Status: <b>{tp.Status}</b></ListGroup.Item>
-                                        <ListGroup.Item>Stage: <b>{tp.Stage}</b></ListGroup.Item>
-                                        <ListGroup.Item>Application Date: <b>{tp.Application_Date}</b></ListGroup.Item>
-                                    </ListGroup>
-                                    </>
+                                    <Row>
+                                        <Col md={6}>
+                                        <div class="timeline p-4 block mb-4">
+                                            <p><b>Application Stage</b></p>
+
+                                            {
+                                                stages.map((i, value) =>
+                                                    <div class="tl-item">
+                                                        {
+                                                            tp.Staget === i ? setStepNumber(value) : ""
+                                                        }
+                                                        <div class={tp.Stage === i ? "tl-dot b-primary": stepNumber < value ? "tl-dot b-danger": "tl-dot b-success"}></div>
+                                                        <div class="tl-content">
+                                                            <div class="">{i}</div>
+                                                            <div class="tl-date text-muted mt-1"><Badge bg={tp.Stage === i ? "info": stepNumber < value ? "danger": "success"}>
+                                                            {tp.Stage === i ? "Processing": stepNumber < value ? "N/A": "Approved"}
+                                                                </Badge></div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                            
+                                        </div>
+                                        </Col>
+                                        <Col md={6}>
+                                            <div class="timeline p-4 block mb-2">
+                                                <p><b>Application Info</b></p>
+                                                <p>Entry Number: <b>{tp.Entry_no}</b></p>
+                                                <p>Account Number: <b>{tp.Account_no}</b></p>
+                                                <p>Bill ID: <b>{tp.Bill_id}</b></p>
+                                                <p>Sysytem Type: <b>{tp.System_Type}</b></p>
+                                                <p>Customer's Name: <b>{tp.customer_name}</b></p>
+                                                <p>Status: <b>{tp.Status}</b></p>
+                                                <p>Stage: <b>{tp.Stage}</b></p>
+                                                <p>Application Date: <b>{tp.Application_Date}</b></p>
+                                            
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 }
                             </>
                         ))
@@ -114,12 +123,12 @@ function ApplicationScreen() {
                 <Col md={3}></Col>
             </Row>
 
-            <Row>
+            <Row className="mt-1">
                 <Col md={2}></Col>
                 <Col md={8}>
 
                     <div className="d-flex mb-5">
-                        <Link to={`/`} className="btn btn-success btn-md mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>
+                        <Link to={`/`} className="text-success mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>
                     </div>
                 </Col>
                 <Col md={2}></Col>
