@@ -42,9 +42,9 @@ function ApplicationScreen() {
   const [saved, setSaved] = useState(false);
   const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
-    
-  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);    
-  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);  
+
+  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
+  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
   const [verify, setVerify] = useState(true);
@@ -126,6 +126,7 @@ function ApplicationScreen() {
   const [other_doc3, setOtherDoc3] = useState("");
 
   const [terms_and_agreement, setTermsAndAgreement] = useState(false);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     dispatch(generateControlNo());
@@ -178,8 +179,10 @@ function ApplicationScreen() {
               other_doc3: other_doc3,
             },
           };
+
           if (control_no !== "") {
             dispatch(register(obj));
+            setData(obj);
             setSaved(true);
             MySwal.fire({
               icon: "success",
@@ -215,9 +218,7 @@ function ApplicationScreen() {
     });
   };
   const handleNextClick = (currentStep) => {
-
-    if(currentStep === 2 && stepOneToStepFive)
-    {
+    if (currentStep === 2 && stepOneToStepFive) {
       if (
         account_no === "" ||
         bill_id === "" ||
@@ -243,8 +244,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepFive)
-    {
+    if (currentStep === 3 && stepOneToStepFive) {
       if (
         new_equipments.length === 0 ||
         system_type === "" ||
@@ -266,8 +266,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 2 && stepOneToStepSix)
-    {
+    if (currentStep === 2 && stepOneToStepSix) {
       if (
         account_no === "" ||
         bill_id === "" ||
@@ -293,8 +292,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepSix)
-    {
+    if (currentStep === 3 && stepOneToStepSix) {
       if (
         new_equipments.length === 0 ||
         system_type === "" ||
@@ -316,12 +314,10 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepSix)
-    {
+    if (currentStep === 3 && stepOneToStepSix) {
       setStep(currentStep + 2);
       return;
     }
-
 
     if (step <= 8 || step > 0) {
       if (is_set_control_no === false) {
@@ -402,7 +398,11 @@ function ApplicationScreen() {
     <div>
       <CustomerHeader />
       {saved ? (
-        <Confirm control_no={control_no} setControlNo={setControlNo} />
+        <Confirm
+          data={data}
+          control_no={control_no}
+          setControlNo={setControlNo}
+        />
       ) : (
         <>
           <Steps currentStep={step} />
@@ -611,8 +611,8 @@ function ApplicationScreen() {
           ) : step === 7 ? (
             <FinalReview
               invoice={invoice}
-              stepOneToStepSix = {stepOneToStepSix}
-              setStepOneToStepSix = {setStepOneToStepSix}
+              stepOneToStepSix={stepOneToStepSix}
+              setStepOneToStepSix={setStepOneToStepSix}
               setInvoice={setInvoice}
               irs_form={irs_form}
               setIrsForm={setIrsForm}
