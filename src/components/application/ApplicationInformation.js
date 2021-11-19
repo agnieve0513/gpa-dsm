@@ -6,6 +6,7 @@ import {
   Container,
   Button,
   InputGroup,
+  Badge,
   Spinner,
 } from "react-bootstrap";
 
@@ -55,6 +56,7 @@ function ApplicationInformation(props) {
     loading: uploadLoading,
     error: uploadError,
     success: uploadSuccess,
+    fileCode
   } = uploadFile;
 
   const submitHandler = (e) => {
@@ -99,7 +101,6 @@ function ApplicationInformation(props) {
 
   const handleSubmitLOA = () => {
     dispatch(uploadFileAction(props.letter_authorization, "letter_of_authorization", props.control_no));
-
   }
 
   const handleChangeLOA = (e) => {
@@ -457,7 +458,7 @@ function ApplicationInformation(props) {
                         <i className="fa fa-question-circle"></i>{" "}
                       </span>
                     </Form.Label>
-                    <InputGroup className="mb-3">
+                    <InputGroup>
                       <Form.Control
                         name="file"
                         placeholder="Upload Lettter of Authorization"
@@ -473,9 +474,13 @@ function ApplicationInformation(props) {
                         props.letter_authorization?
                         <>
                           {
-                            uploadSuccess ?
-                            <><span className="text-success">File Uploaded</span> <br /> </>
-                            :<><span className="text-danger">Error Uploading</span> <br /> </>
+                            fileCode ?
+                            <>
+                            {props.setLetterAuthorizationD(fileCode)}
+                            {console.log(props.letter_authorizationD)}
+                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                            </>
+                            :<>no upload</>
                           }
                           Filename: {props.letter_authorization.name} <br />
                           File Type: {props.letter_authorization.type} <br /><br />

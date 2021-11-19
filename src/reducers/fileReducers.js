@@ -6,14 +6,14 @@ import {
 } from '../constants/fileConstants'
 
 
-export const uploadFileReducer = (state = {}, action) => {
+export const uploadFileReducer = (state = {fileCode:[]}, action) => {
     switch(action.type)
     {
         case FILE_UPLOAD_REQUEST:
             return {loading: true}
 
         case FILE_UPLOAD_SUCCESS:
-            return {loading: false, success:true}
+            return {loading: false, fileCode: action.payload}
 
         case FILE_UPLOAD_FAIL:
             return {loading: false, error: action.payload}

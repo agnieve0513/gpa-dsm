@@ -38,7 +38,7 @@ export const uploadFileAction = (filepath, doctype, controlNo) => async (dispatc
 
         dispatch({
             type: FILE_UPLOAD_SUCCESS,
-            payload:data
+            payload:data.message
         })
 
     }catch(error)

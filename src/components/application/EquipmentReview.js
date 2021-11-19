@@ -166,7 +166,7 @@ function EquipmentReview(props) {
                                 ? []
                                 : props.new_equipments
                             }
-                            title="Equipments"
+                            title="New Equipments"
                           />
 
                           <Row>
@@ -320,98 +320,33 @@ function EquipmentReview(props) {
                     </button>
                   </h3>
 
-                  {props.old_equipments.length >= 1 ? (
-                    <ButtonGroup className="me-2 mb-3" aria-label="First group">
-                      <Button
-                        className="btn btn-sm"
-                        onClick={() => showOldEquipmentInformation(0)}
-                        variant="info"
-                      >
-                        E1
-                      </Button>{" "}
-                      {props.old_equipments.length > 1 ? (
-                        <Button
-                          onClick={() => showOldEquipmentInformation(1)}
-                          className="btn btn-sm"
-                          variant="secondary"
-                        >
-                          E2
-                        </Button>
-                      ) : props.old_equipments.length > 2 ? (
-                        <Button
-                          onClick={() => showOldEquipmentInformation(2)}
-                          className="btn btn-sm"
-                          variant="secondary"
-                        >
-                          E3
-                        </Button>
-                      ) : props.old_equipments.length > 3 ? (
-                        <Button
-                          onClick={() => showOldEquipmentInformation(3)}
-                          className="btn btn-sm"
-                          variant="secondary"
-                        >
-                          E4
-                        </Button>
-                      ) : props.old_equipments.length > 4 ? (
-                        <Button
-                          onClick={() => showOldEquipmentInformation(4)}
-                          className="btn btn-sm"
-                          variant="secondary"
-                        >
-                          E5
-                        </Button>
-                      ) : (
-                        <></>
-                      )}
-                    </ButtonGroup>
-                  ) : (
-                    <></>
-                  )}
-                  <ListGroup className="mb-3">
-                    {props.old_equipments.length >= 1 ? (
-                      <>
-                        <p>
-                          System Type{" "}
-                          <b>
-                            {props.old_equipments[old_eq_index].system_type}
-                          </b>{" "}
-                        </p>
-                        <p>
-                          BTU <b>{props.old_equipments[old_eq_index].btu}</b>
-                        </p>
-                        <p>
-                          Years{" "}
-                          <b>{props.old_equipments[old_eq_index].years}</b>
-                        </p>
-                        <p>
-                          Quantity{" "}
-                          <b>{props.old_equipments[old_eq_index].quantity}</b>
-                        </p>
-                        <p>
-                          Tons <b>{props.old_equipments[old_eq_index].tons}</b>
-                        </p>
-                        <p>
-                          Equipment condition prior to removal{" "}
-                          <b>{[old_eq_index].is_equipment_condition}</b>
-                        </p>
-                        <p>
-                          Seer <b>{props.old_equipments[old_eq_index].seer}</b>
-                        </p>
-                        <p>
-                          Disposal Party{" "}
-                          <b>
-                            {props.old_equipments[old_eq_index].disposal_party}
-                          </b>
-                        </p>
-                        <p>
-                          Date <b>{props.old_equipments[old_eq_index].date}</b>
-                        </p>
-                      </>
-                    ) : (
-                      <>No Data</>
-                    )}
-                  </ListGroup>
+                  <MaterialTable
+                      columns={[
+                        { title: "System Type", field: "system_type" },
+                        { title: "Vendor", field: "vendor" },
+                        { title: "Quantity", field: "quantity" },
+                        { title: "Years", field: "years" },
+                        { title: "Quantity", field: "quantity" },
+                        { title: "BTU", field: "btu" },
+                        { title: "TONS", field: "tons" },
+                        { title: "Invoice#", field: "invoice_no" },
+                        {
+                          title: "Purchase Date",
+                          field: "purchase_date",
+                        },
+                        { title: "Type", field: "type" },
+                        { title: "Tons", field: "tons" },
+                        { title: "Seer", field: "seer" },
+                        { title: "Disposal Party", field: "disposal_party" },
+                        { title: "Date", field: "date" },
+                      ]}
+                      data={
+                        props.old_equipments.length === 0
+                          ? []
+                          : props.old_equipments
+                      }
+                      title="Existing Equipments"
+                    />
                 </Container>
               </Tab>
             </Tabs>

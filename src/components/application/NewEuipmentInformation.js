@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Button, Table, InputGroup } from "react-bootstrap";
+import { Row, Col, Form, Button, Badge, Table, InputGroup } from "react-bootstrap";
 
 import {
   loadCustomerEquipManufacturer,
@@ -64,7 +64,7 @@ function NewEuipmentInformation(props) {
   const {
     loading: uploadLoading,
     error: uploadError,
-    success: uploadSuccess,
+    fileCode,
   } = uploadFile;
 
   const changeSystemTypeHandler = (e) => {
@@ -201,7 +201,7 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
               </p>
-              <InputGroup className="mb-3">
+              <InputGroup>
                 <Form.Control
                   name="file2"
                   placeholder="Upload Installer's Certification"
@@ -213,6 +213,22 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-upload"></i>
                 </Button>
               </InputGroup>
+              {
+                  props.installer_certification?
+                  <>
+                    {
+                      fileCode ?
+                      <>
+                      {props.setInstallerCertificationD(fileCode)}
+                      {console.log(props.installer_certificationD)}
+                      <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                      </>
+                      :<>no upload</>
+                    }
+                    Filename: {props.installer_certification.name} <br />
+                    File Type: {props.installer_certification.type} <br /><br />
+                  </>:<></>
+              }
             </Form.Group>
           </Col>
           <Col md={12}>
@@ -234,7 +250,7 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
               </span>
-              <InputGroup className="mb-3">
+              <InputGroup>
                 <Form.Control
                   name="file"
                   placeholder="Upload Invoice"
@@ -245,6 +261,22 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-upload"></i>
                 </Button>
               </InputGroup>
+              {
+                  props.invoice?
+                  <>
+                    {
+                      fileCode ?
+                      <>
+                      {props.setInvoiceD(fileCode)}
+                      {console.log(props.invoiceD)}
+                      <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                      </>
+                      :<>no upload</>
+                    }
+                    Filename: {props.invoice.name} <br />
+                    File Type: {props.invoice.type} <br /><br />
+                  </>:<></>
+              }
             </Form.Group>
           </Col>
         </Row>
