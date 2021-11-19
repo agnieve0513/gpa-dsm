@@ -12,6 +12,7 @@ import { customerVerifyReducer, customerRegisterReducer, customerGenerateControl
     customerEquipManufacturersReducer,customerEquipModelReducer, customerEquipmentDetailReducer,
     customerDetailReducer} from './reducers/customerReducers'
 import { uploadTermsAndConditionReducer } from './reducers/termsAndConditionReducers'
+import { uploadFileReducer } from './reducers/fileReducers'
 
 const reducer = combineReducers({
     userLogin: userLoginReducer,
@@ -22,6 +23,8 @@ const reducer = combineReducers({
     userForgotPassword:userForgotPasswordReducer,
     userChangePassword:userChangePasswordReducer,
     emailChangePassword: emailChangePasswordReducer,
+
+    uploadFile: uploadFileReducer,
 
     applicationList: applicationListReducer,
     applicationDetail: applicationDetailReducer,

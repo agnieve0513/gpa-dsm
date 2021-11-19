@@ -47,7 +47,7 @@ function ApplicationScreen() {
   const [stepOneToStepSix, setStepOneToStepSix] = useState(false);  
 
   // For verification
-  const [verify, setVerify] = useState(false);
+  const [verify, setVerify] = useState(true);
   const [control_no, setControlNo] = useState("");
 
   const [account_no, setAccountNo] = useState("");
@@ -119,7 +119,8 @@ function ApplicationScreen() {
   const [invoice, setInvoice] = useState("");
   const [irs_form, setIrsForm] = useState("");
   const [disposal_slip, setDisposalSlip] = useState("");
-  const [letter_authorization, setLetterAuthorization] = useState("");
+  const [letter_authorization, setLetterAuthorization] = useState();
+  const [installer_certification, setInstallerCertification] = useState();
   const [other_doc1, setOtherDoc1] = useState("");
   const [other_doc2, setOtherDoc2] = useState("");
   const [other_doc3, setOtherDoc3] = useState("");
@@ -409,6 +410,8 @@ function ApplicationScreen() {
             <ApplicationRequirements />
           ) : step === 2 ? (
             <ApplicationInformation
+              letter_authorization={letter_authorization}
+              setLetterAuthorization={setLetterAuthorization}
               verify={verify}
               setVerify={setVerify}
               customer_type={customer_type}
@@ -475,6 +478,10 @@ function ApplicationScreen() {
               setModelNo={setModelNo}
               invoice_no={invoice_no}
               setInvoiceNo={setInvoiceNo}
+              invoice={invoice}
+              installer_certification={installer_certification}
+              setInstallerCertification={setInstallerCertification}
+              setInvoice={setInvoice}
               purchase_date={purchase_date}
               setPurchaseDate={setPurchaseDate}
               type={type}
@@ -598,6 +605,8 @@ function ApplicationScreen() {
               setOtherDoc2={setOtherDoc2}
               other_doc3={other_doc3}
               setOtherDoc3={setOtherDoc3}
+              installer_certification={installer_certification}
+              setInstallerCertification={setInstallerCertification}
             />
           ) : step === 7 ? (
             <FinalReview
