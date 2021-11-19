@@ -14,9 +14,12 @@ import {
   verifyCustomer,
   loadCustomerDetail,
 } from "../../actions/customerAction";
-import { useDispatch, useSelector } from "react-redux";
 
 import city_zipcode from "./source_files/city_zipcode";
+
+
+import { useDispatch, useSelector } from 'react-redux'
+import { uploadFileAction } from '../../actions/fileActions'
 
 function ApplicationInformation(props) {
   const [modalShow, setModalShow] = useState(false);
@@ -46,6 +49,13 @@ function ApplicationInformation(props) {
     error: customerError,
     customer_detail,
   } = customerDetail;
+
+  const uploadFile = useSelector((state) => state.uploadFile);
+  const {
+    loading: uploadLoading,
+    error: uploadError,
+    success: uploadSuccess,
+  } = uploadFile;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -85,6 +95,15 @@ function ApplicationInformation(props) {
   let years = [];
   for (var i = today.getFullYear(); i >= 1950; i--) {
     years.push(i);
+  }
+
+  const handleSubmitLOA = () => {
+    dispatch(uploadFileAction(props.letter_authorization, "letter_of_authorization", props.control_no));
+
+  }
+
+  const handleChangeLOA = (e) => {
+    props.setLetterAuthorization(e.target.files[0])
   }
 
   return (
@@ -438,22 +457,44 @@ function ApplicationInformation(props) {
                         <i className="fa fa-question-circle"></i>{" "}
                       </span>
                     </Form.Label>
-                    <Form.Control
-                      type="file"
-                      placeholder=""
-                      maxLength="14"
-                      required
-                    ></Form.Control>
+                    <InputGroup className="mb-3">
+                      <Form.Control
+                        name="file"
+                        placeholder="Upload Lettter of Authorization"
+                        type="file"
+                        onChange={(e) => handleChangeLOA(e)}
+                      />
+                     
+                      <Button variant="info" onClick={() => handleSubmitLOA()}>
+                        <i className="fa fa-upload"></i>
+                      </Button>
+                    </InputGroup>
+                    {
+                        props.letter_authorization?
+                        <>
+                          {
+                            uploadSuccess ?
+                            <><span className="text-success">File Uploaded</span> <br /> </>
+                            :<><span className="text-danger">Error Uploading</span> <br /> </>
+                          }
+                          Filename: {props.letter_authorization.name} <br />
+                          File Type: {props.letter_authorization.type} <br /><br />
+                        </>:<></>
+                   }
                   </Form.Group>
+
+                  
                 ) : (
                   <></>
                 )}
+
+                {props.is_applicant_owner === "" ? (
+                    <p className="validate text-danger">*This Field is Required</p>
+                  ) : (
+                    <></>
+                  )}
               </Col>
-              {props.is_applicant_owner === "" ? (
-                <p className="validate text-danger">*This Field is Required</p>
-              ) : (
-                <></>
-              )}
+              
             </Row>
 
             <Row className="mb-3">

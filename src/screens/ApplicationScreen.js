@@ -40,14 +40,14 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(6);
+  const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
-    
-  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);    
-  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);  
+
+  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
+  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
-  const [verify, setVerify] = useState(false);
+  const [verify, setVerify] = useState(true);
   const [control_no, setControlNo] = useState("");
 
   const [account_no, setAccountNo] = useState("");
@@ -119,12 +119,14 @@ function ApplicationScreen() {
   const [invoice, setInvoice] = useState("");
   const [irs_form, setIrsForm] = useState("");
   const [disposal_slip, setDisposalSlip] = useState("");
-  const [letter_authorization, setLetterAuthorization] = useState("");
+  const [letter_authorization, setLetterAuthorization] = useState();
+  const [installer_certification, setInstallerCertification] = useState();
   const [other_doc1, setOtherDoc1] = useState("");
   const [other_doc2, setOtherDoc2] = useState("");
   const [other_doc3, setOtherDoc3] = useState("");
 
   const [terms_and_agreement, setTermsAndAgreement] = useState(false);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     dispatch(generateControlNo());
@@ -177,8 +179,10 @@ function ApplicationScreen() {
               other_doc3: other_doc3,
             },
           };
+
           if (control_no !== "") {
             dispatch(register(obj));
+            setData(obj);
             setSaved(true);
             MySwal.fire({
               icon: "success",
@@ -214,9 +218,7 @@ function ApplicationScreen() {
     });
   };
   const handleNextClick = (currentStep) => {
-
-    if(currentStep === 2 && stepOneToStepFive)
-    {
+    if (currentStep === 2 && stepOneToStepFive) {
       if (
         account_no === "" ||
         bill_id === "" ||
@@ -242,8 +244,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepFive)
-    {
+    if (currentStep === 3 && stepOneToStepFive) {
       if (
         new_equipments.length === 0 ||
         system_type === "" ||
@@ -265,8 +266,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 2 && stepOneToStepSix)
-    {
+    if (currentStep === 2 && stepOneToStepSix) {
       if (
         account_no === "" ||
         bill_id === "" ||
@@ -292,8 +292,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepSix)
-    {
+    if (currentStep === 3 && stepOneToStepSix) {
       if (
         new_equipments.length === 0 ||
         system_type === "" ||
@@ -315,12 +314,10 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepSix)
-    {
+    if (currentStep === 3 && stepOneToStepSix) {
       setStep(currentStep + 2);
       return;
     }
-
 
     if (step <= 8 || step > 0) {
       if (is_set_control_no === false) {
@@ -401,7 +398,11 @@ function ApplicationScreen() {
     <div>
       <CustomerHeader />
       {saved ? (
-        <Confirm control_no={control_no} setControlNo={setControlNo} />
+        <Confirm
+          data={data}
+          control_no={control_no}
+          setControlNo={setControlNo}
+        />
       ) : (
         <>
           <Steps currentStep={step} />
@@ -409,6 +410,8 @@ function ApplicationScreen() {
             <ApplicationRequirements />
           ) : step === 2 ? (
             <ApplicationInformation
+              letter_authorization={letter_authorization}
+              setLetterAuthorization={setLetterAuthorization}
               verify={verify}
               setVerify={setVerify}
               customer_type={customer_type}
@@ -475,6 +478,10 @@ function ApplicationScreen() {
               setModelNo={setModelNo}
               invoice_no={invoice_no}
               setInvoiceNo={setInvoiceNo}
+              invoice={invoice}
+              installer_certification={installer_certification}
+              setInstallerCertification={setInstallerCertification}
+              setInvoice={setInvoice}
               purchase_date={purchase_date}
               setPurchaseDate={setPurchaseDate}
               type={type}
@@ -598,12 +605,14 @@ function ApplicationScreen() {
               setOtherDoc2={setOtherDoc2}
               other_doc3={other_doc3}
               setOtherDoc3={setOtherDoc3}
+              installer_certification={installer_certification}
+              setInstallerCertification={setInstallerCertification}
             />
           ) : step === 7 ? (
             <FinalReview
               invoice={invoice}
-              stepOneToStepSix = {stepOneToStepSix}
-              setStepOneToStepSix = {setStepOneToStepSix}
+              stepOneToStepSix={stepOneToStepSix}
+              setStepOneToStepSix={setStepOneToStepSix}
               setInvoice={setInvoice}
               irs_form={irs_form}
               setIrsForm={setIrsForm}

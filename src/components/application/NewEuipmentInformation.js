@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Button, Table } from "react-bootstrap";
+import { Row, Col, Form, Button, Table, InputGroup } from "react-bootstrap";
 
 import {
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
   loadCustomerEquipmentDetail,
 } from "../../actions/customerAction";
+import { uploadFileAction } from '../../actions/fileActions'
+
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
@@ -57,6 +59,13 @@ function NewEuipmentInformation(props) {
     success: equipDetailSuccess,
     equipment_detail,
   } = customerEquipmentDetail;
+
+  const uploadFile = useSelector((state) => state.uploadFile);
+  const {
+    loading: uploadLoading,
+    error: uploadError,
+    success: uploadSuccess,
+  } = uploadFile;
 
   const changeSystemTypeHandler = (e) => {
     showRebateHandler();
@@ -192,7 +201,18 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
               </p>
-              <Form.Control type="file" placeholder="" required></Form.Control>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  name="file2"
+                  placeholder="Upload Installer's Certification"
+                  type="file"
+                  onChange={(e) => handleChangeInstallersInformation(e)}
+                />
+                
+                <Button variant="info" onClick={() => handleSubmitInstallersInformation()}>
+                  <i className="fa fa-upload"></i>
+                </Button>
+              </InputGroup>
             </Form.Group>
           </Col>
           <Col md={12}>
@@ -214,7 +234,17 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
               </span>
-              <Form.Control type="file" required></Form.Control>
+              <InputGroup className="mb-3">
+                <Form.Control
+                  name="file"
+                  placeholder="Upload Invoice"
+                  type="file"
+                  onChange={(e) => handleChangeInvoice(e)}
+                />
+                <Button variant="info" onClick={() => handleSubmitInvoice()}>
+                  <i className="fa fa-upload"></i>
+                </Button>
+              </InputGroup>
             </Form.Group>
           </Col>
         </Row>
@@ -274,6 +304,26 @@ function NewEuipmentInformation(props) {
       return <></>;
     }
   };
+
+  const handleSubmitInvoice = () => {
+    console.log(props.invoice)
+    dispatch(uploadFileAction(props.invoice, "invoice", props.control_no));
+
+  }
+
+  const handleChangeInvoice = (e) => {
+    props.setInvoice(e.target.files[0])
+  }
+
+  const handleSubmitInstallersInformation = () => {
+    console.log(props.installer_certification)
+    dispatch(uploadFileAction(props.installer_certification, "installers_information", props.control_no));
+
+  }
+
+  const handleChangeInstallersInformation = (e) => {
+    props.setInstallerCertification(e.target.files[0])
+  }
 
   return (
     <Row>

@@ -16,7 +16,6 @@ import "./EquipmentReview.css";
 import MaterialTable from "material-table";
 
 function EquipmentReview(props) {
-  console.log(props.new_equipments.length);
 
   useEffect(() => {
     window.scrollTo(0, 0);
