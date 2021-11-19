@@ -85,6 +85,11 @@ function SubmissionOfDocumentation(props) {
                   <i className="fa fa-upload"></i>
                 </Button>
               </InputGroup>
+              {props.irs_form === null ? (
+                    <p className="validate text-danger">*This Field is Required</p>
+                  ) : (
+                    <></>
+                  )}
               {
                 props.irs_form?
                 <>

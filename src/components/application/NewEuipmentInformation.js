@@ -261,6 +261,13 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-upload"></i>
                 </Button>
               </InputGroup>
+              {props.invoice === null ? (
+                      <p className="validate text-danger">
+                        *This Field is Required
+                      </p>
+                    ) : (
+                      <></>
+                    )}
               {
                   props.invoice?
                   <>

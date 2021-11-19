@@ -470,6 +470,13 @@ function ApplicationInformation(props) {
                         <i className="fa fa-upload"></i>
                       </Button>
                     </InputGroup>
+                    {props.letter_authorization === null ? (
+                      <p className="validate text-danger">
+                        *This Field is Required
+                      </p>
+                    ) : (
+                      <></>
+                    )}
                     {
                         props.letter_authorization?
                         <>

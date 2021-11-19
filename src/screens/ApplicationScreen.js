@@ -119,8 +119,8 @@ function ApplicationScreen() {
   const [invoice, setInvoice] = useState("");
   const [irs_form, setIrsForm] = useState("");
   const [disposal_slip, setDisposalSlip] = useState("");
-  const [letter_authorization, setLetterAuthorization] = useState();
-  const [installer_certification, setInstallerCertification] = useState();
+  const [letter_authorization, setLetterAuthorization] = useState("");
+  const [installer_certification, setInstallerCertification] = useState("");
   const [other_doc1, setOtherDoc1] = useState("");
   const [other_doc2, setOtherDoc2] = useState("");
   const [other_doc3, setOtherDoc3] = useState("");
@@ -312,6 +312,7 @@ function ApplicationScreen() {
         quantity === "" ||
         vendor === "" ||
         invoice_no === "" ||
+        invoice === "" ||
         purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
@@ -329,6 +330,14 @@ function ApplicationScreen() {
       setStep(currentStep + 2);
       return;
     }
+
+    if(currentStep === 4 && stepOneToStepSix)
+    {
+      setStep(currentStep + 3);
+      return;
+    }
+    
+
 
     if (step <= 8 || step > 0) {
       if (is_set_control_no === false) {
@@ -348,6 +357,8 @@ function ApplicationScreen() {
           zipcode === "" ||
           tel_no === "" ||
           is_applicant_owner === "" ||
+          is_applicant_owner === "false" && letter_authorization === "" ||
+          // (is_applicant_owner === "false" && letter_authorization === "") ||
           mailing_address === "" ||
           mailing_city_village === "" ||
           mailing_zipcode === "" ||
@@ -374,7 +385,8 @@ function ApplicationScreen() {
           technician_name === "" ||
           work_tel === "" ||
           company_name === "" ||
-          date_final_installation === ""
+          date_final_installation === "" ||
+          invoice === ""
         ) {
           errorMessage();
         } else {
@@ -393,7 +405,16 @@ function ApplicationScreen() {
           //   errorMessage();
           // }
         }
-      } else {
+      } 
+      else if (currentStep === 6) {
+        if (irs_form !== "") {
+          setStep(currentStep + 1);
+        } else {
+            errorMessage();
+         
+        }
+      } 
+      else {
         setStep(currentStep + 1);
         return;
       }
