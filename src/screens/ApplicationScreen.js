@@ -47,7 +47,7 @@ function ApplicationScreen() {
   const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
-  const [verify, setVerify] = useState(true);
+  const [verify, setVerify] = useState(false);
   const [control_no, setControlNo] = useState("");
 
   const [account_no, setAccountNo] = useState("");
@@ -116,14 +116,14 @@ function ApplicationScreen() {
   const [agree_terms, setAgreeTerms] = useState("");
 
   // Submitted Documents
-  const [invoice, setInvoice] = useState("");
-  const [irs_form, setIrsForm] = useState("");
-  const [disposal_slip, setDisposalSlip] = useState("");
-  const [letter_authorization, setLetterAuthorization] = useState("");
-  const [installer_certification, setInstallerCertification] = useState("");
-  const [other_doc1, setOtherDoc1] = useState("");
-  const [other_doc2, setOtherDoc2] = useState("");
-  const [other_doc3, setOtherDoc3] = useState("");
+  const [invoice, setInvoice] = useState(null);
+  const [irs_form, setIrsForm] = useState(null);
+  const [disposal_slip, setDisposalSlip] = useState(null);
+  const [letter_authorization, setLetterAuthorization] = useState(null);
+  const [installer_certification, setInstallerCertification] = useState(null);
+  const [other_doc1, setOtherDoc1] = useState(null);
+  const [other_doc2, setOtherDoc2] = useState(null);
+  const [other_doc3, setOtherDoc3] = useState(null);
 
   const [invoiceD, setInvoiceD] = useState("");
   const [irs_formD, setIrsFormD] = useState("");
@@ -381,6 +381,7 @@ function ApplicationScreen() {
           quantity === "" ||
           vendor === "" ||
           invoice_no === "" ||
+          invoice === "" ||
           purchase_date === "" ||
           technician_name === "" ||
           work_tel === "" ||
@@ -443,6 +444,7 @@ function ApplicationScreen() {
             <ApplicationRequirements />
           ) : step === 2 ? (
             <ApplicationInformation
+              control_no={control_no}
               letter_authorization={letter_authorization}
               letter_authorizationD={letter_authorizationD}
               setLetterAuthorization={setLetterAuthorization}

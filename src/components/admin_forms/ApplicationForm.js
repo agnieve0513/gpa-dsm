@@ -13,6 +13,7 @@ import {GridOptions} from "ag-grid-community";
 import { useDispatch, useSelector } from 'react-redux';
 // import MaterialTable from "material-table";
 import TimeAgo from 'javascript-time-ago';
+import { retrieveFileAction } from '../../actions/fileActions'
 
 // English.
 import en from 'javascript-time-ago/locale/en.json';
@@ -68,6 +69,13 @@ function ApplicationForm() {
 
     const applicationList = useSelector(state => state.applicationList)
     const {applications} = applicationList
+
+    const retrieveFile = useSelector((state) => state.retrieveFile);
+    const {
+        loading: retrieveLoading,
+        error: retrieveError,
+        fileOutput
+    } = retrieveFile;
 
     const applicationDetail = useSelector(state => state.applicationDetail)
     const {application} = applicationDetail
@@ -238,6 +246,7 @@ function ApplicationForm() {
         },
         browserDatePicker: true,
       };
+
       const notEqualsFilterParams = {
         filterOptions: [
           'notEqual',
@@ -253,16 +262,14 @@ function ApplicationForm() {
       };
 
     useEffect(() => {
-        dispatch(listApplications())
-        dispatch(listBatchCurrent())
-        dispatch(commentsApplication(applicationId))
+        // dispatch(listApplications())
+        // dispatch(listBatchCurrent())
+        // dispatch(commentsApplication(applicationId))
 
-    }, [dispatch, application, successUpdate, addBatchSuccess,commentSucess])
+    }, [])
+    // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
-    const selectHandler = () => {
-        
-        
-    }
+    const selectHandler = () => {}
 
     const changeStatusHandler = (status) => {
         setStatus(status)
@@ -285,16 +292,14 @@ function ApplicationForm() {
                 setShowModal(false)
             }
         }else{
-          
-                setStatus(status)
-                setStage(stage)
-                if(window.confirm('Are you sure you want to process application?'))
-                {
-                    dispatch(updateApplication(applicationId,status,stage,reason, batch))
-                    alert("Saved!")
-                    setShowModal(false)
-                }
-            
+            setStatus(status)
+            setStage(stage)
+            if(window.confirm('Are you sure you want to process application?'))
+            {
+                dispatch(updateApplication(applicationId,status,stage,reason, batch))
+                alert("Saved!")
+                setShowModal(false)
+            }
         }
     }
 
@@ -389,6 +394,9 @@ function ApplicationForm() {
         );
     }
 
+    const handleRetrieveFile = () => {
+        dispatch(retrieveFileAction("eyJpdiI6ImozMXhYeFwvVWRMdFZNRzFQdTlUdGx3PT0iLCJ2YWx1ZSI6IjRqVDZMZmd4dlhQYWNKdDF1dUFUY0ZiZThuekZYbWVPSlB1UXJRa1R6aWc9IiwibWFjIjoiZDU5ZGJlM2U1MWVmZjMwZTAxYWMwYWZhYjhjYzcyNzc1M2RiM2RlMGNhMWJlMTExODgyZWIxMzI3NGY4MTFhNiJ9"))
+    }
 
     return (
         <div>
@@ -581,15 +589,32 @@ function ApplicationForm() {
                                             <Tab.Pane eventKey="submission_of_documentation">
                                                 <Container className="ml-2 mr-2">
                                                     <h3 className="mt-3 mb-3 text-info">Submitted Documents</h3>
-
+                                                    <Button onClick={()=> handleRetrieveFile()}>Click to Test</Button>
+                                                    {
+                                                        fileOutput?
+                                                        <>{fileOutput}</>:<></>
+                                                    }
                                                     <ListGroup className="mb-3">
-                                                        <p>Invoice</p>
-                                                        <p>IRS-W9</p>
-                                                        <p>Letter of Authorization</p>
-                                                        <p>Disposal Slip</p>
-                                                        <p>Other support documents 1</p>
-                                                        <p>Equipment condition prior to removal</p>
-                                                        <p>Other support documents 2</p>
+                                                        {
+                                                            application ?
+                                                            <>
+                                                                <p>Invoice <a href={application.Submitted_docs[0].invoice}>Click to Download</a></p>
+                                                                <p>IRS-W9 <a href={application.Submitted_docs[0].irs_form}>Click to Download</a></p>
+                                                                <p>Letter of Authorization <a href={application.Submitted_docs[0].letter_authorization}>Click to Download</a></p>
+                                                                <p>Disposal Slip <a href={application.Submitted_docs[0].disposal_slip}>Click to Download</a></p>
+                                                                {
+                                                                    application.Submitted_docs[0].other_doc2?
+                                                                    <p>Other support documents 1 <a href={application.Submitted_docs[0].other_doc2}>Click to Download</a></p>
+                                                                    :<></>
+                                                                }
+                                                                {
+                                                                    application.Submitted_docs[0].other_doc2?
+                                                                    <p>Other support documents 2</p>
+                                                                    :<></>
+                                                                }
+                                                                        
+                                                            </>:''
+                                                        }
                                                     </ListGroup>
                                                 </Container>
                                                 <Container className="ml-2 mr-2">
