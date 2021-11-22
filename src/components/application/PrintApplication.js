@@ -96,7 +96,7 @@ function PrintApplication(props) {
           <Document>
             <Page size="LEGAL">
               <View style={styles.section}>
-                <Text style={styles.title}>Applicaiton Information</Text>
+                <Text style={styles.title}>Application Information</Text>
                 <Text style={styles.text}>
                   GPA Electric Account Number:{" "}
                   <Text style={styles.boldText}>

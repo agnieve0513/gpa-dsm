@@ -386,8 +386,11 @@ function ApplicationForm() {
         );
     }
 
+    const reader = new FileReader();
+
     const handleRetrieveFile = () => {
-        dispatch(retrieveFileAction("eyJpdiI6ImozMXhYeFwvVWRMdFZNRzFQdTlUdGx3PT0iLCJ2YWx1ZSI6IjRqVDZMZmd4dlhQYWNKdDF1dUFUY0ZiZThuekZYbWVPSlB1UXJRa1R6aWc9IiwibWFjIjoiZDU5ZGJlM2U1MWVmZjMwZTAxYWMwYWZhYjhjYzcyNzc1M2RiM2RlMGNhMWJlMTExODgyZWIxMzI3NGY4MTFhNiJ9"))
+        dispatch(retrieveFileAction("eyJpdiI6Ik54QVwvZklybHhjanZQNDV0bTYyN2V3PT0iLCJ2YWx1ZSI6Ijh4TDArTm5aSHBNSFJSNzhBcFNDVXUzWXFzXC9JVEhCXC9EVjJIZkdaQ2Vxbz0iLCJtYWMiOiJlZmUyYzVhYzFlNGE2N2FhMmRiMDE2ODFhZjA0ODZkOTRmZmZmODE5OTNjYTYzZjVlODU2NDcxNDIxZjMwZGFlIn0="))
+
     }
 
     const handleDetailsToggle = () =>
@@ -583,7 +586,11 @@ function ApplicationForm() {
                                                 <Container className="ml-2 mr-2">
                                                     <h3 className="mt-3 mb-3 text-info">Submitted Documents</h3>
                                                     <Button onClick={()=> handleRetrieveFile()}>Click to Test</Button>
-                                                    
+                                                    {
+                                                        <>
+                                                            <img src={reader.result} />
+                                                        </>
+                                                    }
                                                     <ListGroup className="mb-3">
                                                         {
                                                             application ?
