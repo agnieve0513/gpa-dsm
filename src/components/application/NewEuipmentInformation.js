@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Button, Badge, Table, InputGroup } from "react-bootstrap";
-
+import './NewEquipmentInformation.css';
 import {
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
@@ -223,7 +223,7 @@ function NewEuipmentInformation(props) {
                       {console.log(props.installer_certificationD)}
                       <Badge bg={"success"}>File Uploaded</Badge> <br /> 
                       </>
-                      :<>no upload</>
+                      :<></>
                     }
                     Filename: {props.installer_certification.name} <br />
                     File Type: {props.installer_certification.type} <br /><br />
@@ -278,7 +278,7 @@ function NewEuipmentInformation(props) {
                       {console.log(props.invoiceD)}
                       <Badge bg={"success"}>File Uploaded</Badge> <br /> 
                       </>
-                      :<>no upload</>
+                      :<></>
                     }
                     Filename: {props.invoice.name} <br />
                     File Type: {props.invoice.type} <br /><br />
@@ -366,7 +366,7 @@ function NewEuipmentInformation(props) {
 
   return (
     <Row>
-      <Col md={3}></Col>
+      <Col md={3}/>
       <Col md={6}>
         {/* Row for installer's information */}
         <Row>
@@ -713,7 +713,7 @@ function NewEuipmentInformation(props) {
           </Col>
         </Row>
       </Col>
-      <Col md={3}></Col>
+      <Col md={3}/>
     </Row>
   );
 }

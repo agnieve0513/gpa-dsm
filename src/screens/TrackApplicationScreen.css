@@ -17,6 +17,11 @@ body {
     padding: 2rem
 }
 
+#submitbtn {
+    font-family: "Montserrat Bold", sans-serif;
+    font-weight: 400;
+}
+
 .w-32 {
     width: 32px !important;
     height: 32px !important;
