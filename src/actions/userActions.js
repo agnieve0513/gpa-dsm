@@ -224,10 +224,23 @@ export const register = (role_id, name, email, password, role_name) => async (di
         config
         )
 
-        dispatch({
-            type: USER_REGISTER_SUCCESS,
-            payload:data
-        })
+        // dispatch({
+        //     type: USER_REGISTER_SUCCESS,
+        //     payload:data
+        // })
+
+        if(data.success) {
+            dispatch({
+                type: USER_REGISTER_SUCCESS,
+                payload:data
+            })
+        } else {
+            dispatch({
+                type: USER_REGISTER_FAIL,
+                payload:data
+            })
+        }
+        
 
         // localStorage.setItem('userInfo', JSON.stringify(data))
 

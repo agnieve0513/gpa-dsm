@@ -130,7 +130,7 @@ function AdminDashboardScreen({ location, history }) {
                       )}
 
                       {recordForm ? (
-                        <Nav.Item className="mr-1">
+                        <Nav.Item className="me-1">
                           <Nav.Link eventKey="records">Records</Nav.Link>
                         </Nav.Item>
                       ) : (

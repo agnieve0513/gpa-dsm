@@ -5,6 +5,7 @@ import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import PrintApplication from "./PrintApplication";
+import './Confirm.css';
 
 function Confirm(props) {
   const [print, setPrint] = useState(false);
@@ -62,7 +63,7 @@ function Confirm(props) {
           </Row>
         </Container>
 
-        <Container className="text-center mb-3">
+        <Container className="text-center mb-3" id="homebtn">
           <Link to={`/`} className="btn btn-success btn-lg px-5">
             <h4>BACK TO GPA HOMEPAGE </h4>
           </Link>

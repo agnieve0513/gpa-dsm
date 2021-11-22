@@ -22,7 +22,7 @@ function ApplicationRequirements(props) {
       <Col md={2}></Col>
       <Col md={8}>
         <h4 className="text-center text-info">APPLICATION REQUIREMENTS</h4>
-        <p>
+        <p style={{paddingRight: 8, paddingLeft: 8}}>
           For a smooth and complete application process we recommend that you
           have all of the following information listed below readily available.
           <span className="text-danger">

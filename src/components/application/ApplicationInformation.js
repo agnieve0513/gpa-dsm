@@ -127,7 +127,7 @@ function ApplicationInformation(props) {
               <Col md={6} className="mb-3">
                 <Form.Group controlId="account_no">
                   <Form.Label>
-                    GPA ELECTRIC ACCOUNT NUMBER*{" "}
+                    GPA ELECTRIC ACCOUNT NUMBER{" "}
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -195,7 +195,7 @@ function ApplicationInformation(props) {
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
                   <Form.Label>
-                    BILL ID (Last 5 Digits)*
+                    BILL ID (Last 5 Digits){" "}            
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -210,7 +210,7 @@ function ApplicationInformation(props) {
                     >
                       <i className="fa fa-question-circle"></i>
                     </span>
-                  </Form.Label>{" "}
+                  </Form.Label>
                   <br />
                   <InputGroup>
                     <Form.Control
@@ -256,7 +256,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
-                  <Form.Label>First Name</Form.Label>
+                  <Form.Label>FIRST NAME</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -276,7 +276,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="lastname">
-                  <Form.Label>Last Name</Form.Label>
+                  <Form.Label>LAST NAME</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -562,7 +562,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_country">
-                  <Form.Label>COUNTRY*</Form.Label>
+                  <Form.Label>COUNTRY</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -628,7 +628,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
-                  <Form.Label>HOME SIZE (approx.sq ft.)*</Form.Label>
+                  <Form.Label>HOME SIZE (approx.sq ft.)</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -651,7 +651,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_age">
-                  <Form.Label>YEAR BUILT*</Form.Label>
+                  <Form.Label>YEAR BUILT</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""

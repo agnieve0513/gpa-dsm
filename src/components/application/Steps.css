@@ -1,16 +1,23 @@
+#StepsContent {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+#stepsBackground {
+  min-width: max-content
+}
 
 #StepsContent li {
-    width: 6.5em;
-    height: 5em;
-    text-align: center;
-    line-height: 2em;
-    border-radius: 1em;
-    margin: 0 1em;
-    display: inline-block;
-    color: white;
-    position: relative;
-  }
-
+  width: 6.5em;
+  height: 5em;
+  text-align: center;
+  line-height: 2em;
+  border-radius: 1em;
+  margin: 0 1em;
+  display: inline-block;
+  color: white;
+  position: relative;
+}
   
 #StepsContent li span{
   position: absolute;

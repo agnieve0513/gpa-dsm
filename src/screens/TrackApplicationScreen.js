@@ -66,7 +66,7 @@ function ApplicationScreen() {
                                 value={control_no}
                                 required
                             />
-                           <button className="btn btn-success" onClick={()=> trackApplicationHandler()}><b>SUBMIT</b></button>
+                           <button className="btn btn-success" id="submitbtn" onClick={()=> trackApplicationHandler()}><b>SUBMIT</b></button>
 
                     </InputGroup>
                     </Row>
