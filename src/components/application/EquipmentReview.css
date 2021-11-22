@@ -5,6 +5,11 @@
     border-color: #dee2e6 #dee2e6 #fff;
 }
 
+.tab {
+    background-color: #D0D5DB;
+    top: 100px;
+}
+
 .card-header-tabs
 {
     margin-right: -1rem;

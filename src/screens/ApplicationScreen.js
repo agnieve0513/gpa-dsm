@@ -42,9 +42,9 @@ function ApplicationScreen() {
   const [saved, setSaved] = useState(false);
   const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
-    
-  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);    
-  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);  
+
+  const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
+  const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
   const [verify, setVerify] = useState(false);
@@ -116,15 +116,26 @@ function ApplicationScreen() {
   const [agree_terms, setAgreeTerms] = useState("");
 
   // Submitted Documents
-  const [invoice, setInvoice] = useState("");
-  const [irs_form, setIrsForm] = useState("");
-  const [disposal_slip, setDisposalSlip] = useState("");
-  const [letter_authorization, setLetterAuthorization] = useState("");
-  const [other_doc1, setOtherDoc1] = useState("");
-  const [other_doc2, setOtherDoc2] = useState("");
-  const [other_doc3, setOtherDoc3] = useState("");
+  const [invoice, setInvoice] = useState(null);
+  const [irs_form, setIrsForm] = useState(null);
+  const [disposal_slip, setDisposalSlip] = useState(null);
+  const [letter_authorization, setLetterAuthorization] = useState(null);
+  const [installer_certification, setInstallerCertification] = useState(null);
+  const [other_doc1, setOtherDoc1] = useState(null);
+  const [other_doc2, setOtherDoc2] = useState(null);
+  const [other_doc3, setOtherDoc3] = useState(null);
+
+  const [invoiceD, setInvoiceD] = useState("");
+  const [irs_formD, setIrsFormD] = useState("");
+  const [disposal_slipD, setDisposalSlipD] = useState("");
+  const [letter_authorizationD, setLetterAuthorizationD] = useState();
+  const [installer_certificationD, setInstallerCertificationD] = useState();
+  const [other_doc1D, setOtherDoc1D] = useState("");
+  const [other_doc2D, setOtherDoc2D] = useState("");
+  const [other_doc3D, setOtherDoc3D] = useState("");
 
   const [terms_and_agreement, setTermsAndAgreement] = useState(false);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     dispatch(generateControlNo());
@@ -163,22 +174,26 @@ function ApplicationScreen() {
               home_age: home_age,
               home_type: home_type,
               is_new_construction: is_new_construction,
+              application_type : customer_type
+
             },
             new_equipment_information: new_equipments,
             existing_old_equipment_information: old_equipments,
-            submitted_documents: {
-              control_no: customerNo,
-              invoice: invoice,
-              irs_form: irs_form,
-              disposal_slip: disposal_slip,
-              letter_authorization: letter_authorization,
-              other_doc1: other_doc1,
-              other_doc2: other_doc2,
-              other_doc3: other_doc3,
-            },
+            submitted_documents : {
+              control_no : control_no,
+              invoice : invoiceD,
+              irs_form: irs_formD,
+              disposal_slip : disposal_slipD,
+              letter_authorization : letter_authorizationD,
+              other_doc1 : other_doc1D,
+              other_doc2 : other_doc2D,
+              other_doc3 : installer_certificationD,
+              },
           };
+
           if (control_no !== "") {
             dispatch(register(obj));
+            setData(obj);
             setSaved(true);
             MySwal.fire({
               icon: "success",
@@ -214,9 +229,7 @@ function ApplicationScreen() {
     });
   };
   const handleNextClick = (currentStep) => {
-
-    if(currentStep === 2 && stepOneToStepFive)
-    {
+    if (currentStep === 2 && stepOneToStepFive) {
       if (
         account_no === "" ||
         bill_id === "" ||
@@ -225,7 +238,7 @@ function ApplicationScreen() {
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
-        tel_no === "" ||
+        email === "" ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||
@@ -242,8 +255,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepFive)
-    {
+    if (currentStep === 3 && stepOneToStepFive) {
       if (
         new_equipments.length === 0 ||
         system_type === "" ||
@@ -265,8 +277,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 2 && stepOneToStepSix)
-    {
+    if (currentStep === 2 && stepOneToStepSix) {
       if (
         account_no === "" ||
         bill_id === "" ||
@@ -292,8 +303,7 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepSix)
-    {
+    if (currentStep === 3 && stepOneToStepSix) {
       if (
         new_equipments.length === 0 ||
         system_type === "" ||
@@ -302,6 +312,7 @@ function ApplicationScreen() {
         quantity === "" ||
         vendor === "" ||
         invoice_no === "" ||
+        invoice === "" ||
         purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
@@ -315,11 +326,17 @@ function ApplicationScreen() {
       }
     }
 
-    if(currentStep === 3 && stepOneToStepSix)
-    {
+    if (currentStep === 3 && stepOneToStepSix) {
       setStep(currentStep + 2);
       return;
     }
+
+    if(currentStep === 4 && stepOneToStepSix)
+    {
+      setStep(currentStep + 3);
+      return;
+    }
+    
 
 
     if (step <= 8 || step > 0) {
@@ -340,6 +357,8 @@ function ApplicationScreen() {
           zipcode === "" ||
           tel_no === "" ||
           is_applicant_owner === "" ||
+          is_applicant_owner === "false" && letter_authorization === "" ||
+          // (is_applicant_owner === "false" && letter_authorization === "") ||
           mailing_address === "" ||
           mailing_city_village === "" ||
           mailing_zipcode === "" ||
@@ -362,11 +381,13 @@ function ApplicationScreen() {
           quantity === "" ||
           vendor === "" ||
           invoice_no === "" ||
+          invoice === "" ||
           purchase_date === "" ||
           technician_name === "" ||
           work_tel === "" ||
           company_name === "" ||
-          date_final_installation === ""
+          date_final_installation === "" ||
+          invoice === ""
         ) {
           errorMessage();
         } else {
@@ -377,6 +398,7 @@ function ApplicationScreen() {
         if (no_existing) {
           setStep(currentStep + 1);
         } else {
+          setStep(currentStep + 1);
           // if (
           // ) {
           //   errorMessage();
@@ -384,7 +406,16 @@ function ApplicationScreen() {
           //   errorMessage();
           // }
         }
-      } else {
+      } 
+      else if (currentStep === 6) {
+        if (irs_form !== "") {
+          setStep(currentStep + 1);
+        } else {
+            errorMessage();
+         
+        }
+      } 
+      else {
         setStep(currentStep + 1);
         return;
       }
@@ -401,7 +432,11 @@ function ApplicationScreen() {
     <div>
       <CustomerHeader />
       {saved ? (
-        <Confirm control_no={control_no} setControlNo={setControlNo} />
+        <Confirm
+          data={data}
+          control_no={control_no}
+          setControlNo={setControlNo}
+        />
       ) : (
         <>
           <Steps currentStep={step} />
@@ -409,6 +444,11 @@ function ApplicationScreen() {
             <ApplicationRequirements />
           ) : step === 2 ? (
             <ApplicationInformation
+              control_no={control_no}
+              letter_authorization={letter_authorization}
+              letter_authorizationD={letter_authorizationD}
+              setLetterAuthorization={setLetterAuthorization}
+              setLetterAuthorizationD={setLetterAuthorizationD}
               verify={verify}
               setVerify={setVerify}
               customer_type={customer_type}
@@ -475,6 +515,16 @@ function ApplicationScreen() {
               setModelNo={setModelNo}
               invoice_no={invoice_no}
               setInvoiceNo={setInvoiceNo}
+              invoice={invoice}
+              setInvoice={setInvoice}
+              invoiceD={invoiceD}
+              setInvoiceD={setInvoiceD}
+              installer_certification={installer_certification}
+              setInstallerCertification={setInstallerCertification}
+
+              installer_certificationD={installer_certificationD}
+              setInstallerCertificationD={setInstallerCertificationD}
+
               purchase_date={purchase_date}
               setPurchaseDate={setPurchaseDate}
               type={type}
@@ -526,6 +576,10 @@ function ApplicationScreen() {
               setSeer={setSeer}
               disposal_party={disposal_party}
               setDisposalParty={setDisposalParty}
+              disposal_slip={disposal_slip}
+              setDisposalSlip={setDisposalSlip}
+              disposal_slipD={disposal_slipD}
+              setDisposalSlipD={setDisposalSlipD}
               date={date}
               setDate={setDate}
               old_btu={old_btu}
@@ -586,24 +640,57 @@ function ApplicationScreen() {
             <SubmissionOfDocumentation
               invoice={invoice}
               setInvoice={setInvoice}
+
+              invoiceD={invoiceD}
+              setInvoiceD={setInvoiceD}
+
               irs_form={irs_form}
               setIrsForm={setIrsForm}
+
+              irs_formD={irs_formD}
+              setIrsFormD={setIrsFormD}
+
               disposal_slip={disposal_slip}
               setDisposalSlip={setDisposalSlip}
+
+              disposal_slipD={disposal_slipD}
+              setDisposalSlipD={setDisposalSlipD}
+
               letter_authorization={letter_authorization}
               setLetterAuthorization={setLetterAuthorization}
+
+              letter_authorizationD={letter_authorizationD}
+              setLetterAuthorizationD={setLetterAuthorizationD}
+
               other_doc1={other_doc1}
               setOtherDoc1={setOtherDoc1}
+
+              other_doc1D={other_doc1D}
+              setOtherDoc1D={setOtherDoc1D}
+
               other_doc2={other_doc2}
               setOtherDoc2={setOtherDoc2}
+
+              other_doc2D={other_doc2D}
+              setOtherDoc2D={setOtherDoc2D}
+
               other_doc3={other_doc3}
               setOtherDoc3={setOtherDoc3}
+
+              other_doc3D={other_doc3D}
+              setOtherDoc3D={setOtherDoc3D}
+
+              installer_certification={installer_certification}
+              setInstallerCertification={setInstallerCertification}
+
+              installer_certificationD={installer_certificationD}
+              setInstallerCertificationD={setInstallerCertificationD}
             />
           ) : step === 7 ? (
             <FinalReview
               invoice={invoice}
-              stepOneToStepSix = {stepOneToStepSix}
-              setStepOneToStepSix = {setStepOneToStepSix}
+              stepOneToStepSix={stepOneToStepSix}
+              setStepOneToStepSix={setStepOneToStepSix}
               setInvoice={setInvoice}
               irs_form={irs_form}
               setIrsForm={setIrsForm}
@@ -611,6 +698,7 @@ function ApplicationScreen() {
               setDisposalSlip={setDisposalSlip}
               letter_authorization={letter_authorization}
               setLetterAuthorization={setLetterAuthorization}
+              installer_certification={installer_certification}
               other_doc1={other_doc1}
               setOtherDoc1={setOtherDoc1}
               other_doc2={other_doc2}

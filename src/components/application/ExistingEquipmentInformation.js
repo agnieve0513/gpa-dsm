@@ -1,19 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { Table, Row, Col, Form, Button } from "react-bootstrap";
+import { Table, Row, Col, Form, Button, Badge, InputGroup } from "react-bootstrap";
 import {
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
   loadCustomerEquipmentDetail,
 } from "../../actions/customerAction";
+import { uploadFileAction } from '../../actions/fileActions'
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
-
+import ModalImage from "../ModalImage";
 function ExistingEquipmentInformation(props) {
   const dispatch = useDispatch();
+
+  const [modalShow, setModalShow] = useState(false);
+  const [modalData, setModalData] = useState({
+    description: "",
+    image_sample: "",
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  let p = {};
+
+
+  const uploadFile = useSelector((state) => state.uploadFile);
+  const {
+    loading: uploadLoading,
+    error: uploadError,
+    fileCode,
+  } = uploadFile;
 
   const customerEquipManufacturer = useSelector(
     (state) => state.customerEquipManufacturer
@@ -114,6 +131,17 @@ function ExistingEquipmentInformation(props) {
       />
     );
   };
+
+  const handleSubmitDisposalSlip = () => {
+    console.log(props.disposal_slip)
+    dispatch(uploadFileAction(props.disposal_slip, "disposal_slip", props.control_no));
+
+  }
+
+  const handleChangeDisposalSlip = (e) => {
+    props.setDisposalSlip(e.target.files[0])
+  }
+
   return (
     <Row>
       <Col md={3}></Col>
@@ -294,13 +322,13 @@ function ExistingEquipmentInformation(props) {
                 disabled={props.no_existing ? true : false}
               ></Form.Control>
             </Form.Group>
-            {props.no_existing ? (
+            {/* {props.no_existing ? (
               <> </>
             ) : props.seer === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
             ) : (
               <></>
-            )}
+            )} */}
           </Col>
         </Row>
         <Row>
@@ -336,25 +364,52 @@ function ExistingEquipmentInformation(props) {
             )}
             <br />
             {props.disposal_party === "Installer" ? (
-              <Form.Group controlId="disposal_slip" className="mb-3">
-                <Form.Label>
-                  DISPOSAL RECEIPT{" "}
-                  <a
-                    className="text-success"
-                    href="./sample_invoice.png"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {" "}
-                    <i className="fa fa-question-circle"></i>{" "}
-                  </a>
-                </Form.Label>
+              <Form.Group controlId="disposal_slip">
+              <span>
+                DISPOSAL RECEIPT
+                <span
+                  className="text-secondary mb-1"
+                  onClick={() => {
+                    setModalData(
+                      (p = {
+                        description: "DISPOSAL SLIP",
+                        image_sample: "./GPADSM5.png",
+                      })
+                    );
+                    setModalShow(true);
+                  }}
+                >
+                  <i className="fa fa-question-circle"></i>{" "}
+                </span>
+              </span>
+              <InputGroup>
                 <Form.Control
+                  name="file"
+                  placeholder="Upload Disposal Receipt"
                   type="file"
-                  placeholder=""
-                  required
-                ></Form.Control>
-              </Form.Group>
+                  onChange={(e) => handleChangeDisposalSlip(e)}
+                />
+                <Button variant="info" onClick={() => handleSubmitDisposalSlip()}>
+                  <i className="fa fa-upload"></i>
+                </Button>
+              </InputGroup>
+              {
+                  props.disposal_slip?
+                  <>
+                    {
+                      fileCode ?
+                      <>
+                      {props.setDisposalSlipD(fileCode)}
+                      {console.log(props.disposal_slipD)}
+                      <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                      </>
+                      :<>no upload</>
+                    }
+                    Filename: {props.disposal_slip.name} <br />
+                    File Type: {props.disposal_slip.type} <br /><br />
+                  </>:<></>
+              }
+            </Form.Group>
             ) : (
               <></>
             )}
