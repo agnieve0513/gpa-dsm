@@ -14,6 +14,11 @@ main{
     color:black;
 }
 
+.me-1
+{
+    padding-bottom: 0.5em;
+}
+
 .form-control
 {
     display: block;

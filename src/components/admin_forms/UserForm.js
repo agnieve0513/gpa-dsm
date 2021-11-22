@@ -34,7 +34,7 @@ function UserForm({history, location}) {
 
 
     const userRegister = useSelector(state => state.userRegister)
-    const {error, loading, success:successRegister} = userRegister
+    const {loading, userResult} = userRegister
 
     const userUpdate = useSelector(state => state.userUpdate)
     const {error:updateError, loading:updateLoading, success:successUpdate} = userUpdate
@@ -224,27 +224,34 @@ function UserForm({history, location}) {
 
     useEffect(() => {
         dispatch(listUsers())
-    }, [dispatch, successDelete, successRegister, successUpdate])
+    }, [dispatch, successDelete, userResult, successUpdate])
 
 
     const submitHandler = (e) => {
         e.preventDefault()
         if(password !== confirmPassword)
         {
-            setMessage('Password do not Match');
+            setMessage('Passwords do not Match');
         }
         else
         {
             if(action === 'update')
             {
-                dispatch(update(id,role_id, name, email));
-                Swal.fire('Success!', 'User Info Successfully Updated', 'success');
-                clearHandler();
+              dispatch(update(id,role_id, name, email));
+              Swal.fire('Success!', 'User Info Successfully Updated', 'success');
+              clearHandler();
             }
-            else{
-                dispatch(register(role_id, name, email, password));
-                Swal.fire('Success!', 'User Successfully Added', 'success');
-                clearHandler();
+            else
+            {
+              dispatch(register(role_id, name, email, password));
+                if(userResult.success) {
+                  Swal.fire('Success!', 'User Successfully Added', 'success');
+                  clearHandler();
+                }
+                else
+                {
+                  Swal.fire('Error!', userResult.message, 'error')
+                }
             }
         }
     }
