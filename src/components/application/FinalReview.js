@@ -1,433 +1,433 @@
 import React, { useState, useEffect } from "react";
-import { Table, Row, Col, Form, Button } from "react-bootstrap";
 import {
-  loadCustomerEquipManufacturer,
-  loadCustomerEquipModel,
-  loadCustomerEquipmentDetail,
-} from "../../actions/customerAction";
-import { useDispatch, useSelector } from "react-redux";
+  Row,
+  Col,
+  Tabs,
+  Tab,
+  ListGroup,
+  Table,
+  Badge,
+  Button,
+  ButtonGroup,
+  Container,
+  Card,
+} from "react-bootstrap";
+
+import "./EquipmentReview.css";
 import MaterialTable from "material-table";
 
 function FinalReview(props) {
-  const dispatch = useDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const customerEquipManufacturer = useSelector(
-    (state) => state.customerEquipManufacturer
-  );
-  const {
-    loading: manufacturerLoading,
-    error: manufacturerError,
-    success: manufacturerSuccess,
-    manufacturers,
-  } = customerEquipManufacturer;
+  const [new_eq_index, setNewEqIndex] = useState(0);
+  const [old_eq_index, setOldEqIndex] = useState(0);
 
-  const changeSystemTypeHandler = (e) => {
-    props.setOldSystemType(e.target.value);
-    props.setOldEquipments([]);
+  const backToApplicationHandler = () => {
+    props.setStepOneToStepSix(true);
+    props.setStep(2);
   };
 
-  const handleCheckBox = (e) => {
-    if (e.target.checked) {
-      props.seIsNoExistingToReplace(true);
-      props.setNoExisting(true);
-    } else {
-      props.seIsNoExistingToReplace(false);
-      props.setNoExisting(false);
-    }
+  const backToNewEquipmentHandler = () => {
+    props.setStepOneToStepSix(true);
+    props.setStep(3);
   };
 
-  const handleAgreeBox = (e) => {
-    if (e.target.checked) {
-      props.setAgreeTerms("true");
-    } else {
-      props.setAgreeTerms("false");
-    }
+  const backToOldEquipmentHandler = () => {
+    props.setStepOneToStepSix(true);
+    props.setStep(4);
   };
 
-  const addEquipmentHandler = () => {
-    const obj = {
-      control_no: props.control_no,
-      id: props.old_equipments.length + 1,
-      system_type: props.system_type,
-      btu: props.old_btu,
-      years: props.old_years,
-      tons: props.old_tons,
-      is_equipment_condition: props.is_equipment_condition,
-      seer: props.seer,
-      disposal_party: props.disposal_party,
-      date: props.date,
-      quantity: props.old_quantity,
-      agree_terms: props.agree_terms,
-    };
-    props.setOldEquipments(props.old_equipments.concat(obj));
+  const backToSubmissionOfDocumentation = () =>
+  {
+    props.setStep(6);
+  }
+
+  const showNewEquipmentInformation = (index) => {
+    setNewEqIndex(index);
   };
 
-  const deleteEquipmentHandler = (rowdata) => {
-    const index = props.old_equipments.indexOf(rowdata);
-    const eqs = props.old_equipments;
-
-    if (index > -1) {
-      eqs.splice(index, 1);
-      props.setOldEquipments(eqs);
-    }
-    dispatch(loadCustomerEquipManufacturer("Central AC"));
+  const showOldEquipmentInformation = (index) => {
+    setOldEqIndex(index);
   };
 
-  useEffect(() => {
-    showTable();
-  }, [dispatch, props.old_equipments]);
+  let total_rebate = 0;
 
-  const showTable = () => {
-    return (
-      <MaterialTable
-        columns={[
-          { title: "#", field: "id" },
-          { title: "System Type", field: "system_type" },
-          { title: "Quantity", field: "quantity" },
-          {
-            title: "Action",
-            field: "actions",
-            width: "10%",
-            editComponent: (props) => {
-              return <Button></Button>;
-            },
-            render: (rowdata) => (
-              <>
-                {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
-                <Button
-                  variant="danger"
-                  onClick={() => deleteEquipmentHandler(rowdata)}
-                  size="sm"
-                >
-                  <i className="fa fa-trash"></i>
-                </Button>
-              </>
-            ),
-          },
-        ]}
-        data={props.old_equipments.length === 0 ? [] : props.old_equipments}
-        title="Equipments"
-      />
-    );
-  };
   return (
     <Row>
-      <Col md={3}></Col>
-      <Col md={6}>
-        <h4 className="text-center text-info">
-          Existing Equipment Information
-        </h4>
-        <Row>
-          <Col md={12}>
-            <Form.Check
+      <Col md={1}></Col>
+      <Col md={10}>
+        <h4 className="text-center text-info mb-3">Equipment Review</h4>
+        <Card className="mb-5" id="CardForReview">
+          <Card.Body>
+            <Tabs
+              defaultActiveKey="application_information"
+              transition={false}
+              id=""
               className="mb-3"
-              inline
-              label="Check if there is no existing/old equipment being replaced"
-              name="props.is_no_existing_to_replace"
-              type={"checkbox"}
-              id={`inline-${"check"}-1`}
-              checked={props.is_no_existing_to_replace === true}
-              onChange={(e) => handleCheckBox(e)}
-            />
-            <a
-              className="text-success"
-              href="./sample_invoice.png"
-              rel="noreferrer"
-              target="_blank"
             >
-              <i className="fa fa-question-circle"></i>
-            </a>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <Form.Group controlId="system_type" className="mb-3">
-              <Form.Label>SYSTEM TYPE</Form.Label>
-              <Form.Select
-                onChange={(e) => changeSystemTypeHandler(e)}
-                value={props.system_type}
-                disabled={true}
+              <Tab
+                eventKey="application_information"
+                title="Applicant Information"
               >
-                <option value="Central AC">Central AC</option>
-                <option value="Split AC">Split AC</option>
-                <option value="Window AC">Window AC</option>
-                <option value="Dryer">Dryer</option>
-                <option value="Washer">Washer</option>
-              </Form.Select>
-            </Form.Group>
-          </Col>
-        </Row>
-        {props.system_type === "Dryer" || props.system_type === "Washer" ? (
-          <Row>
-            <Col md={6} className="mb-3">
-              <Form.Group controlId="old_btu">
-                <Form.Label>BTU</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder=""
-                  value={props.old_btu}
-                  onChange={(e) => props.setOldBtu(e.target.value)}
-                  required
-                  disabled={props.no_existing ? true : false}
-                ></Form.Control>
-              </Form.Group>
-              {props.no_existing ? (
-                <> </>
-              ) : props.old_btu === "" ? (
-                <p className="validate text-danger">*This Field is Required</p>
-              ) : (
-                <></>
-              )}
-            </Col>
-            <Col md={6} className="mb-3">
-              <Form.Group controlId="old_tons">
-                <Form.Label>TONS</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder=""
-                  value={props.old_tons}
-                  onChange={(e) => props.setOldTons(e.target.value)}
-                  required
-                  disabled={props.no_existing ? true : false}
-                ></Form.Control>
-              </Form.Group>
-              {props.no_existing ? (
-                <> </>
-              ) : props.old_tons === "" ? (
-                <p className="validate text-danger">*This Field is Required</p>
-              ) : (
-                <></>
-              )}
-            </Col>
-          </Row>
-        ) : (
-          <></>
-        )}
-        <Row>
-          <Col md={6} className="mb-3">
-            <Form.Group controlId="old_quantity">
-              <Form.Label>QUANTITY</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder=""
-                value={props.old_quantity}
-                onChange={(e) => props.setOldQuantity(e.target.value)}
-                required
-                disabled={props.no_existing ? true : false}
-              ></Form.Control>
-            </Form.Group>
-            {props.no_existing ? (
-              <> </>
-            ) : props.old_quantity === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-          <Col md={6} className="mb-3">
-            <Form.Group controlId="old_years">
-              <Form.Label>YEARS</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder=""
-                value={props.old_years}
-                onChange={(e) => props.setOldYears(e.target.value)}
-                required
-                disabled={props.no_existing ? true : false}
-              ></Form.Control>
-            </Form.Group>
-            {props.no_existing ? (
-              <> </>
-            ) : props.old_years === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={12}>
-            <Form.Label>EQUIPMENT CONDITION PRIOR TO REMOVAL</Form.Label> <br />
-            <Form.Check
-              inline
-              label="Operational"
-              name="is_equipment_condition"
-              type={"radio"}
-              id={`inline-${"radio"}-1`}
-              value="Operational"
-              checked={"Operational" === props.is_equipment_condition}
-              onChange={(e) => props.setIsEquipmentCondition(e.target.value)}
-              disabled={props.no_existing ? true : false}
-            />
-            <Form.Check
-              inline
-              label="Failed"
-              name="is_equipment_condition"
-              type={"radio"}
-              value="Failed"
-              checked={"Failed" === props.is_equipment_condition}
-              onChange={(e) => props.setIsEquipmentCondition(e.target.value)}
-              disabled={props.no_existing ? true : false}
-            />
-            {props.no_existing ? (
-              <> </>
-            ) : props.is_equipment_condition === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12} className="mb-3">
-            <Form.Group controlId="seer">
-              <Form.Label>SEER</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder=""
-                required
-                disabled={props.no_existing ? true : false}
-              ></Form.Control>
-            </Form.Group>
-            {props.no_existing ? (
-              <> </>
-            ) : props.seer === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-        <Row>
-          <Col md={12}>
-            <Form.Label>DISPOSAL PARTY</Form.Label> <br />
-            <Form.Check
-              inline
-              label="Customer"
-              name="disposal_party"
-              type={"radio"}
-              id={`inline-${"radio"}-1`}
-              value="Customer"
-              checked={"Customer" === props.disposal_party}
-              onChange={(e) => props.setDisposalParty(e.target.value)}
-              disabled={props.no_existing ? true : false}
-            />
-            <Form.Check
-              inline
-              label="Installer"
-              name="disposal_party"
-              type={"radio"}
-              value="Installer"
-              checked={"Installer" === props.disposal_party}
-              onChange={(e) => props.setDisposalParty(e.target.value)}
-              disabled={props.no_existing ? true : false}
-            />
-            {props.no_existing ? (
-              <> </>
-            ) : props.disposal_party === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-            <br />
-            {props.disposal_party === "Installer" ? (
-              <Form.Group controlId="disposal_slip" className="mb-3">
-                <Form.Label>
-                  DISPOSAL RECEIPT{" "}
-                  <a
-                    className="text-success"
-                    href="./sample_invoice.png"
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    {" "}
-                    <i className="fa fa-question-circle"></i>{" "}
-                  </a>
-                </Form.Label>
-                <Form.Control
-                  type="file"
-                  placeholder=""
-                  required
-                ></Form.Control>
-              </Form.Group>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-        <Row className="mt-3">
-          <Col md={12}>
-            <Form.Check
-              inline
-              label="By checking this box, you agree to the terms and conditions for proper disposal."
-              name="agree_terms"
-              type={"checkbox"}
-              id={`inline-${"check"}-1`}
-              checked={props.agree_terms === "true"}
-              onChange={(e) => handleAgreeBox(e)}
-              disabled={props.no_existing ? true : false}
-            />
-            {props.no_existing ? (
-              <> </>
-            ) : props.agree_terms === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={12}>
-            <Form.Group controlId="date" className="mb-3">
-              <Form.Label>DATE</Form.Label>
-              <Form.Control
-                type="date"
-                placeholder=""
-                value={props.date}
-                onChange={(e) => props.setDate(e.target.value)}
-                required
-                disabled={props.no_existing ? true : false}
-              ></Form.Control>
-            </Form.Group>
-            {props.no_existing ? (
-              <> </>
-            ) : props.date === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
-          </Col>
-        </Row>
-
-        <Row>
-          <Col md={4}></Col>
-          <Col md={4}>
-            <Row>
-              <Button
-                variant="success"
-                size="lg"
-                onClick={() => addEquipmentHandler()}
-                className="d-flex justify-content-center"
-                disabled={props.no_existing ? true : false}
+                <Container className="ml-2 mr-2">
+                  <h3 className="mt-3 text-info">
+                    Applicant Info{" "}
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => backToApplicationHandler()}
+                    >
+                      <i className="fa fa-edit"></i> Edit Information
+                    </button>
+                  </h3>
+                  <ListGroup>
+                    <p>
+                      GPA Electric Account Number <b>{props.account_no}</b>{" "}
+                    </p>
+                    <p>
+                      Bill ID <b>{props.bill_id}</b>{" "}
+                    </p>
+                    <p>
+                      Applicant Name{" "}
+                      <b>
+                        {props.lastname}, {props.firstname} {props.middlename}{" "}
+                      </b>
+                    </p>
+                    <p>
+                      Installation Address <b>{props.service_location}</b>{" "}
+                    </p>
+                    <p>
+                      City <b>{props.city_village}</b>{" "}
+                    </p>
+                    <p>
+                      ZIP <b>{props.zipcode}</b>{" "}
+                    </p>
+                    <p>
+                      Email <b>{props.email}</b>{" "}
+                    </p>
+                    <p>
+                      Telephone Number <b>{props.tel_no}</b>{" "}
+                    </p>
+                    <p>
+                      Owner of the Residential Property{" "}
+                      <b>{props.is_applicant_owner}</b>{" "}
+                    </p>
+                    <p>
+                      Mailing Address <b>{props.mailing_address}</b>{" "}
+                    </p>
+                    <p>
+                      Home Size (approx. sq. ft.) <b>{props.home_size}</b>{" "}
+                    </p>
+                    <p>
+                      Home Age (appox. year built) <b>{props.home_age}</b>{" "}
+                    </p>
+                    <p>
+                      New Construction <b>{props.is_new_construction}</b>{" "}
+                    </p>
+                    <p>
+                      Home Type <b>{props.home_type}</b>{" "}
+                    </p>
+                  </ListGroup>
+                </Container>
+              </Tab>
+              <Tab
+                eventKey="new_quipment_info"
+                title="New Equipment Information"
               >
-                Add Equipment
-              </Button>
-            </Row>
-          </Col>
-          <Col md={4}></Col>
-        </Row>
+                <Container className="ml-2 mr-2">
+                  <h3 className="mt-3 mb-3 text-info">
+                    New Equipment Info{" "}
+                    <button
+                      onClick={() => backToNewEquipmentHandler()}
+                      className="btn btn-danger btn-sm"
+                    >
+                      <i className="fa fa-edit"></i> Edit Information
+                    </button>
+                  </h3>
 
-        <Row>
-          <Col md={12}>{showTable()}</Col>
-        </Row>
+                  <Row>
+                    <Col md={12}>
+                      {props.new_equipments.length >= 1 ? (
+                        <>
+                          <MaterialTable
+                            columns={[
+                              { title: "System Type", field: "system_type" },
+                              { title: "Vendor", field: "vendor" },
+                              { title: "Quantity", field: "quantity" },
+                              { title: "BTU", field: "btu" },
+                              { title: "Manufacturer", field: "manufacturer" },
+                              { title: "Model Number", field: "model_no" },
+                              { title: "Invoice#", field: "invoice_no" },
+                              {
+                                title: "Purchase Date",
+                                field: "purchase_date",
+                              },
+                              { title: "Type", field: "type" },
+                              { title: "Tons", field: "tons" },
+                              { title: "Install Date", field: "purchase_date" },
+                            ]}
+                            data={
+                              props.new_equipments.length === 0
+                                ? []
+                                : props.new_equipments
+                            }
+                            title="Equipments"
+                          />
+
+                          <Row>
+                            <Col md={6}>
+                              <h3 className="mt-3 mb-3 text-info">
+                                Installer Information
+                              </h3>
+                              <ListGroup className="mb-3">
+                                <p>
+                                  Technician Name{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information.technician_name
+                                    }{" "}
+                                  </b>
+                                </p>
+                                <p>
+                                  Work Telephone{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information.work_tel
+                                    }{" "}
+                                  </b>
+                                </p>
+                                <p>
+                                  Company{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information.company_name
+                                    }{" "}
+                                  </b>
+                                </p>
+                                <p>
+                                  Technician AC{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information.technician_name
+                                    }{" "}
+                                  </b>
+                                </p>
+                                <p>
+                                  Certification No.{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information
+                                        .technician_cert_no
+                                    }{" "}
+                                  </b>
+                                </p>
+                                <p className="mb-3">
+                                  Email{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information.email
+                                    }{" "}
+                                  </b>
+                                </p>
+                                <p>
+                                  Date of Final{" "}
+                                  <b>
+                                    {" "}
+                                    {
+                                      props.new_equipments[new_eq_index]
+                                        .installer_information
+                                        .date_final_installation
+                                    }{" "}
+                                  </b>
+                                </p>
+                              </ListGroup>
+                            </Col>
+                            <Col md={6} className="mt-2">
+                              <Table size="lg" striped bordered hover>
+                                <thead className="bg-info text-white">
+                                  <tr className="py-5">
+                                    <th className="p-3">QTY</th>
+                                    <th className="p-3">Rebate</th>
+                                    <th className="p-3">Partial Total</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {props.new_equipments.map((eq) => (
+                                    <tr key={eq.id + 1}>
+                                      <td className="p-3">{eq.quantity}</td>
+                                      <td className="p-3">
+                                        {!eq.rebate ? 0 : eq.rebate}
+                                      </td>
+                                      <td className="p-3">
+                                        {!eq.rebate
+                                          ? 0
+                                          : parseInt(eq.quantity) *
+                                            parseInt(eq.rebate)}
+                                      </td>
+                                      <td hidden>
+                                        {
+                                          (total_rebate +=
+                                            parseInt(eq.quantity) *
+                                            parseInt(eq.rebate))
+                                        }
+                                      </td>
+                                    </tr>
+                                  ))}
+                                  <tr>
+                                    <td
+                                      className="p-3"
+                                      colSpan="2"
+                                      className="text-end"
+                                    >
+                                      TOTAL
+                                    </td>
+                                    <td className="p-3">
+                                      ${!total_rebate ? "0.00" : total_rebate}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </Table>
+                            </Col>
+                          </Row>
+                        </>
+                      ) : (
+                        <>No Equipment</>
+                      )}
+                    </Col>
+                    <Col md={6}></Col>
+                  </Row>
+                </Container>
+              </Tab>
+              <Tab
+                eventKey="old_quipment_info"
+                title="Old/Existing Equipment Information"
+              >
+                <Container className="ml-2 mr-2">
+                  <h3 className="mt-3 mb-3 text-info">
+                    Existing/Old Equipment Info{" "}
+                    <button
+                      onClick={() => backToOldEquipmentHandler()}
+                      className="btn btn-danger btn-sm"
+                    >
+                      <i className="fa fa-edit"></i> Edit Information
+                    </button>
+                  </h3>
+
+                  <MaterialTable
+                      columns={[
+                        { title: "System Type", field: "system_type" },
+                        { title: "Vendor", field: "vendor" },
+                        { title: "Quantity", field: "quantity" },
+                        { title: "Years", field: "years" },
+                        { title: "Quantity", field: "quantity" },
+                        { title: "BTU", field: "btu" },
+                        { title: "TONS", field: "tons" },
+                        { title: "Invoice#", field: "invoice_no" },
+                        {
+                          title: "Purchase Date",
+                          field: "purchase_date",
+                        },
+                        { title: "Type", field: "type" },
+                        { title: "Tons", field: "tons" },
+                        { title: "Seer", field: "seer" },
+                        { title: "Disposal Party", field: "disposal_party" },
+                        { title: "Date", field: "date" },
+                      ]}
+                      data={
+                        props.old_equipments.length === 0
+                          ? []
+                          : props.old_equipments
+                      }
+                      title="Existing Equipments"
+                    />
+                  
+                </Container>
+              </Tab>
+              <Tab
+                eventKey="submission_of_documentation"
+                title="Submission of Documentation"
+              >
+                <Container className="ml-2 mr-2">
+                  <h3 className="mt-3 mb-3 text-info">
+                    Submission of Documentation{" "}
+                    <button
+                      onClick={() => backToSubmissionOfDocumentation()}
+                      className="btn btn-danger btn-sm"
+                    >
+                      <i className="fa fa-edit"></i> Edit Information
+                    </button>
+                  </h3>
+                  
+                    {
+                      props.letter_authorization?
+                      <>
+                      <p>LOA <Badge bg={"success"}>Uploaded</Badge> </p>
+                      </>:<></>
+                    }
+                 
+                  <p>Invoice 
+                    {
+                      props.invoice ?
+                      <><Badge bg={"success"}>Uploaded</Badge></>:<></>
+                    }
+                  </p>
+                  {
+                    props.installer_certification ?
+                    <>
+                      <p>Installer's Certification <Badge bg={"success"}>Uploaded</Badge></p>
+                    </>:<></>
+                  }
+                  <p>IRS Form W-9 
+                      {
+                        props.irs_form? <><Badge bg={"success"}>Uploaded</Badge></>
+                        :<></>
+                      }
+                  </p>
+                  {
+                    props.disposal_receipt ?
+                    <>
+                      <p>Disposal Receipt <Badge bg={"success"}>Uploaded</Badge></p>
+                    </>:<></>
+                  }
+                  {
+                    props.letter_authorization ?
+                    <>
+                      <p>Letter Authorization <Badge bg={"success"}>Uploaded</Badge></p>
+                    </>:<></>
+                  }
+                  {
+                    props.other_doc1 ?
+                    <>
+                      <p>Other Support Documents 1 <Badge bg={"success"}>Uploaded</Badge></p>
+                    </>:<></>
+                  }
+                  {
+                    props.other_doc2 ?
+                    <>
+                      <p>Other Support Documents 2 <Badge bg={"success"}>Uploaded</Badge></p>
+                    </>:<></>
+                  }
+                </Container>
+              </Tab>
+            </Tabs>
+          </Card.Body>
+        </Card>
       </Col>
-      <Col md={3}></Col>
+      <Col md={1}></Col>
     </Row>
   );
 }

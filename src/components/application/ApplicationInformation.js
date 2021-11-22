@@ -6,6 +6,7 @@ import {
   Container,
   Button,
   InputGroup,
+  Badge,
   Spinner,
 } from "react-bootstrap";
 
@@ -27,6 +28,9 @@ function ApplicationInformation(props) {
     description: "",
     image_sample: "",
   });
+
+  const [verifyClicked, setVerifyClicked] = useState(false)
+
   const dispatch = useDispatch();
   let pp = {};
   let p = {};
@@ -55,6 +59,7 @@ function ApplicationInformation(props) {
     loading: uploadLoading,
     error: uploadError,
     success: uploadSuccess,
+    fileCode
   } = uploadFile;
 
   const submitHandler = (e) => {
@@ -73,6 +78,7 @@ function ApplicationInformation(props) {
   const verifyCustomerHandler = () => {
     if (props.bill_id !== "" && props.account_no !== "") {
       dispatch(loadCustomerDetail(props.bill_id, props.account_no));
+      setVerifyClicked(true)
     } else {
       alert("Account Number & Bill ID is required to verify customer");
     }
@@ -99,7 +105,6 @@ function ApplicationInformation(props) {
 
   const handleSubmitLOA = () => {
     dispatch(uploadFileAction(props.letter_authorization, "letter_of_authorization", props.control_no));
-
   }
 
   const handleChangeLOA = (e) => {
@@ -149,37 +154,43 @@ function ApplicationInformation(props) {
                     required
                   ></Form.Control>
                 </Form.Group>
-                {props.account_no === "" ? (
+                {
+                props.account_no === "" ? (
                   <p className="validate text-danger">
                     *This Field is Required
                   </p>
-                ) : customerLoading ? (
-                  <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </Spinner>
-                ) : customerError ? (
-                  <>
-                    {props.setVerify(false)}
-                    <span className="text-danger">Customer Not Verified</span>
-                  </>
-                ) : (
-                  <>
-                    {props.setVerify(true)}
-
-                    {customer_detail.type ? (
+                ) : 
+                
+                  verifyClicked ?
+                  customerLoading ? (
+                    <Spinner animation="border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                    ) : customerError ? (
                       <>
-                        {props.setCustomerType(
-                          customer_detail.type.original.message
-                        )}
-                        <span className="text-success">
-                          Customer is Verified
-                        </span>
+                        {props.setVerify(false)}
+                        <span className="text-danger">Customer Not Verified</span>
                       </>
                     ) : (
-                      ""
-                    )}
-                  </>
-                )}
+                      <>
+                        {props.setVerify(true)}
+
+                        {customer_detail.type ? (
+                          <>
+                            {props.setCustomerType(
+                              customer_detail.type.original.message
+                            )}
+                            <span className="text-success">
+                              Customer is Verified
+                            </span>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    )
+                    :<></>
+                }
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
@@ -382,6 +393,13 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
+                {props.email === "" ? (
+                  <p className="validate text-danger">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
@@ -396,13 +414,7 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
-                {props.tel_no === "" ? (
-                  <p className="validate text-danger">
-                    *This Field is Required
-                  </p>
-                ) : (
-                  <></>
-                )}
+                
               </Col>
             </Row>
 
@@ -457,7 +469,7 @@ function ApplicationInformation(props) {
                         <i className="fa fa-question-circle"></i>{" "}
                       </span>
                     </Form.Label>
-                    <InputGroup className="mb-3">
+                    <InputGroup>
                       <Form.Control
                         name="file"
                         placeholder="Upload Lettter of Authorization"
@@ -469,13 +481,24 @@ function ApplicationInformation(props) {
                         <i className="fa fa-upload"></i>
                       </Button>
                     </InputGroup>
+                    {props.letter_authorization === null ? (
+                      <p className="validate text-danger">
+                        *This Field is Required
+                      </p>
+                    ) : (
+                      <></>
+                    )}
                     {
                         props.letter_authorization?
                         <>
                           {
-                            uploadSuccess ?
-                            <><span className="text-success">File Uploaded</span> <br /> </>
-                            :<><span className="text-danger">Error Uploading</span> <br /> </>
+                            fileCode ?
+                            <>
+                            {props.setLetterAuthorizationD(fileCode)}
+                            {console.log(props.letter_authorizationD)}
+                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                            </>
+                            :<>no upload</>
                           }
                           Filename: {props.letter_authorization.name} <br />
                           File Type: {props.letter_authorization.type} <br /><br />
