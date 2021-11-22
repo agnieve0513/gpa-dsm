@@ -50,6 +50,7 @@ function EquipmentReview(props) {
 
   return (
     <Row>
+      {console.log('is applicant', props.is_applicant_owner)}
       <Col md={1}></Col>
       <Col md={10}>
         <h4 className="text-center text-info mb-3">Equipment Review</h4>
@@ -75,54 +76,40 @@ function EquipmentReview(props) {
                       <i className="fa fa-edit"></i> Edit Information
                     </button>
                   </h3>
-                  <ListGroup>
-                    <p>
-                      GPA Electric Account Number <b>{props.account_no}</b>{" "}
-                    </p>
-                    <p>
-                      Bill ID <b>{props.bill_id}</b>{" "}
-                    </p>
-                    <p>
-                      Applicant Name{" "}
-                      <b>
-                        {props.lastname}, {props.firstname} {props.middlename}{" "}
-                      </b>
-                    </p>
-                    <p>
-                      Installation Address <b>{props.service_location}</b>{" "}
-                    </p>
-                    <p>
-                      City <b>{props.city_village}</b>{" "}
-                    </p>
-                    <p>
-                      ZIP <b>{props.zipcode}</b>{" "}
-                    </p>
-                    <p>
-                      Email <b>{props.email}</b>{" "}
-                    </p>
-                    <p>
-                      Telephone Number <b>{props.tel_no}</b>{" "}
-                    </p>
-                    <p>
-                      Owner of the Residential Property{" "}
-                      <b>{props.is_applicant_owner}</b>{" "}
-                    </p>
-                    <p>
-                      Mailing Address <b>{props.mailing_address}</b>{" "}
-                    </p>
-                    <p>
-                      Home Size (approx. sq. ft.) <b>{props.home_size}</b>{" "}
-                    </p>
-                    <p>
-                      Home Age (appox. year built) <b>{props.home_age}</b>{" "}
-                    </p>
-                    <p>
-                      New Construction <b>{props.is_new_construction}</b>{" "}
-                    </p>
-                    <p>
-                      Home Type <b>{props.home_type}</b>{" "}
-                    </p>
-                  </ListGroup>
+                  <Row>
+                    <Col md={6} className="mb-3">
+                      <p className='title'>GPA Electric Account number</p>
+                      <p className='title'>Bill ID</p>
+                      <p className='title'>Applicant Name</p>
+                      <p className='title'>Installation Address</p>
+                      <p className='title'>City</p>
+                      <p className='title'>ZIP</p>
+                      <p className='title'>Email</p>
+                      <p className='title'>Telephone Number</p>
+                      <p className='title'>Owner of the Residential property</p>
+                      <p className='title'>Mailing Address</p>
+                      <p className='title'>Home Size (approx. sq. ft.)</p>
+                      <p className='title'>Home Age (appox. year built)</p>
+                      <p className='title'>New Construction</p>
+                      <p className='title'>Home Type</p>
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <p><b>{props.account_no}</b>{" "}</p>
+                      <p><b>{props.bill_id}</b>{" "}</p>
+                      <p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p>
+                      <p><b>{props.service_location}</b>{" "}</p>
+                      <p><b>{props.city_village}</b>{" "}</p>
+                      <p><b>{props.zipcode}</b>{" "}</p>
+                      <p><b>{props.email}</b>{" "}</p>
+                      <p><b>{props.tel_no}</b>{" "}</p>
+                      <p><b>{props.is_applicant_owner ? "true" : props.is_applicant_owner}</b>{" "}</p>
+                      <p><b>{props.mailing_address}</b>{" "}</p>
+                      <p><b>{props.home_size}</b>{" "}</p>
+                      <p><b>{props.home_age}</b>{" "}</p>
+                      <p><b>{props.is_new_construction}</b>{" "}</p>
+                      <p><b>{props.home_type}</b>{" "}</p>
+                    </Col>
+                  </Row>
                 </Container>
               </Tab>
               <Tab
