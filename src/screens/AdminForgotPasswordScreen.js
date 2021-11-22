@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Navbar, Nav, Row, Col, Image, Form, Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-// import './AdminLoginScreen.css'
+import './AdminLoginScreen.css'
 
 import {forgotPassword} from '../actions/userActions'
 import { LinkContainer } from 'react-router-bootstrap'

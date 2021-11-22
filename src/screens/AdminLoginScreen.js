@@ -26,22 +26,23 @@ function AdminLoginScreen({location, history}) {
     useEffect(() => {
       if(localStorage.getItem('userInfo'))
       {
+        Swal.fire({title: 'Login Success', text:'Your are redirected to Dashboard', type:'success', heightAuto: false});
         history.push(redirect)
       }
       else
       {
         if(attempt === true)
         {
-          Swal.fire('Login Failed', 'Wrong Credentials', 'error')
+          Swal.fire({title:'Login Failed', text:'Wrong Credentials', type:'error', heightAuto: false})
         }
         history.push('/admin')
       }
     }, [userInfo])
 
-    const submitHandler = (e) => {
+    const submitHandler = (e) => { 
       e.preventDefault();
       dispatch(login(email, password));
-      Swal.fire('Login Success', 'Your are redirected to Dashboard', 'success').then(setAttempt(true));
+      setAttempt(true);
     }
 
     return (
@@ -90,7 +91,7 @@ function AdminLoginScreen({location, history}) {
                             </Form.Control>
                           </Form.Group>
                           <div className="d-grid gap-2 mt-3 mb-4">
-                            <Button type='submit' className="py-2" variant='success'>LOGIN</Button>
+                            <Button type='submit' className="py-2" id='login-b' variant='success'>LOGIN</Button>
                           </div>
                           <LinkContainer to="/forgot" className="d-flex justify-content-center text-light mb-3">
                             <a href="#">Forgot Password?</a>
