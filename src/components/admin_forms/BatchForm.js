@@ -1121,6 +1121,8 @@ function BatchForm() {
               <MaterialTable
                 columns={[
                   { title: "Batch Code", field: "Batch_code" },
+                  { title: "Batch Type", field: "Batch_type" },
+                  { title: "Batch Ferc", field: "Batch_ferc" },
                   {
                     title: "MadeOn",
                     render: (rowData) => {
@@ -1186,6 +1188,7 @@ function BatchForm() {
                   },
                   { title: "Control No.", field: "Control_Number" },
                   { title: "Status", field: "Status" },
+                  { title: "Stage", field: "Stage" },
                   { title: "Stage", field: "Stage" },
                   {
                     title: "Action",
