@@ -11,15 +11,14 @@ import {
 
 } from '../constants/fileConstants'
 
-
-export const uploadFileReducer = (state = {fileCode:[]}, action) => {
+export const uploadFileReducer = (state = {}, action) => {
     switch(action.type)
     {
         case FILE_UPLOAD_REQUEST:
             return {loading: true}
 
         case FILE_UPLOAD_SUCCESS:
-            return {loading: false, fileCode: action.payload}
+            return {loading: false, success: action.payload}
 
         case FILE_UPLOAD_FAIL:
             return {loading: false, error: action.payload}
@@ -28,14 +27,14 @@ export const uploadFileReducer = (state = {fileCode:[]}, action) => {
     }
 }
 
-export const retrieveFileReducer = (state = {fileOutput:[]}, action) => {
+export const retrieveFileReducer = (state = {}, action) => {
     switch(action.type)
     {
         case FILE_RETRIEVE_REQUEST:
             return {loading: true}
 
         case FILE_RETRIEVE_SUCCESS:
-            return {loading: false, fileOutput: action.payload}
+            return {loading: false, success:action.payload}
 
         case FILE_RETRIEVE_FAIL:
             return {loading: false, error: action.payload}

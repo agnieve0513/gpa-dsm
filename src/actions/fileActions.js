@@ -66,24 +66,15 @@ export const retrieveFileAction = (message) => async (dispatch) => {
                 'Content-type':'application/json',
                 "Accept": "application/json",
                 'Authorization' : `Bearer ${obj.message.original.access_token}`,
-                "mode": 'no-cors'
             }
         }
 
-        // const {data} = await axios.post(
-        //     URL+'/retrieve-file',
-        //     {'filepath': message},
-        //     config
-        // )
-
         const {data} = await axios.post(
-            URL+'/retrieve-file', 
-            {'filepath':message},
-            {responseType: 'blob'},
+            URL+'/retrieve-file',
+            {'filepath': message},
             config
-          ).then((response) => {
-            window.open(URL.createObjectURL(response.data));
-          })
+        )
+
 
         dispatch({
             type: FILE_RETRIEVE_SUCCESS,

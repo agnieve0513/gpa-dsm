@@ -238,7 +238,7 @@ function ApplicationScreen() {
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
-        tel_no === "" ||
+        email === "" ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||

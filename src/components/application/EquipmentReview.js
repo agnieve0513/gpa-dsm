@@ -249,7 +249,7 @@ function EquipmentReview(props) {
                                 </p>
                               </ListGroup>
                             </Col>
-                            <Col md={6} className="mt-2">
+                            <Col md={6} className="mt-3">
                               <Table size="lg" striped bordered hover>
                                 <thead className="bg-info text-white">
                                   <tr className="py-5">
