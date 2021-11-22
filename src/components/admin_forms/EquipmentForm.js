@@ -115,6 +115,7 @@ function EquipmentForm() {
                                             (equipments) ? equipments.dryer_list: []
                                         }
                                         title=""
+                                        options={{headerStyle: {fontSize: 16}}}
                                     />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="air_condition">
@@ -192,6 +193,7 @@ function EquipmentForm() {
                                             (equipments) ? equipments.ac_list: []
                                         }
                                         title=""
+                                        options={{headerStyle: {fontSize: 16}}}
                                     />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="washer_dryer">
@@ -267,6 +269,7 @@ function EquipmentForm() {
                                             (equipments) ? equipments.dryer_list: []
                                         }
                                         title=""
+                                        options={{headerStyle: {fontSize: 16}}}
                                     />
                                 </Tab.Pane>
                             </Tab.Content>

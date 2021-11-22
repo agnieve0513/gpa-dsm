@@ -400,7 +400,7 @@ function ApplicationForm() {
                                 <Row>
                                     <Col md={12} style={{backgroundColor:'rgb(227, 227, 229)'}}>
                                         <div id="applicationFormNa">
-                                            <Nav variant="pills" className="d-flex aligns-items-center justify-content-center">
+                                            <Nav variant="pills" className="d-flex aligns-items-start justify-content-start">
                                                 <Nav.Item className="me-1">
                                                 <Nav.Link eventKey="application_information">Applicant Information</Nav.Link>
                                                 </Nav.Item>
