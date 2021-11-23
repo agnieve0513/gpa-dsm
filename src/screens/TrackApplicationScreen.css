@@ -212,3 +212,7 @@ tl-item.active .tl-dot:before {
 .b-danger {
     border-color: red !important
 }
+
+.progress{
+    height:2rem;
+}

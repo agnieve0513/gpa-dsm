@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 // import Form from '../components/Form'
 import CustomerHeader from '../components/CustomerHeader';
-import { Row, Col, Form,ListGroup, Button, Badge, Card, InputGroup} from 'react-bootstrap';
+import { Row, Col, Form,ListGroup, Button, Badge, Card,ProgressBar, InputGroup} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,17 +23,14 @@ function ApplicationScreen() {
     const [control_no, setControlNo] = useState("");
     const [viewPdf, setViewPdf] = useState(false);
     const [stepNumber, setStepNumber] = useState(0);
+    const [clickTrack, setClickTrack] = useState(false);
 
     const applicationTrack = useSelector(state => state.applicationTrack);
     const { error, success,track_application } = applicationTrack;
 
-
-    useEffect(() => {
-    }, [dispatch, track_application]);
-
-
     const trackApplicationHandler = () => {
         dispatch(trackApplications(control_no));
+        setClickTrack(true);
     };
 
     const printApplicaitonHandler = () =>
@@ -46,7 +43,35 @@ function ApplicationScreen() {
         setViewPdf(false);
     };
 
-    const stages = ["Customer Service", "Spord", "Supervisor", "Budget", "Accounting"];
+    let currentStage = {};
+
+    const stages = [
+       { id:0,
+        stage: "Customer Service",
+        percent: 20
+       },
+       {
+           id:1,
+           stage: "Spord",
+           percent: 40
+       },
+       {
+           id:2,
+           stage: "Supervisor",
+           percent: 60
+       },
+       {
+           id:3,
+           stage: "Budget",
+           percent:80
+       },
+       {
+           id:4,
+           stage: "Accounting",
+           percent:100
+       }
+    ]
+
 
 
     return (
@@ -56,7 +81,6 @@ function ApplicationScreen() {
                 <Col md={3}></Col>
                 <Col md={6} className="mt-5 mb-2">
                     <h2 className="text-center text-info mb-5">TRACK YOUR APPLICATION</h2>
-                    <Row>
                     <Form.Label htmlFor="basic-url">ENTER YOUR CONTROL NUMBER</Form.Label>
                     <InputGroup className="mb-3">
                     <Form.Control
@@ -69,64 +93,43 @@ function ApplicationScreen() {
                            <button className="btn btn-success" id="submitbtn" onClick={()=> trackApplicationHandler()}><b>SUBMIT</b></button>
 
                     </InputGroup>
-                    </Row>
-                    {
-                        track_application?
-                        track_application.map(tp => (
-                            <>
-                                {
-                                    <Row>
-                                        <Col md={6}>
-                                        <div class="timeline p-4 block mb-4">
-                                            <p><b>Application Stage</b></p>
-
-                                            {
-                                                stages.map((i, value) =>
-                                                    <div class="tl-item">
-                                                        {
-                                                            tp.Staget === i ? setStepNumber(value) : ""
-                                                        }
-                                                        <div class={tp.Stage === i ? "tl-dot b-primary": stepNumber < value ? "tl-dot b-danger": "tl-dot b-success"}></div>
-                                                        <div class="tl-content">
-                                                            <div class="">{i}</div>
-                                                            <div class="tl-date text-muted mt-1"><Badge bg={tp.Stage === i ? "info": stepNumber < value ? "danger": "success"}>
-                                                            {tp.Stage === i ? "Processing": stepNumber < value ? "N/A": "Approved"}
-                                                                </Badge></div>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }
-                                            
-                                        </div>
-                                        </Col>
-                                        <Col md={6}>
-                                            <div class="timeline p-4 block mb-2">
-                                                <p><b>Application Info</b></p>
-                                                <p>Entry Number: <b>{tp.Entry_no}</b></p>
-                                                <p>Account Number: <b>{tp.Account_no}</b></p>
-                                                <p>Bill ID: <b>{tp.Bill_id}</b></p>
-                                                <p>Sysytem Type: <b>{tp.System_Type}</b></p>
-                                                <p>Customer's Name: <b>{tp.customer_name}</b></p>
-                                                <p>Status: <b>{tp.Status}</b></p>
-                                                <p>Stage: <b>{tp.Stage}</b></p>
-                                                <p>Application Date: <b>{tp.Application_Date}</b></p>
-                                            
-                                            </div>
-                                        </Col>
-                                    </Row>
-                                }
-                            </>
-                        ))
-                        : <h6>Loading . . .</h6>
-                    }
                 </Col>
                 <Col md={3}></Col>
             </Row>
+            <Row>
+                   
+                    
+                <Col md={3}></Col>
+                <Col md={6}>
+                    {
+                        clickTrack?
+                            track_application ?
+                                track_application.table.length > 0?
+                                <>
+                                    <h4 className="text-muted">Date Applied: {track_application.table[0].Application_Date} </h4>
+                                    <h4 className="text-muted">Account Number: *******{track_application.table[0].Account_no.slice(track_application.table[0].Account_no.length - 3) } </h4>
+                                    <h4 className="text-muted">System Type: {track_application.table[0].System_Type} </h4>
+                                    <h4 className="text-muted">Status: {track_application.table[0].Status}</h4>
+                                    <h4 className="text-muted">Step : 
+                                        {(stages.find((p) => p.stage === track_application.table[0].Stage).id+1)} of 5
+                                        
+                                    </h4>
+                                    <ProgressBar variant="success" animated now={(stages.find((p) => p.stage === track_application.table[0].Stage).percent)} />
+                                </>:<></>
+                            :<></>
+                        :<></>
+                    }
+                    
+                </Col>
+                <Col md={3}></Col>
 
-            <Row className="mt-1">
+            </Row>
+            <br />
+            <br />
+            <Row className="mt-4">
                 <Col md={2}></Col>
                 <Col md={8}>
-
+                    
                     <div className="d-flex mb-5">
                         <Link to={`/`} className="text-success mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>
                     </div>

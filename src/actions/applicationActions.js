@@ -62,7 +62,7 @@ export const trackApplications = (control_no) => async (dispatch, getState) => {
 
         dispatch({
             type: APPLICATION_TRACK_SUCCESS,
-            payload: data.table
+            payload: data
         })
 
 
