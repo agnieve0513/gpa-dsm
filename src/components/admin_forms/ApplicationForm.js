@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Row, Col, Table, Form, ListGroup, Tabs, Modal, Tab, Container, Button, ButtonGroup, Nav, Offcanvas, Card, Spinner} from 'react-bootstrap'
+import { Row, Col, Table, Form, ListGroup, Tabs, Modal, Tab,Badge, InputGroup, Container, Button, ButtonGroup, Nav, Offcanvas, Card, Spinner} from 'react-bootstrap'
 
 import { listApplications, detailApplication, commentsApplication,
     addCommentAction,logsApplication, updateApplication} from '../../actions/applicationActions'
@@ -13,6 +13,7 @@ import {GridOptions} from "ag-grid-community";
 
 import { useDispatch, useSelector } from 'react-redux';
 import MaterialTable from "material-table";
+import ModalImage from "../ModalImage";
 
 import TimeAgo from 'javascript-time-ago';
 
@@ -21,10 +22,12 @@ import en from 'javascript-time-ago/locale/en.json';
 
 import './ApplicationForm.css';
 
+import { uploadFileAction } from '../../actions/fileActions'
 
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 const MySwal = withReactContent(Swal)
+let p = {};
 
 TimeAgo.addDefaultLocale(en);
 // Create formatter (English).
@@ -97,6 +100,35 @@ function ApplicationForm() {
     const batchAdd = useSelector(state => state.batchAdd)
     const { success:addBatchSuccess } = batchAdd
 
+    const [modalShow, setModalShow] = useState(false);
+    const [modalData, setModalData] = useState({
+        description: "",
+        image_sample: "",
+    });
+
+    const [invoice, setInvoice] = useState(null);
+    const [irs_form, setIrsForm] = useState(null);
+    const [disposal_slip, setDisposalSlip] = useState(null);
+    const [letter_authorization, setLetterAuthorization] = useState(null);
+    const [installer_certification, setInstallerCertification] = useState(null);
+    const [other_doc1, setOtherDoc1] = useState(null);
+    const [other_doc2, setOtherDoc2] = useState(null);
+    const [other_doc3, setOtherDoc3] = useState(null);
+
+    const [invoiceD, setInvoiceD] = useState("");
+    const [irs_formD, setIrsFormD] = useState("");
+    const [disposal_slipD, setDisposalSlipD] = useState("");
+    const [letter_authorizationD, setLetterAuthorizationD] = useState();
+    const [installer_certificationD, setInstallerCertificationD] = useState();
+    const [other_doc1D, setOtherDoc1D] = useState("");
+    const [other_doc2D, setOtherDoc2D] = useState("");
+    const [other_doc3D, setOtherDoc3D] = useState("");
+    const uploadFile = useSelector((state) => state.uploadFile);
+    const {
+        loading: uploadLoading,
+        error: uploadError,
+        fileCode,
+    } = uploadFile;
     // Grid State . . . 
     const [gridApi, setGridApi] = useState(null);
     const [gridColumnApi, setGridColumnApi] = useState(null);
@@ -388,8 +420,9 @@ function ApplicationForm() {
 
     const reader = new FileReader();
 
-    const handleRetrieveFile = () => {
-        dispatch(retrieveFileAction("eyJpdiI6Ik54QVwvZklybHhjanZQNDV0bTYyN2V3PT0iLCJ2YWx1ZSI6Ijh4TDArTm5aSHBNSFJSNzhBcFNDVXUzWXFzXC9JVEhCXC9EVjJIZkdaQ2Vxbz0iLCJtYWMiOiJlZmUyYzVhYzFlNGE2N2FhMmRiMDE2ODFhZjA0ODZkOTRmZmZmODE5OTNjYTYzZjVlODU2NDcxNDIxZjMwZGFlIn0="))
+    const handleRetrieveFile = (code) => {
+        console.log(code)
+        dispatch(retrieveFileAction(code))
 
     }
 
@@ -403,6 +436,10 @@ function ApplicationForm() {
         {
             setDetailsToggle(false)
         }
+    }
+
+    const handleSubmit = (file, doc_type, control_no) => {
+        dispatch(uploadFileAction(file, doc_type, control_no));
     }
 
     return (
@@ -583,22 +620,73 @@ function ApplicationForm() {
 
                                             </Tab.Pane>
                                             <Tab.Pane eventKey="submission_of_documentation">
+                                                <ModalImage
+                                                    data={modalData}
+                                                    show={modalShow}
+                                                    onHide={() => setModalShow(false)}
+                                                />
                                                 <Container className="ml-2 mr-2">
                                                     <h3 className="mt-3 mb-3 text-info">Submitted Documents</h3>
-                                                    <Button onClick={()=> handleRetrieveFile()}>Click to Test</Button>
-                                                    {
-                                                        <>
-                                                            <img src={reader.result} />
-                                                        </>
-                                                    }
+                                                
                                                     <ListGroup className="mb-3">
                                                         {
                                                             application ?
                                                             <>
-                                                                <p>Invoice <a href={application.Submitted_docs[0].invoice}>Click to Download</a></p>
-                                                                <p>IRS-W9 <a href={application.Submitted_docs[0].irs_form}>Click to Download</a></p>
-                                                                <p>Letter of Authorization <a href={application.Submitted_docs[0].letter_authorization}>Click to Download</a></p>
-                                                                <p>Disposal Slip <a href={application.Submitted_docs[0].disposal_slip}>Click to Download</a></p>
+                                                                <p>Invoice <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].invoice)} size={"sm"}>Click to Download</Button> </p>
+                                                                <Form.Group controlId="irs_form" className="mb-3">
+                                                                <p>
+                                                                    IRS Form W-9 <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                    <span
+                                                                    className="text-secondary"
+                                                                    onClick={() => {
+                                                                        setModalData(
+                                                                        (p = {
+                                                                            description: "Upload IRS Form W-9",
+                                                                            image_sample: "./GPADSM8.png",
+                                                                        })
+                                                                        );
+                                                                        setModalShow(true);
+                                                                    }}
+                                                                    >
+                                                                    <i className="fa fa-question-circle"></i>{" "}
+                                                                    </span>
+                                                                </p>
+                                                                <InputGroup>
+                                                                    <Form.Control
+                                                                    name="file2"
+                                                                    type="file"
+                                                                    onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                    />
+                                                                    
+                                                                    <Button variant="info" onClick={() => handleSubmit(irs_form, "irs_form")}>
+                                                                    <i className="fa fa-upload"></i>
+                                                                    </Button>
+                                                                    </InputGroup>
+                                                                    {irs_form === null ? (
+                                                                            <p className="validate text-danger">*This Field is Required</p>
+                                                                        ) : (
+                                                                            <></>
+                                                                        )}
+                                                                    {
+                                                                        irs_form?
+                                                                        <>
+                                                                        {
+                                                                            fileCode ?
+                                                                            <>
+                                                                            {setIrsFormD(fileCode)}
+                                                                            {console.log(irs_formD)}
+                                                                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                            </>
+                                                                            :<>no upload</>
+                                                                        }
+                                                                        Filename: {irs_form.name} <br />
+                                                                        File Type: {irs_form.type} <br /><br />
+                                                                        </>:<></>
+                                                                    }
+                                                                </Form.Group>
+                                                                <p>IRS-W9 <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].irs_form)} size={"sm"}>Click to Download</Button> </p>
+                                                                <p>Letter of Authorization <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].letter_authorization)} size={"sm"}>Click to Download</Button></p>
+                                                                <p>Disposal Slip <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].disposal_slip)} size={"sm"}>Click to Download</Button> </p>
                                                                 {
                                                                     application.Submitted_docs[0].other_doc2?
                                                                     <p>Other support documents 1 <a href={application.Submitted_docs[0].other_doc2}>Click to Download</a></p>

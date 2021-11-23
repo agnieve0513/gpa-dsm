@@ -31,7 +31,6 @@ function SubmissionOfDocumentation(props) {
 
   const handleSubmit = (file, doc_type) => {
     dispatch(uploadFileAction(file, doc_type, props.control_no));
-
   }
 
   const handleShowSuppDocs = () => 

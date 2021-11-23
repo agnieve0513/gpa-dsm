@@ -5,9 +5,13 @@
     border-color: #dee2e6 #dee2e6 #fff;
 }
 
-.tab {
+.nav-item {
     background-color: #D0D5DB;
     top: 100px;
+}
+
+.mb-3 .title {
+    color: #93989e;
 }
 
 .card-header-tabs
