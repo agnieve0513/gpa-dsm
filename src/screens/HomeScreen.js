@@ -43,7 +43,7 @@ function HomeScreen() {
                       <Col md={2}></Col>
                     </Row>
                 <Link to={`/application`} className="btn btn-success btn-lg px-5 mb-4" id="applyOnlineBtn">
-                  <h4 styles={{margin:0, padding:0  }}>Apply Online</h4>
+                  <h4 className="mb-0 p-1">Apply Online</h4>
                 </Link>
                 <br />
                 <p className="mb-3"><Link to={`/track`} className="text-white"><u>TRACK YOUR APPLICATION</u></Link></p>
