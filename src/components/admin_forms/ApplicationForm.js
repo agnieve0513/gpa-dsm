@@ -221,8 +221,6 @@ function ApplicationForm() {
         filterOptions: [
           'contains',
           {
-            displayKey: 'startsC',
-            displayName: 'Starts With "C"',
             test: function (filterValue, cellValue) {
               return cellValue != null && cellValue.indexOf('a') === 0;
             },
@@ -632,72 +630,342 @@ function ApplicationForm() {
                                                         {
                                                             application ?
                                                             <>
-                                                                <p>Invoice <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].invoice)} size={"sm"}>Click to Download</Button> </p>
-                                                                <Form.Group controlId="irs_form" className="mb-3">
-                                                                <p>
-                                                                    IRS Form W-9 <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
-                                                                    <span
-                                                                    className="text-secondary"
-                                                                    onClick={() => {
-                                                                        setModalData(
-                                                                        (p = {
-                                                                            description: "Upload IRS Form W-9",
-                                                                            image_sample: "./GPADSM8.png",
-                                                                        })
-                                                                        );
-                                                                        setModalShow(true);
-                                                                    }}
-                                                                    >
-                                                                    <i className="fa fa-question-circle"></i>{" "}
-                                                                    </span>
-                                                                </p>
-                                                                <InputGroup>
-                                                                    <Form.Control
-                                                                    name="file2"
-                                                                    type="file"
-                                                                    onChange={(e) => setIrsForm(e.target.files[0])}
-                                                                    />
+                                                                
+                                                                <Row>
+                                                                    <Col md={4} className="mb-3">
+                                                                        <p>Invoice <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].invoice)} size={"sm"}>Click to Download</Button> </p>
+                                                                        <Form.Group controlId="irs_form" className="mb-3">
+                                                                                <p>
+                                                                                    Invoice <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                                    <span
+                                                                                    className="text-secondary"
+                                                                                    onClick={() => {
+                                                                                        setModalData(
+                                                                                        (p = {
+                                                                                            description: "Upload Invoice",
+                                                                                            image_sample: "./GPADSM8.png",
+                                                                                        })
+                                                                                        );
+                                                                                        setModalShow(true);
+                                                                                    }}
+                                                                                    >
+                                                                                    <i className="fa fa-question-circle"></i>{" "}
+                                                                                    </span>
+                                                                                </p>
+                                                                                <InputGroup className="col-md-4">
+                                                                                    <Form.Control
+                                                                                    name="file2"
+                                                                                    type="file"
+                                                                                    onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                                    />
+                                                                                    
+                                                                                    <Button variant="info" onClick={() => handleSubmit(invoice, "invoice")}>
+                                                                                    <i className="fa fa-upload"></i>
+                                                                                    </Button>
+                                                                                    </InputGroup>
+                                                                                    {invoice === null ? (
+                                                                                            <p className="validate text-danger">*This Field is Required</p>
+                                                                                        ) : (
+                                                                                            <></>
+                                                                                        )}
+                                                                                    {
+                                                                                        invoice?
+                                                                                        <>
+                                                                                        {
+                                                                                            fileCode ?
+                                                                                            <>
+                                                                                            {setIrsFormD(fileCode)}
+                                                                                            {console.log(invoiceD)}
+                                                                                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                                            </>
+                                                                                            :<>no upload</>
+                                                                                        }
+                                                                                        Filename: {invoice.name} <br />
+                                                                                        File Type: {invoice.type} <br /><br />
+                                                                                        </>:<></>
+                                                                                    }
+                                                                        </Form.Group>
+                                                                    </Col>
+                                                                    <Col md={4} className="mb-3">
+                                                                        <p>IRS-W9 <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].irs_form)} size={"sm"}>Click to Download</Button> </p>
+                                                                        <Form.Group controlId="irs_form" className="mb-3">
+                                                                            <p>
+                                                                                IRS Form W-9 <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                                <span
+                                                                                className="text-secondary"
+                                                                                onClick={() => {
+                                                                                    setModalData(
+                                                                                    (p = {
+                                                                                        description: "Upload IRS Form W-9",
+                                                                                        image_sample: "./GPADSM8.png",
+                                                                                    })
+                                                                                    );
+                                                                                    setModalShow(true);
+                                                                                }}
+                                                                                >
+                                                                                <i className="fa fa-question-circle"></i>{" "}
+                                                                                </span>
+                                                                            </p>
+                                                                            <InputGroup className="col-md-4">
+                                                                                <Form.Control
+                                                                                name="file2"
+                                                                                type="file"
+                                                                                onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                                />
+                                                                                
+                                                                                <Button variant="info" onClick={() => handleSubmit(irs_form, "irs_form")}>
+                                                                                <i className="fa fa-upload"></i>
+                                                                                </Button>
+                                                                                </InputGroup>
+                                                                                {irs_form === null ? (
+                                                                                        <p className="validate text-danger">*This Field is Required</p>
+                                                                                    ) : (
+                                                                                        <></>
+                                                                                    )}
+                                                                                {
+                                                                                    irs_form?
+                                                                                    <>
+                                                                                    {
+                                                                                        fileCode ?
+                                                                                        <>
+                                                                                        {setIrsFormD(fileCode)}
+                                                                                        {console.log(irs_formD)}
+                                                                                        <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                                        </>
+                                                                                        :<>no upload</>
+                                                                                    }
+                                                                                    Filename: {irs_form.name} <br />
+                                                                                    File Type: {irs_form.type} <br /><br />
+                                                                                    </>:<></>
+                                                                                }
+                                                                        </Form.Group>
+                                                                    </Col>
+                                                                    <Col md={4} className="mb-3">
+                                                                        <p>Letter of Authorization <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].letter_authorization)} size={"sm"}>Click to Download</Button></p>
+                                                                        <Form.Group controlId="loa" className="mb-3">
+                                                                            <p>
+                                                                                Letter of Authorization <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                                <span
+                                                                                className="text-secondary"
+                                                                                onClick={() => {
+                                                                                    setModalData(
+                                                                                    (p = {
+                                                                                        description: "Upload LOA",
+                                                                                        image_sample: "./GPADSM8.png",
+                                                                                    })
+                                                                                    );
+                                                                                    setModalShow(true);
+                                                                                }}
+                                                                                >
+                                                                                <i className="fa fa-question-circle"></i>{" "}
+                                                                                </span>
+                                                                            </p>
+                                                                            <InputGroup className="col-md-4">
+                                                                                <Form.Control
+                                                                                name="file2"
+                                                                                type="file"
+                                                                                onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                                />
+                                                                                
+                                                                                <Button variant="info" onClick={() => handleSubmit(letter_authorization, "letter_authorization")}>
+                                                                                <i className="fa fa-upload"></i>
+                                                                                </Button>
+                                                                                </InputGroup>
+                                                                                {letter_authorization === null ? (
+                                                                                        <p className="validate text-danger">*This Field is Required</p>
+                                                                                    ) : (
+                                                                                        <></>
+                                                                                    )}
+                                                                                {
+                                                                                    letter_authorization?
+                                                                                    <>
+                                                                                    {
+                                                                                        fileCode ?
+                                                                                        <>
+                                                                                        {setIrsFormD(fileCode)}
+                                                                                        {console.log(letter_authorizationD)}
+                                                                                        <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                                        </>
+                                                                                        :<>no upload</>
+                                                                                    }
+                                                                                    Filename: {letter_authorization.name} <br />
+                                                                                    File Type: {letter_authorization.type} <br /><br />
+                                                                                    </>:<></>
+                                                                                }
+                                                                        </Form.Group>
+                                                                    </Col>
+                                                                    <Col md={4} className="mb-3">
+                                                                        <p>Disposal Slip <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].disposal_slip)} size={"sm"}>Click to Download</Button> </p>
+                                                                        <Form.Group controlId="disposal_slip" className="mb-3">
+                                                                            <p>
+                                                                                Disposal Slip <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                                <span
+                                                                                className="text-secondary"
+                                                                                onClick={() => {
+                                                                                    setModalData(
+                                                                                    (p = {
+                                                                                        description: "Upload Disposal Slip",
+                                                                                        image_sample: "./GPADSM8.png",
+                                                                                    })
+                                                                                    );
+                                                                                    setModalShow(true);
+                                                                                }}
+                                                                                >
+                                                                                <i className="fa fa-question-circle"></i>{" "}
+                                                                                </span>
+                                                                            </p>
+                                                                            <InputGroup className="col-md-4">
+                                                                                <Form.Control
+                                                                                name="file2"
+                                                                                type="file"
+                                                                                onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                                />
+                                                                                
+                                                                                <Button variant="info" onClick={() => handleSubmit(disposal_slip, "disposal_slip")}>
+                                                                                <i className="fa fa-upload"></i>
+                                                                                </Button>
+                                                                                </InputGroup>
+                                                                                {disposal_slip === null ? (
+                                                                                        <p className="validate text-danger">*This Field is Required</p>
+                                                                                    ) : (
+                                                                                        <></>
+                                                                                    )}
+                                                                                {
+                                                                                    disposal_slip?
+                                                                                    <>
+                                                                                    {
+                                                                                        fileCode ?
+                                                                                        <>
+                                                                                        {setIrsFormD(fileCode)}
+                                                                                        {console.log(disposal_slipD)}
+                                                                                        <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                                        </>
+                                                                                        :<>no upload</>
+                                                                                    }
+                                                                                    Filename: {disposal_slip.name} <br />
+                                                                                    File Type: {disposal_slip.type} <br /><br />
+                                                                                    </>:<></>
+                                                                                }
+                                                                        </Form.Group>
+                                                                    </Col>
                                                                     
-                                                                    <Button variant="info" onClick={() => handleSubmit(irs_form, "irs_form")}>
-                                                                    <i className="fa fa-upload"></i>
-                                                                    </Button>
-                                                                    </InputGroup>
-                                                                    {irs_form === null ? (
-                                                                            <p className="validate text-danger">*This Field is Required</p>
-                                                                        ) : (
-                                                                            <></>
-                                                                        )}
                                                                     {
-                                                                        irs_form?
-                                                                        <>
-                                                                        {
-                                                                            fileCode ?
-                                                                            <>
-                                                                            {setIrsFormD(fileCode)}
-                                                                            {console.log(irs_formD)}
-                                                                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
-                                                                            </>
-                                                                            :<>no upload</>
-                                                                        }
-                                                                        Filename: {irs_form.name} <br />
-                                                                        File Type: {irs_form.type} <br /><br />
-                                                                        </>:<></>
+                                                                        application.Submitted_docs[0].other_doc2?
+                                                                        <Col md={4} className="mb-3">
+                                                                            <p>Other support documents 1 <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].other_doc2)} size={"sm"}>Click to Download</Button></p>
+                                                                            <Form.Group controlId="other_doc2" className="mb-3">
+                                                                                <p>
+                                                                                    IRS Form W-9 <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                                    <span
+                                                                                    className="text-secondary"
+                                                                                    onClick={() => {
+                                                                                        setModalData(
+                                                                                        (p = {
+                                                                                            description: "Upload IRS Form W-9",
+                                                                                            image_sample: "./GPADSM8.png",
+                                                                                        })
+                                                                                        );
+                                                                                        setModalShow(true);
+                                                                                    }}
+                                                                                    >
+                                                                                    <i className="fa fa-question-circle"></i>{" "}
+                                                                                    </span>
+                                                                                </p>
+                                                                                <InputGroup className="col-md-4">
+                                                                                    <Form.Control
+                                                                                    name="file2"
+                                                                                    type="file"
+                                                                                    onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                                    />
+                                                                                    
+                                                                                    <Button variant="info" onClick={() => handleSubmit(other_doc2, "other_doc2")}>
+                                                                                    <i className="fa fa-upload"></i>
+                                                                                    </Button>
+                                                                                    </InputGroup>
+                                                                                    {other_doc2 === null ? (
+                                                                                            <p className="validate text-danger">*This Field is Required</p>
+                                                                                        ) : (
+                                                                                            <></>
+                                                                                        )}
+                                                                                    {
+                                                                                        other_doc2?
+                                                                                        <>
+                                                                                        {
+                                                                                            fileCode ?
+                                                                                            <>
+                                                                                            {setIrsFormD(fileCode)}
+                                                                                            {console.log(other_doc2D)}
+                                                                                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                                            </>
+                                                                                            :<>no upload</>
+                                                                                        }
+                                                                                        Filename: {other_doc2.name} <br />
+                                                                                        File Type: {other_doc2.type} <br /><br />
+                                                                                        </>:<></>
+                                                                                    }
+                                                                            </Form.Group>
+                                                                        </Col>
+                                                                        :<></>
                                                                     }
-                                                                </Form.Group>
-                                                                <p>IRS-W9 <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].irs_form)} size={"sm"}>Click to Download</Button> </p>
-                                                                <p>Letter of Authorization <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].letter_authorization)} size={"sm"}>Click to Download</Button></p>
-                                                                <p>Disposal Slip <Button variant={"success"} onClick={()=> handleRetrieveFile(application.Submitted_docs[0].disposal_slip)} size={"sm"}>Click to Download</Button> </p>
-                                                                {
-                                                                    application.Submitted_docs[0].other_doc2?
-                                                                    <p>Other support documents 1 <a href={application.Submitted_docs[0].other_doc2}>Click to Download</a></p>
-                                                                    :<></>
-                                                                }
-                                                                {
-                                                                    application.Submitted_docs[0].other_doc2?
-                                                                    <p>Other support documents 2</p>
-                                                                    :<></>
-                                                                }
-                                                                        
+                                                                    {
+                                                                        application.Submitted_docs[0].other_doc2?
+                                                                        <Col md={4} className="mb-3">
+                                                                            <p>Other support documents 2</p>
+                                                                            <Form.Group controlId="irs_form" className="mb-3">
+                                                                                    <p>
+                                                                                        IRS Form W-9 <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
+                                                                                        <span
+                                                                                        className="text-secondary"
+                                                                                        onClick={() => {
+                                                                                            setModalData(
+                                                                                            (p = {
+                                                                                                description: "Upload IRS Form W-9",
+                                                                                                image_sample: "./GPADSM8.png",
+                                                                                            })
+                                                                                            );
+                                                                                            setModalShow(true);
+                                                                                        }}
+                                                                                        >
+                                                                                        <i className="fa fa-question-circle"></i>{" "}
+                                                                                        </span>
+                                                                                    </p>
+                                                                                    <InputGroup className="col-md-4">
+                                                                                        <Form.Control
+                                                                                        name="file2"
+                                                                                        type="file"
+                                                                                        onChange={(e) => setIrsForm(e.target.files[0])}
+                                                                                        />
+                                                                                        
+                                                                                        <Button variant="info" onClick={() => handleSubmit(irs_form, "irs_form")}>
+                                                                                        <i className="fa fa-upload"></i>
+                                                                                        </Button>
+                                                                                        </InputGroup>
+                                                                                        {irs_form === null ? (
+                                                                                                <p className="validate text-danger">*This Field is Required</p>
+                                                                                            ) : (
+                                                                                                <></>
+                                                                                            )}
+                                                                                        {
+                                                                                            irs_form?
+                                                                                            <>
+                                                                                            {
+                                                                                                fileCode ?
+                                                                                                <>
+                                                                                                {setIrsFormD(fileCode)}
+                                                                                                {console.log(irs_formD)}
+                                                                                                <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                                                                                </>
+                                                                                                :<>no upload</>
+                                                                                            }
+                                                                                            Filename: {irs_form.name} <br />
+                                                                                            File Type: {irs_form.type} <br /><br />
+                                                                                            </>:<></>
+                                                                                        }
+                                                                            </Form.Group>
+                                                                        </Col>
+                                                                        :<></>
+                                                                    }
+                                                                </Row>
                                                             </>:''
                                                         }
                                                     </ListGroup>
