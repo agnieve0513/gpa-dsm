@@ -120,14 +120,13 @@ function ApplicationInformation(props) {
       />
       <h4 className="text-center text-info mb-4">APPLICANT'S INFORMATION</h4>
       <Row>
-        <Col md={2}></Col>
-        <Col md={8}>
+        <Col className="mx-auto" md={10}>
           <Form onSubmit={submitHandler}>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="account_no">
                   <Form.Label>
-                    GPA ELECTRIC ACCOUNT NUMBER{" "}
+                    <b> GPA ELECTRIC ACCOUNT NUMBER{" "} </b>
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -195,7 +194,7 @@ function ApplicationInformation(props) {
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
                   <Form.Label>
-                    BILL ID (Last 5 Digits){" "}            
+                    <b> BILL ID (Last 5 Digits){" "} </b>
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -256,7 +255,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
-                  <Form.Label>FIRST NAME</Form.Label>
+                  <Form.Label><b>FIRST NAME</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -276,7 +275,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="lastname">
-                  <Form.Label>LAST NAME</Form.Label>
+                  <Form.Label><b>LAST NAME</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -312,7 +311,7 @@ function ApplicationInformation(props) {
               <Col md={12} className="mb-3">
                 <Form.Group controlId="service_location">
                   <Form.Label>
-                    SERVICE LOCATION (Address where equipment was installed)*
+                    <b>SERVICE LOCATION (Address where equipment was installed)*</b>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -335,7 +334,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="city_village">
-                  <Form.Label>CITY/VILLAGE</Form.Label>
+                  <Form.Label><b>CITY/VILLAGE</b></Form.Label>
                   <Form.Select
                     onChange={(e) => changeZipCode(e)}
                     value={props.city_village}
@@ -359,7 +358,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="zip_code">
-                  <Form.Label>ZIP CODE</Form.Label>
+                  <Form.Label><b>ZIP CODE</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -384,7 +383,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="email">
-                  <Form.Label>EMAIL</Form.Label>
+                  <Form.Label><b>EMAIL</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -403,7 +402,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
-                  <Form.Label>CONTACT NUMBER</Form.Label>
+                  <Form.Label><b>CONTACT NUMBER</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -453,7 +452,7 @@ function ApplicationInformation(props) {
                 {props.is_applicant_owner === "false" ? (
                   <Form.Group controlId="telephone_no">
                     <Form.Label>
-                      Upload LOA
+                      <b>Upload LOA</b>
                       <span
                         className="text-secondary"
                         onClick={() => {
@@ -535,8 +534,7 @@ function ApplicationInformation(props) {
               <Col md={12} className="mb-3">
                 <Form.Group controlId="mailing_address">
                   <Form.Label>
-                    MAILING ADDRESS{" "}
-                    <b>
+                    <b>MAILING ADDRESS{" "}
                       (Current address where we will send your rebate check)*
                     </b>
                   </Form.Label>
@@ -562,7 +560,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_country">
-                  <Form.Label>COUNTRY</Form.Label>
+                  <Form.Label><b>COUNTRY</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -582,7 +580,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_city_village">
-                  <Form.Label>CITY/VILLAGE</Form.Label>
+                  <Form.Label><b>CITY/VILLAGE</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -604,7 +602,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_zipcode">
-                  <Form.Label>ZIP CODE</Form.Label>
+                  <Form.Label><b>ZIP CODE</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -628,7 +626,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
-                  <Form.Label>HOME SIZE (approx.sq ft.)</Form.Label>
+                  <Form.Label><b>HOME SIZE (approx.sq ft.)</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -651,7 +649,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_age">
-                  <Form.Label>YEAR BUILT</Form.Label>
+                  <Form.Label><b>YEAR BUILT</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -673,7 +671,7 @@ function ApplicationInformation(props) {
                 )}
               </Col>
               <Col md={4}>
-                <Form.Label>NEW CONSTRUCTION</Form.Label> <br />
+                <Form.Label><b>NEW CONSTRUCTION</b></Form.Label> <br />
                 <Form.Check
                   inline
                   label="Yes"
@@ -705,7 +703,7 @@ function ApplicationInformation(props) {
             </Row>
             <Row>
               <Col md={12}>
-                <Form.Label>HOME TYPE (check one)</Form.Label> <br />
+                <Form.Label><b>HOME TYPE (check one)</b></Form.Label> <br />
                 <Form.Check
                   inline
                   label="Single Family"
@@ -765,7 +763,6 @@ function ApplicationInformation(props) {
             </Row>
           </Form>
         </Col>
-        <Col md={2}></Col>
       </Row>
     </Container>
   );
