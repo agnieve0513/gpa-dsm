@@ -59,7 +59,7 @@ function FinalReview(props) {
     <Row>
       <Col md={1}></Col>
       <Col md={10}>
-        <h4 className="text-center text-info mb-3">Equipment Review</h4>
+        <h4 className="text-center text-info mb-3">Final Review</h4>
         <Card className="mb-5" id="CardForReview">
           <Card.Body>
             <Tabs
@@ -73,63 +73,56 @@ function FinalReview(props) {
                 title="Applicant Information"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 text-info">
+                  <h3 className="mt-3 pb-4 text-info">
                     Applicant Info{" "}
                     <button
-                      className="btn btn-danger btn-sm"
+                      className="btn edit-btn btn-sm"
                       onClick={() => backToApplicationHandler()}
                     >
                       <i className="fa fa-edit"></i> Edit Information
                     </button>
                   </h3>
-                  <ListGroup>
-                    <p>
-                      GPA Electric Account Number <b>{props.account_no}</b>{" "}
-                    </p>
-                    <p>
-                      Bill ID <b>{props.bill_id}</b>{" "}
-                    </p>
-                    <p>
-                      Applicant Name{" "}
-                      <b>
-                        {props.lastname}, {props.firstname} {props.middlename}{" "}
-                      </b>
-                    </p>
-                    <p>
-                      Installation Address <b>{props.service_location}</b>{" "}
-                    </p>
-                    <p>
-                      City <b>{props.city_village}</b>{" "}
-                    </p>
-                    <p>
-                      ZIP <b>{props.zipcode}</b>{" "}
-                    </p>
-                    <p>
-                      Email <b>{props.email}</b>{" "}
-                    </p>
-                    <p>
-                      Telephone Number <b>{props.tel_no}</b>{" "}
-                    </p>
-                    <p>
-                      Owner of the Residential Property{" "}
-                      <b>{props.is_applicant_owner}</b>{" "}
-                    </p>
-                    <p>
-                      Mailing Address <b>{props.mailing_address}</b>{" "}
-                    </p>
-                    <p>
-                      Home Size (approx. sq. ft.) <b>{props.home_size}</b>{" "}
-                    </p>
-                    <p>
-                      Home Age (appox. year built) <b>{props.home_age}</b>{" "}
-                    </p>
-                    <p>
-                      New Construction <b>{props.is_new_construction}</b>{" "}
-                    </p>
-                    <p>
-                      Home Type <b>{props.home_type}</b>{" "}
-                    </p>
-                  </ListGroup>
+                  <Row>
+                    <Col md={6} className="mb-3">
+                      <p className='title'>GPA Electric Account number</p>
+                      <p className='title'>Bill ID</p>
+                      <p className='title'>Name on GPA Account</p>
+                      <p className='title'>First Name</p>
+                      <p className='title'>Middle Name</p>
+                      <p className='title'>Last Name</p>
+                      <p className='title'>Installation Address</p>
+                      <p className='title'>City</p>
+                      <p className='title'>ZIP</p>
+                      <p className='title'>Email</p>
+                      <p className='title'>Telephone Number</p>
+                      <p className='title py-4'>Is Applicant the owner of the residential property?</p>
+                      <p className='title'>Mailing Address</p>
+                      <p className='title'>Home Size (approx. sq. ft.)</p>
+                      <p className='title'>Home Age (appox. year built)</p>
+                      <p className='title'>New Construction</p>
+                      <p className='title'>Home Type</p>
+                    </Col>
+                    <Col md={6} className="mb-3">
+                      <p><b>{props.account_no}</b>{" "}</p>
+                      <p><b>{props.bill_id}</b>{" "}</p>
+                      <p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p>
+                      <p><b>{props.firstname}</b>{" "}</p>
+                      <p><b>{props.middlename}</b>{" "}</p>
+                      <p><b>{props.lastname}</b>{" "}</p>
+                      <p><b>{props.service_location}</b>{" "}</p>
+                      <p><b>{props.city_village}</b>{" "}</p>
+                      <p><b>{props.zipcode}</b>{" "}</p>
+                      <p><b>{props.email}</b>{" "}</p>
+                      <p><b>{props.tel_no}</b>{" "}</p>
+                      <p className='py-4'><b>{props.is_applicant_owner ? "Yes" : 
+                        props.is_applicant_owner === "true" ? "Yes" : "No"}</b>{" "}</p>
+                      <p><b>{props.mailing_address}</b>{" "}</p>
+                      <p><b>{props.home_size}</b>{" "}</p>
+                      <p><b>{props.home_age}</b>{" "}</p>
+                      <p><b>{props.is_new_construction}</b>{" "}</p>
+                      <p><b>{props.home_type}</b>{" "}</p>
+                    </Col>
+                  </Row>
                 </Container>
               </Tab>
               <Tab
@@ -141,7 +134,7 @@ function FinalReview(props) {
                     New Equipment Info{" "}
                     <button
                       onClick={() => backToNewEquipmentHandler()}
-                      className="btn btn-danger btn-sm"
+                      className="btn edit-btn btn-sm"
                     >
                       <i className="fa fa-edit"></i> Edit Information
                     </button>
@@ -289,9 +282,8 @@ function FinalReview(props) {
                                   ))}
                                   <tr>
                                     <td
-                                      className="p-3"
+                                      className="p-3 text-center"
                                       colSpan="2"
-                                      className="text-end"
                                     >
                                       TOTAL
                                     </td>
@@ -321,7 +313,7 @@ function FinalReview(props) {
                     Existing/Old Equipment Info{" "}
                     <button
                       onClick={() => backToOldEquipmentHandler()}
-                      className="btn btn-danger btn-sm"
+                      className="btn edit-btn btn-sm"
                     >
                       <i className="fa fa-edit"></i> Edit Information
                     </button>
@@ -366,7 +358,7 @@ function FinalReview(props) {
                     Submission of Documentation{" "}
                     <button
                       onClick={() => backToSubmissionOfDocumentation()}
-                      className="btn btn-danger btn-sm"
+                      className="btn edit-btn btn-sm"
                     >
                       <i className="fa fa-edit"></i> Edit Information
                     </button>
