@@ -1,24 +1,29 @@
 import React,  {useState, useEffect} from 'react'
-import { Container, Row, Col,Button, FormControl, InputGroup, Form } from 'react-bootstrap'
+import { Container, Row, Col,Button, FormControl, InputGroup, Form, Badge } from 'react-bootstrap'
 import { PDFViewer, Document, Text, Page, View, StyleSheet } from '@react-pdf/renderer';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { uploadFile } from '../../actions/termsAndConditionActions'
+import { uploadFileAction } from '../../actions/fileActions'
 
 
 function TcTemplateForm() {
     
     const [selectedFile, setSelectedFile] = useState();
+    const [customer_type, setCustomerType] = useState();
 	const [isFilePicked, setIsFilePicked] = useState(false);
 
     const dispatch = useDispatch()
     
-    const uploadTermsAndCondition = useSelector(state => state.uploadTermsAndCondition)
-    const {loading:fileLoading,error:fileError, success:fileSuccess} = uploadTermsAndCondition
+    const uploadFile = useSelector((state) => state.uploadFile);
+    const {
+        loading: uploadLoading,
+        error: uploadError,
+        fileCode,
+    } = uploadFile;
 
     const handleUploadFile = () => {
 
-        dispatch(uploadFile(selectedFile, "invoice", "1234343"))
+        dispatch(uploadFileAction(selectedFile, customer_type, "tnc_template"));
     }
 
     const changeHandler = (event) => {
@@ -34,7 +39,7 @@ function TcTemplateForm() {
     return (
             <Container>
                 <Row className="mb-3">
-                    <Col md={4}>
+                    <Col md={8}>
                     <Form.Label>Terms & Condition For Residential</Form.Label>
                         <InputGroup className="mb-3">
                             <FormControl
@@ -42,26 +47,36 @@ function TcTemplateForm() {
                             type="file"
                             onChange={(e)=>changeHandler(e)}
                             />
+                            <Form.Select
+                                value={customer_type}
+                                onChange={(e)=> setCustomerType(e.target.value)}
+                            >
+                            <option defaultChecked hidden>Select Template Type</option>
+                            <option value="residential_file">Residential</option>
+                            <option value="commercial_file">Commercial</option>
+                            </Form.Select>
                             <Button variant="info" id="button-addon2" onClick={() => handleUploadFile()}>
-                            View
+                            Upload
                             </Button>
+                            
                         </InputGroup>
-                </Col>
-                    <Col md={4}>
-                    <Form.Label>Terms & Condition For Commercial</Form.Label>
-                        <InputGroup className="mb-3">
-                            <FormControl
-                            placeholder="Terms and Condition"
-                            type="file"
-                            onChange={(e)=>changeHandler(e)}
-                            />
-                            <Button variant="info" id="button-addon2" onClick={() => handleUploadFile()}>
-                            View
-                            </Button>
-                        </InputGroup>
+                        {
+                            selectedFile?
+                            <>
+                            {
+                                fileCode ?
+                                <>
+                                {console.log(selectedFile)}
+                                <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                </>
+                                :<></>
+                            }
+                            Filename: {selectedFile.name} <br />
+                            File Type: {selectedFile.type} <br /><br />
+                            </>:<></>
+                        }
                     </Col>
                 </Row>
-                <Button>Upload File/s <i className="fa fa-upload"></i></Button>
                 <PDFViewer width={"100%"} height={"900"} showToolbar={false}>
                     <Document>
                         <Page size="A4">
