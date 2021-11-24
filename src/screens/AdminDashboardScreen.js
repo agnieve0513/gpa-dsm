@@ -82,11 +82,11 @@ function AdminDashboardScreen({ location, history }) {
               defaultActiveKey="application"
             >
               <Container className="mb-4">
-                <Row>
+                <Row className="p-0">
                   <Col md={8} id="adminDashBoardNav">
                     <Nav variant="pills">
                       {applicationForm ? (
-                        <Nav.Item className="me-1">
+                        <Nav.Item>
                           <Nav.Link eventKey="application">
                             APPLICATION
                           </Nav.Link>
@@ -96,7 +96,7 @@ function AdminDashboardScreen({ location, history }) {
                       )}
 
                       {batchForm ? (
-                        <Nav.Item className="me-1">
+                        <Nav.Item>
                           <Nav.Link eventKey="batch">BATCH</Nav.Link>
                         </Nav.Item>
                       ) : (
@@ -104,7 +104,7 @@ function AdminDashboardScreen({ location, history }) {
                       )}
 
                       {usersForm ? (
-                        <Nav.Item className="me-1">
+                        <Nav.Item>
                           <Nav.Link eventKey="users">USERS</Nav.Link>
                         </Nav.Item>
                       ) : (
@@ -112,7 +112,7 @@ function AdminDashboardScreen({ location, history }) {
                       )}
 
                       {equipmentForm ? (
-                        <Nav.Item className="me-1">
+                        <Nav.Item>
                           <Nav.Link eventKey="equipment">EQUIPMENT</Nav.Link>
                         </Nav.Item>
                       ) : (
@@ -120,7 +120,7 @@ function AdminDashboardScreen({ location, history }) {
                       )}
 
                       {tcForm ? (
-                        <Nav.Item className="me-1">
+                        <Nav.Item>
                           <Nav.Link eventKey="template">
                             T & C TEMPLATE
                           </Nav.Link>
@@ -130,7 +130,7 @@ function AdminDashboardScreen({ location, history }) {
                       )}
 
                       {recordForm ? (
-                        <Nav.Item className="me-1">
+                        <Nav.Item>
                           <Nav.Link eventKey="records">Records</Nav.Link>
                         </Nav.Item>
                       ) : (
