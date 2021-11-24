@@ -165,7 +165,157 @@ function ApplicationForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
-  
+  useEffect(() => {
+    dispatch(listApplications());
+    // dispatch(listBatchCurrent())
+    // dispatch(commentsApplication(applicationId))
+  }, []);
+  // }, [application, successUpdate, addBatchSuccess,commentSucess])
+
+  // Grid Functions . . .
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+    setGridColumnApi(params.columnApi);
+
+    const updateData = (data) => {
+      var differentHeights = [80, 80, 80, 80];
+      data.forEach(function (dataItem, index) {
+        dataItem.rowHeight = differentHeights[index % 4];
+      });
+      setRowData(data);
+    };
+
+    updateData(applications);
+  };
+
+  const getRowHeight = (params) => {
+    return params.data.rowHeight;
+  };
+
+  const onSelectionChanged = () => {
+    var selectedRows = gridApi.getSelectedRows();
+    setApplicationId(selectedRows[0].Application_Id);
+    dispatch(detailApplication(selectedRows[0].Application_Id));
+    dispatch(commentsApplication(selectedRows[0].Application_Id));
+    dispatch(logsApplication(selectedRows[0].Application_Id));
+    setShow(true);
+  };
+
+  const printState = () => {
+    var filterState = gridApi.getFilterModel();
+    console.log("filterState: ", filterState);
+  };
+
+  const saveState = () => {
+    window.filterState = gridApi.getFilterModel();
+    console.log("filter state saved");
+  };
+
+  const restoreState = () => {
+    gridApi.setFilterModel(window.filterState);
+    console.log("filter state restored");
+  };
+
+  const resetState = () => {
+    gridApi.setFilterModel(null);
+    console.log("column state reset");
+  };
+
+  //for filtering . . .
+  const filterParams = {
+    filterOptions: [
+      "empty",
+      {
+        displayKey: "evenNumbers",
+        displayName: "Even Numbers",
+        test: function (filterValue, cellValue) {
+          return cellValue != null && cellValue % 2 === 0;
+        },
+        hideFilterInput: true,
+      },
+      {
+        displayKey: "oddNumbers",
+        displayName: "Odd Numbers",
+        test: function (filterValue, cellValue) {
+          return cellValue != null && cellValue % 2 !== 0;
+        },
+        hideFilterInput: true,
+      },
+      {
+        displayKey: "blanks",
+        displayName: "Blanks",
+        test: function (filterValue, cellValue) {
+          return cellValue == null;
+        },
+        hideFilterInput: true,
+      },
+    ],
+    suppressAndOrCondition: true,
+  };
+  const containsFilterParams = {
+    filterOptions: [
+      "contains",
+      {
+        test: function (filterValue, cellValue) {
+          return cellValue != null && cellValue.indexOf("a") === 0;
+        },
+        hideFilterInput: true,
+      },
+    ],
+  };
+  const equalsFilterParams = {
+    filterOptions: [
+      "equals",
+      {
+        displayKey: "equalsWithNulls",
+        displayName: "Equals (with Nulls)",
+        test: function (filterValue, cellValue) {
+          if (cellValue == null) return true;
+          const parts = cellValue.split("/");
+          const cellDate = new Date(
+            Number(parts[2]),
+            Number(parts[1] - 1),
+            Number(parts[0])
+          );
+          return cellDate.getTime() === filterValue.getTime();
+        },
+      },
+    ],
+    comparator: function (filterLocalDateAtMidnight, cellValue) {
+      const dateAsString = cellValue;
+      if (dateAsString == null) return -1;
+      const dateParts = dateAsString.split("/");
+      const cellDate = new Date(
+        Number(dateParts[2]),
+        Number(dateParts[1]) - 1,
+        Number(dateParts[0])
+      );
+      if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+        return 0;
+      }
+      if (cellDate < filterLocalDateAtMidnight) {
+        return -1;
+      }
+      if (cellDate > filterLocalDateAtMidnight) {
+        return 1;
+      }
+    },
+    browserDatePicker: true,
+  };
+
+  const notEqualsFilterParams = {
+    filterOptions: [
+      "notEqual",
+      {
+        displayKey: "notEqualNoNulls",
+        displayName: "Not Equals without Nulls",
+        test: function (filterValue, cellValue) {
+          if (cellValue == null) return false;
+          return cellValue !== filterValue.toLowerCase();
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
     dispatch(listApplications());
@@ -174,281 +324,113 @@ function ApplicationForm() {
   }, []);
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
-    // Grid Functions . . .
-    const onGridReady = (params) => {
+  const selectHandler = () => {};
 
-        setGridApi(params.api);
-        setGridColumnApi(params.columnApi);
-    
-        const updateData = (data) => {
-            var differentHeights = [80, 80, 80, 80];
-            data.forEach(function (dataItem, index) {
-                dataItem.rowHeight = differentHeights[index % 4];
-            });
-          setRowData(data);
-        };
-    
-        updateData(applications);
-      };
+  const changeStatusHandler = (status) => {
+    setStatus(status);
+    setShowModal(true);
 
-      const getRowHeight = (params) => {
-        return params.data.rowHeight;
-      };
+    console.log(status);
+  };
 
-        
-        const onSelectionChanged = () => {
-        var selectedRows = gridApi.getSelectedRows();
-        setApplicationId(selectedRows[0].Application_Id)
-        dispatch(detailApplication(selectedRows[0].Application_Id))
-        dispatch(commentsApplication(selectedRows[0].Application_Id))
-        dispatch(logsApplication(selectedRows[0].Application_Id))
-        setShow(true)
-      };
-
-      const printState = () => {
-        var filterState = gridApi.getFilterModel();
-        console.log('filterState: ', filterState);
-      };
-    
-      const saveState = () => {
-        window.filterState = gridApi.getFilterModel();
-        console.log('filter state saved');
-      };
-    
-      const restoreState = () => {
-        gridApi.setFilterModel(window.filterState);
-        console.log('filter state restored');
-      };
-    
-      const resetState = () => {
-        gridApi.setFilterModel(null);
-        console.log('column state reset');
-      };
-
-      //for filtering . . .
-      const filterParams = {
-        filterOptions: [
-          'empty',
-          {
-            displayKey: 'evenNumbers',
-            displayName: 'Even Numbers',
-            test: function (filterValue, cellValue) {
-              return cellValue != null && cellValue % 2 === 0;
-            },
-            hideFilterInput: true,
-          },
-          {
-            displayKey: 'oddNumbers',
-            displayName: 'Odd Numbers',
-            test: function (filterValue, cellValue) {
-              return cellValue != null && cellValue % 2 !== 0;
-            },
-            hideFilterInput: true,
-          },
-          {
-            displayKey: 'blanks',
-            displayName: 'Blanks',
-            test: function (filterValue, cellValue) {
-              return cellValue == null;
-            },
-            hideFilterInput: true,
-          },
-        ],
-        suppressAndOrCondition: true,
-      };
-      const containsFilterParams = {
-        filterOptions: [
-          'contains',
-          {
-            test: function (filterValue, cellValue) {
-              return cellValue != null && cellValue.indexOf('a') === 0;
-            },
-            hideFilterInput: true,
-          },
-         
-        ],
-      };
-      const equalsFilterParams = {
-        filterOptions: [
-          'equals',
-          {
-            displayKey: 'equalsWithNulls',
-            displayName: 'Equals (with Nulls)',
-            test: function (filterValue, cellValue) {
-              if (cellValue == null) return true;
-              const parts = cellValue.split('/');
-              const cellDate = new Date(
-                Number(parts[2]),
-                Number(parts[1] - 1),
-                Number(parts[0])
-              );
-              return cellDate.getTime() === filterValue.getTime();
-            },
-          },
-        ],
-        comparator: function (filterLocalDateAtMidnight, cellValue) {
-          const dateAsString = cellValue;
-          if (dateAsString == null) return -1;
-          const dateParts = dateAsString.split('/');
-          const cellDate = new Date(
-            Number(dateParts[2]),
-            Number(dateParts[1]) - 1,
-            Number(dateParts[0])
-          );
-          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-            return 0;
-          }
-          if (cellDate < filterLocalDateAtMidnight) {
-            return -1;
-          }
-          if (cellDate > filterLocalDateAtMidnight) {
-            return 1;
-          }
-        },
-        browserDatePicker: true,
-      };
-
-      const notEqualsFilterParams = {
-        filterOptions: [
-          'notEqual',
-          {
-            displayKey: 'notEqualNoNulls',
-            displayName: 'Not Equals without Nulls',
-            test: function (filterValue, cellValue) {
-              if (cellValue == null) return false;
-              return cellValue !== filterValue.toLowerCase();
-            },
-          },
-        ],
-      };
-
-    useEffect(() => {
-        dispatch(listApplications())
-        // dispatch(listBatchCurrent())
-        // dispatch(commentsApplication(applicationId))
-
-    }, [])
-    // }, [application, successUpdate, addBatchSuccess,commentSucess])
-
-    const selectHandler = () => {}
-
-    const changeStatusHandler = (status) => {
-        setStatus(status)
-        setShowModal(true)
-
-        console.log(status)
+  const updateStatus = (status, stage) => {
+    console.log(status, " - ", stage);
+    if (status === 3) {
+      console.log(reason);
+      console.log(status);
+      if (window.confirm("Are you sure you want to reject application?")) {
+        dispatch(updateApplication(applicationId, status, stage, reason));
+        alert("Saved!");
+        setShow(false);
+        setShowModal(false);
+      }
+    } else {
+      setStatus(status);
+      setStage(stage);
+      if (window.confirm("Are you sure you want to process application?")) {
+        dispatch(
+          updateApplication(applicationId, status, stage, reason, batch)
+        );
+        alert("Saved!");
+        setShowModal(false);
+      }
     }
+  };
 
-    const updateStatus = (status, stage) => {
+  const resetHandler = () => {
+    setShow(false);
+  };
 
-        console.log(status," - ", stage);
-        if(status === 3){
-            console.log(reason)
-            console.log(status)
-             if(window.confirm('Are you sure you want to reject application?'))
-            {
-                dispatch(updateApplication(applicationId,status,stage,reason))
-                alert("Saved!")
-                setShow(false)
-                setShowModal(false)
-            }
-        }else{
-            setStatus(status)
-            setStage(stage)
-            if(window.confirm('Are you sure you want to process application?'))
-            {
-                dispatch(updateApplication(applicationId,status,stage,reason, batch))
-                alert("Saved!")
-                setShowModal(false)
-            }
-        }
+  const addBatchHandler = () => {
+    if (window.confirm("Are you sure you want to create new Batch?")) {
+      dispatch(addNewBatch());
     }
+  };
 
-    const resetHandler = () =>{
-        setShow(false)
+  // TODO: Needed some revisions here if how to automate the adding of batch
+  // !This one is for adding to supervisor with batch
+  const selectBatchHandler = (batch_id) => {
+    if (window.confirm("Are you sure you want to send to Supervisor?")) {
+      setBatch(batch_id);
+      setStatus(status);
+      setStage(stage);
+      setBatchShowModal(false);
+
+      if (window.confirm("Are you sure you want to process application?")) {
+        dispatch(
+          updateApplication(applicationId, status, stage, reason, batch_id)
+        );
+      }
     }
+  };
 
-    const addBatchHandler = () =>{
-        if(window.confirm('Are you sure you want to create new Batch?'))
-        {
-            dispatch(addNewBatch())
-        }
+  const selectEquipment = (id, equipmentType) => {
+    if (equipmentType === "new_equipment") {
+      if (application.New_equipment[id]) {
+        setEquipmentInfo(application.New_equipment[id]);
+        setShowNewEquipmentInfo(true);
+      }
+    } else {
+      if (application.Old_equipment[id]) {
+        setEquipmentInfo(application.Old_equipment[id]);
+        setShowOldEquipmentInfo(true);
+      }
     }
+  };
 
-    // TODO: Needed some revisions here if how to automate the adding of batch
-    // !This one is for adding to supervisor with batch
-    const selectBatchHandler = (batch_id)=>{
-        if(window.confirm('Are you sure you want to send to Supervisor?'))
-        {
-            setBatch(batch_id)
-            setStatus(status)
-            setStage(stage)
-            setBatchShowModal(false)
+  const showNewEquipmentInformation = (index) => {
+    setNewEqIndex(index);
+    console.log(application);
+  };
 
-            if(window.confirm('Are you sure you want to process application?'))
-            {
-                dispatch(updateApplication(applicationId,status,stage,reason, batch_id))
-            }
-        }
-    }
+  const addCommentHandler = () => {
+    dispatch(addCommentAction(applicationId, comment));
 
-    const selectEquipment = (id, equipmentType) => {
-        
-        if(equipmentType === "new_equipment")
-        {
-            if(application.New_equipment[id])
-            {
-                setEquipmentInfo(application.New_equipment[id])
-                setShowNewEquipmentInfo(true)
-            }
-        }
-        else
-        {
-            if(application.Old_equipment[id])
-            {
-                setEquipmentInfo(application.Old_equipment[id])
-                setShowOldEquipmentInfo(true)
-            }
-        }
-    }
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "bottom-right",
+      iconColor: "white",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBars: true,
+    });
 
-    const showNewEquipmentInformation = (index)=>
-    {
-        setNewEqIndex(index)
-        console.log(application)
-    }
+    Toast.fire({
+      icon: "success",
+      title: "Comment Sent",
+      text: "",
+    });
 
-    const addCommentHandler = () => 
-    {
-        dispatch(addCommentAction(applicationId, comment))
+    setComment("");
+  };
 
-        const Toast = MySwal.mixin({
-            toast: true,
-            position: 'bottom-right',
-            iconColor: 'white',
-            customClass: {
-              popup: 'colored-toast'
-            },
-            showConfirmButton: false,
-            timer: 3500,
-            timerProgressBars: true
-          })
-          
-          Toast.fire({
-            icon: 'success',
-            title: 'Comment Sent',
-            text: ''
-          })
+  const changeCommentHandler = (text) => {
+    setComment(text);
+  };
 
-        setComment("")
-    }
-
-    const changeCommentHandler = (text) => 
-    {
-        setComment(text)
-    }
-
-    
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
@@ -510,7 +492,7 @@ function ApplicationForm() {
             >
               <i className="fa fa-arrow-left"></i> Back to Application
             </Button>
-            <Row style={{ paddingLeft: 20 }}>
+            <Row style={{ paddingLeft: 12 }}>
               <Col
                 className="p-0"
                 style={{ backgroundColor: "rgb(227, 227, 229)" }}

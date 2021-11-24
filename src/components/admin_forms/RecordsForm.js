@@ -461,35 +461,36 @@ function RecordsForm() {
             >
               <i className="fa fa-arrow-left"></i> Back to Application
             </Button>
-            <Row>
-              <Col md={12} style={{ backgroundColor: "rgb(227, 227, 229)" }}>
+            <Row style={{ paddingLeft: 12 }}>
+              <Col
+                className="p-0"
+                style={{ backgroundColor: "rgb(227, 227, 229)" }}
+              >
                 <div id="applicationFormNa">
-                  <Nav
-                    variant="pills"
-                    className="d-flex aligns-items-center justify-content-center"
-                  >
-                    <Nav.Item className="me-1">
+                  <Nav variant="pills">
+                    <Nav.Item>
                       <Nav.Link eventKey="application_information">
                         Applicant Information
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="me-1">
+                    <Nav.Item>
                       <Nav.Link eventKey="new_quipment_info">
                         New Equipment Information
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="me-1">
+                    <Nav.Item>
                       <Nav.Link eventKey="old_quipment_info">
                         Old/Existing Equipment Information
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="me-1">
+                    <Nav.Item>
                       <Nav.Link eventKey="submission_of_documentation">
                         Submitted Documents
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item
-                      className="me-1"
+                      style={{ marginLeft: "auto", width: 50, paddingTop: 10 }}
+                      className="d-flex aligns-items-center justify-content-center"
                       onClick={() => handleDetailsToggle()}
                     >
                       <i className="fa fa-edit"></i>
