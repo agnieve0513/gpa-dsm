@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Nav, Row, Col, Image, Form, Button } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Row,
+  Col,
+  Image,
+  Form,
+  Button,
+  Spinner,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 // import './AdminLoginScreen.css'
@@ -10,7 +19,7 @@ import Swal from "sweetalert2";
 
 function AdminForgotPasswordScreen({ location, history }) {
   const [email, setEmail] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const redirect = location.search
@@ -18,25 +27,30 @@ function AdminForgotPasswordScreen({ location, history }) {
     : "/dashboard";
 
   const userForgotPassword = useSelector((state) => state.userForgotPassword);
-  const { error, loading, success } = userForgotPassword;
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(forgotPassword(email));
+  console.log("email", email);
+
+  useEffect(() => {
     console.log(userForgotPassword);
     if (userForgotPassword.userInfo) {
       if (userForgotPassword.userInfo.status) {
+        setLoading(false);
         Swal.fire(
           "Success",
           "Password reset is sent to your email!",
           "success"
-        ).then(() => {
-          history.push("/admin");
-        });
+        ).then(() => history.push("/admin"));
       } else {
+        setLoading(false);
         Swal.fire("Failed", "User was not found", "error");
       }
     }
+  }, [userForgotPassword]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    dispatch(forgotPassword(email));
   };
 
   return (
@@ -87,20 +101,65 @@ function AdminForgotPasswordScreen({ location, history }) {
                     onChange={(e) => setEmail(e.target.value)}
                   ></Form.Control>
                 </Form.Group>
-                <Row>
-                  <Col md={4}></Col>
-                  <Col md={4}>
+                {/* <Row>
+                  <Col md={4} style={{ marginLeft: "auto" }}>
                     <div className="d-grid gap-2 mt-3 mb-4">
                       <Button
                         type="submit"
                         className="text-center"
                         variant="success"
                       >
-                        SUBMIT
+                        {loading ? (
+                          <Spinner animation="border" size="sm" />
+                        ) : (
+                          "SUBMIT"
+                        )}
                       </Button>
                     </div>
                   </Col>
-                  <Col md={4}></Col>
+                  <Col md={4} style={{ marginRight: "auto" }}>
+                    <div className="d-grid gap-2 mt-3 mb-4">
+                      <Button
+                        type="submit"
+                        className="text-center"
+                        variant="success"
+                      >
+                        {loading ? (
+                          <Spinner animation="border" size="sm" />
+                        ) : (
+                          "SUBMIT"
+                        )}
+                      </Button>
+                    </div>
+                  </Col>
+                </Row> */}
+                <Row>
+                  <Col md={6} className="mx-auto">
+                    <div className="d-grid gap-2 mt-3 mb-4">
+                      <Button
+                        type="submit"
+                        className="text-center"
+                        variant="success"
+                      >
+                        {loading ? (
+                          <Spinner animation="border" size="sm" />
+                        ) : (
+                          "SUBMIT"
+                        )}
+                      </Button>
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="d-grid gap-2 mt-3 mb-4">
+                      <Button
+                        onClick={() => history.push("/admin")}
+                        type="button"
+                        variant="danger"
+                      >
+                        CANCEL
+                      </Button>
+                    </div>
+                  </Col>
                 </Row>
               </Col>
               <Col md={2}></Col>
