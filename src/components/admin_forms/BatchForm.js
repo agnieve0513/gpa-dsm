@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
+
 import {
   Container,
   Row,
   Col,
   Button,
   Modal,
+  Badge,
   Form,
   Dropdown,
   Tabs,
+  InputGroup,
   Tab,
   ListGroup,
   Nav,
@@ -15,6 +18,8 @@ import {
   Table,
 } from "react-bootstrap";
 import { listBatch, listBatchApplication } from "../../actions/batchActions";
+import { uploadFileAction, retrieveFileAction} from "../../actions/fileActions";
+
 import {
   listApplications,
   detailApplication,
@@ -25,7 +30,7 @@ import {
 } from "../../actions/applicationActions";
 
 import { useDispatch, useSelector } from "react-redux";
-
+import ModalImage from "../ModalImage";
 import MaterialTable from "material-table";
 
 import "./BatchForm.css";
@@ -50,12 +55,40 @@ function BatchForm() {
   const [selectIds, setSelectedIds] = useState([]);
   const [showBatchApplicationTable, setShowBatchApplicationTable] =
     useState(false);
-  const [show, setShow] = useState(false);
   const [new_eq_index, setNewEqIndex] = useState(0);
   const [equipmentInfo, setEquipmentInfo] = useState([]);
   const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false);
   const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false);
   const [comment, setComment] = useState("");
+  const [detailsToggle, setDetailsToggle] = useState(false);
+  const [commentShow, setCommentShow] = useState(false);
+  const [show, setShow] = useState(false);
+
+    const [modalShow, setModalShow] = useState(false);
+  const [modalData, setModalData] = useState({
+    description: "",
+    image_sample: "",
+  });
+
+  const [invoice, setInvoice] = useState(null);
+  const [irs_form, setIrsForm] = useState(null);
+  const [disposal_slip, setDisposalSlip] = useState(null);
+  const [letter_authorization, setLetterAuthorization] = useState(null);
+  const [installer_certification, setInstallerCertification] = useState(null);
+  const [other_doc1, setOtherDoc1] = useState(null);
+  const [other_doc2, setOtherDoc2] = useState(null);
+  const [other_doc3, setOtherDoc3] = useState(null);
+
+  const [invoiceD, setInvoiceD] = useState("");
+  const [irs_formD, setIrsFormD] = useState("");
+  const [disposal_slipD, setDisposalSlipD] = useState("");
+  const [letter_authorizationD, setLetterAuthorizationD] = useState();
+  const [installer_certificationD, setInstallerCertificationD] = useState();
+  const [other_doc1D, setOtherDoc1D] = useState("");
+  const [other_doc2D, setOtherDoc2D] = useState("");
+  const [other_doc3D, setOtherDoc3D] = useState("");
+  const uploadFile = useSelector((state) => state.uploadFile);
+  const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
   const handleModalClose = () => setShowModal(false);
 
@@ -99,6 +132,9 @@ function BatchForm() {
       setShowModal(true);
     }
   };
+
+  let p = {};
+
 
   const updateStatus = (status, stage) => {
     if (status === 3) {
@@ -171,46 +207,70 @@ function BatchForm() {
     setShow(true);
   };
 
+  const handleDetailsToggle = () => {
+    if (detailsToggle === false) {
+      setDetailsToggle(true);
+    } else {
+      setDetailsToggle(false);
+    }
+  };
+
+  const handleRetrieveFile = (code) => {
+    console.log(code);
+    dispatch(retrieveFileAction(code));
+  };
+
+  const handleSubmit = (file, doc_type, control_no) => {
+    dispatch(uploadFileAction(file, doc_type, control_no));
+  };
+
   return (
     <>
       {show ? (
         <Container>
           <Tab.Container
-            id="left-tabs-example"
-            defaultActiveKey="application_information"
-          >
+                  id="left-tabs-example"
+                  defaultActiveKey="application_information"
+                >
             <Button
               className="mb-3 btn btn-light"
               onClick={() => resetHandler()}
             >
               <i className="fa fa-arrow-left"></i> Back to Application
             </Button>
-            <Row>
-              <Col md={12} style={{ backgroundColor: "rgb(227, 227, 229)" }}>
+            <Row style={{ paddingLeft: 20 }}>
+              <Col
+                className="p-0"
+                style={{ backgroundColor: "rgb(227, 227, 229)" }}
+              >
                 <div id="applicationFormNa">
-                  <Nav
-                    variant="pills"
-                    className="d-flex aligns-items-center justify-content-center"
-                  >
-                    <Nav.Item className="me-1">
+                  <Nav variant="pills">
+                    <Nav.Item>
                       <Nav.Link eventKey="application_information">
                         Applicant Information
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="me-1">
+                    <Nav.Item>
                       <Nav.Link eventKey="new_quipment_info">
                         New Equipment Information
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="me-1">
+                    <Nav.Item>
                       <Nav.Link eventKey="old_quipment_info">
                         Old/Existing Equipment Information
                       </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item className="me-1">
+                    <Nav.Item>
                       <Nav.Link eventKey="submission_of_documentation">
                         Submitted Documents
                       </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item
+                      style={{ marginLeft: "auto", width: 50, paddingTop: 10 }}
+                      className="d-flex aligns-items-center justify-content-center"
+                      onClick={() => handleDetailsToggle()}
+                    >
+                      <i className="fa fa-edit"></i>
                     </Nav.Item>
                     {/* <Nav.Item className="me-1">
                                                 <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
@@ -220,7 +280,7 @@ function BatchForm() {
               </Col>
             </Row>
             <Row>
-              <Col md={9}>
+              <Col md={detailsToggle ? 9 : 12}>
                 <Tab.Content>
                   {/* Applicaiton Information */}
                   <Tab.Pane eventKey="application_information">
@@ -280,384 +340,332 @@ function BatchForm() {
                   </Tab.Pane>
                   {/* New equipment */}
                   <Tab.Pane eventKey="new_quipment_info">
-                    <Container className="ml-2 mr-2">
-                      <h3 className="mt-3 mb-3 text-info">
-                        New Equipment Info
-                      </h3>
-                      <Row>
-                        <Col md={6}>
-                          {application ? (
-                            application.New_equipment.length >= 1 ? (
-                              <ButtonGroup
-                                className="me-2 mb-3"
-                                aria-label="First group"
-                              >
-                                <Button
-                                  className="btn btn-sm"
-                                  onClick={() => showNewEquipmentInformation(0)}
-                                  variant="info"
-                                >
-                                  E1
-                                </Button>
-                                {application.New_equipment.length > 1 ? (
-                                  <Button
-                                    onClick={() =>
-                                      showNewEquipmentInformation(1)
-                                    }
-                                    className="btn btn-sm"
-                                    variant="secondary"
-                                  >
-                                    E2
-                                  </Button>
-                                ) : (
-                                  <></>
-                                )}
-                                {application.New_equipment.length > 2 ? (
-                                  <Button
-                                    onClick={() =>
-                                      showNewEquipmentInformation(2)
-                                    }
-                                    className="btn btn-sm"
-                                    variant="secondary"
-                                  >
-                                    E3
-                                  </Button>
-                                ) : (
-                                  <></>
-                                )}
-                                {application.New_equipment.length > 3 ? (
-                                  <Button
-                                    onClick={() =>
-                                      showNewEquipmentInformation(3)
-                                    }
-                                    className="btn btn-sm"
-                                    variant="secondary"
-                                  >
-                                    E4
-                                  </Button>
-                                ) : (
-                                  <></>
-                                )}
-                                {application.New_equipment.length > 4 ? (
-                                  <Button
-                                    onClick={() =>
-                                      showNewEquipmentInformation(4)
-                                    }
-                                    className="btn btn-sm"
-                                    variant="secondary"
-                                  >
-                                    E5
-                                  </Button>
-                                ) : (
-                                  <></>
-                                )}
-                              </ButtonGroup>
-                            ) : (
-                              <></>
-                            )
+                    <h3 className="mt-3 mb-3 text-info">New Equipment Info</h3>
+                    <Row>
+                      <Col md={6}></Col>
+                    </Row>
+                    <Row>
+                      <Col md={12}>
+                        <MaterialTable
+                          columns={[
+                            {
+                              title: "System Type",
+                              field: "newEquip_System_type",
+                            },
+                            { title: "Vendor", field: "newEquip_Vendor" },
+                            { title: "Quantity", field: "newEquip_Quantity" },
+                            { title: "BTU", field: "newEquip_Btu" },
+                            {
+                              title: "Manufacturer",
+                              field: "newEquip_Manufacturer",
+                            },
+                            {
+                              title: "Model Number",
+                              field: "newEquip_Model_no",
+                            },
+                            { title: "Invoice#", field: "newEquip_Invoice_no" },
+                            {
+                              title: "Purchase Date",
+                              field: "newEquip_Purchase_date",
+                            },
+                            { title: "Type", field: "newEquip_Type" },
+                            { title: "Tons", field: "newEquip_Tons" },
+                            {
+                              title: "Install Date",
+                              field: "newEquip_Purchase_date",
+                            },
+                          ]}
+                          data={
+                            application
+                              ? application.New_equipment.length === 0
+                                ? []
+                                : application.New_equipment
+                              : []
+                          }
+                          title="New Equipments"
+                        />
+                      </Col>
+                      <Col md={6}>
+                        {application ? (
+                          application.New_equipment.length >= 1 ? (
+                            <>
+                              <h3 className="mt-3 mb-3 text-info">
+                                Installer Information
+                              </h3>
+                              <ListGroup className="mb-3">
+                                <p>
+                                  Technician Name{" "}
+                                  <b> {application.Installer_New_name} </b>
+                                </p>
+                                <p>
+                                  Work Telephone{" "}
+                                  <b> {application.Installer_New_worktel} </b>
+                                </p>
+                                <p>
+                                  Company{" "}
+                                  <b>
+                                    {" "}
+                                    {application.Installer_New_companyname}{" "}
+                                  </b>
+                                </p>
+                                <p>
+                                  Certification No.{" "}
+                                  <b> {application.Installer_New_certno} </b>
+                                </p>
+                                <p className="mb-3">
+                                  Email{" "}
+                                  <b> {application.Installer_New_email} </b>
+                                </p>
+                                <p>
+                                  Date of Final{" "}
+                                  <b> {application.Installer_New_finaldate} </b>
+                                </p>
+                              </ListGroup>
+                            </>
                           ) : (
-                            <></>
-                          )}
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col md={6}>
-                          {application ? (
-                            application.New_equipment.length >= 1 ? (
+                            <>No Equipment</>
+                          )
+                        ) : (
+                          <></>
+                        )}
+                      </Col>
+                      <Col md={6} className="mt-3">
+                        <Table size="lg" striped bordered hover>
+                          <thead className="bg-info text-white">
+                            <tr className="py-5">
+                              <th className="p-3">Equipment No.</th>
+                              <th className="p-3">QTY</th>
+                              <th className="p-3">Rebate</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {application ? (
                               <>
-                                <ListGroup className="mb-3">
-                                  <p>
-                                    System Type{" "}
-                                    <b>
-                                      {" "}
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_System_type
-                                      }{" "}
-                                    </b>{" "}
-                                  </p>
-                                  <p>
-                                    Vendor{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Vendor
-                                      }
-                                    </b>{" "}
-                                  </p>
-                                  <p>
-                                    Quantity{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Quantity
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    BTU{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Btu
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Manufacturer{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Manufacturer
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Model Number{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Model_no
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Invoice#{" "}
-                                    <b>
-                                      <a
-                                        href="./sample.png"
-                                        rel="noreferrer"
-                                        target="_blank"
-                                      >
-                                        {
-                                          application.New_equipment[
-                                            new_eq_index
-                                          ].newEquip_Invoice_no
-                                        }
-                                      </a>
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Purchase Date{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Purchase_date
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Type{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Type
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Tons{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Tons
-                                      }
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Install Date{" "}
-                                    <b>
-                                      {
-                                        application.New_equipment[new_eq_index]
-                                          .newEquip_Purchase_date
-                                      }
-                                    </b>
-                                  </p>
-                                </ListGroup>
-
-                                <h3 className="mt-3 mb-3 text-info">
-                                  Installer Information
-                                </h3>
-                                <ListGroup className="mb-3">
-                                  <p>
-                                    Technician Name{" "}
-                                    <b> {application.Installer_New_name} </b>
-                                  </p>
-                                  <p>
-                                    Work Telephone{" "}
-                                    <b> {application.Installer_New_worktel} </b>
-                                  </p>
-                                  <p>
-                                    Company{" "}
-                                    <b>
-                                      {" "}
-                                      {
-                                        application.Installer_New_companyname
-                                      }{" "}
-                                    </b>
-                                  </p>
-                                  <p>
-                                    Certification No.{" "}
-                                    <b> {application.Installer_New_certno} </b>
-                                  </p>
-                                  <p className="mb-3">
-                                    Email{" "}
-                                    <b> {application.Installer_New_email} </b>
-                                  </p>
-                                  <p>
-                                    Date of Final{" "}
-                                    <b>
-                                      {" "}
-                                      {application.Installer_New_finaldate}{" "}
-                                    </b>
-                                  </p>
-                                </ListGroup>
+                                {application.New_equipment.map((eq, id) => (
+                                  <tr key={id + 1}>
+                                    <td className="p-3">{id + 1}</td>
+                                    <td className="p-3">
+                                      {eq.newEquip_Quantity}
+                                    </td>
+                                    <td className="p-3">
+                                      {eq.newEquip_rebate}
+                                    </td>
+                                  </tr>
+                                ))}
                               </>
                             ) : (
-                              <>No Equipment</>
-                            )
-                          ) : (
-                            <></>
-                          )}
-                        </Col>
-                        <Col md={6}>
-                          <Table size="lg" striped bordered hover>
-                            <thead className="bg-info text-white">
-                              <tr className="py-5">
-                                <th className="p-3">Equipment No.</th>
-                                <th className="p-3">QTY</th>
-                                <th className="p-3">Rebate</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {application ? (
-                                <>
-                                  {application.New_equipment.map((eq, id) => (
-                                    <tr key={id + 1}>
-                                      <td className="p-3">{id + 1}</td>
-                                      <td className="p-3">
-                                        {eq.newEquip_Quantity}
-                                      </td>
-                                      <td className="p-3">
-                                        {eq.newEquip_rebate}
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                              <tr>
-                                <td
-                                  className="p-3"
-                                  colSpan="2"
-                                  className="text-end"
-                                >
-                                  TOTAL
-                                </td>
-                                <td className="p-3">$0.00</td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </Col>
-                      </Row>
-                    </Container>
+                              <></>
+                            )}
+                            <tr>
+                              <td
+                                className="p-3"
+                                colSpan="2"
+                                className="text-end"
+                              >
+                                TOTAL
+                              </td>
+                              <td className="p-3">$0.00</td>
+                            </tr>
+                          </tbody>
+                        </Table>
+                      </Col>
+                    </Row>
                   </Tab.Pane>
                   <Tab.Pane eventKey="old_quipment_info">
-                    <Container className="ml-2 mr-2">
-                      <h3 className="mt-3 mb-3 text-info">
-                        Existing/Old Equipment Info{" "}
-                      </h3>
-
-                      <ButtonGroup
-                        className="me-2 mb-3"
-                        aria-label="First group"
-                      >
-                        <Button
-                          className="btn btn-sm"
-                          variant="info"
-                          onClick={() => selectEquipment(0, "old_equipment")}
-                        >
-                          E1
-                        </Button>{" "}
-                        <Button
-                          className="btn btn-sm"
-                          variant="secondary"
-                          onClick={() => selectEquipment(1, "old_equipment")}
-                        >
-                          E2
-                        </Button>{" "}
-                        <Button
-                          className="btn btn-sm"
-                          variant="secondary"
-                          onClick={() => selectEquipment(2, "old_equipment")}
-                        >
-                          E3
-                        </Button>{" "}
-                        <Button
-                          className="btn btn-sm"
-                          variant="secondary"
-                          onClick={() => selectEquipment(3, "old_equipment")}
-                        >
-                          E4
-                        </Button>
-                      </ButtonGroup>
-
-                      <ListGroup className="mb-3">
-                        {showOldEquipmentInfo ? (
-                          <>
-                            <p>
-                              System Type{" "}
-                              <b>{equipmentInfo.oldEquip_System_type} </b>
-                            </p>
-                            <p>
-                              BTU <b> {equipmentInfo.oldEquip_Btu}</b>
-                            </p>
-                            <p>
-                              Years <b>{equipmentInfo.oldEquip_Years}</b>
-                            </p>
-                            <p>
-                              Quantity <b>{equipmentInfo.oldEquip_Quantity}</b>
-                            </p>
-                            <p>
-                              Tons <b>{equipmentInfo.oldEquip_Tons}</b>
-                            </p>
-                            <p>
-                              Equipment condition prior to removal{" "}
-                              <b>{equipmentInfo.oldEquip_Conditon}</b>
-                            </p>
-                            <p>
-                              Seer <b>{equipmentInfo.oldEquip_Seer}</b>
-                            </p>
-                            <p>
-                              Disposal Party{" "}
-                              <b>{equipmentInfo.oldEquip_Disposal_party}</b>
-                            </p>
-                            <p>
-                              Date{" "}
-                              <b>{equipmentInfo.oldEquip_Disposal_party}</b>
-                            </p>
-                          </>
-                        ) : (
-                          <p>No Data</p>
-                        )}
-                      </ListGroup>
-                    </Container>
+                    <h3 className="mt-3 mb-3 text-info">
+                      Existing/Old Equipment Info{" "}
+                    </h3>
+                    <MaterialTable
+                      columns={[
+                        { title: "System Type", field: "oldEquip_System_type" },
+                        { title: "Years", field: "oldEquip_Btu" },
+                        { title: "Quantity", field: "oldEquip_Years" },
+                        { title: "BTU", field: "oldEquip_Quantity" },
+                        { title: "Eqpmt. Condition", field: "oldEquip_Tons" },
+                        { title: "Seer", field: "oldEquip_Seer" },
+                        {
+                          title: "Disposal Party",
+                          field: "oldEquip_Disposal_party",
+                        },
+                        {
+                          title: "Date",
+                          field: "oldEquip_Disposal_party",
+                        },
+                      ]}
+                      data={
+                        application
+                          ? application.Old_equipment.length === 0
+                            ? []
+                            : application.Old_equipment
+                          : []
+                      }
+                      title="Old Equipments"
+                    />
                   </Tab.Pane>
                   <Tab.Pane eventKey="submission_of_documentation">
+                    <ModalImage
+                      data={modalData}
+                      show={modalShow}
+                      onHide={() => setModalShow(false)}
+                    />
                     <Container className="ml-2 mr-2">
                       <h3 className="mt-3 mb-3 text-info">
                         Submitted Documents
                       </h3>
 
                       <ListGroup className="mb-3">
-                        <p>Invoice</p>
-                        <p>IRS-W9</p>
-                        <p>Letter of Authorization</p>
-                        <p>Disposal Slip</p>
-                        <p>Other support documents 1</p>
-                        <p>Equipment condition prior to removal</p>
-                        <p>Other support documents 2</p>
+                        {application ? (
+                          <>
+                            <p>
+                              Invoice{" "}
+                              <Button
+                                variant={"success"}
+                                onClick={() =>
+                                  handleRetrieveFile(
+                                    application.Submitted_docs[0].invoice
+                                  )
+                                }
+                                size={"sm"}
+                              >
+                                Click to Download
+                              </Button>{" "}
+                            </p>
+                            <Form.Group controlId="irs_form" className="mb-3">
+                              <p>
+                                IRS Form W-9{" "}
+                                <small className="text-muted">
+                                  (Click this link to download the File and
+                                  Enter your details on it. After that, upload
+                                  the file that contains your data information)
+                                </small>
+                                <span
+                                  className="text-secondary"
+                                  onClick={() => {
+                                    setModalData(
+                                      (p = {
+                                        description: "Upload IRS Form W-9",
+                                        image_sample: "./GPADSM8.png",
+                                      })
+                                    );
+                                    setModalShow(true);
+                                  }}
+                                >
+                                  <i className="fa fa-question-circle"></i>{" "}
+                                </span>
+                              </p>
+                              <InputGroup>
+                                <Form.Control
+                                  name="file2"
+                                  type="file"
+                                  onChange={(e) =>
+                                    setIrsForm(e.target.files[0])
+                                  }
+                                />
+
+                                <Button
+                                  variant="info"
+                                  onClick={() =>
+                                    handleSubmit(irs_form, "irs_form")
+                                  }
+                                >
+                                  <i className="fa fa-upload"></i>
+                                </Button>
+                              </InputGroup>
+                              {irs_form === null ? (
+                                <p className="validate text-danger">
+                                  *This Field is Required
+                                </p>
+                              ) : (
+                                <></>
+                              )}
+                              {irs_form ? (
+                                <>
+                                  {fileCode ? (
+                                    <>
+                                      {setIrsFormD(fileCode)}
+                                      {console.log(irs_formD)}
+                                      <Badge bg={"success"}>
+                                        File Uploaded
+                                      </Badge>{" "}
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <>no upload</>
+                                  )}
+                                  Filename: {irs_form.name} <br />
+                                  File Type: {irs_form.type} <br />
+                                  <br />
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                            </Form.Group>
+                            <p>
+                              IRS-W9{" "}
+                              <Button
+                                variant={"success"}
+                                onClick={() =>
+                                  handleRetrieveFile(
+                                    application.Submitted_docs[0].irs_form
+                                  )
+                                }
+                                size={"sm"}
+                              >
+                                Click to Download
+                              </Button>{" "}
+                            </p>
+                            <p>
+                              Letter of Authorization{" "}
+                              <Button
+                                variant={"success"}
+                                onClick={() =>
+                                  handleRetrieveFile(
+                                    application.Submitted_docs[0]
+                                      .letter_authorization
+                                  )
+                                }
+                                size={"sm"}
+                              >
+                                Click to Download
+                              </Button>
+                            </p>
+                            <p>
+                              Disposal Slip{" "}
+                              <Button
+                                variant={"success"}
+                                onClick={() =>
+                                  handleRetrieveFile(
+                                    application.Submitted_docs[0].disposal_slip
+                                  )
+                                }
+                                size={"sm"}
+                              >
+                                Click to Download
+                              </Button>{" "}
+                            </p>
+                            {application.Submitted_docs[0].other_doc2 ? (
+                              <p>
+                                Other support documents 1{" "}
+                                <a
+                                  href={
+                                    application.Submitted_docs[0].other_doc2
+                                  }
+                                >
+                                  Click to Download
+                                </a>
+                              </p>
+                            ) : (
+                              <></>
+                            )}
+                            {application.Submitted_docs[0].other_doc2 ? (
+                              <p>Other support documents 2</p>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        ) : (
+                          ""
+                        )}
                       </ListGroup>
                     </Container>
                     <Container className="ml-2 mr-2">
@@ -843,17 +851,15 @@ function BatchForm() {
                           </Modal>
                           <Button
                             className="me-2"
-                            variant={roleId === 3 ? "secondary" : "info"}
+                            variant={"info"}
                             onClick={() => changeStatusHandler(1)}
-                            disabled={roleId === 3 ? true : false}
                           >
                             Process Sending
                           </Button>
                           <Button
                             className="me-2"
-                            variant={roleId === 3 ? "secondary" : "danger"}
+                            variant={"danger"}
                             onClick={() => changeStatusHandler(3)}
-                            disabled={roleId === 3 ? true : false}
                           >
                             Reject
                           </Button>
@@ -863,50 +869,56 @@ function BatchForm() {
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
-              <Col
-                md={3}
-                style={{
-                  backgroundColor: "rgb(243, 244, 249)",
-                  borderLeft: "2px solid #d0d5db",
-                }}
-              >
-                {application ? (
-                  <>
-                    <h4 className="mt-3 mb-3">Details</h4>
-                    <h6 className="text-muted">Date Applied</h6>
-                    <h6>{application.Application_Date}</h6>
-                    <br />
-                    <h6 className="text-muted">Current Stage</h6>
-                    <h6>{application.Status}</h6>
-                    <br />
-                    <h6 className="text-muted">Current Department</h6>
-                    <h6 className="mb-5">{application.Stage}</h6>
+              {detailsToggle ? (
+                <>
+                  {application ? (
+                    <>
+                      <Col
+                        md={3}
+                        style={{
+                          backgroundColor: "rgb(243, 244, 249)",
+                          borderLeft: "2px solid #d0d5db",
+                        }}
+                      >
+                        <h4 className="mt-3 mb-3">Details</h4>
+                        <h6 className="text-muted">Date Applied</h6>
+                        <h6>{application.Application_Date}</h6>
+                        <br />
+                        <h6 className="text-muted">Current Stage</h6>
+                        <h6>{application.Status}</h6>
+                        <br />
+                        <h6 className="text-muted">Current Department</h6>
+                        <h6 className="mb-5">{application.Stage}</h6>
 
-                    <h4>Event Logs</h4>
-                    {logs ? (
-                      <div style={{ height: "200px", overflowY: "auto" }}>
-                        {logs.map((log, index) => (
-                          <div key={index}>
-                            <h6>{log.Action}</h6>
-                            <small className="text-muted">
-                              Made By: {log.Made_By}
-                            </small>
-                            <br />
-                            <small className="text-muted">
-                              Made On: {log.Made_On}
-                            </small>
-                            <hr />
+                        <h4>Event Logs</h4>
+                        {logs ? (
+                          <div style={{ height: "200px", overflowY: "auto" }}>
+                            {logs.map((log, index) => (
+                              <div key={index}>
+                                <h6>{log.Action}</h6>
+                                <small className="text-muted">
+                                  Made By: {log.Made_By}
+                                </small>
+                                <br />
+                                <small className="text-muted">
+                                  Made On: {log.Made_On}
+                                </small>
+                                <hr />
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p>Loading...</p>
-                    )}
-                  </>
-                ) : (
-                  "loading . . "
-                )}
-              </Col>
+                        ) : (
+                          <p>Loading...</p>
+                        )}
+                      </Col>
+                    </>
+                  ) : (
+                    "loading . . "
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
             </Row>
             <hr />
             {/* Comments section */}
@@ -925,12 +937,7 @@ function BatchForm() {
                       value={comment}
                     />
                   </Form.Group>
-                  <Button
-                    disabled={roleId === 3 ? true : false}
-                    onClick={() => addCommentHandler()}
-                    variant="success"
-                    variant={roleId === 3 ? "secondary" : "success"}
-                  >
+                  <Button onClick={() => addCommentHandler()} variant="success">
                     Submit
                   </Button>
                   <br />
@@ -959,7 +966,7 @@ function BatchForm() {
               </Col>
               <Col md={3}></Col>
             </Row>
-          </Tab.Container>
+              </Tab.Container>
         </Container>
       ) : (
         <Container>
