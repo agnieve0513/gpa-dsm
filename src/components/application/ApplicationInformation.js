@@ -408,7 +408,6 @@ function ApplicationInformation(props) {
                     onChange={(e) => handleNumericFields(e.target, "setTelNo")}
                     maxLength="14"
                     value={props.tel_no}
-                    required
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
