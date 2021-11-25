@@ -40,7 +40,7 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
 
   const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
@@ -286,7 +286,7 @@ function ApplicationScreen() {
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
-        tel_no === "" ||
+        email === "" ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||
@@ -355,7 +355,7 @@ function ApplicationScreen() {
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||
-          tel_no === "" ||
+          email === "" ||
           is_applicant_owner === "" ||
           is_applicant_owner === "false" && letter_authorization === "" ||
           // (is_applicant_owner === "false" && letter_authorization === "") ||
