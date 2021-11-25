@@ -77,18 +77,11 @@ function TcTemplateForm() {
                         }
                     </Col>
                 </Row>
-                <PDFViewer width={"100%"} height={"900"} showToolbar={false}>
-                    <Document>
-                        <Page size="A4">
-                            <View style={styles.section}> 
-                                <Text fixed>
-                                This will be the UI For Uploaded Pdf File
-                                </Text>
-                            </View>
-                            
-                        </Page>
-                    </Document>
-                </PDFViewer>
+                <Row>
+                    <Col md={12}>
+                        {/* TODO: Implement Download Link for the files */}
+                    </Col>
+                </Row>
             </Container>
     )
 }
