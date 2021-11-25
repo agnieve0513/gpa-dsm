@@ -58,7 +58,6 @@ function ApplicationInformation(props) {
   const {
     loading: uploadLoading,
     error: uploadError,
-    success: uploadSuccess,
     fileCode
   } = uploadFile;
 
@@ -494,6 +493,7 @@ function ApplicationInformation(props) {
                             fileCode ?
                             <>
                             {props.setLetterAuthorizationD(fileCode)}
+                            {console.log(fileCode)}
                             {console.log(props.letter_authorizationD)}
                             <Badge bg={"success"}>File Uploaded</Badge> <br /> 
                             </>
