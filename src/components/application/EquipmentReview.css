@@ -35,3 +35,8 @@
 {
     padding:0;
 }
+
+.MuiTableRow-root .MuiTableRow-head
+{
+    background-color: #223E87 
+}
