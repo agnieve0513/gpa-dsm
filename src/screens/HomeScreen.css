@@ -8,28 +8,29 @@
   overflow: hidden;
 }
 
-h1, h2, h4, p, a
-{
-  font-family:'Montserrat Bold', sans-serif;
+h1,
+h2,
+h4,
+p,
+a {
+  font-family: "Montserrat Bold", sans-serif;
 }
 
 .btn .btn-success{
-    background-color:rgb(139, 196, 63) !important
+  background-color:rgb(139, 196, 63) !important
 }
 
-#applyOnlineBtn .btn-group-lg>.btn, .btn-lg
-{
+#applyOnlineBtn .btn-group-lg > .btn,
+.btn-lg {
   border-radius: 0.5rem;
 }
 
-#applyHead
-{
+#applyHead {
   font-size: 35px;
   margin-top: 3%;
   font-weight: 780;
 }
 
-#applyCaption
-{
+#applyCaption {
   font-size: 15px;
 }
