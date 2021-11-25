@@ -1,10 +1,11 @@
-html, body
+#homeScreen 
 {
   background-image: linear-gradient( to top, rgb(34, 62, 135, 1), rgba(15, 54, 153, 0.7)), url('firstbackground.png');
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
+  overflow: hidden;
 }
 
 h1, h2, h4, p, a
@@ -14,7 +15,6 @@ h1, h2, h4, p, a
 
 .btn .btn-success{
     background-color:rgb(139, 196, 63) !important
-
 }
 
 #applyOnlineBtn .btn-group-lg>.btn, .btn-lg
