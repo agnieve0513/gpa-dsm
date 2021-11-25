@@ -1,35 +1,39 @@
-html, body
-{
-  background-image: linear-gradient( to top, rgb(34, 62, 135, 1), rgba(15, 54, 153, 0.7)), url('firstbackground.png');
+#homeScreen {
+  background-image: linear-gradient(
+      to top,
+      rgb(34, 62, 135, 1),
+      rgba(15, 54, 153, 0.7)
+    ),
+    url("firstbackground.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
 }
 
-h1, h2, h4, p, a
-{
-  font-family:'Montserrat Bold', sans-serif;
+h1,
+h2,
+h4,
+p,
+a {
+  font-family: "Montserrat Bold", sans-serif;
 }
 
-.btn .btn-success{
-    background-color:rgb(139, 196, 63) !important
-
+.btn .btn-success {
+  background-color: rgb(139, 196, 63) !important;
 }
 
-#applyOnlineBtn .btn-group-lg>.btn, .btn-lg
-{
+#applyOnlineBtn .btn-group-lg > .btn,
+.btn-lg {
   border-radius: 0.5rem;
 }
 
-#applyHead
-{
+#applyHead {
   font-size: 35px;
   margin-top: 3%;
   font-weight: 780;
 }
 
-#applyCaption
-{
+#applyCaption {
   font-size: 15px;
 }
