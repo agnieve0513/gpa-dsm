@@ -184,10 +184,10 @@ function ApplicationScreen() {
               invoice : invoiceD,
               irs_form: irs_formD,
               disposal_slip : disposal_slipD,
-              letter_authorization : letter_authorizationD,
-              other_doc1 : other_doc1D,
-              other_doc2 : other_doc2D,
-              other_doc3 : installer_certificationD,
+              letter_authorization : letter_authorizationD ? letter_authorizationD : "",
+              other_doc1 : installer_certificationD ? installer_certification : "",
+              other_doc2 : other_doc1D,
+              other_doc3 : other_doc2D,
               },
           };
 
