@@ -713,6 +713,12 @@ function ApplicationForm() {
                               : []
                           }
                           title="New Equipments"
+                          // options={{
+                          //   headerStyle: {
+                          //     backgroundColor: "#233f88",
+                          //     color: "#FFF",
+                          //   },
+                          // }}
                         />
                       </Col>
                       <Col md={6}>

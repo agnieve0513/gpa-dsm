@@ -75,7 +75,10 @@ export const listBatch = () => async (dispatch, getState) => {
 
     const { data } = await axios.post(
       URL + "/batch-list",
-      { roleId: obj.message.original.roleId },
+      {
+        roleId:
+          obj.message.original.roleId === 3 ? 1 : obj.message.original.roleId,
+      },
       config
     );
 
