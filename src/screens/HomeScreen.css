@@ -1,8 +1,12 @@
+#root
+{
+  height: auto;
+}
+
 #homeScreen
 {
     background-image: linear-gradient( to top, rgb(34, 62, 135, 1), rgba(15, 54, 153, 0.7)), url('firstbackground.png');
     background-repeat: repeat-y;
-    background-size:100% 100%;
 }
 
 h1, h2, h4, p, a
