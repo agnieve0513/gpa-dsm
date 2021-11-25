@@ -507,56 +507,45 @@ function RecordsForm() {
                 <Tab.Content>
                   {/* Applicaiton Information */}
                   <Tab.Pane eventKey="application_information">
-                    <h3 className="mt-3 text-info">Applicant Info</h3>
+                    <h3 className="mt-3 pb-4 text-info">Applicant Info</h3>
                     {application ? (
-                      <ListGroup>
-                        <p>
-                          GPA Electric Account Number{" "}
-                          <b>{application.Info_Account_no}</b>{" "}
-                        </p>
-                        <p>
-                          Bill ID <b>{application.Info_Bill_id}</b>{" "}
-                        </p>
-                        <p>
-                          Applicant Name{" "}
-                          <b>{application.Info_Customer_name} </b>
-                        </p>
-                        <p>
-                          Installation Address{" "}
-                          <b>{application.Info_Service_location}</b>{" "}
-                        </p>
-                        <p>
-                          City <b>{application.Info_City_village}</b>{" "}
-                        </p>
-                        <p>
-                          ZIP <b>{application.Info_Zipcode}</b>{" "}
-                        </p>
-                        <p>
-                          Email <b>{application.Info_Email}</b>{" "}
-                        </p>
-                        <p>
-                          Telephone Number <b>{application.Info_Tel_no}</b>{" "}
-                        </p>
-                        <p>
-                          Owner of the Residential Property{" "}
-                          <b>{application.Info_Is_owner}</b>{" "}
-                        </p>
-                        <p>
-                          Mailing Address{" "}
-                          <b>{application.Info_Mailing_address}</b>{" "}
-                        </p>
-                        <p>
-                          Home Size (approx. sq. ft.){" "}
-                          <b>{application.Info_Home_size}</b>{" "}
-                        </p>
-                        <p>
-                          New Construction{" "}
-                          <b>{application.Info_New_construction}</b>{" "}
-                        </p>
-                        <p>
-                          Home Type <b>{application.Info_Home_type}</b>{" "}
-                        </p>
-                      </ListGroup>
+                      <Row>
+                        <Col md={6} className="mb-3">
+                          <p className='title'>GPA Electric Account number</p>
+                          <p className='title'>Bill ID</p>
+                          <p className='title'>Appplicant Name</p>
+                          <p className='title'>Installation Address</p>
+                          <p className='title'>City</p>
+                          <p className='title'>ZIP</p>
+                          <p className='title'>Email</p>
+                          <p className='title'>Telephone Number</p>
+                          <p className='title py-4'>Owner of the Residential Property</p>
+                          <p className='title'>Mailing Address</p>
+                          <p className='title'>City</p>
+                          <p className='title'>Zip Code</p>
+                          <p className='title'>Home Size (approx. sq. ft.)</p>
+                          <p className='title'>New Construction</p>
+                          <p className='title'>Home Type</p>
+                        </Col>
+                        <Col md={6} className="mb-3">
+                          <p><b>{application.Info_Account_no}</b>{" "}</p>
+                          <p><b>{application.Info_Bill_id}</b>{" "}</p>
+                          <p><b>{application.Info_Customer_name}</b></p>
+                          <p><b>{application.Info_Service_location}</b>{" "}</p>
+                          <p><b>{application.Info_City_village}</b>{" "}</p>
+                          <p><b>{application.Info_Zipcode}</b>{" "}</p>
+                          <p><b>{application.Info_Email}</b>{" "}</p>
+                          <p><b>{application.Info_Tel_no}</b>{" "}</p>
+                          <p className='py-4'><b>{application.Info_Is_owner ? "Yes" : 
+                            application.Info_Is_owner === "true" ? "Yes" : "No"}</b>{" "}</p>
+                          <p><b>{application.Info_Mailing_address}</b>{" "}</p>
+                          <p><b>{application.Info_City_village}</b>{" "}</p>
+                          <p><b>{application.Info_Zipcode}</b>{" "}</p>
+                          <p><b>{application.Info_Home_size}</b>{" "}</p>
+                          <p><b>{application.Info_New_construction}</b>{" "}</p>
+                          <p><b>{application.Info_Home_type}</b>{" "}</p>
+                        </Col>
+                    </Row>
                     ) : (
                       <></>
                     )}
@@ -681,9 +670,8 @@ function RecordsForm() {
                             )}
                             <tr>
                               <td
-                                className="p-3"
+                                className="p-3 text-center"
                                 colSpan="2"
-                                className="text-end"
                               >
                                 TOTAL
                               </td>
