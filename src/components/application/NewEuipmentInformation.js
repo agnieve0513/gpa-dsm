@@ -69,7 +69,7 @@ function NewEuipmentInformation(props) {
 
   const changeSystemTypeHandler = (e) => {
     showRebateHandler();
-
+    props.setVendor("");
     props.setSystemType(e.target.value);
     props.setNewEquipments([]);
     dispatch(loadCustomerEquipManufacturer(e.target.value));
@@ -78,22 +78,14 @@ function NewEuipmentInformation(props) {
   const changeManufacturerHandler = (e) => {
     props.setManufacturer(e.target.value);
     dispatch(loadCustomerEquipModel(props.system_type, e.target.value));
+    props.setVendor("");
     props.setModelList(models);
   };
 
   const changeModelHandler = (e) => {
     props.setModelNo(e.target.value);
     dispatch(loadCustomerEquipmentDetail(e.target.value));
-
-    if (equipment_detail.length) {
-      props.setBtu(equipment_detail[0].btu);
-      props.setVendor(equipment_detail[0].vendor);
-      props.setRebate(equipment_detail[0].rebate);
-      props.setSeer(equipment_detail[0].seer);
-    } else {
-      props.setBtu("N/A");
-      props.setVendor("N/A");
-    }
+     
   };
 
   useEffect(() => {
@@ -133,6 +125,8 @@ function NewEuipmentInformation(props) {
         text: "Fields should not be empty in order to proceed to next step",
       });
     }
+
+    // Object for saving . ...
     const obj = {
       control_no: props.control_no,
       id: props.new_equipments.length,
@@ -377,6 +371,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
               >
+                <option defaultValue hidden>SELECT SYSTEM TYPE</option>
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
                 {props.customer_type === "RESID" ? (
@@ -502,7 +497,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeManufacturerHandler(e)}
                 value={props.manufacturer}
               >
-                <option selected>
+                <option defaultValue hidden>
                   Select Manufacturer
                 </option>
 
@@ -530,11 +525,12 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeModelHandler(e)}
                 value={props.model_no}
               >
-                <option selected>
+                <option defaultValue hidden>
                   Select Model
                 </option>
                 {models ? (
                   models.map((me) => {
+                    props.setVendor("")
                     if (
                       props.system_type === "Dryer" ||
                       props.system_type === "Washer"
@@ -567,10 +563,44 @@ function NewEuipmentInformation(props) {
                       }
                     }
                   })
-                ) : (
+                ) 
+                : <>
+                  {props.setVendor("")}
                   <option>Loading . . . </option>
-                )}
+                  </>
+                }
               </Form.Select>
+              {
+                props.model_no ?
+                  equipment_detail ?
+                  equipment_detail.length ?
+                  <>
+                    {props.setRebate(equipment_detail[0].rebate)}
+                    {props.setSeer(equipment_detail[0].seer)}
+                    {console.log(equipment_detail[0].vendor)}
+
+                    {equipment_detail[0].vendor === ""?
+                      props.setVendor("N/A")
+                    :
+                      props.setVendor(equipment_detail[0].vendor)}
+                    
+                    {equipment_detail[0].btu === "" ?
+                      props.setBtu("N/A")
+                      :
+                      props.setBtu(equipment_detail[0].btu)}
+                    
+                  </>
+                  : 
+                  <>
+                    {props.setVendor("")}
+                  </>
+                  : <>{props.setVendor("")}</>
+                :
+                <>
+                  {props.setVendor("")}
+                </>
+              }
+
             </Form.Group>
             {props.model_no === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
@@ -604,7 +634,15 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => props.setVendor(e.target.value)}
                 value={props.vendor}
               >
-                <option>{props.vendor}</option>
+                <option defaultValue hidden>Select Vendor</option>
+                {
+                  props.vendor === ""?
+                  <>
+                    <option></option>
+                  </>
+                  :
+                  <option value={props.vendor}>{props.vendor}</option>
+                }
               </Form.Select>
             </Form.Group>
             {props.vendor === "" ? (

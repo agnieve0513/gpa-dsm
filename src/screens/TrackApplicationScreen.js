@@ -110,8 +110,7 @@ function ApplicationScreen() {
                                     <h4 className="text-muted">Account Number: *******{track_application.table[0].Account_no.slice(track_application.table[0].Account_no.length - 3) } </h4>
                                     <h4 className="text-muted">System Type: {track_application.table[0].System_Type} </h4>
                                     <h4 className="text-muted">Status: {track_application.table[0].Status}</h4>
-                                    <h4 className="text-muted">Step
-                                        {(stages.find((p) => p.stage === track_application.table[0].Stage).id+1)} of 5
+                                    <h4 className="text-muted">Step {(stages.find((p) => p.stage === track_application.table[0].Stage).id+1)} of 5
                                         
                                     </h4>
                                     <ProgressBar variant="success" animated now={(stages.find((p) => p.stage === track_application.table[0].Stage).percent)} />
