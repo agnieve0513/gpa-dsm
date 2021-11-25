@@ -1,12 +1,10 @@
-#root
+html, body
 {
-  height: auto;
-}
-
-#homeScreen
-{
-    background-image: linear-gradient( to top, rgb(34, 62, 135, 1), rgba(15, 54, 153, 0.7)), url('firstbackground.png');
-    background-repeat: repeat-y;
+  background-image: linear-gradient( to top, rgb(34, 62, 135, 1), rgba(15, 54, 153, 0.7)), url('firstbackground.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
 }
 
 h1, h2, h4, p, a

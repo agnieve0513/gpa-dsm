@@ -54,7 +54,7 @@ function HomeScreen() {
                   </p>
                 <p className="mb-3 text-white"><Link to={`/faq`} className="text-white"><u>Online Rebate Requirements and FAQ</u></Link></p>
                 <br />
-                <Row className="mt-5">
+                <Row>
                     <Col className="text-center">
                         <small className="text-secondary">Energy Sense Rebate Program <br/>
                         Copyright &copy; 2020 GPA Powered By Xtendly</small>
