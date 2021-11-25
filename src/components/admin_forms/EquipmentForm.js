@@ -93,10 +93,6 @@ function EquipmentForm() {
                                                 </Container>
                                             )
                                         }}
-
-                                        // options={{
-                                        //     filtering: true
-                                        // }}
                                         
                                         columns={[
                                             { title: "Type", field: "type" },
@@ -115,6 +111,7 @@ function EquipmentForm() {
                                             (equipments) ? equipments.dryer_list: []
                                         }
                                         title=""
+                                        options={{headerStyle: {fontSize: 16}}}
                                     />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="air_condition">
@@ -177,10 +174,6 @@ function EquipmentForm() {
                                             )
                                         }}
 
-                                        // options={{
-                                        //     filtering: true
-                                        // }}
-
                                         columns={[
                                             { title: "Type", field: "type"},
                                             { title: "Manufacturer", field: "manufacturer"},
@@ -192,6 +185,7 @@ function EquipmentForm() {
                                             (equipments) ? equipments.ac_list: []
                                         }
                                         title=""
+                                        options={{headerStyle: {fontSize: 16}}}
                                     />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="washer_dryer">
@@ -245,10 +239,6 @@ function EquipmentForm() {
                                                 </Container>
                                             )
                                         }}
-
-                                        // options={{
-                                        //     filtering: true
-                                        // }}
                                         
                                         columns={[
                                             { title: "Type", field: "type" },
@@ -267,6 +257,7 @@ function EquipmentForm() {
                                             (equipments) ? equipments.dryer_list: []
                                         }
                                         title=""
+                                        options={{headerStyle: {fontSize: 16}}}
                                     />
                                 </Tab.Pane>
                             </Tab.Content>

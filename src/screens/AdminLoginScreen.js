@@ -26,13 +26,14 @@ function AdminLoginScreen({location, history}) {
     useEffect(() => {
       if(localStorage.getItem('userInfo'))
       {
+        Swal.fire({title: 'Login Success', text:'Your are redirected to Dashboard', type:'success', heightAuto: false});
         history.push(redirect)
       }
       else
       {
         if(attempt === true)
         {
-          Swal.fire('Login Failed', 'Wrong Credentials', 'error')
+          Swal.fire({title:'Login Failed', text:'Wrong Credentials', type:'error', heightAuto: false})
         }
         history.push('/admin')
       }
@@ -41,8 +42,8 @@ function AdminLoginScreen({location, history}) {
     const submitHandler = (e) => {
       e.preventDefault();
       dispatch(login(email, password));
-      Swal.fire('Login Success', 'Your are redirected to Dashboard', 'success').then(setAttempt(true));
-    }
+      setAttempt(true);
+        }
 
     return (
         <Row md={3} xs={12} sm={12} id="homeScreen2">
