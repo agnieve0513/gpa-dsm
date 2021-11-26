@@ -5,14 +5,20 @@
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  overflow: hidden;
+  overflow: auto;
+}
+
+.footer-text
+{
+  bottom: 0;
 }
 
 h1,
 h2,
 h4,
 p,
-a {
+a 
+{
   font-family: "Montserrat Bold", sans-serif;
 }
 
