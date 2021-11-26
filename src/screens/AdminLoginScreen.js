@@ -101,11 +101,10 @@ function AdminLoginScreen({location, history}) {
                   </Row>
                 </Form>
                 
-                <Row className="mt-2">
-                    <Col className="text-center">
-                        <small className="text-secondary">Energy Sense Rebate Program for Central, Ducted Systems <br/>
-                        Copyright &copy; 2020 GPA Powered By Xtendly</small>
-                    </Col>
+                <Row>
+                  <br/>
+                  <small className="text-secondary position-absolute footer-text text-center">Energy Sense Rebate Program for Central, Ducted Systems <br/>
+                    Copyright &copy; 2020 GPA Powered By Xtendly</small>
                 </Row>
               </Col>
               <Col md={2} sm={12} xs={12}></Col>

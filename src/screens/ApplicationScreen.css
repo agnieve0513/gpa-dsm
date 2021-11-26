@@ -1,3 +1,19 @@
+#homeScreen2
+{
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  overflow: auto;
+}
+
+.footer-text
+{
+  left:0;
+  bottom: 0;
+}
+
+
 .colored-toast.swal2-icon-success {
     background-color: #a5dc86 !important;
   }

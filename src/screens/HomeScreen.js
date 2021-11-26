@@ -53,10 +53,10 @@ function HomeScreen() {
                 </p>
                 <p className="pd-6"><Link to={`/faq`} className="text-white"><u>Online Rebate Requirements and FAQ</u></Link></p>
                 <br/>
-                <Row className="footer">
+                <Row>
                     <br/>
                     <small className="text-secondary position-absolute footer-text">Energy Sense Rebate Program <br/>
-                    Copyright &copy; 2020 GPA Powered By Xtendly</small>
+                      Copyright &copy; 2020 GPA Powered By Xtendly</small>
                 </Row>
               </Col>
               <Col md={2} sm={12} xs={12}></Col>
