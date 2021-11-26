@@ -3,7 +3,7 @@ import { Container, Row, Col,Button, FormControl, InputGroup, Form, Badge } from
 import { PDFViewer, Document, Text, Page, View, StyleSheet } from '@react-pdf/renderer';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { uploadFileAction } from '../../actions/fileActions'
+import { uploadFileAction, retrieveFileAction } from '../../actions/fileActions'
 
 
 function TcTemplateForm() {
@@ -35,12 +35,16 @@ function TcTemplateForm() {
         section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
       });
       
+      const handleRetrieveFile = (code) => {
+    console.log(code);
+    dispatch(retrieveFileAction(code));
+  };
 
     return (
             <Container>
                 <Row className="mb-3">
                     <Col md={8}>
-                    <Form.Label>Terms & Condition For Residential</Form.Label>
+                    <Form.Label>Terms & Condition</Form.Label>
                         <InputGroup className="mb-3">
                             <FormControl
                             placeholder="Terms and Condition"
@@ -66,21 +70,39 @@ function TcTemplateForm() {
                             {
                                 fileCode ?
                                 <>
-                                {console.log(selectedFile)}
-                                <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                    {
+                                        fileCode.length !== 0 ?
+                                        <>
+                                            {console.log(selectedFile)}
+                                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                                            Filename: {selectedFile.name} <br />
+                                            File Type: {selectedFile.type} <br /><br /> 
+                                        </>
+                                        :<></>
+                                    }
                                 </>
                                 :<></>
                             }
-                            Filename: {selectedFile.name} <br />
-                            File Type: {selectedFile.type} <br /><br />
+                            
                             </>:<></>
                         }
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={12}>
-                        {/* TODO: Implement Download Link for the files */}
+                    <Col md={4}>
+                        <p className="mb-4">Download Residential Template</p>
+                        <p>Download Commercial Template</p>
                     </Col>
+
+                    <Col md={4}>
+                        <p><Button size={"sm"} variant={"success"} onClick={() =>
+                                  handleRetrieveFile(
+                                      fileCode
+                                  )
+                                }>Download</Button></p>
+                        <p><Button size={"sm"} variant={"success"}>Download</Button></p>
+                    </Col>
+                    
                 </Row>
             </Container>
     )

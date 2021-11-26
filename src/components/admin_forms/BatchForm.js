@@ -87,6 +87,9 @@ function BatchForm() {
   const [other_doc1D, setOtherDoc1D] = useState("");
   const [other_doc2D, setOtherDoc2D] = useState("");
   const [other_doc3D, setOtherDoc3D] = useState("");
+
+  const [showApplicationTab, setShowApplicationTab] = useState(false);
+
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
@@ -123,6 +126,7 @@ function BatchForm() {
 
   const selectHandler = (rowdata) => {
     dispatch(listBatchApplication(rowdata.Id));
+    setShowApplicationTab(true);
     console.log(batch_applications);
   };
 
@@ -223,6 +227,11 @@ function BatchForm() {
   const handleSubmit = (file, doc_type, control_no) => {
     dispatch(uploadFileAction(file, doc_type, control_no));
   };
+
+  const backToBatchesHandler = () =>
+  {
+    setShowApplicationTab(false)
+  }
 
   return (
     <>
@@ -1114,162 +1123,160 @@ function BatchForm() {
           </Modal>
 
           <Row>
-            <Col md={5}>
-              <Row className="mb-1">
-                <Col md={10}>
-                  <h4>GLA Funds</h4>
-                </Col>
-                <Col md={2} className="d-flex flex-row-reverse bd-highlight">
-                  <Button variant={"info"} size={"sm"} className="">
-                    <i className="fa fa-edit"></i>
+            {
+              showApplicationTab ?
+              <Col md={12}>
+                <Button variant={"white"} size={"sm"} className="mb-2" onClick={() => backToBatchesHandler()}>
+                  <i className="fa fa-arrow-left"></i>Back to Batches</Button>
+                <MaterialTable
+                  columns={[
+                    {
+                      title: "#",
+                      field: "check_actions",
+                      width: "10%",
+                      editComponent: (props) => {
+                        return <Button>Payts</Button>;
+                      },
+                      render: (rowdata) => (
+                        <>
+                          {Object.keys(batch_applications[0]).length > 3 ? (
+                            <>
+                              <input
+                                type="checkbox"
+                                onChange={(e) =>
+                                  getSelected(e, rowdata.Application_Id)
+                                }
+                              ></input>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </>
+                      ),
+                    },
+                    { title: "Control No.", field: "Control_Number" },
+                    { title: "Status", field: "Status" },
+                    { title: "Stage", field: "Stage" },
+                    { title: "Stage", field: "Stage" },
+                    {
+                      title: "Action",
+                      field: "actions",
+                      width: "10%",
+                      editComponent: (props) => {
+                        return <Button>Payts</Button>;
+                      },
+                      render: (rowdata) => (
+                        <>
+                          {Object.keys(batch_applications[0]).length > 3 ? (
+                            <>
+                              <Dropdown>
+                                <Dropdown.Toggle
+                                  variant="success"
+                                  id="dropdown-basic"
+                                  size="sm"
+                                  // disabled={roleId === 3 ? true : false}
+                                >
+                                  Actions
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                  <Dropdown.Item
+                                    onClick={() =>
+                                      applicationViewHandler(rowdata)
+                                    }
+                                  >
+                                    View
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    disabled={roleId === 3 ? true : false}
+                                    onClick={() => changeStatusHandler(1)}
+                                  >
+                                    Process
+                                  </Dropdown.Item>
+                                  <Dropdown.Item
+                                    disabled={roleId === 3 ? true : false}
+                                    onClick={() => changeStatusHandler(3)}
+                                  >
+                                    Reject
+                                  </Dropdown.Item>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </>
+                      ),
+                    },
+                  ]}
+                  data={batch_applications}
+                  title="Batch Application"
+                />
+                <div className="d-flex flex-row-reverse">
+                  <Button
+                    className="ms-1 mt-1 px-5"
+                    variant={roleId === 3 ? "secondary" : "danger"}
+                    onClick={() => changeStatusHandler(3)}
+                    disabled={roleId === 3 ? true : false}
+                  >
+                    Reject
                   </Button>
-                </Col>
-              </Row>
-              <MaterialTable
-                columns={[
-                  { title: "Batch Code", field: "Batch_code" },
-                  { title: "Batch Type", field: "Batch_type" },
-                  { title: "Batch Ferc", field: "Batch_ferc" },
-                  {
-                    title: "MadeOn",
-                    render: (rowData) => {
-                      let d = new Date(rowData.Made_On);
-                      return <>{d.toLocaleDateString()}</>;
+                  <Button
+                    className="ms-1 mt-1 px-5"
+                    variant={roleId === 3 ? "secondary" : "success"}
+                    onClick={() => changeStatusHandler(1)}
+                    disabled={roleId === 3 ? true : false}
+                  >
+                    Process
+                  </Button>
+                </div>
+              </Col>
+              :
+              <Col md={12}>
+                <MaterialTable
+                  columns={[
+                    { title: "Batch Code", field: "Batch_code" },
+                    { title: "Batch Type", field: "Batch_type" },
+                    { title: "Batch Ferc", field: "Batch_ferc" },
+                    {
+                      title: "MadeOn",
+                      render: (rowData) => {
+                        let d = new Date(rowData.Made_On);
+                        return <>{d.toLocaleDateString()}</>;
+                      },
                     },
-                  },
 
-                  {
-                    title: "Action",
-                    field: "actions",
-                    width: "10%",
-                    editComponent: (props) => {
-                      return <Button>Payts</Button>;
+                    {
+                      title: "Action",
+                      field: "actions",
+                      width: "10%",
+                      editComponent: (props) => {
+                        return <Button>Payts</Button>;
+                      },
+                      render: (rowdata) => (
+                        <>
+                          <Button
+                            className="btn btn-sm btn-light"
+                            onClick={() => selectHandler(rowdata)}
+                          >
+                            <i className="fa fa-edit"></i>
+                          </Button>
+                        </>
+                      ),
                     },
-                    render: (rowdata) => (
-                      <>
-                        <Button
-                          className="btn btn-sm btn-light"
-                          onClick={() => selectHandler(rowdata)}
-                        >
-                          <i className="fa fa-edit"></i>
-                        </Button>
-                      </>
-                    ),
-                  },
-                ]}
-                data={batches}
-                title="Batch"
-                options={{
-                  rowStyle: {
-                    height: "5px !important",
-                  },
-                }}
-              />
-            </Col>
-            <Col md={7}>
-              <MaterialTable
-                columns={[
-                  {
-                    title: "#",
-                    field: "check_actions",
-                    width: "10%",
-                    editComponent: (props) => {
-                      return <Button>Payts</Button>;
+                  ]}
+                  data={batches}
+                  title="Batch"
+                  options={{
+                    rowStyle: {
+                      height: "5px !important",
                     },
-                    render: (rowdata) => (
-                      <>
-                        {Object.keys(batch_applications[0]).length > 3 ? (
-                          <>
-                            <input
-                              type="checkbox"
-                              onChange={(e) =>
-                                getSelected(e, rowdata.Application_Id)
-                              }
-                            ></input>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    ),
-                  },
-                  { title: "Control No.", field: "Control_Number" },
-                  { title: "Status", field: "Status" },
-                  { title: "Stage", field: "Stage" },
-                  { title: "Stage", field: "Stage" },
-                  {
-                    title: "Action",
-                    field: "actions",
-                    width: "10%",
-                    editComponent: (props) => {
-                      return <Button>Payts</Button>;
-                    },
-                    render: (rowdata) => (
-                      <>
-                        {Object.keys(batch_applications[0]).length > 3 ? (
-                          <>
-                            <Dropdown>
-                              <Dropdown.Toggle
-                                variant="success"
-                                id="dropdown-basic"
-                                size="sm"
-                                // disabled={roleId === 3 ? true : false}
-                              >
-                                Actions
-                              </Dropdown.Toggle>
-
-                              <Dropdown.Menu>
-                                <Dropdown.Item
-                                  onClick={() =>
-                                    applicationViewHandler(rowdata)
-                                  }
-                                >
-                                  View
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  disabled={roleId === 3 ? true : false}
-                                  onClick={() => changeStatusHandler(1)}
-                                >
-                                  Process
-                                </Dropdown.Item>
-                                <Dropdown.Item
-                                  disabled={roleId === 3 ? true : false}
-                                  onClick={() => changeStatusHandler(3)}
-                                >
-                                  Reject
-                                </Dropdown.Item>
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    ),
-                  },
-                ]}
-                data={batch_applications}
-                title="Batch Application"
-              />
-              <div className="d-flex flex-row-reverse">
-                <Button
-                  className="ms-1 mt-1 px-5"
-                  variant={roleId === 3 ? "secondary" : "danger"}
-                  onClick={() => changeStatusHandler(3)}
-                  disabled={roleId === 3 ? true : false}
-                >
-                  Reject
-                </Button>
-                <Button
-                  className="ms-1 mt-1 px-5"
-                  variant={roleId === 3 ? "secondary" : "success"}
-                  onClick={() => changeStatusHandler(1)}
-                  disabled={roleId === 3 ? true : false}
-                >
-                  Process
-                </Button>
-              </div>
-            </Col>
+                  }}
+                />
+              </Col>
+            }
+            
+            
           </Row>
         </Container>
       )}

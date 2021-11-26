@@ -502,7 +502,7 @@ function ApplicationInformation(props) {
                                  : <></>
                               }
                             </>
-                            :<>no upload</>
+                            :<></>
                           }
                           Filename: {props.letter_authorization.name} <br />
                           File Type: {props.letter_authorization.type} <br /><br />

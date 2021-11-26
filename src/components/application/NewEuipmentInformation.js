@@ -124,34 +124,37 @@ function NewEuipmentInformation(props) {
         title: "All Fields are required",
         text: "Fields should not be empty in order to proceed to next step",
       });
+    }else
+    {
+      // Object for saving . ...
+      const obj = {
+        control_no: props.control_no,
+        id: props.new_equipments.length,
+        system_type: props.system_type,
+        manufacturer: props.manufacturer,
+        model_no: props.model_no,
+        quantity: props.quantity,
+        btu: props.btu,
+        size: props.size,
+        rebate: props.rebate,
+        vendor: props.vendor,
+        type: props.type,
+        invoice_no: props.invoice_no,
+        purchase_date: props.purchase_date,
+
+        installer_information: {
+          technician_name: props.technician_name,
+          work_tel: props.work_tel,
+          company_name: props.company_name,
+          technician_cert_no: props.technician_cert_no,
+          date_final_installation: props.date_final_installation,
+          email: props.tech_email,
+        },
+      };
+      props.setNewEquipments(props.new_equipments.concat(obj));
     }
 
-    // Object for saving . ...
-    const obj = {
-      control_no: props.control_no,
-      id: props.new_equipments.length,
-      system_type: props.system_type,
-      manufacturer: props.manufacturer,
-      model_no: props.model_no,
-      quantity: props.quantity,
-      btu: props.btu,
-      size: props.size,
-      rebate: props.rebate,
-      vendor: props.vendor,
-      type: props.type,
-      invoice_no: props.invoice_no,
-      purchase_date: props.purchase_date,
-
-      installer_information: {
-        technician_name: props.technician_name,
-        work_tel: props.work_tel,
-        company_name: props.company_name,
-        technician_cert_no: props.technician_cert_no,
-        date_final_installation: props.date_final_installation,
-        email: props.tech_email,
-      },
-    };
-    props.setNewEquipments(props.new_equipments.concat(obj));
+    
   };
 
   const deleteEquipmentHandler = (rowdata) => {
@@ -213,14 +216,21 @@ function NewEuipmentInformation(props) {
                     {
                       fileCode ?
                       <>
-                      {props.setInstallerCertificationD(fileCode)}
-                      {console.log(props.installer_certificationD)}
-                      <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                        {
+                          fileCode.length !== 0 ?
+                          <>
+                            {props.setInstallerCertificationD(fileCode)}
+                            {console.log(props.installer_certificationD)}
+                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                            Filename: {props.installer_certification.name} <br />
+                            File Type: {props.installer_certification.type} <br /><br />
+                          </>
+                        :<></>
+                        }
                       </>
                       :<></>
                     }
-                    Filename: {props.installer_certification.name} <br />
-                    File Type: {props.installer_certification.type} <br /><br />
+                    
                   </>:<></>
               }
             </Form.Group>
@@ -268,14 +278,21 @@ function NewEuipmentInformation(props) {
                     {
                       fileCode ?
                       <>
-                      {props.setInvoiceD(fileCode)}
-                      {console.log(props.invoiceD)}
-                      <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                        {
+                        fileCode.length !== 0 ?
+                          <>
+                          {props.setInvoiceD(fileCode)}
+                          {console.log(props.invoiceD)}
+                          <Badge bg={"success"}>File Uploaded</Badge> <br /> 
+                          Filename: {props.invoice.name} <br />
+                          File Type: {props.invoice.type} <br /><br />
+                          </>
+                        : <></>
+                        }
                       </>
                       :<></>
                     }
-                    Filename: {props.invoice.name} <br />
-                    File Type: {props.invoice.type} <br /><br />
+                    
                   </>:<></>
               }
             </Form.Group>
