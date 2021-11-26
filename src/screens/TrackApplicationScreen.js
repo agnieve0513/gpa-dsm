@@ -128,9 +128,10 @@ function ApplicationScreen() {
             <Row className="mt-4">
                 <Col md={2}></Col>
                 <Col md={8}>
-                    
                     <div className="d-flex mb-5">
-                        <Link to={`/`} className="text-success mx-auto px-5"><h4>BACK TO GPA HOMEPAGE</h4></Link>
+                        <Link to={`/`} className="text-success mx-auto px-5">
+                            <h4 className="text-center fs-4">BACK TO GPA HOMEPAGE</h4>
+                        </Link>
                     </div>
                 </Col>
                 <Col md={2}></Col>
