@@ -13,7 +13,7 @@ function HomeScreen() {
     return (
               <Row md={3} xs={12} sm={12} id="homeScreen">
               <Col md={2} sm={12} xs={12}></Col>
-              <Col className="text-center mt-4" md={8} sm={12} xs={12}>
+              <Col className="text-center mt-4 position-relative" md={8} sm={12} xs={12}>
                 <Row>
                   <Col md={4}></Col>
                   <Col md={4}>
@@ -51,13 +51,12 @@ function HomeScreen() {
                     <u>View Approved Model Listing</u>
                   </a>
                 </p>
-                <p className="mb-3 text-white"><Link to={`/faq`} className="text-white"><u>Online Rebate Requirements and FAQ</u></Link></p>
-                <br />
-                <Row className="fixed-bottom pb-4">
-                    <Col>
-                        <small className="text-secondary">Energy Sense Rebate Program <br/>
-                        Copyright &copy; 2020 GPA Powered By Xtendly</small>
-                    </Col>
+                <p className="pd-6"><Link to={`/faq`} className="text-white"><u>Online Rebate Requirements and FAQ</u></Link></p>
+                <br/>
+                <Row>
+                    <br/>
+                    <small className="text-secondary position-absolute footer-text">Energy Sense Rebate Program <br/>
+                      Copyright &copy; 2020 GPA Powered By Xtendly</small>
                 </Row>
               </Col>
               <Col md={2} sm={12} xs={12}></Col>

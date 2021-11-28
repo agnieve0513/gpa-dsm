@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changePassword, logout } from "../actions/userActions";
 import { LinkContainer } from "react-router-bootstrap";
 import Swal from "sweetalert2";
+import Header from "../components/Header";
 
 function AdminChangePasswordScreen({ location, history }) {
   const [old_password, setOldPassword] = useState("");
@@ -60,6 +61,7 @@ function AdminChangePasswordScreen({ location, history }) {
 
   return (
     <div>
+      <Header />
       <Row md={3} xs={12} sm={12}>
         <Col md={2} sm={12} xs={12}></Col>
         <Col className="mt-4" md={8} sm={12} xs={12}>

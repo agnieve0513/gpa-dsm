@@ -167,6 +167,7 @@ function FinalReview(props) {
                                 : props.new_equipments
                             }
                             title="Equipments"
+                            options={{headerStyle: {fontSize: 16, backgroundColor: '#223e87', color: 'white'}}}
                           />
 
                           <Row>
@@ -345,6 +346,7 @@ function FinalReview(props) {
                           : props.old_equipments
                       }
                       title="Existing Equipments"
+                      options={{headerStyle: {fontSize: 16, backgroundColor: '#223e87', color: 'white'}}}
                     />
                   
                 </Container>
