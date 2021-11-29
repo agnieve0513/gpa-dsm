@@ -1,69 +1,105 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-import { userLoginReducer, userRegisterReducer, userListReducer, userDeleteReducer,
-    userUpdateReducer, userForgotPasswordReducer, userChangePasswordReducer, emailChangePasswordReducer } from './reducers/userReducers'
-import { applicationListReducer, applicationDetailReducer, applicationCommentsReducer,
-    applicationLogsReducer, applicationUpdateReducer, applicationTrackReducer, addCommentReducer} from './reducers/applicationReducers'
-import { equipmentListReducer } from './reducers/equipmentReducers'
-import { batchListReducer, batchApplicationReducer, batchCurrentReducer, batchAddReducer} from './reducers/batchReducers'
-import { customerVerifyReducer, customerRegisterReducer, customerGenerateControlNoReducer,
-    customerEquipManufacturersReducer,customerEquipModelReducer, customerEquipmentDetailReducer,
-    customerDetailReducer} from './reducers/customerReducers'
-import { uploadTermsAndConditionReducer } from './reducers/termsAndConditionReducers'
-import { uploadFileReducer, retrieveFileReducer } from './reducers/fileReducers'
+import {
+  userLoginReducer,
+  userRegisterReducer,
+  userListReducer,
+  userDeleteReducer,
+  userUpdateReducer,
+  userForgotPasswordReducer,
+  userChangePasswordReducer,
+  emailChangePasswordReducer,
+} from "./reducers/userReducers";
+import {
+  applicationListReducer,
+  applicationDetailReducer,
+  applicationCommentsReducer,
+  applicationLogsReducer,
+  applicationUpdateReducer,
+  applicationTrackReducer,
+  addCommentReducer,
+} from "./reducers/applicationReducers";
+import { equipmentListReducer } from "./reducers/equipmentReducers";
+import {
+  batchListReducer,
+  batchApplicationReducer,
+  batchCurrentReducer,
+  batchAddReducer,
+} from "./reducers/batchReducers";
+import {
+  customerVerifyReducer,
+  customerRegisterReducer,
+  customerGenerateControlNoReducer,
+  customerEquipManufacturersReducer,
+  customerEquipModelReducer,
+  customerEquipmentDetailReducer,
+  customerDetailReducer,
+} from "./reducers/customerReducers";
+import {
+  uploadTermsAndConditionReducer,
+  retriveTermsAndConditionReducer,
+} from "./reducers/termsAndConditionReducers";
+import {
+  uploadFileReducer,
+  retrieveFileReducer,
+} from "./reducers/fileReducers";
 
 const reducer = combineReducers({
-    userLogin: userLoginReducer,
-    userRegister:userRegisterReducer,
-    userList:userListReducer,
-    userDelete: userDeleteReducer,
-    userUpdate: userUpdateReducer,
-    userForgotPassword:userForgotPasswordReducer,
-    userChangePassword:userChangePasswordReducer,
-    emailChangePassword: emailChangePasswordReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
+  userForgotPassword: userForgotPasswordReducer,
+  userChangePassword: userChangePasswordReducer,
+  emailChangePassword: emailChangePasswordReducer,
 
-    uploadFile: uploadFileReducer,
-    retrieveFile: retrieveFileReducer,
+  uploadFile: uploadFileReducer,
+  retrieveFile: retrieveFileReducer,
 
-    applicationList: applicationListReducer,
-    applicationDetail: applicationDetailReducer,
-    applicationComments: applicationCommentsReducer,
-    applicationLogs:applicationLogsReducer,
-    applicationUpdate:applicationUpdateReducer,
-    applicationTrack:applicationTrackReducer,
-    addComment: addCommentReducer,
+  applicationList: applicationListReducer,
+  applicationDetail: applicationDetailReducer,
+  applicationComments: applicationCommentsReducer,
+  applicationLogs: applicationLogsReducer,
+  applicationUpdate: applicationUpdateReducer,
+  applicationTrack: applicationTrackReducer,
+  addComment: addCommentReducer,
 
-    batchAdd: batchAddReducer,
-    batchList: batchListReducer,
-    batchApplication: batchApplicationReducer,
-    batchCurrent: batchCurrentReducer,
+  batchAdd: batchAddReducer,
+  batchList: batchListReducer,
+  batchApplication: batchApplicationReducer,
+  batchCurrent: batchCurrentReducer,
 
-    equipmentList: equipmentListReducer,
+  equipmentList: equipmentListReducer,
 
-    customerRegister: customerRegisterReducer,
-    customerGenerateControlNo: customerGenerateControlNoReducer,
-    customerEquipManufacturer: customerEquipManufacturersReducer,
-    customerEquipmentDetail:customerEquipmentDetailReducer,
-    customerEquipModel:customerEquipModelReducer,
-    customerVerify: customerVerifyReducer,
-    customerDetail:customerDetailReducer,
+  customerRegister: customerRegisterReducer,
+  customerGenerateControlNo: customerGenerateControlNoReducer,
+  customerEquipManufacturer: customerEquipManufacturersReducer,
+  customerEquipmentDetail: customerEquipmentDetailReducer,
+  customerEquipModel: customerEquipModelReducer,
+  customerVerify: customerVerifyReducer,
+  customerDetail: customerDetailReducer,
 
-    uploadTermsAndCondition: uploadTermsAndConditionReducer
-})
+  uploadTermsAndCondition: uploadTermsAndConditionReducer,
+  retriveTermsAndCondition: retriveTermsAndConditionReducer,
+});
 
-const userInfoFromStorage = localStorage.getItem('userInfo') ?
-    JSON.parse(localStorage.getItem('userInfo')) : null
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
 
 const initialState = {
-    userLogin: {userInfo:userInfoFromStorage}
-}
+  userLogin: { userInfo: userInfoFromStorage },
+};
 
-const middleware = [thunk]
+const middleware = [thunk];
 
-const store = createStore(reducer, initialState, 
-    composeWithDevTools(applyMiddleware(...middleware)))
+const store = createStore(
+  reducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
 
-
-export default store
+export default store;
