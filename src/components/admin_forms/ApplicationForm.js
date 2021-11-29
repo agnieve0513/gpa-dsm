@@ -832,6 +832,12 @@ function ApplicationForm() {
                           : []
                       }
                       title="Old Equipments"
+                      options={{
+                        headerStyle: {
+                          backgroundColor: "#233f88",
+                          color: "#FFF",
+                        },
+                      }}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="submission_of_documentation">

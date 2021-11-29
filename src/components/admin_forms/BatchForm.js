@@ -1211,6 +1211,12 @@ function BatchForm() {
                   ]}
                   data={batch_applications}
                   title="Batch Application"
+                  options={{
+                    headerStyle: {
+                      backgroundColor: "#233f88",
+                      color: "#FFF",
+                    },
+                  }}
                 />
                 <div className="d-flex flex-row-reverse">
                   <Button
@@ -1271,7 +1277,13 @@ function BatchForm() {
                     rowStyle: {
                       height: "5px !important",
                     },
+                    headerStyle: {
+                      backgroundColor: "#233f88",
+                      color: "#FFF",
+                    },
                   }}
+
+              
                 />
               </Col>
             }
