@@ -160,6 +160,12 @@ function EquipmentReview(props) {
                                 : props.new_equipments
                             }
                             title="New Equipments"
+                            options={{
+                            headerStyle: {
+                              backgroundColor: "#233f88",
+                              color: "#FFF",
+                            },
+                          }}
                           />
 
                           <Row>
@@ -338,6 +344,12 @@ function EquipmentReview(props) {
                           : props.old_equipments
                       }
                       title="Existing Equipments"
+                      options={{
+                            headerStyle: {
+                              backgroundColor: "#233f88",
+                              color: "#FFF",
+                            },
+                          }}
                     />
                 </Container>
               </Tab>
