@@ -682,6 +682,12 @@ function RecordsForm() {
                               : []
                           }
                           title="New Equipments"
+                          options={{
+                            headerStyle: {
+                              backgroundColor: "#233f88",
+                              color: "#FFF",
+                            },
+                          }}
                         />
                       </Col>
                       <Col md={6}>
@@ -795,6 +801,12 @@ function RecordsForm() {
                           : []
                       }
                       title="Old Equipments"
+                      options={{
+                        headerStyle: {
+                          backgroundColor: "#233f88",
+                          color: "#FFF",
+                        },
+                      }}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="submission_of_documentation">
