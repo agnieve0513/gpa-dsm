@@ -60,7 +60,7 @@ function AdminChangePasswordScreen({ location, history }) {
   };
 
   return (
-    <div>
+    <div className="change-pass-screen">
       <Header />
       <Row md={3} xs={12} sm={12}>
         <Col md={2} sm={12} xs={12}></Col>
@@ -118,14 +118,14 @@ function AdminChangePasswordScreen({ location, history }) {
 
                 <Row>
                   <Col md={6} className="mx-auto">
-                    <div className="d-grid gap-2 mt-3 mb-4">
+                    <div className="d-grid gap-2 mt-3">
                       <Button type="submit" variant="success" className="me-1">
                         SUBMIT
                       </Button>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="d-grid gap-2 mt-3 mb-4">
+                    <div className="d-grid gap-2 mt-3">
                       <LinkContainer to="/dashboard">
                         <Button type="button" variant="danger">
                           CANCEL
@@ -139,13 +139,11 @@ function AdminChangePasswordScreen({ location, history }) {
             </Row>
           </Form>
 
-          <Row className="mt-2">
-            <Col className="text-center">
-              <small className="text-secondary">
+          <Row className="text-center">
+              <small className="text-secondary position-absolute footer-text px-2">
                 Energy Sense Rebate Program for Central, Ducted Systems <br />
                 Copyright &copy; 2020 GPA Powered By Xtendly
               </small>
-            </Col>
           </Row>
         </Col>
         <Col md={2} sm={12} xs={12}></Col>
