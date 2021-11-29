@@ -1,7 +1,16 @@
-#tableCard .card-body {
-    padding: 0;
+.main {
+    width: 100%;
+    margin: 0;
 }
 
+.card {
+    width: 100%;
+}
+
+table {
+    width: fit-content;
+    table-layout: fixed;
+}
 
 @media (max-width: 993px) and (min-width: 766px) {
     .form-label{

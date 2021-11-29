@@ -13,7 +13,7 @@ function ApplicationRequirements(props) {
   });
 
   return (
-    <Row>
+    <Row className="main">
       <ModalImage
         data={modalData}
         show={modalShow}
@@ -22,7 +22,7 @@ function ApplicationRequirements(props) {
       <Col md={2}></Col>
       <Col md={8}>
         <h4 className="text-center text-info">APPLICATION REQUIREMENTS</h4>
-        <p style={{paddingRight: 8, paddingLeft: 8}}>
+        <p className="px-8 text-center">
           For a smooth and complete application process we recommend that you
           have all of the following information listed below readily available.
           <span className="text-danger">
@@ -32,14 +32,14 @@ function ApplicationRequirements(props) {
           </span>
         </p>
 
-        <Card id="tableCard">
+        <Card>
           <Card.Header>
             <Card.Title className="text-center">
               Application Document and Information Pre-requisites
             </Card.Title>
           </Card.Header>
-          <Card.Body>
-            <Table striped bordered hover>
+          <Card.Body className="p-0">
+            <Table striped bordered hover responsive>
               <thead className="bg-info text-light">
                 <tr className="p-4">
                   <th width="5%">#</th>
