@@ -32,9 +32,9 @@ function EquipmentForm() {
                                     <Nav.Item className="mr-1">
                                         <Nav.Link eventKey="washer_dryer">Washer/Dryer</Nav.Link>
                                     </Nav.Item>
-                                    <Nav.Item className="mr-1">
+                                    {/* <Nav.Item className="mr-1">
                                         <Nav.Link eventKey="commercial_air_conditioner">Commercial Air Conditioner</Nav.Link>
-                                    </Nav.Item>
+                                    </Nav.Item> */}
                                 </Nav>
                         </Col>
                         <Col md={6}>

@@ -1127,7 +1127,7 @@ function BatchForm() {
               showApplicationTab ?
               <Col md={12}>
                 <Button variant={"white"} size={"sm"} className="mb-2" onClick={() => backToBatchesHandler()}>
-                  <i className="fa fa-arrow-left"></i>Back to Batches</Button>
+                  <i className="fa fa-arrow-left"></i> Back to Batches</Button>
                 <MaterialTable
                   columns={[
                     {
