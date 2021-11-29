@@ -83,45 +83,73 @@ function FinalReview(props) {
                     </button>
                   </h3>
                   <Row>
-                    <Col md={6} className="mb-3">
-                      <p className='title'>GPA Electric Account number</p>
-                      <p className='title'>Bill ID</p>
-                      <p className='title'>Name on GPA Account</p>
-                      <p className='title'>First Name</p>
-                      <p className='title'>Middle Name</p>
-                      <p className='title'>Last Name</p>
-                      <p className='title'>Installation Address</p>
-                      <p className='title'>City</p>
-                      <p className='title'>ZIP</p>
-                      <p className='title'>Email</p>
-                      <p className='title'>Telephone Number</p>
-                      <p className='title py-4'>Is Applicant the owner of the residential property?</p>
-                      <p className='title'>Mailing Address</p>
-                      <p className='title'>Home Size (approx. sq. ft.)</p>
-                      <p className='title'>Home Age (appox. year built)</p>
-                      <p className='title'>New Construction</p>
-                      <p className='title'>Home Type</p>
-                    </Col>
-                    <Col md={6} className="mb-3">
-                      <p><b>{props.account_no}</b>{" "}</p>
-                      <p><b>{props.bill_id}</b>{" "}</p>
-                      <p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p>
-                      <p><b>{props.firstname}</b>{" "}</p>
-                      <p><b>{props.middlename}</b>{" "}</p>
-                      <p><b>{props.lastname}</b>{" "}</p>
-                      <p><b>{props.service_location}</b>{" "}</p>
-                      <p><b>{props.city_village}</b>{" "}</p>
-                      <p><b>{props.zipcode}</b>{" "}</p>
-                      <p><b>{props.email}</b>{" "}</p>
-                      <p><b>{props.tel_no}</b>{" "}</p>
-                      <p className='py-4'><b>{props.is_applicant_owner ? "Yes" : 
-                        props.is_applicant_owner === "true" ? "Yes" : "No"}</b>{" "}</p>
-                      <p><b>{props.mailing_address}</b>{" "}</p>
-                      <p><b>{props.home_size}</b>{" "}</p>
-                      <p><b>{props.home_age}</b>{" "}</p>
-                      <p><b>{props.is_new_construction}</b>{" "}</p>
-                      <p><b>{props.home_type}</b>{" "}</p>
-                    </Col>
+                    <Col><p className='title'>GPA Electric Account number</p></Col>
+                    <Col><p><b>{props.account_no}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Bill ID</p></Col>
+                    <Col><p><b>{props.bill_id}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Name on GPA Account</p></Col>
+                    <Col><p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>First Name</p></Col>
+                    <Col><p><b>{props.firstname}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Middle Name</p></Col>
+                    <Col><p><b>{props.middlename}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Last Name</p></Col>
+                    <Col><p><b>{props.lastname}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Installation Address</p></Col>
+                    <Col><p><b>{props.service_location}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>City</p></Col>
+                    <Col><p><b>{props.city_village}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>ZIP</p></Col>
+                    <Col><p><b>{props.zipcode}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Email</p></Col>
+                    <Col><p><b>{props.email}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Telephone Number</p></Col>
+                    <Col><p><b>{props.tel_no}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title py-4'>Is Applicant the owner of the residential property?</p></Col>
+                    <Col><p className='py-4'><b>{props.is_applicant_owner ? "Yes" : 
+                        props.is_applicant_owner === "true" ? "Yes" : "No"}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Mailing Address</p></Col>
+                    <Col><p><b>{props.mailing_address}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Home Size (approx. sq. ft.)</p></Col>
+                    <Col><p><b>{props.home_size}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Home Age (appox. year built)</p></Col>
+                    <Col><p><b>{props.home_age}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>New Construction</p></Col>
+                    <Col><p><b>{props.is_new_construction}</b>{" "}</p></Col>
+                  </Row>
+                  <Row>
+                    <Col><p className='title'>Home Type</p></Col>
+                    <Col><p><b>{props.home_type}</b>{" "}</p></Col>
                   </Row>
                 </Container>
               </Tab>

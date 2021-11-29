@@ -20,19 +20,15 @@ function Confirm(props) {
     <div>
       <div className="container mt-5">
         <Container className="text-center">
-          <Row className="mb-5">
+          <Row className="mb-5 text-center">
             <Col md={5}></Col>
-            <Col md={2}>
-              <Row>
-                <Col md={2}></Col>
-                <Col md={8} className="rounded-circle bg-info">
-                  <h1 className="text-center text-white my-auto py-4">
+              <Row className="thumb-row">
+                <Col md={8} className="rounded-circle thumbs-up bg-info">
+                  <h1 className="text-center text-white my-auto">
                     <FiThumbsUp size={70} />
                   </h1>
                 </Col>
-                <Col md={2}></Col>
               </Row>
-            </Col>
             <Col md={5}></Col>
           </Row>
 

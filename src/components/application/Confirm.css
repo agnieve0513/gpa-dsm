@@ -1,3 +1,17 @@
 #homebtn h4 {
     margin-top: 0.5rem;
 }
+
+.thumb-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thumbs-up {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
