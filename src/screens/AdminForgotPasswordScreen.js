@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-// import './AdminLoginScreen.css'
+import './AdminForgotPassScreen.css';
 
 import { forgotPassword } from "../actions/userActions";
 import { LinkContainer } from "react-router-bootstrap";
@@ -73,8 +73,7 @@ function AdminForgotPasswordScreen({ location, history }) {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Row className="mt-5">
-        <Col md={3}></Col>
+      <Row className="mt-5 d-flex justify-content-center">
         <Col md={6}>
           <h1 className="text-center mb-4 text-info">Forgot Your Password?</h1>
           <Row className="mb-4">
@@ -133,9 +132,9 @@ function AdminForgotPasswordScreen({ location, history }) {
                     </div>
                   </Col>
                 </Row> */}
-                <Row>
-                  <Col md={6} className="mx-auto">
-                    <div className="d-grid gap-2 mt-3 mb-4">
+                <Row className="d-flex justify-content-center">
+                  <Col md={6} className="px-1">
+                    <div className="d-grid gap-2 mt-3">
                       <Button
                         type="submit"
                         className="text-center"
@@ -149,8 +148,8 @@ function AdminForgotPasswordScreen({ location, history }) {
                       </Button>
                     </div>
                   </Col>
-                  <Col md={6}>
-                    <div className="d-grid gap-2 mt-3 mb-4">
+                  <Col md={6} className="px-1">
+                    <div className="d-grid gap-2 mt-3 mb-4 cancel">
                       <Button
                         onClick={() => history.push("/admin")}
                         type="button"
@@ -162,18 +161,17 @@ function AdminForgotPasswordScreen({ location, history }) {
                   </Col>
                 </Row>
               </Col>
-              <Col md={2}></Col>
             </Row>
           </Form>
-
-          <Col className="text-center">
-            <small className="text-secondary">
+          </Col>
+          <Row className=" footer-text px-2 ">
+            <br/>
+            <small className="text-secondary text-center position-absolute footer-text">
               Energy Sense Rebate Program for Central, Ducted Systems <br />
               Copyright &copy; 2020 GPA Powered By Xtendly
             </small>
-          </Col>
-        </Col>
-        <Col md={3}></Col>
+          </Row>
+        
       </Row>
     </>
   );

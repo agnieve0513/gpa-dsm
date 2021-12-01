@@ -11,7 +11,7 @@ import './HomeScreen.css';
 function HomeScreen() {
 
     return (
-              <Row md={3} xs={12} sm={12} id="homeScreen">
+            <Row md={3} xs={12} sm={12} id="homeScreen">
               <Col md={2} sm={12} xs={12}></Col>
               <Col className="text-center mt-4 position-relative main-content" md={8} sm={12} xs={12}>
                 <Row className="mx-0 d-flex justify-content-center">
