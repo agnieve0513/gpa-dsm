@@ -36,3 +36,11 @@ main {
 .ag-theme-alpine {
   font-family: "Montserrat" !important;
 }
+
+.MTableHeader-header-13 {
+  background-color: #223e87 !important;
+  color: #fff !important;
+  font-family: "Montserrat" !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+}
