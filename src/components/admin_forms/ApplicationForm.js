@@ -468,10 +468,16 @@ function ApplicationForm() {
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
+      console.log("selected application: ",selected.data);
       dispatch(detailApplication(selected.data.Application_Id));
+      setApplicationId(selected.data.Application_Id);
+
       dispatch(commentsApplication(selected.data.Application_Id));
       dispatch(logsApplication(selected.data.Application_Id));
       setShow(true);
+
+
+
     };
     return (
       <div

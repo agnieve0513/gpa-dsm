@@ -99,7 +99,6 @@ function BatchForm() {
 
   const batchList = useSelector((state) => state.batchList);
   const { batches } = batchList;
-  console.log("batchList", batchList);
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { application } = applicationDetail;
@@ -127,7 +126,7 @@ function BatchForm() {
   const selectHandler = (rowdata) => {
     dispatch(listBatchApplication(rowdata.Id));
     setShowApplicationTab(true);
-    console.log(batch_applications);
+    console.log("Batch Applications: ", batch_applications);
   };
 
   const changeStatusHandler = (status) => {
@@ -203,7 +202,7 @@ function BatchForm() {
   };
 
   const applicationViewHandler = (rowdata) => {
-    console.log(rowdata);
+    console.log("Row data: ",rowdata.batches);
     setApplicationId(rowdata.Application_Id);
     dispatch(detailApplication(rowdata.Application_Id));
     dispatch(commentsApplication(rowdata.Application_Id));
