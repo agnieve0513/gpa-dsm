@@ -103,11 +103,11 @@ function ApplicationInformation(props) {
   }
 
   const handleSubmitLOA = () => {
-    dispatch(uploadFileAction(props.letter_authorization, "letter_of_authorization", props.control_no));
   }
 
   const handleChangeLOA = (e) => {
-    props.setLetterAuthorization(e.target.files[0])
+    props.setLetterAuthorization(e.target.files[0]);
+    dispatch(uploadFileAction(e.target.files[0], "letter_of_authorization", props.control_no));
   }
 
   return (
@@ -473,10 +473,6 @@ function ApplicationInformation(props) {
                         type="file"
                         onChange={(e) => handleChangeLOA(e)}
                       />
-                     
-                      <Button variant="info" onClick={() => handleSubmitLOA()}>
-                        <i className="fa fa-upload"></i>
-                      </Button>
                     </InputGroup>
                     {props.letter_authorization === null ? (
                       <p className="validate text-danger">

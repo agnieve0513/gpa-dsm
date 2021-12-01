@@ -29,8 +29,40 @@ function SubmissionOfDocumentation(props) {
 
   let p = {};
 
+  const handleChange = (e, doc_type) =>
+  {
+    if(doc_type === "irs_form")
+    {
+      props.setIrsForm(e.target.files[0])
+    }
+    else if(doc_type === "other_doc1")
+    {
+      props.setOtherDoc1(e.target.files[0])
+    }
+    else if(doc_type === "other_doc2")
+    {
+      props.setOtherDoc2(e.target.files[0])
+    }
+    else if(doc_type=== "letter_authorization")
+    {
+      props.setLetterAuthorization(e.target.files[0])
+    }
+    else if (doc_type === "invoice")
+    {
+      props.setInvoice(e.target.files[0])
+    }
+    else if (doc_type === "installer_certification")
+    {
+      props.setInstallerCertification(e.target.files[0])
+    }
+    else if(doc_type === "disposal_receipt")
+    {
+      props.setDisposalSlip(e.target.files[0])
+    }
+    dispatch(uploadFileAction(e.target.files[0], doc_type, props.control_no));
+  }
+
   const handleSubmit = (file, doc_type) => {
-    dispatch(uploadFileAction(file, doc_type, props.control_no));
   }
 
   const handleShowSuppDocs = () => 
@@ -77,12 +109,9 @@ function SubmissionOfDocumentation(props) {
                 <Form.Control
                   name="file2"
                   type="file"
-                  onChange={(e) => props.setIrsForm(e.target.files[0])}
+                  onChange={(e) => handleChange(e, "irs_form")}
                 />
                 
-                <Button variant="info" onClick={() => handleSubmit(props.irs_form, "irs_form")}>
-                  <i className="fa fa-upload"></i>
-                </Button>
               </InputGroup>
               {props.irs_form === null ? (
                     <p className="validate text-danger">*This Field is Required</p>
@@ -105,7 +134,7 @@ function SubmissionOfDocumentation(props) {
                   File Type: {props.irs_form.type} <br /><br />
                 </>:<></>
               }
-            </Form.Group>
+          </Form.Group>
             
             {/*  */}
             <Button variant="success" className="mb-3" onClick={() => handleShowSuppDocs()}>Upload Supporting Documents</Button>
@@ -134,12 +163,8 @@ function SubmissionOfDocumentation(props) {
                 <Form.Control
                   name="file2"
                   type="file"
-                  onChange={(e) => props.setOtherDoc1(e.target.files[0])}
+                  onChange={(e) => handleChange(e, "other_doc1")}
                 />
-                
-                <Button variant="info" onClick={() => handleSubmit(props.other_doc1, "other_doc1")}>
-                  <i className="fa fa-upload"></i>
-                </Button>
               </InputGroup>
               {
                 props.other_doc1?
@@ -157,7 +182,7 @@ function SubmissionOfDocumentation(props) {
                   File Type: {props.other_doc1.type} <br /><br />
                 </>:<></>
               }
-            </Form.Group>
+              </Form.Group>
 
             <Form.Group controlId="other_supporting_doc2" className="mb-3">
               <p>
@@ -181,12 +206,8 @@ function SubmissionOfDocumentation(props) {
                 <Form.Control
                   name="file2215353"
                   type="file"
-                  onChange={(e) => props.setOtherDoc2(e.target.files[0])}
+                  onChange={(e) => handleChange(e, "other_doc2")}
                 />
-                
-                <Button variant="info" onClick={() => handleSubmit(props.other_doc2)}>
-                  <i className="fa fa-upload"></i>
-                </Button>
               </InputGroup>
               {
                 props.other_doc2?
@@ -236,12 +257,8 @@ function SubmissionOfDocumentation(props) {
                   <Form.Control
                     name="file2"
                     type="file"
-                    onChange={(e) => props.setLetterAuthorization(e.target.files[0])}
+                    onChange={(e) => handleChange(e, "letter_authorization")}
                   />
-                  
-                  <Button variant="info" onClick={() => handleSubmit(props.letter_authorization, "letter_authorization")}>
-                    <i className="fa fa-upload"></i>
-                  </Button>
                 </InputGroup>
                 {
                 props.letter_authorization?
@@ -290,12 +307,9 @@ function SubmissionOfDocumentation(props) {
                     name="file212351"
                     placeholder="Invoice"
                     type="file"
-                    onChange={(e) => props.setInvoice(e.target.files[0])}
+                    onChange={(e) => handleChange(e, "invoice")}
                   />
-                  
-                  <Button variant="info" onClick={() => handleSubmit(props.invoice)}>
-                    <i className="fa fa-upload"></i>
-                  </Button>
+                
                 </InputGroup>
                 {
                 props.invoice?
@@ -341,12 +355,8 @@ function SubmissionOfDocumentation(props) {
                   <Form.Control
                     name="file2322"
                     type="file"
-                    onChange={(e) => props.setInstallerCertification(e.target.files[0])}
+                    onChange={(e) => handleChange(e, "installer_certification")}
                   />
-                  
-                  <Button variant="info" onClick={() => handleSubmit(props.installer_certification)}>
-                    <i className="fa fa-upload"></i>
-                  </Button>
                 </InputGroup>
                 {
                 props.installer_certification?
@@ -392,12 +402,8 @@ function SubmissionOfDocumentation(props) {
                   <Form.Control
                     name="file211"
                     type="file"
-                    onChange={(e) => props.setDisposalSlip(e.target.files[0])}
+                    onChange={(e) => handleChange(e, "disposal_receipt")}
                   />
-                  
-                  <Button variant="info" onClick={() => handleSubmit(props.disposal_slip, "disposal_slip")}>
-                    <i className="fa fa-upload"></i>
-                  </Button>
                 </InputGroup>
                 {
                 props.disposal_slip?

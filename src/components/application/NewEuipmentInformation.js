@@ -205,10 +205,6 @@ function NewEuipmentInformation(props) {
                   type="file"
                   onChange={(e) => handleChangeInstallersInformation(e)}
                 />
-                
-                <Button variant="info" onClick={() => handleSubmitInstallersInformation()}>
-                  <i className="fa fa-upload"></i>
-                </Button>
               </InputGroup>
               {
                   props.installer_certification?
@@ -261,19 +257,18 @@ function NewEuipmentInformation(props) {
                   type="file"
                   onChange={(e) => handleChangeInvoice(e)}
                 />
-                <Button variant="info" onClick={() => handleSubmitInvoice()}>
-                  <i className="fa fa-upload"></i>
-                </Button>
               </InputGroup>
               {props.invoice === null ? (
-                      <p className="validate text-danger">
-                        *This Field is Required
-                      </p>
-                    ) : (
-                      <></>
-                    )}
+                <p className="validate text-danger">
+                  *This Field is Required
+                </p>
+              ) 
+              : 
+              (
+                <></>
+              )}
               {
-                  props.invoice?
+              props.invoice?
                   <>
                     {
                       fileCode ?
@@ -284,14 +279,14 @@ function NewEuipmentInformation(props) {
                           {props.setInvoiceD(fileCode)}
                           {console.log(props.invoiceD)}
                           <Badge bg={"success"}>File Uploaded</Badge> <br /> 
-                          Filename: {props.invoice.name} <br />
-                          File Type: {props.invoice.type} <br /><br />
                           </>
                         : <></>
                         }
                       </>
                       :<></>
                     }
+                    Filename: {props.invoice.name} <br />
+                    File Type: {props.invoice.type} <br /><br />
                     
                   </>:<></>
               }
@@ -355,24 +350,16 @@ function NewEuipmentInformation(props) {
     }
   };
 
-  const handleSubmitInvoice = () => {
-    console.log(props.invoice)
-    dispatch(uploadFileAction(props.invoice, "invoice", props.control_no));
-
-  }
 
   const handleChangeInvoice = (e) => {
     props.setInvoice(e.target.files[0])
+    dispatch(uploadFileAction(e.target.files[0], "invoice", props.control_no));
   }
 
-  const handleSubmitInstallersInformation = () => {
-    console.log(props.installer_certification)
-    dispatch(uploadFileAction(props.installer_certification, "installers_information", props.control_no));
-
-  }
 
   const handleChangeInstallersInformation = (e) => {
     props.setInstallerCertification(e.target.files[0])
+    dispatch(uploadFileAction(e.target.files[0], "installers_information", props.control_no));
   }
 
   return (
@@ -633,6 +620,7 @@ function NewEuipmentInformation(props) {
               <Form.Control
                 type="number"
                 placeholder=""
+                min="1"
                 onChange={(e) => props.setQuantity(e.target.value)}
                 value={props.quantity}
                 required

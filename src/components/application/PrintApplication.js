@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 13,
+    width: 300,
+    color: "#B6B6B6",
+    fontWeight: 500,
   },
   boldText: {
     fontSize: 13,
@@ -79,7 +82,7 @@ function PrintApplication(props) {
     existing_old_equipment_information,
     new_equipment_information,
     submitted_documents,
-  } = props.data.data;
+  } = props?.data?.data;
   const handleAgreeBox = (e) => {
     if (e.target.checked) {
       props.setTermsAndAgreement(true);
@@ -97,230 +100,233 @@ function PrintApplication(props) {
             <Page size="LEGAL">
               <View style={styles.section}>
                 <Text style={styles.title}>Application Information</Text>
-                <Text style={styles.text}>
-                  GPA Electric Account Number:{" "}
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Control Number: </Text>
+                  <Text style={styles.boldText}>{props?.data?.control_no}</Text>
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>GPA Electric Account Number: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.account_no}
                   </Text>
-                </Text>
-
-                <Text style={styles.text}>
-                  Bill ID:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Bill ID: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.bill_id}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Applicant Name:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Applicant Name: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.customer_name}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Installation Address:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Installation Address: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.service_location}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  City:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>City: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.city_village}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  ZIP:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>ZIP: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.zipcode}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Email:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Email: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.email}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Telephone Number:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Telephone Number: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.tel_no}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Owner Residential Property:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Owner Residential Property: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.bill_id}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Mailing Address:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Mailing Address: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.is_applicant_owner}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Home Size (approx. sq. ft.):{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Home Size (approx. sq. ft.): </Text>
                   <Text style={styles.boldText}>
                     {application_information?.home_size}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Home Age (approx. year bult):{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>
+                    Home Age (approx. year bult):{" "}
+                  </Text>
                   <Text style={styles.boldText}>
                     {application_information?.home_age}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  New Construction:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>New Construction: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.is_new_contruction}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Home Type:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Home Type: </Text>
                   <Text style={styles.boldText}>
                     {application_information?.home_type}
                   </Text>
-                </Text>
+                </View>
               </View>
               <View style={styles.section}>
                 <Text style={styles.title}>New Equipment Information</Text>
-                <Text style={styles.text}>
-                  System Type:{" "}
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>System Type: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.system_type}
                   </Text>
-                </Text>
-
-                <Text style={styles.text}>
-                  Vendor:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Vendor: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.vendor}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Quantity:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Quantity: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.quantity}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  BTU:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>BTU: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.btu}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Manufacturer:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Manufacturer: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.manufacturer}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Model:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Model: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.model_no}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Invoice#:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Invoice#: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.manufacturer}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Purchase Date:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Purchase Date: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.purchase_date}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Type:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Type: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.type}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Tons:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Tons: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.tons}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Install Date:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Install Date: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.date_final_installation
                     }
                   </Text>
-                </Text>
+                </View>
               </View>
             </Page>
             <Page size="LEGAL">
               <View style={styles.section}>
                 <Text style={styles.title}>Installer Information</Text>
-                <Text style={styles.text}>
-                  Technician Name:{" "}
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Technician Name: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.technician_name
                     }
                   </Text>
-                </Text>
-
-                <Text style={styles.text}>
-                  Work Telephone:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Work Telephone: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.work_tel
                     }
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Company:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Company: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.company_name
                     }
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Technician AC:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Technician AC: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.technician_name
                     }
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Certification No:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Certification No: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.technician_cert_no
                     }
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Email:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Email: </Text>
                   <Text style={styles.boldText}>
                     {new_equipment_information[0]?.installer_information?.email}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Date of Final:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Date of Final: </Text>
                   <Text style={styles.boldText}>
                     {
                       new_equipment_information[0]?.installer_information
                         ?.date_final_installation
                     }
                   </Text>
-                </Text>
+                </View>
               </View>
               <View
                 style={[
@@ -451,109 +457,180 @@ function PrintApplication(props) {
                 <Text style={styles.title}>
                   Old/Existing Equipment Information
                 </Text>
-                <Text style={styles.text}>
-                  System Type:{" "}
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>System Type: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.system_type}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  BTU:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>BTU: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.btu}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Years:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Years: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.years}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Quantity:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Quantity: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.quantity}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Tons:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Tons: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.tons}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Equipment condition prior to removal:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>
+                    Equipment condition prior to removal:{" "}
+                  </Text>
                   <Text style={styles.boldText}>
                     {
                       existing_old_equipment_information[0]
                         ?.is_equipment_condition
                     }
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Seer:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Seer: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.seer}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Disposal Party:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Disposal Party: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.disposal_party}
                   </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Date:{" "}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Date: </Text>
                   <Text style={styles.boldText}>
                     {existing_old_equipment_information[0]?.date}
                   </Text>
-                </Text>
+                </View>
               </View>
               <View style={[styles.section, { marginTop: 0 }]}>
                 <Text style={styles.title}>Submission of Documentation</Text>
-                <Text style={styles.text}>
-                  Invioce:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.invoice}
-                  </Text>
-                </Text>
-
-                <Text style={styles.text}>
-                  IRS-W9:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.irs_form}
-                  </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Letter of Authorization:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.letter_authorization}
-                  </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Disposal Slip:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.disposal_slip}
-                  </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Other support documents 1:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.other_doc1}
-                  </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Other support documents 2:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.other_doc2}
-                  </Text>
-                </Text>
-                <Text style={styles.text}>
-                  Other support documents 3:{" "}
-                  <Text style={styles.boldText}>
-                    {submitted_documents?.other_doc3}
-                  </Text>
-                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Invioce: </Text>
+                  {submitted_documents?.invoice !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>IRS-W9: </Text>
+                  {submitted_documents?.irs_form !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Letter of Authorization: </Text>
+                  {submitted_documents?.letter_authorization !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Disposal Slip: </Text>
+                  {submitted_documents?.disposal_slip !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Other support documents 1: </Text>
+                  {submitted_documents?.other_doc1 !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Other support documents 2: </Text>
+                  {submitted_documents?.other_doc2 !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={styles.text}>Other support documents 3: </Text>
+                  {submitted_documents?.other_doc3 !== "" ? (
+                    <Image
+                      src={require("../icons/check.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  ) : (
+                    <Image
+                      src={require("../icons/times.png")}
+                      style={{ width: 15, height: 15 }}
+                      fixed={true}
+                    />
+                  )}
+                </View>
               </View>
             </Page>
           </Document>

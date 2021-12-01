@@ -132,14 +132,10 @@ function ExistingEquipmentInformation(props) {
     );
   };
 
-  const handleSubmitDisposalSlip = () => {
-    console.log(props.disposal_slip)
-    dispatch(uploadFileAction(props.disposal_slip, "disposal_slip", props.control_no));
-
-  }
-
   const handleChangeDisposalSlip = (e) => {
     props.setDisposalSlip(e.target.files[0])
+    dispatch(uploadFileAction(e.target.files[0], "disposal_slip", props.control_no));
+
   }
 
   return (
@@ -245,6 +241,7 @@ function ExistingEquipmentInformation(props) {
                 value={props.old_quantity}
                 onChange={(e) => props.setOldQuantity(e.target.value)}
                 required
+                min="1"
                 disabled={props.no_existing ? true : false}
               ></Form.Control>
             </Form.Group>
@@ -262,6 +259,7 @@ function ExistingEquipmentInformation(props) {
               <Form.Control
                 type="number"
                 placeholder=""
+                min="1"
                 value={props.old_years}
                 onChange={(e) => props.setOldYears(e.target.value)}
                 required
@@ -389,9 +387,7 @@ function ExistingEquipmentInformation(props) {
                   type="file"
                   onChange={(e) => handleChangeDisposalSlip(e)}
                 />
-                <Button variant="info" onClick={() => handleSubmitDisposalSlip()}>
-                  <i className="fa fa-upload"></i>
-                </Button>
+               
               </InputGroup>
               {
                   props.disposal_slip?
