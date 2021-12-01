@@ -87,7 +87,7 @@ function SubmissionOfDocumentation(props) {
       <Col md={3}></Col>
       <Col md={6}>
           <h4 className="text-center text-info">Submission of Documentation</h4>
-          <Form.Group controlId="irs_form" className="mb-3">
+          <Form.Group controlId="irs_form" className="mb-3 text-wrap">
               <p>
                 IRS Form W-9 <small className="text-muted">(Click this link to download the File and Enter your details on it. After that, upload the file that contains your data information)</small>
                 <span
@@ -130,7 +130,7 @@ function SubmissionOfDocumentation(props) {
                     </>
                     :<>no upload</>
                   }
-                  Filename: {props.irs_form.name} <br />
+                  <p className="text-break"> Filename: {props.irs_form.name}</p> <br />
                   File Type: {props.irs_form.type} <br /><br />
                 </>:<></>
               }
@@ -178,7 +178,7 @@ function SubmissionOfDocumentation(props) {
                     </>
                     :<>no upload</>
                   }
-                  Filename: {props.other_doc1.name} <br />
+                  Filename: <p className="text-break">{props.other_doc1.name} </p> <br />
                   File Type: {props.other_doc1.type} <br /><br />
                 </>:<></>
               }

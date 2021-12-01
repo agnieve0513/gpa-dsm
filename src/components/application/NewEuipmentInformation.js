@@ -182,7 +182,7 @@ function NewEuipmentInformation(props) {
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
               <p>
-                INSTALLER'S CERTIFICATION*
+                INSTALLER'S CERTIFICATION
                 <span
                   className="text-secondary"
                   onClick={() => {
@@ -208,7 +208,7 @@ function NewEuipmentInformation(props) {
               </InputGroup>
               {
                   props.installer_certification?
-                  <>
+                  <p className="text-wrap">
                     {
                       fileCode ?
                       <>
@@ -218,7 +218,7 @@ function NewEuipmentInformation(props) {
                             {props.setInstallerCertificationD(fileCode)}
                             {console.log(props.installer_certificationD)}
                             <Badge bg={"success"}>File Uploaded</Badge> <br /> 
-                            Filename: {props.installer_certification.name} <br />
+                            <p className="text-break">Filename: {props.installer_certification.name}</p> <br />
                             File Type: {props.installer_certification.type} <br /><br />
                           </>
                         :<></>
@@ -227,7 +227,7 @@ function NewEuipmentInformation(props) {
                       :<></>
                     }
                     
-                  </>:<></>
+                  </p>:<></>
               }
             </Form.Group>
           </Col>
@@ -285,7 +285,7 @@ function NewEuipmentInformation(props) {
                       </>
                       :<></>
                     }
-                    Filename: {props.invoice.name} <br />
+                    <p className="text-break">Filename: {props.invoice.name}</p> <br />
                     File Type: {props.invoice.type} <br /><br />
                     
                   </>:<></>

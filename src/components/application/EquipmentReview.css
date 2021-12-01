@@ -19,6 +19,28 @@
     top: 100px;
 }
 
+
+
+@media (max-width: 990px) 
+{
+    .nav-item
+    {
+        width: 100%;
+    }
+
+    .nav-link
+    {
+        width: 100%;
+    }
+
+    .nav-tabs
+    {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
 .title {
     color: #929292;
 }
