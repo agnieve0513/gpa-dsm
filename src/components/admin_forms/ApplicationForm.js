@@ -165,11 +165,11 @@ function ApplicationForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
-  useEffect(() => {
-    dispatch(listApplications());
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, []);
+  // useEffect(() => {
+  //   dispatch(listApplications());
+  //   // dispatch(listBatchCurrent())
+  //   // dispatch(commentsApplication(applicationId))
+  // }, []);
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
   // Grid Functions . . .
@@ -315,6 +315,40 @@ function ApplicationForm() {
         },
       },
     ],
+  };
+
+  const handleOnChange = (e, doc_type) =>
+  {
+    if(doc_type === "irs_form")
+    {
+      setIrsForm(e.target.files[0])
+    }
+    else if(doc_type === "other_doc1")
+    {
+      setOtherDoc1(e.target.files[0])
+    }
+    else if(doc_type === "other_doc2")
+    {
+      setOtherDoc2(e.target.files[0])
+    }
+    else if(doc_type=== "letter_authorization")
+    {
+      setLetterAuthorization(e.target.files[0])
+    }
+    else if (doc_type === "invoice")
+    {
+      setInvoice(e.target.files[0])
+    }
+    else if (doc_type === "installer_certification")
+    {
+      setInstallerCertification(e.target.files[0])
+    }
+    else if(doc_type === "disposal_receipt")
+    {
+      setDisposalSlip(e.target.files[0])
+    }
+    dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
+    return;
   };
 
   useEffect(() => {
@@ -474,10 +508,6 @@ function ApplicationForm() {
     }
   };
 
-  const handleSubmit = (file, doc_type, control_no) => {
-    dispatch(uploadFileAction(file, doc_type, control_no));
-  };
-  console.log("application", application);
   return (
     <div>
       {show ? (
@@ -870,51 +900,21 @@ function ApplicationForm() {
                                     Click to Download
                                   </Button>{" "}
                                 </span>
-                                <Form.Group controlId="irs_form" className="mb-3">
-                                    <small className="text-muted">
-                                      (Click this link to download the File and
-                                      Enter your details on it. After that, upload
-                                      the file that contains your data information)
-                                    </small>
-                                    <span
-                                      className="text-secondary"
-                                      onClick={() => {
-                                        setModalData(
-                                          (p = {
-                                            description: "Upload IRS Form W-9",
-                                            image_sample: "./GPADSM8.png",
-                                          })
-                                        );
-                                        setModalShow(true);
-                                      }}
-                                    >
-                                      <i className="fa fa-question-circle"></i>{" "}
-                                    </span>
+                                <Form.Group controlId="invoice" className="mb-3">
                                   <InputGroup>
                                     <Form.Control
-                                      name="file2"
+                                      name="invoice"
                                       type="file"
-                                      onChange={(e) =>
-                                        setIrsForm(e.target.files[0])
-                                      }
+                                      onChange={(e) => handleOnChange(e, "invoice") }
                                     />
-
-                                    <Button
-                                      variant="info"
-                                      onClick={() =>
-                                        handleSubmit(irs_form, "irs_form")
-                                      }
-                                    >
-                                      <i className="fa fa-upload"></i>
-                                    </Button>
                                   </InputGroup>
                                   
-                                  {irs_form ? (
+                                  {invoice ? (
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)}
+                                          {/* {setInvoiceD(fileCode)}
+                                          {console.log(setInvoiceD)} */}
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -923,8 +923,8 @@ function ApplicationForm() {
                                       ) : (
                                         <>no upload</>
                                       )}
-                                      Filename: {irs_form.name} <br />
-                                      File Type: {irs_form.type} <br />
+                                      Filename: {invoice.name} <br />
+                                      File Type: {invoice.type} <br />
                                       <br />
                                     </>
                                   ) : (
@@ -948,50 +948,23 @@ function ApplicationForm() {
                                   </Button>{" "}
                                 </span>
                                 <Form.Group controlId="irs_form" className="mb-3">
-                                    <small className="text-muted">
-                                      (Click this link to download the File and
-                                      Enter your details on it. After that, upload
-                                      the file that contains your data information)
-                                    </small>
-                                    <span
-                                      className="text-secondary"
-                                      onClick={() => {
-                                        setModalData(
-                                          (p = {
-                                            description: "Upload IRS Form W-9",
-                                            image_sample: "./GPADSM8.png",
-                                          })
-                                        );
-                                        setModalShow(true);
-                                      }}
-                                    >
-                                      <i className="fa fa-question-circle"></i>{" "}
-                                    </span>
+                                    
                                   <InputGroup>
                                     <Form.Control
-                                      name="file2"
+                                      name="irs_form"
                                       type="file"
                                       onChange={(e) =>
-                                        setIrsForm(e.target.files[0])
+                                        handleOnChange(e, "irs_form")
                                       }
                                     />
-
-                                    <Button
-                                      variant="info"
-                                      onClick={() =>
-                                        handleSubmit(irs_form, "irs_form")
-                                      }
-                                    >
-                                      <i className="fa fa-upload"></i>
-                                    </Button>
                                   </InputGroup>
                                   
                                   {irs_form ? (
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)}
+                                          {/* {setIrsFormD(fileCode)}
+                                          {console.log(irs_formD)} */}
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1026,50 +999,23 @@ function ApplicationForm() {
                                   </Button>
                                 </span>
                                 <Form.Group controlId="letter_authorization" className="mb-3">
-                                    <small className="text-muted">
-                                      (Click this link to download the File and
-                                      Enter your details on it. After that, upload
-                                      the file that contains your data information)
-                                    </small>
-                                    <span
-                                      className="text-secondary"
-                                      onClick={() => {
-                                        setModalData(
-                                          (p = {
-                                            description: "Upload IRS Form W-9",
-                                            image_sample: "./GPADSM8.png",
-                                          })
-                                        );
-                                        setModalShow(true);
-                                      }}
-                                    >
-                                      <i className="fa fa-question-circle"></i>{" "}
-                                    </span>
+                                    
                                   <InputGroup>
                                     <Form.Control
-                                      name="file2"
+                                      name="letter_authorization"
                                       type="file"
                                       onChange={(e) =>
-                                        setIrsForm(e.target.files[0])
+                                        handleOnChange(e, "letter_authorization")
                                       }
                                     />
-
-                                    <Button
-                                      variant="info"
-                                      onClick={() =>
-                                        handleSubmit(irs_form, "irs_form")
-                                      }
-                                    >
-                                      <i className="fa fa-upload"></i>
-                                    </Button>
                                   </InputGroup>
                                   
-                                  {irs_form ? (
+                                  {letter_authorization ? (
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)}
+                                          {/* {setLetterAuthorizationD(fileCode)}
+                                          {console.log(setLetterAuthorizationD)} */}
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1078,8 +1024,8 @@ function ApplicationForm() {
                                       ) : (
                                         <>no upload</>
                                       )}
-                                      Filename: {irs_form.name} <br />
-                                      File Type: {irs_form.type} <br />
+                                      Filename: {letter_authorization.name} <br />
+                                      File Type: {letter_authorization.type} <br />
                                       <br />
                                     </>
                                   ) : (
@@ -1102,51 +1048,24 @@ function ApplicationForm() {
                                     Click to Download
                                   </Button>{" "}
                                 </span>
-                                <Form.Group controlId="letter_authorization" className="mb-3">
-                                    <small className="text-muted">
-                                      (Click this link to download the File and
-                                      Enter your details on it. After that, upload
-                                      the file that contains your data information)
-                                    </small>
-                                    <span
-                                      className="text-secondary"
-                                      onClick={() => {
-                                        setModalData(
-                                          (p = {
-                                            description: "Upload IRS Form W-9",
-                                            image_sample: "./GPADSM8.png",
-                                          })
-                                        );
-                                        setModalShow(true);
-                                      }}
-                                    >
-                                      <i className="fa fa-question-circle"></i>{" "}
-                                    </span>
+                                <Form.Group controlId="disposal_slilp" className="mb-3">
+                                    
                                   <InputGroup>
                                     <Form.Control
-                                      name="file2"
+                                      name="disposal_slilp"
                                       type="file"
                                       onChange={(e) =>
-                                        setIrsForm(e.target.files[0])
+                                        handleOnChange(e, "disposal_slip")
                                       }
                                     />
-
-                                    <Button
-                                      variant="info"
-                                      onClick={() =>
-                                        handleSubmit(irs_form, "irs_form")
-                                      }
-                                    >
-                                      <i className="fa fa-upload"></i>
-                                    </Button>
                                   </InputGroup>
                                   
-                                  {irs_form ? (
+                                  {disposal_slip ? (
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)}
+                                          {/* {setDisposalSlipD(fileCode)}
+                                          {console.log(setDisposalSlipD)} */}
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1155,8 +1074,8 @@ function ApplicationForm() {
                                       ) : (
                                         <>no upload</>
                                       )}
-                                      Filename: {irs_form.name} <br />
-                                      File Type: {irs_form.type} <br />
+                                      Filename: {disposal_slip.name} <br />
+                                      File Type: {disposal_slip.type} <br />
                                       <br />
                                     </>
                                   ) : (
@@ -1180,51 +1099,23 @@ function ApplicationForm() {
                                     Click to Download
                                   </Button>{" "}
                                 </span>
-                                <Form.Group controlId="letter_authorization" className="mb-3">
-                                    <small className="text-muted">
-                                      (Click this link to download the File and
-                                      Enter your details on it. After that, upload
-                                      the file that contains your data information)
-                                    </small>
-                                    <span
-                                      className="text-secondary"
-                                      onClick={() => {
-                                        setModalData(
-                                          (p = {
-                                            description: "Upload IRS Form W-9",
-                                            image_sample: "./GPADSM8.png",
-                                          })
-                                        );
-                                        setModalShow(true);
-                                      }}
-                                    >
-                                      <i className="fa fa-question-circle"></i>{" "}
-                                    </span>
+                                <Form.Group controlId="other_doc1" className="mb-3">
                                   <InputGroup>
                                     <Form.Control
-                                      name="file2"
+                                      name="other_doc1"
                                       type="file"
                                       onChange={(e) =>
-                                        setIrsForm(e.target.files[0])
+                                        handleOnChange(e, "other_doc1")
                                       }
                                     />
-
-                                    <Button
-                                      variant="info"
-                                      onClick={() =>
-                                        handleSubmit(irs_form, "irs_form")
-                                      }
-                                    >
-                                      <i className="fa fa-upload"></i>
-                                    </Button>
                                   </InputGroup>
                                   
-                                  {irs_form ? (
+                                  {other_doc1 ? (
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)}
+                                          {/* {setOtherDoc1D(fileCode)}
+                                          {console.log(setOtherDoc1D)} */}
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1233,8 +1124,8 @@ function ApplicationForm() {
                                       ) : (
                                         <>no upload</>
                                       )}
-                                      Filename: {irs_form.name} <br />
-                                      File Type: {irs_form.type} <br />
+                                      Filename: {other_doc1.name} <br />
+                                      File Type: {other_doc1.type} <br />
                                       <br />
                                     </>
                                   ) : (
@@ -1259,50 +1150,22 @@ function ApplicationForm() {
                                   </Button>{" "}
                                 </span>
                                 <Form.Group controlId="letter_authorization" className="mb-3">
-                                    <small className="text-muted">
-                                      (Click this link to download the File and
-                                      Enter your details on it. After that, upload
-                                      the file that contains your data information)
-                                    </small>
-                                    <span
-                                      className="text-secondary"
-                                      onClick={() => {
-                                        setModalData(
-                                          (p = {
-                                            description: "Upload IRS Form W-9",
-                                            image_sample: "./GPADSM8.png",
-                                          })
-                                        );
-                                        setModalShow(true);
-                                      }}
-                                    >
-                                      <i className="fa fa-question-circle"></i>{" "}
-                                    </span>
                                   <InputGroup>
                                     <Form.Control
-                                      name="file2"
+                                      name="letter_authorization"
                                       type="file"
                                       onChange={(e) =>
-                                        setIrsForm(e.target.files[0])
+                                        handleOnChange(e, "other_doc2")
                                       }
                                     />
-
-                                    <Button
-                                      variant="info"
-                                      onClick={() =>
-                                        handleSubmit(irs_form, "irs_form")
-                                      }
-                                    >
-                                      <i className="fa fa-upload"></i>
-                                    </Button>
                                   </InputGroup>
                                   
-                                  {irs_form ? (
+                                  {other_doc2 ? (
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)}
+                                          {/* {setOtherDoc2D(fileCode)}
+                                          {console.log(setOtherDoc2D)} */}
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1311,8 +1174,8 @@ function ApplicationForm() {
                                       ) : (
                                         <>no upload</>
                                       )}
-                                      Filename: {irs_form.name} <br />
-                                      File Type: {irs_form.type} <br />
+                                      Filename: {other_doc2.name} <br />
+                                      File Type: {other_doc2.type} <br />
                                       <br />
                                     </>
                                   ) : (
