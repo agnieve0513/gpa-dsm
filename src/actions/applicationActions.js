@@ -286,7 +286,7 @@ export const updateApplication = (applicationId, status, stage, reason, batchId)
 
         
         const {data} = await axios.post(URL+'/update-status',
-        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'status':status, 'stage':stage, 'reason':reason, 'batchId':batchId},
+        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'status':status, 'stage':stage, 'reasonId':parseInt(reason), 'batchId':batchId},
         config
         )
 
