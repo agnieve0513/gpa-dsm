@@ -5,6 +5,19 @@
     background-size:100% 100%;
 }
 
+@media (min-width: 768px) and (min-height: 1024px) {
+    .main-content
+    {
+        display: flex;
+        align-items: center;
+    }
+
+    #formContent
+    {
+        margin-top: -14em;
+    }
+  }
+
 .btn
 {
     font-family: 'Montserrat Bold', sans-serif

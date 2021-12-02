@@ -49,7 +49,7 @@ function EquipmentReview(props) {
   let total_rebate = 0;
 
   return (
-    <Row>
+    <Row className="w-100 mx-0 px-0">
       <Col md={1}></Col>
       <Col md={10}>
         <h4 className="text-center text-info mb-3">Equipment Review</h4>
@@ -66,81 +66,84 @@ function EquipmentReview(props) {
                 title="Applicant Information"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 pb-4 text-info">
-                    Applicant Info{" "}
+                  <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                    <h3 className="px-0 my-0 w-75 text-info text-start">
+                      Applicant Info{" "}
+                    </h3>
                     <button
-                      className="btn edit-btn btn-sm"
-                      onClick={() => backToApplicationHandler()}
+                        title="Edit details"
+                        className="w-25 editButton text-end"
+                        onClick={() => backToApplicationHandler()}
                     >
-                      <i className="fa fa-edit"></i> Edit Information
+                      <i className="fa fa-pen"></i>
                     </button>
-                  </h3>
-                  <Row>
+                  </Row>
+                  <Row className="px-0">
                     <Col><p className='title'>GPA Electric Account number</p></Col>
                     <Col><p><b>{props.account_no}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Bill ID</p></Col>
                     <Col><p><b>{props.bill_id}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Name on GPA Account</p></Col>
                     <Col><p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>First Name</p></Col>
                     <Col><p><b>{props.firstname}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Middle Name</p></Col>
                     <Col><p><b>{props.middlename}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Last Name</p></Col>
                     <Col><p><b>{props.lastname}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Installation Address</p></Col>
                     <Col><p><b>{props.service_location}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>City</p></Col>
                     <Col><p><b>{props.city_village}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>ZIP</p></Col>
                     <Col><p><b>{props.zipcode}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Email</p></Col>
                     <Col><p><b>{props.email}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Telephone Number</p></Col>
                     <Col><p><b>{props.tel_no}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title py-4'>Is Applicant the owner of the residential property?</p></Col>
                     <Col><p className='py-4'><b>{props.is_applicant_owner ? "Yes" : 
                         props.is_applicant_owner === "true" ? "Yes" : "No"}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Mailing Address</p></Col>
                     <Col><p><b>{props.mailing_address}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Home Size (approx. sq. ft.)</p></Col>
                     <Col><p><b>{props.home_size}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Home Age (appox. year built)</p></Col>
                     <Col><p><b>{props.home_age}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>New Construction</p></Col>
                     <Col><p><b>{props.is_new_construction}</b>{" "}</p></Col>
                   </Row>
-                  <Row>
+                  <Row className="px-0">
                     <Col><p className='title'>Home Type</p></Col>
                     <Col><p><b>{props.home_type}</b>{" "}</p></Col>
                   </Row>
@@ -151,16 +154,18 @@ function EquipmentReview(props) {
                 title="New Equipment Information"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 mb-3 text-info">
-                    New Equipment Info{" "}
-                    <button
-                      onClick={() => backToNewEquipmentHandler()}
-                      className="btn edit-btn btn-sm"
-                    >
-                      <i className="fa fa-edit"></i> Edit Information
-                    </button>
-                  </h3>
-
+                  <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                      <h3 className="px-0 my-0 w-75 text-info text-start">
+                        New Equipment Info{" "}
+                      </h3>
+                      <button
+                          title="Edit details"
+                          className="w-25 editButton text-end"
+                          onClick={() => backToNewEquipmentHandler()}
+                      >
+                        <i className="fa fa-pen"></i>
+                      </button>
+                  </Row>
                   <Row>
                     <Col md={12}>
                       {props.new_equipments.length >= 1 ? (
@@ -195,7 +200,6 @@ function EquipmentReview(props) {
                             },
                           }}
                           />
-
                           <Row>
                             <Col md={6}>
                               <h3 className="mt-3 mb-3 text-info">
@@ -324,7 +328,7 @@ function EquipmentReview(props) {
                           </Row>
                         </>
                       ) : (
-                        <>No Equipment</>
+                        <Row className="py-4">No Equipment</Row>
                       )}
                     </Col>
                     <Col md={6}></Col>
@@ -336,16 +340,18 @@ function EquipmentReview(props) {
                 title="Old/Existing Equipment Information"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 mb-3 text-info">
-                    Existing/Old Equipment Info{" "}
-                    <button
-                      onClick={() => backToOldEquipmentHandler()}
-                      className="btn edit-btn btn-sm "
-                    >
-                      <i className="fa fa-edit"></i> Edit Information
-                    </button>
-                  </h3>
-
+                  <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                      <h3 className="px-0 my-0 w-75 text-info text-start">
+                        Old Equipment Info{" "}
+                      </h3>
+                      <button
+                          title="Edit details"
+                          className="w-25 editButton text-end"
+                          onClick={() => backToOldEquipmentHandler()}
+                      >
+                        <i className="fa fa-pen"></i>
+                      </button>
+                  </Row>
                   <MaterialTable
                       columns={[
                         { title: "System Type", field: "system_type" },
