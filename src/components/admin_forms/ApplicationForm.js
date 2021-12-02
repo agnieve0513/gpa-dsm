@@ -357,7 +357,11 @@ function ApplicationForm() {
 
   const updateStatus = (status, stage) => {
     console.log(status, " - ", stage);
+
+    setStage(stage);
+
     if (status === 3) {
+
       console.log(reason);
       console.log(status);
       Swal.fire({
@@ -389,6 +393,10 @@ function ApplicationForm() {
         // denyButtonText: `Cancel`,
       }).then((result) => {
         if (result.isConfirmed) {
+
+          console.log("Status", status)
+          console.log("Stage", stage)
+
           setStatus(status);
           setStage(stage);
           dispatch(
@@ -1254,7 +1262,8 @@ function ApplicationForm() {
                               </Modal.Title>
                             </Modal.Header>
                             <Modal.Body className="text-center">
-                              {status === 3 ? (
+                              {
+                              status === 3 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Form.Group
                                     controlId="role_id"
