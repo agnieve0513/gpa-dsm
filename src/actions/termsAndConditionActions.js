@@ -53,22 +53,19 @@ export const uploadFile =
     }
   };
 
-export const retrievePDFAction = (message) => async (dispatch) => {
+export const retrievePDFAction = (code) => async (dispatch) => {
   try {
-    let obj = JSON.parse(localStorage.getItem("userInfo"));
-
     dispatch({
       type: PDF_RETRIEVE_REQUEST,
     });
 
-    const res = await fetch(`${URL}/retrieve-file`, {
+    const res = await fetch(`${URL}/retrieve-pdf-file`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        Authorization: `Bearer ${obj.message.original.access_token}`,
       },
       body: JSON.stringify({
-        filepath: message,
+        type: `${code}.pdf`,
       }),
     });
     const data = await res.blob();
