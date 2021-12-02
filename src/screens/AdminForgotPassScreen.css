@@ -9,12 +9,3 @@
     bottom: 0;
     width: 100%;
 }
-
-@media (max-width: 767px) 
-{
-    .cancel
-    {
-        padding-left: 3em;
-        padding-right: 3em;
-    }    
-}

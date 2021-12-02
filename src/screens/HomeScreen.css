@@ -30,6 +30,7 @@ a
 #applyOnlineBtn .btn-group-lg > .btn,
 .btn-lg {
   border-radius: 0.5rem;
+  width: fit-content;
 }
 
 #applyHead {

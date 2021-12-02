@@ -371,7 +371,8 @@ function ApplicationForm() {
     console.log(status, " - ", stage);
     if (status === 3) {
       console.log(reason);
-      console.log(status);
+      console.log(status);   
+
       if (window.confirm("Are you sure you want to reject application?")) {
         dispatch(updateApplication(applicationId, status, stage, reason));
         alert("Saved!");
@@ -895,6 +896,7 @@ function ApplicationForm() {
                                 <span>
                                   Invoice{" "}
                                   <Button
+                                    className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -904,8 +906,8 @@ function ApplicationForm() {
                                     size={"sm"}
                                   >
                                     Click to Download
-                                  </Button>{" "}
-                                </span>
+                                  </Button>{" "} <br />
+                                </span> 
                                 <Form.Group controlId="invoice" className="mb-3">
                                   <InputGroup>
                                     <Form.Control
@@ -942,6 +944,7 @@ function ApplicationForm() {
                                 <span>
                                   IRS-W9{" "}
                                   <Button
+                                    className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -992,6 +995,7 @@ function ApplicationForm() {
                                 <span>
                                   Letter of Authorization{" "}
                                   <Button
+                                  className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1003,7 +1007,7 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>
-                                </span>
+                                </span> <br />
                                 <Form.Group controlId="letter_authorization" className="mb-3">
                                     
                                   <InputGroup>
@@ -1043,6 +1047,7 @@ function ApplicationForm() {
                                 <span>
                                   Disposal Slip{" "}
                                   <Button
+                                  className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1053,7 +1058,7 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>{" "}
-                                </span>
+                                </span> <br />
                                 <Form.Group controlId="disposal_slilp" className="mb-3">
                                     
                                   <InputGroup>
@@ -1094,6 +1099,7 @@ function ApplicationForm() {
                                 <span>
                                   Other Document 1{" "}
                                   <Button
+                                  className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1104,7 +1110,7 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>{" "}
-                                </span>
+                                </span> <br />
                                 <Form.Group controlId="other_doc1" className="mb-3">
                                   <InputGroup>
                                     <Form.Control
@@ -1144,6 +1150,7 @@ function ApplicationForm() {
                                 <span>
                                   Other Document 2{" "}
                                   <Button
+                                  className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1154,7 +1161,7 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>{" "}
-                                </span>
+                                </span> <br />
                                 <Form.Group controlId="letter_authorization" className="mb-3">
                                   <InputGroup>
                                     <Form.Control
