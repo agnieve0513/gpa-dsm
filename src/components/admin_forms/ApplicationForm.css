@@ -43,3 +43,7 @@
 .ag-header-cell-text {
   color: #ffffff;
 }
+
+.btn-group-vertical button{
+  border-radius: 0.25rem !important;
+}
