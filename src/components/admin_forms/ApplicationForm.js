@@ -83,7 +83,7 @@ function ApplicationForm() {
   const [batch, setBatch] = useState("");
   const [comment, setComment] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
-  const [updateState, setUpdateState] = useState(0);
+  const [updateState, setUpdateState] = useState();
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -375,12 +375,14 @@ function ApplicationForm() {
         }
       });
     } else {
+      setStatus(status);
+      setStage(stage);
       setUpdateState(updateState + 1);
     }
   };
 
   useEffect(() => {
-    if (swalInfo !== "") {
+    if (swalInfo !== "" && status !== "" && stage !== "") {
       Swal.fire({
         title: `Are you sure you want to ${swalInfo}?`,
         // showDenyButton: true,
@@ -389,17 +391,16 @@ function ApplicationForm() {
         // denyButtonText: `Cancel`,
       }).then((result) => {
         if (result.isConfirmed) {
-          setStatus(status);
-          setStage(stage);
           dispatch(
             updateApplication(applicationId, status, stage, reason, batch)
           );
+          setShow(false);
           setShowModal(false);
           Swal.fire("Success", "Application has been processed!", "success");
         }
       });
     }
-  }, [swalInfo, updateState]);
+  }, [swalInfo, updateState, status, stage]);
 
   const resetHandler = () => {
     setShow(false);
@@ -1387,7 +1388,7 @@ function ApplicationForm() {
                                     className="mb-1"
                                     onClick={() => {
                                       setSwalInfo("Approve Application");
-                                      updateStatus(1, 0);
+                                      updateStatus(2, 0);
                                     }}
                                   >
                                     Approve Application
@@ -1421,7 +1422,7 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() => {
                                       setSwalInfo("Approve Application");
-                                      updateStatus(1, 0);
+                                      updateStatus(2, 0);
                                     }}
                                   >
                                     Approve Application
