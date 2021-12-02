@@ -124,6 +124,7 @@ function BatchForm() {
   }, [dispatch]);
 
   const selectHandler = (rowdata) => {
+
     dispatch(listBatchApplication(rowdata.Id));
     setShowApplicationTab(true);
     console.log("Batch Applications: ", batch_applications);
@@ -202,7 +203,7 @@ function BatchForm() {
   };
 
   const applicationViewHandler = (rowdata) => {
-    console.log("Row data: ",rowdata.batches);
+    console.log("Row data: ",rowdata);
     setApplicationId(rowdata.Application_Id);
     dispatch(detailApplication(rowdata.Application_Id));
     dispatch(commentsApplication(rowdata.Application_Id));
