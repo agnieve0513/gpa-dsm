@@ -174,6 +174,12 @@ function ApplicationForm() {
   // }, []);
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
+  useEffect(() => {
+    dispatch(listApplications());
+    // dispatch(listBatchCurrent())
+    // dispatch(commentsApplication(applicationId))
+  }, [successUpdate]);
+
   // Grid Functions . . .
   const onGridReady = (params) => {
     setGridApi(params.api);
@@ -181,10 +187,12 @@ function ApplicationForm() {
 
     const updateData = (data) => {
       var differentHeights = [80, 80, 80, 80];
-      data.forEach(function (dataItem, index) {
-        dataItem.rowHeight = differentHeights[index % 4];
-      });
-      setRowData(data);
+      if (data) {
+        data.forEach(function (dataItem, index) {
+          dataItem.rowHeight = differentHeights[index % 4];
+        });
+        setRowData(data);
+      }
     };
 
     updateData(applications);
