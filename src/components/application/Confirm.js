@@ -5,7 +5,7 @@ import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 import PrintApplication from "./PrintApplication";
-import './Confirm.css';
+import "./Confirm.css";
 
 function Confirm(props) {
   const [print, setPrint] = useState(false);
@@ -22,13 +22,13 @@ function Confirm(props) {
         <Container className="text-center">
           <Row className="mb-5 text-center">
             <Col md={5}></Col>
-              <Row className="thumb-row">
-                <Col md={8} className="rounded-circle thumbs-up bg-info">
-                  <h1 className="text-center text-white my-auto">
-                    <FiThumbsUp size={70} />
-                  </h1>
-                </Col>
-              </Row>
+            <Row className="thumb-row">
+              <Col md={8} className="rounded-circle thumbs-up bg-info">
+                <h1 className="text-center text-white my-auto">
+                  <FiThumbsUp size={70} />
+                </h1>
+              </Col>
+            </Row>
             <Col md={5}></Col>
           </Row>
 
@@ -66,10 +66,10 @@ function Confirm(props) {
         </Container>
         <Container className="text-center">
           <button
-            className="btn btn-info btn-lg px-5"
+            className="btn btn-info btn-lg px-5 py-3"
             onClick={() => printButtonHandler()}
           >
-            <h4>Print Application</h4>
+            <h4 style={{ marginBottom: 0 }}>Print Application</h4>
           </button>
         </Container>
       </div>

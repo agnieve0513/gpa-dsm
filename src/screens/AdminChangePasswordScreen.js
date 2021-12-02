@@ -7,6 +7,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import Swal from "sweetalert2";
 import Header from "../components/Header";
 
+import './AdminChangePasswordScreen.css';
+
 function AdminChangePasswordScreen({ location, history }) {
   const [old_password, setOldPassword] = useState("");
   const [new_password, setNewPassword] = useState("");
@@ -119,13 +121,13 @@ function AdminChangePasswordScreen({ location, history }) {
                 <Row>
                   <Col md={6} className="mx-auto">
                     <div className="d-grid gap-2 mt-3">
-                      <Button type="submit" variant="success" className="me-1">
+                      <Button type="submit" variant="success" className="">
                         SUBMIT
                       </Button>
                     </div>
                   </Col>
                   <Col md={6}>
-                    <div className="d-grid gap-2 mt-3">
+                    <div className="d-grid gap-2 mt-3 cancel">
                       <LinkContainer to="/dashboard">
                         <Button type="button" variant="danger">
                           CANCEL
