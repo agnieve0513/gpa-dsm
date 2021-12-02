@@ -987,19 +987,19 @@ function RecordsForm() {
             className="ag-theme-alpine"
             style={{ height: 400, width: 100 + "%" }}
           >
-            <div className="mb-2">
-              {/* <Button onClick={() => printState()} className="me-2" variant={"info"}>Print State</Button> */}
-              {/* <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
-                        <Button onClick={() => restoreState()} className="me-2" size='sm' variant={"secondary"}>Restore State</Button> */}
-              <Button
-                onClick={() => resetState()}
-                className="me-2"
-                size="sm"
-                variant={"success"}
-              >
-                Reset Filter
-              </Button>
-            </div>
+            <Row>
+                <Col md="12" style={{"padding":0}}>
+                  <Button
+                    onClick={() => resetState()}
+                    className="mb-2 float-end"
+                    size="sm"
+                    variant={"success"}
+
+                  >
+                    Reset Filter
+                  </Button>
+                </Col>
+              </Row>
             <AgGridReact
               frameworkComponents={{
                 buttonAction: ButtonClick,
