@@ -53,7 +53,7 @@ function HomeScreen() {
                     </a>
                   </p>
                   <p className="pd-6"><Link to={`/faq`} className="text-white"><u>Online Rebate Requirements and FAQ</u></Link></p>
-                  <br/>
+                  <Row className="p-4"/>
                 </Row>
                 <Row>
                     <br/>

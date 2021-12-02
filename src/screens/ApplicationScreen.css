@@ -7,6 +7,37 @@
   overflow: auto;
 }
 
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.bottomButton {
+  padding: 0 2em 0 2em;
+}
+
+#cancelButton {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+@media (max-width: 425px) {
+  .buttonGroup {
+    /* m-0 px-4 d-flex flex-column align-items-center */
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.5em 0 1.5em;
+  }
+
+  .bottomButton {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
 .footer-text
 {
   left:0;
