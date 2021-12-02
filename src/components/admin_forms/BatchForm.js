@@ -1169,7 +1169,7 @@ function BatchForm() {
                         <>
                           {Object.keys(batch_applications[0]).length > 3 ? (
                             <>
-                              <Dropdown>
+                              <Dropdown>1
                                 <Dropdown.Toggle
                                   variant="success"
                                   id="dropdown-basic"
