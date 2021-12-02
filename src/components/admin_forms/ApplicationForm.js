@@ -82,6 +82,8 @@ function ApplicationForm() {
   const [reason, setReason] = useState("");
   const [batch, setBatch] = useState("");
   const [comment, setComment] = useState("");
+  const [swalInfo, setSwalInfo] = useState("");
+  const [updateState, setUpdateState] = useState(0);
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -317,35 +319,21 @@ function ApplicationForm() {
     ],
   };
 
-  const handleOnChange = (e, doc_type) =>
-  {
-    if(doc_type === "irs_form")
-    {
-      setIrsForm(e.target.files[0])
-    }
-    else if(doc_type === "other_doc1")
-    {
-      setOtherDoc1(e.target.files[0])
-    }
-    else if(doc_type === "other_doc2")
-    {
-      setOtherDoc2(e.target.files[0])
-    }
-    else if(doc_type=== "letter_authorization")
-    {
-      setLetterAuthorization(e.target.files[0])
-    }
-    else if (doc_type === "invoice")
-    {
-      setInvoice(e.target.files[0])
-    }
-    else if (doc_type === "installer_certification")
-    {
-      setInstallerCertification(e.target.files[0])
-    }
-    else if(doc_type === "disposal_receipt")
-    {
-      setDisposalSlip(e.target.files[0])
+  const handleOnChange = (e, doc_type) => {
+    if (doc_type === "irs_form") {
+      setIrsForm(e.target.files[0]);
+    } else if (doc_type === "other_doc1") {
+      setOtherDoc1(e.target.files[0]);
+    } else if (doc_type === "other_doc2") {
+      setOtherDoc2(e.target.files[0]);
+    } else if (doc_type === "letter_authorization") {
+      setLetterAuthorization(e.target.files[0]);
+    } else if (doc_type === "invoice") {
+      setInvoice(e.target.files[0]);
+    } else if (doc_type === "installer_certification") {
+      setInstallerCertification(e.target.files[0]);
+    } else if (doc_type === "disposal_receipt") {
+      setDisposalSlip(e.target.files[0]);
     }
     dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
@@ -371,26 +359,47 @@ function ApplicationForm() {
     console.log(status, " - ", stage);
     if (status === 3) {
       console.log(reason);
-      console.log(status);   
-
-      if (window.confirm("Are you sure you want to reject application?")) {
-        dispatch(updateApplication(applicationId, status, stage, reason));
-        alert("Saved!");
-        setShow(false);
-        setShowModal(false);
-      }
+      console.log(status);
+      Swal.fire({
+        title: "Are you sure you want to reject application?",
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        // denyButtonText: `Cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(updateApplication(applicationId, status, stage, reason));
+          setShow(false);
+          setShowModal(false);
+          Swal.fire("Success", "Application has been rejected!", "success");
+        }
+      });
     } else {
-      setStatus(status);
-      setStage(stage);
-      if (window.confirm("Are you sure you want to process application?")) {
-        dispatch(
-          updateApplication(applicationId, status, stage, reason, batch)
-        );
-        alert("Saved!");
-        setShowModal(false);
-      }
+      setUpdateState(updateState + 1);
     }
   };
+
+  useEffect(() => {
+    if (swalInfo !== "") {
+      Swal.fire({
+        title: `Are you sure you want to ${swalInfo}?`,
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        // denyButtonText: `Cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setStatus(status);
+          setStage(stage);
+          dispatch(
+            updateApplication(applicationId, status, stage, reason, batch)
+          );
+          setShowModal(false);
+          Swal.fire("Success", "Application has been processed!", "success");
+        }
+      });
+    }
+  }, [swalInfo, updateState]);
 
   const resetHandler = () => {
     setShow(false);
@@ -469,16 +478,13 @@ function ApplicationForm() {
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
-      console.log("selected application: ",selected.data);
+      console.log("selected application: ", selected.data);
       dispatch(detailApplication(selected.data.Application_Id));
       setApplicationId(selected.data.Application_Id);
 
       dispatch(commentsApplication(selected.data.Application_Id));
       dispatch(logsApplication(selected.data.Application_Id));
       setShow(true);
-
-
-
     };
     return (
       <div
@@ -906,17 +912,23 @@ function ApplicationForm() {
                                     size={"sm"}
                                   >
                                     Click to Download
-                                  </Button>{" "} <br />
-                                </span> 
-                                <Form.Group controlId="invoice" className="mb-3">
+                                  </Button>{" "}
+                                  <br />
+                                </span>
+                                <Form.Group
+                                  controlId="invoice"
+                                  className="mb-3"
+                                >
                                   <InputGroup>
                                     <Form.Control
                                       name="invoice"
                                       type="file"
-                                      onChange={(e) => handleOnChange(e, "invoice") }
+                                      onChange={(e) =>
+                                        handleOnChange(e, "invoice")
+                                      }
                                     />
                                   </InputGroup>
-                                  
+
                                   {invoice ? (
                                     <>
                                       {fileCode ? (
@@ -956,8 +968,10 @@ function ApplicationForm() {
                                     Click to Download
                                   </Button>{" "}
                                 </span>
-                                <Form.Group controlId="irs_form" className="mb-3">
-                                    
+                                <Form.Group
+                                  controlId="irs_form"
+                                  className="mb-3"
+                                >
                                   <InputGroup>
                                     <Form.Control
                                       name="irs_form"
@@ -967,7 +981,7 @@ function ApplicationForm() {
                                       }
                                     />
                                   </InputGroup>
-                                  
+
                                   {irs_form ? (
                                     <>
                                       {fileCode ? (
@@ -995,7 +1009,7 @@ function ApplicationForm() {
                                 <span>
                                   Letter of Authorization{" "}
                                   <Button
-                                  className="mb-2"
+                                    className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1007,19 +1021,25 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>
-                                </span> <br />
-                                <Form.Group controlId="letter_authorization" className="mb-3">
-                                    
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="letter_authorization"
+                                  className="mb-3"
+                                >
                                   <InputGroup>
                                     <Form.Control
                                       name="letter_authorization"
                                       type="file"
                                       onChange={(e) =>
-                                        handleOnChange(e, "letter_authorization")
+                                        handleOnChange(
+                                          e,
+                                          "letter_authorization"
+                                        )
                                       }
                                     />
                                   </InputGroup>
-                                  
+
                                   {letter_authorization ? (
                                     <>
                                       {fileCode ? (
@@ -1034,8 +1054,12 @@ function ApplicationForm() {
                                       ) : (
                                         <>no upload</>
                                       )}
-                                      Filename: {letter_authorization.name} <br />
-                                      File Type: {letter_authorization.type} <br />
+                                      Filename: {letter_authorization.name}{" "}
+                                      <br />
+                                      File Type: {
+                                        letter_authorization.type
+                                      }{" "}
+                                      <br />
                                       <br />
                                     </>
                                   ) : (
@@ -1047,20 +1071,24 @@ function ApplicationForm() {
                                 <span>
                                   Disposal Slip{" "}
                                   <Button
-                                  className="mb-2"
+                                    className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0].disposal_slip
+                                        application.Submitted_docs[0]
+                                          .disposal_slip
                                       )
                                     }
                                     size={"sm"}
                                   >
                                     Click to Download
                                   </Button>{" "}
-                                </span> <br />
-                                <Form.Group controlId="disposal_slilp" className="mb-3">
-                                    
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="disposal_slilp"
+                                  className="mb-3"
+                                >
                                   <InputGroup>
                                     <Form.Control
                                       name="disposal_slilp"
@@ -1070,7 +1098,7 @@ function ApplicationForm() {
                                       }
                                     />
                                   </InputGroup>
-                                  
+
                                   {disposal_slip ? (
                                     <>
                                       {fileCode ? (
@@ -1099,7 +1127,7 @@ function ApplicationForm() {
                                 <span>
                                   Other Document 1{" "}
                                   <Button
-                                  className="mb-2"
+                                    className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1110,8 +1138,12 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>{" "}
-                                </span> <br />
-                                <Form.Group controlId="other_doc1" className="mb-3">
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="other_doc1"
+                                  className="mb-3"
+                                >
                                   <InputGroup>
                                     <Form.Control
                                       name="other_doc1"
@@ -1121,7 +1153,7 @@ function ApplicationForm() {
                                       }
                                     />
                                   </InputGroup>
-                                  
+
                                   {other_doc1 ? (
                                     <>
                                       {fileCode ? (
@@ -1150,7 +1182,7 @@ function ApplicationForm() {
                                 <span>
                                   Other Document 2{" "}
                                   <Button
-                                  className="mb-2"
+                                    className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
@@ -1161,8 +1193,12 @@ function ApplicationForm() {
                                   >
                                     Click to Download
                                   </Button>{" "}
-                                </span> <br />
-                                <Form.Group controlId="letter_authorization" className="mb-3">
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="letter_authorization"
+                                  className="mb-3"
+                                >
                                   <InputGroup>
                                     <Form.Control
                                       name="letter_authorization"
@@ -1172,7 +1208,7 @@ function ApplicationForm() {
                                       }
                                     />
                                   </InputGroup>
-                                  
+
                                   {other_doc2 ? (
                                     <>
                                       {fileCode ? (
@@ -1196,7 +1232,6 @@ function ApplicationForm() {
                                   )}
                                 </Form.Group>
                               </Col>
-                              
                             </Row>
                           </>
                         ) : (
@@ -1275,38 +1310,73 @@ function ApplicationForm() {
                                 </Container>
                               ) : roleId === 2 ? (
                                 <Container>
-                                  <Button onClick={() => updateStatus(1, 1)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to SPORD");
+                                      updateStatus(1, 1);
+                                    }}
+                                  >
                                     Send to SPORD
                                   </Button>
                                 </Container>
                               ) : roleId === 3 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Button
-                                    onClick={() => updateStatus(1, 3)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to Supervisor");
+                                      updateStatus(1, 3);
+                                    }}
                                     className="mb-1"
                                   >
                                     Send to Supervisor
                                   </Button>{" "}
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 4)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo(
+                                        "Send Back to Customer Service"
+                                      );
+                                      updateStatus(1, 4);
+                                    }}
+                                  >
                                     Send Back to Customer Service
                                   </Button>
                                 </Container>
                               ) : roleId === 6 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
-                                  <Button onClick={() => updateStatus(1, 5)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Budget");
+                                      updateStatus(1, 5);
+                                    }}
+                                  >
                                     Send to Budget
                                   </Button>
-                                  <Button onClick={() => updateStatus(1, 1)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send Back to SPORD");
+                                      updateStatus(1, 1);
+                                    }}
+                                  >
                                     Send Back to SPORD
                                   </Button>
                                 </Container>
                               ) : roleId === 4 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
-                                  <Button onClick={() => updateStatus(1, 2)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Accounting");
+                                      updateStatus(1, 2);
+                                    }}
+                                  >
                                     Send to Accounting
                                   </Button>
-                                  <Button onClick={() => updateStatus(1, 3)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send Back to Supervisor");
+                                      updateStatus(1, 3);
+                                    }}
+                                  >
                                     Send Back to Supervisor
                                   </Button>
                                 </Container>
@@ -1315,7 +1385,10 @@ function ApplicationForm() {
                                   <Button
                                     variant={"success"}
                                     className="mb-1"
-                                    onClick={() => updateStatus(1, 0)}
+                                    onClick={() => {
+                                      setSwalInfo("Approve Application");
+                                      updateStatus(1, 0);
+                                    }}
                                   >
                                     Approve Application
                                   </Button>
@@ -1323,7 +1396,10 @@ function ApplicationForm() {
                                   <Button
                                     variant={"danger"}
                                     className="mb-1"
-                                    onClick={() => updateStatus(1, 1)}
+                                    onClick={() => {
+                                      setSwalInfo("(Decline) Send to Spord");
+                                      updateStatus(1, 1);
+                                    }}
                                   >
                                     (Decline) Send to Spord
                                   </Button>
@@ -1331,7 +1407,10 @@ function ApplicationForm() {
                                   <Button
                                     variant={"danger"}
                                     className="mb-1"
-                                    onClick={() => updateStatus(1, 4)}
+                                    onClick={() => {
+                                      setSwalInfo("(Decline) Send to CS");
+                                      updateStatus(1, 4);
+                                    }}
                                   >
                                     (Decline) Send to CS
                                   </Button>
@@ -1340,28 +1419,56 @@ function ApplicationForm() {
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Button
                                     variant={"success"}
-                                    onClick={() => updateStatus(1, 0)}
+                                    onClick={() => {
+                                      setSwalInfo("Approve Application");
+                                      updateStatus(1, 0);
+                                    }}
                                   >
                                     Approve Application
                                   </Button>
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 4)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to CS");
+                                      updateStatus(1, 4);
+                                    }}
+                                  >
                                     Send to CS
                                   </Button>{" "}
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 1)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to SPORD");
+                                      updateStatus(1, 1);
+                                    }}
+                                  >
                                     Send to SPORD
                                   </Button>{" "}
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 3)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Supervisor");
+                                      updateStatus(1, 3);
+                                    }}
+                                  >
                                     Send to Supervisor
                                   </Button>{" "}
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 5)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Budget");
+                                      updateStatus(1, 5);
+                                    }}
+                                  >
                                     Send to Budget
                                   </Button>{" "}
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 2)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Accounting");
+                                      updateStatus(1, 2);
+                                    }}
+                                  >
                                     Send to Accounting
                                   </Button>{" "}
                                   <br />
@@ -1496,23 +1603,21 @@ function ApplicationForm() {
             className="ag-theme-alpine"
             style={{ height: 400, width: 100 + "%" }}
           >
-            
-              {/* <Button onClick={() => printState()} className="me-2" variant={"info"}>Print State</Button> */}
-              {/* <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
+            {/* <Button onClick={() => printState()} className="me-2" variant={"info"}>Print State</Button> */}
+            {/* <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
                         <Button onClick={() => restoreState()} className="me-2" size='sm' variant={"secondary"}>Restore State</Button> */}
-              <Row>
-                <Col md="12" style={{"padding":0}}>
-                  <Button
-                    onClick={() => resetState()}
-                    className="mb-2 float-end"
-                    size="sm"
-                    variant={"success"}
-
-                  >
-                    Reset Filter
-                  </Button>
-                </Col>
-              </Row>
+            <Row>
+              <Col md="12" style={{ padding: 0 }}>
+                <Button
+                  onClick={() => resetState()}
+                  className="mb-2 float-end"
+                  size="sm"
+                  variant={"success"}
+                >
+                  Reset Filter
+                </Button>
+              </Col>
+            </Row>
             <AgGridReact
               frameworkComponents={{
                 buttonAction: ButtonClick,
