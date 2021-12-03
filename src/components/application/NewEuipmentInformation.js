@@ -201,9 +201,8 @@ function NewEuipmentInformation(props) {
               <InputGroup>
                 <Form.Control
                   name="file2"
-                  placeholder="Upload Installer's Certification"
-                  type="file"
-                  onChange={(e) => handleChangeInstallersInformation(e)}
+                  placeholder="Installer's Certification"
+                  type="text"
                 />
               </InputGroup>
               {
