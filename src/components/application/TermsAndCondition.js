@@ -17,8 +17,7 @@ import DisplayPDF from "./Pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TermsAndCondition(props) {
-  const code =
-    "eyJpdiI6InlcL3VHMXFOZ1BOam1hK2tJV0FsM0xRPT0iLCJ2YWx1ZSI6IlwvcjhLMGhyZ2tBckNGQzN1V0daOE5hTnZ4bFRHZWZRQ1V1MFI2N1I5M05ZPSIsIm1hYyI6ImVjM2U2YzAyY2U5YTZmYjJhNmU5YWRhZGI5NTk1MTBiOTIxY2E4ODBhOGViZGRjZWVmOWRmNjBiNzM1M2YwMjAifQ==";
+  console.log(props);
   const dispatch = useDispatch();
   const retriveTermsAndCondition = useSelector(
     (state) => state.retriveTermsAndCondition
@@ -28,7 +27,7 @@ function TermsAndCondition(props) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(retrievePDFAction(code));
+    dispatch(retrievePDFAction("comm"));
   }, []);
 
   const styles = StyleSheet.create({

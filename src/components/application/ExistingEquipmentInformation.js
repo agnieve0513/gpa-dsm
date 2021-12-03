@@ -139,14 +139,13 @@ function ExistingEquipmentInformation(props) {
   }
 
   return (
-    <Row>
+    <Row className="w-100 mx-0">
       <Col md={3}></Col>
       <Col md={6}>
         <h4 className="text-center text-info">
           Existing Equipment Information
         </h4>
-        <Row>
-          <Col md={12}>
+        <Row className="px-0 d-flex flex-row">
             <Form.Check
               className="mb-3"
               inline
@@ -158,16 +157,15 @@ function ExistingEquipmentInformation(props) {
               onChange={(e) => handleCheckBox(e)}
             />
             <a
-              className="text-success"
+              className="text-success fit-content"
               href="./sample_invoice.png"
               rel="noreferrer"
               target="_blank"
             >
               <i className="fa fa-question-circle"></i>
             </a>
-          </Col>
         </Row>
-        <Row>
+        <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="system_type" className="mb-3">
               <Form.Label>SYSTEM TYPE</Form.Label>
@@ -186,7 +184,7 @@ function ExistingEquipmentInformation(props) {
           </Col>
         </Row>
         {props.system_type === "Dryer" || props.system_type === "Washer" ? (
-          <Row>
+          <Row className="px-0">
             <Col md={6} className="mb-3">
               <Form.Group controlId="old_btu">
                 <Form.Label>BTU</Form.Label>
@@ -231,7 +229,7 @@ function ExistingEquipmentInformation(props) {
         ) : (
           <></>
         )}
-        <Row>
+        <Row className="px-0">
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_quantity">
               <Form.Label>QUANTITY</Form.Label>
@@ -276,7 +274,7 @@ function ExistingEquipmentInformation(props) {
           </Col>
         </Row>
 
-        <Row>
+        <Row className="px-0">
           <Col md={12}>
             <Form.Label>EQUIPMENT CONDITION PRIOR TO REMOVAL</Form.Label> <br />
             <Form.Check
@@ -309,7 +307,7 @@ function ExistingEquipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <Row>
+        <Row className="px-0">
           <Col md={12} className="mb-3">
             <Form.Group controlId="seer">
               <Form.Label>SEER</Form.Label>
@@ -329,7 +327,7 @@ function ExistingEquipmentInformation(props) {
             )} */}
           </Col>
         </Row>
-        <Row>
+        <Row className="px-0">
           <Col md={12}>
             <Form.Label>DISPOSAL PARTY</Form.Label> <br />
             <Form.Check
@@ -411,7 +409,7 @@ function ExistingEquipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <Row className="mt-3">
+        <Row className="mt-3 px-0">
           <Col md={12}>
             <Form.Check
               inline
@@ -432,8 +430,7 @@ function ExistingEquipmentInformation(props) {
             )}
           </Col>
         </Row>
-
-        <Row>
+        <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="date" className="mb-3">
               <Form.Label>DATE</Form.Label>
@@ -455,26 +452,18 @@ function ExistingEquipmentInformation(props) {
             )}
           </Col>
         </Row>
-
-        <Row>
-          <Col md={4}></Col>
-          <Col md={4}>
-            <Row>
-              <Button
-                variant="success"
-                size="lg"
-                onClick={() => addEquipmentHandler()}
-                className="d-flex justify-content-center"
-                disabled={props.no_existing ? true : false}
-              >
-                Add Equipment
-              </Button>
-            </Row>
-          </Col>
-          <Col md={4}></Col>
+        <Row className="px-0 pb-3 d-flex justify-content-center">
+          <Button
+            className="mx-auto"
+            variant="success"
+            size="lg"
+            onClick={() => addEquipmentHandler()}
+            disabled={props.no_existing ? true : false}
+          >
+            Add Equipment
+          </Button>
         </Row>
-
-        <Row>
+        <Row className="px-0">
           <Col md={12}>{showTable()}</Col>
         </Row>
       </Col>

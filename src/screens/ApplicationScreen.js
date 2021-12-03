@@ -758,11 +758,12 @@ function ApplicationScreen() {
           ) : (
             <></>
           )}
-          <div className="d-flex justify-content-center mt-5">
+          <div className="mt-5 buttonGroup">
             <Button
               onClick={() => handleBackClick(step)}
               variant={"secondary"}
-              className="px-5 me-2"
+              className="m-1 px-5 py-2 bottomButton"
+              id="cancelButton"
               size={"lg"}
             >
               BACK
@@ -772,7 +773,7 @@ function ApplicationScreen() {
               disabled={step > 1 ? (verify ? false : true) : ""}
               variant={"success"}
               size={"lg"}
-              className="px-5"
+              className="m-1 px-5 py-2 bottomButton"
             >
               CONTINUE
             </Button>

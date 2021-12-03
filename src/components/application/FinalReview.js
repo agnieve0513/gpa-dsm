@@ -56,7 +56,7 @@ function FinalReview(props) {
   let total_rebate = 0;
 
   return (
-    <Row>
+    <Row className="w-100 mx-0">
       <Col md={1}></Col>
       <Col md={10}>
         <h4 className="text-center text-info mb-3">Final Review</h4>
@@ -72,16 +72,19 @@ function FinalReview(props) {
                 eventKey="application_information"
                 title="Applicant Information"
               >
-                <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 pb-4 text-info">
-                    Applicant Info{" "}
+                <Container className="ml-2 mr-2 px-2">
+                  <Row className="pt-3 pb-4 px-2 mx-0 d-flex flex-row justify-content-between w-100">
+                    <h3 className="my-0 w-75 text-info text-start">
+                      Applicant Info{" "}
+                    </h3>
                     <button
-                      className="btn edit-btn btn-sm"
-                      onClick={() => backToApplicationHandler()}
+                        title="Edit details"
+                        className="w-25 editButton text-end"
+                        onClick={() => backToApplicationHandler()}
                     >
-                      <i className="fa fa-edit"></i> Edit Information
+                      <i className="fa fa-pen"></i>
                     </button>
-                  </h3>
+                  </Row>
                   <Row>
                     <Col><p className='title'>GPA Electric Account number</p></Col>
                     <Col><p><b>{props.account_no}</b>{" "}</p></Col>
@@ -158,16 +161,18 @@ function FinalReview(props) {
                 title="New Equipment Information"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 mb-3 text-info">
-                    New Equipment Info{" "}
+                <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                    <h3 className="px-0 my-0 w-75 text-info text-start">
+                      New Equipment Info{" "}
+                    </h3>
                     <button
-                      onClick={() => backToNewEquipmentHandler()}
-                      className="btn edit-btn btn-sm"
+                        title="Edit details"
+                        className="w-25 editButton text-end"
+                        onClick={() => backToNewEquipmentHandler()}
                     >
-                      <i className="fa fa-edit"></i> Edit Information
+                      <i className="fa fa-pen"></i>
                     </button>
-                  </h3>
-
+                  </Row>
                   <Row>
                     <Col md={12}>
                       {props.new_equipments.length >= 1 ? (
@@ -332,7 +337,7 @@ function FinalReview(props) {
                           </Row>
                         </>
                       ) : (
-                        <>No Equipment</>
+                        <Row className="py-4">No Equipment</Row>
                       )}
                     </Col>
                     <Col md={6}></Col>
@@ -344,16 +349,18 @@ function FinalReview(props) {
                 title="Old/Existing Equipment Information"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 mb-3 text-info">
-                    Existing/Old Equipment Info{" "}
+                  <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                    <h3 className="px-0 my-0 w-75 text-info text-start">
+                      Old Equipment Info{" "}
+                    </h3>
                     <button
-                      onClick={() => backToOldEquipmentHandler()}
-                      className="btn edit-btn btn-sm"
+                        title="Edit details"
+                        className="w-25 editButton text-end"
+                        onClick={() => backToOldEquipmentHandler()}
                     >
-                      <i className="fa fa-edit"></i> Edit Information
+                      <i className="fa fa-pen"></i>
                     </button>
-                  </h3>
-
+                  </Row>
                   <MaterialTable
                       columns={[
                         { title: "System Type", field: "system_type" },
@@ -396,16 +403,18 @@ function FinalReview(props) {
                 title="Submission of Documentation"
               >
                 <Container className="ml-2 mr-2">
-                  <h3 className="mt-3 mb-3 text-info">
-                    Submission of Documentation{" "}
+                  <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                    <h3 className="px-0 my-0 w-75 text-info text-start">
+                      Submission of Documentation{" "}
+                    </h3>
                     <button
-                      onClick={() => backToSubmissionOfDocumentation()}
-                      className="btn edit-btn btn-sm"
+                        title="Edit details"
+                        className="w-25 editButton text-end"
+                        onClick={() => backToSubmissionOfDocumentation()}
                     >
-                      <i className="fa fa-edit"></i> Edit Information
+                      <i className="fa fa-pen"></i>
                     </button>
-                  </h3>
-                  
+                  </Row>                  
                     {
                       props.letter_authorization?
                       <>

@@ -124,7 +124,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="account_no">
-                  <Form.Label>
+                  <Form.Label className="d-flex justify-content-between">
                     <b> GPA ELECTRIC ACCOUNT NUMBER{" "} </b>
                     <span
                       className="text-secondary"
@@ -192,7 +192,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
-                  <Form.Label>
+                  <Form.Label className="d-flex justify-content-between">
                     <b> BILL ID (Last 5 Digits){" "} </b>
                     <span
                       className="text-secondary"
@@ -209,7 +209,6 @@ function ApplicationInformation(props) {
                       <i className="fa fa-question-circle"></i>
                     </span>
                   </Form.Label>
-                  <br />
                   <InputGroup>
                     <Form.Control
                       type="text"
@@ -294,7 +293,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
-                  <Form.Label>M. I.</Form.Label>
+                  <Form.Label><b>M. I.</b></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
