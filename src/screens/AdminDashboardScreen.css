@@ -65,6 +65,7 @@ input[type=checkbox]
     #dashboardTitle h3
     {
         float: left !important;
+        width: max-content;
     }
 
     #adminHeader
