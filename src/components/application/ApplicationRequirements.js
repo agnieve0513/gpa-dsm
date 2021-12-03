@@ -3,7 +3,7 @@ import { Row, Col, Card, Table, Modal, Button, Image } from "react-bootstrap";
 import prerequisites from "./source_files/document-prerequisites";
 import ModalImage from "../ModalImage";
 
-import "./ApplicationInformation.css";
+// import "./ApplicationInformation.css";
 
 function ApplicationRequirements(props) {
   const [modalShow, setModalShow] = useState(false);
@@ -13,14 +13,13 @@ function ApplicationRequirements(props) {
   });
 
   return (
-    <Row className="main">
+    <Row className="mx-0 main d-flex justify-content-center">
       <ModalImage
         data={modalData}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-      <Col md={2}></Col>
-      <Col md={8}>
+      <Col className="px-0" id="requirementTable" md={8}>
         <h4 className="text-center text-info">APPLICATION REQUIREMENTS</h4>
         <p className="px-8 text-center">
           For a smooth and complete application process we recommend that you
@@ -31,7 +30,6 @@ function ApplicationRequirements(props) {
             application.{" "}
           </span>
         </p>
-
         <Card>
           <Card.Header>
             <Card.Title className="text-center">
@@ -41,7 +39,7 @@ function ApplicationRequirements(props) {
           <Card.Body className="p-0">
             <Table striped bordered hover responsive>
               <thead className="bg-info text-light">
-                <tr className="p-4">
+                <tr className="mx-auto">
                   <th width="5%">#</th>
                   <th width="20%">Description</th>
                   <th width="40%">Information (Required)</th>
@@ -85,7 +83,6 @@ function ApplicationRequirements(props) {
           </Card.Body>
         </Card>
       </Col>
-      <Col md={2}></Col>
     </Row>
   );
 }

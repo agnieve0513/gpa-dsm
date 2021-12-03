@@ -81,13 +81,13 @@ function AdminDashboardScreen({ location, history }) {
               id="left-tabs-example"
               defaultActiveKey="application"
             >
-              <Container className="mb-4">
-                <Row className="p-0">
-                  <Col md={8} id="adminDashBoardNav">
-                    <Nav variant="pills">
+              <Container>
+                <Row className="p-0 mb-4" id="adminHeader">
+                  <Col md={8} className="d-flex" id="adminDashBoardNav">
+                    <Nav variant="pills mb-4" id="navEquipmentPills">
                       {applicationForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="application">
+                          <Nav.Link eventKey="application" className="d-flex align-items-center">
                             APPLICATION
                           </Nav.Link>
                         </Nav.Item>
@@ -97,7 +97,7 @@ function AdminDashboardScreen({ location, history }) {
 
                       {batchForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="batch">BATCH</Nav.Link>
+                          <Nav.Link eventKey="batch" className="d-flex align-items-center">BATCH</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -105,7 +105,7 @@ function AdminDashboardScreen({ location, history }) {
 
                       {usersForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="users">USERS</Nav.Link>
+                          <Nav.Link eventKey="users" className="d-flex align-items-center">USERS</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -113,7 +113,7 @@ function AdminDashboardScreen({ location, history }) {
 
                       {equipmentForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="equipment">EQUIPMENT</Nav.Link>
+                          <Nav.Link eventKey="equipment" className="d-flex align-items-center">EQUIPMENT</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -121,9 +121,7 @@ function AdminDashboardScreen({ location, history }) {
 
                       {tcForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="template">
-                            T & C TEMPLATE
-                          </Nav.Link>
+                          <Nav.Link eventKey="template" className="d-flex align-items-center">T & C TEMPLATE</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -131,7 +129,7 @@ function AdminDashboardScreen({ location, history }) {
 
                       {recordForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="records">Records</Nav.Link>
+                          <Nav.Link eventKey="records" className="d-flex align-items-center">RECORDS</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -143,7 +141,7 @@ function AdminDashboardScreen({ location, history }) {
                                                 </Nav.Item>:<></>} */}
                     </Nav>
                   </Col>
-                  <Col md={4}>
+                  <Col md={4} id="dashboardTitle">
                     <h3 className="float-end text-info">
                       {role_name} Dashboard
                     </h3>

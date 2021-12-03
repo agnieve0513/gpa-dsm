@@ -52,3 +52,61 @@ input[type=checkbox]
   width: 1.1em;
   height:1.1em;
 }
+
+@media (max-width: 768px) 
+{
+    #adminHeader 
+    {
+        flex-direction: column-reverse;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+    #dashboardTitle h3
+    {
+        float: left !important;
+    }
+
+    #adminHeader
+    {
+        flex-direction: column-reverse;
+    }
+
+    #adminDashBoardNav
+    {
+        flex-direction: row;
+        width: fit-content;
+    }
+
+    #adminDashBoardNav .nav-item
+    {
+        width: auto;
+    }
+
+    #navEquipmentPills
+    {
+        flex-wrap: nowrap;
+        height: max-content;
+    }
+
+    #navEquipmentPills .nav-item
+    {
+        align-items: center;
+    }
+
+    #navEquipmentPills .nav-item a
+    {
+        height: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 990px)
+{
+    .nav-item
+    {
+        border-style: solid;
+        border-color: white;
+        border-width: thin;
+    }
+}

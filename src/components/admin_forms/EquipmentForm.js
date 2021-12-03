@@ -23,22 +23,18 @@ function EquipmentForm() {
     return (
         <Container>
                     <Tab.Container id="left-tabs-example" defaultActiveKey="air_condition">
-                    <Row>
-                        <Col md={6} id="equipmentFormNav">
-                            <Nav variant="pills">
-                                    <Nav.Item className="mr-1">
-                                        <Nav.Link eventKey="air_condition">Air Conditioner</Nav.Link>
-                                    </Nav.Item>
-                                    <Nav.Item className="mr-1">
-                                        <Nav.Link eventKey="washer_dryer">Washer/Dryer</Nav.Link>
-                                    </Nav.Item>
-                                    {/* <Nav.Item className="mr-1">
-                                        <Nav.Link eventKey="commercial_air_conditioner">Commercial Air Conditioner</Nav.Link>
-                                    </Nav.Item> */}
-                                </Nav>
-                        </Col>
-                        <Col md={6}>
-                        </Col>
+                    <Row id="equipmentFormNav" className=" d-flex flex-row">
+                        <Nav variant="pills" className=" d-flex flex-row">
+                            <Nav.Item className="mr-1" id="navItemEquipment">
+                                <Nav.Link eventKey="air_condition">Air Conditioner</Nav.Link>
+                            </Nav.Item>
+                            <Nav.Item className="mr-1" id="navItemEquipment">
+                                <Nav.Link eventKey="washer_dryer">Washer/Dryer</Nav.Link>
+                            </Nav.Item>
+                            {/* <Nav.Item className="mr-1">
+                                <Nav.Link eventKey="commercial_air_conditioner">Commercial Air Conditioner</Nav.Link>
+                            </Nav.Item> */}
+                        </Nav>
                     </Row>
                     <Row className="mt-4">
                         <Col md={12}>

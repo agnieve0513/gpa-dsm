@@ -10,3 +10,8 @@
     background-color:#ffffff;
     color:black;
 }
+
+#navItemEquipment
+{
+    width: fit-content;
+}

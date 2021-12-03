@@ -117,7 +117,7 @@ function ApplicationInformation(props) {
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-      <h4 className="text-center text-info mb-4">APPLICANT'S INFORMATION</h4>
+      <h4 className="text-center text-info mb-4 h6 " id="blueHeader">APPLICANT'S INFORMATION</h4>
       <Row>
         <Col className="mx-auto" md={10}>
           <Form onSubmit={submitHandler}>
