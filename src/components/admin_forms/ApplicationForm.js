@@ -167,20 +167,13 @@ function ApplicationForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
-  // useEffect(() => {
-  //   dispatch(listApplications());
-  //   // dispatch(listBatchCurrent())
-  //   // dispatch(commentsApplication(applicationId))
-  // }, []);
-  // }, [application, successUpdate, addBatchSuccess,commentSucess])
-
   useEffect(() => {
     dispatch(listApplications());
-    dispatch(listBatchCurrent())
+    dispatch(listBatchCurrent());
     dispatch(detailApplication(applicationId));
     dispatch(logsApplication(applicationId));
-    dispatch(commentsApplication(applicationId))
-  }, [successUpdate, addBatchSuccess,commentSucess]);
+    dispatch(commentsApplication(applicationId));
+  }, [successUpdate, addBatchSuccess, commentSucess]);
 
   // Grid Functions . . .
   const onGridReady = (params) => {
@@ -1260,8 +1253,7 @@ function ApplicationForm() {
                               </Modal.Title>
                             </Modal.Header>
                             <Modal.Body className="text-center">
-                              {
-                              status === 3 ? (
+                              {status === 3 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Form.Group
                                     controlId="role_id"
