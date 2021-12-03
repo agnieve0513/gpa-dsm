@@ -17,8 +17,15 @@ import {
   ButtonGroup,
   Table,
 } from "react-bootstrap";
-import { listBatch, listBatchApplication } from "../../actions/batchActions";
-import { uploadFileAction, retrieveFileAction} from "../../actions/fileActions";
+import {
+  listBatch,
+  listBatchApplication,
+  listBatchCurrent,
+} from "../../actions/batchActions";
+import {
+  uploadFileAction,
+  retrieveFileAction,
+} from "../../actions/fileActions";
 
 import {
   listApplications,
@@ -35,7 +42,7 @@ import ModalImage from "../ModalImage";
 import MaterialTable from "material-table";
 
 import "./BatchForm.css";
-
+import Swal from "sweetalert2";
 import TimeAgo from "javascript-time-ago";
 // English.
 import en from "javascript-time-ago/locale/en.json";
@@ -56,9 +63,10 @@ function BatchForm() {
   const [selectIds, setSelectedIds] = useState([]);
   const [showBatchApplicationTable, setShowBatchApplicationTable] =
     useState(false);
-
+  const [batch, setBatch] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
-    
+  const [updateState, setUpdateState] = useState();
+
   const [new_eq_index, setNewEqIndex] = useState(0);
   const [equipmentInfo, setEquipmentInfo] = useState([]);
   const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false);
@@ -69,7 +77,7 @@ function BatchForm() {
   const [commentShow, setCommentShow] = useState(false);
   const [show, setShow] = useState(false);
 
-    const [modalShow, setModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
@@ -124,7 +132,9 @@ function BatchForm() {
     success: successUpdate,
   } = applicationUpdate;
 
-  const batchApplicationUpdate = useSelector((state) => state.batchApplicationUpdate);
+  const batchApplicationUpdate = useSelector(
+    (state) => state.batchApplicationUpdate
+  );
   const {
     error: batchUpdateError,
     loading: batchUpdateLoading,
@@ -134,11 +144,9 @@ function BatchForm() {
   useEffect(() => {
     dispatch(listBatch());
     dispatch(listBatchApplication(currentBatch));
-
-  }, [dispatch, batchUpdateSuccess]);
+  }, [dispatch, batchUpdateSuccess, applicationUpdate]);
 
   const selectHandler = (rowdata) => {
-
     setCurrentBatch(rowdata.Id);
 
     dispatch(listBatchApplication(rowdata.Id));
@@ -155,27 +163,49 @@ function BatchForm() {
 
   let p = {};
 
-
   const updateStatus = (status, stage) => {
-
-    console.log(selectIds);
-
+    console.log(status, " - ", stage);
+    setStage(stage);
     if (status === 3) {
-      if (window.confirm("Are you sure you want to reject application?")) {
-        dispatch(updateBatchApplication(selectIds, status, stage, reason));
-        alert("Saved!");
-        setShowModal(false);
-      }
+      Swal.fire({
+        title: "Are you sure you want to reject application?",
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        // denyButtonText: `Cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(updateBatchApplication(selectIds, status, stage, reason));
+          setShow(false);
+          setShowModal(false);
+          Swal.fire("Success", "Application has been rejected!", "success");
+        }
+      });
     } else {
       setStatus(status);
       setStage(stage);
-      dispatch(updateBatchApplication(selectIds, status, stage, reason));
-      if (window.confirm("Are you sure you want to process application?")) {
-        alert("Saved!");
-        setShowModal(false);
-      }
+      setUpdateState(updateState + 1);
     }
   };
+
+  useEffect(() => {
+    if (swalInfo !== "" && status !== "" && stage !== "") {
+      Swal.fire({
+        title: `Are you sure you want to ${swalInfo}?`,
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        // denyButtonText: `Cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(updateBatchApplication(selectIds, status, stage, reason));
+          // setShow(false);
+          setShowModal(false);
+          Swal.fire("Success", "Application has been processed!", "success");
+        }
+      });
+    }
+  }, [swalInfo, updateState, status, stage]);
 
   const getSelected = (e, application_id) => {
     const checked = e.target.checked;
@@ -222,7 +252,7 @@ function BatchForm() {
   };
 
   const applicationViewHandler = (rowdata) => {
-    console.log("Row data: ",rowdata);
+    console.log("Row data: ", rowdata);
     setApplicationId(rowdata.Application_Id);
     dispatch(detailApplication(rowdata.Application_Id));
     dispatch(commentsApplication(rowdata.Application_Id));
@@ -247,10 +277,9 @@ function BatchForm() {
     dispatch(uploadFileAction(file, doc_type, control_no));
   };
 
-  const backToBatchesHandler = () =>
-  {
-    setShowApplicationTab(false)
-  }
+  const backToBatchesHandler = () => {
+    setShowApplicationTab(false);
+  };
 
   const handleOnChange = (e, doc_type) => {
     if (doc_type === "irs_form") {
@@ -1005,8 +1034,7 @@ function BatchForm() {
                               </Modal.Title>
                             </Modal.Header>
                             <Modal.Body className="text-center">
-                              {
-                              status === 3 ? (
+                              {status === 3 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Form.Group
                                     controlId="role_id"
@@ -1139,7 +1167,7 @@ function BatchForm() {
                                     className="mb-1"
                                     onClick={() => {
                                       setSwalInfo("Approve Application");
-                                      updateStatus(1, 0);
+                                      updateStatus(2, 0);
                                     }}
                                   >
                                     Approve Application
@@ -1173,7 +1201,7 @@ function BatchForm() {
                                     variant={"success"}
                                     onClick={() => {
                                       setSwalInfo("Approve Application");
-                                      updateStatus(1, 0);
+                                      updateStatus(2, 0);
                                     }}
                                   >
                                     Approve Application
@@ -1361,10 +1389,10 @@ function BatchForm() {
                 )}
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="text-center">
               {status === 3 ? (
-                <>
-                  <Form.Group controlId="role_id" className="mb-3">
+                <Container className="col-8 text-center btn-group-vertical">
+                  <Form.Group controlId="role_id" className="mb-1">
                     <Form.Select
                       onChange={(e) => setReason(e.target.value)}
                       value={reason}
@@ -1399,44 +1427,86 @@ function BatchForm() {
                   <Button variant={"danger"} onClick={() => updateStatus(3, 0)}>
                     Reject Application
                   </Button>
-                </>
+                </Container>
               ) : roleId === 2 ? (
-                <Button onClick={() => updateStatus(1, 1)}>
-                  Send to SPORD
-                </Button>
-              ) : roleId === 3 ? (
-                <>
-                  <Button onClick={() => updateStatus(1, 3)}>
-                    Send to Supervisor
+                <Container>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to SPORD");
+                      updateStatus(1, 1);
+                    }}
+                  >
+                    Send to SPORD
                   </Button>
-                  <Button onClick={() => updateStatus(1, 4)}>
+                </Container>
+              ) : roleId === 3 ? (
+                <Container className="col-8 text-center btn-group-vertical">
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to Supervisor");
+                      updateStatus(1, 3);
+                    }}
+                    className="mb-1"
+                  >
+                    Send to Supervisor
+                  </Button>{" "}
+                  <br />
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send Back to Customer Service");
+                      updateStatus(1, 4);
+                    }}
+                  >
                     Send Back to Customer Service
                   </Button>
-                </>
+                </Container>
               ) : roleId === 6 ? (
-                <>
-                  <Button onClick={() => updateStatus(1, 5)}>
+                <Container className="col-8 text-center btn-group-vertical">
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to Budget");
+                      updateStatus(1, 5);
+                    }}
+                  >
                     Send to Budget
                   </Button>
-                  <Button onClick={() => updateStatus(1, 1)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send Back to SPORD");
+                      updateStatus(1, 1);
+                    }}
+                  >
                     Send Back to SPORD
                   </Button>
-                </>
+                </Container>
               ) : roleId === 4 ? (
-                <>
-                  <Button onClick={() => updateStatus(1, 2)}>
+                <Container className="col-8 text-center btn-group-vertical">
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to Accounting");
+                      updateStatus(1, 2);
+                    }}
+                  >
                     Send to Accounting
                   </Button>
-                  <Button onClick={() => updateStatus(1, 3)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send Back to Supervisor");
+                      updateStatus(1, 3);
+                    }}
+                  >
                     Send Back to Supervisor
                   </Button>
-                </>
+                </Container>
               ) : roleId === 5 ? (
-                <>
+                <Container className="col-8 text-center btn-group-vertical">
                   <Button
                     variant={"success"}
                     className="mb-1"
-                    onClick={() => updateStatus(1, 0)}
+                    onClick={() => {
+                      setSwalInfo("Approve Application");
+                      updateStatus(2, 0);
+                    }}
                   >
                     Approve Application
                   </Button>
@@ -1444,7 +1514,10 @@ function BatchForm() {
                   <Button
                     variant={"danger"}
                     className="mb-1"
-                    onClick={() => updateStatus(1, 1)}
+                    onClick={() => {
+                      setSwalInfo("(Decline) Send to Spord");
+                      updateStatus(1, 1);
+                    }}
                   >
                     (Decline) Send to Spord
                   </Button>
@@ -1452,42 +1525,72 @@ function BatchForm() {
                   <Button
                     variant={"danger"}
                     className="mb-1"
-                    onClick={() => updateStatus(1, 4)}
+                    onClick={() => {
+                      setSwalInfo("(Decline) Send to CS");
+                      updateStatus(1, 4);
+                    }}
                   >
                     (Decline) Send to CS
                   </Button>
-                </>
+                </Container>
               ) : roleId === 1 ? (
-                <>
+                <Container className="col-8 text-center btn-group-vertical">
                   <Button
                     variant={"success"}
-                    className="mb-1"
-                    onClick={() => updateStatus(1, 0)}
+                    onClick={() => {
+                      setSwalInfo("Approve Application");
+                      updateStatus(2, 0);
+                    }}
                   >
                     Approve Application
                   </Button>
                   <br />
-                  <Button className="mb-1" onClick={() => updateStatus(1, 4)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to CS");
+                      updateStatus(1, 4);
+                    }}
+                  >
                     Send to CS
                   </Button>{" "}
                   <br />
-                  <Button className="mb-1" onClick={() => updateStatus(1, 1)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to SPORD");
+                      updateStatus(1, 1);
+                    }}
+                  >
                     Send to SPORD
                   </Button>{" "}
                   <br />
-                  <Button className="mb-1" onClick={() => updateStatus(1, 3)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to Supervisor");
+                      updateStatus(1, 3);
+                    }}
+                  >
                     Send to Supervisor
                   </Button>{" "}
                   <br />
-                  <Button className="mb-1" onClick={() => updateStatus(1, 5)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to Budget");
+                      updateStatus(1, 5);
+                    }}
+                  >
                     Send to Budget
                   </Button>{" "}
                   <br />
-                  <Button className="mb-1" onClick={() => updateStatus(1, 2)}>
+                  <Button
+                    onClick={() => {
+                      setSwalInfo("Send to Accounting");
+                      updateStatus(1, 2);
+                    }}
+                  >
                     Send to Accounting
                   </Button>{" "}
                   <br />
-                </>
+                </Container>
               ) : (
                 <></>
               )}
@@ -1495,11 +1598,16 @@ function BatchForm() {
           </Modal>
 
           <Row>
-            {
-              showApplicationTab ?
+            {showApplicationTab ? (
               <Col md={12}>
-                <Button variant={"white"} size={"sm"} className="mb-2" onClick={() => backToBatchesHandler()}>
-                  <i className="fa fa-arrow-left"></i> Back to Batches</Button>
+                <Button
+                  variant={"white"}
+                  size={"sm"}
+                  className="mb-2"
+                  onClick={() => backToBatchesHandler()}
+                >
+                  <i className="fa fa-arrow-left"></i> Back to Batches
+                </Button>
                 <MaterialTable
                   columns={[
                     {
@@ -1529,56 +1637,56 @@ function BatchForm() {
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
-                    {
-                      title: "Action",
-                      field: "actions",
-                      width: "10%",
-                      editComponent: (props) => {
-                        return <Button>Payts</Button>;
-                      },
-                      render: (rowdata) => (
-                        <>
-                          {Object.keys(batch_applications[0]).length > 3 ? (
-                            <>
-                              <Dropdown>
-                                <Dropdown.Toggle
-                                  variant="success"
-                                  id="dropdown-basic"
-                                  size="sm"
-                                  // disabled={roleId === 3 ? true : false}
-                                >
-                                  Actions
-                                </Dropdown.Toggle>
+                    // {
+                    //   title: "Action",
+                    //   field: "actions",
+                    //   width: "10%",
+                    //   editComponent: (props) => {
+                    //     return <Button>Payts</Button>;
+                    //   },
+                    //   render: (rowdata) => (
+                    //     <>
+                    //       {Object.keys(batch_applications[0]).length > 3 ? (
+                    //         <>
+                    //           <Dropdown>
+                    //             <Dropdown.Toggle
+                    //               variant="success"
+                    //               id="dropdown-basic"
+                    //               size="sm"
+                    //               // disabled={roleId === 3 ? true : false}
+                    //             >
+                    //               Actions
+                    //             </Dropdown.Toggle>
 
-                                <Dropdown.Menu>
-                                  <Dropdown.Item
-                                    onClick={() =>
-                                      applicationViewHandler(rowdata)
-                                    }
-                                  >
-                                    View
-                                  </Dropdown.Item>
-                                  <Dropdown.Item
-                                    disabled={roleId === 3 ? true : false}
-                                    onClick={() => changeStatusHandler(1)}
-                                  >
-                                    Process
-                                  </Dropdown.Item>
-                                  <Dropdown.Item
-                                    disabled={roleId === 3 ? true : false}
-                                    onClick={() => changeStatusHandler(3)}
-                                  >
-                                    Reject
-                                  </Dropdown.Item>
-                                </Dropdown.Menu>
-                              </Dropdown>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </>
-                      ),
-                    },
+                    //             <Dropdown.Menu>
+                    //               <Dropdown.Item
+                    //                 onClick={() =>
+                    //                   applicationViewHandler(rowdata)
+                    //                 }
+                    //               >
+                    //                 View
+                    //               </Dropdown.Item>
+                    //               <Dropdown.Item
+                    //                 disabled={roleId === 3 ? true : false}
+                    //                 onClick={() => changeStatusHandler(1)}
+                    //               >
+                    //                 Process
+                    //               </Dropdown.Item>
+                    //               <Dropdown.Item
+                    //                 disabled={roleId === 3 ? true : false}
+                    //                 onClick={() => changeStatusHandler(3)}
+                    //               >
+                    //                 Reject
+                    //               </Dropdown.Item>
+                    //             </Dropdown.Menu>
+                    //           </Dropdown>
+                    //         </>
+                    //       ) : (
+                    //         <></>
+                    //       )}
+                    //     </>
+                    //   ),
+                    // },
                   ]}
                   data={batch_applications}
                   title="Batch Application"
@@ -1608,7 +1716,7 @@ function BatchForm() {
                   </Button>
                 </div>
               </Col>
-              :
+            ) : (
               <Col md={12}>
                 <MaterialTable
                   columns={[
@@ -1653,13 +1761,9 @@ function BatchForm() {
                       color: "#FFF",
                     },
                   }}
-
-              
                 />
               </Col>
-            }
-            
-            
+            )}
           </Row>
         </Container>
       )}
