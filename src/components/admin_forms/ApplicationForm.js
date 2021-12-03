@@ -83,7 +83,7 @@ function ApplicationForm() {
   const [batch, setBatch] = useState("");
   const [comment, setComment] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
-  const [updateState, setUpdateState] = useState();
+  const [updateState, setUpdateState] = useState(0);
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -167,18 +167,13 @@ function ApplicationForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
-  // useEffect(() => {
-  //   dispatch(listApplications());
-  //   // dispatch(listBatchCurrent())
-  //   // dispatch(commentsApplication(applicationId))
-  // }, []);
-  // }, [application, successUpdate, addBatchSuccess,commentSucess])
-
   useEffect(() => {
     dispatch(listApplications());
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, [successUpdate]);
+    dispatch(listBatchCurrent());
+    dispatch(detailApplication(applicationId));
+    dispatch(logsApplication(applicationId));
+    dispatch(commentsApplication(applicationId));
+  }, [successUpdate, addBatchSuccess, commentSucess]);
 
   // Grid Functions . . .
   const onGridReady = (params) => {
@@ -346,12 +341,6 @@ function ApplicationForm() {
     dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
   };
-
-  useEffect(() => {
-    dispatch(listApplications());
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, []);
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
   const selectHandler = () => {};
@@ -365,9 +354,10 @@ function ApplicationForm() {
 
   const updateStatus = (status, stage) => {
     console.log(status, " - ", stage);
+
+    setStage(stage);
+
     if (status === 3) {
-      console.log(reason);
-      console.log(status);
       Swal.fire({
         title: "Are you sure you want to reject application?",
         // showDenyButton: true,
@@ -408,7 +398,7 @@ function ApplicationForm() {
         }
       });
     }
-  }, [swalInfo, updateState, status, stage]);
+  }, [updateState, status, stage, swalInfo]);
 
   const resetHandler = () => {
     setShow(false);

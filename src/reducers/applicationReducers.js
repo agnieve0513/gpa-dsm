@@ -1,6 +1,10 @@
 
 import {
 
+    BATCH_APPLICATION_UPDATE_REQUEST,
+    BATCH_APPLICATION_UPDATE_SUCCESS,
+    BATCH_APPLICATION_UPDATE_FAIL,
+
     APPLICATION_LIST_REQUEST,
     APPLICATION_LIST_SUCCESS,
     APPLICATION_LIST_FAIL,
@@ -131,6 +135,22 @@ export const applicationUpdateReducer = (state = {}, action) => {
             return {loading: false, success:true}
 
         case APPLICATION_UPDATE_FAIL:
+            return {loading: false, error: action.payload}
+        default:
+            return state
+    }
+}
+
+export const batchApplicationUpdateReducer = (state = {}, action) => {
+    switch(action.type)
+    {
+        case BATCH_APPLICATION_UPDATE_REQUEST:
+            return {loading: true}
+
+        case BATCH_APPLICATION_UPDATE_SUCCESS:
+            return {loading: false, success:true}
+
+        case BATCH_APPLICATION_UPDATE_FAIL:
             return {loading: false, error: action.payload}
         default:
             return state

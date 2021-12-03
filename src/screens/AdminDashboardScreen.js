@@ -150,7 +150,7 @@ function AdminDashboardScreen({ location, history }) {
               </Container>
               <Tab.Content>
                 <Tab.Pane eventKey="records">
-                  {usersForm ? <RecordsForm /> : <></>}
+                  {<RecordsForm /> }
                 </Tab.Pane>
                 <Tab.Pane eventKey="users">
                   {usersForm ? <UserForm /> : <></>}
