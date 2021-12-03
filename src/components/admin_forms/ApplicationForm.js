@@ -176,9 +176,11 @@ function ApplicationForm() {
 
   useEffect(() => {
     dispatch(listApplications());
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, [successUpdate]);
+    dispatch(listBatchCurrent())
+    dispatch(detailApplication(applicationId));
+    dispatch(logsApplication(applicationId));
+    dispatch(commentsApplication(applicationId))
+  }, [successUpdate, addBatchSuccess,commentSucess]);
 
   // Grid Functions . . .
   const onGridReady = (params) => {
@@ -346,12 +348,6 @@ function ApplicationForm() {
     dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
   };
-
-  useEffect(() => {
-    dispatch(listApplications());
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, []);
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
   const selectHandler = () => {};
@@ -365,9 +361,10 @@ function ApplicationForm() {
 
   const updateStatus = (status, stage) => {
     console.log(status, " - ", stage);
+
+    setStage(stage);
+
     if (status === 3) {
-      console.log(reason);
-      console.log(status);
       Swal.fire({
         title: "Are you sure you want to reject application?",
         // showDenyButton: true,
@@ -1263,7 +1260,8 @@ function ApplicationForm() {
                               </Modal.Title>
                             </Modal.Header>
                             <Modal.Body className="text-center">
-                              {status === 3 ? (
+                              {
+                              status === 3 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Form.Group
                                     controlId="role_id"
