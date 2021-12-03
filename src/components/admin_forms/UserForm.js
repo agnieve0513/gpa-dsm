@@ -425,28 +425,33 @@ function UserForm({ history, location }) {
                 ) : (
                   <></>
                 )}
+                <Row className="px-0 mx-auto w-75" id="userButtons">
+                  <Button 
+                    type="submit" 
+                    variant="success" 
+                    className="my-1">
+                    Save
+                  </Button>
 
-                <Button type="submit" variant="success" className="me-2">
-                  Save
-                </Button>
+                  <Button
+                    type="button"
+                    variant="danger"
+                    className="my-1"
+                    disabled={action === "add" ? true : false}
+                    onClick={deleteHandler}
+                  >
+                    Delete
+                  </Button>
 
-                <Button
-                  type="button"
-                  variant="danger"
-                  disabled={action === "add" ? true : false}
-                  onClick={deleteHandler}
-                >
-                  Delete
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="ms-2"
-                  onClick={() => clearHandler()}
-                >
-                  Clear All
-                </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="my-1"
+                    onClick={() => clearHandler()}
+                  >
+                    Clear All
+                  </Button>
+                </Row>
               </Form>
             </Card.Body>
           </Card>
