@@ -65,7 +65,7 @@ function BatchForm() {
     useState(false);
   const [batch, setBatch] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
-  const [updateState, setUpdateState] = useState();
+  const [updateState, setUpdateState] = useState(0);
 
   const [new_eq_index, setNewEqIndex] = useState(0);
   const [equipmentInfo, setEquipmentInfo] = useState([]);
@@ -155,7 +155,13 @@ function BatchForm() {
   };
 
   const changeStatusHandler = (status) => {
-    if (roleId !== 3) {
+    if (selectIds.length <= 0) {
+      Swal.fire(
+        "Select a application!",
+        "Please select atleast 1 application.",
+        "info"
+      );
+    } else if (roleId !== 3) {
       setStatus(status);
       setShowModal(true);
     }

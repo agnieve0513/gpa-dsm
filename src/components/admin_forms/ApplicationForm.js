@@ -83,7 +83,7 @@ function ApplicationForm() {
   const [batch, setBatch] = useState("");
   const [comment, setComment] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
-  const [updateState, setUpdateState] = useState();
+  const [updateState, setUpdateState] = useState(0);
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -398,7 +398,7 @@ function ApplicationForm() {
         }
       });
     }
-  }, [swalInfo, updateState, status, stage]);
+  }, [updateState, status, stage, swalInfo]);
 
   const resetHandler = () => {
     setShow(false);
