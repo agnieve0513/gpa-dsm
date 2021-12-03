@@ -359,7 +359,7 @@ function ExistingEquipmentInformation(props) {
               <></>
             )}
             <br />
-            {props.disposal_party === "Installer" ? (
+            {props.disposal_party === "Customer" ? (
               <Form.Group controlId="disposal_slip">
               <span>
                 DISPOSAL RECEIPT
