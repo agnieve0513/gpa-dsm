@@ -422,7 +422,7 @@ function ApplicationInformation(props) {
                   the residential property?
                 </p>
               </Col>
-              <Col md={6}>
+              <Col md={6} className="mb-3">
                 <Form.Check
                   inline
                   label="Yes"
