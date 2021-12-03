@@ -83,6 +83,7 @@ function TermsAndCondition(props) {
               defaultValue={date}
               required
               className="mb-3"
+              disabled={true}
               style={{ width: "450px" }}
             ></Form.Control>
             <Form.Check
