@@ -131,7 +131,7 @@ function AdminDashboardScreen({ location, history }) {
 
                       {recordForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="records">Records</Nav.Link>
+                          <Nav.Link eventKey="records">RECORDS</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
