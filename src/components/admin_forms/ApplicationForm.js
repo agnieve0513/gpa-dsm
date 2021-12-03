@@ -167,13 +167,6 @@ function ApplicationForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
-  // useEffect(() => {
-  //   dispatch(listApplications());
-  //   // dispatch(listBatchCurrent())
-  //   // dispatch(commentsApplication(applicationId))
-  // }, []);
-  // }, [application, successUpdate, addBatchSuccess,commentSucess])
-
   // Grid Functions . . .
   const onGridReady = (params) => {
     setGridApi(params.api);
@@ -338,12 +331,6 @@ function ApplicationForm() {
     dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
   };
-
-  useEffect(() => {
-    dispatch(listApplications());
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, []);
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
   const selectHandler = () => {};
@@ -361,9 +348,6 @@ function ApplicationForm() {
     setStage(stage);
 
     if (status === 3) {
-
-      console.log(reason);
-      console.log(status);
       Swal.fire({
         title: "Are you sure you want to reject application?",
         // showDenyButton: true,
@@ -379,12 +363,7 @@ function ApplicationForm() {
         }
       });
     } else {
-      setUpdateState(updateState + 1);
-    }
-  };
-
-  useEffect(() => {
-    if (swalInfo !== "") {
+      if (swalInfo !== "") {
       Swal.fire({
         title: `Are you sure you want to ${swalInfo}?`,
         // showDenyButton: true,
@@ -393,9 +372,6 @@ function ApplicationForm() {
         // denyButtonText: `Cancel`,
       }).then((result) => {
         if (result.isConfirmed) {
-
-          console.log("Status", status)
-          console.log("Stage", stage)
 
           setStatus(status);
           setStage(stage);
@@ -407,7 +383,21 @@ function ApplicationForm() {
         }
       });
     }
-  }, [swalInfo, updateState]);
+      setUpdateState(updateState + 1);
+    }
+  };
+
+  useEffect(() => {
+
+    dispatch(listApplications());
+    dispatch(listBatchCurrent())
+    dispatch(detailApplication(applicationId));
+    dispatch(logsApplication(applicationId));
+
+    dispatch(commentsApplication(applicationId))
+
+    
+  }, [successUpdate, addBatchSuccess,commentSucess]);
 
   const resetHandler = () => {
     setShow(false);

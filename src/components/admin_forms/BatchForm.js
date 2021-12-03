@@ -141,16 +141,19 @@ function BatchForm() {
 
 
   const updateStatus = (status, stage) => {
+
+    console.log(selectIds);
+
     if (status === 3) {
       if (window.confirm("Are you sure you want to reject application?")) {
-        dispatch(updateApplication(applicationId, status, stage, reason));
+        dispatch(updateApplication(selectIds, status, stage, reason));
         alert("Saved!");
         setShowModal(false);
       }
     } else {
       setStatus(status);
       setStage(stage);
-      dispatch(updateApplication(applicationId, status, stage, reason));
+      dispatch(updateApplication(selectIds, status, stage, reason));
       if (window.confirm("Are you sure you want to process application?")) {
         alert("Saved!");
         setShowModal(false);
@@ -1157,7 +1160,6 @@ function BatchForm() {
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
-                    { title: "Stage", field: "Stage" },
                     {
                       title: "Action",
                       field: "actions",
@@ -1169,7 +1171,7 @@ function BatchForm() {
                         <>
                           {Object.keys(batch_applications[0]).length > 3 ? (
                             <>
-                              <Dropdown>1
+                              <Dropdown>
                                 <Dropdown.Toggle
                                   variant="success"
                                   id="dropdown-basic"
