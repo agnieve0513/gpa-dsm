@@ -6,8 +6,8 @@ import './Steps.css';
 function Steps(props) {
     return (
         <Container fluid className="mb-4" id="StepsContent">
-            <Row className="text-center text-white" id="stepsBackground">
-                <Col className="pt-3 px-4">
+            <Row className="px-0 text-center text-white" id="stepsBackground">
+                <Col className="pt-3">
                 <li>
                     <Image src='./icons-improved/step1.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 1? "bg-success":"bg-secondary")} fluid />
                     <span id="one">Application Requirement</span>
@@ -42,7 +42,6 @@ function Steps(props) {
                 </li>
                 </Col>
             </Row>
-         
         </Container>
     )
 }

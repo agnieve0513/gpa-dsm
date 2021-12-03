@@ -83,7 +83,7 @@ function ApplicationForm() {
   const [batch, setBatch] = useState("");
   const [comment, setComment] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
-  const [updateState, setUpdateState] = useState(0);
+  const [updateState, setUpdateState] = useState();
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -167,6 +167,21 @@ function ApplicationForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
+  // useEffect(() => {
+  //   dispatch(listApplications());
+  //   // dispatch(listBatchCurrent())
+  //   // dispatch(commentsApplication(applicationId))
+  // }, []);
+  // }, [application, successUpdate, addBatchSuccess,commentSucess])
+
+  useEffect(() => {
+    dispatch(listApplications());
+    dispatch(listBatchCurrent())
+    dispatch(detailApplication(applicationId));
+    dispatch(logsApplication(applicationId));
+    dispatch(commentsApplication(applicationId))
+  }, [successUpdate, addBatchSuccess,commentSucess]);
+
   // Grid Functions . . .
   const onGridReady = (params) => {
     setGridApi(params.api);
@@ -174,10 +189,12 @@ function ApplicationForm() {
 
     const updateData = (data) => {
       var differentHeights = [80, 80, 80, 80];
-      data.forEach(function (dataItem, index) {
-        dataItem.rowHeight = differentHeights[index % 4];
-      });
-      setRowData(data);
+      if (data) {
+        data.forEach(function (dataItem, index) {
+          dataItem.rowHeight = differentHeights[index % 4];
+        });
+        setRowData(data);
+      }
     };
 
     updateData(applications);
@@ -363,7 +380,14 @@ function ApplicationForm() {
         }
       });
     } else {
-      if (swalInfo !== "") {
+      setStatus(status);
+      setStage(stage);
+      setUpdateState(updateState + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (swalInfo !== "" && status !== "" && stage !== "") {
       Swal.fire({
         title: `Are you sure you want to ${swalInfo}?`,
         // showDenyButton: true,
@@ -372,32 +396,16 @@ function ApplicationForm() {
         // denyButtonText: `Cancel`,
       }).then((result) => {
         if (result.isConfirmed) {
-
-          setStatus(status);
-          setStage(stage);
           dispatch(
             updateApplication(applicationId, status, stage, reason, batch)
           );
+          setShow(false);
           setShowModal(false);
           Swal.fire("Success", "Application has been processed!", "success");
         }
       });
     }
-      setUpdateState(updateState + 1);
-    }
-  };
-
-  useEffect(() => {
-
-    dispatch(listApplications());
-    dispatch(listBatchCurrent())
-    dispatch(detailApplication(applicationId));
-    dispatch(logsApplication(applicationId));
-
-    dispatch(commentsApplication(applicationId))
-
-    
-  }, [successUpdate, addBatchSuccess,commentSucess]);
+  }, [swalInfo, updateState, status, stage]);
 
   const resetHandler = () => {
     setShow(false);
@@ -1386,7 +1394,7 @@ function ApplicationForm() {
                                     className="mb-1"
                                     onClick={() => {
                                       setSwalInfo("Approve Application");
-                                      updateStatus(1, 0);
+                                      updateStatus(2, 0);
                                     }}
                                   >
                                     Approve Application
@@ -1420,7 +1428,7 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() => {
                                       setSwalInfo("Approve Application");
-                                      updateStatus(1, 0);
+                                      updateStatus(2, 0);
                                     }}
                                   >
                                     Approve Application
