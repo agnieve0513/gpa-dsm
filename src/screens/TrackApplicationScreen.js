@@ -104,6 +104,7 @@ function ApplicationScreen() {
                     {
                         clickTrack?
                             track_application ?
+                                track_application.table ?
                                 track_application.table.length > 0?
                                 <>
                                     <h4 className="text-muted">Date Applied: {track_application.table[0].Application_Date} </h4>
@@ -111,10 +112,10 @@ function ApplicationScreen() {
                                     <h4 className="text-muted">System Type: {track_application.table[0].System_Type} </h4>
                                     <h4 className="text-muted">Status: {track_application.table[0].Status}</h4>
                                     <h4 className="text-muted">Step {(stages.find((p) => p.stage === track_application.table[0].Stage).id+1)} of 5
-                                        
                                     </h4>
-                                    <ProgressBar variant="success" animated now={(stages.find((p) => p.stage === track_application.table[0].Stage).percent)} />
+                                    <ProgressBar variant="success" now={(stages.find((p) => p.stage === track_application.table[0].Stage).percent)} />
                                 </>:<></>
+                                :<>No Application</>
                             :<></>
                         :<></>
                     }
