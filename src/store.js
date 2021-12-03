@@ -18,6 +18,7 @@ import {
   applicationCommentsReducer,
   applicationLogsReducer,
   applicationUpdateReducer,
+  batchApplicationUpdateReducer,
   applicationTrackReducer,
   addCommentReducer,
 } from "./reducers/applicationReducers";
@@ -64,6 +65,7 @@ const reducer = combineReducers({
   applicationComments: applicationCommentsReducer,
   applicationLogs: applicationLogsReducer,
   applicationUpdate: applicationUpdateReducer,
+  batchApplicationUpdate: batchApplicationUpdateReducer,
   applicationTrack: applicationTrackReducer,
   addComment: addCommentReducer,
 

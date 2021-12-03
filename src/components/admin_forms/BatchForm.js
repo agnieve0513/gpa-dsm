@@ -27,6 +27,7 @@ import {
   addCommentAction,
   logsApplication,
   updateApplication,
+  updateBatchApplication,
 } from "../../actions/applicationActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -55,10 +56,14 @@ function BatchForm() {
   const [selectIds, setSelectedIds] = useState([]);
   const [showBatchApplicationTable, setShowBatchApplicationTable] =
     useState(false);
+
+  const [swalInfo, setSwalInfo] = useState("");
+    
   const [new_eq_index, setNewEqIndex] = useState(0);
   const [equipmentInfo, setEquipmentInfo] = useState([]);
   const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false);
   const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false);
+  const [currentBatch, setCurrentBatch] = useState();
   const [comment, setComment] = useState("");
   const [detailsToggle, setDetailsToggle] = useState(false);
   const [commentShow, setCommentShow] = useState(false);
@@ -119,11 +124,22 @@ function BatchForm() {
     success: successUpdate,
   } = applicationUpdate;
 
+  const batchApplicationUpdate = useSelector((state) => state.batchApplicationUpdate);
+  const {
+    error: batchUpdateError,
+    loading: batchUpdateLoading,
+    success: batchUpdateSuccess,
+  } = batchApplicationUpdate;
+
   useEffect(() => {
     dispatch(listBatch());
-  }, [dispatch]);
+    dispatch(listBatchApplication(currentBatch));
+
+  }, [dispatch, batchUpdateSuccess]);
 
   const selectHandler = (rowdata) => {
+
+    setCurrentBatch(rowdata.Id);
 
     dispatch(listBatchApplication(rowdata.Id));
     setShowApplicationTab(true);
@@ -146,14 +162,14 @@ function BatchForm() {
 
     if (status === 3) {
       if (window.confirm("Are you sure you want to reject application?")) {
-        dispatch(updateApplication(selectIds, status, stage, reason));
+        dispatch(updateBatchApplication(selectIds, status, stage, reason));
         alert("Saved!");
         setShowModal(false);
       }
     } else {
       setStatus(status);
       setStage(stage);
-      dispatch(updateApplication(selectIds, status, stage, reason));
+      dispatch(updateBatchApplication(selectIds, status, stage, reason));
       if (window.confirm("Are you sure you want to process application?")) {
         alert("Saved!");
         setShowModal(false);
@@ -236,21 +252,41 @@ function BatchForm() {
     setShowApplicationTab(false)
   }
 
+  const handleOnChange = (e, doc_type) => {
+    if (doc_type === "irs_form") {
+      setIrsForm(e.target.files[0]);
+    } else if (doc_type === "other_doc1") {
+      setOtherDoc1(e.target.files[0]);
+    } else if (doc_type === "other_doc2") {
+      setOtherDoc2(e.target.files[0]);
+    } else if (doc_type === "letter_authorization") {
+      setLetterAuthorization(e.target.files[0]);
+    } else if (doc_type === "invoice") {
+      setInvoice(e.target.files[0]);
+    } else if (doc_type === "installer_certification") {
+      setInstallerCertification(e.target.files[0]);
+    } else if (doc_type === "disposal_receipt") {
+      setDisposalSlip(e.target.files[0]);
+    }
+    dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
+    return;
+  };
+
   return (
     <>
       {show ? (
         <Container>
           <Tab.Container
-                  id="left-tabs-example"
-                  defaultActiveKey="application_information"
-                >
+            id="left-tabs-example"
+            defaultActiveKey="application_information"
+          >
             <Button
               className="mb-3 btn btn-light"
               onClick={() => resetHandler()}
             >
               <i className="fa fa-arrow-left"></i> Back to Application
             </Button>
-            <Row style={{ paddingLeft: 20 }}>
+            <Row style={{ paddingLeft: 12 }}>
               <Col
                 className="p-0"
                 style={{ backgroundColor: "rgb(227, 227, 229)" }}
@@ -296,55 +332,131 @@ function BatchForm() {
                 <Tab.Content>
                   {/* Applicaiton Information */}
                   <Tab.Pane eventKey="application_information">
-                    <h3 className="mt-3 text-info">Applicant Info</h3>
+                    <h3 className="mt-3 mb-5 text-info">Applicant Info</h3>
                     {application ? (
-                      <ListGroup>
-                        <p>
-                          GPA Electric Account Number{" "}
-                          <b>{application.Info_Account_no}</b>{" "}
-                        </p>
-                        <p>
-                          Bill ID <b>{application.Info_Bill_id}</b>{" "}
-                        </p>
-                        <p>
-                          Applicant Name{" "}
-                          <b>{application.Info_Customer_name} </b>
-                        </p>
-                        <p>
-                          Installation Address{" "}
-                          <b>{application.Info_Service_location}</b>{" "}
-                        </p>
-                        <p>
-                          City <b>{application.Info_City_village}</b>{" "}
-                        </p>
-                        <p>
-                          ZIP <b>{application.Info_Zipcode}</b>{" "}
-                        </p>
-                        <p>
-                          Email <b>{application.Info_Email}</b>{" "}
-                        </p>
-                        <p>
-                          Telephone Number <b>{application.Info_Tel_no}</b>{" "}
-                        </p>
-                        <p>
-                          Owner of the Residential Property{" "}
-                          <b>{application.Info_Is_owner}</b>{" "}
-                        </p>
-                        <p>
-                          Mailing Address{" "}
-                          <b>{application.Info_Mailing_address}</b>{" "}
-                        </p>
-                        <p>
-                          Home Size (approx. sq. ft.){" "}
-                          <b>{application.Info_Home_size}</b>{" "}
-                        </p>
-                        <p>
-                          New Construction{" "}
-                          <b>{application.Info_New_construction}</b>{" "}
-                        </p>
-                        <p>
-                          Home Type <b>{application.Info_Home_type}</b>{" "}
-                        </p>
+                      <ListGroup
+                        style={{ display: "flex", flexDirection: "row" }}
+                      >
+                        <div style={{ paddingRight: 100 }}>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>
+                              GPA Electric Account Number
+                            </b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>Bill ID</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>
+                              Name on GPA Account
+                            </b>
+                          </p>
+                          {/* <p>
+                            <b style={{ color: "#B6B6B6" }}>First Name</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>Middle Name</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>Last Name</b>
+                          </p> */}
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>
+                              Installation Address
+                            </b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>City</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>Zip</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>Email</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>Telephone Number</b>
+                          </p>
+                          <p className="mt-5 mb-5">
+                            <b style={{ color: "#B6B6B6" }}>
+                              Is Applicant the owner of the <br /> residential
+                              property?
+                            </b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>MAILING ADDRESS</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>CITY</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>ZIP</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>HOME AGE</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>NEW CONSTRUCTION</b>
+                          </p>
+                          <p>
+                            <b style={{ color: "#B6B6B6" }}>HOME TYPE</b>
+                          </p>
+                        </div>
+                        <div>
+                          <p>
+                            <b>{application.Info_Account_no}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Bill_id}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Customer_name}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Mailing_address}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Mailing_city}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Mailing_zip}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Email}</b>
+                          </p>
+                          <p>
+                            <b>
+                              {application.Info_Tel_no
+                                ? application.Info_Tel_no
+                                : "N/A"}
+                            </b>
+                          </p>
+                          <p className="mt-5 mb-5">
+                            <b>
+                              {application.Info_Is_owner}
+                              <br />
+                              <p style={{ color: "#F9F9FA" }}>h</p>
+                            </b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Mailing_address}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Mailing_city}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Mailing_zip}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Home_age}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_New_construction}</b>
+                          </p>
+                          <p>
+                            <b>{application.Info_Home_type}</b>
+                          </p>
+                        </div>
                       </ListGroup>
                     ) : (
                       <></>
@@ -395,6 +507,12 @@ function BatchForm() {
                               : []
                           }
                           title="New Equipments"
+                          options={{
+                            headerStyle: {
+                              backgroundColor: "#233f88",
+                              color: "#FFF",
+                            },
+                          }}
                         />
                       </Col>
                       <Col md={6}>
@@ -469,11 +587,7 @@ function BatchForm() {
                               <></>
                             )}
                             <tr>
-                              <td
-                                className="p-3"
-                                colSpan="2"
-                                className="text-end"
-                              >
+                              <td className="p-3 text-center" colSpan="2">
                                 TOTAL
                               </td>
                               <td className="p-3">$0.00</td>
@@ -512,6 +626,12 @@ function BatchForm() {
                           : []
                       }
                       title="Old Equipments"
+                      options={{
+                        headerStyle: {
+                          backgroundColor: "#233f88",
+                          color: "#FFF",
+                        },
+                      }}
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="submission_of_documentation">
@@ -528,152 +648,342 @@ function BatchForm() {
                       <ListGroup className="mb-3">
                         {application ? (
                           <>
-                            <p>
-                              Invoice{" "}
-                              <Button
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    application.Submitted_docs[0].invoice
-                                  )
-                                }
-                                size={"sm"}
-                              >
-                                Click to Download
-                              </Button>{" "}
-                            </p>
-                            <Form.Group controlId="irs_form" className="mb-3">
-                              <p>
-                                IRS Form W-9{" "}
-                                <small className="text-muted">
-                                  (Click this link to download the File and
-                                  Enter your details on it. After that, upload
-                                  the file that contains your data information)
-                                </small>
-                                <span
-                                  className="text-secondary"
-                                  onClick={() => {
-                                    setModalData(
-                                      (p = {
-                                        description: "Upload IRS Form W-9",
-                                        image_sample: "./GPADSM8.png",
-                                      })
-                                    );
-                                    setModalShow(true);
-                                  }}
-                                >
-                                  <i className="fa fa-question-circle"></i>{" "}
+                            <Row>
+                              <Col md={4}>
+                                <span>
+                                  Invoice{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].invoice
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                  <br />
                                 </span>
-                              </p>
-                              <InputGroup>
-                                <Form.Control
-                                  name="file2"
-                                  type="file"
-                                  onChange={(e) =>
-                                    setIrsForm(e.target.files[0])
-                                  }
-                                />
-
-                                <Button
-                                  variant="info"
-                                  onClick={() =>
-                                    handleSubmit(irs_form, "irs_form")
-                                  }
+                                <Form.Group
+                                  controlId="invoice"
+                                  className="mb-3"
                                 >
-                                  <i className="fa fa-upload"></i>
-                                </Button>
-                              </InputGroup>
-                              {irs_form === null ? (
-                                <p className="validate text-danger">
-                                  *This Field is Required
-                                </p>
-                              ) : (
-                                <></>
-                              )}
-                              {irs_form ? (
-                                <>
-                                  {fileCode ? (
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="invoice"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "invoice")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {invoice ? (
                                     <>
-                                      {setIrsFormD(fileCode)}
-                                      {console.log(irs_formD)}
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setInvoiceD(fileCode)}
+                                          {console.log(setInvoiceD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {invoice.name} <br />
+                                      File Type: {invoice.type} <br />
                                       <br />
                                     </>
                                   ) : (
-                                    <>no upload</>
+                                    <></>
                                   )}
-                                  Filename: {irs_form.name} <br />
-                                  File Type: {irs_form.type} <br />
-                                  <br />
-                                </>
-                              ) : (
-                                <></>
-                              )}
-                            </Form.Group>
-                            <p>
-                              IRS-W9{" "}
-                              <Button
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    application.Submitted_docs[0].irs_form
-                                  )
-                                }
-                                size={"sm"}
-                              >
-                                Click to Download
-                              </Button>{" "}
-                            </p>
-                            <p>
-                              Letter of Authorization{" "}
-                              <Button
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    application.Submitted_docs[0]
-                                      .letter_authorization
-                                  )
-                                }
-                                size={"sm"}
-                              >
-                                Click to Download
-                              </Button>
-                            </p>
-                            <p>
-                              Disposal Slip{" "}
-                              <Button
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    application.Submitted_docs[0].disposal_slip
-                                  )
-                                }
-                                size={"sm"}
-                              >
-                                Click to Download
-                              </Button>{" "}
-                            </p>
-                            {application.Submitted_docs[0].other_doc2 ? (
-                              <p>
-                                Other support documents 1{" "}
-                                <a
-                                  href={
-                                    application.Submitted_docs[0].other_doc2
-                                  }
+                                </Form.Group>
+                              </Col>
+                              <Col md={4}>
+                                <span>
+                                  IRS-W9{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].irs_form
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>
+                                <Form.Group
+                                  controlId="irs_form"
+                                  className="mb-3"
                                 >
-                                  Click to Download
-                                </a>
-                              </p>
-                            ) : (
-                              <></>
-                            )}
-                            {application.Submitted_docs[0].other_doc2 ? (
-                              <p>Other support documents 2</p>
-                            ) : (
-                              <></>
-                            )}
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="irs_form"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "irs_form")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {irs_form ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setIrsFormD(fileCode)}
+                                          {console.log(irs_formD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {irs_form.name} <br />
+                                      File Type: {irs_form.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                              <Col md={4}>
+                                <span>
+                                  Letter of Authorization{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0]
+                                          .letter_authorization
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="letter_authorization"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="letter_authorization"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(
+                                          e,
+                                          "letter_authorization"
+                                        )
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {letter_authorization ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setLetterAuthorizationD(fileCode)}
+                                          {console.log(setLetterAuthorizationD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {letter_authorization.name}{" "}
+                                      <br />
+                                      File Type: {
+                                        letter_authorization.type
+                                      }{" "}
+                                      <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                              <Col md={4}>
+                                <span>
+                                  Disposal Slip{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0]
+                                          .disposal_slip
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="disposal_slilp"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="disposal_slilp"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "disposal_slip")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {disposal_slip ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setDisposalSlipD(fileCode)}
+                                          {console.log(setDisposalSlipD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {disposal_slip.name} <br />
+                                      File Type: {disposal_slip.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+
+                              <Col md={4}>
+                                <span>
+                                  Other Document 1{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].other_doc1
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="other_doc1"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="other_doc1"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "other_doc1")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {other_doc1 ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setOtherDoc1D(fileCode)}
+                                          {console.log(setOtherDoc1D)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {other_doc1.name} <br />
+                                      File Type: {other_doc1.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+
+                              <Col md={4}>
+                                <span>
+                                  Other Document 2{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].other_doc2
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="letter_authorization"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="letter_authorization"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "other_doc2")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {other_doc2 ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setOtherDoc2D(fileCode)}
+                                          {console.log(setOtherDoc2D)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {other_doc2.name} <br />
+                                      File Type: {other_doc2.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                            </Row>
                           </>
                         ) : (
                           ""
@@ -694,9 +1004,10 @@ function BatchForm() {
                                 )}
                               </Modal.Title>
                             </Modal.Header>
-                            <Modal.Body>
-                              {status === 3 ? (
-                                <>
+                            <Modal.Body className="text-center">
+                              {
+                              status === 3 ? (
+                                <Container className="col-8 text-center btn-group-vertical">
                                   <Form.Group
                                     controlId="role_id"
                                     className="mb-1"
@@ -748,48 +1059,88 @@ function BatchForm() {
                                   >
                                     Reject Application
                                   </Button>
-                                </>
+                                </Container>
                               ) : roleId === 2 ? (
-                                <Button onClick={() => updateStatus(1, 1)}>
-                                  Send to SPORD
-                                </Button>
-                              ) : roleId === 3 ? (
-                                <>
+                                <Container>
                                   <Button
-                                    onClick={() => updateStatus(1, 3)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to SPORD");
+                                      updateStatus(1, 1);
+                                    }}
+                                  >
+                                    Send to SPORD
+                                  </Button>
+                                </Container>
+                              ) : roleId === 3 ? (
+                                <Container className="col-8 text-center btn-group-vertical">
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Supervisor");
+                                      updateStatus(1, 3);
+                                    }}
                                     className="mb-1"
                                   >
                                     Send to Supervisor
                                   </Button>{" "}
                                   <br />
-                                  <Button onClick={() => updateStatus(1, 4)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo(
+                                        "Send Back to Customer Service"
+                                      );
+                                      updateStatus(1, 4);
+                                    }}
+                                  >
                                     Send Back to Customer Service
                                   </Button>
-                                </>
+                                </Container>
                               ) : roleId === 6 ? (
-                                <>
-                                  <Button onClick={() => updateStatus(1, 5)}>
+                                <Container className="col-8 text-center btn-group-vertical">
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Budget");
+                                      updateStatus(1, 5);
+                                    }}
+                                  >
                                     Send to Budget
                                   </Button>
-                                  <Button onClick={() => updateStatus(1, 1)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send Back to SPORD");
+                                      updateStatus(1, 1);
+                                    }}
+                                  >
                                     Send Back to SPORD
                                   </Button>
-                                </>
+                                </Container>
                               ) : roleId === 4 ? (
-                                <>
-                                  <Button onClick={() => updateStatus(1, 2)}>
+                                <Container className="col-8 text-center btn-group-vertical">
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send to Accounting");
+                                      updateStatus(1, 2);
+                                    }}
+                                  >
                                     Send to Accounting
                                   </Button>
-                                  <Button onClick={() => updateStatus(1, 3)}>
+                                  <Button
+                                    onClick={() => {
+                                      setSwalInfo("Send Back to Supervisor");
+                                      updateStatus(1, 3);
+                                    }}
+                                  >
                                     Send Back to Supervisor
                                   </Button>
-                                </>
+                                </Container>
                               ) : roleId === 5 ? (
-                                <>
+                                <Container className="col-8 text-center btn-group-vertical">
                                   <Button
                                     variant={"success"}
                                     className="mb-1"
-                                    onClick={() => updateStatus(1, 0)}
+                                    onClick={() => {
+                                      setSwalInfo("Approve Application");
+                                      updateStatus(1, 0);
+                                    }}
                                   >
                                     Approve Application
                                   </Button>
@@ -797,7 +1148,10 @@ function BatchForm() {
                                   <Button
                                     variant={"danger"}
                                     className="mb-1"
-                                    onClick={() => updateStatus(1, 1)}
+                                    onClick={() => {
+                                      setSwalInfo("(Decline) Send to Spord");
+                                      updateStatus(1, 1);
+                                    }}
                                   >
                                     (Decline) Send to Spord
                                   </Button>
@@ -805,57 +1159,72 @@ function BatchForm() {
                                   <Button
                                     variant={"danger"}
                                     className="mb-1"
-                                    onClick={() => updateStatus(1, 4)}
+                                    onClick={() => {
+                                      setSwalInfo("(Decline) Send to CS");
+                                      updateStatus(1, 4);
+                                    }}
                                   >
                                     (Decline) Send to CS
                                   </Button>
-                                </>
+                                </Container>
                               ) : roleId === 1 ? (
-                                <>
+                                <Container className="col-8 text-center btn-group-vertical">
                                   <Button
                                     variant={"success"}
-                                    className="mb-1"
-                                    onClick={() => updateStatus(1, 0)}
+                                    onClick={() => {
+                                      setSwalInfo("Approve Application");
+                                      updateStatus(1, 0);
+                                    }}
                                   >
                                     Approve Application
                                   </Button>
                                   <br />
                                   <Button
-                                    className="mb-1"
-                                    onClick={() => updateStatus(1, 4)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to CS");
+                                      updateStatus(1, 4);
+                                    }}
                                   >
                                     Send to CS
                                   </Button>{" "}
                                   <br />
                                   <Button
-                                    className="mb-1"
-                                    onClick={() => updateStatus(1, 1)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to SPORD");
+                                      updateStatus(1, 1);
+                                    }}
                                   >
                                     Send to SPORD
                                   </Button>{" "}
                                   <br />
                                   <Button
-                                    className="mb-1"
-                                    onClick={() => updateStatus(1, 3)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to Supervisor");
+                                      updateStatus(1, 3);
+                                    }}
                                   >
                                     Send to Supervisor
                                   </Button>{" "}
                                   <br />
                                   <Button
-                                    className="mb-1"
-                                    onClick={() => updateStatus(1, 5)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to Budget");
+                                      updateStatus(1, 5);
+                                    }}
                                   >
                                     Send to Budget
                                   </Button>{" "}
                                   <br />
                                   <Button
-                                    className="mb-1"
-                                    onClick={() => updateStatus(1, 2)}
+                                    onClick={() => {
+                                      setSwalInfo("Send to Accounting");
+                                      updateStatus(1, 2);
+                                    }}
                                   >
                                     Send to Accounting
                                   </Button>{" "}
                                   <br />
-                                </>
+                                </Container>
                               ) : (
                                 <></>
                               )}
@@ -978,7 +1347,7 @@ function BatchForm() {
               </Col>
               <Col md={3}></Col>
             </Row>
-              </Tab.Container>
+          </Tab.Container>
         </Container>
       ) : (
         <Container>

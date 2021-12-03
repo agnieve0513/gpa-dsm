@@ -8,6 +8,8 @@ import {
   Tabs,
   Modal,
   Tab,
+  Badge,
+  InputGroup,
   Container,
   Button,
   ButtonGroup,
@@ -35,6 +37,7 @@ import { GridOptions } from "ag-grid-community";
 
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
+import ModalImage from "../ModalImage";
 
 import TimeAgo from "javascript-time-ago";
 
@@ -43,9 +46,12 @@ import en from "javascript-time-ago/locale/en.json";
 
 import "./ApplicationForm.css";
 
+import { uploadFileAction } from "../../actions/fileActions";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
+let p = {};
 
 TimeAgo.addDefaultLocale(en);
 // Create formatter (English).
@@ -76,6 +82,8 @@ function RecordsForm() {
   const [reason, setReason] = useState("");
   const [batch, setBatch] = useState("");
   const [comment, setComment] = useState("");
+  const [swalInfo, setSwalInfo] = useState("");
+  const [updateState, setUpdateState] = useState(0);
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -128,6 +136,31 @@ function RecordsForm() {
   const batchAdd = useSelector((state) => state.batchAdd);
   const { success: addBatchSuccess } = batchAdd;
 
+  const [modalShow, setModalShow] = useState(false);
+  const [modalData, setModalData] = useState({
+    description: "",
+    image_sample: "",
+  });
+
+  const [invoice, setInvoice] = useState(null);
+  const [irs_form, setIrsForm] = useState(null);
+  const [disposal_slip, setDisposalSlip] = useState(null);
+  const [letter_authorization, setLetterAuthorization] = useState(null);
+  const [installer_certification, setInstallerCertification] = useState(null);
+  const [other_doc1, setOtherDoc1] = useState(null);
+  const [other_doc2, setOtherDoc2] = useState(null);
+  const [other_doc3, setOtherDoc3] = useState(null);
+
+  const [invoiceD, setInvoiceD] = useState("");
+  const [irs_formD, setIrsFormD] = useState("");
+  const [disposal_slipD, setDisposalSlipD] = useState("");
+  const [letter_authorizationD, setLetterAuthorizationD] = useState();
+  const [installer_certificationD, setInstallerCertificationD] = useState();
+  const [other_doc1D, setOtherDoc1D] = useState("");
+  const [other_doc2D, setOtherDoc2D] = useState("");
+  const [other_doc3D, setOtherDoc3D] = useState("");
+  const uploadFile = useSelector((state) => state.uploadFile);
+  const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
   // Grid State . . .
   const [gridApi, setGridApi] = useState(null);
   const [gridColumnApi, setGridColumnApi] = useState(null);
@@ -218,18 +251,8 @@ function RecordsForm() {
     filterOptions: [
       "contains",
       {
-        displayKey: "startsC",
-        displayName: 'Starts With "C"',
         test: function (filterValue, cellValue) {
           return cellValue != null && cellValue.indexOf("a") === 0;
-        },
-        hideFilterInput: true,
-      },
-      {
-        displayKey: "startsR",
-        displayName: 'Starts With "R"',
-        test: function (filterValue, cellValue) {
-          return cellValue != null && cellValue.indexOf("n") === 0;
         },
         hideFilterInput: true,
       },
@@ -289,11 +312,25 @@ function RecordsForm() {
     ],
   };
 
-  useEffect(() => {
-    // dispatch(listApplications())
-    // dispatch(listBatchCurrent())
-    // dispatch(commentsApplication(applicationId))
-  }, []);
+  const handleOnChange = (e, doc_type) => {
+    if (doc_type === "irs_form") {
+      setIrsForm(e.target.files[0]);
+    } else if (doc_type === "other_doc1") {
+      setOtherDoc1(e.target.files[0]);
+    } else if (doc_type === "other_doc2") {
+      setOtherDoc2(e.target.files[0]);
+    } else if (doc_type === "letter_authorization") {
+      setLetterAuthorization(e.target.files[0]);
+    } else if (doc_type === "invoice") {
+      setInvoice(e.target.files[0]);
+    } else if (doc_type === "installer_certification") {
+      setInstallerCertification(e.target.files[0]);
+    } else if (doc_type === "disposal_receipt") {
+      setDisposalSlip(e.target.files[0]);
+    }
+    dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
+    return;
+  };
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
 
   const selectHandler = () => {};
@@ -307,27 +344,60 @@ function RecordsForm() {
 
   const updateStatus = (status, stage) => {
     console.log(status, " - ", stage);
+
+    setStage(stage);
+
     if (status === 3) {
-      console.log(reason);
-      console.log(status);
-      if (window.confirm("Are you sure you want to reject application?")) {
-        dispatch(updateApplication(applicationId, status, stage, reason));
-        alert("Saved!");
-        setShow(false);
-        setShowModal(false);
-      }
+      Swal.fire({
+        title: "Are you sure you want to reject application?",
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        // denyButtonText: `Cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(updateApplication(applicationId, status, stage, reason));
+          setShow(false);
+          setShowModal(false);
+          Swal.fire("Success", "Application has been rejected!", "success");
+        }
+      });
     } else {
-      setStatus(status);
-      setStage(stage);
-      if (window.confirm("Are you sure you want to process application?")) {
-        dispatch(
-          updateApplication(applicationId, status, stage, reason, batch)
-        );
-        alert("Saved!");
-        setShowModal(false);
-      }
+      if (swalInfo !== "") {
+      Swal.fire({
+        title: `Are you sure you want to ${swalInfo}?`,
+        // showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        // denyButtonText: `Cancel`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+          setStatus(status);
+          setStage(stage);
+          dispatch(
+            updateApplication(applicationId, status, stage, reason, batch)
+          );
+          setShowModal(false);
+          Swal.fire("Success", "Application has been processed!", "success");
+        }
+      });
+    }
+      setUpdateState(updateState + 1);
     }
   };
+
+  useEffect(() => {
+
+    dispatch(listApplications());
+    dispatch(listBatchCurrent())
+    dispatch(detailApplication(applicationId));
+    dispatch(logsApplication(applicationId));
+
+    dispatch(commentsApplication(applicationId))
+
+    
+  }, [successUpdate, addBatchSuccess,commentSucess]);
 
   const resetHandler = () => {
     setShow(false);
@@ -406,7 +476,10 @@ function RecordsForm() {
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
+      console.log("selected application: ", selected.data);
       dispatch(detailApplication(selected.data.Application_Id));
+      setApplicationId(selected.data.Application_Id);
+
       dispatch(commentsApplication(selected.data.Application_Id));
       dispatch(logsApplication(selected.data.Application_Id));
       setShow(true);
@@ -431,12 +504,11 @@ function RecordsForm() {
     );
   };
 
-  const handleRetrieveFile = () => {
-    dispatch(
-      retrieveFileAction(
-        "eyJpdiI6ImozMXhYeFwvVWRMdFZNRzFQdTlUdGx3PT0iLCJ2YWx1ZSI6IjRqVDZMZmd4dlhQYWNKdDF1dUFUY0ZiZThuekZYbWVPSlB1UXJRa1R6aWc9IiwibWFjIjoiZDU5ZGJlM2U1MWVmZjMwZTAxYWMwYWZhYjhjYzcyNzc1M2RiM2RlMGNhMWJlMTExODgyZWIxMzI3NGY4MTFhNiJ9"
-      )
-    );
+  const reader = new FileReader();
+
+  const handleRetrieveFile = (code) => {
+    console.log(code);
+    dispatch(retrieveFileAction(code));
   };
 
   const handleDetailsToggle = () => {
@@ -507,7 +579,7 @@ function RecordsForm() {
                 <Tab.Content>
                   {/* Applicaiton Information */}
                   <Tab.Pane eventKey="application_information">
-                    <h3 className="mt-3 pb-4 text-info">Applicant Info</h3>
+                    <h3 className="mt-3 mb-5 text-info">Applicant Info</h3>
                     {application ? (
                       <ListGroup
                         style={{ display: "flex", flexDirection: "row" }}
@@ -810,75 +882,362 @@ function RecordsForm() {
                     />
                   </Tab.Pane>
                   <Tab.Pane eventKey="submission_of_documentation">
+                    <ModalImage
+                      data={modalData}
+                      show={modalShow}
+                      onHide={() => setModalShow(false)}
+                    />
                     <Container className="ml-2 mr-2">
                       <h3 className="mt-3 mb-3 text-info">
                         Submitted Documents
                       </h3>
-                      <Button onClick={() => handleRetrieveFile()}>
-                        Click to Test
-                      </Button>
 
                       <ListGroup className="mb-3">
                         {application ? (
                           <>
-                            <p>
-                              Invoice{" "}
-                              <a href={application.Submitted_docs[0].invoice}>
-                                Click to Download
-                              </a>
-                            </p>
-                            <p>
-                              IRS-W9{" "}
-                              <a href={application.Submitted_docs[0].irs_form}>
-                                Click to Download
-                              </a>
-                            </p>
-                            <p>
-                              Letter of Authorization{" "}
-                              <a
-                                href={
-                                  application.Submitted_docs[0]
-                                    .letter_authorization
-                                }
-                              >
-                                Click to Download
-                              </a>
-                            </p>
-                            <p>
-                              Disposal Slip{" "}
-                              <a
-                                href={
-                                  application.Submitted_docs[0].disposal_slip
-                                }
-                              >
-                                Click to Download
-                              </a>
-                            </p>
-                            {application.Submitted_docs[0].other_doc2 ? (
-                              <p>
-                                Other support documents 1{" "}
-                                <a
-                                  href={
-                                    application.Submitted_docs[0].other_doc2
-                                  }
+                            <Row>
+                              <Col md={4}>
+                                <span>
+                                  Invoice{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].invoice
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                  <br />
+                                </span>
+                                <Form.Group
+                                  controlId="invoice"
+                                  className="mb-3"
                                 >
-                                  Click to Download
-                                </a>
-                              </p>
-                            ) : (
-                              <></>
-                            )}
-                            {application.Submitted_docs[0].other_doc2 ? (
-                              <p>Other support documents 2</p>
-                            ) : (
-                              <></>
-                            )}
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="invoice"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "invoice")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {invoice ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setInvoiceD(fileCode)}
+                                          {console.log(setInvoiceD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {invoice.name} <br />
+                                      File Type: {invoice.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                              <Col md={4}>
+                                <span>
+                                  IRS-W9{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].irs_form
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>
+                                <Form.Group
+                                  controlId="irs_form"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="irs_form"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "irs_form")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {irs_form ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setIrsFormD(fileCode)}
+                                          {console.log(irs_formD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {irs_form.name} <br />
+                                      File Type: {irs_form.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                              <Col md={4}>
+                                <span>
+                                  Letter of Authorization{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0]
+                                          .letter_authorization
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="letter_authorization"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="letter_authorization"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(
+                                          e,
+                                          "letter_authorization"
+                                        )
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {letter_authorization ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setLetterAuthorizationD(fileCode)}
+                                          {console.log(setLetterAuthorizationD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {letter_authorization.name}{" "}
+                                      <br />
+                                      File Type: {
+                                        letter_authorization.type
+                                      }{" "}
+                                      <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                              <Col md={4}>
+                                <span>
+                                  Disposal Slip{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0]
+                                          .disposal_slip
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="disposal_slilp"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="disposal_slilp"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "disposal_slip")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {disposal_slip ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setDisposalSlipD(fileCode)}
+                                          {console.log(setDisposalSlipD)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {disposal_slip.name} <br />
+                                      File Type: {disposal_slip.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+
+                              <Col md={4}>
+                                <span>
+                                  Other Document 1{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].other_doc1
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="other_doc1"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="other_doc1"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "other_doc1")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {other_doc1 ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setOtherDoc1D(fileCode)}
+                                          {console.log(setOtherDoc1D)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {other_doc1.name} <br />
+                                      File Type: {other_doc1.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+
+                              <Col md={4}>
+                                <span>
+                                  Other Document 2{" "}
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        application.Submitted_docs[0].other_doc2
+                                      )
+                                    }
+                                    size={"sm"}
+                                  >
+                                    Click to Download
+                                  </Button>{" "}
+                                </span>{" "}
+                                <br />
+                                <Form.Group
+                                  controlId="letter_authorization"
+                                  className="mb-3"
+                                >
+                                  <InputGroup>
+                                    <Form.Control
+                                      name="letter_authorization"
+                                      type="file"
+                                      onChange={(e) =>
+                                        handleOnChange(e, "other_doc2")
+                                      }
+                                    />
+                                  </InputGroup>
+
+                                  {other_doc2 ? (
+                                    <>
+                                      {fileCode ? (
+                                        <>
+                                          {/* {setOtherDoc2D(fileCode)}
+                                          {console.log(setOtherDoc2D)} */}
+                                          <Badge bg={"success"}>
+                                            File Uploaded
+                                          </Badge>{" "}
+                                          <br />
+                                        </>
+                                      ) : (
+                                        <>no upload</>
+                                      )}
+                                      Filename: {other_doc2.name} <br />
+                                      File Type: {other_doc2.type} <br />
+                                      <br />
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </Form.Group>
+                              </Col>
+                            </Row>
                           </>
                         ) : (
                           ""
                         )}
                       </ListGroup>
                     </Container>
+                  
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
@@ -987,19 +1346,21 @@ function RecordsForm() {
             className="ag-theme-alpine"
             style={{ height: 400, width: 100 + "%" }}
           >
+            {/* <Button onClick={() => printState()} className="me-2" variant={"info"}>Print State</Button> */}
+            {/* <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
+                        <Button onClick={() => restoreState()} className="me-2" size='sm' variant={"secondary"}>Restore State</Button> */}
             <Row>
-                <Col md="12" style={{"padding":0}}>
-                  <Button
-                    onClick={() => resetState()}
-                    className="mb-2 float-end"
-                    size="sm"
-                    variant={"success"}
-
-                  >
-                    Reset Filter
-                  </Button>
-                </Col>
-              </Row>
+              <Col md="12" style={{ padding: 0 }}>
+                <Button
+                  onClick={() => resetState()}
+                  className="mb-2 float-end"
+                  size="sm"
+                  variant={"success"}
+                >
+                  Reset Filter
+                </Button>
+              </Col>
+            </Row>
             <AgGridReact
               frameworkComponents={{
                 buttonAction: ButtonClick,
@@ -1031,23 +1392,11 @@ function RecordsForm() {
               }}
               rowHeight={40}
             >
-              <AgGridColumn
-                field="Control_Number"
-                filterParams={containsFilterParams}
-              />
-              <AgGridColumn
-                field="Application_Date"
-                filterParams={containsFilterParams}
-              />
-              <AgGridColumn field="Stage" filterParams={containsFilterParams} />
-              <AgGridColumn
-                field="Status"
-                filterParams={containsFilterParams}
-              />
-              <AgGridColumn
-                field="System_Type"
-                filterParams={containsFilterParams}
-              />
+              <AgGridColumn field="Control_Number" />
+              <AgGridColumn field="Application_Date" />
+              <AgGridColumn field="Stage" />
+              <AgGridColumn field="Status" />
+              <AgGridColumn field="System_Type" />
               <AgGridColumn
                 field="Action"
                 type="medalColumn"

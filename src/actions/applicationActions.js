@@ -1,6 +1,10 @@
 
 import axios from 'axios'
 import {
+    BATCH_APPLICATION_UPDATE_REQUEST,
+    BATCH_APPLICATION_UPDATE_SUCCESS,
+    BATCH_APPLICATION_UPDATE_FAIL,
+
     APPLICATION_LIST_REQUEST,
     APPLICATION_LIST_SUCCESS,
     APPLICATION_LIST_FAIL,
@@ -30,7 +34,7 @@ import {
 
     COMMENT_ADD_REQUEST,
     COMMENT_ADD_SUCCESS,
-    COMMENT_ADD_FAIL
+    COMMENT_ADD_FAIL,
     
 } from '../constants/applicationConstants'
 
@@ -258,6 +262,51 @@ export const addCommentAction = (applicationId,  comment) => async (dispatch) =>
     {
         dispatch({
             type: COMMENT_ADD_FAIL,
+            payload: error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+        })
+    }
+}
+
+export const updateBatchApplication = (applicationId, status, stage, reason, batchId) => async (dispatch) => {
+    try{
+
+        let obj = JSON.parse(localStorage.getItem('userInfo'));
+       
+
+
+        dispatch({
+            type: BATCH_APPLICATION_UPDATE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Content-type':'application/json',
+                "Accept": "application/json",
+                'Authorization' : `Bearer ${obj.message.original.access_token}`
+            }
+        }
+
+        
+        const {data} = await axios.post(URL+'/batch-update',
+        {'applicationId':applicationId,'UserId':obj.message.original.details.id, 'status':status, 'stage':stage, 'reasonId':parseInt(reason), 'batchId':batchId},
+        config
+        )
+
+        dispatch({
+            type: BATCH_APPLICATION_UPDATE_SUCCESS,
+            payload:data
+        })
+
+        // localStorage.setItem('userInfo', JSON.stringify(data))
+
+
+
+    }catch(error)
+    {
+        dispatch({
+            type: BATCH_APPLICATION_UPDATE_FAIL,
             payload: error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message,
