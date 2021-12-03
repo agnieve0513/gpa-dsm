@@ -248,13 +248,10 @@ function UserForm({ history, location }) {
         clearHandler();
       } else {
         dispatch(register(role_id, name, email, password));
-        console.log("test")
-        if (userResult.success) {
+
           Swal.fire("Success!", "User Successfully Added", "success");
           clearHandler();
-        } else {
-          Swal.fire("Error!", userResult.message, "error");
-        }
+      
       }
     }
   };
