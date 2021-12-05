@@ -3,7 +3,7 @@ import { Container, Row, Col,Button, FormControl, InputGroup, Form, Badge } from
 import { PDFViewer, Document, Text, Page, View, StyleSheet } from '@react-pdf/renderer';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { uploadFileAction, retrieveFileAction } from '../../actions/fileActions'
+import { uploadFileAction, retrievePdfAction } from '../../actions/fileActions'
 
 
 function TcTemplateForm() {
@@ -37,7 +37,7 @@ function TcTemplateForm() {
       
       const handleRetrieveFile = (code) => {
     console.log(code);
-    dispatch(retrieveFileAction(code));
+    dispatch(retrievePdfAction(code));
   };
 
     return (
@@ -97,10 +97,14 @@ function TcTemplateForm() {
                     <Col md={4}>
                         <p><Button size={"sm"} variant={"success"} onClick={() =>
                                   handleRetrieveFile(
-                                      fileCode
+                                      "res"
                                   )
                                 }>Download</Button></p>
-                        <p><Button size={"sm"} variant={"success"}>Download</Button></p>
+                        <p><Button size={"sm"} variant={"success"} onClick={() =>
+                                  handleRetrieveFile(
+                                      "comm"
+                                  )
+                                }>Download</Button></p>
                     </Col>
                     
                 </Row>
