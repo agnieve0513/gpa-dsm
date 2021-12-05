@@ -13,10 +13,10 @@ import './TrackApplicationScreen.css';
 
 function ApplicationScreen() {
 
-    // style for pdf
-    const styles = StyleSheet.create({
-        section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
-    });
+    // // style for pdf
+    // const styles = StyleSheet.create({
+    //     section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
+    // });
 
     const dispatch = useDispatch();
 
@@ -86,7 +86,7 @@ function ApplicationScreen() {
             <CustomerHeader />
             <Row>
                 <Col md={4}></Col>
-                <Col md={4} className="mt-2">
+                <Col md={4} className="mt-5">
                     {
                         isSearch?
                         clickTrack?
@@ -105,15 +105,25 @@ function ApplicationScreen() {
                                     <p className="text-muted">System Type:  <b className="float-end"> {track_application.table[0].System_Type} </b> </p>
                                     <p className="text-muted mb-3">Status: <b className="float-end">{track_application.table[0].Status } </b></p>
                                     
-                                    <div class="d-grid gap-2" style={{marginTop:150}}>
-                                        <button style={{borderRadius:"0.5rem"}} className="btn btn-success px-5 py-3" id="submitbtn" onClick={()=> resetHandler()}><b>TRACK NEW APPLICATION</b></button>
+                                    <div class="d-grid gap-2 mt-3">
+                                        <button style={{borderRadius:"0.5rem"}} className="btn btn-success px-5 py-2" id="submitbtn" onClick={()=> resetHandler()}><b>TRACK NEW APPLICATION</b></button>
                                     </div>
                                 </Container>:
                                 <>
-                                
+                                    Ambot
                                 </>
-                                :<>No Application</>
-                            :<></>
+                                :<>
+                                <p>No Application was Found.</p>
+                                <div class="d-grid gap-2 mt-5">
+                                    <button style={{borderRadius:"0.5rem"}} className="btn btn-success px-5 py-2" id="submitbtn" onClick={()=> resetHandler()}><b>TRACK NEW APPLICATION</b></button>
+                                </div>
+                                </>
+                            :<>
+                                <p>No Application was Found.</p>
+                                <div class="d-grid gap-2 mt-5">
+                                    <button style={{borderRadius:"0.5rem"}} className="btn btn-success px-5 py-2" id="submitbtn" onClick={()=> resetHandler()}><b>TRACK NEW APPLICATION</b></button>
+                                </div>
+                            </>
                         :''
                         :
                         <Container>
