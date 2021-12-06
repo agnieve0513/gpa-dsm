@@ -40,12 +40,6 @@ main{
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-#adminFooter
-{
-    left:0;
-    bottom: 0;
-}
-
 .footer-text
 {
   left: 0;

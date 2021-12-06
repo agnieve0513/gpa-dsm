@@ -3,8 +3,12 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 function Footer() {
     return (
-        <footer className="py-3 mt-5">
-            <Container>
+        <footer className="py-3 text-center d-flex flex-grow-1 align-items-bottom w-100"
+            style={{
+                // bottom: 0
+            }}
+        >
+            <Container className="align-self-end">
                 <Row>
                     <Col className="text-center">
                         <small className="">Energy Sense Rebate Program for Central, Ducted Systems <br/>

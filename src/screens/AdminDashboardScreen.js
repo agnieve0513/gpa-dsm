@@ -72,7 +72,7 @@ function AdminDashboardScreen({ location, history }) {
   }, [history]);
 
   return (
-    <div>
+    <div className="d-flex flex-column h-100">
       <Header />
       <div className="mt-4">
         <Container fluid>
@@ -177,11 +177,7 @@ function AdminDashboardScreen({ location, history }) {
           )}
         </Container>
       </div>
-      <Row>
-          <br/>
-          <small className="text-secondary position-absolute text-center text-dark w-100" id="adminFooter">Energy Sense Rebate Program for Central, Ducted Systems<br/>
-          Copyright &copy; 2020 GPA Powered By Xtendly</small>
-      </Row> 
+      <Footer />
     </div>
   );
 }

@@ -1588,7 +1588,8 @@ function ApplicationForm() {
         <Container>
           <div
             className="ag-theme-alpine"
-            style={{ height: 400, width: 100 + "%" }}
+            id="applicationTableContainer"
+            style={{ width: 100 + "%" }}
           >
             {/* <Button onClick={() => printState()} className="me-2" variant={"info"}>Print State</Button> */}
             {/* <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
@@ -1606,6 +1607,7 @@ function ApplicationForm() {
               </Col>
             </Row>
             <AgGridReact
+              className="agGridTable"
               frameworkComponents={{
                 buttonAction: ButtonClick,
               }}

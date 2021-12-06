@@ -2,6 +2,16 @@
   height: auto;
 }
 
+#applicationTableContainer
+{
+  height: fit-content;
+}
+
+.agGridTable
+{
+  height: 400px !important;
+}
+
 #applicationFormNa .nav-pills .nav-link {
   border-radius: 0px;
   color: black;
