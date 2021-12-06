@@ -21,6 +21,7 @@ import {
   batchApplicationUpdateReducer,
   applicationTrackReducer,
   addCommentReducer,
+  applicationListRecordsReducer,
 } from "./reducers/applicationReducers";
 import { equipmentListReducer } from "./reducers/equipmentReducers";
 import {
@@ -45,7 +46,7 @@ import {
 import {
   uploadFileReducer,
   retrieveFileReducer,
-  retrievePdfReducer
+  retrievePdfReducer,
 } from "./reducers/fileReducers";
 
 const reducer = combineReducers({
@@ -63,6 +64,7 @@ const reducer = combineReducers({
   retrievePdf: retrievePdfReducer,
 
   applicationList: applicationListReducer,
+  applicationListRecord: applicationListRecordsReducer,
   applicationDetail: applicationDetailReducer,
   applicationComments: applicationCommentsReducer,
   applicationLogs: applicationLogsReducer,

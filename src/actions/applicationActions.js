@@ -4,6 +4,10 @@ import {
   APPLICATION_LIST_SUCCESS,
   APPLICATION_LIST_FAIL,
   APPLICATION_LIST_RESET,
+  APPLICATION_LIST_RECORD_REQUEST,
+  APPLICATION_LIST_RECORD_SUCCESS,
+  APPLICATION_LIST_RECORD_FAIL,
+  APPLICATION_LIST_RECORD_RESET,
   APPLICATION_DETAIL_REQUEST,
   APPLICATION_DETAIL_SUCCESS,
   APPLICATION_DETAIL_FAIL,
@@ -29,7 +33,6 @@ import {
 import { USER_LOGOUT } from "../constants/userConstants";
 
 const URL = "https://gpadev-api-rebate.xtendly.com/api/v1";
-
 
 export const trackApplications = (control_no) => async (dispatch, getState) => {
   try {
@@ -94,6 +97,43 @@ export const listApplications = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: APPLICATION_LIST_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.reponse.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const listApplicationsRecords = () => async (dispatch, getState) => {
+  try {
+    let obj = JSON.parse(localStorage.getItem("userInfo"));
+
+    dispatch({
+      type: APPLICATION_LIST_RECORD_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${obj.message.original.access_token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      URL + "/application-list",
+      { roleId: 1 },
+      config
+    );
+
+    dispatch({
+      type: APPLICATION_LIST_RECORD_SUCCESS,
+      payload: data.table,
+    });
+  } catch (error) {
+    dispatch({
+      type: APPLICATION_LIST_RECORD_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.reponse.data.detail
@@ -257,7 +297,7 @@ export const addCommentAction =
     }
   };
 
-  export const updateBatchApplication =
+export const updateBatchApplication =
   (applicationId, status, stage, reason, batchId) => async (dispatch) => {
     try {
       let obj = JSON.parse(localStorage.getItem("userInfo"));
@@ -357,4 +397,5 @@ export const logout = () => (dispatch) => {
   dispatch({ type: APPLICATION_LIST_RESET });
   dispatch({ type: APPLICATION_COMMENTS_RESET });
   dispatch({ type: APPLICATION_LOGS_RESET });
+  dispatch({ type: APPLICATION_LIST_RECORD_RESET });
 };

@@ -85,6 +85,7 @@ function ApplicationForm() {
   const [comment, setComment] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
   const [updateState, setUpdateState] = useState(0);
+  const [submited, setSubmited] = useState(false);
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -166,7 +167,7 @@ function ApplicationForm() {
     dispatch(detailApplication(applicationId));
     dispatch(logsApplication(applicationId));
     dispatch(commentsApplication(applicationId));
-  }, [successUpdate, addBatchSuccess, commentSucess]);
+  }, [applicationUpdate, batchAdd, addComment]);
 
   // Grid Functions . . .
   const onGridReady = (params) => {
@@ -314,7 +315,12 @@ function ApplicationForm() {
     ],
   };
 
-  let inv, irs, loa, disp, oth1, oth2 = '';
+  let inv,
+    irs,
+    loa,
+    disp,
+    oth1,
+    oth2 = "";
 
   const handleOnChange = (e, doc_type, control_no) => {
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
@@ -347,26 +353,9 @@ function ApplicationForm() {
   };
 
   const updateStatus = (status, stage) => {
-    console.log(status, " - ", stage);
-
     setStage(stage);
-
-    if (status === 3) {
-      Swal.fire({
-        title: "Are you sure you want to reject application?",
-        // showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        // denyButtonText: `Cancel`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(updateApplication(applicationId, status, stage, reason));
-          setShow(false);
-          setShowModal(false);
-          Swal.fire("Success", "Application has been rejected!", "success");
-        }
-      });
-    } else {
+    setSubmited(true);
+    if (status !== 3) {
       setStatus(status);
       setStage(stage);
       setUpdateState(updateState + 1);
@@ -374,7 +363,30 @@ function ApplicationForm() {
   };
 
   useEffect(() => {
-    if (swalInfo !== "" && status !== "" && stage !== "") {
+    if (status === 3 && submited === true) {
+      if (submited) {
+        Swal.fire({
+          title: "Are you sure you want to reject application?",
+          // showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: "Save",
+          // denyButtonText: `Cancel`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            dispatch(updateApplication(applicationId, status, stage, reason));
+            setShow(false);
+            setSubmited(false);
+            Swal.fire("Success", "Application has been rejected!", "success");
+            setShowModal(false);
+          }
+        });
+      }
+    } else if (
+      swalInfo !== "" &&
+      status !== "" &&
+      stage !== "" &&
+      submited === true
+    ) {
       Swal.fire({
         title: `Are you sure you want to ${swalInfo}?`,
         // showDenyButton: true,
@@ -387,12 +399,13 @@ function ApplicationForm() {
             updateApplication(applicationId, status, stage, reason, batch)
           );
           setShow(false);
-          setShowModal(false);
+          setSubmited(false);
           Swal.fire("Success", "Application has been processed!", "success");
+          setShowModal(false);
         }
       });
     }
-  }, [updateState, status, stage, swalInfo]);
+  }, [updateState, status, stage, swalInfo, submited]);
 
   const resetHandler = () => {
     setShow(false);
@@ -899,7 +912,10 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        inv ? inv : application.Submitted_docs[0].invoice
+                                        inv
+                                          ? inv
+                                          : application.Submitted_docs[0]
+                                              .invoice
                                       )
                                     }
                                     size={"sm"}
@@ -917,7 +933,11 @@ function ApplicationForm() {
                                       name="invoice"
                                       type="file"
                                       onChange={(e) =>
-                                        handleOnChange(e, "invoice", application.Control_Number)
+                                        handleOnChange(
+                                          e,
+                                          "invoice",
+                                          application.Control_Number
+                                        )
                                       }
                                     />
                                   </InputGroup>
@@ -926,7 +946,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          <p hidden>{inv = fileCode}</p>
+                                          <p hidden>{(inv = fileCode)}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -952,7 +972,10 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        irs ? irs : application.Submitted_docs[0].irs_form
+                                        irs
+                                          ? irs
+                                          : application.Submitted_docs[0]
+                                              .irs_form
                                       )
                                     }
                                     size={"sm"}
@@ -978,7 +1001,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          <p hidden>{irs = fileCode}</p>
+                                          <p hidden>{(irs = fileCode)}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1004,8 +1027,10 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                       loa ? loa : application.Submitted_docs[0]
-                                          .letter_authorization
+                                        loa
+                                          ? loa
+                                          : application.Submitted_docs[0]
+                                              .letter_authorization
                                       )
                                     }
                                     size={"sm"}
@@ -1035,7 +1060,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          <p hidden>{loa = fileCode}</p>
+                                          <p hidden>{(loa = fileCode)}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1065,8 +1090,10 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        disp ? disp : application.Submitted_docs[0]
-                                          .disposal_slip
+                                        disp
+                                          ? disp
+                                          : application.Submitted_docs[0]
+                                              .disposal_slip
                                       )
                                     }
                                     size={"sm"}
@@ -1093,7 +1120,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          <p hidden>{disp = fileCode}</p>
+                                          <p hidden>{(disp = fileCode)}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1120,7 +1147,10 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        oth1 ? oth1 : application.Submitted_docs[0].other_doc1
+                                        oth1
+                                          ? oth1
+                                          : application.Submitted_docs[0]
+                                              .other_doc1
                                       )
                                     }
                                     size={"sm"}
@@ -1147,7 +1177,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          <p hidden>{oth1 = fileCode}</p>
+                                          <p hidden>{(oth1 = fileCode)}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1174,7 +1204,10 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        oth2 ? oth2 : application.Submitted_docs[0].other_doc2
+                                        oth2
+                                          ? oth2
+                                          : application.Submitted_docs[0]
+                                              .other_doc2
                                       )
                                     }
                                     size={"sm"}
@@ -1201,7 +1234,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          <p hidden>{oth2=fileCode}</p>
+                                          <p hidden>{(oth2 = fileCode)}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}

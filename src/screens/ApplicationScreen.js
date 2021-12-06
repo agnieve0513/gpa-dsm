@@ -148,10 +148,11 @@ function ApplicationScreen() {
     } else {
       Swal.fire({
         icon: "question",
-        title: "Do you want to save the changes?",
+        title: "Do you want to Submit the Application?",
         showDenyButton: true,
         confirmButtonText: "Save",
-        denyButtonText: `Don't save`,
+        allowOutsideClick: false,
+        denyButtonText: `Don't submit`,
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
@@ -204,7 +205,12 @@ function ApplicationScreen() {
         } else if (result.isDenied) {
           Swal.fire("Changes are not yet saved", "", "info");
           setStep(step - 1);
+        }else if (result.dismiss === Swal.DismissReason.cancel)
+        {
+          Swal.fire("Changes are not yet saved", "", "info");
+          setStep(step - 1);
         }
+
       });
     }
   };
@@ -446,7 +452,6 @@ function ApplicationScreen() {
         }
       } 
       else {
-        alert("okay cya")
         setStep(currentStep + 1);
         return;
       }
