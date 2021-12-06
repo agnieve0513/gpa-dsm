@@ -386,7 +386,7 @@ function NewEuipmentInformation(props) {
                  : 
                   <>
                     <option value="Central AC">Central AC - Commercial</option>
-                    <option value="Split AC">Split AC - Commercial</option>
+                    {/* <option value="Split AC">Split AC - Commercial</option> */}
                     <option value="Window AC">Window AC - Commercial</option>
                   </>
                 }

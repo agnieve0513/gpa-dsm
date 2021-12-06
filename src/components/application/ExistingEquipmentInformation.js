@@ -9,6 +9,11 @@ import { uploadFileAction } from '../../actions/fileActions'
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 function ExistingEquipmentInformation(props) {
   const dispatch = useDispatch();
 
@@ -64,23 +69,56 @@ function ExistingEquipmentInformation(props) {
       props.setAgreeTerms("false");
     }
   };
+  const errorMessage = () => {
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "top-right",
+      iconColor: "white",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBars: true,
+    });
 
+    Toast.fire({
+      icon: "info",
+      title: "All Fields are required",
+      text: "Fields should not be empty in order to proceed to next step",
+    });
+  };
   const addEquipmentHandler = () => {
-    const obj = {
-      control_no: props.control_no,
-      id: props.old_equipments.length + 1,
-      system_type: props.system_type,
-      btu: props.old_btu,
-      years: props.old_years,
-      tons: props.old_tons,
-      is_equipment_condition: props.is_equipment_condition,
-      seer: props.seer,
-      disposal_party: props.disposal_party,
-      date: props.date,
-      quantity: props.old_quantity,
-      agree_terms: props.agree_terms,
-    };
-    props.setOldEquipments(props.old_equipments.concat(obj));
+
+    if (
+            props.old_quantity === "" ||
+            props.old_years === "" ||
+            props.is_equipment_condition === "" ||
+            props.disposal_party === "" ||
+            props.agree_terms === "" ||
+            props.date  === ""
+          ) {
+            errorMessage();
+          } else {
+            
+            const obj = {
+              control_no: props.control_no,
+              id: props.old_equipments.length + 1,
+              system_type: props.system_type,
+              btu: props.old_btu,
+              years: props.old_years,
+              tons: props.old_tons,
+              is_equipment_condition: props.is_equipment_condition,
+              seer: props.seer,
+              disposal_party: props.disposal_party,
+              date: props.date,
+              quantity: props.old_quantity,
+              agree_terms: props.agree_terms,
+            };
+            props.setOldEquipments(props.old_equipments.concat(obj));
+          }
+
+    
   };
 
   const deleteEquipmentHandler = (rowdata) => {

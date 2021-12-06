@@ -333,7 +333,26 @@ function ApplicationScreen() {
 
     if(currentStep === 4 && stepOneToStepSix)
     {
-      setStep(currentStep + 3);
+      
+        if (no_existing) {
+          setStep(currentStep + 1);
+        } else {
+
+          setStep(currentStep + 1);
+          if (
+            old_quantity === "" ||
+            old_years === "" ||
+            is_equipment_condition === "" ||
+            disposal_party === "" ||
+            agree_terms === "" ||
+            date  === ""
+          ) {
+            errorMessage();
+          } else {
+            setStep(currentStep + 3);
+
+          }
+        }
       return;
     }
     
@@ -394,19 +413,30 @@ function ApplicationScreen() {
           setStep(currentStep + 1);
           return;
         }
-      } else if (currentStep === 4) {
+      } 
+      
+      else if (currentStep === 4) {
         if (no_existing) {
           setStep(currentStep + 1);
         } else {
-          setStep(currentStep + 1);
-          // if (
-          // ) {
-          //   errorMessage();
-          // } else {
-          //   errorMessage();
-          // }
+
+          if (
+            old_equipments.length === 0 ||
+            old_quantity === "" ||
+            old_years === "" ||
+            is_equipment_condition === "" ||
+            disposal_party === "" ||
+            agree_terms === "" ||
+            date  === ""
+          ) {
+            errorMessage();
+          }
+          else{
+            setStep(currentStep + 1);
+          }
         }
       } 
+
       else if (currentStep === 6) {
         if (irs_form !== "") {
           setStep(currentStep + 1);
@@ -416,6 +446,7 @@ function ApplicationScreen() {
         }
       } 
       else {
+        alert("okay cya")
         setStep(currentStep + 1);
         return;
       }
