@@ -21,6 +21,7 @@ import {
 
 import {
   listApplications,
+  listApplicationsRecords,
   detailApplication,
   commentsApplication,
   addCommentAction,
@@ -97,8 +98,10 @@ function RecordsForm() {
 
   const dispatch = useDispatch();
 
-  const applicationList = useSelector((state) => state.applicationList);
-  const { applications } = applicationList;
+  const applicationListRecord = useSelector(
+    (state) => state.applicationListRecord
+  );
+  const { applications } = applicationListRecord;
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { application } = applicationDetail;
@@ -364,40 +367,36 @@ function RecordsForm() {
       });
     } else {
       if (swalInfo !== "") {
-      Swal.fire({
-        title: `Are you sure you want to ${swalInfo}?`,
-        // showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        // denyButtonText: `Cancel`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-
-          setStatus(status);
-          setStage(stage);
-          dispatch(
-            updateApplication(applicationId, status, stage, reason, batch)
-          );
-          setShowModal(false);
-          Swal.fire("Success", "Application has been processed!", "success");
-        }
-      });
-    }
+        Swal.fire({
+          title: `Are you sure you want to ${swalInfo}?`,
+          // showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: "Save",
+          // denyButtonText: `Cancel`,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setStatus(status);
+            setStage(stage);
+            dispatch(
+              updateApplication(applicationId, status, stage, reason, batch)
+            );
+            setShowModal(false);
+            Swal.fire("Success", "Application has been processed!", "success");
+          }
+        });
+      }
       setUpdateState(updateState + 1);
     }
   };
 
   useEffect(() => {
-
-    dispatch(listApplications());
-    dispatch(listBatchCurrent())
+    dispatch(listApplicationsRecords());
+    dispatch(listBatchCurrent());
     dispatch(detailApplication(applicationId));
     dispatch(logsApplication(applicationId));
 
-    dispatch(commentsApplication(applicationId))
-
-    
-  }, [successUpdate, addBatchSuccess,commentSucess]);
+    dispatch(commentsApplication(applicationId));
+  }, [successUpdate, addBatchSuccess, commentSucess]);
 
   const resetHandler = () => {
     setShow(false);
@@ -966,9 +965,7 @@ function RecordsForm() {
                                     Download
                                   </Button>{" "}
                                 </span>
-                                <Form.Group
-                                  controlId="irs_form"
-                                >
+                                <Form.Group controlId="irs_form">
                                   <InputGroup>
                                     <Form.Control
                                       name="irs_form"
@@ -1236,7 +1233,6 @@ function RecordsForm() {
                         )}
                       </ListGroup>
                     </Container>
-                  
                   </Tab.Pane>
                 </Tab.Content>
               </Col>
