@@ -811,7 +811,6 @@ function ApplicationScreen() {
           </div>
         </>
       )}
-
       <Footer />
     </div>
   );
