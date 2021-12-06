@@ -174,7 +174,7 @@ function FinalReview(props) {
                     </button>
                   </Row>
                   <Row>
-                    <Col md={12}>
+                    <Col className="px-0" md={12}>
                       {props.new_equipments.length >= 1 ? (
                         <>
                           <MaterialTable
