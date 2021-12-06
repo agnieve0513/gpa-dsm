@@ -24,22 +24,11 @@ function AdminChangePasswordScreen({ location, history }) {
   const userChangePassword = useSelector((state) => state.userChangePassword);
   const { error, loading, change_pass } = userChangePassword;
 
-  useEffect(() => {
-    if (change_pass) {
-      if (change_pass.status) {
-        Swal.fire("Success", "Password successfuly changed", "success").then(
-          () => {
-            dispatch(logout());
-            history.push("/admin");
-          }
-        );
-      } else {
-        if (change_pass.message) {
-          Swal.fire("Failed", change_pass.message, "error");
-        }
-      }
-    }
-  }, [userChangePassword]);
+  // useEffect(() => {
+  //   if (change_pass) {
+      
+  //   }
+  // }, [change_pass]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -56,6 +45,13 @@ function AdminChangePasswordScreen({ location, history }) {
     } else if (confirm_new_password === new_password) {
       setIsConfirm(true);
       dispatch(changePassword(old_password, new_password));
+      Swal.fire("Success", "Password successfuly changed", "success").then(
+        () => {
+          dispatch(logout());
+          history.push("/admin");
+        }
+      );
+     
     } else {
       Swal.fire("Failed", "Something went wrong. Please try again!", "error");
     }
@@ -79,7 +75,7 @@ function AdminChangePasswordScreen({ location, history }) {
             </Col>
             <Col md={1}></Col>
           </Row>
-          <Form onSubmit={submitHandler}>
+          <Form onSubmit={(e)=> submitHandler(e)}>
             <Row>
               <Col md={3}></Col>
               <Col md={6}>

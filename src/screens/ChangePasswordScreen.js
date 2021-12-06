@@ -30,8 +30,6 @@ function ChangePasswordScreen({location, history}) {
       {
           setIsConfirm(true);
           dispatch(emailChangePasswordAction(creds, new_password));
-          console.log("redirect: ",creds);
-          console.log("new password: ",new_password);
 
 
           if(email_change_pass)
