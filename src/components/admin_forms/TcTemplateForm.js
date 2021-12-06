@@ -56,8 +56,8 @@ function TcTemplateForm() {
                                 onChange={(e)=> setCustomerType(e.target.value)}
                             >
                             <option defaultChecked hidden>Select Template Type</option>
-                            <option value="residential_file">Residential</option>
-                            <option value="commercial_file">Commercial</option>
+                            <option value="resd">Residential</option>
+                            <option value="comm">Commercial</option>
                             </Form.Select>
                             <Button variant="info" id="button-addon2" onClick={() => handleUploadFile()}>
                             Upload
@@ -97,7 +97,7 @@ function TcTemplateForm() {
                     <Col md={4}>
                         <p><Button size={"sm"} variant={"success"} onClick={() =>
                                   handleRetrieveFile(
-                                      "res"
+                                      "resd"
                                   )
                                 }>Download</Button></p>
                         <p><Button size={"sm"} variant={"success"} onClick={() =>

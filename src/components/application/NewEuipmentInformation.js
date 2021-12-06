@@ -182,7 +182,7 @@ function NewEuipmentInformation(props) {
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
               <p>
-                INSTALLER'S CERTIFICATION
+                <b>INSTALLER'S CERTIFICATION</b>
                 <span
                   className="text-secondary"
                   onClick={() => {
@@ -233,7 +233,7 @@ function NewEuipmentInformation(props) {
           <Col md={12}>
           <Form.Group controlId="disposal_slip">
               <span>
-                INVOICE
+                <b>INVOICE</b>
                 <span
                   className="text-secondary mb-1"
                   onClick={() => {
@@ -369,7 +369,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={12} className="mb-3">
             <Form.Group controlId="system_type">
-              <Form.Label>SYSTEM TYPE</Form.Label>
+              <Form.Label><b>SYSTEM TYPE</b></Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
@@ -386,7 +386,7 @@ function NewEuipmentInformation(props) {
                  : 
                   <>
                     <option value="Central AC">Central AC - Commercial</option>
-                    <option value="Split AC">Split AC - Commercial</option>
+                    {/* <option value="Split AC">Split AC - Commercial</option> */}
                     <option value="Window AC">Window AC - Commercial</option>
                   </>
                 }
@@ -406,7 +406,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
-              <Form.Label>TECHNICIAN NAME*</Form.Label>
+              <Form.Label><b>TECHNICIAN NAME</b></Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -423,7 +423,7 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="work_tel">
-              <Form.Label>WORK CONTACT NUMBER*</Form.Label>
+              <Form.Label><b>WORK CONTACT NUMBER</b></Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -443,7 +443,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={12} className="mb-3">
             <Form.Group controlId="company_name">
-              <Form.Label>COMPANY NAME*</Form.Label>
+              <Form.Label><b>COMPANY NAME</b></Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -462,7 +462,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="date_final_installation">
-              <Form.Label>DATE OF FINAL INSTALLATION*</Form.Label>
+              <Form.Label><b>DATE OF FINAL INSTALLATION</b></Form.Label>
               <Form.Control
                 type="date"
                 placeholder=""
@@ -479,7 +479,7 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="tech_email">
-              <Form.Label>EMAIL*</Form.Label>
+              <Form.Label><b>EMAIL</b></Form.Label>
               <Form.Control
                 type="email"
                 placeholder=""
@@ -499,7 +499,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="manufacturer">
-              <Form.Label>MANUFACTURER</Form.Label>
+              <Form.Label><b>MANUFACTURER</b></Form.Label>
               <Form.Select
                 onChange={(e) => changeManufacturerHandler(e)}
                 value={props.manufacturer}
@@ -527,7 +527,7 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="model_no">
-              <Form.Label>MODEL NUMBER</Form.Label>
+              <Form.Label><b>MODEL NUMBER</b></Form.Label>
               <Form.Select
                 onChange={(e) => changeModelHandler(e)}
                 value={props.model_no}
@@ -619,7 +619,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="quantity">
-              <Form.Label>QUANTITY</Form.Label>
+              <Form.Label><b>QUANTITY</b></Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""
@@ -637,7 +637,7 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="vendor">
-              <Form.Label>VENDOR</Form.Label>
+              <Form.Label><b>VENDOR</b></Form.Label>
               <Form.Select
                 onChange={(e) => props.setVendor(e.target.value)}
                 value={props.vendor}
@@ -673,7 +673,7 @@ function NewEuipmentInformation(props) {
                 onHide={() => setModalShow(false)}
               />
               <Form.Label>
-                INVOICE#{" "}
+                <b>INVOICE#</b>{" "}
                 <a
                   className="text-secondary"
                   rel="noreferrer"
@@ -702,7 +702,7 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="purchase_date">
-              <Form.Label>PURCHASE DATE (Date on invoice)</Form.Label>
+              <Form.Label><b>PURCHASE DATE (Date on invoice)</b></Form.Label>
               <Form.Control
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
@@ -721,7 +721,7 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={12}>
             <Form.Group controlId="rebate">
-              <Form.Label>REBATE</Form.Label>
+              <Form.Label><b>REBATE</b></Form.Label>
               <Form.Control
                 type="number"
                 onChange={(e) => props.setRebate(e.target.value)}

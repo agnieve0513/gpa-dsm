@@ -9,6 +9,11 @@ import { uploadFileAction } from '../../actions/fileActions'
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 function ExistingEquipmentInformation(props) {
   const dispatch = useDispatch();
 
@@ -64,23 +69,56 @@ function ExistingEquipmentInformation(props) {
       props.setAgreeTerms("false");
     }
   };
+  const errorMessage = () => {
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "top-right",
+      iconColor: "white",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBars: true,
+    });
 
+    Toast.fire({
+      icon: "info",
+      title: "All Fields are required",
+      text: "Fields should not be empty in order to proceed to next step",
+    });
+  };
   const addEquipmentHandler = () => {
-    const obj = {
-      control_no: props.control_no,
-      id: props.old_equipments.length + 1,
-      system_type: props.system_type,
-      btu: props.old_btu,
-      years: props.old_years,
-      tons: props.old_tons,
-      is_equipment_condition: props.is_equipment_condition,
-      seer: props.seer,
-      disposal_party: props.disposal_party,
-      date: props.date,
-      quantity: props.old_quantity,
-      agree_terms: props.agree_terms,
-    };
-    props.setOldEquipments(props.old_equipments.concat(obj));
+
+    if (
+            props.old_quantity === "" ||
+            props.old_years === "" ||
+            props.is_equipment_condition === "" ||
+            props.disposal_party === "" ||
+            props.agree_terms === "" ||
+            props.date  === ""
+          ) {
+            errorMessage();
+          } else {
+            
+            const obj = {
+              control_no: props.control_no,
+              id: props.old_equipments.length + 1,
+              system_type: props.system_type,
+              btu: props.old_btu,
+              years: props.old_years,
+              tons: props.old_tons,
+              is_equipment_condition: props.is_equipment_condition,
+              seer: props.seer,
+              disposal_party: props.disposal_party,
+              date: props.date,
+              quantity: props.old_quantity,
+              agree_terms: props.agree_terms,
+            };
+            props.setOldEquipments(props.old_equipments.concat(obj));
+          }
+
+    
   };
 
   const deleteEquipmentHandler = (rowdata) => {
@@ -146,7 +184,8 @@ function ExistingEquipmentInformation(props) {
           Existing Equipment Information
         </h4>
         <Row className="px-0 d-flex flex-row">
-            <Form.Check
+            <Col md={12}>
+              <Form.Check
               className="mb-3"
               inline
               label="Check if there is no existing/old equipment being replaced"
@@ -156,19 +195,13 @@ function ExistingEquipmentInformation(props) {
               checked={props.is_no_existing_to_replace === true}
               onChange={(e) => handleCheckBox(e)}
             />
-            <a
-              className="text-success fit-content"
-              href="./sample_invoice.png"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <i className="fa fa-question-circle"></i>
-            </a>
+            </Col>
+            
         </Row>
         <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="system_type" className="mb-3">
-              <Form.Label>SYSTEM TYPE</Form.Label>
+              <Form.Label><b>SYSTEM TYPE</b></Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
@@ -232,7 +265,7 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_quantity">
-              <Form.Label>QUANTITY</Form.Label>
+              <Form.Label><b>QUANTITY</b></Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""
@@ -253,7 +286,7 @@ function ExistingEquipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_years">
-              <Form.Label>YEARS</Form.Label>
+              <Form.Label><b>YEARS</b></Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""
@@ -276,7 +309,7 @@ function ExistingEquipmentInformation(props) {
 
         <Row className="px-0">
           <Col md={12}>
-            <Form.Label>EQUIPMENT CONDITION PRIOR TO REMOVAL</Form.Label> <br />
+            <Form.Label><b>EQUIPMENT CONDITION PRIOR TO REMOVAL</b></Form.Label> <br />
             <Form.Check
               inline
               label="Operational"
@@ -310,7 +343,7 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12} className="mb-3">
             <Form.Group controlId="seer">
-              <Form.Label>SEER</Form.Label>
+              <Form.Label><b>SEER</b></Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -329,7 +362,7 @@ function ExistingEquipmentInformation(props) {
         </Row>
         <Row className="px-0">
           <Col md={12}>
-            <Form.Label>DISPOSAL PARTY</Form.Label> <br />
+            <Form.Label><b>DISPOSAL PARTY</b></Form.Label> <br />
             <Form.Check
               inline
               label="Customer"
@@ -361,8 +394,16 @@ function ExistingEquipmentInformation(props) {
             <br />
             {props.disposal_party === "Customer" ? (
               <Form.Group controlId="disposal_slip">
+                <ModalImage
+                data={{
+                  description: "Disposal Receipt",
+                  image_sample: "./sample_invoice.png",
+                }}
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+              />
               <span>
-                DISPOSAL RECEIPT
+                <b>DISPOSAL RECEIPT</b>
                 <span
                   className="text-secondary mb-1"
                   onClick={() => {
@@ -433,7 +474,7 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="date" className="mb-3">
-              <Form.Label>DATE</Form.Label>
+              <Form.Label><b>DATE</b></Form.Label>
               <Form.Control
                 type="date"
                 placeholder=""

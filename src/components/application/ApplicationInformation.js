@@ -381,7 +381,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="email">
-                  <Form.Label><b>EMAIL</b></Form.Label>
+                  <Form.Label><b>EMAIL</b> <small className="text-muted">(We will be sending updates to this E-mail)</small></Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""

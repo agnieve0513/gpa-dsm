@@ -92,9 +92,11 @@ function AdminLoginScreen({location, history}) {
                               </Form.Control>
                             </Form.Group>
                           </Row>
-                          <div className="d-grid gap-2 mt-3 mb-4">
-                            <Button type='submit' className="py-2" variant='success'>LOGIN</Button>
-                          </div>
+                          <Row>
+                            <div className="d-grid gap-2 mt-3 mb-4">
+                              <Button type='submit' className="py-2" variant='success'>LOGIN</Button>
+                            </div>
+                          </Row>
                           <LinkContainer to="/forgot" className="d-flex justify-content-center text-light mb-3">
                             <a href="#">Forgot Password?</a>
                           </LinkContainer>
