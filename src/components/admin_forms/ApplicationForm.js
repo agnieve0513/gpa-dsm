@@ -77,6 +77,7 @@ function ApplicationForm() {
   const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false);
   const [equipmentInfo, setEquipmentInfo] = useState([]);
   const [applicationId, setApplicationId] = useState(0);
+  const [controlNo, setControlNo] = useState();
   const [status, setStatus] = useState("");
   const [stage, setStage] = useState("");
   const [reason, setReason] = useState("");
@@ -151,14 +152,6 @@ function ApplicationForm() {
   const [other_doc2, setOtherDoc2] = useState(null);
   const [other_doc3, setOtherDoc3] = useState(null);
 
-  const [invoiceD, setInvoiceD] = useState("");
-  const [irs_formD, setIrsFormD] = useState("");
-  const [disposal_slipD, setDisposalSlipD] = useState("");
-  const [letter_authorizationD, setLetterAuthorizationD] = useState();
-  const [installer_certificationD, setInstallerCertificationD] = useState();
-  const [other_doc1D, setOtherDoc1D] = useState("");
-  const [other_doc2D, setOtherDoc2D] = useState("");
-  const [other_doc3D, setOtherDoc3D] = useState("");
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
   // Grid State . . .
@@ -307,7 +300,6 @@ function ApplicationForm() {
     },
     browserDatePicker: true,
   };
-
   const notEqualsFilterParams = {
     filterOptions: [
       "notEqual",
@@ -322,7 +314,10 @@ function ApplicationForm() {
     ],
   };
 
-  const handleOnChange = (e, doc_type) => {
+  let inv, irs, loa, disp, oth1, oth2 = '';
+
+  const handleOnChange = (e, doc_type, control_no) => {
+    dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
     if (doc_type === "irs_form") {
       setIrsForm(e.target.files[0]);
     } else if (doc_type === "other_doc1") {
@@ -338,7 +333,6 @@ function ApplicationForm() {
     } else if (doc_type === "disposal_receipt") {
       setDisposalSlip(e.target.files[0]);
     }
-    dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
   };
   // }, [application, successUpdate, addBatchSuccess,commentSucess])
@@ -905,12 +899,12 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0].invoice
+                                        inv ? inv : application.Submitted_docs[0].invoice
                                       )
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                   <br />
                                 </span>
@@ -923,7 +917,7 @@ function ApplicationForm() {
                                       name="invoice"
                                       type="file"
                                       onChange={(e) =>
-                                        handleOnChange(e, "invoice")
+                                        handleOnChange(e, "invoice", application.Control_Number)
                                       }
                                     />
                                   </InputGroup>
@@ -932,8 +926,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {/* {setInvoiceD(fileCode)}
-                                          {console.log(setInvoiceD)} */}
+                                          <p hidden>{inv = fileCode}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -959,12 +952,12 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0].irs_form
+                                        irs ? irs : application.Submitted_docs[0].irs_form
                                       )
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>
                                 <Form.Group
@@ -985,8 +978,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {/* {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)} */}
+                                          <p hidden>{irs = fileCode}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1012,13 +1004,13 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0]
+                                       loa ? loa : application.Submitted_docs[0]
                                           .letter_authorization
                                       )
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>
                                 </span>{" "}
                                 <br />
@@ -1043,8 +1035,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {/* {setLetterAuthorizationD(fileCode)}
-                                          {console.log(setLetterAuthorizationD)} */}
+                                          <p hidden>{loa = fileCode}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1074,13 +1065,13 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0]
+                                        disp ? disp : application.Submitted_docs[0]
                                           .disposal_slip
                                       )
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
@@ -1102,8 +1093,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {/* {setDisposalSlipD(fileCode)}
-                                          {console.log(setDisposalSlipD)} */}
+                                          <p hidden>{disp = fileCode}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1130,12 +1120,12 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0].other_doc1
+                                        oth1 ? oth1 : application.Submitted_docs[0].other_doc1
                                       )
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
@@ -1157,8 +1147,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {/* {setOtherDoc1D(fileCode)}
-                                          {console.log(setOtherDoc1D)} */}
+                                          <p hidden>{oth1 = fileCode}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}
@@ -1185,12 +1174,12 @@ function ApplicationForm() {
                                     variant={"success"}
                                     onClick={() =>
                                       handleRetrieveFile(
-                                        application.Submitted_docs[0].other_doc2
+                                        oth2 ? oth2 : application.Submitted_docs[0].other_doc2
                                       )
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
@@ -1212,8 +1201,7 @@ function ApplicationForm() {
                                     <>
                                       {fileCode ? (
                                         <>
-                                          {/* {setOtherDoc2D(fileCode)}
-                                          {console.log(setOtherDoc2D)} */}
+                                          <p hidden>{oth2=fileCode}</p>
                                           <Badge bg={"success"}>
                                             File Uploaded
                                           </Badge>{" "}

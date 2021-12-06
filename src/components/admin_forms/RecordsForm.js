@@ -909,7 +909,7 @@ function RecordsForm() {
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                   <br />
                                 </span>
@@ -963,12 +963,11 @@ function RecordsForm() {
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>
                                 <Form.Group
                                   controlId="irs_form"
-                                  className="mb-3"
                                 >
                                   <InputGroup>
                                     <Form.Control
@@ -1017,7 +1016,7 @@ function RecordsForm() {
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>
                                 </span>{" "}
                                 <br />
@@ -1079,7 +1078,7 @@ function RecordsForm() {
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
@@ -1134,7 +1133,7 @@ function RecordsForm() {
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
@@ -1189,7 +1188,7 @@ function RecordsForm() {
                                     }
                                     size={"sm"}
                                   >
-                                    Click to Download
+                                    Download
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
