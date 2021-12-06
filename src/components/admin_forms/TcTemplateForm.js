@@ -97,7 +97,7 @@ function TcTemplateForm() {
                     <Col md={4}>
                         <p><Button size={"sm"} variant={"success"} onClick={() =>
                                   handleRetrieveFile(
-                                      "res"
+                                      "resd"
                                   )
                                 }>Download</Button></p>
                         <p><Button size={"sm"} variant={"success"} onClick={() =>
