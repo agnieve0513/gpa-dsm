@@ -111,13 +111,13 @@ function AdminDashboardScreen({ location, history }) {
                         <></>
                       )}
 
-                      {equipmentForm ? (
+                      {/* {equipmentForm ? (
                         <Nav.Item>
                           <Nav.Link eventKey="equipment" className="d-flex align-items-center">EQUIPMENT</Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
-                      )}
+                      )} */}
 
                       {tcForm ? (
                         <Nav.Item>

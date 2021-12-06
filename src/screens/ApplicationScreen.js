@@ -151,6 +151,7 @@ function ApplicationScreen() {
         title: "Do you want to save the changes?",
         showDenyButton: true,
         confirmButtonText: "Save",
+        allowOutsideClick: false,
         denyButtonText: `Don't save`,
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
@@ -204,7 +205,12 @@ function ApplicationScreen() {
         } else if (result.isDenied) {
           Swal.fire("Changes are not yet saved", "", "info");
           setStep(step - 1);
+        }else if (result.dismiss === Swal.DismissReason.cancel)
+        {
+          Swal.fire("Changes are not yet saved", "", "info");
+          setStep(step - 1);
         }
+
       });
     }
   };
@@ -446,7 +452,6 @@ function ApplicationScreen() {
         }
       } 
       else {
-        alert("okay cya")
         setStep(currentStep + 1);
         return;
       }
