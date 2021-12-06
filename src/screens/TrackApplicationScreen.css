@@ -1,0 +1,58 @@
+#trackTitle
+{   
+    margin-bottom: 4rem;
+}
+
+#trackStep
+{
+    width: fit-content;
+}
+
+#colBar
+{
+    width: 75%;
+}
+
+#trackBar
+{
+    height: 0.5rem;
+    border-radius: 0;
+    background-color: #babfc7;
+}
+
+.trackButtonText
+{
+    width: max-content;
+}
+
+#trackBackBtn
+{
+    font-weight: 500;
+}
+
+#trackFooter
+{
+    font-size: 12px;
+  left:0;
+  bottom: 0;
+}
+
+@media (max-width: 540px) {
+    #trackTitle
+    {   
+        font-size: 16px !important;
+        font-weight: 800;
+        margin-bottom: 2rem;
+    }
+
+    #submitbtn
+    {
+        font-size: 14px;
+        margin-top: 0 !important;
+    }
+
+    #trackBackBtn
+    {
+        font-size: 14px !important;
+    }
+}
