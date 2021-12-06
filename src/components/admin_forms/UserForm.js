@@ -425,15 +425,14 @@ function UserForm({ history, location }) {
                 ) : (
                   <></>
                 )}
-                <Row className="px-0 mx-auto w-75" id="userButtons">
+                  <div className="d-grid gap-2 mt-3 mb-4">
                   <Button 
                     type="submit" 
                     variant="success" 
                     className="my-1">
                     Save
                   </Button>
-
-                  <Button
+                   <Button
                     type="button"
                     variant="danger"
                     className="my-1"
@@ -451,7 +450,8 @@ function UserForm({ history, location }) {
                   >
                     Clear All
                   </Button>
-                </Row>
+                  </div>
+                 
               </Form>
             </Card.Body>
           </Card>
