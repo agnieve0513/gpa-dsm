@@ -1,5 +1,6 @@
 #trackTitle
 {   
+    margin-top: 2rem;
     margin-bottom: 4rem;
 }
 
@@ -43,7 +44,14 @@
         font-size: 16px !important;
         font-weight: 800;
         margin-bottom: 2rem;
+        margin-top: 1rem;
     }
+
+    .trackText
+    {
+        font-size: 12px;
+    }
+
 
     #submitbtn
     {

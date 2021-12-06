@@ -95,7 +95,7 @@ function ApplicationScreen() {
                                 track_application.table.length > 0?
                                 <Container className="mb-2">
                                     <h5 className="text-center text-info fs-3" id="trackTitle">TRACK YOUR APPLICATION</h5>
-                                    <Row className="px-0 mb-4 mx-0 d-flex align-items-center w-100">
+                                    <Row className="px-0 mb-4 mx-0 d-flex align-items-center">
                                         <Col className="px-0">
                                             <b className="px-0 d-flex mx-0" id="trackStep">Step {(stages.find((p) => p.stage === track_application.table[0].Stage).id+1)} of 5 </b>
                                         </Col>
@@ -104,10 +104,10 @@ function ApplicationScreen() {
                                         </Col>
                                     </Row>
                                     <Row className="px-0 mb-5">
-                                        <p className="text-muted mb-3">Date Applied: <b className="float-end">{track_application.table[0].Application_Date} </b></p>
-                                        <p className="text-muted mb-3">Account Number: <b className="float-end" > *******{track_application.table[0].Account_no.slice(track_application.table[0].Account_no.length - 3) } </b> </p>
-                                        <p className="text-muted mb-3">System Type:  <b className="float-end"> {track_application.table[0].System_Type} </b> </p>
-                                        <p className="text-muted mb-3">Status: <b className="float-end">{track_application.table[0].Status } </b></p>
+                                        <p className="text-muted mb-3 trackText">Date Applied: <b className="float-end trackText">{track_application.table[0].Application_Date} </b></p>
+                                        <p className="text-muted mb-3 trackText">Account Number: <b className="float-end trackText" > *******{track_application.table[0].Account_no.slice(track_application.table[0].Account_no.length - 3) } </b> </p>
+                                        <p className="text-muted mb-3 trackText">System Type:  <b className="float-end trackText"> {track_application.table[0].System_Type} </b> </p>
+                                        <p className="text-muted mb-3 trackText">Status: <b className="float-end trackText">{track_application.table[0].Status } </b></p>
                                     </Row>
                                     <Row className="px-0">
                                         <button style={{borderRadius:"0.5rem"}} className="btn btn-success py-3 mt-5 fw-normal" id="submitbtn" onClick={()=> resetHandler()}>
