@@ -148,11 +148,11 @@ function ApplicationScreen() {
     } else {
       Swal.fire({
         icon: "question",
-        title: "Do you want to save the changes?",
+        title: "Do you want to Submit the Application?",
         showDenyButton: true,
         confirmButtonText: "Save",
         allowOutsideClick: false,
-        denyButtonText: `Don't save`,
+        denyButtonText: `Don't submit`,
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
