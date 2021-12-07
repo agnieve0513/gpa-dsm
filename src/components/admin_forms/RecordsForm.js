@@ -912,42 +912,7 @@ function RecordsForm() {
                                   </Button>{" "}
                                   <br />
                                 </span>
-                                <Form.Group
-                                  controlId="invoice"
-                                  className="mb-3"
-                                >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="invoice"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "invoice")
-                                      }
-                                    />
-                                  </InputGroup>
-
-                                  {invoice ? (
-                                    <>
-                                      {fileCode ? (
-                                        <>
-                                          {/* {setInvoiceD(fileCode)}
-                                          {console.log(setInvoiceD)} */}
-                                          <Badge bg={"success"}>
-                                            File Uploaded
-                                          </Badge>{" "}
-                                          <br />
-                                        </>
-                                      ) : (
-                                        <>no upload</>
-                                      )}
-                                      Filename: {invoice.name} <br />
-                                      File Type: {invoice.type} <br />
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </Form.Group>
+                                
                               </Col>
                               <Col md={4}>
                                 <span>
@@ -965,39 +930,7 @@ function RecordsForm() {
                                     Download
                                   </Button>{" "}
                                 </span>
-                                <Form.Group controlId="irs_form">
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="irs_form"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "irs_form")
-                                      }
-                                    />
-                                  </InputGroup>
-
-                                  {irs_form ? (
-                                    <>
-                                      {fileCode ? (
-                                        <>
-                                          {/* {setIrsFormD(fileCode)}
-                                          {console.log(irs_formD)} */}
-                                          <Badge bg={"success"}>
-                                            File Uploaded
-                                          </Badge>{" "}
-                                          <br />
-                                        </>
-                                      ) : (
-                                        <>no upload</>
-                                      )}
-                                      Filename: {irs_form.name} <br />
-                                      File Type: {irs_form.type} <br />
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </Form.Group>
+                                
                               </Col>
                               <Col md={4}>
                                 <span>
@@ -1017,49 +950,7 @@ function RecordsForm() {
                                   </Button>
                                 </span>{" "}
                                 <br />
-                                <Form.Group
-                                  controlId="letter_authorization"
-                                  className="mb-3"
-                                >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="letter_authorization"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(
-                                          e,
-                                          "letter_authorization"
-                                        )
-                                      }
-                                    />
-                                  </InputGroup>
-
-                                  {letter_authorization ? (
-                                    <>
-                                      {fileCode ? (
-                                        <>
-                                          {/* {setLetterAuthorizationD(fileCode)}
-                                          {console.log(setLetterAuthorizationD)} */}
-                                          <Badge bg={"success"}>
-                                            File Uploaded
-                                          </Badge>{" "}
-                                          <br />
-                                        </>
-                                      ) : (
-                                        <>no upload</>
-                                      )}
-                                      Filename: {letter_authorization.name}{" "}
-                                      <br />
-                                      File Type: {
-                                        letter_authorization.type
-                                      }{" "}
-                                      <br />
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </Form.Group>
+                                
                               </Col>
                               <Col md={4}>
                                 <span>
@@ -1079,42 +970,7 @@ function RecordsForm() {
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
-                                <Form.Group
-                                  controlId="disposal_slilp"
-                                  className="mb-3"
-                                >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="disposal_slilp"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "disposal_slip")
-                                      }
-                                    />
-                                  </InputGroup>
-
-                                  {disposal_slip ? (
-                                    <>
-                                      {fileCode ? (
-                                        <>
-                                          {/* {setDisposalSlipD(fileCode)}
-                                          {console.log(setDisposalSlipD)} */}
-                                          <Badge bg={"success"}>
-                                            File Uploaded
-                                          </Badge>{" "}
-                                          <br />
-                                        </>
-                                      ) : (
-                                        <>no upload</>
-                                      )}
-                                      Filename: {disposal_slip.name} <br />
-                                      File Type: {disposal_slip.type} <br />
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </Form.Group>
+                                
                               </Col>
 
                               <Col md={4}>
@@ -1134,42 +990,7 @@ function RecordsForm() {
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
-                                <Form.Group
-                                  controlId="other_doc1"
-                                  className="mb-3"
-                                >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="other_doc1"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "other_doc1")
-                                      }
-                                    />
-                                  </InputGroup>
-
-                                  {other_doc1 ? (
-                                    <>
-                                      {fileCode ? (
-                                        <>
-                                          {/* {setOtherDoc1D(fileCode)}
-                                          {console.log(setOtherDoc1D)} */}
-                                          <Badge bg={"success"}>
-                                            File Uploaded
-                                          </Badge>{" "}
-                                          <br />
-                                        </>
-                                      ) : (
-                                        <>no upload</>
-                                      )}
-                                      Filename: {other_doc1.name} <br />
-                                      File Type: {other_doc1.type} <br />
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </Form.Group>
+                                
                               </Col>
 
                               <Col md={4}>
@@ -1189,42 +1010,7 @@ function RecordsForm() {
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
-                                <Form.Group
-                                  controlId="letter_authorization"
-                                  className="mb-3"
-                                >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="letter_authorization"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "other_doc2")
-                                      }
-                                    />
-                                  </InputGroup>
-
-                                  {other_doc2 ? (
-                                    <>
-                                      {fileCode ? (
-                                        <>
-                                          {/* {setOtherDoc2D(fileCode)}
-                                          {console.log(setOtherDoc2D)} */}
-                                          <Badge bg={"success"}>
-                                            File Uploaded
-                                          </Badge>{" "}
-                                          <br />
-                                        </>
-                                      ) : (
-                                        <>no upload</>
-                                      )}
-                                      Filename: {other_doc2.name} <br />
-                                      File Type: {other_doc2.type} <br />
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </Form.Group>
+                                
                               </Col>
                             </Row>
                           </>
@@ -1290,49 +1076,7 @@ function RecordsForm() {
             <hr />
             {/* Comments section */}
             <br />
-            <Row>
-              <Col md={9}>
-                <Form>
-                  <Form.Group className="mb-3" controlId="comment">
-                    <Form.Label>
-                      <b>Comments</b>
-                    </Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      rows={5}
-                      onChange={(e) => changeCommentHandler(e.target.value)}
-                      value={comment}
-                    />
-                  </Form.Group>
-                  <Button onClick={() => addCommentHandler()} variant="success">
-                    Submit
-                  </Button>
-                  <br />
-                  <br />
-                </Form>
-                <hr />
-
-                {comments ? (
-                  comments.map((comment) => (
-                    <div className="p-3 mb-1">
-                      <h6>
-                        {comment.Made_By} |{" "}
-                        {timeAgo.format(
-                          new Date(comment.Made_On) - 60 * 60 * 1000,
-                          "twitter"
-                        )}
-                        <br />
-                        <small className="text-muted">{comment.role}</small>
-                      </h6>
-                      <h6 className="text-muted">{comment.Comment}</h6>
-                    </div>
-                  ))
-                ) : (
-                  <></>
-                )}
-              </Col>
-              <Col md={3}></Col>
-            </Row>
+            
           </Tab.Container>
         </Container>
       ) : (

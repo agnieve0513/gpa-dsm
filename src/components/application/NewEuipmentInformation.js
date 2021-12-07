@@ -382,16 +382,17 @@ function NewEuipmentInformation(props) {
                     <option value="Central AC">Central AC</option>
                     <option value="Split AC">Split AC</option>
                     <option value="Window AC">Window AC</option>
+                    <option value="Washer">Washer</option>
+                    <option value="Dryer">Dryer</option>
                   </>
                  : 
                   <>
                     <option value="Central AC">Central AC - Commercial</option>
-                    {/* <option value="Split AC">Split AC - Commercial</option> */}
-                    <option value="Window AC">Window AC - Commercial</option>
+                    <option value="Split AC">Split AC - Commercial</option>
+                    {/* <option value="Window AC">Window AC - Commercial</option> */}
                   </>
                 }
-                    <option value="Washer">Washer</option>
-                    <option value="Dryer">Dryer</option>
+                    
               </Form.Select>
             </Form.Group>
             {props.system_type === "" ? (
