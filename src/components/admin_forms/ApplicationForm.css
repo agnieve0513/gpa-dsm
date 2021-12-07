@@ -2,13 +2,11 @@
   height: auto;
 }
 
-#applicationTableContainer
-{
+#applicationTableContainer {
   height: fit-content;
 }
 
-.agGridTable
-{
+.agGridTable {
   height: 400px !important;
 }
 
@@ -54,6 +52,29 @@
   color: #ffffff;
 }
 
-.btn-group-vertical button{
+.btn-group-vertical button {
   border-radius: 0.25rem !important;
+}
+
+@media (max-width: 398px) {
+  .rejectbtn {
+    margin-top: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .processbtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 990px) {
+  .editbtn {
+    margin: 0;
+    width: 100% !important;
+    height: 40px;
+  }
+  .customRow {
+    flex-shrink: 0 !important;
+    width: 100% !important;
+  }
 }
