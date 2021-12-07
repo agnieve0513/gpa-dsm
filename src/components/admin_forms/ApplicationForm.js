@@ -823,8 +823,8 @@ function ApplicationForm() {
                     <Row>
                       <Col md={6}></Col>
                     </Row>
-                    <Row>
-                      <Col md={12}>
+                    <Row className="px-0">
+                      <Col className="mb-2 px-0" md={12}>
                         <MaterialTable
                           columns={[
                             {
@@ -914,7 +914,7 @@ function ApplicationForm() {
                           <></>
                         )}
                       </Col>
-                      <Col md={6} className="mt-3">
+                      <Col md={6} className="mt-3 px-0 d-flex justify-content-center">
                         <Table size="lg" striped bordered hover>
                           <thead className="bg-info text-white">
                             <tr className="py-5">
@@ -1673,7 +1673,7 @@ function ApplicationForm() {
             <hr />
             {/* Comments section */}
             <br />
-            <Row>
+            <Row className="mt-2">
               <Col md={9}>
                 <Form>
                   <Form.Group className="mb-3" controlId="comment">
