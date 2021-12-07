@@ -51,6 +51,7 @@ import { uploadFileAction } from "../../actions/fileActions";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useWindowDimensions } from "../../hooks";
 const MySwal = withReactContent(Swal);
 let p = {};
 
@@ -59,6 +60,7 @@ TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 function RecordsForm() {
+  const { height, width } = useWindowDimensions();
   const [commentShow, setCommentShow] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -560,8 +562,8 @@ function RecordsForm() {
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item
-                      style={{ marginLeft: "auto", width: 50, paddingTop: 10, paddingBottom: 10 }}
-                      className="d-flex aligns-items-center justify-content-center"
+                      style={{ marginLeft: "auto", width: 50, paddingTop: 10 }}
+                      className="d-flex aligns-items-center justify-content-center editbtn"
                       onClick={() => handleDetailsToggle()}
                     >
                       <i className="fa fa-edit"></i>

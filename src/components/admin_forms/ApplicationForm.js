@@ -50,6 +50,7 @@ import { uploadFileAction } from "../../actions/fileActions";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useWindowDimensions } from "../../hooks";
 const MySwal = withReactContent(Swal);
 let p = {};
 
@@ -58,6 +59,7 @@ TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 function ApplicationForm() {
+  const { height, width } = useWindowDimensions();
   const [commentShow, setCommentShow] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -569,8 +571,8 @@ function ApplicationForm() {
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item
-                      style={{ marginLeft: "auto", width: 50, paddingTop: 10, paddingBottom: 10 }}
-                      className="d-flex aligns-items-center justify-content-center"
+                      style={{ marginLeft: "auto", width: 50, paddingTop: 10 }}
+                      className="d-flex aligns-items-center justify-content-center editbtn"
                       onClick={() => handleDetailsToggle()}
                     >
                       <i className="fa fa-edit"></i>
@@ -589,61 +591,228 @@ function ApplicationForm() {
                   <Tab.Pane eventKey="application_information">
                     <h3 className="mt-3 mb-5 text-info">Applicant Info</h3>
                     {application ? (
-                    <Container className="ml-2 mr-2 px-2">
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>GPA Electric Account number</p></Col>
-                        <Col className="px-0"><p className=""><b>{application.Info_Account_no}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Bill ID</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Bill_id}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Name on GPA Account</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Customer_name}</b></p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Installation Address</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Mailing_address}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>City</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Mailing_city}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>ZIP</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Mailing_zip}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Email</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Email}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Telephone Number</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Tel_no ? application.Info_Tel_no : "N/A"}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title py-4'>Is Applicant the owner of the residential property?</p></Col>
-                        <Col className="px-0"><p className='py-4'><b>{application.Info_Is_owner ? "Yes" : 
-                            application.Info_Is_owner === "true" ? "Yes" : "No"}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Mailing Address</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Mailing_address}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Home Age (appox. year built)</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Home_age}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>New Construction</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_New_construction}</b>{" "}</p></Col>
-                      </Row>
-                      <Row className="px-0">
-                        <Col className="px-0"><p className='title'>Home Type</p></Col>
-                        <Col className="px-0"><p><b>{application.Info_Home_type}</b>{" "}</p></Col>
-                      </Row>
-                    </Container>
+                      <ListGroup
+                        style={{ display: "flex", flexDirection: "row" }}
+                      >
+                        {width > 770 ? (
+                          <>
+                            <div style={{ marginRight: 50 }}>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  GPA Electric Account Number
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>Bill ID</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  Name on GPA Account
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  Installation Address
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>City</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>Zip</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>Email</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  Telephone Number
+                                </b>
+                              </p>
+                              <p className="mt-5 mb-5">
+                                <b style={{ color: "#B6B6B6" }}>
+                                  Is Applicant the owner of the <br />{" "}
+                                  residential property?
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  MAILING ADDRESS
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>CITY</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>ZIP</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>HOME AGE</b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  NEW CONSTRUCTION
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>HOME TYPE</b>
+                              </p>
+                            </div>
+                            <div>
+                              <p>
+                                <b>{application.Info_Account_no}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Bill_id}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Customer_name}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_address}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_city}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_zip}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Email}</b>
+                              </p>
+                              <p>
+                                <b>
+                                  {application.Info_Tel_no
+                                    ? application.Info_Tel_no
+                                    : "N/A"}
+                                </b>
+                              </p>
+                              <p className="mt-5 mb-5">
+                                <b>
+                                  {application.Info_Is_owner}
+                                  <br />
+                                  <p style={{ color: "#F9F9FA" }}>h</p>
+                                </b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_address}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_city}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_zip}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Home_age}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_New_construction}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Home_type}</b>
+                              </p>
+                            </div>
+                          </>
+                        ) : (
+                          <div style={{ marginRight: 50 }}>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>
+                                GPA Electric Account Number
+                              </b>
+                              <br />
+                              <b>{application.Info_Account_no}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>Bill ID</b>
+                              <br />
+                              <b>{application.Info_Bill_id}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>
+                                Name on GPA Account
+                              </b>
+                              <br />
+                              <b>{application.Info_Customer_name}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>
+                                Installation Address
+                              </b>
+                              <br />
+                              <b>{application.Info_Mailing_address}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>City</b>
+                              <br />
+                              <b>{application.Info_Mailing_city}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>Zip</b>
+                              <br />
+                              <b>{application.Info_Mailing_zip}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>Email</b>
+                              <br />
+                              <b>{application.Info_Email}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>
+                                Telephone Number
+                              </b>
+                              <br />
+                              <b>
+                                {application.Info_Tel_no
+                                  ? application.Info_Tel_no
+                                  : "N/A"}
+                              </b>
+                            </p>
+                            <p className="mt-5 mb-5">
+                              <b style={{ color: "#B6B6B6" }}>
+                                Is Applicant the owner of the <br /> residential
+                                property?
+                              </b>
+                              <br />
+                              <b>{application.Info_Is_owner}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>
+                                MAILING ADDRESS
+                              </b>
+                              <br />
+                              <b>{application.Info_Mailing_address}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>CITY</b>
+                              <br />
+                              <b>{application.Info_Mailing_city}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>ZIP</b>
+                              <br />
+                              <b>{application.Info_Mailing_zip}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>HOME AGE</b>
+                              <br />
+                              <b>{application.Info_Home_age}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>
+                                NEW CONSTRUCTION
+                              </b>
+                              <br />
+                              <b>{application.Info_New_construction}</b>
+                            </p>
+                            <p>
+                              <b style={{ color: "#B6B6B6" }}>HOME TYPE</b>
+                              <br />
+                              <b>{application.Info_Home_type}</b>
+                            </p>
+                          </div>
+                        )}
+                      </ListGroup>
                     ) : (
                       <></>
                     )}
@@ -1431,13 +1600,13 @@ function ApplicationForm() {
                           </Modal>
                           <Button
                             className="me-2"
-                            variant={"info"}
+                            variant={"info processbtn"}
                             onClick={() => changeStatusHandler(1)}
                           >
                             Process Sending
                           </Button>
                           <Button
-                            className="me-2"
+                            className="me-2 rejectbtn"
                             variant={"danger"}
                             onClick={() => changeStatusHandler(3)}
                           >
@@ -1454,6 +1623,7 @@ function ApplicationForm() {
                   {application ? (
                     <>
                       <Col
+                        className="customRow"
                         md={3}
                         style={{
                           backgroundColor: "rgb(243, 244, 249)",
