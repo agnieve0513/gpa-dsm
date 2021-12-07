@@ -7,7 +7,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 function DisplayPDF({ data, wrapper }) {
   const [fileURL, setFileURL] = useState("");
   const [numPages, setNumPages] = useState(null);
-
+  console.log(wrapper.current?.getBoundingClientRect().width);
   useEffect(() => {
     const decode = async () => {
       const pdfBlob = new Blob([data], {
