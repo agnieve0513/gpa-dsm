@@ -160,7 +160,7 @@ function NewEuipmentInformation(props) {
   const deleteEquipmentHandler = (rowdata) => {
     const index = props.new_equipments.indexOf(rowdata);
     const eqs = props.new_equipments;
-
+    setTotalQuantity(totalQuantity - 1);
     if (index > -1) {
       eqs.splice(index, 1);
       props.setNewEquipments(eqs);
@@ -430,15 +430,24 @@ function NewEuipmentInformation(props) {
                 placeholder=""
                 value={props.work_tel}
                 onChange={(e) => handleNumericFields(e.target, "setWorkTel")}
-                maxLength="14"
+                maxLength="10"
                 required
               ></Form.Control>
             </Form.Group>
             {props.work_tel === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
+            ) : 
+              props.work_tel.length < 10 ?
+                  (
+                    <p className="validate text-danger">*This Field requires 10 digits</p>
+                  )
+                :
+                props.work_tel.length > 10 ?
+                 (
+                    <p className="validate text-danger">*This Field requires 10 digits</p>
+                  )
+                 : ''
+            }
           </Col>
         </Row>
         <Row>
@@ -713,9 +722,11 @@ function NewEuipmentInformation(props) {
             </Form.Group>
             {props.purchase_date === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )}
+            ) : 
+              (Math.abs(new Date(props.purchase_date) - new Date(props.date_final_installation))/(1000 * 3600 * 24)) > 120 ?
+              <p className="validate text-danger">(*Note: Your Application exceeded 120 days. Please be informed that there might be a chance your application will be rejected if you do not have valid reason for exceeding the alloted time.)</p>
+              : ''
+            }
           </Col>
         </Row>
 

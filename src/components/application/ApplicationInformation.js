@@ -241,7 +241,7 @@ function ApplicationInformation(props) {
               <Col md={12}>
                 <span>
                   <b>
-                    Applicant's Name :{" "}
+                    GPA Account's Name :{" "}
                     {customer_detail
                       ? customer_detail.info
                         ? customer_detail.info["@attributes"].Name
@@ -405,12 +405,31 @@ function ApplicationInformation(props) {
                     type="text"
                     placeholder=""
                     onChange={(e) => handleNumericFields(e.target, "setTelNo")}
-                    maxLength="14"
+                    maxLength="10"
                     value={props.tel_no}
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
-                
+                {props.tel_no === "" ? (
+                  <p className="validate text-danger">
+                    *This Field is Required
+                  </p>
+                ) : 
+                  props.tel_no.length < 10 ?
+                    <>
+                      <p className="validate text-danger">
+                        *This Field requires 10 digits
+                      </p>
+                    </>
+                  : props.tel_no.length > 10 ?
+                    <>
+                      <p className="validate text-danger">
+                        *This Field required 10 digits
+                      </p>
+                    </>
+                  :''
+                }
+
               </Col>
             </Row>
 

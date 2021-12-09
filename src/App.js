@@ -21,6 +21,7 @@ function App() {
       <Route path="/" component={HomeScreen} exact />
       <Route path="/application" component={ApplicationScreen} exact />
       <Route path="/track" component={TrackApplicationScreen} exact />
+      <Route path="/track/:ctrl_no" component={TrackApplicationScreen} exact />
 
       <Route path="/admin" component={AdminLoginScreen} exact />
       <Route path="/forgot" component={AdminForgotPasswordScreen} exact />

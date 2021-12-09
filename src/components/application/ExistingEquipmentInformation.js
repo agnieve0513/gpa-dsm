@@ -286,7 +286,7 @@ function ExistingEquipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_years">
-              <Form.Label><b>YEARS</b></Form.Label>
+              <Form.Label><b>NUMBER OF YEARS</b></Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""

@@ -11,6 +11,10 @@ import { PDFViewer,View, Document, Text, Page,StyleSheet  } from '@react-pdf/ren
 
 import './TrackApplicationScreen.css';
 
+import {
+  useParams
+} from "react-router-dom";
+
 function ApplicationScreen() {
 
     // // style for pdf
@@ -18,7 +22,18 @@ function ApplicationScreen() {
     //     section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
     // });
 
+    useEffect(() => {
+        if(ctrl_no)
+        {
+            dispatch(trackApplications(ctrl_no));
+            setClickTrack(true);
+            setIsSearch(true)
+        }
+    }, []);
+
     const dispatch = useDispatch();
+
+    let {ctrl_no} = useParams();
 
     const [control_no, setControlNo] = useState("");
     const [viewPdf, setViewPdf] = useState(false);

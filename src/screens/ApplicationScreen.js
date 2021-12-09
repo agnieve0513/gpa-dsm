@@ -245,6 +245,7 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
+        tel_no === "" || tel_no.length > 10 || tel_no.length < 10 ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||
@@ -269,6 +270,7 @@ function ApplicationScreen() {
         model_no === "" ||
         quantity === "" ||
         vendor === "" ||
+        work_tel === "" || work_tel.length > 10 || work_tel.length < 10 ||
         invoice_no === "" ||
         purchase_date === "" ||
         technician_name === "" ||
@@ -293,6 +295,7 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
+        tel_no === "" || tel_no.length > 10 || tel_no.length < 10 ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||
@@ -321,7 +324,7 @@ function ApplicationScreen() {
         invoice === "" ||
         purchase_date === "" ||
         technician_name === "" ||
-        work_tel === "" ||
+        work_tel === "" || work_tel.length > 10 || work_tel.length < 10 ||
         company_name === "" ||
         date_final_installation === ""
       ) {
@@ -381,6 +384,7 @@ function ApplicationScreen() {
           city_village === "" ||
           zipcode === "" ||
           email === "" ||
+          tel_no === "" || tel_no.length > 10 || tel_no.length < 10 ||
           is_applicant_owner === "" ||
           is_applicant_owner === "false" && letter_authorization === "" ||
           // (is_applicant_owner === "false" && letter_authorization === "") ||
@@ -409,7 +413,7 @@ function ApplicationScreen() {
           invoice === "" ||
           purchase_date === "" ||
           technician_name === "" ||
-          work_tel === "" ||
+          work_tel === "" || work_tel.length > 10 || work_tel.length < 10 ||
           company_name === "" ||
           date_final_installation === "" ||
           invoice === ""
