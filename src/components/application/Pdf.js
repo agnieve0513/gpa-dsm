@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { blobToBase64 } from "../../helpers";
+import { useContainerDimensions, useWindowDimensions } from "../../hooks";
 import "./Pdf.css";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function DisplayPDF({ data, wrapper }) {
   const [fileURL, setFileURL] = useState("");
   const [numPages, setNumPages] = useState(null);
-  console.log(wrapper.current?.getBoundingClientRect().width);
+  const { width, height } = useContainerDimensions(wrapper);
+  const dimension = useWindowDimensions();
+  const temp = dimension.width <= 990 ? 30 : 40;
+  const per = (dimension.width / 100) * temp;
+
   useEffect(() => {
     const decode = async () => {
       const pdfBlob = new Blob([data], {
@@ -37,8 +42,9 @@ function DisplayPDF({ data, wrapper }) {
             <div style={{ marginBottom: 10 }}>
               <Page
                 width={
-                  wrapper.current?.getBoundingClientRect().width * 0.89 ||
-                  undefined
+                  width == 0
+                    ? dimension.width - per * 0.89
+                    : width * 0.89 || undefined
                 }
                 key={`page_${index + 1}`}
                 pageNumber={index + 1}
