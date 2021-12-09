@@ -52,7 +52,6 @@ export const uploadFileAction =
     }
   };
 
-
 export const retrieveFileAction = (message) => async (dispatch) => {
   try {
     let obj = JSON.parse(localStorage.getItem("userInfo"));
@@ -97,10 +96,8 @@ export const retrieveFileAction = (message) => async (dispatch) => {
   }
 };
 
-
 export const retrievePdfAction = (message) => async (dispatch) => {
   try {
-
     dispatch({
       type: PDF_RETRIEVE_REQUEST,
     });
@@ -111,19 +108,19 @@ export const retrievePdfAction = (message) => async (dispatch) => {
         "Content-type": "application/json",
       },
       body: JSON.stringify({
-        type:message+".pdf",
+        type: message + ".pdf",
       }),
     });
     const data = await res.blob();
-    const url = window.URL.createObjectURL(data);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute(
-      "download",
-      `file.${data.type.substr(data.type.indexOf("/") + 1)}`
-    );
-    document.body.appendChild(link);
-    link.click();
+    // const url = window.URL.createObjectURL(data);
+    // const link = document.createElement("a");
+    // link.href = url;
+    // link.setAttribute(
+    //   "download",
+    //   `file.${data.type.substr(data.type.indexOf("/") + 1)}`
+    // );
+    // document.body.appendChild(link);
+    // link.click();
 
     dispatch({
       type: PDF_RETRIEVE_SUCCESS,
