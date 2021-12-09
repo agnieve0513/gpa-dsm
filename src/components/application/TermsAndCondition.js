@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { retrievePDFAction } from "../../actions/termsAndConditionActions";
 import { blobToBase64 } from "../../helpers";
 import DisplayPDF from "./Pdf";
+import { useWindowDimensions } from "../../hooks";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 function TermsAndCondition(props) {
@@ -23,6 +24,9 @@ function TermsAndCondition(props) {
     (state) => state.retriveTermsAndCondition
   );
   const pdfWrapperRef = React.useRef();
+  const { width, height } = useWindowDimensions();
+  const temp = width <= 990 ? 95 : 100;
+  const per = (width / 100) * temp;
   const [date, setDate] = useState(dayjs(new Date()).format("YYYY-MM-DD"));
 
   useEffect(() => {
@@ -47,22 +51,11 @@ function TermsAndCondition(props) {
       <Col md={2}></Col>
       <Col md={8}>
         <h4 className="text-center text-info mb-3">Terms and Condition</h4>
-        {/* <PDFViewer width={"100%"} height={"600"} showToolbar={false}>
-          <Document>
-            <Page size="LEGAL" style={styles.page}>
-              <View style={styles.section}>
-                <Text className="mb-2">Applicant Eligibility:</Text>
-                <DisplayPDF data={retriveTermsAndCondition?.data} />
-              </View>
-              <DisplayPDF data={retriveTermsAndCondition?.data} />
-            </Page>
-          </Document>
-        </PDFViewer> */}
         <div
           style={{
             backgroundColor: "#515759",
             overflow: "scroll",
-            height: 1000,
+            height: per,
             paddingTop: 50,
             paddingBottom: 50,
           }}
@@ -84,7 +77,7 @@ function TermsAndCondition(props) {
               required
               className="mb-3"
               disabled={true}
-              style={{ width: "450px" }}
+              style={{ width: "100%" }}
             ></Form.Control>
             <Form.Check
               inline

@@ -31,7 +31,9 @@ function TcTemplateForm() {
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [code, setCode] = useState("comm");
   const WrapperRef = React.useRef(null);
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
+  const temp = width <= 990 ? 95 : 100;
+  const per = (width / 100) * temp;
   console.log("WrapperRef", WrapperRef);
   const dispatch = useDispatch();
 
@@ -212,7 +214,7 @@ function TcTemplateForm() {
             style={{
               backgroundColor: "#515759",
               overflow: "scroll",
-              height: 1000,
+              height: per,
               paddingTop: 50,
               paddingBottom: 50,
               marginLeft: 10,
