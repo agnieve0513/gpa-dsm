@@ -47,6 +47,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#233E86",
   },
+  title1: {
+    fontWeight: 500,
+    fontSize: 15,
+    color: "#233E86",
+  },
   text: {
     fontSize: 13,
     width: 300,
@@ -94,62 +99,116 @@ const styles = StyleSheet.create({
   },
 });
 
-const EquipmentTable = (data) => {
-  console.log("data", data);
+// const EquipmentTable = (data) => {
+//   console.log("data", data);
+//   return (
+//     <View style={[styles.tableContainer]}>
+//       <View style={styles.tableHeader}>
+//         <View style={[styles.tableRow]}>
+//           <Text style={styles.tableText}>Type</Text>
+//         </View>
+//         <View style={[styles.tableRow, { flex: 2 }]}>
+//           <Text style={styles.tableText}>Vendor</Text>
+//         </View>
+//         {/* <View style={[styles.tableRow]}>
+//           <Text style={styles.tableText}>BTU</Text>
+//         </View> */}
+//         <View style={[styles.tableRow, { flex: 2 }]}>
+//           <Text style={styles.tableText}>Manufacturer</Text>
+//         </View>
+//         <View style={[styles.tableRow]}>
+//           <Text style={styles.tableText}>Invoice#</Text>
+//         </View>
+//         <View style={[styles.tableRow]}>
+//           <Text style={styles.tableText}>Purchase Date</Text>
+//         </View>
+//       </View>
+//       {data.data.map((value, index) => {
+//         return (
+//           <View key={index} style={styles.tableContent}>
+//             <View style={[styles.tableRow]}>
+//               <Text style={styles.tableValue}>
+//                 {value.newEquip_System_type}
+//               </Text>
+//             </View>
+//             <View style={[styles.tableRow, { flex: 2 }]}>
+//               <Text style={styles.tableValue}>{value.newEquip_Vendor}</Text>
+//             </View>
+//             {/* <View style={[styles.tableRow]}>
+//               <Text style={styles.tableValue}>{value.newEquip_Btu}</Text>
+//             </View> */}
+//             <View style={[styles.tableRow, { flex: 2 }]}>
+//               <Text style={styles.tableValue}>
+//                 {value.newEquip_Manufacturer}
+//               </Text>
+//             </View>
+//             <View style={[styles.tableRow]}>
+//               <Text style={styles.tableValue}>{value.newEquip_Invoice_no}</Text>
+//             </View>
+//             <View style={[styles.tableRow]}>
+//               <Text style={styles.tableValue}>
+//                 {value.newEquip_Purchase_date}
+//               </Text>
+//             </View>
+//           </View>
+//         );
+//       })}
+//       <View style={styles.tableContent}></View>
+//     </View>
+//   );
+// };
+
+const EquipmentTable = ({ data, finalDate, index }) => {
   return (
-    <View style={[styles.tableContainer]}>
-      <View style={styles.tableHeader}>
-        <View style={[styles.tableRow]}>
-          <Text style={styles.tableText}>Type</Text>
+    <>
+      <>
+        <Text style={styles.title1}>Equipment {index + 1}</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>System Type: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_System_type}</Text>
         </View>
-        <View style={[styles.tableRow, { flex: 2 }]}>
-          <Text style={styles.tableText}>Vendor</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Vendor: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Vendor}</Text>
         </View>
-        {/* <View style={[styles.tableRow]}>
-          <Text style={styles.tableText}>BTU</Text>
-        </View> */}
-        <View style={[styles.tableRow, { flex: 2 }]}>
-          <Text style={styles.tableText}>Manufacturer</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Quantity: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Quantity}</Text>
         </View>
-        <View style={[styles.tableRow]}>
-          <Text style={styles.tableText}>Invoice#</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>BTU: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Btu}</Text>
         </View>
-        <View style={[styles.tableRow]}>
-          <Text style={styles.tableText}>Purchase Date</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Manufacturer: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Manufacturer}</Text>
         </View>
-      </View>
-      {data.data.map((value, index) => {
-        return (
-          <View key={index} style={styles.tableContent}>
-            <View style={[styles.tableRow]}>
-              <Text style={styles.tableValue}>
-                {value.newEquip_System_type}
-              </Text>
-            </View>
-            <View style={[styles.tableRow, { flex: 2 }]}>
-              <Text style={styles.tableValue}>{value.newEquip_Vendor}</Text>
-            </View>
-            {/* <View style={[styles.tableRow]}>
-              <Text style={styles.tableValue}>{value.newEquip_Btu}</Text>
-            </View> */}
-            <View style={[styles.tableRow, { flex: 2 }]}>
-              <Text style={styles.tableValue}>
-                {value.newEquip_Manufacturer}
-              </Text>
-            </View>
-            <View style={[styles.tableRow]}>
-              <Text style={styles.tableValue}>{value.newEquip_Invoice_no}</Text>
-            </View>
-            <View style={[styles.tableRow]}>
-              <Text style={styles.tableValue}>
-                {value.newEquip_Purchase_date}
-              </Text>
-            </View>
-          </View>
-        );
-      })}
-      <View style={styles.tableContent}></View>
-    </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Model Number: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Model_no}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Invioce#: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Invoice_no}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Purchase Date: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Purchase_date}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Type: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Type}</Text>
+        </View>
+        <View style={{ flexDirection: "row" }}>
+          <Text style={styles.text}>Tons: </Text>
+          <Text style={styles.boldText}>{data?.newEquip_Tons}</Text>
+        </View>
+        <View style={{ flexDirection: "row", marginBottom: 20 }}>
+          <Text style={styles.text}>Install Date: </Text>
+          <Text style={styles.boldText}>{finalDate}</Text>
+        </View>
+      </>
+    </>
   );
 };
 
@@ -158,16 +217,13 @@ const EquipmentTotalTable = (data) => {
   return (
     <View style={[styles.tableContainer]}>
       <View style={styles.tableHeader}>
-        <View style={[styles.tableRow, { flex: 2 }]}>
+        <View style={[styles.tableRow, { flex: 2, borderBottonWidth: 0 }]}>
           <Text style={styles.tableText}>Equipment No.</Text>
         </View>
-        <View style={[styles.tableRow]}>
+        <View style={[styles.tableRow, { borderBottonWidth: 0 }]}>
           <Text style={styles.tableText}>QTY</Text>
         </View>
-        <View style={[styles.tableRow]}>
-          <Text style={styles.tableText}>Model</Text>
-        </View>
-        <View style={[styles.tableRow, { flex: 2 }]}>
+        <View style={[styles.tableRow, { flex: 2, borderBottonWidth: 0 }]}>
           <Text style={styles.tableText}>Rebate</Text>
         </View>
       </View>
@@ -180,20 +236,17 @@ const EquipmentTotalTable = (data) => {
             <View style={[styles.tableRow]}>
               <Text style={styles.tableValue}>{value.newEquip_Quantity}</Text>
             </View>
-            <View style={[styles.tableRow]}>
-              <Text style={styles.tableValue}>{value.newEquip_Model_no}</Text>
-            </View>
             <View style={[styles.tableRow, { flex: 2 }]}>
               <Text style={styles.tableValue}>{value.newEquip_rebate}</Text>
             </View>
           </View>
         );
       })}
-      <View style={styles.tableContent}>
-        <View style={[styles.tableRow, { flex: 3 }]}>
+      <View style={[styles.tableContent]}>
+        <View style={[styles.tableRow, { flex: 2, borderTopWidth: 0 }]}>
           <Text style={styles.tableValue}>TOTAL</Text>
         </View>
-        <View style={[styles.tableRow, { flex: 1.1 }]}>
+        <View style={[styles.tableRow, { flex: 1.09, borderTopWidth: 0 }]}>
           <Text style={styles.tableValue}>$0.00</Text>
         </View>
       </View>
@@ -391,9 +444,32 @@ function PrintApplicationSummary() {
                 </View>
                 <View style={styles.section}>
                   <Text style={styles.title}>New Equipment Information</Text>
-                  <EquipmentTable data={data?.New_equipment} />
+                  <EquipmentTable
+                    finalDate={data?.Installer_New_finaldate}
+                    data={data?.New_equipment[0]}
+                    index={0}
+                  />
                 </View>
               </Page>
+              {data?.New_equipment.length > 1 ? (
+                <Page size="LEGAL">
+                  <View style={styles.section}>
+                    {data?.New_equipment.map((value, index) => {
+                      if (index !== 0) {
+                        return (
+                          <EquipmentTable
+                            finalDate={data?.Installer_New_finaldate}
+                            data={value}
+                            index={index}
+                          />
+                        );
+                      }
+                    })}
+                  </View>
+                </Page>
+              ) : (
+                <></>
+              )}
               <Page size="LEGAL">
                 <View style={styles.section}>
                   <Text style={styles.title}>Installer Information</Text>
