@@ -150,9 +150,9 @@ function ApplicationScreen() {
         icon: "question",
         title: "Do you want to Submit the Application?",
         showDenyButton: true,
-        confirmButtonText: "Save",
+        confirmButtonText: "Yes",
         allowOutsideClick: false,
-        denyButtonText: `Don't submit`,
+        denyButtonText: `No`,
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
