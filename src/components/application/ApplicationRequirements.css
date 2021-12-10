@@ -1,5 +1,21 @@
-@media (max-width: 768px) {
-    #requirementTable {
-        width: 100%;
+@media (max-width: 425px) {
+    #appReqHeader {
+        font-size: 16px !important;
+    }
+
+    #appReqSub {
+        font-size: 12px;
+    }
+
+    #tableTitle {
+        font-weight: 800;
+    }
+
+    #descTitle {
+        font-size: 12px !important;
+        font-weight: 500;
+        display: inline-block;
+        line-height: 1;
+        border: 0;
     }
 }

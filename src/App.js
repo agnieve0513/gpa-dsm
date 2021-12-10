@@ -10,6 +10,7 @@ import ChangePasswordScreen from "./screens/ChangePasswordScreen";
 import ModelListingScreen from "./screens/ModelListingScreen";
 import FaqScreen from "./screens/FaqScreen";
 import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+import PrintApplicationSummary from "./screens/PrintApplicationSummary";
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -29,6 +30,11 @@ function App() {
       <Route path="/email-change/:creds" component={ChangePasswordScreen} />
       <Route path="/changepass" component={ResetPasswordScreen} />
       <Route path="/dashboard" component={AdminDashboardScreen} exact />
+      <Route
+        path="/printapplication"
+        component={PrintApplicationSummary}
+        exact
+      />
       <Route path="/model-listing" component={ModelListingScreen} exact />
       <Route path="/faq" component={FaqScreen} exact />
       <Route path="/register" component={UserForm} />

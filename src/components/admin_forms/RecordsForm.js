@@ -651,57 +651,59 @@ function RecordsForm() {
                             </div>
                             <div>
                               <p>
-                                <b>{application.Info_Account_no}</b>
+                                <b>{application.Info_Account_no || "N/A"}</b>
                               </p>
                               <p>
-                                <b>{application.Info_Bill_id}</b>
+                                <b>{application.Info_Bill_id || "N/A"}</b>
                               </p>
                               <p>
-                                <b>{application.Info_Customer_name}</b>
-                              </p>
-                              <p>
-                                <b>{application.Info_Mailing_address}</b>
-                              </p>
-                              <p>
-                                <b>{application.Info_Mailing_city}</b>
-                              </p>
-                              <p>
-                                <b>{application.Info_Mailing_zip}</b>
-                              </p>
-                              <p>
-                                <b>{application.Info_Email}</b>
+                                <b>{application.Info_Customer_name || "N/A"}</b>
                               </p>
                               <p>
                                 <b>
-                                  {application.Info_Tel_no
-                                    ? application.Info_Tel_no
-                                    : "N/A"}
+                                  {application.Info_Mailing_address || "N/A"}
                                 </b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_city || "N/A"}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Mailing_zip || "N/A"}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Email || "N/A"}</b>
+                              </p>
+                              <p>
+                                <b>{application.Info_Tel_no || "N/A"}</b>
                               </p>
                               <p className="mt-5 mb-5">
                                 <b>
-                                  {application.Info_Is_owner}
+                                  {application.Info_Is_owner || "N/A"}
                                   <br />
                                   <p style={{ color: "#F9F9FA" }}>h</p>
                                 </b>
                               </p>
                               <p>
-                                <b>{application.Info_Mailing_address}</b>
+                                <b>
+                                  {application.Info_Mailing_address || "N/A"}
+                                </b>
                               </p>
                               <p>
-                                <b>{application.Info_Mailing_city}</b>
+                                <b>{application.Info_Mailing_city || "N/A"}</b>
                               </p>
                               <p>
-                                <b>{application.Info_Mailing_zip}</b>
+                                <b>{application.Info_Mailing_zip || "N/A"}</b>
                               </p>
                               <p>
-                                <b>{application.Info_Home_age}</b>
+                                <b>{application.Info_Home_age || "N/A"}</b>
                               </p>
                               <p>
-                                <b>{application.Info_New_construction}</b>
+                                <b>
+                                  {application.Info_New_construction || "N/A"}
+                                </b>
                               </p>
                               <p>
-                                <b>{application.Info_Home_type}</b>
+                                <b>{application.Info_Home_type || "N/A"}</b>
                               </p>
                             </div>
                           </>
@@ -712,52 +714,48 @@ function RecordsForm() {
                                 GPA Electric Account Number
                               </b>
                               <br />
-                              <b>{application.Info_Account_no}</b>
+                              <b>{application.Info_Account_no || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>Bill ID</b>
                               <br />
-                              <b>{application.Info_Bill_id}</b>
+                              <b>{application.Info_Bill_id || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>
                                 Name on GPA Account
                               </b>
                               <br />
-                              <b>{application.Info_Customer_name}</b>
+                              <b>{application.Info_Customer_name || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>
                                 Installation Address
                               </b>
                               <br />
-                              <b>{application.Info_Mailing_address}</b>
+                              <b>{application.Info_Mailing_address || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>City</b>
                               <br />
-                              <b>{application.Info_Mailing_city}</b>
+                              <b>{application.Info_Mailing_city || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>Zip</b>
                               <br />
-                              <b>{application.Info_Mailing_zip}</b>
+                              <b>{application.Info_Mailing_zip || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>Email</b>
                               <br />
-                              <b>{application.Info_Email}</b>
+                              <b>{application.Info_Email || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>
                                 Telephone Number
                               </b>
                               <br />
-                              <b>
-                                {application.Info_Tel_no
-                                  ? application.Info_Tel_no
-                                  : "N/A"}
-                              </b>
+                              <b>{application.Info_Tel_no || "N/A"}</b>
                             </p>
                             <p className="mt-5 mb-5">
                               <b style={{ color: "#B6B6B6" }}>
@@ -765,41 +763,43 @@ function RecordsForm() {
                                 property?
                               </b>
                               <br />
-                              <b>{application.Info_Is_owner}</b>
+                              <b>{application.Info_Is_owner || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>
                                 MAILING ADDRESS
                               </b>
                               <br />
-                              <b>{application.Info_Mailing_address}</b>
+                              <b>{application.Info_Mailing_address || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>CITY</b>
                               <br />
-                              <b>{application.Info_Mailing_city}</b>
+                              <b>{application.Info_Mailing_city || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>ZIP</b>
                               <br />
-                              <b>{application.Info_Mailing_zip}</b>
+                              <b>{application.Info_Mailing_zip || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>HOME AGE</b>
                               <br />
-                              <b>{application.Info_Home_age}</b>
+                              <b>{application.Info_Home_age || "N/A"}</b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>
                                 NEW CONSTRUCTION
                               </b>
                               <br />
-                              <b>{application.Info_New_construction}</b>
+                              <b>
+                                {application.Info_New_construction || "N/A"}
+                              </b>
                             </p>
                             <p>
                               <b style={{ color: "#B6B6B6" }}>HOME TYPE</b>
                               <br />
-                              <b>{application.Info_Home_type}</b>
+                              <b>{application.Info_Home_type || "N/A"}</b>
                             </p>
                           </div>
                         )}
@@ -868,34 +868,77 @@ function RecordsForm() {
                               <h3 className="mt-3 mb-3 text-info">
                                 Installer Information
                               </h3>
-                              <ListGroup className="mb-3">
-                                <p>
-                                  Technician Name{" "}
-                                  <b> {application.Installer_New_name} </b>
-                                </p>
-                                <p>
-                                  Work Telephone{" "}
-                                  <b> {application.Installer_New_worktel} </b>
-                                </p>
-                                <p>
-                                  Company{" "}
-                                  <b>
-                                    {" "}
-                                    {application.Installer_New_companyname}{" "}
-                                  </b>
-                                </p>
-                                <p>
-                                  Certification No.{" "}
-                                  <b> {application.Installer_New_certno} </b>
-                                </p>
-                                <p className="mb-3">
-                                  Email{" "}
-                                  <b> {application.Installer_New_email} </b>
-                                </p>
-                                <p>
-                                  Date of Final{" "}
-                                  <b> {application.Installer_New_finaldate} </b>
-                                </p>
+                              <ListGroup
+                                className="mb-3"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                }}
+                              >
+                                <div style={{ marginRight: 50 }}>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>
+                                      Technician Name
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>
+                                      Work Telephone
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>Company</b>
+                                  </p>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>
+                                      Certification No.
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>Email</b>
+                                  </p>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>
+                                      Date of Final
+                                    </b>
+                                  </p>
+                                </div>
+                                <div>
+                                  <p>
+                                    <b>
+                                      {application.Installer_New_name || "N/A"}
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b>
+                                      {application.Installer_New_worktel ||
+                                        "N/A"}
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b>
+                                      {application.Installer_New_companyname ||
+                                        "N/A"}
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b>
+                                      {application.Installer_New_certno ||
+                                        "N/A"}
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b>
+                                      {application.Installer_New_email || "N/A"}
+                                    </b>
+                                  </p>
+                                  <p>
+                                    <b>
+                                      {application.Installer_New_finaldate ||
+                                        "N/A"}
+                                    </b>
+                                  </p>
+                                </div>
                               </ListGroup>
                             </>
                           ) : (
@@ -1012,7 +1055,6 @@ function RecordsForm() {
                                   </Button>{" "}
                                   <br />
                                 </span>
-                                
                               </Col>
                               <Col md={4}>
                                 <span>
@@ -1030,7 +1072,6 @@ function RecordsForm() {
                                     Download
                                   </Button>{" "}
                                 </span>
-                                
                               </Col>
                               <Col md={4}>
                                 <span>
@@ -1050,7 +1091,6 @@ function RecordsForm() {
                                   </Button>
                                 </span>{" "}
                                 <br />
-                                
                               </Col>
                               <Col md={4}>
                                 <span>
@@ -1070,7 +1110,6 @@ function RecordsForm() {
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
-                                
                               </Col>
 
                               <Col md={4}>
@@ -1090,7 +1129,6 @@ function RecordsForm() {
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
-                                
                               </Col>
 
                               <Col md={4}>
@@ -1110,7 +1148,6 @@ function RecordsForm() {
                                   </Button>{" "}
                                 </span>{" "}
                                 <br />
-                                
                               </Col>
                             </Row>
                           </>
@@ -1176,7 +1213,6 @@ function RecordsForm() {
             <hr />
             {/* Comments section */}
             <br />
-            
           </Tab.Container>
         </Container>
       ) : (
