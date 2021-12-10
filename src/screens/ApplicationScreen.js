@@ -135,6 +135,7 @@ function ApplicationScreen() {
   const [other_doc3D, setOtherDoc3D] = useState("");
 
   const [terms_and_agreement, setTermsAndAgreement] = useState(false);
+  const [total_rebate, setTotalRebate] = useState(0);
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -160,6 +161,7 @@ function ApplicationScreen() {
             application_information: {
               control_no: control_no,
               account_no: account_no,
+              total_rebate:total_rebate,
               bill_id: bill_id,
               customer_name: firstname + " " + middlename + " " + lastname,
               service_location: service_location,
@@ -364,8 +366,6 @@ function ApplicationScreen() {
         }
       return;
     }
-    
-
 
     if (step <= 8 || step > 0) {
       if (is_set_control_no === false) {
@@ -534,6 +534,8 @@ function ApplicationScreen() {
             />
           ) : step === 3 ? (
             <NewEuipmentInformation
+              total_rebate={total_rebate}
+              setTotalRebate={setTotalRebate}
               control_no={control_no}
               setControlNo={setControlNo}
               customer_type={customer_type}

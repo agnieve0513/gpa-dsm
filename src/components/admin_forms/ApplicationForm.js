@@ -324,6 +324,8 @@ function ApplicationForm() {
     oth1,
     oth2 = "";
 
+    let total_rebate=0;
+
   const handleOnChange = (e, doc_type, control_no) => {
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
     if (doc_type === "irs_form") {
@@ -933,6 +935,7 @@ function ApplicationForm() {
                                       {eq.newEquip_Quantity}
                                     </td>
                                     <td className="p-3">
+                                      <span hidden>{total_rebate += parseInt(eq.newEquip_rebate)}</span>
                                       {eq.newEquip_rebate}
                                     </td>
                                   </tr>
@@ -945,7 +948,7 @@ function ApplicationForm() {
                               <td className="p-3 text-center" colSpan="2">
                                 TOTAL
                               </td>
-                              <td className="p-3">$0.00</td>
+                              <td className="p-3">{total_rebate}</td>
                             </tr>
                           </tbody>
                         </Table>

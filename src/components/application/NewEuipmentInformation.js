@@ -93,7 +93,6 @@ function NewEuipmentInformation(props) {
   }, [dispatch, props.new_equipments]);
 
   const addEquipmentHandler = () => {
-    setTotalQuantity(parseInt(totalQuantity) + parseInt(props.quantity));
     if (
       props.system_type === "" ||
       props.manufacturer === "" ||
@@ -151,6 +150,8 @@ function NewEuipmentInformation(props) {
           email: props.tech_email,
         },
       };
+      setTotalQuantity(parseInt(totalQuantity) + parseInt(props.quantity));
+      props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
       props.setNewEquipments(props.new_equipments.concat(obj));
     }
 
@@ -158,6 +159,8 @@ function NewEuipmentInformation(props) {
   };
 
   const deleteEquipmentHandler = (rowdata) => {
+    console.log(rowdata);
+    props.setTotalRebate(props.total_rebate - rowdata.rebate)
     const index = props.new_equipments.indexOf(rowdata);
     const eqs = props.new_equipments;
     setTotalQuantity(totalQuantity - 1);
