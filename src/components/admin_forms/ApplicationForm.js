@@ -324,7 +324,7 @@ function ApplicationForm() {
     oth1,
     oth2 = "";
 
-    let total_rebate=0;
+  let total_rebate = 0;
 
   const handleOnChange = (e, doc_type, control_no) => {
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
@@ -691,7 +691,14 @@ function ApplicationForm() {
                                 <b>
                                   {application.Info_Is_owner || "N/A"}
                                   <br />
-                                  <p style={{ color: "#F9F9FA" }}>h</p>
+                                  <p
+                                    style={{
+                                      color: "#F9F9FA",
+                                      userSelect: "none",
+                                    }}
+                                  >
+                                    h
+                                  </p>
                                 </b>
                               </p>
                               <p>
@@ -981,7 +988,13 @@ function ApplicationForm() {
                                       {eq.newEquip_Quantity}
                                     </td>
                                     <td className="p-3">
-                                      <span hidden>{total_rebate += parseInt(eq.newEquip_rebate)}</span>
+                                      <span hidden>
+                                        {
+                                          (total_rebate += parseInt(
+                                            eq.newEquip_rebate
+                                          ))
+                                        }
+                                      </span>
                                       {eq.newEquip_rebate}
                                     </td>
                                   </tr>
@@ -1077,19 +1090,23 @@ function ApplicationForm() {
                                   controlId="invoice"
                                   className="mb-3"
                                 >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="invoice"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(
-                                          e,
-                                          "invoice",
-                                          application.Control_Number
-                                        )
-                                      }
-                                    />
-                                  </InputGroup>
+                                  {roleId !== 4 ? (
+                                    <InputGroup>
+                                      <Form.Control
+                                        name="invoice"
+                                        type="file"
+                                        onChange={(e) =>
+                                          handleOnChange(
+                                            e,
+                                            "invoice",
+                                            application.Control_Number
+                                          )
+                                        }
+                                      />
+                                    </InputGroup>
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   {invoice ? (
                                     <>
@@ -1136,15 +1153,19 @@ function ApplicationForm() {
                                   controlId="irs_form"
                                   className="mb-3"
                                 >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="irs_form"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "irs_form")
-                                      }
-                                    />
-                                  </InputGroup>
+                                  {roleId !== 4 ? (
+                                    <InputGroup>
+                                      <Form.Control
+                                        name="irs_form"
+                                        type="file"
+                                        onChange={(e) =>
+                                          handleOnChange(e, "irs_form")
+                                        }
+                                      />
+                                    </InputGroup>
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   {irs_form ? (
                                     <>
@@ -1192,18 +1213,22 @@ function ApplicationForm() {
                                   controlId="letter_authorization"
                                   className="mb-3"
                                 >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="letter_authorization"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(
-                                          e,
-                                          "letter_authorization"
-                                        )
-                                      }
-                                    />
-                                  </InputGroup>
+                                  {roleId !== 4 ? (
+                                    <InputGroup>
+                                      <Form.Control
+                                        name="letter_authorization"
+                                        type="file"
+                                        onChange={(e) =>
+                                          handleOnChange(
+                                            e,
+                                            "letter_authorization"
+                                          )
+                                        }
+                                      />
+                                    </InputGroup>
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   {letter_authorization ? (
                                     <>
@@ -1255,15 +1280,19 @@ function ApplicationForm() {
                                   controlId="disposal_slilp"
                                   className="mb-3"
                                 >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="disposal_slilp"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "disposal_slip")
-                                      }
-                                    />
-                                  </InputGroup>
+                                  {roleId !== 4 ? (
+                                    <InputGroup>
+                                      <Form.Control
+                                        name="disposal_slilp"
+                                        type="file"
+                                        onChange={(e) =>
+                                          handleOnChange(e, "disposal_slip")
+                                        }
+                                      />
+                                    </InputGroup>
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   {disposal_slip ? (
                                     <>
@@ -1312,15 +1341,19 @@ function ApplicationForm() {
                                   controlId="other_doc1"
                                   className="mb-3"
                                 >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="other_doc1"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "other_doc1")
-                                      }
-                                    />
-                                  </InputGroup>
+                                  {roleId !== 4 ? (
+                                    <InputGroup>
+                                      <Form.Control
+                                        name="other_doc1"
+                                        type="file"
+                                        onChange={(e) =>
+                                          handleOnChange(e, "other_doc1")
+                                        }
+                                      />
+                                    </InputGroup>
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   {other_doc1 ? (
                                     <>
@@ -1369,15 +1402,19 @@ function ApplicationForm() {
                                   controlId="letter_authorization"
                                   className="mb-3"
                                 >
-                                  <InputGroup>
-                                    <Form.Control
-                                      name="letter_authorization"
-                                      type="file"
-                                      onChange={(e) =>
-                                        handleOnChange(e, "other_doc2")
-                                      }
-                                    />
-                                  </InputGroup>
+                                  {roleId !== 4 ? (
+                                    <InputGroup>
+                                      <Form.Control
+                                        name="letter_authorization"
+                                        type="file"
+                                        onChange={(e) =>
+                                          handleOnChange(e, "other_doc2")
+                                        }
+                                      />
+                                    </InputGroup>
+                                  ) : (
+                                    <></>
+                                  )}
 
                                   {other_doc2 ? (
                                     <>
@@ -1409,7 +1446,11 @@ function ApplicationForm() {
                       </ListGroup>
                     </Container>
                     <Container className="ml-2 mr-2">
-                      <h3 className="mt-3 mb-3">Update Status</h3>
+                      {roleId !== 4 ? (
+                        <h3 className="mt-3 mb-3">Update Status</h3>
+                      ) : (
+                        <></>
+                      )}
                       <Row>
                         <Col md={12}>
                           <Modal show={showModal} onHide={handleModalClose}>
@@ -1647,20 +1688,26 @@ function ApplicationForm() {
                               )}
                             </Modal.Body>
                           </Modal>
-                          <Button
-                            className="me-2"
-                            variant={"info processbtn"}
-                            onClick={() => changeStatusHandler(1)}
-                          >
-                            Process Sending
-                          </Button>
-                          <Button
-                            className="me-2 rejectbtn"
-                            variant={"danger"}
-                            onClick={() => changeStatusHandler(3)}
-                          >
-                            Reject
-                          </Button>
+                          {roleId !== 4 ? (
+                            <>
+                              <Button
+                                className="me-2"
+                                variant={"info processbtn"}
+                                onClick={() => changeStatusHandler(1)}
+                              >
+                                Process Sending
+                              </Button>
+                              <Button
+                                className="me-2 rejectbtn"
+                                variant={"danger"}
+                                onClick={() => changeStatusHandler(3)}
+                              >
+                                Reject
+                              </Button>
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </Col>
                       </Row>
                     </Container>

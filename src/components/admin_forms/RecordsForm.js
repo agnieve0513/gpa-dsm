@@ -680,7 +680,14 @@ function RecordsForm() {
                                 <b>
                                   {application.Info_Is_owner || "N/A"}
                                   <br />
-                                  <p style={{ color: "#F9F9FA" }}>h</p>
+                                  <p
+                                    style={{
+                                      color: "#F9F9FA",
+                                      userSelect: "none",
+                                    }}
+                                  >
+                                    h
+                                  </p>
                                 </b>
                               </p>
                               <p>

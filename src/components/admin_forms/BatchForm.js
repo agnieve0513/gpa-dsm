@@ -1150,6 +1150,7 @@ function BatchForm() {
                               ) : roleId === 4 ? (
                                 <Container className="col-8 text-center btn-group-vertical">
                                   <Button
+                                    className="mb-5"
                                     onClick={() => {
                                       setSwalInfo("Send to Accounting");
                                       updateStatus(1, 2);
@@ -1158,6 +1159,7 @@ function BatchForm() {
                                     Send to Accounting
                                   </Button>
                                   <Button
+                                    className="mb-1"
                                     onClick={() => {
                                       setSwalInfo("Send Back to Supervisor");
                                       updateStatus(1, 3);
@@ -1488,6 +1490,7 @@ function BatchForm() {
               ) : roleId === 4 ? (
                 <Container className="col-8 text-center btn-group-vertical">
                   <Button
+                    className="mb-2"
                     onClick={() => {
                       setSwalInfo("Send to Accounting");
                       updateStatus(1, 2);
@@ -1496,6 +1499,7 @@ function BatchForm() {
                     Send to Accounting
                   </Button>
                   <Button
+                    className="mb-2"
                     onClick={() => {
                       setSwalInfo("Send Back to Supervisor");
                       updateStatus(1, 3);
