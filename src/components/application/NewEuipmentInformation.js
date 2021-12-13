@@ -377,23 +377,22 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
               >
-                    <option defaultValue hidden>SELECT SYSTEM TYPE</option>
-                
+                <option defaultValue hidden>SELECT SYSTEM TYPE</option>
                 {
-                props.customer_type === "RESID" ? 
-                  <>
-                    <option value="Central AC">Central AC</option>
-                    <option value="Split AC">Split AC</option>
-                    <option value="Window AC">Window AC</option>
-                    <option value="Washer">Washer</option>
-                    <option value="Dryer">Dryer</option>
-                  </>
-                 : 
-                  <>
-                    <option value="Central AC">Central AC - Commercial</option>
-                    <option value="Split AC">Split AC - Commercial</option>
-                    {/* <option value="Window AC">Window AC - Commercial</option> */}
-                  </>
+                  props.customer_type === "RESID" ? 
+                    <>
+                      <option value="Central AC">Central AC</option>
+                      <option value="Split AC">Split AC</option>
+                      <option value="Window AC">Window AC</option>
+                      <option value="Washer">Washer</option>
+                      <option value="Dryer">Dryer</option>
+                    </>
+                  : 
+                    <>
+                      <option value="Central AC">Central AC - Commercial</option>
+                      <option value="Split AC">Split AC - Commercial</option>
+                      {/* <option value="Window AC">Window AC - Commercial</option> */}
+                    </>
                 }
                     
               </Form.Select>
