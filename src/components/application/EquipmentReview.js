@@ -14,9 +14,10 @@ import {
 
 import "./EquipmentReview.css";
 import MaterialTable from "material-table";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 function EquipmentReview(props) {
-
+  const { height, width } = useWindowDimensions();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -52,7 +53,12 @@ function EquipmentReview(props) {
     <Row className="w-100 mx-0 px-0">
       <Col md={1}></Col>
       <Col md={10}>
-        <h4 className="text-center text-info mb-3">Equipment Review</h4>
+        {width >= 425 ? (
+          <h4 className="text-center text-info mb-3">Equipment Review</h4>
+        ) : (
+          <></>
+        )}
+
         <Card className="mb-5" id="CardForReview">
           <Card.Body>
             <Tabs
@@ -71,81 +77,186 @@ function EquipmentReview(props) {
                       Applicant Info{" "}
                     </h3>
                     <button
-                        title="Edit details"
-                        className="w-25 editButton text-end"
-                        onClick={() => backToApplicationHandler()}
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToApplicationHandler()}
                     >
                       <i className="fa fa-pen"></i>
                     </button>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>GPA Electric Account number</p></Col>
-                    <Col><p><b>{props.account_no}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">GPA Electric Account number</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.account_no}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Bill ID</p></Col>
-                    <Col><p><b>{props.bill_id}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Bill ID</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.bill_id}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Name on GPA Account</p></Col>
-                    <Col><p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p></Col>
+                    <Col>
+                      <p className="title">Name on GPA Account</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>
+                          {props.lastname}, {props.firstname} {props.middlename}{" "}
+                        </b>
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>First Name</p></Col>
-                    <Col><p><b>{props.firstname}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">First Name</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.firstname}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Middle Name</p></Col>
-                    <Col><p><b>{props.middlename}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Middle Name</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.middlename}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Last Name</p></Col>
-                    <Col><p><b>{props.lastname}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Last Name</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.lastname}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Installation Address</p></Col>
-                    <Col><p><b>{props.service_location}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Installation Address</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.service_location}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>City</p></Col>
-                    <Col><p><b>{props.city_village}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">City</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.city_village}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>ZIP</p></Col>
-                    <Col><p><b>{props.zipcode}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">ZIP</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.zipcode}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Email</p></Col>
-                    <Col><p><b>{props.email}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Email</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.email}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Telephone Number</p></Col>
-                    <Col><p><b>{props.tel_no}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Telephone Number</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.tel_no}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title py-4'>Is Applicant the owner of the residential property?</p></Col>
-                    <Col><p className='py-4'><b>{props.is_applicant_owner ? "Yes" : 
-                        props.is_applicant_owner === "true" ? "Yes" : "No"}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title py-4">
+                        Is Applicant the owner of the residential property?
+                      </p>
+                    </Col>
+                    <Col>
+                      <p className="py-4">
+                        <b>
+                          {props.is_applicant_owner
+                            ? "Yes"
+                            : props.is_applicant_owner === "true"
+                            ? "Yes"
+                            : "No"}
+                        </b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Mailing Address</p></Col>
-                    <Col><p><b>{props.mailing_address}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Mailing Address</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_address}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Home Size (approx. sq. ft.)</p></Col>
-                    <Col><p><b>{props.home_size}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Home Size (approx. sq. ft.)</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.home_size}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Home Age (appox. year built)</p></Col>
-                    <Col><p><b>{props.home_age}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Home Age (appox. year built)</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.home_age}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row className="px-0">
                     <Col><p className='title'>New Construction</p></Col>
                     <Col><p><b>{props.is_new_construction ? "Yes" : "No"}</b>{" "}</p></Col>
                   </Row>
                   <Row className="px-0">
-                    <Col><p className='title'>Home Type</p></Col>
-                    <Col><p><b>{props.home_type}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Home Type</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.home_type}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                 </Container>
               </Tab>
@@ -155,16 +266,16 @@ function EquipmentReview(props) {
               >
                 <Container className="ml-2 mr-2">
                   <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
-                      <h3 className="px-0 my-0 w-75 text-info text-start">
-                        New Equipment Info{" "}
-                      </h3>
-                      <button
-                          title="Edit details"
-                          className="w-25 editButton text-end"
-                          onClick={() => backToNewEquipmentHandler()}
-                      >
-                        <i className="fa fa-pen"></i>
-                      </button>
+                    <h3 className="px-0 my-0 w-75 text-info text-start">
+                      New Equipment Info{" "}
+                    </h3>
+                    <button
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToNewEquipmentHandler()}
+                    >
+                      <i className="fa fa-pen"></i>
+                    </button>
                   </Row>
                   <Row>
                     <Col className="px-0" md={12}>
@@ -194,11 +305,11 @@ function EquipmentReview(props) {
                             }
                             title="New Equipments"
                             options={{
-                            headerStyle: {
-                              backgroundColor: "#233f88",
-                              color: "#FFF",
-                            },
-                          }}
+                              headerStyle: {
+                                backgroundColor: "#233f88",
+                                color: "#FFF",
+                              },
+                            }}
                           />
                           <Row>
                             <Col md={6}>
@@ -312,10 +423,7 @@ function EquipmentReview(props) {
                                     </tr>
                                   ))}
                                   <tr>
-                                    <td
-                                      className="p-3 text-center"
-                                      colSpan="2"
-                                    >
+                                    <td className="p-3 text-center" colSpan="2">
                                       TOTAL
                                     </td>
                                     <td className="p-3">
@@ -341,50 +449,50 @@ function EquipmentReview(props) {
               >
                 <Container className="ml-2 mr-2">
                   <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
-                      <h3 className="px-0 my-0 w-75 text-info text-start">
-                        Old Equipment Info{" "}
-                      </h3>
-                      <button
-                          title="Edit details"
-                          className="w-25 editButton text-end"
-                          onClick={() => backToOldEquipmentHandler()}
-                      >
-                        <i className="fa fa-pen"></i>
-                      </button>
+                    <h3 className="px-0 my-0 w-75 text-info text-start">
+                      Old Equipment Info{" "}
+                    </h3>
+                    <button
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToOldEquipmentHandler()}
+                    >
+                      <i className="fa fa-pen"></i>
+                    </button>
                   </Row>
                   <MaterialTable
-                      columns={[
-                        { title: "System Type", field: "system_type" },
-                        { title: "Vendor", field: "vendor" },
-                        { title: "Quantity", field: "quantity" },
-                        { title: "Years", field: "years" },
-                        { title: "Quantity", field: "quantity" },
-                        { title: "BTU", field: "btu" },
-                        { title: "TONS", field: "tons" },
-                        { title: "Invoice#", field: "invoice_no" },
-                        {
-                          title: "Purchase Date",
-                          field: "purchase_date",
-                        },
-                        { title: "Type", field: "type" },
-                        { title: "Tons", field: "tons" },
-                        { title: "Seer", field: "seer" },
-                        { title: "Disposal Party", field: "disposal_party" },
-                        { title: "Date", field: "date" },
-                      ]}
-                      data={
-                        props.old_equipments.length === 0
-                          ? []
-                          : props.old_equipments
-                      }
-                      title="Existing Equipments"
-                      options={{
-                            headerStyle: {
-                              backgroundColor: "#233f88",
-                              color: "#FFF",
-                            },
-                          }}
-                    />
+                    columns={[
+                      { title: "System Type", field: "system_type" },
+                      { title: "Vendor", field: "vendor" },
+                      { title: "Quantity", field: "quantity" },
+                      { title: "Years", field: "years" },
+                      { title: "Quantity", field: "quantity" },
+                      { title: "BTU", field: "btu" },
+                      { title: "TONS", field: "tons" },
+                      { title: "Invoice#", field: "invoice_no" },
+                      {
+                        title: "Purchase Date",
+                        field: "purchase_date",
+                      },
+                      { title: "Type", field: "type" },
+                      { title: "Tons", field: "tons" },
+                      { title: "Seer", field: "seer" },
+                      { title: "Disposal Party", field: "disposal_party" },
+                      { title: "Date", field: "date" },
+                    ]}
+                    data={
+                      props.old_equipments.length === 0
+                        ? []
+                        : props.old_equipments
+                    }
+                    title="Existing Equipments"
+                    options={{
+                      headerStyle: {
+                        backgroundColor: "#233f88",
+                        color: "#FFF",
+                      },
+                    }}
+                  />
                 </Container>
               </Tab>
             </Tabs>

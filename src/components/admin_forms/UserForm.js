@@ -249,9 +249,8 @@ function UserForm({ history, location }) {
       } else {
         dispatch(register(role_id, name, email, password));
 
-          Swal.fire("Success!", "User Successfully Added", "success");
-          clearHandler();
-      
+        Swal.fire("Success!", "User Successfully Added", "success");
+        clearHandler();
       }
     }
   };
@@ -358,12 +357,12 @@ function UserForm({ history, location }) {
     <Container>
       <Row>
         <Col md={4}>
-          <Card className="p-3">
+          <Card className="p-3 mb-3">
             <Card.Body>
               <h5>Add User</h5>
               {message}
               <Form onSubmit={submitHandler}>
-                <Form.Group controlId="role_id" className="mb-3">
+                <Form.Group controlId="role_id" className="mb-4">
                   <Form.Select
                     onChange={(e) => setRoleId(e.target.value)}
                     value={role_id}
@@ -425,14 +424,11 @@ function UserForm({ history, location }) {
                 ) : (
                   <></>
                 )}
-                  <div className="d-grid gap-2 mt-3 mb-4">
-                  <Button 
-                    type="submit" 
-                    variant="success" 
-                    className="my-1">
+                <div className="d-grid gap-2 mt-3 mb-4">
+                  <Button type="submit" variant="success" className="my-1">
                     Save
                   </Button>
-                   <Button
+                  <Button
                     type="button"
                     variant="danger"
                     className="my-1"
@@ -450,8 +446,7 @@ function UserForm({ history, location }) {
                   >
                     Clear All
                   </Button>
-                  </div>
-                 
+                </div>
               </Form>
             </Card.Body>
           </Card>

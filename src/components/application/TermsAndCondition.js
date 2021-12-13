@@ -50,7 +50,12 @@ function TermsAndCondition(props) {
     <Row>
       <Col md={2}></Col>
       <Col md={8}>
-        <h4 className="text-center text-info mb-3">Terms and Condition</h4>
+        {width >= 425 ? (
+          <h4 className="text-center text-info mb-3">Terms and Condition</h4>
+        ) : (
+          <></>
+        )}
+
         <div
           style={{
             backgroundColor: "#515759",

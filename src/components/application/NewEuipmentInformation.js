@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Form, Button, Badge, Table, InputGroup } from "react-bootstrap";
-import './NewEquipmentInformation.css';
+import {
+  Row,
+  Col,
+  Form,
+  Button,
+  Badge,
+  Table,
+  InputGroup,
+} from "react-bootstrap";
+import "./NewEquipmentInformation.css";
 import {
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
   loadCustomerEquipmentDetail,
 } from "../../actions/customerAction";
-import { uploadFileAction } from '../../actions/fileActions'
+import { uploadFileAction } from "../../actions/fileActions";
 
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
@@ -61,11 +69,7 @@ function NewEuipmentInformation(props) {
   } = customerEquipmentDetail;
 
   const uploadFile = useSelector((state) => state.uploadFile);
-  const {
-    loading: uploadLoading,
-    error: uploadError,
-    fileCode,
-  } = uploadFile;
+  const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
   const changeSystemTypeHandler = (e) => {
     showRebateHandler();
@@ -85,7 +89,6 @@ function NewEuipmentInformation(props) {
   const changeModelHandler = (e) => {
     props.setModelNo(e.target.value);
     dispatch(loadCustomerEquipmentDetail(e.target.value));
-     
   };
 
   useEffect(() => {
@@ -123,8 +126,7 @@ function NewEuipmentInformation(props) {
         title: "All Fields are required",
         text: "Fields should not be empty in order to proceed to next step",
       });
-    }else
-    {
+    } else {
       // Object for saving . ...
       const obj = {
         control_no: props.control_no,
@@ -154,13 +156,11 @@ function NewEuipmentInformation(props) {
       props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
       props.setNewEquipments(props.new_equipments.concat(obj));
     }
-
-    
   };
 
   const deleteEquipmentHandler = (rowdata) => {
     console.log(rowdata);
-    props.setTotalRebate(props.total_rebate - rowdata.rebate)
+    props.setTotalRebate(props.total_rebate - rowdata.rebate);
     const index = props.new_equipments.indexOf(rowdata);
     const eqs = props.new_equipments;
     setTotalQuantity(totalQuantity - 1);
@@ -208,33 +208,37 @@ function NewEuipmentInformation(props) {
                   type="text"
                 />
               </InputGroup>
-              {
-                  props.installer_certification?
-                  <p className="text-wrap">
-                    {
-                      fileCode ?
-                      <>
-                        {
-                          fileCode.length !== 0 ?
-                          <>
-                            {props.setInstallerCertificationD(fileCode)}
-                            {console.log(props.installer_certificationD)}
-                            <Badge bg={"success"}>File Uploaded</Badge> <br /> 
-                            <p className="text-break">Filename: {props.installer_certification.name}</p> <br />
-                            File Type: {props.installer_certification.type} <br /><br />
-                          </>
-                        :<></>
-                        }
-                      </>
-                      :<></>
-                    }
-                    
-                  </p>:<></>
-              }
+              {props.installer_certification ? (
+                <p className="text-wrap">
+                  {fileCode ? (
+                    <>
+                      {fileCode.length !== 0 ? (
+                        <>
+                          {props.setInstallerCertificationD(fileCode)}
+                          {console.log(props.installer_certificationD)}
+                          <Badge bg={"success"}>File Uploaded</Badge> <br />
+                          <p className="text-break">
+                            Filename: {props.installer_certification.name}
+                          </p>{" "}
+                          <br />
+                          File Type: {props.installer_certification.type} <br />
+                          <br />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </p>
+              ) : (
+                <></>
+              )}
             </Form.Group>
           </Col>
           <Col md={12}>
-          <Form.Group controlId="disposal_slip">
+            <Form.Group controlId="disposal_slip">
               <span>
                 <b>INVOICE</b>
                 <span
@@ -261,37 +265,35 @@ function NewEuipmentInformation(props) {
                 />
               </InputGroup>
               {props.invoice === null ? (
-                <p className="validate text-danger">
-                  *This Field is Required
-                </p>
-              ) 
-              : 
-              (
+                <p className="validate text-danger">*This Field is Required</p>
+              ) : (
                 <></>
               )}
-              {
-              props.invoice?
-                  <>
-                    {
-                      fileCode ?
-                      <>
-                        {
-                        fileCode.length !== 0 ?
-                          <>
+              {props.invoice ? (
+                <>
+                  {fileCode ? (
+                    <>
+                      {fileCode.length !== 0 ? (
+                        <>
                           {props.setInvoiceD(fileCode)}
                           {console.log(props.invoiceD)}
-                          <Badge bg={"success"}>File Uploaded</Badge> <br /> 
-                          </>
-                        : <></>
-                        }
-                      </>
-                      :<></>
-                    }
-                    <p className="text-break">Filename: {props.invoice.name}</p> <br />
-                    File Type: {props.invoice.type} <br /><br />
-                    
-                  </>:<></>
-              }
+                          <Badge bg={"success"}>File Uploaded</Badge> <br />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <p className="text-break">Filename: {props.invoice.name}</p>{" "}
+                  <br />
+                  File Type: {props.invoice.type} <br />
+                  <br />
+                </>
+              ) : (
+                <></>
+              )}
             </Form.Group>
           </Col>
         </Row>
@@ -352,27 +354,33 @@ function NewEuipmentInformation(props) {
     }
   };
 
-
   const handleChangeInvoice = (e) => {
-    props.setInvoice(e.target.files[0])
+    props.setInvoice(e.target.files[0]);
     dispatch(uploadFileAction(e.target.files[0], "invoice", props.control_no));
-  }
-
+  };
 
   const handleChangeInstallersInformation = (e) => {
-    props.setInstallerCertification(e.target.files[0])
-    dispatch(uploadFileAction(e.target.files[0], "installers_information", props.control_no));
-  }
+    props.setInstallerCertification(e.target.files[0]);
+    dispatch(
+      uploadFileAction(
+        e.target.files[0],
+        "installers_information",
+        props.control_no
+      )
+    );
+  };
 
   return (
     <Row>
-      <Col md={3}/>
+      <Col md={3} />
       <Col md={6}>
         {/* Row for installer's information */}
         <Row>
           <Col md={12} className="mb-3">
             <Form.Group controlId="system_type">
-              <Form.Label><b>SYSTEM TYPE</b></Form.Label>
+              <Form.Label>
+                <b>SYSTEM TYPE</b>
+              </Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
@@ -409,7 +417,9 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
-              <Form.Label><b>TECHNICIAN NAME</b></Form.Label>
+              <Form.Label>
+                <b>TECHNICIAN NAME</b>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -426,7 +436,9 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="work_tel">
-              <Form.Label><b>WORK CONTACT NUMBER</b></Form.Label>
+              <Form.Label>
+                <b>WORK CONTACT NUMBER</b>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -438,24 +450,25 @@ function NewEuipmentInformation(props) {
             </Form.Group>
             {props.work_tel === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
-            ) : 
-              props.work_tel.length < 10 ?
-                  (
-                    <p className="validate text-danger">*This Field requires 10 digits</p>
-                  )
-                :
-                props.work_tel.length > 10 ?
-                 (
-                    <p className="validate text-danger">*This Field requires 10 digits</p>
-                  )
-                 : ''
-            }
+            ) : props.work_tel.length < 10 ? (
+              <p className="validate text-danger">
+                *This Field requires 10 digits
+              </p>
+            ) : props.work_tel.length > 10 ? (
+              <p className="validate text-danger">
+                *This Field requires 10 digits
+              </p>
+            ) : (
+              ""
+            )}
           </Col>
         </Row>
         <Row>
           <Col md={12} className="mb-3">
             <Form.Group controlId="company_name">
-              <Form.Label><b>COMPANY NAME</b></Form.Label>
+              <Form.Label>
+                <b>COMPANY NAME</b>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder=""
@@ -474,7 +487,9 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="date_final_installation">
-              <Form.Label><b>DATE OF FINAL INSTALLATION</b></Form.Label>
+              <Form.Label>
+                <b>DATE OF FINAL INSTALLATION</b>
+              </Form.Label>
               <Form.Control
                 type="date"
                 placeholder=""
@@ -491,7 +506,9 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="tech_email">
-              <Form.Label><b>EMAIL</b></Form.Label>
+              <Form.Label>
+                <b>EMAIL</b>
+              </Form.Label>
               <Form.Control
                 type="email"
                 placeholder=""
@@ -504,14 +521,14 @@ function NewEuipmentInformation(props) {
         </Row>
         {installerCertificationHandler()}
 
-        <h4 className="text-center text-info mt-5">
-          NEW EQUIPMENT INFORMATION
-        </h4>
+        <h4 className="text-center text-info mt-5">EQUIPMENT INFORMATION</h4>
 
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="manufacturer">
-              <Form.Label><b>MANUFACTURER</b></Form.Label>
+              <Form.Label>
+                <b>MANUFACTURER</b>
+              </Form.Label>
               <Form.Select
                 onChange={(e) => changeManufacturerHandler(e)}
                 value={props.manufacturer}
@@ -539,7 +556,9 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="model_no">
-              <Form.Label><b>MODEL NUMBER</b></Form.Label>
+              <Form.Label>
+                <b>MODEL NUMBER</b>
+              </Form.Label>
               <Form.Select
                 onChange={(e) => changeModelHandler(e)}
                 value={props.model_no}
@@ -549,7 +568,7 @@ function NewEuipmentInformation(props) {
                 </option>
                 {models ? (
                   models.map((me) => {
-                    props.setVendor("")
+                    props.setVendor("");
                     if (
                       props.system_type === "Dryer" ||
                       props.system_type === "Washer"
@@ -582,44 +601,38 @@ function NewEuipmentInformation(props) {
                       }
                     }
                   })
-                ) 
-                : <>
-                  {props.setVendor("")}
-                  <option>Loading . . . </option>
-                  </>
-                }
-              </Form.Select>
-              {
-                props.model_no ?
-                  equipment_detail ?
-                  equipment_detail.length ?
-                  <>
-                    {props.setRebate(equipment_detail[0].rebate)}
-                    {props.setSeer(equipment_detail[0].seer)}
-                    {console.log(equipment_detail[0].vendor)}
-
-                    {equipment_detail[0].vendor === ""?
-                      props.setVendor("N/A")
-                    :
-                      props.setVendor(equipment_detail[0].vendor)}
-                    
-                    {equipment_detail[0].btu === "" ?
-                      props.setBtu("N/A")
-                      :
-                      props.setBtu(equipment_detail[0].btu)}
-                    
-                  </>
-                  : 
+                ) : (
                   <>
                     {props.setVendor("")}
+                    <option>Loading . . . </option>
                   </>
-                  : <>{props.setVendor("")}</>
-                :
-                <>
-                  {props.setVendor("")}
-                </>
-              }
+                )}
+              </Form.Select>
+              {props.model_no ? (
+                equipment_detail ? (
+                  equipment_detail.length ? (
+                    <>
+                      {props.setRebate(equipment_detail[0].rebate)}
+                      {props.setSeer(equipment_detail[0].seer)}
+                      {console.log(equipment_detail[0].vendor)}
 
+                      {equipment_detail[0].vendor === ""
+                        ? props.setVendor("N/A")
+                        : props.setVendor(equipment_detail[0].vendor)}
+
+                      {equipment_detail[0].btu === ""
+                        ? props.setBtu("N/A")
+                        : props.setBtu(equipment_detail[0].btu)}
+                    </>
+                  ) : (
+                    <>{props.setVendor("")}</>
+                  )
+                ) : (
+                  <>{props.setVendor("")}</>
+                )
+              ) : (
+                <>{props.setVendor("")}</>
+              )}
             </Form.Group>
             {props.model_no === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
@@ -631,7 +644,9 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="quantity">
-              <Form.Label><b>QUANTITY</b></Form.Label>
+              <Form.Label>
+                <b>QUANTITY</b>
+              </Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""
@@ -649,20 +664,23 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="vendor">
-              <Form.Label><b>VENDOR</b></Form.Label>
+              <Form.Label>
+                <b>VENDOR</b>
+              </Form.Label>
               <Form.Select
                 onChange={(e) => props.setVendor(e.target.value)}
                 value={props.vendor}
               >
-                <option defaultValue hidden>Select Vendor</option>
-                {
-                  props.vendor === ""?
+                <option defaultValue hidden>
+                  Select Vendor
+                </option>
+                {props.vendor === "" ? (
                   <>
                     <option></option>
                   </>
-                  :
+                ) : (
                   <option value={props.vendor}>{props.vendor}</option>
-                }
+                )}
               </Form.Select>
             </Form.Group>
             {props.vendor === "" ? (
@@ -714,7 +732,9 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="purchase_date">
-              <Form.Label><b>PURCHASE DATE (Date on invoice)</b></Form.Label>
+              <Form.Label>
+                <b>PURCHASE DATE (Date on invoice)</b>
+              </Form.Label>
               <Form.Control
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
@@ -724,18 +744,29 @@ function NewEuipmentInformation(props) {
             </Form.Group>
             {props.purchase_date === "" ? (
               <p className="validate text-danger">*This Field is Required</p>
-            ) : 
-              (Math.abs(new Date(props.purchase_date) - new Date(props.date_final_installation))/(1000 * 3600 * 24)) > 120 ?
-              <p className="validate text-danger">(*Note: Your Application exceeded 120 days. Please be informed that there might be a chance your application will be rejected if you do not have valid reason for exceeding the alloted time.)</p>
-              : ''
-            }
+            ) : Math.abs(
+                new Date(props.purchase_date) -
+                  new Date(props.date_final_installation)
+              ) /
+                (1000 * 3600 * 24) >
+              120 ? (
+              <p className="validate text-danger">
+                (*Note: Your Application exceeded 120 days. Please be informed
+                that there might be a chance your application will be rejected
+                if you do not have valid reason for exceeding the alloted time.)
+              </p>
+            ) : (
+              ""
+            )}
           </Col>
         </Row>
 
         <Row>
           <Col md={12}>
             <Form.Group controlId="rebate">
-              <Form.Label><b>REBATE</b></Form.Label>
+              <Form.Label>
+                <b>REBATE</b>
+              </Form.Label>
               <Form.Control
                 type="number"
                 onChange={(e) => props.setRebate(e.target.value)}
@@ -745,7 +776,6 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
           </Col>
-          
         </Row>
 
         {/* Table and button Add Equipment */}
@@ -773,7 +803,7 @@ function NewEuipmentInformation(props) {
           </Col>
         </Row>
       </Col>
-      <Col md={3}/>
+      <Col md={3} />
     </Row>
   );
 }

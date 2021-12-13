@@ -10,6 +10,7 @@ import {
   Spinner,
   FormGroup,
 } from "react-bootstrap";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 import ModalImage from "../ModalImage";
 import {
@@ -28,13 +29,14 @@ import { useWindowDimensions } from "../../hooks";
 import { colors, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, withStyles } from "@material-ui/core";
 
 function ApplicationInformation(props) {
+  const { height, width } = useWindowDimensions();
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
   });
 
-  const [verifyClicked, setVerifyClicked] = useState(false)
+  const [verifyClicked, setVerifyClicked] = useState(false);
 
   const dispatch = useDispatch();
   let pp = {};
@@ -60,11 +62,7 @@ function ApplicationInformation(props) {
   } = customerDetail;
 
   const uploadFile = useSelector((state) => state.uploadFile);
-  const {
-    loading: uploadLoading,
-    error: uploadError,
-    fileCode
-  } = uploadFile;
+  const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -82,7 +80,7 @@ function ApplicationInformation(props) {
   const verifyCustomerHandler = () => {
     if (props.bill_id !== "" && props.account_no !== "") {
       dispatch(loadCustomerDetail(props.bill_id, props.account_no));
-      setVerifyClicked(true)
+      setVerifyClicked(true);
     } else {
       alert("Account Number & Bill ID is required to verify customer");
     }
@@ -107,13 +105,18 @@ function ApplicationInformation(props) {
     years.push(i);
   }
 
-  const handleSubmitLOA = () => {
-  }
+  const handleSubmitLOA = () => {};
 
   const handleChangeLOA = (e) => {
     props.setLetterAuthorization(e.target.files[0]);
-    dispatch(uploadFileAction(e.target.files[0], "letter_of_authorization", props.control_no));
-  }
+    dispatch(
+      uploadFileAction(
+        e.target.files[0],
+        "letter_of_authorization",
+        props.control_no
+      )
+    );
+  };
 
   const { height, width } = useWindowDimensions();
   const screenWidthM = width > 425
@@ -305,7 +308,7 @@ const newComponentDesktop = () =>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="account_no">
                   <Form.Label className="d-flex justify-content-between">
-                    <b> GPA ELECTRIC ACCOUNT NUMBER{" "} </b>
+                    <b> GPA ELECTRIC ACCOUNT NUMBER </b>
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -332,48 +335,46 @@ const newComponentDesktop = () =>
                     required
                   ></Form.Control>
                 </Form.Group>
-                {
-                props.account_no === "" ? (
+                {props.account_no === "" ? (
                   <p className="validate text-danger">
                     *This Field is Required
                   </p>
-                ) : 
-                
-                  verifyClicked ?
+                ) : verifyClicked ? (
                   customerLoading ? (
                     <Spinner animation="border" role="status">
                       <span className="visually-hidden">Loading...</span>
                     </Spinner>
-                    ) : customerError ? (
-                      <>
-                        {props.setVerify(false)}
-                        <span className="text-danger">Customer Not Verified</span>
-                      </>
-                    ) : (
-                      <>
-                        {props.setVerify(true)}
+                  ) : customerError ? (
+                    <>
+                      {props.setVerify(false)}
+                      <span className="text-danger">Customer Not Verified</span>
+                    </>
+                  ) : (
+                    <>
+                      {props.setVerify(true)}
 
-                        {customer_detail.type ? (
-                          <>
-                            {props.setCustomerType(
-                              customer_detail.type.original.message
-                            )}
-                            <span className="text-success">
-                              Customer is Verified
-                            </span>
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    )
-                    :<></>
-                }
+                      {customer_detail.type ? (
+                        <>
+                          {props.setCustomerType(
+                            customer_detail.type.original.message
+                          )}
+                          <span className="text-success">
+                            Customer is Verified
+                          </span>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  )
+                ) : (
+                  <></>
+                )}
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
                   <Form.Label className="d-flex justify-content-between">
-                    <b> BILL ID (Last 5 Digits){" "} </b>
+                    <b> BILL ID (Last 5 Digits) </b>
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -393,8 +394,9 @@ const newComponentDesktop = () =>
                     <Form.Control
                       type="text"
                       placeholder=""
-                      onChange={(e) => 
-                        handleNumericFields(e.target, "setBillId")}
+                      onChange={(e) =>
+                        handleNumericFields(e.target, "setBillId")
+                      }
                       value={props.bill_id}
                       required
                       maxLength="5"
@@ -433,7 +435,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
-                  <Form.Label><b>FIRST NAME</b></Form.Label>
+                  <Form.Label>
+                    <b>FIRST NAME</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -453,7 +457,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="lastname">
-                  <Form.Label><b>LAST NAME</b></Form.Label>
+                  <Form.Label>
+                    <b>LAST NAME</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -473,7 +479,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
-                  <Form.Label><b>M. I.</b></Form.Label>
+                  <Form.Label>
+                    <b>M. I.</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -489,7 +497,9 @@ const newComponentDesktop = () =>
               <Col md={12} className="mb-3">
                 <Form.Group controlId="service_location">
                   <Form.Label>
-                    <b>SERVICE LOCATION (Address where equipment was installed)*</b>
+                    <b>
+                      SERVICE LOCATION (Address where equipment was installed)*
+                    </b>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -512,7 +522,9 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="city_village">
-                  <Form.Label><b>CITY/VILLAGE</b></Form.Label>
+                  <Form.Label>
+                    <b>CITY/VILLAGE</b>
+                  </Form.Label>
                   <Form.Select
                     onChange={(e) => changeZipCode(e)}
                     value={props.city_village}
@@ -536,7 +548,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="zip_code">
-                  <Form.Label><b>ZIP CODE</b></Form.Label>
+                  <Form.Label>
+                    <b>ZIP CODE</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -561,7 +575,12 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="email">
-                  <Form.Label><b>EMAIL</b> <small className="text-muted">(We will be sending updates to this E-mail)</small></Form.Label>
+                  <Form.Label>
+                    <b>EMAIL</b>{" "}
+                    <small className="text-muted">
+                      (We will be sending updates to this E-mail)
+                    </small>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -580,7 +599,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
-                  <Form.Label><b>CONTACT NUMBER</b></Form.Label>
+                  <Form.Label>
+                    <b>CONTACT NUMBER</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -594,22 +615,21 @@ const newComponentDesktop = () =>
                   <p className="validate text-danger">
                     *This Field is Required
                   </p>
-                ) : 
-                  props.tel_no.length < 10 ?
-                    <>
-                      <p className="validate text-danger">
-                        *This Field requires 10 digits
-                      </p>
-                    </>
-                  : props.tel_no.length > 10 ?
-                    <>
-                      <p className="validate text-danger">
-                        *This Field required 10 digits
-                      </p>
-                    </>
-                  :''
-                }
-
+                ) : props.tel_no.length < 10 ? (
+                  <>
+                    <p className="validate text-danger">
+                      *This Field requires 10 digits
+                    </p>
+                  </>
+                ) : props.tel_no.length > 10 ? (
+                  <>
+                    <p className="validate text-danger">
+                      *This Field required 10 digits
+                    </p>
+                  </>
+                ) : (
+                  ""
+                )}
               </Col>
             </Row>
 
@@ -658,29 +678,32 @@ const newComponentDesktop = () =>
                     ) : (
                       <></>
                     )}
-                    {
-                        props.letter_authorization ?
-                        <>
-                          {
-                            fileCode ?
-                            <>
-                              {
-                                fileCode.length !== 0?
-                                <>
-                                  {props.setLetterAuthorizationD(fileCode)}
-                                  {console.log("File Code: ",fileCode)}
-                                  {console.log(props.letter_authorizationD)}
-                                  <Badge bg={"success"}>File Uploaded</Badge> <br />
-                                </>
-                                 : <></>
-                              }
-                            </>
-                            :<></>
-                          }
-                          Filename: {props.letter_authorization.name} <br />
-                          File Type: {props.letter_authorization.type} <br /><br />
-                        </>:<></>
-                   }
+                    {props.letter_authorization ? (
+                      <>
+                        {fileCode ? (
+                          <>
+                            {fileCode.length !== 0 ? (
+                              <>
+                                {props.setLetterAuthorizationD(fileCode)}
+                                {console.log("File Code: ", fileCode)}
+                                {console.log(props.letter_authorizationD)}
+                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                <br />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        Filename: {props.letter_authorization.name} <br />
+                        File Type: {props.letter_authorization.type} <br />
+                        <br />
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </Form.Group>
                 ) : (
                   <></>
@@ -708,8 +731,9 @@ const newComponentDesktop = () =>
               <Col md={12} className="mb-3">
                 <Form.Group controlId="mailing_address">
                   <Form.Label>
-                    <b>MAILING ADDRESS{" "}
-                      (Current address where we will send your rebate check)*
+                    <b>
+                      MAILING ADDRESS (Current address where we will send your
+                      rebate check)*
                     </b>
                   </Form.Label>
                   <Form.Control
@@ -734,7 +758,9 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_country">
-                  <Form.Label><b>COUNTRY</b></Form.Label>
+                  <Form.Label>
+                    <b>COUNTRY</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -754,7 +780,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_city_village">
-                  <Form.Label><b>CITY/VILLAGE</b></Form.Label>
+                  <Form.Label>
+                    <b>CITY/VILLAGE</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -776,7 +804,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_zipcode">
-                  <Form.Label><b>ZIP CODE</b></Form.Label>
+                  <Form.Label>
+                    <b>ZIP CODE</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -800,7 +830,9 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
-                  <Form.Label><b>HOME SIZE (approx.sq ft.)</b></Form.Label>
+                  <Form.Label>
+                    <b>HOME SIZE (approx.sq ft.)</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -823,7 +855,9 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_age">
-                  <Form.Label><b>YEAR BUILT</b></Form.Label>
+                  <Form.Label>
+                    <b>YEAR BUILT</b>
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""

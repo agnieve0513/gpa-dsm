@@ -22,6 +22,7 @@ import {
   applicationTrackReducer,
   addCommentReducer,
   applicationListRecordsReducer,
+  applicationPrintDetailReducer,
 } from "./reducers/applicationReducers";
 import { equipmentListReducer } from "./reducers/equipmentReducers";
 import {
@@ -66,6 +67,7 @@ const reducer = combineReducers({
   applicationList: applicationListReducer,
   applicationListRecord: applicationListRecordsReducer,
   applicationDetail: applicationDetailReducer,
+  applicationPrintDetail: applicationPrintDetailReducer,
   applicationComments: applicationCommentsReducer,
   applicationLogs: applicationLogsReducer,
   applicationUpdate: applicationUpdateReducer,

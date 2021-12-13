@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Card, Table, Modal, Button, Image, Container } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Table,
+  Modal,
+  Button,
+  Image,
+  Container,
+} from "react-bootstrap";
 import prerequisites from "./source_files/document-prerequisites";
 import ModalImage from "../ModalImage";
-import { useWindowDimensions } from '../../hooks/useWindowDimensions';
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import "./ApplicationRequirements.css";
 import { TableCell, TableHead, TableRow } from "@material-ui/core";
 
@@ -32,13 +41,15 @@ function ApplicationRequirements(props) {
             application.{" "}
           </span>
         </p>
-        {width > 425 ? desktopView(setModalData, setModalShow) : mobileView(setModalData, setModalShow)}
+        {width > 425
+          ? desktopView(setModalData, setModalShow)
+          : mobileView(setModalData, setModalShow)}
       </Col>
     </Row>
   );
 }
 
-const desktopView = (setModalData, setModalShow) => 
+const desktopView = (setModalData, setModalShow) => (
   <Card>
     <Card.Header>
       <Card.Title className="text-center">
@@ -91,55 +102,81 @@ const desktopView = (setModalData, setModalShow) =>
       </Table>
     </Card.Body>
   </Card>
+);
 
-
-const mobileView = (setModalData, setModalShow) => 
+const mobileView = (setModalData, setModalShow) => (
   <Container className="px-1">
-    <h6 className="py-2 px-2 text-info text-center" id="tableTitle">Application Document and Information Pre-requisites</h6>
+    {/* <h6 className="py-2 px-2 text-info text-center" id="tableTitle">Application Document and Information Pre-requisites</h6> */}
     {prerequisites.map((p) => (
       <Table striped bordered hover responsive>
-          <TableRow className="bg-success text-white">
-            <TableCell colSpan={2} className="text-center fw-bolder py-1">{p._id}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="bg-info text-white ps-2 pe-0" rowSpan={1}>Description</TableCell>
-            <TableCell className="d-flex flex-row w-100 justify-content-between" colSpan={1} width="50%">
-              <b className="p-0 text-start" id="descTitle">{p.description}</b>
-              <a
-                className="text-secondary p-0"
-                // href={p.image_sample}
-                rel="noreferrer"
-                target="_blank"
-                onClick={() => {
-                  setModalData(p);
-                  setModalShow(true);
-                }}
-                >
-                {" "}
-                <i className="fa fa-question-circle ps-2 pe-0"></i>{" "}
-              </a>
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="bg-info text-white ps-2 pe-0" rowSpan={1}>Information (required)</TableCell>
-            <TableCell className="ps-3 pe-0 flex-column w-100 d-flex" colSpan={1} width="50%" key={"information_" + p._id} id="descTitle">
-              { p.information.length >= 1 ?
-                p.information.map((i) => (
-                  <div className="p-0 py-1" key={"info_" + i}>
-                    <span>{i}</span><br/>
-                  </div>
-                )) :
-                <div className="px-3 pt-3">N/A</div> }
-            </TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className="bg-info text-white ps-2 pe-0" rowSpan={1}>Additional Information (required if)</TableCell>
-            <TableCell colSpan={1} width="50%" key={"additional_" + p._id}>
-              <div className="px-0" id="descTitle">{p.additional ? p.additional : "N/A"}</div>
-            </TableCell>
-          </TableRow>
+        <TableRow className="bg-success text-white">
+          <TableCell colSpan={2} className="text-center fw-bolder py-1">
+            {p._id}
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="bg-info text-white ps-2 pe-0" rowSpan={1}>
+            Description
+          </TableCell>
+          <TableCell
+            className="d-flex flex-row w-100 justify-content-between"
+            colSpan={1}
+            width="50%"
+          >
+            <b className="p-0 text-start" id="descTitle">
+              {p.description}
+            </b>
+            <a
+              className="text-secondary p-0"
+              // href={p.image_sample}
+              rel="noreferrer"
+              target="_blank"
+              onClick={() => {
+                setModalData(p);
+                setModalShow(true);
+              }}
+            >
+              {" "}
+              <i className="fa fa-question-circle ps-2 pe-0"></i>{" "}
+            </a>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="bg-info text-white ps-2 pe-0" rowSpan={1}>
+            Information (required)
+          </TableCell>
+          <TableCell
+            className="ps-3 pe-0 flex-column w-100 d-flex"
+            colSpan={1}
+            width="50%"
+            key={"information_" + p._id}
+            id="descTitle"
+          >
+            {p.information.length >= 1 ? (
+              p.information.map((i) => (
+                <div className="p-0 py-1" key={"info_" + i}>
+                  <span>{i}</span>
+                  <br />
+                </div>
+              ))
+            ) : (
+              <div className="px-3 pt-3">N/A</div>
+            )}
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="bg-info text-white ps-2 pe-0" rowSpan={1}>
+            Additional Information (required if)
+          </TableCell>
+          <TableCell colSpan={1} width="50%" key={"additional_" + p._id}>
+            <div className="px-0" id="descTitle">
+              {p.additional ? p.additional : "N/A"}
+            </div>
+          </TableCell>
+        </TableRow>
       </Table>
     ))}
   </Container>
+);
 
 export default ApplicationRequirements;

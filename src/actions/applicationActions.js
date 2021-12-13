@@ -28,6 +28,10 @@ import {
   COMMENT_ADD_REQUEST,
   COMMENT_ADD_SUCCESS,
   COMMENT_ADD_FAIL,
+  APPLICATION_DETAIL_PRINT_REQUEST,
+  APPLICATION_DETAIL_PRINT_SUCCESS,
+  APPLICATION_DETAIL_PRINT_FAIL,
+  APPLICATION_DETAIL_PRINT_RESET,
 } from "../constants/applicationConstants";
 
 import { USER_LOGOUT } from "../constants/userConstants";
@@ -255,6 +259,40 @@ export const detailApplication = (application_id) => async (dispatch) => {
   }
 };
 
+export const printDetailApplication = (controlNo) => async (dispatch) => {
+  try {
+    dispatch({
+      type: APPLICATION_DETAIL_PRINT_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+      },
+    };
+
+    const { data } = await axios.post(
+      URL + "/print",
+      { controlNo: controlNo },
+      config
+    );
+
+    dispatch({
+      type: APPLICATION_DETAIL_PRINT_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: APPLICATION_DETAIL_PRINT_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.reponse.data.detail
+          : error.message,
+    });
+  }
+};
+
 export const addCommentAction =
   (applicationId, comment) => async (dispatch) => {
     try {
@@ -398,4 +436,5 @@ export const logout = () => (dispatch) => {
   dispatch({ type: APPLICATION_COMMENTS_RESET });
   dispatch({ type: APPLICATION_LOGS_RESET });
   dispatch({ type: APPLICATION_LIST_RECORD_RESET });
+  dispatch({ type: APPLICATION_DETAIL_PRINT_RESET });
 };

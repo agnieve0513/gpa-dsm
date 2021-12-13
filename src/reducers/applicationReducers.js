@@ -31,6 +31,10 @@ import {
   COMMENT_ADD_REQUEST,
   COMMENT_ADD_SUCCESS,
   COMMENT_ADD_FAIL,
+  APPLICATION_DETAIL_PRINT_REQUEST,
+  APPLICATION_DETAIL_PRINT_SUCCESS,
+  APPLICATION_DETAIL_PRINT_FAIL,
+  APPLICATION_DETAIL_PRINT_RESET,
 } from "../constants/applicationConstants";
 
 export const applicationTrackReducer = (
@@ -145,6 +149,27 @@ export const applicationDetailReducer = (
       return { loading: false, error: action.payload };
 
     case APPLICATION_DETAIL_RESET:
+      return { application: [] };
+    default:
+      return state;
+  }
+};
+
+export const applicationPrintDetailReducer = (
+  state = { application: [] },
+  action
+) => {
+  switch (action.type) {
+    case APPLICATION_DETAIL_PRINT_REQUEST:
+      return { loading: true, application: [] };
+
+    case APPLICATION_DETAIL_PRINT_SUCCESS:
+      return { loading: false, application: action.payload };
+
+    case APPLICATION_DETAIL_PRINT_FAIL:
+      return { loading: false, application: [], error: action.payload };
+
+    case APPLICATION_DETAIL_PRINT_RESET:
       return { application: [] };
     default:
       return state;
