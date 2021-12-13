@@ -971,47 +971,54 @@ function ApplicationForm() {
                         md={6}
                         className="mt-3 px-0 d-flex justify-content-center"
                       >
-                        <Table size="lg" striped bordered hover>
-                          <thead className="bg-info text-white">
-                            <tr className="py-5">
-                              <th className="p-3">Equipment No.</th>
-                              <th className="p-3">QTY</th>
-                              <th className="p-3">Rebate</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {application ? (
-                              <>
-                                {application.New_equipment.map((eq, id) => (
-                                  <tr key={id + 1}>
-                                    <td className="p-3">{id + 1}</td>
-                                    <td className="p-3">
-                                      {eq.newEquip_Quantity}
-                                    </td>
-                                    <td className="p-3">
-                                      <span hidden>
-                                        {
-                                          (total_rebate += parseInt(
-                                            eq.newEquip_rebate
-                                          ))
-                                        }
-                                      </span>
-                                      {eq.newEquip_rebate}
-                                    </td>
-                                  </tr>
-                                ))}
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                            <tr>
-                              <td className="p-3 text-center" colSpan="2">
-                                TOTAL
-                              </td>
-                              <td className="p-3">{total_rebate}</td>
-                            </tr>
-                          </tbody>
-                        </Table>
+                        <div
+                          style={{
+                            height: width <= 767 ? "100%" : "200px",
+                            width: "100%",
+                          }}
+                        >
+                          <Table size="lg" striped bordered hover>
+                            <thead className="bg-info text-white">
+                              <tr className="py-5">
+                                <th className="p-3">Equipment No.</th>
+                                <th className="p-3">QTY</th>
+                                <th className="p-3">Rebate</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {application ? (
+                                <>
+                                  {application.New_equipment.map((eq, id) => (
+                                    <tr key={id + 1}>
+                                      <td className="p-3">{id + 1}</td>
+                                      <td className="p-3">
+                                        {eq.newEquip_Quantity}
+                                      </td>
+                                      <td className="p-3">
+                                        <span hidden>
+                                          {
+                                            (total_rebate += parseInt(
+                                              eq.newEquip_rebate
+                                            ))
+                                          }
+                                        </span>
+                                        {eq.newEquip_rebate}
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                              <tr>
+                                <td className="p-3 text-center" colSpan="2">
+                                  TOTAL
+                                </td>
+                                <td className="p-3">{total_rebate}</td>
+                              </tr>
+                            </tbody>
+                          </Table>
+                        </div>
                       </Col>
                     </Row>
                   </Tab.Pane>

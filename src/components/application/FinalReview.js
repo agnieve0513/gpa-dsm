@@ -15,9 +15,10 @@ import {
 
 import "./EquipmentReview.css";
 import MaterialTable from "material-table";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 function FinalReview(props) {
-
+  const { height, width } = useWindowDimensions();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -40,10 +41,9 @@ function FinalReview(props) {
     props.setStep(4);
   };
 
-  const backToSubmissionOfDocumentation = () =>
-  {
+  const backToSubmissionOfDocumentation = () => {
     props.setStep(6);
-  }
+  };
 
   const showNewEquipmentInformation = (index) => {
     setNewEqIndex(index);
@@ -59,7 +59,12 @@ function FinalReview(props) {
     <Row className="w-100 mx-0">
       <Col md={1}></Col>
       <Col md={10}>
-        <h4 className="text-center text-info mb-3">Final Review</h4>
+        {width >= 425 ? (
+          <h4 className="text-center text-info mb-3">Final Review</h4>
+        ) : (
+          <></>
+        )}
+
         <Card className="mb-5" id="CardForReview">
           <Card.Body>
             <Tabs
@@ -78,81 +83,192 @@ function FinalReview(props) {
                       Applicant Info{" "}
                     </h3>
                     <button
-                        title="Edit details"
-                        className="w-25 editButton text-end"
-                        onClick={() => backToApplicationHandler()}
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToApplicationHandler()}
                     >
                       <i className="fa fa-pen"></i>
                     </button>
                   </Row>
                   <Row>
-                    <Col><p className='title'>GPA Electric Account number</p></Col>
-                    <Col><p><b>{props.account_no}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">GPA Electric Account number</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.account_no}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Bill ID</p></Col>
-                    <Col><p><b>{props.bill_id}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Bill ID</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.bill_id}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Name on GPA Account</p></Col>
-                    <Col><p><b>{props.lastname}, {props.firstname} {props.middlename}{" "}</b></p></Col>
+                    <Col>
+                      <p className="title">Name on GPA Account</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>
+                          {props.lastname}, {props.firstname} {props.middlename}{" "}
+                        </b>
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>First Name</p></Col>
-                    <Col><p><b>{props.firstname}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">First Name</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.firstname}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Middle Name</p></Col>
-                    <Col><p><b>{props.middlename}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Middle Name</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.middlename}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Last Name</p></Col>
-                    <Col><p><b>{props.lastname}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Last Name</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.lastname}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Installation Address</p></Col>
-                    <Col><p><b>{props.service_location}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Installation Address</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.service_location}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>City</p></Col>
-                    <Col><p><b>{props.city_village}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">City</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.city_village}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>ZIP</p></Col>
-                    <Col><p><b>{props.zipcode}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">ZIP</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.zipcode}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Email</p></Col>
-                    <Col><p><b>{props.email}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Email</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.email}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Telephone Number</p></Col>
-                    <Col><p><b>{props.tel_no}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Telephone Number</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.tel_no}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title py-4'>Is Applicant the owner of the residential property?</p></Col>
-                    <Col><p className='py-4'><b>{props.is_applicant_owner ? "Yes" : 
-                        props.is_applicant_owner === "true" ? "Yes" : "No"}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title py-4">
+                        Is Applicant the owner of the residential property?
+                      </p>
+                    </Col>
+                    <Col>
+                      <p className="py-4">
+                        <b>
+                          {props.is_applicant_owner
+                            ? "Yes"
+                            : props.is_applicant_owner === "true"
+                            ? "Yes"
+                            : "No"}
+                        </b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Mailing Address</p></Col>
-                    <Col><p><b>{props.mailing_address}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Mailing Address</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_address}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Home Size (approx. sq. ft.)</p></Col>
-                    <Col><p><b>{props.home_size}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Home Size (approx. sq. ft.)</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.home_size}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Home Age (appox. year built)</p></Col>
-                    <Col><p><b>{props.home_age}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Home Age (appox. year built)</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.home_age}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>New Construction</p></Col>
-                    <Col><p><b>{props.is_new_construction}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">New Construction</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.is_new_construction}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>Home Type</p></Col>
-                    <Col><p><b>{props.home_type}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">Home Type</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.home_type}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                 </Container>
               </Tab>
@@ -161,14 +277,14 @@ function FinalReview(props) {
                 title="New Equipment Information"
               >
                 <Container className="ml-2 mr-2">
-                <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
+                  <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
                     <h3 className="px-0 my-0 w-75 text-info text-start">
                       New Equipment Info{" "}
                     </h3>
                     <button
-                        title="Edit details"
-                        className="w-25 editButton text-end"
-                        onClick={() => backToNewEquipmentHandler()}
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToNewEquipmentHandler()}
                     >
                       <i className="fa fa-pen"></i>
                     </button>
@@ -321,10 +437,7 @@ function FinalReview(props) {
                                     </tr>
                                   ))}
                                   <tr>
-                                    <td
-                                      className="p-3 text-center"
-                                      colSpan="2"
-                                    >
+                                    <td className="p-3 text-center" colSpan="2">
                                       TOTAL
                                     </td>
                                     <td className="p-3">
@@ -354,48 +467,47 @@ function FinalReview(props) {
                       Old Equipment Info{" "}
                     </h3>
                     <button
-                        title="Edit details"
-                        className="w-25 editButton text-end"
-                        onClick={() => backToOldEquipmentHandler()}
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToOldEquipmentHandler()}
                     >
                       <i className="fa fa-pen"></i>
                     </button>
                   </Row>
                   <MaterialTable
-                      columns={[
-                        { title: "System Type", field: "system_type" },
-                        { title: "Vendor", field: "vendor" },
-                        { title: "Quantity", field: "quantity" },
-                        { title: "Years", field: "years" },
-                        { title: "Quantity", field: "quantity" },
-                        { title: "BTU", field: "btu" },
-                        { title: "TONS", field: "tons" },
-                        { title: "Invoice#", field: "invoice_no" },
-                        {
-                          title: "Purchase Date",
-                          field: "purchase_date",
-                        },
-                        { title: "Type", field: "type" },
-                        { title: "Tons", field: "tons" },
-                        { title: "Seer", field: "seer" },
-                        { title: "Disposal Party", field: "disposal_party" },
-                        { title: "Date", field: "date" },
-                      ]}
-                      data={
-                        props.old_equipments.length === 0
-                          ? []
-                          : props.old_equipments
-                      }
-                      title="Existing Equipments"
-                      options={{
-                        headerStyle: {
-                          fontSize: 16,
-                          backgroundColor: "#233f88",
-                          color: "#FFF",
-                        },
-                      }}
-                    />
-                  
+                    columns={[
+                      { title: "System Type", field: "system_type" },
+                      { title: "Vendor", field: "vendor" },
+                      { title: "Quantity", field: "quantity" },
+                      { title: "Years", field: "years" },
+                      { title: "Quantity", field: "quantity" },
+                      { title: "BTU", field: "btu" },
+                      { title: "TONS", field: "tons" },
+                      { title: "Invoice#", field: "invoice_no" },
+                      {
+                        title: "Purchase Date",
+                        field: "purchase_date",
+                      },
+                      { title: "Type", field: "type" },
+                      { title: "Tons", field: "tons" },
+                      { title: "Seer", field: "seer" },
+                      { title: "Disposal Party", field: "disposal_party" },
+                      { title: "Date", field: "date" },
+                    ]}
+                    data={
+                      props.old_equipments.length === 0
+                        ? []
+                        : props.old_equipments
+                    }
+                    title="Existing Equipments"
+                    options={{
+                      headerStyle: {
+                        fontSize: 16,
+                        backgroundColor: "#233f88",
+                        color: "#FFF",
+                      },
+                    }}
+                  />
                 </Container>
               </Tab>
               <Tab
@@ -408,62 +520,92 @@ function FinalReview(props) {
                       Submission of Documentation{" "}
                     </h3>
                     <button
-                        title="Edit details"
-                        className="w-25 editButton text-end"
-                        onClick={() => backToSubmissionOfDocumentation()}
+                      title="Edit details"
+                      className="w-25 editButton text-end"
+                      onClick={() => backToSubmissionOfDocumentation()}
                     >
                       <i className="fa fa-pen"></i>
                     </button>
-                  </Row>                  
-                    {
-                      props.letter_authorization?
+                  </Row>
+                  {props.letter_authorization ? (
+                    <>
+                      <p>
+                        LOA <Badge bg={"success"}>Uploaded</Badge>{" "}
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+
+                  <p>
+                    Invoice
+                    {props.invoice ? (
                       <>
-                      <p>LOA <Badge bg={"success"}>Uploaded</Badge> </p>
-                      </>:<></>
-                    }
-                 
-                  <p>Invoice 
-                    {
-                      props.invoice ?
-                      <><Badge bg={"success"}>Uploaded</Badge></>:<></>
-                    }
+                        <Badge bg={"success"}>Uploaded</Badge>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </p>
-                  {
-                    props.installer_certification ?
+                  {props.installer_certification ? (
                     <>
-                      <p>Installer's Certification <Badge bg={"success"}>Uploaded</Badge></p>
-                    </>:<></>
-                  }
-                  <p>IRS Form W-9 
-                      {
-                        props.irs_form? <><Badge bg={"success"}>Uploaded</Badge></>
-                        :<></>
-                      }
+                      <p>
+                        Installer's Certification{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <p>
+                    IRS Form W-9
+                    {props.irs_form ? (
+                      <>
+                        <Badge bg={"success"}>Uploaded</Badge>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </p>
-                  {
-                    props.disposal_receipt ?
+                  {props.disposal_receipt ? (
                     <>
-                      <p>Disposal Receipt <Badge bg={"success"}>Uploaded</Badge></p>
-                    </>:<></>
-                  }
-                  {
-                    props.letter_authorization ?
+                      <p>
+                        Disposal Receipt <Badge bg={"success"}>Uploaded</Badge>
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {props.letter_authorization ? (
                     <>
-                      <p>Letter Authorization <Badge bg={"success"}>Uploaded</Badge></p>
-                    </>:<></>
-                  }
-                  {
-                    props.other_doc1 ?
+                      <p>
+                        Letter Authorization{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {props.other_doc1 ? (
                     <>
-                      <p>Other Support Documents 1 <Badge bg={"success"}>Uploaded</Badge></p>
-                    </>:<></>
-                  }
-                  {
-                    props.other_doc2 ?
+                      <p>
+                        Other Support Documents 1{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {props.other_doc2 ? (
                     <>
-                      <p>Other Support Documents 2 <Badge bg={"success"}>Uploaded</Badge></p>
-                    </>:<></>
-                  }
+                      <p>
+                        Other Support Documents 2{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                 </Container>
               </Tab>
             </Tabs>
