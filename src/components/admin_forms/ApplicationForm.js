@@ -327,6 +327,7 @@ function ApplicationForm() {
   let total_rebate = 0;
 
   const handleOnChange = (e, doc_type, control_no) => {
+    console.log("control_no", control_no);
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
     if (doc_type === "irs_form") {
       setIrsForm(e.target.files[0]);
@@ -1159,7 +1160,11 @@ function ApplicationForm() {
                                         name="irs_form"
                                         type="file"
                                         onChange={(e) =>
-                                          handleOnChange(e, "irs_form")
+                                          handleOnChange(
+                                            e,
+                                            "irs_form",
+                                            application.Control_Number
+                                          )
                                         }
                                       />
                                     </InputGroup>
@@ -1221,7 +1226,8 @@ function ApplicationForm() {
                                         onChange={(e) =>
                                           handleOnChange(
                                             e,
-                                            "letter_authorization"
+                                            "letter_authorization",
+                                            application.Control_Number
                                           )
                                         }
                                       />
@@ -1286,7 +1292,11 @@ function ApplicationForm() {
                                         name="disposal_slilp"
                                         type="file"
                                         onChange={(e) =>
-                                          handleOnChange(e, "disposal_slip")
+                                          handleOnChange(
+                                            e,
+                                            "disposal_receipt",
+                                            application.Control_Number
+                                          )
                                         }
                                       />
                                     </InputGroup>
@@ -1347,7 +1357,11 @@ function ApplicationForm() {
                                         name="other_doc1"
                                         type="file"
                                         onChange={(e) =>
-                                          handleOnChange(e, "other_doc1")
+                                          handleOnChange(
+                                            e,
+                                            "other_doc1",
+                                            application.Control_Number
+                                          )
                                         }
                                       />
                                     </InputGroup>
@@ -1408,7 +1422,11 @@ function ApplicationForm() {
                                         name="letter_authorization"
                                         type="file"
                                         onChange={(e) =>
-                                          handleOnChange(e, "other_doc2")
+                                          handleOnChange(
+                                            e,
+                                            "other_doc2",
+                                            application.Control_Number
+                                          )
                                         }
                                       />
                                     </InputGroup>
