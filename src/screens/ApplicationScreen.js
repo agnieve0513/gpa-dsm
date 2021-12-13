@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 
 import { generateControlNo, register } from "../actions/customerAction";
-
+import StringCrypto from "string-crypto";
 import { useDispatch, useSelector } from "react-redux";
 
 import Steps from "../components/application/Steps";
@@ -157,11 +157,13 @@ function ApplicationScreen() {
       }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
+          const { encryptString } = new StringCrypto();
+          const controlNumber = encryptString(control_no, "superSecureToken");
           const obj = {
             application_information: {
               control_no: control_no,
               account_no: account_no,
-              total_rebate:total_rebate,
+              total_rebate: total_rebate,
               bill_id: bill_id,
               customer_name: firstname + " " + middlename + " " + lastname,
               service_location: service_location,
@@ -177,21 +179,25 @@ function ApplicationScreen() {
               home_age: home_age,
               home_type: home_type,
               is_new_construction: is_new_construction,
-              application_type : customer_type
-
+              application_type: customer_type,
+              print_hash: controlNumber,
             },
             new_equipment_information: new_equipments,
             existing_old_equipment_information: old_equipments,
-            submitted_documents : {
-              control_no : control_no,
-              invoice : invoiceD,
+            submitted_documents: {
+              control_no: control_no,
+              invoice: invoiceD,
               irs_form: irs_formD,
-              disposal_slip : disposal_slipD,
-              letter_authorization : letter_authorizationD ? letter_authorizationD : "",
-              other_doc1 : installer_certificationD ? installer_certificationD : "",
-              other_doc2 : other_doc1D,
-              other_doc3 : other_doc2D,
-              },
+              disposal_slip: disposal_slipD,
+              letter_authorization: letter_authorizationD
+                ? letter_authorizationD
+                : "",
+              other_doc1: installer_certificationD
+                ? installer_certificationD
+                : "",
+              other_doc2: other_doc1D,
+              other_doc3: other_doc2D,
+            },
           };
 
           if (control_no !== "") {
@@ -207,12 +213,10 @@ function ApplicationScreen() {
         } else if (result.isDenied) {
           Swal.fire("Changes are not yet saved", "", "info");
           setStep(step - 1);
-        }else if (result.dismiss === Swal.DismissReason.cancel)
-        {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire("Changes are not yet saved", "", "info");
           setStep(step - 1);
         }
-
       });
     }
   };
@@ -247,7 +251,9 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
-        tel_no === "" || tel_no.length > 10 || tel_no.length < 10 ||
+        tel_no === "" ||
+        tel_no.length > 10 ||
+        tel_no.length < 10 ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||
@@ -272,7 +278,9 @@ function ApplicationScreen() {
         model_no === "" ||
         quantity === "" ||
         vendor === "" ||
-        work_tel === "" || work_tel.length > 10 || work_tel.length < 10 ||
+        work_tel === "" ||
+        work_tel.length > 10 ||
+        work_tel.length < 10 ||
         invoice_no === "" ||
         purchase_date === "" ||
         technician_name === "" ||
@@ -297,7 +305,9 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
-        tel_no === "" || tel_no.length > 10 || tel_no.length < 10 ||
+        tel_no === "" ||
+        tel_no.length > 10 ||
+        tel_no.length < 10 ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
         mailing_city_village === "" ||
@@ -326,7 +336,9 @@ function ApplicationScreen() {
         invoice === "" ||
         purchase_date === "" ||
         technician_name === "" ||
-        work_tel === "" || work_tel.length > 10 || work_tel.length < 10 ||
+        work_tel === "" ||
+        work_tel.length > 10 ||
+        work_tel.length < 10 ||
         company_name === "" ||
         date_final_installation === ""
       ) {
@@ -342,28 +354,24 @@ function ApplicationScreen() {
       return;
     }
 
-    if(currentStep === 4 && stepOneToStepSix)
-    {
-      
-        if (no_existing) {
-          setStep(currentStep + 1);
+    if (currentStep === 4 && stepOneToStepSix) {
+      if (no_existing) {
+        setStep(currentStep + 1);
+      } else {
+        setStep(currentStep + 1);
+        if (
+          old_quantity === "" ||
+          old_years === "" ||
+          is_equipment_condition === "" ||
+          disposal_party === "" ||
+          agree_terms === "" ||
+          date === ""
+        ) {
+          errorMessage();
         } else {
-
-          setStep(currentStep + 1);
-          if (
-            old_quantity === "" ||
-            old_years === "" ||
-            is_equipment_condition === "" ||
-            disposal_party === "" ||
-            agree_terms === "" ||
-            date  === ""
-          ) {
-            errorMessage();
-          } else {
-            setStep(currentStep + 3);
-
-          }
+          setStep(currentStep + 3);
         }
+      }
       return;
     }
 
@@ -384,9 +392,11 @@ function ApplicationScreen() {
           city_village === "" ||
           zipcode === "" ||
           email === "" ||
-          tel_no === "" || tel_no.length > 10 || tel_no.length < 10 ||
+          tel_no === "" ||
+          tel_no.length > 10 ||
+          tel_no.length < 10 ||
           is_applicant_owner === "" ||
-          is_applicant_owner === "false" && letter_authorization === "" ||
+          (is_applicant_owner === "false" && letter_authorization === "") ||
           // (is_applicant_owner === "false" && letter_authorization === "") ||
           mailing_address === "" ||
           mailing_city_village === "" ||
@@ -413,7 +423,9 @@ function ApplicationScreen() {
           invoice === "" ||
           purchase_date === "" ||
           technician_name === "" ||
-          work_tel === "" || work_tel.length > 10 || work_tel.length < 10 ||
+          work_tel === "" ||
+          work_tel.length > 10 ||
+          work_tel.length < 10 ||
           company_name === "" ||
           date_final_installation === "" ||
           invoice === ""
@@ -423,13 +435,10 @@ function ApplicationScreen() {
           setStep(currentStep + 1);
           return;
         }
-      } 
-      
-      else if (currentStep === 4) {
+      } else if (currentStep === 4) {
         if (no_existing) {
           setStep(currentStep + 1);
         } else {
-
           if (
             old_equipments.length === 0 ||
             old_quantity === "" ||
@@ -437,25 +446,20 @@ function ApplicationScreen() {
             is_equipment_condition === "" ||
             disposal_party === "" ||
             agree_terms === "" ||
-            date  === ""
+            date === ""
           ) {
             errorMessage();
-          }
-          else{
+          } else {
             setStep(currentStep + 1);
           }
         }
-      } 
-
-      else if (currentStep === 6) {
+      } else if (currentStep === 6) {
         if (irs_form !== "") {
           setStep(currentStep + 1);
         } else {
-            errorMessage();
-         
+          errorMessage();
         }
-      } 
-      else {
+      } else {
         setStep(currentStep + 1);
         return;
       }
@@ -563,10 +567,8 @@ function ApplicationScreen() {
               setInvoiceD={setInvoiceD}
               installer_certification={installer_certification}
               setInstallerCertification={setInstallerCertification}
-
               installer_certificationD={installer_certificationD}
               setInstallerCertificationD={setInstallerCertificationD}
-
               purchase_date={purchase_date}
               setPurchaseDate={setPurchaseDate}
               type={type}
@@ -682,49 +684,34 @@ function ApplicationScreen() {
             <SubmissionOfDocumentation
               invoice={invoice}
               setInvoice={setInvoice}
-
               invoiceD={invoiceD}
               setInvoiceD={setInvoiceD}
-
               irs_form={irs_form}
               setIrsForm={setIrsForm}
-
               irs_formD={irs_formD}
               setIrsFormD={setIrsFormD}
-
               disposal_slip={disposal_slip}
               setDisposalSlip={setDisposalSlip}
-
               disposal_slipD={disposal_slipD}
               setDisposalSlipD={setDisposalSlipD}
-
               letter_authorization={letter_authorization}
               setLetterAuthorization={setLetterAuthorization}
-
               letter_authorizationD={letter_authorizationD}
               setLetterAuthorizationD={setLetterAuthorizationD}
-
               other_doc1={other_doc1}
               setOtherDoc1={setOtherDoc1}
-
               other_doc1D={other_doc1D}
               setOtherDoc1D={setOtherDoc1D}
-
               other_doc2={other_doc2}
               setOtherDoc2={setOtherDoc2}
-
               other_doc2D={other_doc2D}
               setOtherDoc2D={setOtherDoc2D}
-
               other_doc3={other_doc3}
               setOtherDoc3={setOtherDoc3}
-
               other_doc3D={other_doc3D}
               setOtherDoc3D={setOtherDoc3D}
-
               installer_certification={installer_certification}
               setInstallerCertification={setInstallerCertification}
-
               installer_certificationD={installer_certificationD}
               setInstallerCertificationD={setInstallerCertificationD}
             />

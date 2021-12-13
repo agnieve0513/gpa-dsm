@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Container } from "react-bootstrap";
 import {
   PDFViewer,
@@ -10,11 +10,15 @@ import {
   Font,
   Image,
 } from "@react-pdf/renderer";
-import { Link } from "react-router-dom";
 import black from "../components/fonts/Montserrat-Black.ttf";
 import bold from "../components/fonts/Montserrat-Bold.ttf";
 import regular from "../components/fonts/Montserrat-Regular.ttf";
 import CustomerHeader from "../components/CustomerHeader";
+import StringCrypto from "string-crypto";
+import { Link, useLocation } from "react-router-dom";
+import { printDetailApplication } from "../actions/applicationActions";
+import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
 
 Font.register({
   family: "Montserrat",
@@ -99,65 +103,6 @@ const styles = StyleSheet.create({
   },
 });
 
-// const EquipmentTable = (data) => {
-//   console.log("data", data);
-//   return (
-//     <View style={[styles.tableContainer]}>
-//       <View style={styles.tableHeader}>
-//         <View style={[styles.tableRow]}>
-//           <Text style={styles.tableText}>Type</Text>
-//         </View>
-//         <View style={[styles.tableRow, { flex: 2 }]}>
-//           <Text style={styles.tableText}>Vendor</Text>
-//         </View>
-//         {/* <View style={[styles.tableRow]}>
-//           <Text style={styles.tableText}>BTU</Text>
-//         </View> */}
-//         <View style={[styles.tableRow, { flex: 2 }]}>
-//           <Text style={styles.tableText}>Manufacturer</Text>
-//         </View>
-//         <View style={[styles.tableRow]}>
-//           <Text style={styles.tableText}>Invoice#</Text>
-//         </View>
-//         <View style={[styles.tableRow]}>
-//           <Text style={styles.tableText}>Purchase Date</Text>
-//         </View>
-//       </View>
-//       {data.data.map((value, index) => {
-//         return (
-//           <View key={index} style={styles.tableContent}>
-//             <View style={[styles.tableRow]}>
-//               <Text style={styles.tableValue}>
-//                 {value.newEquip_System_type}
-//               </Text>
-//             </View>
-//             <View style={[styles.tableRow, { flex: 2 }]}>
-//               <Text style={styles.tableValue}>{value.newEquip_Vendor}</Text>
-//             </View>
-//             {/* <View style={[styles.tableRow]}>
-//               <Text style={styles.tableValue}>{value.newEquip_Btu}</Text>
-//             </View> */}
-//             <View style={[styles.tableRow, { flex: 2 }]}>
-//               <Text style={styles.tableValue}>
-//                 {value.newEquip_Manufacturer}
-//               </Text>
-//             </View>
-//             <View style={[styles.tableRow]}>
-//               <Text style={styles.tableValue}>{value.newEquip_Invoice_no}</Text>
-//             </View>
-//             <View style={[styles.tableRow]}>
-//               <Text style={styles.tableValue}>
-//                 {value.newEquip_Purchase_date}
-//               </Text>
-//             </View>
-//           </View>
-//         );
-//       })}
-//       <View style={styles.tableContent}></View>
-//     </View>
-//   );
-// };
-
 const EquipmentTable = ({ data, finalDate, index }) => {
   return (
     <>
@@ -212,7 +157,7 @@ const EquipmentTable = ({ data, finalDate, index }) => {
   );
 };
 
-const EquipmentTotalTable = (data) => {
+const EquipmentTotalTable = ({ totalRebate, data }) => {
   console.log("data", data);
   return (
     <View style={[styles.tableContainer]}>
@@ -227,7 +172,7 @@ const EquipmentTotalTable = (data) => {
           <Text style={styles.tableText}>Rebate</Text>
         </View>
       </View>
-      {data.data.map((value, index) => {
+      {data.map((value, index) => {
         return (
           <View key={index} style={styles.tableContent}>
             <View style={[styles.tableRow, { flex: 2 }]}>
@@ -247,104 +192,101 @@ const EquipmentTotalTable = (data) => {
           <Text style={styles.tableValue}>TOTAL</Text>
         </View>
         <View style={[styles.tableRow, { flex: 1.09, borderTopWidth: 0 }]}>
-          <Text style={styles.tableValue}>$0.00</Text>
+          <Text style={styles.tableValue}>{totalRebate}</Text>
         </View>
       </View>
     </View>
   );
 };
 
+const template = {
+  Application_Id: 0,
+  Control_Number: "",
+  Status: "",
+  Stage: "",
+  Reason: "",
+  Type: "",
+  Application_Date: "",
+  Last_Modified_On: "",
+  Info_Account_no: "",
+  Info_Bill_id: "",
+  Info_Customer_name: "",
+  Info_Service_location: "",
+  Info_City_village: "",
+  Info_Zipcode: "",
+  Info_Email: "",
+  Info_Tel_no: "",
+  Info_Is_owner: "",
+  Info_Mailing_address: "",
+  Info_Mailing_city: "",
+  Info_Mailing_zip: "",
+  Info_Home_size: "",
+  Info_Home_age: "",
+  Info_Home_type: "",
+  Info_New_construction: "",
+  Old_equipment: [],
+  Installer_New_name: "",
+  Installer_New_worktel: "",
+  Installer_New_companyname: "",
+  Installer_New_certno: null,
+  Installer_New_finaldate: "",
+  Installer_New_email: null,
+  New_equipment: [
+    {
+      newEquip_System_type: "",
+      newEquip_Vendor: "",
+      newEquip_Quantity: 0,
+      newEquip_Btu: "",
+      newEquip_Size: null,
+      newEquip_Manufacturer: "",
+      newEquip_Model_no: "",
+      newEquip_Invoice_no: "",
+      newEquip_Purchase_date: "",
+      newEquip_Type: null,
+      newEquip_rebate: null,
+      newEquip_Tons: null,
+    },
+  ],
+  Submitted_docs: [
+    {
+      invoice: null,
+      irs_form: null,
+      disposal_slip: null,
+      letter_authorization: null,
+      installer_cert: null,
+      other_doc2: null,
+      other_doc3: null,
+    },
+  ],
+};
+
 function PrintApplicationSummary() {
-  const data = {
-    Application_Id: 104,
-    Control_Number: "2112-D-ED486",
-    Status: "Processing",
-    Stage: "Customer Service",
-    Reason: "None",
-    Type: "COMM",
-    Application_Date: "2021-12-09 12:54:52",
-    Last_Modified_On: "2021-12-09 12:54:52",
-    Info_Account_no: "0570293350",
-    Info_Bill_id: "51991",
-    Info_Customer_name: "test faustino test",
-    Info_Service_location: "test",
-    Info_City_village: "15",
-    Info_Zipcode: "96910",
-    Info_Email: "agnieve70@gmail.com",
-    Info_Tel_no: "1234123412",
-    Info_Is_owner: "true",
-    Info_Mailing_address: "test",
-    Info_Mailing_city: "1231",
-    Info_Mailing_zip: "234",
-    Info_Home_size: "1234",
-    Info_Home_age: "1234",
-    Info_Home_type: "Other",
-    Info_New_construction: "true",
-    Old_equipment: [],
-    Installer_New_name: "test",
-    Installer_New_worktel: "1234214123",
-    Installer_New_companyname: "123421",
-    Installer_New_certno: null,
-    Installer_New_finaldate: "2021-12-22",
-    Installer_New_email: null,
-    New_equipment: [
-      {
-        newEquip_System_type: "Central AC",
-        newEquip_Vendor: "Agbayani",
-        newEquip_Quantity: 1,
-        newEquip_Btu: "36000",
-        newEquip_Size: null,
-        newEquip_Manufacturer: "Daikin AC",
-        newEquip_Model_no: "1",
-        newEquip_Invoice_no: "12234",
-        newEquip_Purchase_date: "2021-12-09",
-        newEquip_Type: null,
-        newEquip_rebate: null,
-        newEquip_Tons: null,
-      },
-      {
-        newEquip_System_type: "Central AC",
-        newEquip_Vendor: "Agbayani",
-        newEquip_Quantity: 1,
-        newEquip_Btu: "36000",
-        newEquip_Size: null,
-        newEquip_Manufacturer: "Daikin AC",
-        newEquip_Model_no: "1",
-        newEquip_Invoice_no: "12234",
-        newEquip_Purchase_date: "2021-12-09",
-        newEquip_Type: null,
-        newEquip_rebate: null,
-        newEquip_Tons: null,
-      },
-      {
-        newEquip_System_type: "Central AC",
-        newEquip_Vendor: "Agbayani",
-        newEquip_Quantity: 1,
-        newEquip_Btu: "36000",
-        newEquip_Size: null,
-        newEquip_Manufacturer: "Daikin AC",
-        newEquip_Model_no: "1",
-        newEquip_Invoice_no: "12234",
-        newEquip_Purchase_date: "2021-12-09",
-        newEquip_Type: null,
-        newEquip_rebate: null,
-        newEquip_Tons: null,
-      },
-    ],
-    Submitted_docs: [
-      {
-        invoice:
-          "eyJpdiI6IkVaQ1o1SGJMNitvb0l3aHJUNXVIa1E9PSIsInZhbHVlIjoiaGJ1N2FNM093Vys2NE9meWV2WnFNN2JcL0E0a2R6UFo3RXVkcUo5TDJRQ2M9IiwibWFjIjoiNWZhMzI0ZDljYjJiNmIxYjJjOGQyOGJmZWM4MmNkZmQwZTJiNjIyMWIwOWNjOTIxZTY5YTM2ODNhNGJiNTE4NiJ9",
-        irs_form:
-          "eyJpdiI6IkVaQ1o1SGJMNitvb0l3aHJUNXVIa1E9PSIsInZhbHVlIjoiaGJ1N2FNM093Vys2NE9meWV2WnFNN2JcL0E0a2R6UFo3RXVkcUo5TDJRQ2M9IiwibWFjIjoiNWZhMzI0ZDljYjJiNmIxYjJjOGQyOGJmZWM4MmNkZmQwZTJiNjIyMWIwOWNjOTIxZTY5YTM2ODNhNGJiNTE4NiJ9",
-        disposal_slip: null,
-        letter_authorization: null,
-        installer_cert: null,
-        other_doc2: null,
-        other_doc3: null,
-      },
-    ],
-  };
+  const dispatch = useDispatch();
+  const useQuery = () => new URLSearchParams(useLocation().search);
+  const { decryptString } = new StringCrypto();
+  const applicationPrintDetail = useSelector(
+    (state) => state.applicationPrintDetail
+  );
+  let query = useQuery();
+  let creds = query.get("auth");
+  const [data, setData] = useState(template);
+  let totalRebate = 0;
+
+  useEffect(() => {
+    if (creds) {
+      dispatch(
+        printDetailApplication(decryptString(creds, "superSecureToken"))
+      );
+    } else {
+      Swal.fire("ERROR", "Something went wrong, Please try again!", "error");
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (applicationPrintDetail?.application.length !== 0) {
+      setData(applicationPrintDetail.application);
+    }
+  }, [applicationPrintDetail]);
 
   return (
     <>
@@ -455,6 +397,7 @@ function PrintApplicationSummary() {
                 <Page size="LEGAL">
                   <View style={styles.section}>
                     {data?.New_equipment.map((value, index) => {
+                      totalRebate = value?.newEquip_rebate + totalRebate;
                       if (index !== 0) {
                         return (
                           <EquipmentTable
@@ -509,7 +452,10 @@ function PrintApplicationSummary() {
                       {data?.Installer_New_finaldate}
                     </Text>
                   </View>
-                  <EquipmentTotalTable data={data?.New_equipment} />
+                  <EquipmentTotalTable
+                    totalRebate={totalRebate}
+                    data={data?.New_equipment}
+                  />
                 </View>
                 <View style={[styles.section, { marginTop: 0 }]}>
                   <Text style={styles.title}>Submission of Documentation</Text>
