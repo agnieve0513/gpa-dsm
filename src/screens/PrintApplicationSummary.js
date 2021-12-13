@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    marginBottom: 30,
   },
   tableHeader: {
     height: 50,
@@ -260,7 +261,7 @@ const template = {
   ],
 };
 
-function PrintApplicationSummary() {
+function PrintApplicationSummary(props) {
   const dispatch = useDispatch();
   const useQuery = () => new URLSearchParams(useLocation().search);
   const { decryptString } = new StringCrypto();
@@ -278,7 +279,9 @@ function PrintApplicationSummary() {
         printDetailApplication(decryptString(creds, "superSecureToken"))
       );
     } else {
-      Swal.fire("ERROR", "Something went wrong, Please try again!", "error");
+      Swal.fire("ERROR", "Application doesn't exist", "error").then(() => {
+        props.history.push("/");
+      });
     }
   }, [dispatch]);
 
@@ -415,6 +418,10 @@ function PrintApplicationSummary() {
               )}
               <Page size="LEGAL">
                 <View style={styles.section}>
+                  <EquipmentTotalTable
+                    totalRebate={totalRebate}
+                    data={data?.New_equipment}
+                  />
                   <Text style={styles.title}>Installer Information</Text>
                   <View style={{ flexDirection: "row" }}>
                     <Text style={styles.text}>Technician Name: </Text>
@@ -452,10 +459,6 @@ function PrintApplicationSummary() {
                       {data?.Installer_New_finaldate}
                     </Text>
                   </View>
-                  <EquipmentTotalTable
-                    totalRebate={totalRebate}
-                    data={data?.New_equipment}
-                  />
                 </View>
                 <View style={[styles.section, { marginTop: 0 }]}>
                   <Text style={styles.title}>Submission of Documentation</Text>
