@@ -12,6 +12,14 @@ table {
     table-layout: fixed;
 }
 
+.MuiSwitch-colorSecondary.Mui-checked {
+    color: #eee!important;
+}
+
+.MuiSwitch-colorSecondary.Mui-checked + .MuiSwitch-track {
+    background-color:rgb(0, 78, 0)!important
+}
+    
 @media (max-width: 993px) and (min-width: 766px) {
     .form-label{
         height: 2.5em;

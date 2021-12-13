@@ -245,14 +245,8 @@ function EquipmentReview(props) {
                     </Col>
                   </Row>
                   <Row className="px-0">
-                    <Col>
-                      <p className="title">New Construction</p>
-                    </Col>
-                    <Col>
-                      <p>
-                        <b>{props.is_new_construction}</b>{" "}
-                      </p>
-                    </Col>
+                    <Col><p className='title'>New Construction</p></Col>
+                    <Col><p><b>{props.is_new_construction ? "Yes" : "No"}</b>{" "}</p></Col>
                   </Row>
                   <Row className="px-0">
                     <Col>

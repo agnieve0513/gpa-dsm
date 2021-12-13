@@ -40,7 +40,7 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(7);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
 
   const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
@@ -61,7 +61,7 @@ function ApplicationScreen() {
   const [zipcode, setZipCode] = useState("");
   const [tel_no, setTelNo] = useState("");
   const [email, setEmail] = useState("");
-  const [is_applicant_owner, setIsApplicantOwner] = useState(true);
+  const [is_applicant_owner, setIsApplicantOwner] = useState(false);
   const [mailing_address, setMailingAddress] = useState("");
   const [mailing_country, setMailingCountry] = useState("");
   const [mailing_city_village, setMailingCityVillage] = useState("");
@@ -69,7 +69,7 @@ function ApplicationScreen() {
   const [home_size, setHomeSize] = useState("");
   const [home_age, setHomeAge] = useState("");
   const [home_type, setHomeType] = useState("");
-  const [is_new_construction, setIsNewConstruction] = useState("");
+  const [is_new_construction, setIsNewConstruction] = useState(false);
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
