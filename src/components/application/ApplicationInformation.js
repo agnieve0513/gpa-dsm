@@ -10,7 +10,6 @@ import {
   Spinner,
   FormGroup,
 } from "react-bootstrap";
-import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 import ModalImage from "../ModalImage";
 import {
@@ -22,13 +21,22 @@ import city_zipcode from "./source_files/city_zipcode";
 
 import "./ApplicationInformation.css";
 
-import { useDispatch, useSelector } from 'react-redux'
-import { uploadFileAction } from '../../actions/fileActions'
+import { useDispatch, useSelector } from "react-redux";
+import { uploadFileAction } from "../../actions/fileActions";
 
-import { colors, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, withStyles } from "@material-ui/core";
+import { useWindowDimensions } from "../../hooks";
+import {
+  colors,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  withStyles,
+} from "@material-ui/core";
 
 function ApplicationInformation(props) {
-  
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
@@ -118,58 +126,63 @@ function ApplicationInformation(props) {
   };
 
   const { height, width } = useWindowDimensions();
-  const screenWidthM = width > 425
-  const screenWidthT = width >= 768
+  const screenWidthM = width > 425;
+  const screenWidthT = width >= 768;
 
-  const ownerComponentDesktop = () =>
+  const ownerComponentDesktop = () => (
     <Row className="flex-row">
-        <Form.Check
-          inline
-          label="Yes"
-          name="is_applicant_owner"
-          type={"radio"}
-          id={`inline-${"radio"}-1`}
-          value="true"
-          checked={"true" === props.is_applicant_owner}
-          onChange={(e) => props.setIsApplicantOwner(e.target.value)}
-          className="w-auto"
-          disabled={props.verify ? false : true}
-        />
-        <Form.Check
-          inline
-          label="No"
-          name="is_applicant_owner"
-          type={"radio"}
-          value="false"
-          checked={"false" === props.is_applicant_owner}
-          onChange={(e) => props.setIsApplicantOwner(e.target.value)}
-          className="w-auto"
-          disabled={props.verify ? false : true}
-        />
+      <Form.Check
+        inline
+        label="Yes"
+        name="is_applicant_owner"
+        type={"radio"}
+        id={`inline-${"radio"}-1`}
+        value="true"
+        checked={"true" === props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        className="w-auto"
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="No"
+        name="is_applicant_owner"
+        type={"radio"}
+        value="false"
+        checked={"false" === props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        className="w-auto"
+        disabled={props.verify ? false : true}
+      />
     </Row>
+  );
 
   function handleToggleSwitchOwner() {
     if (props.is_applicant_owner) {
-      props.setIsApplicantOwner(false)
+      props.setIsApplicantOwner(false);
     } else {
-      props.setIsApplicantOwner(true)
+      props.setIsApplicantOwner(true);
     }
   }
 
-  const ownerComponentMobile = () =>
-  <Row className="d-flex flex-row">
-    <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
-    <Switch 
-      checked={props.is_applicant_owner}
-      onClick={handleToggleSwitchOwner}
-      disabled={props.verify ? false : true}
-    />
-    <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
-  </Row> 
+  const ownerComponentMobile = () => (
+    <Row className="d-flex flex-row">
+      <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
+      <Switch
+        checked={props.is_applicant_owner}
+        onClick={handleToggleSwitchOwner}
+        disabled={props.verify ? false : true}
+      />
+      <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
+    </Row>
+  );
 
-  const homeComponentMobile = () => 
+  const homeComponentMobile = () => (
     <Col md={12}>
-      <Form.Label><b>HOME TYPE (check one)</b></Form.Label> <br/>
+      <Form.Label>
+        <b>HOME TYPE (check one)</b>
+      </Form.Label>{" "}
+      <br />
       <FormControl fullWidth>
         <Form.Select
           labelId="demo-simple-select-label"
@@ -179,24 +192,29 @@ function ApplicationInformation(props) {
           onChange={(e) => props.setHomeType(e.target.value)}
           disabled={props.verify ? false : true}
         >
-          <option defaultValue hidden>SELECT SYSTEM TYPE</option>
-            {
-              <>
-                <option value={"Single Family"}>Single Family</option>
-                <option value={"Apartment"}>Apartment</option>
-                <option value={"Condo"}>Condo</option>
-                <option value={"Mobile Home"}>Mobile Home</option>
-                <option value={"Other"}>Other</option>
-              </>
-            }
+          <option defaultValue hidden>
+            SELECT SYSTEM TYPE
+          </option>
+          {
+            <>
+              <option value={"Single Family"}>Single Family</option>
+              <option value={"Apartment"}>Apartment</option>
+              <option value={"Condo"}>Condo</option>
+              <option value={"Mobile Home"}>Mobile Home</option>
+              <option value={"Other"}>Other</option>
+            </>
+          }
         </Form.Select>
       </FormControl>
     </Col>
+  );
 
-
-  const homeComponentDesktop = () => 
+  const homeComponentDesktop = () => (
     <Col md={12}>
-      <Form.Label><b>HOME TYPE (check one)</b></Form.Label> <br/>
+      <Form.Label>
+        <b>HOME TYPE (check one)</b>
+      </Form.Label>{" "}
+      <br />
       <Form.Check
         inline
         label="Single Family"
@@ -248,49 +266,52 @@ function ApplicationInformation(props) {
         disabled={props.verify ? false : true}
       />
     </Col>
+  );
 
-const handleToggleSwitchNew = () => {
-  if (props.is_new_construction) {
-    props.setIsNewConstruction(false)
-  } else {
-    props.setIsNewConstruction(true)
-  }
-}
+  const handleToggleSwitchNew = () => {
+    if (props.is_new_construction) {
+      props.setIsNewConstruction(false);
+    } else {
+      props.setIsNewConstruction(true);
+    }
+  };
 
-const newComponentMobile = () =>
-<Row className="d-flex flex-row">
-  <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
-  <Switch 
-    checked={props.is_new_construction}
-    onClick={handleToggleSwitchNew}
-    disabled={props.verify ? false : true}
-  />
-  <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
-</Row>
+  const newComponentMobile = () => (
+    <Row className="d-flex flex-row">
+      <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
+      <Switch
+        checked={props.is_new_construction}
+        onClick={handleToggleSwitchNew}
+        disabled={props.verify ? false : true}
+      />
+      <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
+    </Row>
+  );
 
-const newComponentDesktop = () =>
-  <Row>
-    <Form.Check
-      inline
-      label="Yes"
-      name="is_new_construction"
-      type={"radio"}
-      value="true"
-      checked={"true" === props.is_new_construction}
-      onChange={(e) => props.setIsNewConstruction(e.target.value)}
-      disabled={props.verify ? false : true}
-    />
-    <Form.Check
-      inline
-      label="No"
-      name="is_new_construction"
-      type={"radio"}
-      value="false"
-      checked={"false" === props.is_new_construction}
-      onChange={(e) => props.setIsNewConstruction(e.target.value)}
-      disabled={props.verify ? false : true}
-    />
-  </Row>
+  const newComponentDesktop = () => (
+    <Row>
+      <Form.Check
+        inline
+        label="Yes"
+        name="is_new_construction"
+        type={"radio"}
+        value="true"
+        checked={"true" === props.is_new_construction}
+        onChange={(e) => props.setIsNewConstruction(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="No"
+        name="is_new_construction"
+        type={"radio"}
+        value="false"
+        checked={"false" === props.is_new_construction}
+        onChange={(e) => props.setIsNewConstruction(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+    </Row>
+  );
 
   return (
     <Container>
@@ -299,7 +320,13 @@ const newComponentDesktop = () =>
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-      {screenWidthM ? <h4 className="text-center text-info mb-4 h6 " id="blueHeader">APPLICANT'S INFORMATION</h4> : <></>}
+      {screenWidthM ? (
+        <h4 className="text-center text-info mb-4 h6 " id="blueHeader">
+          APPLICANT'S INFORMATION
+        </h4>
+      ) : (
+        <></>
+      )}
       <Row>
         <Col className="mx-auto" md={10}>
           <Form onSubmit={submitHandler}>
@@ -641,7 +668,9 @@ const newComponentDesktop = () =>
                 </p>
               </Col>
               <Col md={6} className="mb-3">
-                {screenWidthT ? ownerComponentDesktop() : ownerComponentMobile()}
+                {screenWidthT
+                  ? ownerComponentDesktop()
+                  : ownerComponentMobile()}
                 <br />
                 {props.is_applicant_owner === "true" || !props.is_applicant_owner ? (
                   <Form.Group controlId="telephone_no">
@@ -878,9 +907,12 @@ const newComponentDesktop = () =>
                 )}
               </Col>
               <Col md={4} className="mb-3">
-                <Form.Label><b>NEW CONSTRUCTION</b></Form.Label> <br />
+                <Form.Label>
+                  <b>NEW CONSTRUCTION</b>
+                </Form.Label>{" "}
+                <br />
                 {screenWidthM ? newComponentDesktop() : newComponentMobile()}
-                {!props.is_new_construction && !props.verify? (
+                {!props.is_new_construction && !props.verify ? (
                   <p className="validate text-danger">
                     *This Field is Required
                   </p>
@@ -892,9 +924,7 @@ const newComponentDesktop = () =>
             <Row>
               {screenWidthM ? homeComponentDesktop() : homeComponentMobile()}
               {props.home_type === "" ? (
-                <p className="validate text-danger">
-                  *This Field is Required
-                </p>
+                <p className="validate text-danger">*This Field is Required</p>
               ) : (
                 <></>
               )}
