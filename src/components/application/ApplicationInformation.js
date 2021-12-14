@@ -25,11 +25,10 @@ import "./ApplicationInformation.css";
 import { useDispatch, useSelector } from 'react-redux'
 import { uploadFileAction } from '../../actions/fileActions'
 
-import { useWindowDimensions } from "../../hooks";
 import { colors, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, withStyles } from "@material-ui/core";
 
 function ApplicationInformation(props) {
-  const { height, width } = useWindowDimensions();
+  
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
@@ -644,7 +643,7 @@ const newComponentDesktop = () =>
               <Col md={6} className="mb-3">
                 {screenWidthT ? ownerComponentDesktop() : ownerComponentMobile()}
                 <br />
-                {props.is_applicant_owner === "false" || props.is_applicant_owner ? (
+                {props.is_applicant_owner === "true" || !props.is_applicant_owner ? (
                   <Form.Group controlId="telephone_no">
                     <Form.Label>
                       <b>Upload LOA</b>
