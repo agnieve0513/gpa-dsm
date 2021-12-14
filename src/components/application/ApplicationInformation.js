@@ -179,9 +179,6 @@ function ApplicationInformation(props) {
 
   const homeComponentMobile = () => (
     <Col md={12}>
-      <Form.Label>
-        <b>HOME TYPE (check one)</b>
-      </Form.Label>{" "}
       <br />
       <FormControl fullWidth>
         <Form.Select
@@ -211,9 +208,6 @@ function ApplicationInformation(props) {
 
   const homeComponentDesktop = () => (
     <Col md={12}>
-      <Form.Label>
-        <b>HOME TYPE (check one)</b>
-      </Form.Label>{" "}
       <br />
       <Form.Check
         inline
@@ -333,8 +327,8 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="account_no">
-                  <Form.Label className="d-flex justify-content-between">
-                    <b> GPA ELECTRIC ACCOUNT NUMBER </b>
+                  <Form.Label className="d-flex justify-content-between applicationTitle">
+                    GPA ELECTRIC ACCOUNT NUMBER
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -362,7 +356,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.account_no === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField requiredField">
                     *This Field is Required
                   </p>
                 ) : verifyClicked ? (
@@ -399,8 +393,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
-                  <Form.Label className="d-flex justify-content-between">
-                    <b> BILL ID (Last 5 Digits) </b>
+                  <Form.Label className="d-flex justify-content-between applicationTitle">
+                    BILL ID (Last 5 Digits)
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -437,7 +431,7 @@ function ApplicationInformation(props) {
                   </InputGroup>
                 </Form.Group>
                 {props.bill_id === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -449,7 +443,7 @@ function ApplicationInformation(props) {
               <Col md={12}>
                 <span>
                   <b>
-                    GPA Account's Name :{" "}
+                    <p id="accountName">GPA Account's Name :</p>{" "}
                     {customer_detail
                       ? customer_detail.info
                         ? customer_detail.info["@attributes"].Name
@@ -461,8 +455,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
-                  <Form.Label>
-                    <b>FIRST NAME</b>
+                  <Form.Label className=" applicationTitle">
+                    FIRST NAME
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -474,7 +468,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.firstname === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -483,8 +477,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="lastname">
-                  <Form.Label>
-                    <b>LAST NAME</b>
+                  <Form.Label className=" applicationTitle">
+                    LAST NAME
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -496,7 +490,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.lastname === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -505,8 +499,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
-                  <Form.Label>
-                    <b>M. I.</b>
+                  <Form.Label className=" applicationTitle">
+                    M. I.
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -522,10 +516,8 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={12} className="mb-3">
                 <Form.Group controlId="service_location">
-                  <Form.Label>
-                    <b>
+                  <Form.Label className=" applicationTitle">
                       SERVICE LOCATION (Address where equipment was installed)*
-                    </b>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -537,7 +529,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.service_location === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -548,8 +540,8 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="city_village">
-                  <Form.Label>
-                    <b>CITY/VILLAGE</b>
+                  <Form.Label className=" applicationTitle">
+                    CITY/VILLAGE
                   </Form.Label>
                   <Form.Select
                     onChange={(e) => changeZipCode(e)}
@@ -565,7 +557,7 @@ function ApplicationInformation(props) {
                   </Form.Select>
                 </Form.Group>
                 {props.city_village === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -574,8 +566,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="zip_code">
-                  <Form.Label>
-                    <b>ZIP CODE</b>
+                  <Form.Label className=" applicationTitle">
+                    ZIP CODE
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -589,7 +581,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.zipcode === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -601,8 +593,8 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="email">
-                  <Form.Label>
-                    <b>EMAIL</b>{" "}
+                  <Form.Label className=" applicationTitle">
+                    EMAIL{" "}
                     <small className="text-muted">
                       (We will be sending updates to this E-mail)
                     </small>
@@ -616,7 +608,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.email === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -625,8 +617,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
-                  <Form.Label>
-                    <b>CONTACT NUMBER</b>
+                  <Form.Label className=" applicationTitle">
+                    CONTACT NUMBER
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -638,18 +630,18 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.tel_no === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : props.tel_no.length < 10 ? (
                   <>
-                    <p className="validate text-danger">
+                    <p className="validate text-danger requiredField">
                       *This Field requires 10 digits
                     </p>
                   </>
                 ) : props.tel_no.length > 10 ? (
                   <>
-                    <p className="validate text-danger">
+                    <p className="validate text-danger requiredField">
                       *This Field required 10 digits
                     </p>
                   </>
@@ -674,8 +666,8 @@ function ApplicationInformation(props) {
                 <br />
                 {props.is_applicant_owner === "true" || !props.is_applicant_owner ? (
                   <Form.Group controlId="telephone_no">
-                    <Form.Label>
-                      <b>Upload LOA</b>
+                    <Form.Label className=" applicationTitle">
+                      Upload LOA
                       <span
                         className="text-secondary"
                         onClick={() => {
@@ -700,7 +692,7 @@ function ApplicationInformation(props) {
                       />
                     </InputGroup>
                     {props.letter_authorization === null ? (
-                      <p className="validate text-danger">
+                      <p className="validate text-danger requiredField">
                         *This Field is Required
                       </p>
                     ) : (
@@ -737,7 +729,7 @@ function ApplicationInformation(props) {
                   <></>
                 )}
                 {/* {props.is_applicant_owner == undefined ? (
-                    <p className="validate text-danger">*This Field is Required</p>
+                    <p className="validate text-danger requiredField">*This Field is Required</p>
                   ) : (
                     <></>
                 )} */}
@@ -758,11 +750,9 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={12} className="mb-3">
                 <Form.Group controlId="mailing_address">
-                  <Form.Label>
-                    <b>
+                  <Form.Label className=" applicationTitle">
                       MAILING ADDRESS (Current address where we will send your
                       rebate check)*
-                    </b>
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -774,7 +764,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_address === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -786,8 +776,8 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_country">
-                  <Form.Label>
-                    <b>COUNTRY</b>
+                  <Form.Label className=" applicationTitle">
+                    COUNTRY
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -799,7 +789,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_country === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -808,8 +798,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_city_village">
-                  <Form.Label>
-                    <b>CITY/VILLAGE</b>
+                  <Form.Label className=" applicationTitle">
+                    CITY/VILLAGE
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -823,7 +813,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_city_village === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -832,8 +822,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_zipcode">
-                  <Form.Label>
-                    <b>ZIP CODE</b>
+                  <Form.Label className=" applicationTitle">
+                    ZIP CODE
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -847,7 +837,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_zipcode === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -858,8 +848,8 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
-                  <Form.Label>
-                    <b>HOME SIZE (approx.sq ft.)</b>
+                  <Form.Label className=" applicationTitle">
+                    HOME SIZE (approx.sq ft.)
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -874,7 +864,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.home_size === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -883,8 +873,8 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_age">
-                  <Form.Label>
-                    <b>YEAR BUILT</b>
+                  <Form.Label className=" applicationTitle">
+                    YEAR BUILT
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -899,7 +889,7 @@ function ApplicationInformation(props) {
                   ></Form.Control>
                 </Form.Group>
                 {props.home_age === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -907,13 +897,13 @@ function ApplicationInformation(props) {
                 )}
               </Col>
               <Col md={4} className="mb-3">
-                <Form.Label>
-                  <b>NEW CONSTRUCTION</b>
+                <Form.Label className=" applicationTitle">
+                  NEW CONSTRUCTION
                 </Form.Label>{" "}
                 <br />
                 {screenWidthM ? newComponentDesktop() : newComponentMobile()}
                 {!props.is_new_construction && !props.verify ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -922,9 +912,12 @@ function ApplicationInformation(props) {
               </Col>
             </Row>
             <Row>
+              <Form.Label className="applicationTitle">
+                HOME TYPE (check one)
+              </Form.Label>{" "}
               {screenWidthM ? homeComponentDesktop() : homeComponentMobile()}
               {props.home_type === "" ? (
-                <p className="validate text-danger">*This Field is Required</p>
+                <p className="validate text-danger requiredField">*This Field is Required</p>
               ) : (
                 <></>
               )}

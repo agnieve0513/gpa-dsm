@@ -184,8 +184,8 @@ function NewEuipmentInformation(props) {
           />
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
-              <p>
-                <b>INSTALLER'S CERTIFICATION</b>
+              <p className="d-flex justify-content-between applicationTitle">
+                INSTALLER'S CERTIFICATION
                 <span
                   className="text-secondary"
                   onClick={() => {
@@ -239,8 +239,8 @@ function NewEuipmentInformation(props) {
           </Col>
           <Col md={12}>
             <Form.Group controlId="disposal_slip">
-              <span>
-                <b>INVOICE</b>
+              <p className="d-flex justify-content-between applicationTitle">
+                INVOICE
                 <span
                   className="text-secondary mb-1"
                   onClick={() => {
@@ -255,7 +255,7 @@ function NewEuipmentInformation(props) {
                 >
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
-              </span>
+              </p>
               <InputGroup>
                 <Form.Control
                   name="file"
@@ -265,7 +265,7 @@ function NewEuipmentInformation(props) {
                 />
               </InputGroup>
               {props.invoice === null ? (
-                <p className="validate text-danger">*This Field is Required</p>
+                <p className="validate text-danger requiredField">*This Field is Required</p>
               ) : (
                 <></>
               )}
@@ -371,15 +371,14 @@ function NewEuipmentInformation(props) {
   };
 
   return (
-    <Row>
-      <Col md={3} />
-      <Col md={6}>
+    <Row className="mx-0 w-100 d-flex justify-content-center">
+      <Col md={8}>
         {/* Row for installer's information */}
-        <Row>
+        <Row className="">
           <Col md={12} className="mb-3">
             <Form.Group controlId="system_type">
-              <Form.Label>
-                <b>SYSTEM TYPE</b>
+              <Form.Label className=" applicationTitle">
+                SYSTEM TYPE
               </Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
@@ -406,19 +405,19 @@ function NewEuipmentInformation(props) {
               </Form.Select>
             </Form.Group>
             {props.system_type === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
         </Row>
-        <h4 className="text-center text-info mt-2">INSTALLER'S INFORMATION</h4>
+        <h4 className="text-center text-info mt-2 applicationSubHeader">INSTALLER'S INFORMATION</h4>
 
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
-              <Form.Label>
-                <b>TECHNICIAN NAME</b>
+              <Form.Label className=" applicationTitle">
+                TECHNICIAN NAME
               </Form.Label>
               <Form.Control
                 type="text"
@@ -429,15 +428,15 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.technician_name === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="work_tel">
-              <Form.Label>
-                <b>WORK CONTACT NUMBER</b>
+              <Form.Label className=" applicationTitle">
+                WORK CONTACT NUMBER
               </Form.Label>
               <Form.Control
                 type="text"
@@ -449,13 +448,13 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.work_tel === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : props.work_tel.length < 10 ? (
-              <p className="validate text-danger">
+              <p className="validate text-danger requiredField">
                 *This Field requires 10 digits
               </p>
             ) : props.work_tel.length > 10 ? (
-              <p className="validate text-danger">
+              <p className="validate text-danger requiredField">
                 *This Field requires 10 digits
               </p>
             ) : (
@@ -466,8 +465,8 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={12} className="mb-3">
             <Form.Group controlId="company_name">
-              <Form.Label>
-                <b>COMPANY NAME</b>
+              <Form.Label className=" applicationTitle">
+                COMPANY NAME
               </Form.Label>
               <Form.Control
                 type="text"
@@ -478,7 +477,7 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.company_name === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -487,8 +486,8 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="date_final_installation">
-              <Form.Label>
-                <b>DATE OF FINAL INSTALLATION</b>
+              <Form.Label className=" applicationTitle">
+                DATE OF FINAL INSTALLATION
               </Form.Label>
               <Form.Control
                 type="date"
@@ -499,15 +498,15 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.date_final_installation === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="tech_email">
-              <Form.Label>
-                <b>EMAIL</b>
+              <Form.Label className=" applicationTitle">
+                EMAIL
               </Form.Label>
               <Form.Control
                 type="email"
@@ -521,13 +520,13 @@ function NewEuipmentInformation(props) {
         </Row>
         {installerCertificationHandler()}
 
-        <h4 className="text-center text-info mt-5">EQUIPMENT INFORMATION</h4>
+        <h4 className="text-center text-info mt-5 applicationSubHeader">EQUIPMENT INFORMATION</h4>
 
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="manufacturer">
-              <Form.Label>
-                <b>MANUFACTURER</b>
+              <Form.Label className=" applicationTitle">
+                MANUFACTURER
               </Form.Label>
               <Form.Select
                 onChange={(e) => changeManufacturerHandler(e)}
@@ -549,15 +548,15 @@ function NewEuipmentInformation(props) {
               </Form.Select>
             </Form.Group>
             {props.manufacturer === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="model_no">
-              <Form.Label>
-                <b>MODEL NUMBER</b>
+              <Form.Label className=" applicationTitle">
+                MODEL NUMBER
               </Form.Label>
               <Form.Select
                 onChange={(e) => changeModelHandler(e)}
@@ -635,7 +634,7 @@ function NewEuipmentInformation(props) {
               )}
             </Form.Group>
             {props.model_no === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -644,8 +643,8 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="quantity">
-              <Form.Label>
-                <b>QUANTITY</b>
+              <Form.Label className=" applicationTitle">
+                QUANTITY
               </Form.Label>
               <Form.Control
                 type="number"
@@ -657,15 +656,15 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.quantity === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="vendor">
-              <Form.Label>
-                <b>VENDOR</b>
+              <Form.Label className=" applicationTitle">
+                VENDOR
               </Form.Label>
               <Form.Select
                 onChange={(e) => props.setVendor(e.target.value)}
@@ -684,7 +683,7 @@ function NewEuipmentInformation(props) {
               </Form.Select>
             </Form.Group>
             {props.vendor === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -702,8 +701,8 @@ function NewEuipmentInformation(props) {
                 show={modalShow}
                 onHide={() => setModalShow(false)}
               />
-              <Form.Label>
-                <b>INVOICE#</b>{" "}
+              <Form.Label className=" applicationTitle">
+                INVOICE#{" "}
                 <a
                   className="text-secondary"
                   rel="noreferrer"
@@ -725,15 +724,15 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.invoice_no === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="purchase_date">
-              <Form.Label>
-                <b>PURCHASE DATE (Date on invoice)</b>
+              <Form.Label className=" applicationTitle">
+                PURCHASE DATE (Date on invoice)
               </Form.Label>
               <Form.Control
                 type="date"
@@ -743,14 +742,14 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
             {props.purchase_date === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : Math.abs(
                 new Date(props.purchase_date) -
                   new Date(props.date_final_installation)
               ) /
                 (1000 * 3600 * 24) >
               120 ? (
-              <p className="validate text-danger">
+              <p className="validate text-danger requiredField">
                 (*Note: Your Application exceeded 120 days. Please be informed
                 that there might be a chance your application will be rejected
                 if you do not have valid reason for exceeding the alloted time.)
@@ -764,8 +763,8 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={12}>
             <Form.Group controlId="rebate">
-              <Form.Label>
-                <b>REBATE</b>
+              <Form.Label className=" applicationTitle">
+                REBATE
               </Form.Label>
               <Form.Control
                 type="number"
@@ -780,20 +779,16 @@ function NewEuipmentInformation(props) {
 
         {/* Table and button Add Equipment */}
         <Row className="mt-3">
-          <Col md={4}></Col>
-          <Col md={4}>
-            <Row>
-              <Button
-                variant="success"
-                size="lg"
-                onClick={() => addEquipmentHandler()}
-                className="d-flex justify-content-center"
-              >
-                Add Equipment
-              </Button>
-            </Row>
+          <Col className="d-flex justify-content-center" md={12}>
+            <Button
+              variant="success"
+              size="lg"
+              onClick={() => addEquipmentHandler()}
+              className="d-flex justify-content-center addEquipmentButton"
+            >
+              Add Equipment
+            </Button>
           </Col>
-          <Col md={4}></Col>
         </Row>
 
         <Row className="mt-3">
@@ -803,7 +798,6 @@ function NewEuipmentInformation(props) {
           </Col>
         </Row>
       </Col>
-      <Col md={3} />
     </Row>
   );
 }
