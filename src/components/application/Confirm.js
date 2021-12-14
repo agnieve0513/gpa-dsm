@@ -68,6 +68,7 @@ function Confirm(props) {
           <Link
             className="btn btn-info btn-lg px-5 py-3"
             to={`/printapplication?auth=${props.data.application_information.print_hash}`}
+            target="_blank" 
           >
             <h4 style={{ marginBottom: 0 }}>Print Application</h4>
           </Link>

@@ -36,6 +36,11 @@ import {
   withStyles,
 } from "@material-ui/core";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 function ApplicationInformation(props) {
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
@@ -89,7 +94,23 @@ function ApplicationInformation(props) {
       dispatch(loadCustomerDetail(props.bill_id, props.account_no));
       setVerifyClicked(true);
     } else {
-      alert("Account Number & Bill ID is required to verify customer");
+        const Toast = MySwal.mixin({
+        toast: true,
+        position: "top-right",
+        iconColor: "white",
+        customClass: {
+          popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBars: true,
+      });
+
+      Toast.fire({
+        icon: "info",
+        title: "Validation Failed!",
+        text: "Account Number & Bill ID is required to verify customer",
+      });
     }
   };
 
