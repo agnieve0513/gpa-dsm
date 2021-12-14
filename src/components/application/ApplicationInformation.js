@@ -499,9 +499,7 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
-                  <Form.Label className=" applicationTitle">
-                    M. I.
-                  </Form.Label>
+                  <Form.Label className=" applicationTitle">M. I.</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -517,7 +515,7 @@ function ApplicationInformation(props) {
               <Col md={12} className="mb-3">
                 <Form.Group controlId="service_location">
                   <Form.Label className=" applicationTitle">
-                      SERVICE LOCATION (Address where equipment was installed)*
+                    SERVICE LOCATION (Address where equipment was installed)*
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -664,12 +662,15 @@ function ApplicationInformation(props) {
                   ? ownerComponentDesktop()
                   : ownerComponentMobile()}
                 <br />
-                {props.is_applicant_owner === "false" || !props.is_applicant_owner || props.is_applicant_owner === false ? (
+                {props.is_applicant_owner === "false" ||
+                !props.is_applicant_owner ||
+                props.is_applicant_owner === false ? (
                   <Form.Group controlId="is_applicant_owner">
                     <Form.Label className=" applicationTitle">
                       Upload LOA
                       <span
                         className="text-secondary"
+                        style={{ marginLeft: "auto" }}
                         onClick={() => {
                           setModalData(
                             (p = {
@@ -690,6 +691,21 @@ function ApplicationInformation(props) {
                         type="file"
                         onChange={(e) => handleChangeLOA(e)}
                       />
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "38px",
+                          backgroundColor: "#233E86",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <i
+                          style={{ color: "white" }}
+                          className="fa fa-upload"
+                        ></i>
+                      </div>
                     </InputGroup>
                     {props.letter_authorization === null ? (
                       <p className="validate text-danger requiredField">
@@ -751,8 +767,8 @@ function ApplicationInformation(props) {
               <Col md={12} className="mb-3">
                 <Form.Group controlId="mailing_address">
                   <Form.Label className=" applicationTitle">
-                      MAILING ADDRESS (Current address where we will send your
-                      rebate check)*
+                    MAILING ADDRESS (Current address where we will send your
+                    rebate check)*
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -776,9 +792,7 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_country">
-                  <Form.Label className=" applicationTitle">
-                    COUNTRY
-                  </Form.Label>
+                  <Form.Label className=" applicationTitle">COUNTRY</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -917,7 +931,9 @@ function ApplicationInformation(props) {
               </Form.Label>{" "}
               {screenWidthM ? homeComponentDesktop() : homeComponentMobile()}
               {props.home_type === "" ? (
-                <p className="validate text-danger requiredField">*This Field is Required</p>
+                <p className="validate text-danger requiredField">
+                  *This Field is Required
+                </p>
               ) : (
                 <></>
               )}

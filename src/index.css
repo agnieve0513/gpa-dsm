@@ -56,3 +56,7 @@ main {
 .nav-item {
   cursor: pointer;
 }
+
+.fa-question-circle {
+  color: #666666;
+}
