@@ -44,7 +44,7 @@ function TcTemplateForm() {
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
   const handleUploadFile = () => {
-    dispatch(uploadFileAction(selectedFile, customer_type, "tnc_template"));
+    dispatch(uploadFileAction(selectedFile, customer_type, "termsandconditions"));
     dispatch(retrievePdfAction(customer_type));
   };
 
