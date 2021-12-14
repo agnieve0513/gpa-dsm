@@ -664,8 +664,8 @@ function ApplicationInformation(props) {
                   ? ownerComponentDesktop()
                   : ownerComponentMobile()}
                 <br />
-                {props.is_applicant_owner === "true" || !props.is_applicant_owner ? (
-                  <Form.Group controlId="telephone_no">
+                {props.is_applicant_owner === "false" || !props.is_applicant_owner || props.is_applicant_owner === false ? (
+                  <Form.Group controlId="is_applicant_owner">
                     <Form.Label className=" applicationTitle">
                       Upload LOA
                       <span
