@@ -30,28 +30,29 @@ function AdminForgotPasswordScreen({ location, history }) {
 
   console.log("email", email);
 
-  useEffect(() => {
-    console.log(userForgotPassword);
-    if (userForgotPassword.userInfo) {
-      if (userForgotPassword.userInfo.status) {
-        setLoading(false);
-        Swal.fire(
-          "Success",
-          "Password reset is sent to your email!",
-          "success"
-        ).then(() => history.push("/admin"));
-      } else {
-        setLoading(false);
-        Swal.fire("Failed", "User was not found", "error");
-      }
-    }
-  }, [userForgotPassword]);
+  // useEffect(() => {
+  //   console.log(userForgotPassword);
+  //   if (userForgotPassword.userInfo) {
+  //     if (userForgotPassword.userInfo.status) {
+  //       setLoading(false);
+        
+  //     } else {
+  //       setLoading(false);
+  //       Swal.fire("Failed", "User was not found", "error");
+  //     }
+  //   }
+  // }, [userForgotPassword]);
 
   const submitHandler = (e) => {
     e.preventDefault();
     setLoading(true);
     dispatch(forgotPassword(email));
-  };
+    Swal.fire(
+          "Success",
+          "Password reset is sent to your email!",
+          "success"
+        ).then(() => history.push("/admin"));
+    };
 
   return (
     <>
