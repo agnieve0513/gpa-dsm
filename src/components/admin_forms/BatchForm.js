@@ -1647,6 +1647,7 @@ function BatchForm() {
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
+                    {title: "Total Rebate", field: "TotalRebate"}
                     // {
                     //   title: "Action",
                     //   field: "actions",
