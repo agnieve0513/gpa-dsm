@@ -16,4 +16,8 @@
     .MuiTypography-root.MuiTypography-h6 {
         font-size: 16px;
     }
+
+    .form-check-label, .disposalReceipt {
+        font-size: 14px;
+    }
 }

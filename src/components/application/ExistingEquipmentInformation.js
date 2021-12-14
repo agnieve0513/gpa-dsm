@@ -206,8 +206,8 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="system_type" className="mb-3">
-              <Form.Label>
-                <b>SYSTEM TYPE</b>
+              <Form.Label className="applicationTitle">
+                SYSTEM TYPE
               </Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
@@ -227,7 +227,7 @@ function ExistingEquipmentInformation(props) {
           <Row className="px-0">
             <Col md={6} className="mb-3">
               <Form.Group controlId="old_btu">
-                <Form.Label>BTU</Form.Label>
+                <Form.Label className="applicationTitle">BTU</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder=""
@@ -240,14 +240,14 @@ function ExistingEquipmentInformation(props) {
               {props.no_existing ? (
                 <> </>
               ) : props.old_btu === "" ? (
-                <p className="validate text-danger">*This Field is Required</p>
+                <p className="validate text-danger requiredField">*This Field is Required</p>
               ) : (
                 <></>
               )}
             </Col>
             <Col md={6} className="mb-3">
               <Form.Group controlId="old_tons">
-                <Form.Label>TONS</Form.Label>
+                <Form.Label className="applicationTitle">TONS</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder=""
@@ -260,7 +260,7 @@ function ExistingEquipmentInformation(props) {
               {props.no_existing ? (
                 <> </>
               ) : props.old_tons === "" ? (
-                <p className="validate text-danger">*This Field is Required</p>
+                <p className="validate text-danger requiredField">*This Field is Required</p>
               ) : (
                 <></>
               )}
@@ -272,8 +272,8 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_quantity">
-              <Form.Label>
-                <b>QUANTITY</b>
+              <Form.Label className="applicationTitle">
+                QUANTITY
               </Form.Label>
               <Form.Control
                 type="number"
@@ -288,15 +288,15 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.old_quantity === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_years">
-              <Form.Label>
-                <b>NUMBER OF YEARS</b>
+              <Form.Label className="applicationTitle">
+                NUMBER OF YEARS
               </Form.Label>
               <Form.Control
                 type="number"
@@ -311,7 +311,7 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.old_years === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -320,8 +320,8 @@ function ExistingEquipmentInformation(props) {
 
         <Row className="px-0">
           <Col md={12}>
-            <Form.Label>
-              <b>EQUIPMENT CONDITION PRIOR TO REMOVAL</b>
+            <Form.Label className="applicationTitle">
+              EQUIPMENT CONDITION PRIOR TO REMOVAL
             </Form.Label>{" "}
             <br />
             <Form.Check
@@ -348,7 +348,7 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.is_equipment_condition === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -357,8 +357,8 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12} className="mb-3">
             <Form.Group controlId="seer">
-              <Form.Label>
-                <b>SEER</b>
+              <Form.Label className="applicationTitle">
+                SEER
               </Form.Label>
               <Form.Control
                 type="text"
@@ -378,8 +378,8 @@ function ExistingEquipmentInformation(props) {
         </Row>
         <Row className="px-0">
           <Col md={12}>
-            <Form.Label>
-              <b>DISPOSAL PARTY</b>
+            <Form.Label className="applicationTitle">
+              DISPOSAL PARTY
             </Form.Label>{" "}
             <br />
             <Form.Check
@@ -406,7 +406,7 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.disposal_party === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -421,8 +421,8 @@ function ExistingEquipmentInformation(props) {
                   show={modalShow}
                   onHide={() => setModalShow(false)}
                 />
-                <span>
-                  <b>DISPOSAL RECEIPT</b>
+                <span className="d-flex flex-row justify-content-between disposalReceipt">
+                   DISPOSAL RECEIPT
                   <span
                     className="text-secondary mb-1"
                     onClick={() => {
@@ -485,7 +485,7 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.agree_terms === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
@@ -494,8 +494,8 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="date" className="mb-3">
-              <Form.Label>
-                <b>DATE</b>
+              <Form.Label className="applicationTitle">
+                DATE
               </Form.Label>
               <Form.Control
                 type="date"
@@ -509,15 +509,15 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.date === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
+              <p className="validate text-danger requiredField">*This Field is Required</p>
             ) : (
               <></>
             )}
           </Col>
         </Row>
-        <Row className="px-0 pb-3 d-flex justify-content-center">
+        <Row className="pb-3 d-flex justify-content-center">
           <Button
-            className="mx-auto"
+            className="mx-auto addEquipmentButton"
             variant="success"
             size="lg"
             onClick={() => addEquipmentHandler()}
