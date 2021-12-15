@@ -51,6 +51,9 @@ function ApplicationScreen() {
       }, 2500);
       return () => clearTimeout(timer);
     }
+    else{
+      setSearchVisible(true);
+    }
   }, []);
 
   const dispatch = useDispatch();
@@ -111,6 +114,8 @@ function ApplicationScreen() {
   const resetHandler = () => {
     setIsSearch(false);
     setControlNo("");
+    setSearchVisible(true);
+
   };
 
   return (
