@@ -59,7 +59,7 @@ function TcTemplateForm() {
 
   useEffect(() => {
     dispatch(retrievePdfAction(code));
-  }, [code]);
+  }, [code, fileCode]);
 
   const handleDownload = () => {
     if (retriveTermsAndCondition?.data) {

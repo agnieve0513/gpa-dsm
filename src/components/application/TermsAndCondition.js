@@ -31,7 +31,7 @@ function TermsAndCondition(props) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(retrievePDFAction("comm"));
+    dispatch(retrievePDFAction(props.customer_type === "COMM" ? "comm" : "resd"));
   }, []);
 
   const styles = StyleSheet.create({
