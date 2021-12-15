@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
+  Alert,
   Table,
   Form,
   ListGroup,
@@ -51,6 +52,7 @@ import { uploadFileAction } from "../../actions/fileActions";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useWindowDimensions } from "../../hooks";
+
 const MySwal = withReactContent(Swal);
 let p = {};
 
@@ -531,6 +533,9 @@ function ApplicationForm() {
       setDetailsToggle(false);
     }
   };
+
+  const screenWidthM = width > 425;
+  const screenWidthT = width >= 768;
 
   return (
     <div>
@@ -1861,6 +1866,14 @@ function ApplicationForm() {
                 </Button>
               </Col>
             </Row>
+            {
+              width < 700 ?
+              <>
+                <Alert variant="info" onClose={() => setShow(false)} dismissible>
+                  <p>To filter data, please long press the selected column.</p>
+                </Alert>
+              </>:<></>
+            }
             <AgGridReact
               className="agGridTable"
               frameworkComponents={{
@@ -1888,11 +1901,12 @@ function ApplicationForm() {
                 medalColumn: {
                   flex: 1,
                   maxWidth: 120,
-                  filter: false,
+                  filter: true,
                 },
               }}
               rowHeight={40}
             >
+
               <AgGridColumn field="Control_Number" />
               <AgGridColumn field="Application_Date" />
               <AgGridColumn field="Stage" />
