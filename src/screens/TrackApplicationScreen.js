@@ -4,6 +4,7 @@ import CustomerHeader from "../components/CustomerHeader";
 import {
   Row,
   Col,
+  Spinner,
   Form,
   ListGroup,
   Container,
@@ -36,6 +37,7 @@ function ApplicationScreen() {
   // const styles = StyleSheet.create({
   //     section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
   // });
+  const [searchVisible, setSearchVisible] = useState(false);
 
   useEffect(() => {
     if (ctrl_no) {
@@ -44,10 +46,10 @@ function ApplicationScreen() {
         dispatch(trackApplications(ctrl_no));
         setClickTrack(true);
         setIsSearch(true);
-      }, 1000);
-      return () => clearTimeout(timer);
+        setSearchVisible(false);
 
-      
+      }, 2500);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -69,6 +71,7 @@ function ApplicationScreen() {
     dispatch(trackApplications(control_no));
     setClickTrack(true);
     setIsSearch(true);
+    searchVisible(true);
   };
 
   const printApplicaitonHandler = () => {
@@ -233,7 +236,10 @@ function ApplicationScreen() {
             ) : (
               ""
             )
-          ) : (
+          ) : 
+
+              searchVisible ?
+              (
             <Container>
               <h4 className="text-center text-info mb-5">
                 TRACK YOUR APPLICATION
@@ -258,7 +264,13 @@ function ApplicationScreen() {
                 </button>
               </div>
             </Container>
-          )}
+          ): 
+          <>
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </>
+          }
           <Link to={`/`} className="text-success mx-auto px-5">
             <h4 className="text-center fs-5" id="trackBackBtn">
               Back to Homepage
