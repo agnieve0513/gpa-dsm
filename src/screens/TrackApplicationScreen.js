@@ -39,9 +39,15 @@ function ApplicationScreen() {
 
   useEffect(() => {
     if (ctrl_no) {
-      dispatch(trackApplications(ctrl_no));
-      setClickTrack(true);
-      setIsSearch(true);
+
+      const timer = setTimeout(() => {
+        dispatch(trackApplications(ctrl_no));
+        setClickTrack(true);
+        setIsSearch(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+
+      
     }
   }, []);
 
