@@ -159,7 +159,7 @@ function ApplicationInformation(props) {
         type={"radio"}
         id={`inline-${"radio"}-1`}
         value="true"
-        checked={"true" === props.is_applicant_owner}
+        checked={"true" == props.is_applicant_owner}
         onChange={(e) => props.setIsApplicantOwner(e.target.value)}
         className="w-auto"
         disabled={props.verify ? false : true}
@@ -170,7 +170,7 @@ function ApplicationInformation(props) {
         name="is_applicant_owner"
         type={"radio"}
         value="false"
-        checked={"false" === props.is_applicant_owner}
+        checked={"false" == props.is_applicant_owner}
         onChange={(e) => props.setIsApplicantOwner(e.target.value)}
         className="w-auto"
         disabled={props.verify ? false : true}
@@ -327,6 +327,86 @@ function ApplicationInformation(props) {
       />
     </Row>
   );
+
+  const uploadLoa = ()=>
+  {
+    return <Form.Group controlId="is_applicant_owner">
+                    <Form.Label className=" applicationTitle">
+                      Upload LOA
+                      <span
+                        className="text-secondary"
+                        style={{ marginLeft: "auto" }}
+                        onClick={() => {
+                          setModalData(
+                            (p = {
+                              description: "LOA",
+                              image_sample: "./GPADSM7.png",
+                            })
+                          );
+                          setModalShow(true);
+                        }}
+                      >
+                        <i className="fa fa-question-circle"></i>{" "}
+                      </span>
+                    </Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                        name="file"
+                        placeholder="Upload Lettter of Authorization"
+                        type="file"
+                        onChange={(e) => handleChangeLOA(e)}
+                      />
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "38px",
+                          backgroundColor: "#233E86",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <i
+                          style={{ color: "white" }}
+                          className="fa fa-upload"
+                        ></i>
+                      </div>
+                    </InputGroup>
+                    {props.letter_authorization === null ? (
+                      <p className="validate text-danger requiredField">
+                        *This Field is Required
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                    {props.letter_authorization ? (
+                      <>
+                        {fileCode ? (
+                          <>
+                            {fileCode.length !== 0 ? (
+                              <>
+                                {props.setLetterAuthorizationD(fileCode)}
+                                {console.log("File Code: ", fileCode)}
+                                {console.log(props.letter_authorizationD)}
+                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                <br />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        Filename: {props.letter_authorization.name} <br />
+                        File Type: {props.letter_authorization.type} <br />
+                        <br />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Form.Group>;
+  }
 
   return (
     <Container>
@@ -680,91 +760,27 @@ function ApplicationInformation(props) {
               </Col>
               <Col md={6} className="mb-3">
                 {screenWidthT
-                  ? ownerComponentDesktop()
-                  : ownerComponentMobile()}
-                <br />
-                {props.is_applicant_owner === "false" ||
-                !props.is_applicant_owner ||
-                props.is_applicant_owner === false ? (
-                  <Form.Group controlId="is_applicant_owner">
-                    <Form.Label className=" applicationTitle">
-                      Upload LOA
-                      <span
-                        className="text-secondary"
-                        style={{ marginLeft: "auto" }}
-                        onClick={() => {
-                          setModalData(
-                            (p = {
-                              description: "LOA",
-                              image_sample: "./GPADSM7.png",
-                            })
-                          );
-                          setModalShow(true);
-                        }}
-                      >
-                        <i className="fa fa-question-circle"></i>{" "}
-                      </span>
-                    </Form.Label>
-                    <InputGroup>
-                      <Form.Control
-                        name="file"
-                        placeholder="Upload Lettter of Authorization"
-                        type="file"
-                        onChange={(e) => handleChangeLOA(e)}
-                      />
-                      <div
-                        style={{
-                          width: "40px",
-                          height: "38px",
-                          backgroundColor: "#233E86",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <i
-                          style={{ color: "white" }}
-                          className="fa fa-upload"
-                        ></i>
-                      </div>
-                    </InputGroup>
-                    {props.letter_authorization === null ? (
-                      <p className="validate text-danger requiredField">
-                        *This Field is Required
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {props.letter_authorization ? (
-                      <>
-                        {fileCode ? (
-                          <>
-                            {fileCode.length !== 0 ? (
-                              <>
-                                {props.setLetterAuthorizationD(fileCode)}
-                                {console.log("File Code: ", fileCode)}
-                                {console.log(props.letter_authorizationD)}
-                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
-                                <br />
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </>
+                  ?
+                   <>
+                      {ownerComponentDesktop()}
+                      {
+                        props.is_applicant_owner === "false"  ?
+                        uploadLoa() : ''
+                      }                  
+                    </>
+                  : <>
+                      {ownerComponentMobile()}
+                      {!props.is_applicant_owner ||
+                        props.is_applicant_owner === false ? (
+                          uploadLoa()
                         ) : (
                           <></>
                         )}
-                        Filename: {props.letter_authorization.name} <br />
-                        File Type: {props.letter_authorization.type} <br />
-                        <br />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </Form.Group>
-                ) : (
-                  <></>
-                )}
+                  </>
+                      
+                  }
+                <br />
+                
                 {/* {props.is_applicant_owner == undefined ? (
                     <p className="validate text-danger requiredField">*This Field is Required</p>
                   ) : (

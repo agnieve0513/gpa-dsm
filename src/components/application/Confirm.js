@@ -48,7 +48,7 @@ function Confirm(props) {
               <p>
                 Please record and keep this number for tracking your rebate
                 status{" "}
-                <a href={`/track/${props.control_no}`} className="text-info">
+                <a href={`/track/${props.control_no}`} target="_blank" className="text-info">
                   <b>here</b>
                 </a>
                 . Your rebate control number will also be emailed for your
