@@ -28,6 +28,7 @@ function AdminDashboardScreen({ location, history }) {
   const [recordForm, setRecordForm] = useState(true);
   const [batchPaymentForm, setBatchPaymentForm] = useState(true);
   const [show_ui, setShowUi] = useState(false);
+  const [role_id, setRoleId] = useState();
 
   useEffect(() => {
     if (!localStorage.getItem("userInfo")) {
@@ -36,23 +37,39 @@ function AdminDashboardScreen({ location, history }) {
       setShowUi(true);
       let obj = JSON.parse(localStorage.getItem("userInfo"));
       let roleId = obj.message.original.roleId;
+      setRoleId(roleId);
       let role_name = "";
 
-      if (roleId === 1) {
+      if (roleId === 1) 
+      {
         role_name = "Admin";
-      } else if (roleId === 2) {
+      } 
+      else if (roleId === 2) 
+      {
         role_name = "Customer Service";
-      } else if (roleId === 3) {
+      } 
+      else if (roleId === 3) 
+      {
         role_name = "Spord";
-      } else if (roleId === 4) {
+      } 
+      else if (roleId === 4)
+      {
         role_name = "Budget";
-      } else if (roleId === 5) {
+      } 
+      else if (roleId === 5) 
+      {
         role_name = "Accounting";
-      } else if (roleId === 6) {
+      } 
+      else if (roleId === 6) 
+      {
         role_name = "Supervisor";
-      } else if (roleId === 7) {
+      } 
+      else if (roleId === 7) 
+      {
         role_name = "Guest";
-      } else {
+      } 
+      else 
+      {
         role_name = "Unknown Role";
       }
 
@@ -60,9 +77,16 @@ function AdminDashboardScreen({ location, history }) {
 
       console.log(obj);
 
+      if (roleId === 4)
+      {
+        setApplicationForm(false);
+      } 
+
       if (roleId === 3 || roleId === 4 || roleId === 5 || roleId === 6) {
         setBatchForm(true);
-      } else if (roleId === 1) {
+      }
+      
+      else if (roleId === 1) {
         setUsersForm(true);
         setBatchForm(true);
         setEquipmentForm(true);
@@ -79,7 +103,7 @@ function AdminDashboardScreen({ location, history }) {
           {show_ui ? (
             <Tab.Container
               id="left-tabs-example"
-              defaultActiveKey="application"
+              defaultActiveKey={role_id === 4 ? "batch" : "application"}
             >
               <Container>
                 <Row className="p-0 mb-4" id="adminHeader">
