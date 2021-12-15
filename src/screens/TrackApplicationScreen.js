@@ -129,6 +129,7 @@ function ApplicationScreen() {
               track_application ? (
                 track_application.table ? (
                   track_application.table.length > 0 ? (
+                    // Show Application . . .
                     <Container className="mb-2">
                       <h5
                         className="text-center text-info fs-3"
@@ -205,39 +206,25 @@ function ApplicationScreen() {
                         </button>
                       </Row>
                     </Container>
-                  ) : (
-                    <>Ambot</>
-                  )
-                ) : (
-                  <>
-                    <p>No Application was Found.</p>
-                    <div class="d-grid gap-2 mt-5">
-                      <button
-                        style={{ borderRadius: "0.5rem" }}
-                        className="btn btn-success py-3 mt-5"
-                        id="submitbtn"
-                        onClick={() => resetHandler()}
-                      >
-                        <b className="trackButtonText">TRACK NEW APPLICATION</b>
-                      </button>
-                    </div>
-                  </>
-                )
-              ) : (
-                <>
-                  <p>No Application was Found.</p>
-                  <div class="d-grid gap-2 mt-5">
-                    <button
-                      style={{ borderRadius: "0.5rem" }}
-                      className="btn btn-success py-3 mt-5"
-                      id="submitbtn"
-                      onClick={() => resetHandler()}
-                    >
-                      <b className="trackButtonText">TRACK NEW APPLICATION</b>
-                    </button>
-                  </div>
-                </>
-              )
+                  ) : 
+                    (
+                    <>
+                      <p>No Application was Found.</p>
+                      <div class="d-grid gap-2 mt-5">
+                        <button
+                          style={{ borderRadius: "0.5rem" }}
+                          className="btn btn-success py-3 mt-5"
+                          id="submitbtn"
+                          onClick={() => resetHandler()}
+                        >
+                          <b className="trackButtonText">TRACK NEW APPLICATION</b>
+                        </button>
+                      </div>
+                    </>
+                    )
+                ) : ''
+                
+              ) : ''
             ) : (
               ""
             )
