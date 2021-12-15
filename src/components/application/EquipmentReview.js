@@ -303,7 +303,7 @@ function EquipmentReview(props) {
                                 ? []
                                 : props.new_equipments
                             }
-                            title="New Equipments"
+                            title={width < 770 ? "" : "New Equipments"}
                             options={{
                               headerStyle: {
                                 backgroundColor: "#233f88",
@@ -485,7 +485,7 @@ function EquipmentReview(props) {
                         ? []
                         : props.old_equipments
                     }
-                    title="Existing Equipments"
+                    title={width < 770 ? "" : "Existing Equipments"}
                     options={{
                       headerStyle: {
                         backgroundColor: "#233f88",

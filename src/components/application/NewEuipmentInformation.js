@@ -152,7 +152,7 @@ function NewEuipmentInformation(props) {
           email: props.tech_email,
         },
       };
-      setTotalQuantity(parseInt(totalQuantity) + parseInt(props.quantity));
+      setTotalQuantity(parseInt(props.quantity) + parseInt(totalQuantity));
       props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
       props.setNewEquipments(props.new_equipments.concat(obj));
     }
@@ -163,7 +163,7 @@ function NewEuipmentInformation(props) {
     props.setTotalRebate(props.total_rebate - rowdata.rebate);
     const index = props.new_equipments.indexOf(rowdata);
     const eqs = props.new_equipments;
-    setTotalQuantity(totalQuantity - 1);
+    setTotalQuantity(totalQuantity - rowdata.quantity);
     if (index > -1) {
       eqs.splice(index, 1);
       props.setNewEquipments(eqs);

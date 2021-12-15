@@ -309,7 +309,7 @@ function FinalReview(props) {
                                 ? []
                                 : props.new_equipments
                             }
-                            title="Equipments"
+                            title={width < 770 ? "" : "Equipments"}
                             options={{
                               headerStyle: {
                                 fontSize: 16,
@@ -493,7 +493,7 @@ function FinalReview(props) {
                         ? []
                         : props.old_equipments
                     }
-                    title="Existing Equipments"
+                    title={width < 770 ? "" : "Existing Equipments"}
                     options={{
                       headerStyle: {
                         fontSize: 16,
