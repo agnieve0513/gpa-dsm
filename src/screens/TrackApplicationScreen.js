@@ -74,7 +74,7 @@ function ApplicationScreen() {
     dispatch(trackApplications(control_no));
     setClickTrack(true);
     setIsSearch(true);
-    searchVisible(true);
+    setSearchVisible(true);
   };
 
   const printApplicaitonHandler = () => {
@@ -117,6 +117,22 @@ function ApplicationScreen() {
     setSearchVisible(true);
 
   };
+
+  const noFound = () => {
+    return <>
+            <p>No Application was Found.</p>
+            <div class="d-grid gap-2 mt-5">
+              <button
+                style={{ borderRadius: "0.5rem" }}
+                className="btn btn-success py-3 mt-5"
+                id="submitbtn"
+                onClick={() => resetHandler()}
+              >
+                <b className="trackButtonText">TRACK NEW APPLICATION</b>
+              </button>
+            </div>
+          </> 
+  }
 
   return (
     <Container className="m-0 p-0" fluid>
@@ -222,12 +238,10 @@ function ApplicationScreen() {
                       </div>
                     </>
                     )
-                ) : ''
+                ) : searchVisible? noFound() : noFound()
                 
-              ) : ''
-            ) : (
-              ""
-            )
+              ) : searchVisible? noFound() :''
+            ) : searchVisible? noFound() :'payts 3'
           ) : 
 
               searchVisible ?
