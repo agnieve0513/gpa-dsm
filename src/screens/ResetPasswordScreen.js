@@ -12,6 +12,11 @@ function ResetPasswordScreen({ location, history }) {
   const [new_password, setNewPassword] = useState("");
   const [confirm_new_password, setConfirmNewPassword] = useState("");
   const [is_confirm, setIsConfirm] = useState();
+  const [lengthCheck, setLengthCheck] = useState(false);
+  const [lowerCheck, setLowerCheck] = useState(false);
+  const [upperCheck, setUpperCheck] = useState(false);
+  const [symbolCheck, setSymbolCheck] = useState(false);
+  const [numberCheck, setNumberCheck] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -20,6 +25,48 @@ function ResetPasswordScreen({ location, history }) {
 
   const emailChangePassword = useSelector((state) => state.emailChangePassword);
   const { email_change_pass } = emailChangePassword;
+
+  var checkPasswordStrength = (string) => {
+    var numbers = string.match(/\d+/g);
+    var lowers = string.match(/[a-z]/);
+    var uppers = string.match(/[A-Z]/);
+    var symbols = new RegExp(/[^A-Z a-z 0-9]/);
+
+    if (string.length >= 8) {
+      setLengthCheck(true)
+    } else {
+      setLengthCheck(false)
+    }
+
+    if (numbers != null) {
+      setNumberCheck(true)
+    } else {
+      setNumberCheck(false)
+    }
+
+    if (lowers != null) {
+      setLowerCheck(true)
+    } else {
+      setLowerCheck(false)
+    }
+
+    if (uppers != null) {
+      setUpperCheck(true)
+    } else {
+      setUpperCheck(false)
+    }
+
+    if (symbols.test(string)) {
+      setSymbolCheck(true)
+    } else {
+      setSymbolCheck(false)
+    }
+
+    setNewPassword(string)
+  }
+
+  var allChecksValid = lengthCheck ? upperCheck ? symbolCheck ? numberCheck ? true : false : false : false : false
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -99,7 +146,7 @@ function ResetPasswordScreen({ location, history }) {
                       type="password"
                       // placeholder='Enter Password'
                       value={new_password}
-                      onChange={(e) => setNewPassword(e.target.value)}
+                      onChange={(e) => checkPasswordStrength(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
 
@@ -118,6 +165,26 @@ function ResetPasswordScreen({ location, history }) {
                     )}
                   </Form.Group>
 
+                  <Row className="py-4 px-0 mx-auto">
+                    <p className="w-auto mb-2 passDetails">Passwords must:</p>
+                    <Row>
+                      {lengthCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Be a minimum of 8 characters</p>
+                    </Row>
+                    <Row>
+                      {lowerCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one lowercase letter (a-z)</p></Row>
+                    <Row>
+                      {upperCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one uppercase letter (A-Z)</p></Row>
+                    <Row>
+                      {numberCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one number (0-9)</p></Row>
+                    <Row>
+                      {symbolCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one symbol</p></Row>
+                  </Row>
+
                   <Row>
                     <Col md={6} className="mx-auto">
                       <div className="d-grid gap-2 mt-3 mb-4">
@@ -125,6 +192,7 @@ function ResetPasswordScreen({ location, history }) {
                           type="submit"
                           variant="success"
                           className="me-1"
+                          disabled={!allChecksValid}
                         >
                           SUBMIT
                         </Button>
