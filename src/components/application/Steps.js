@@ -44,35 +44,35 @@ function Steps(props) {
                 <Col className="pt-3">
                 <li>
                     <Image src='./icons-improved/step1.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 1? "bg-success":"bg-secondary")} fluid />
-                    <span id="one">{checkStep(props.currentStep)}</span>
+                    <span id="one">{checkStep(1)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step2.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 2? "bg-success":"bg-secondary")} fluid />
-                    <span id="two">{checkStep(props.currentStep)}</span>
+                    <span id="two">{checkStep(2)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step3.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 3? "bg-success":"bg-secondary")} fluid />
-                    <span id="three">{checkStep(props.currentStep)}</span>
+                    <span id="three">{checkStep(3)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step4.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 4? "bg-success":"bg-secondary")} fluid />
-                    <span id="four">{checkStep(props.currentStep)}</span>
+                    <span id="four">{checkStep(4)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step5.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 5? "bg-success":"bg-secondary")} fluid />
-                    <span id="five">{checkStep(props.currentStep)}</span>
+                    <span id="five">{checkStep(5)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step6.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 6? "bg-success":"bg-secondary")} fluid />
-                    <span id="six">{checkStep(props.currentStep)}</span>
+                    <span id="six">{checkStep(6)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step7.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 7? "bg-success":"bg-secondary")} fluid />
-                    <span id="seven">{checkStep(props.currentStep)}</span>
+                    <span id="seven">{checkStep(7)}</span>
                 </li>
                 <li>
                     <Image src='./icons-improved/step8.png' width={"65"} className={"rounded-circle p-3 fa fa-edit fa-1x "+ (props.currentStep >= 8? "bg-success":"bg-secondary")} fluid />
-                    <span id="eight">{checkStep(props.currentStep)}</span>
+                    <span id="eight">{checkStep(8)}</span>
                 </li>
                 </Col>
             </Row>

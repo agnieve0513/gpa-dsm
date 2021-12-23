@@ -261,6 +261,7 @@ const newComponentMobile = () =>
 <Row className="d-flex flex-row">
   <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
   <Switch 
+    required
     checked={props.is_new_construction}
     onClick={handleToggleSwitchNew}
     disabled={props.verify ? false : true}
@@ -269,9 +270,11 @@ const newComponentMobile = () =>
 </Row>
 
 const newComponentDesktop = () =>
-  <Row>
+  <Row className="ms-3 mb-2 mt-1 d-flex flex-row">
     <Form.Check
+      className="px-0 mx-0 w-50"
       inline
+      required
       label="Yes"
       name="is_new_construction"
       type={"radio"}
@@ -281,7 +284,9 @@ const newComponentDesktop = () =>
       disabled={props.verify ? false : true}
     />
     <Form.Check
+      className="px-0 mx-0 w-50"
       inline
+      required
       label="No"
       name="is_new_construction"
       type={"radio"}
@@ -880,7 +885,7 @@ const newComponentDesktop = () =>
               <Col md={4} className="mb-3">
                 <Form.Label><b>NEW CONSTRUCTION</b></Form.Label> <br />
                 {screenWidthM ? newComponentDesktop() : newComponentMobile()}
-                {!props.is_new_construction && !props.verify? (
+                {props.is_new_construction === undefined ? (
                   <p className="validate text-danger">
                     *This Field is Required
                   </p>
