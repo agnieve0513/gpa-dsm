@@ -102,6 +102,7 @@ function NewEuipmentInformation(props) {
       props.model_no === "" ||
       props.quantity === "" ||
       props.vendor === "" ||
+      props.invoice === null ||
       props.invoice_no === "" ||
       props.purchase_date === "" ||
       props.technician_name === "" ||

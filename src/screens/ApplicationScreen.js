@@ -333,7 +333,7 @@ function ApplicationScreen() {
         quantity === "" ||
         vendor === "" ||
         invoice_no === "" ||
-        invoice === "" ||
+        invoice === null ||
         purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
@@ -420,7 +420,7 @@ function ApplicationScreen() {
           quantity === "" ||
           vendor === "" ||
           invoice_no === "" ||
-          invoice === "" ||
+          invoice === null ||
           purchase_date === "" ||
           technician_name === "" ||
           work_tel === "" ||
@@ -454,7 +454,7 @@ function ApplicationScreen() {
           }
         }
       } else if (currentStep === 6) {
-        if (irs_form !== "") {
+        if (irs_form !== null) {
           setStep(currentStep + 1);
         } else {
           errorMessage();
