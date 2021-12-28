@@ -21,14 +21,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-#       - run: npm i
-#       - run: CI=false npm run build
+      - run: npm i
+      - run: CI=false npm run build
       
       - name: Tar build to deploy.tar
         run: |
-          mkdir ../build
-          cp -TR . ../build
-          tar -cvf deploy.tar ../build/
+          tar -cf deploy.tar build/
 
       # Copying files and artifacts via SSH
       - name: Copying deploy.tar to server via SSH
