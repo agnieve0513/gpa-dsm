@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm i
+#       - run: npm i
 #       - run: CI=false npm run build
       
       - name: Tar build
@@ -39,4 +39,4 @@ jobs:
           key: ${{ secrets.DEV_KEY }}
           passphrase: ${{ secrets.DEV_PASSPHRASE }}
           source: "deploy.tar"
-          target: "/sample"
+          target: "/var/www/html"
