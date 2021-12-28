@@ -24,27 +24,27 @@ jobs:
       - run: npm i
       - run: CI=false npm run build
       
-      - name: Tar build to deploy.tar
-        run: |
-          tar -cf deploy.tar build/
+#       - name: Tar build to deploy.tar
+#         run: |
+#           tar -cf deploy.tar build/
 
       # Copying files and artifacts via SSH
-      - name: Copying deploy.tar to server via SSH
+      - name: Copying files and artifacts via SSH
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USERNAME }}
           key: ${{ secrets.DEV_KEY }}
           passphrase: ${{ secrets.DEV_PASSPHRASE }}
-          source: "deploy.tar"
+          source: "build/"
           target: "/var/www/html"
           
       # Untar deploy.tar via SSH Script 
-      - name: Untar deploy.tar via SSH Script
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEV_HOST }}
-          username: ${{ secrets.DEV_USERNAME }}
-          key: ${{ secrets.DEV_KEY }}
-          passphrase: ${{ secrets.DEV_PASSPHRASE }}
-          script: sh Untar.sh
+#       - name: Untar deploy.tar via SSH Script
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.DEV_HOST }}
+#           username: ${{ secrets.DEV_USERNAME }}
+#           key: ${{ secrets.DEV_KEY }}
+#           passphrase: ${{ secrets.DEV_PASSPHRASE }}
+#           script: sh Untar.sh
