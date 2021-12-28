@@ -39,7 +39,7 @@ jobs:
           source: "deploy.tar"
           target: "/var/www/html"
           
-      # Untar 
+      # Untar deploy.tar via SSH Script 
       - name: Untar deploy.tar via SSH Script
         uses: appleboy/ssh-action@master
         with:
