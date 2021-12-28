@@ -70,10 +70,10 @@ function ApplicationScreen() {
   const [home_age, setHomeAge] = useState("");
   const [home_type, setHomeType] = useState("");
   const [is_new_construction, setIsNewConstruction] = useState(false);
-
+  
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
-
+  const [delay_reason, setDelayReason] = useState("");
   // Installer Information
   const [technician_name, setTechnicianName] = useState("");
   const [work_tel, setWorkTel] = useState("");
@@ -541,6 +541,8 @@ function ApplicationScreen() {
               total_rebate={total_rebate}
               setTotalRebate={setTotalRebate}
               control_no={control_no}
+              delay_reason={delay_reason}
+              setDelayReason={setDelayReason}
               setControlNo={setControlNo}
               customer_type={customer_type}
               new_equipments={new_equipments}
