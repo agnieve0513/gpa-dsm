@@ -24,11 +24,11 @@ jobs:
 #       - run: npm i
 #       - run: CI=false npm run build
       
-      - name: Tar build
-        run: |
-          mkdir ../build
-          cp -TR . ../build
-          tar -cvf deploy.tar ../build/
+#       - name: Tar build
+#         run: |
+#           mkdir ../build
+#           cp -TR . ../build
+#           tar -cvf deploy.tar ../build/
 
       # Copying files and artifacts via SSH
       - name: Copying files to server
@@ -38,5 +38,5 @@ jobs:
           username: ${{ secrets.DEV_USERNAME }}
           key: ${{ secrets.DEV_KEY }}
           passphrase: ${{ secrets.DEV_PASSPHRASE }}
-          source: "deploy.tar"
+          source: "/*"
           target: "/var/www/html"
