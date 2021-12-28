@@ -1,9 +1,9 @@
 name: Build and Deploy DSM
 on:
   push:
-    branches: [config]
+    branches: [development]
   pull_request:
-    branches: [config]
+    branches: [development]
 
 jobs:
   build:
