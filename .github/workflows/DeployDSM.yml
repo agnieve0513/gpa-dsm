@@ -21,10 +21,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-        env:
-          CI: false
       - run: npm i
-      - run: npm run build
+      - run: CI=false npm run build
 
       # Copying files and artifacts via SSH
       - name: Copying files to server
