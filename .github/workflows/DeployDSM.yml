@@ -36,6 +36,7 @@ jobs:
           username: ${{ secrets.DEV_USERNAME }}
           key: ${{ secrets.DEV_KEY }}
           passphrase: ${{ secrets.DEV_PASSPHRASE }}
+          rm: true
           source: "deploy.tar"
           target: "/var/www/html"
           
