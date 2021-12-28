@@ -38,5 +38,5 @@ jobs:
           username: ${{ secrets.DEV_USERNAME }}
           key: ${{ secrets.DEV_KEY }}
           passphrase: ${{ secrets.DEV_PASSPHRASE }}
-          source: "/*"
+          source: "package.json"
           target: "/var/www/html"
