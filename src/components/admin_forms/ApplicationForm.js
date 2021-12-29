@@ -112,23 +112,32 @@ function ApplicationForm() {
 
   useEffect(() => {
     let changedItem = 0;
-    for (let i = 0; i < applicationList?.applications?.length; i++) {
-      if (applications.length === 0) {
+    if (applications?.length === 0) {
+      if (applicationList.applications) {
         setApplications(applicationList.applications);
-      } else {
-        const newInfo = applicationList.applications[i];
-        const oldInfo = applications.find(
-          (value) => value.Application_Id === newInfo.Application_Id
-        );
-        if (newInfo.Last_Modified_On !== oldInfo.Last_Modified_On) {
-          changedItem = 1 + changedItem;
-        }
       }
+    } else if (applications?.length > 0) {
+      for (let i = 0; i < applications?.length; i++) {
+        if (applicationList.applications) {
+          const oldInfo = applications[i];
+          const newInfo = applicationList.applications.find(
+            (value) => value.Application_Id === oldInfo.Application_Id
+          );
 
-      if (i === applicationList?.applications?.length - 1) {
-        if (changedItem > 0) {
-          setApplications(applicationList.applications);
-          setUpdatedTime(formatAMPM(new Date()));
+          if (newInfo) {
+            if (newInfo.Last_Modified_On !== oldInfo.Last_Modified_On) {
+              changedItem = 1 + changedItem;
+            }
+          } else {
+            changedItem = 1 + changedItem;
+          }
+        }
+
+        if (i === applications?.length - 1) {
+          if (changedItem > 0) {
+            setApplications(applicationList.applications);
+            setUpdatedTime(formatAMPM(new Date()));
+          }
         }
       }
     }
@@ -1856,20 +1865,20 @@ function ApplicationForm() {
                 <hr />
 
                 {comments ? (
-                  comments.map((comment) => (
-                    <div className="p-3 mb-1">
-                      <h6>
-                        {comment.Made_By} |{" "}
-                        {timeAgo.format(
-                          new Date(comment.Made_On) - 60 * 60 * 1000,
-                          "twitter"
-                        )}
-                        <br />
-                        <small className="text-muted">{comment.role}</small>
-                      </h6>
-                      <h6 className="text-muted">{comment.Comment}</h6>
-                    </div>
-                  ))
+                  comments.map((comment) => {
+                    const madeOn = new Date(comment.Made_On.replace(/-/g, "/"));
+                    const stringDate = madeOn.toString().substring(0, 15);
+                    return (
+                      <div className="p-3 mb-1">
+                        <h6>
+                          {comment.Made_By} | {stringDate}
+                          <br />
+                          <small className="text-muted">{comment.role}</small>
+                        </h6>
+                        <h6 className="text-muted">{comment.Comment}</h6>
+                      </div>
+                    );
+                  })
                 ) : (
                   <></>
                 )}
