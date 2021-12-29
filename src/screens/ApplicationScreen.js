@@ -69,7 +69,7 @@ function ApplicationScreen() {
   const [home_size, setHomeSize] = useState("");
   const [home_age, setHomeAge] = useState("");
   const [home_type, setHomeType] = useState("");
-  const [is_new_construction, setIsNewConstruction] = useState(false);
+  const [is_new_construction, setIsNewConstruction] = useState();
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
@@ -428,7 +428,7 @@ function ApplicationScreen() {
           work_tel.length < 10 ||
           company_name === "" ||
           date_final_installation === "" ||
-          invoice === ""
+          invoice === undefined
         ) {
           errorMessage();
         } else {
@@ -454,10 +454,16 @@ function ApplicationScreen() {
           }
         }
       } else if (currentStep === 6) {
-        if (irs_form !== "") {
-          setStep(currentStep + 1);
+        if (
+          irs_form === null ||
+          invoice === "" ||
+          letter_authorization === "" ||
+          installer_certification === "" ||
+          disposal_slip === ""
+          ) {
+            errorMessage();
         } else {
-          errorMessage();
+          setStep(currentStep + 1);
         }
       } else {
         setStep(currentStep + 1);
