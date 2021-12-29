@@ -8,12 +8,18 @@ import Swal from "sweetalert2";
 import Header from "../components/Header";
 
 import './AdminChangePasswordScreen.css';
+import Footer from "../components/Footer";
 
 function AdminChangePasswordScreen({ location, history }) {
   const [old_password, setOldPassword] = useState("");
   const [new_password, setNewPassword] = useState("");
   const [confirm_new_password, setConfirmNewPassword] = useState("");
   const [is_confirm, setIsConfirm] = useState();
+  const [lengthCheck, setLengthCheck] = useState(false);
+  const [lowerCheck, setLowerCheck] = useState(false);
+  const [upperCheck, setUpperCheck] = useState(false);
+  const [symbolCheck, setSymbolCheck] = useState(false);
+  const [numberCheck, setNumberCheck] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -29,6 +35,47 @@ function AdminChangePasswordScreen({ location, history }) {
       
   //   }
   // }, [change_pass]);
+
+  var checkPasswordStrength = (string) => {
+    var numbers = string.match(/\d+/g);
+    var lowers = string.match(/[a-z]/);
+    var uppers = string.match(/[A-Z]/);
+    var symbols = new RegExp(/[^A-Z a-z 0-9]/);
+
+    if (string.length >= 8) {
+      setLengthCheck(true)
+    } else {
+      setLengthCheck(false)
+    }
+
+    if (numbers != null) {
+      setNumberCheck(true)
+    } else {
+      setNumberCheck(false)
+    }
+
+    if (lowers != null) {
+      setLowerCheck(true)
+    } else {
+      setLowerCheck(false)
+    }
+
+    if (uppers != null) {
+      setUpperCheck(true)
+    } else {
+      setUpperCheck(false)
+    }
+
+    if (symbols.test(string)) {
+      setSymbolCheck(true)
+    } else {
+      setSymbolCheck(false)
+    }
+
+    setNewPassword(string)
+  }
+
+  var allChecksValid = lengthCheck ? upperCheck ? symbolCheck ? numberCheck ? true : false : false : false : false
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -75,74 +122,89 @@ function AdminChangePasswordScreen({ location, history }) {
             </Col>
             <Col md={1}></Col>
           </Row>
-          <Form onSubmit={(e)=> submitHandler(e)}>
-            <Row>
-              <Col md={3}></Col>
-              <Col md={6}>
-                <Form.Group controlId="old_password">
-                  <Form.Label>Old Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    // placeholder='Enter Password'
-                    value={old_password}
-                    onChange={(e) => setOldPassword(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
+          <Row>
+            <Form onSubmit={(e)=> submitHandler(e)}>
+              <Row>
+                <Col md={3}></Col>
+                <Col md={6}>
+                  <Form.Group controlId="old_password">
+                    <Form.Label className="pt-2">Old Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      // placeholder='Enter Password'
+                      value={old_password}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
 
-                <Form.Group controlId="new_password">
-                  <Form.Label>New Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    // placeholder='Enter Password'
-                    value={new_password}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
+                  <Form.Group controlId="new_password">
+                    <Form.Label className="pt-2">New Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      // placeholder='Enter Password'
+                      value={new_password}
+                      onChange={(e) => checkPasswordStrength(e.target.value)}
+                    ></Form.Control>
+                  </Form.Group>
 
-                <Form.Group controlId="confirm_new_password">
-                  <Form.Label>Confirm New Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    // placeholder='Enter Password'
-                    value={confirm_new_password}
-                    onChange={(e) => setConfirmNewPassword(e.target.value)}
-                  ></Form.Control>
-                  {is_confirm === false ? (
-                    <span className="text-danger">New Password Mismatch</span>
-                  ) : (
-                    <></>
-                  )}
-                </Form.Group>
+                  <Form.Group controlId="confirm_new_password">
+                    <Form.Label className="pt-2">Confirm New Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      // placeholder='Enter Password'
+                      value={confirm_new_password}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    ></Form.Control>
+                    {is_confirm === false ? (
+                      <span className="text-danger">New Password Mismatch</span>
+                    ) : (
+                      <></>
+                    )}
+                  </Form.Group>
 
-                <Row>
-                  <Col md={6} className="mx-auto">
-                    <div className="d-grid gap-2 mt-3">
-                      <Button type="submit" variant="success" className="">
-                        SUBMIT
-                      </Button>
-                    </div>
-                  </Col>
-                  <Col md={6}>
-                    <div className="d-grid gap-2 mt-3 cancel">
-                      <LinkContainer to="/dashboard">
-                        <Button type="button" variant="danger">
-                          CANCEL
+                  <Row className="py-4 px-0 mx-auto">
+                    <p className="w-auto mb-2 passDetails">Passwords must:</p>
+                    <Row>
+                      {lengthCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Be a minimum of 8 characters</p>
+                    </Row>
+                    <Row>
+                      {lowerCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one lowercase letter (a-z)</p></Row>
+                    <Row>
+                      {upperCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one uppercase letter (A-Z)</p></Row>
+                    <Row>
+                      {numberCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one number (0-9)</p></Row>
+                    <Row>
+                      {symbolCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
+                      <p className="passDetails px-0 w-auto">• Include at least one symbol</p></Row>
+                  </Row>
+                  <Row>
+                    <Col md={6} className="mx-auto">
+                      <div className="d-grid gap-2 mt-3">
+                        <Button type="submit" variant="success" className="" disabled={!allChecksValid}>
+                          SUBMIT
                         </Button>
-                      </LinkContainer>
-                    </div>
-                  </Col>
-                </Row>
-              </Col>
-              <Col md={3}></Col>
-            </Row>
-          </Form>
-
-          <Row className="text-center">
-              <small className="text-secondary position-absolute footer-text px-2">
-                Energy Sense Rebate Program for Central, Ducted Systems <br />
-                Copyright &copy; 2020 GPA Powered By Xtendly
-              </small>
+                      </div>
+                    </Col>
+                    <Col md={6}>
+                      <div className="d-grid gap-2 mt-3 cancel">
+                        <LinkContainer to="/dashboard">
+                          <Button type="button" variant="danger">
+                            CANCEL
+                          </Button>
+                        </LinkContainer>
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col md={3}></Col>
+              </Row>
+            </Form>
           </Row>
+          <Footer />
         </Col>
         <Col md={2} sm={12} xs={12}></Col>
       </Row>

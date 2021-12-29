@@ -4,6 +4,7 @@ import CustomerHeader from "../components/CustomerHeader";
 import {
   Row,
   Col,
+  Spinner,
   Form,
   ListGroup,
   Container,
@@ -36,12 +37,22 @@ function ApplicationScreen() {
   // const styles = StyleSheet.create({
   //     section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
   // });
+  const [searchVisible, setSearchVisible] = useState(false);
 
   useEffect(() => {
     if (ctrl_no) {
-      dispatch(trackApplications(ctrl_no));
-      setClickTrack(true);
-      setIsSearch(true);
+
+      const timer = setTimeout(() => {
+        dispatch(trackApplications(ctrl_no));
+        setClickTrack(true);
+        setIsSearch(true);
+        setSearchVisible(false);
+
+      }, 2500);
+      return () => clearTimeout(timer);
+    }
+    else{
+      setSearchVisible(true);
     }
   }, []);
 
@@ -63,6 +74,7 @@ function ApplicationScreen() {
     dispatch(trackApplications(control_no));
     setClickTrack(true);
     setIsSearch(true);
+    setSearchVisible(true);
   };
 
   const printApplicaitonHandler = () => {
@@ -102,7 +114,25 @@ function ApplicationScreen() {
   const resetHandler = () => {
     setIsSearch(false);
     setControlNo("");
+    setSearchVisible(true);
+
   };
+
+  const noFound = () => {
+    return <>
+            <p>No Application was Found.</p>
+            <div class="d-grid gap-2 mt-5">
+              <button
+                style={{ borderRadius: "0.5rem" }}
+                className="btn btn-success py-3 mt-5"
+                id="submitbtn"
+                onClick={() => resetHandler()}
+              >
+                <b className="trackButtonText">TRACK NEW APPLICATION</b>
+              </button>
+            </div>
+          </> 
+  }
 
   return (
     <Container className="m-0 p-0" fluid>
@@ -115,6 +145,7 @@ function ApplicationScreen() {
               track_application ? (
                 track_application.table ? (
                   track_application.table.length > 0 ? (
+                    // Show Application . . .
                     <Container className="mb-2">
                       <h5
                         className="text-center text-info fs-3"
@@ -191,43 +222,30 @@ function ApplicationScreen() {
                         </button>
                       </Row>
                     </Container>
-                  ) : (
-                    <>Ambot</>
-                  )
-                ) : (
-                  <>
-                    <p>No Application was Found.</p>
-                    <div class="d-grid gap-2 mt-5">
-                      <button
-                        style={{ borderRadius: "0.5rem" }}
-                        className="btn btn-success py-3 mt-5"
-                        id="submitbtn"
-                        onClick={() => resetHandler()}
-                      >
-                        <b className="trackButtonText">TRACK NEW APPLICATION</b>
-                      </button>
-                    </div>
-                  </>
-                )
-              ) : (
-                <>
-                  <p>No Application was Found.</p>
-                  <div class="d-grid gap-2 mt-5">
-                    <button
-                      style={{ borderRadius: "0.5rem" }}
-                      className="btn btn-success py-3 mt-5"
-                      id="submitbtn"
-                      onClick={() => resetHandler()}
-                    >
-                      <b className="trackButtonText">TRACK NEW APPLICATION</b>
-                    </button>
-                  </div>
-                </>
-              )
-            ) : (
-              ""
-            )
-          ) : (
+                  ) : 
+                    (
+                    <>
+                      <p>No Application was Found.</p>
+                      <div class="d-grid gap-2 mt-5">
+                        <button
+                          style={{ borderRadius: "0.5rem" }}
+                          className="btn btn-success py-3 mt-5"
+                          id="submitbtn"
+                          onClick={() => resetHandler()}
+                        >
+                          <b className="trackButtonText">TRACK NEW APPLICATION</b>
+                        </button>
+                      </div>
+                    </>
+                    )
+                ) : searchVisible? noFound() : noFound()
+                
+              ) : searchVisible? noFound() :''
+            ) : searchVisible? noFound() :'payts 3'
+          ) : 
+
+              searchVisible ?
+              (
             <Container>
               <h4 className="text-center text-info mb-5">
                 TRACK YOUR APPLICATION
@@ -252,7 +270,13 @@ function ApplicationScreen() {
                 </button>
               </div>
             </Container>
-          )}
+          ): 
+          <>
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </>
+          }
           <Link to={`/`} className="text-success mx-auto px-5">
             <h4 className="text-center fs-5" id="trackBackBtn">
               Back to Homepage

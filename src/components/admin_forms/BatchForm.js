@@ -46,6 +46,7 @@ import Swal from "sweetalert2";
 import TimeAgo from "javascript-time-ago";
 // English.
 import en from "javascript-time-ago/locale/en.json";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 TimeAgo.addDefaultLocale(en);
 // Create formatter (English).
@@ -54,6 +55,8 @@ const timeAgo = new TimeAgo("en-US");
 function BatchForm() {
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let roleId = obj.message.original.roleId;
+
+  const { height, width } = useWindowDimensions();
 
   const [showModal, setShowModal] = useState(false);
   const [applicationId, setApplicationId] = useState(0);
@@ -154,10 +157,13 @@ function BatchForm() {
     console.log("Batch Applications: ", batch_applications);
   };
 
+  let selectedIds = [];
+
+  // function for processing batch application
   const changeStatusHandler = (status) => {
     if (selectIds.length <= 0) {
       Swal.fire(
-        "Select a application!",
+        "Select an application!",
         "Please select atleast 1 application.",
         "info"
       );
@@ -165,6 +171,8 @@ function BatchForm() {
       setStatus(status);
       setShowModal(true);
     }
+
+    console.log(selectedIds);
   };
 
   let p = {};
@@ -306,6 +314,7 @@ function BatchForm() {
     dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
   };
+
 
   return (
     <>
@@ -1620,33 +1629,34 @@ function BatchForm() {
                 </Button>
                 <MaterialTable
                   columns={[
-                    {
-                      title: "#",
-                      field: "check_actions",
-                      width: "10%",
-                      editComponent: (props) => {
-                        return <Button>Payts</Button>;
-                      },
-                      render: (rowdata) => (
-                        <>
-                          {Object.keys(batch_applications[0]).length > 3 ? (
-                            <>
-                              <input
-                                type="checkbox"
-                                onChange={(e) =>
-                                  getSelected(e, rowdata.Application_Id)
-                                }
-                              ></input>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </>
-                      ),
-                    },
+                    // {
+                    //   title: "#",
+                    //   field: "check_actions",
+                    //   width: "10%",
+                    //   editComponent: (props) => {
+                    //     return <Button>Payts</Button>;
+                    //   },
+                    //   render: (rowdata) => (
+                    //     <>
+                    //       {Object.keys(batch_applications[0]).length > 3 ? (
+                    //         <>
+                    //           <input
+                    //             type="checkbox"
+                    //             onChange={(e) =>
+                    //               getSelected(e, rowdata.Application_Id)
+                    //             }
+                    //           ></input>
+                    //         </>
+                    //       ) : (
+                    //         <></>
+                    //       )}
+                    //     </>
+                    //   ),
+                    // },
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
+                    {title: "Total Rebate", field: "TotalRebate"},
                     // {
                     //   title: "Action",
                     //   field: "actions",
@@ -1658,38 +1668,7 @@ function BatchForm() {
                     //     <>
                     //       {Object.keys(batch_applications[0]).length > 3 ? (
                     //         <>
-                    //           <Dropdown>
-                    //             <Dropdown.Toggle
-                    //               variant="success"
-                    //               id="dropdown-basic"
-                    //               size="sm"
-                    //               // disabled={roleId === 3 ? true : false}
-                    //             >
-                    //               Actions
-                    //             </Dropdown.Toggle>
-
-                    //             <Dropdown.Menu>
-                    //               <Dropdown.Item
-                    //                 onClick={() =>
-                    //                   applicationViewHandler(rowdata)
-                    //                 }
-                    //               >
-                    //                 View
-                    //               </Dropdown.Item>
-                    //               <Dropdown.Item
-                    //                 disabled={roleId === 3 ? true : false}
-                    //                 onClick={() => changeStatusHandler(1)}
-                    //               >
-                    //                 Process
-                    //               </Dropdown.Item>
-                    //               <Dropdown.Item
-                    //                 disabled={roleId === 3 ? true : false}
-                    //                 onClick={() => changeStatusHandler(3)}
-                    //               >
-                    //                 Reject
-                    //               </Dropdown.Item>
-                    //             </Dropdown.Menu>
-                    //           </Dropdown>
+                    //           <Button variant={"success"} size="sm" onClick={(rowdata)=>applicationViewHandler(rowdata)} >View</Button>
                     //         </>
                     //       ) : (
                     //         <></>
@@ -1699,13 +1678,35 @@ function BatchForm() {
                     // },
                   ]}
                   data={batch_applications}
-                  title="Batch Application"
+                  title={width < 770 ? "" : "Batch Application"}
                   options={{
                     headerStyle: {
                       backgroundColor: "#233f88",
                       color: "#FFF",
+                       
                     },
+                    selection: true
                   }}
+
+                  onSelectionChange={(rows) => rows.length > 0 
+                    ? 
+                      (
+                        <>
+                        {selectedIds = []}
+                        {
+                          rows.map(row => {
+                            selectedIds.push(row.Application_Id)
+                          })
+                        }
+                        {
+                          setSelectedIds(selectedIds)
+                        }
+                        </>
+                      )
+                    : (<>
+                      {selectedIds = []}
+                      {setSelectedIds(selectedIds)}
+                    </> )}
                 />
                 <div className="d-flex flex-row-reverse">
                   <Button

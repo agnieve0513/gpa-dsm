@@ -4,10 +4,6 @@
   scrollbar-width: thin;
 }
 
-#stepsBackground {
-  min-width: max-content
-}
-
 #StepsContent li {
   width: 6.5em;
   height: 5em;
@@ -107,4 +103,10 @@
 {
   padding-bottom: 5vh;
   background:#ebebeb;
+}
+
+@media (min-width:425px) {
+  #stepsBackground {
+    min-width: max-content
+  }
 }

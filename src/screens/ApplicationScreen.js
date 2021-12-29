@@ -785,6 +785,7 @@ function ApplicationScreen() {
             />
           ) : step === 8 ? (
             <TermsAndCondition
+              customer_type={customer_type}
               terms_and_agreement={terms_and_agreement}
               setTermsAndAgreement={setTermsAndAgreement}
             />

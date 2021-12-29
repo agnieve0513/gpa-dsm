@@ -80,10 +80,10 @@ function Steps(props) {
 
     const specificStep = (props) =>
         <Container fluid className="mb-4 w-100 overflow-hidden" id="StepsContent">
-            <Row className="px-4 py-3 text-center text-white d-flex align-items-center justify-content-center" id="stepsBackground">
+            <Row className="ps-4 py-3 text-center text-white d-flex align-items-center justify-content-center" id="stepsBackground">
                 <Image src={'./icons-improved/step'+props.currentStep+'.png'} className={"rounded-circle p-3 fa fa-edit fa-1x bg-success"} fluid 
                     style={{width:65}}/>
-                <Col  className="d-flex flex-column text-start">
+                <Col  className="pe-0 d-flex flex-column text-start">
                     <p className="p-0 my-0 text-dark fw-bold">{checkStep(props.currentStep)}</p>
                     <p className="p-0 my-0 text-black-50" id="mobileStep">Step {props.currentStep} of 8</p>
                 </Col>

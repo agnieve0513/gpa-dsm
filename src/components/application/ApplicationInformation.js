@@ -10,7 +10,6 @@ import {
   Spinner,
   FormGroup,
 } from "react-bootstrap";
-import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 import ModalImage from "../ModalImage";
 import {
@@ -22,13 +21,27 @@ import city_zipcode from "./source_files/city_zipcode";
 
 import "./ApplicationInformation.css";
 
-import { useDispatch, useSelector } from 'react-redux'
-import { uploadFileAction } from '../../actions/fileActions'
+import { useDispatch, useSelector } from "react-redux";
+import { uploadFileAction } from "../../actions/fileActions";
 
-import { colors, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, withStyles } from "@material-ui/core";
+import { useWindowDimensions } from "../../hooks";
+import {
+  colors,
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Select,
+  Switch,
+  withStyles,
+} from "@material-ui/core";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 function ApplicationInformation(props) {
-  
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
@@ -81,7 +94,23 @@ function ApplicationInformation(props) {
       dispatch(loadCustomerDetail(props.bill_id, props.account_no));
       setVerifyClicked(true);
     } else {
-      alert("Account Number & Bill ID is required to verify customer");
+        const Toast = MySwal.mixin({
+        toast: true,
+        position: "top-right",
+        iconColor: "white",
+        customClass: {
+          popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBars: true,
+      });
+
+      Toast.fire({
+        icon: "info",
+        title: "Validation Failed!",
+        text: "Account Number & Bill ID is required to verify customer",
+      });
     }
   };
 
@@ -118,58 +147,60 @@ function ApplicationInformation(props) {
   };
 
   const { height, width } = useWindowDimensions();
-  const screenWidthM = width > 425
-  const screenWidthT = width >= 768
+  const screenWidthM = width > 425;
+  const screenWidthT = width >= 768;
 
-  const ownerComponentDesktop = () =>
+  const ownerComponentDesktop = () => (
     <Row className="flex-row">
-        <Form.Check
-          inline
-          label="Yes"
-          name="is_applicant_owner"
-          type={"radio"}
-          id={`inline-${"radio"}-1`}
-          value="true"
-          checked={"true" === props.is_applicant_owner}
-          onChange={(e) => props.setIsApplicantOwner(e.target.value)}
-          className="w-auto"
-          disabled={props.verify ? false : true}
-        />
-        <Form.Check
-          inline
-          label="No"
-          name="is_applicant_owner"
-          type={"radio"}
-          value="false"
-          checked={"false" === props.is_applicant_owner}
-          onChange={(e) => props.setIsApplicantOwner(e.target.value)}
-          className="w-auto"
-          disabled={props.verify ? false : true}
-        />
+      <Form.Check
+        inline
+        label="Yes"
+        name="is_applicant_owner"
+        type={"radio"}
+        id={`inline-${"radio"}-1`}
+        value="true"
+        checked={"true" == props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        className="w-auto"
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="No"
+        name="is_applicant_owner"
+        type={"radio"}
+        value="false"
+        checked={"false" == props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        className="w-auto"
+        disabled={props.verify ? false : true}
+      />
     </Row>
+  );
 
   function handleToggleSwitchOwner() {
     if (props.is_applicant_owner) {
-      props.setIsApplicantOwner(false)
+      props.setIsApplicantOwner(false);
     } else {
-      props.setIsApplicantOwner(true)
+      props.setIsApplicantOwner(true);
     }
   }
 
-  const ownerComponentMobile = () =>
-  <Row className="d-flex flex-row">
-    <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
-    <Switch 
-      checked={props.is_applicant_owner}
-      onClick={handleToggleSwitchOwner}
-      disabled={props.verify ? false : true}
-    />
-    <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
-  </Row> 
+  const ownerComponentMobile = () => (
+    <Row className="d-flex flex-row">
+      <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
+      <Switch
+        checked={props.is_applicant_owner}
+        onClick={handleToggleSwitchOwner}
+        disabled={props.verify ? false : true}
+      />
+      <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
+    </Row>
+  );
 
-  const homeComponentMobile = () => 
+  const homeComponentMobile = () => (
     <Col md={12}>
-      <Form.Label><b>HOME TYPE (check one)</b></Form.Label> <br/>
+      <br />
       <FormControl fullWidth>
         <Form.Select
           labelId="demo-simple-select-label"
@@ -179,24 +210,26 @@ function ApplicationInformation(props) {
           onChange={(e) => props.setHomeType(e.target.value)}
           disabled={props.verify ? false : true}
         >
-          <option defaultValue hidden>SELECT SYSTEM TYPE</option>
-            {
-              <>
-                <option value={"Single Family"}>Single Family</option>
-                <option value={"Apartment"}>Apartment</option>
-                <option value={"Condo"}>Condo</option>
-                <option value={"Mobile Home"}>Mobile Home</option>
-                <option value={"Other"}>Other</option>
-              </>
-            }
+          <option defaultValue hidden>
+            SELECT SYSTEM TYPE
+          </option>
+          {
+            <>
+              <option value={"Single Family"}>Single Family</option>
+              <option value={"Apartment"}>Apartment</option>
+              <option value={"Condo"}>Condo</option>
+              <option value={"Mobile Home"}>Mobile Home</option>
+              <option value={"Other"}>Other</option>
+            </>
+          }
         </Form.Select>
       </FormControl>
     </Col>
+  );
 
-
-  const homeComponentDesktop = () => 
+  const homeComponentDesktop = () => (
     <Col md={12}>
-      <Form.Label><b>HOME TYPE (check one)</b></Form.Label> <br/>
+      <br />
       <Form.Check
         inline
         label="Single Family"
@@ -248,54 +281,132 @@ function ApplicationInformation(props) {
         disabled={props.verify ? false : true}
       />
     </Col>
+  );
 
-const handleToggleSwitchNew = () => {
-  if (props.is_new_construction) {
-    props.setIsNewConstruction(false)
-  } else {
-    props.setIsNewConstruction(true)
+  const handleToggleSwitchNew = () => {
+    if (props.is_new_construction) {
+      props.setIsNewConstruction(false);
+    } else {
+      props.setIsNewConstruction(true);
+    }
+  };
+
+  const newComponentMobile = () => (
+    <Row className="d-flex flex-row">
+      <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
+      <Switch
+        checked={props.is_new_construction}
+        onClick={handleToggleSwitchNew}
+        disabled={props.verify ? false : true}
+      />
+      <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
+    </Row>
+  );
+
+  const newComponentDesktop = () => (
+    <Row>
+      <Form.Check
+        inline
+        label="Yes"
+        name="is_new_construction"
+        type={"radio"}
+        value="true"
+        checked={"true" === props.is_new_construction}
+        onChange={(e) => props.setIsNewConstruction(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="No"
+        name="is_new_construction"
+        type={"radio"}
+        value="false"
+        checked={"false" === props.is_new_construction}
+        onChange={(e) => props.setIsNewConstruction(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+    </Row>
+  );
+
+  const uploadLoa = ()=>
+  {
+    return <Form.Group controlId="is_applicant_owner">
+                    <Form.Label className=" applicationTitle">
+                      Upload LOA
+                      <span
+                        className="text-secondary"
+                        style={{ marginLeft: "auto" }}
+                        onClick={() => {
+                          setModalData(
+                            (p = {
+                              description: "LOA",
+                              image_sample: "./GPADSM7.png",
+                            })
+                          );
+                          setModalShow(true);
+                        }}
+                      >
+                        <i className="fa fa-question-circle"></i>{" "}
+                      </span>
+                    </Form.Label>
+                    <InputGroup>
+                      <Form.Control
+                        name="file"
+                        placeholder="Upload Lettter of Authorization"
+                        type="file"
+                        onChange={(e) => handleChangeLOA(e)}
+                      />
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "38px",
+                          backgroundColor: "#233E86",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <i
+                          style={{ color: "white" }}
+                          className="fa fa-upload"
+                        ></i>
+                      </div>
+                    </InputGroup>
+                    {props.letter_authorization === null ? (
+                      <p className="validate text-danger requiredField">
+                        *This Field is Required
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                    {props.letter_authorization ? (
+                      <>
+                        {fileCode ? (
+                          <>
+                            {fileCode.length !== 0 ? (
+                              <>
+                                {props.setLetterAuthorizationD(fileCode)}
+                                {console.log("File Code: ", fileCode)}
+                                {console.log(props.letter_authorizationD)}
+                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                <br />
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                        Filename: {props.letter_authorization.name} <br />
+                        File Type: {props.letter_authorization.type} <br />
+                        <br />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Form.Group>;
   }
-}
-
-const newComponentMobile = () =>
-<Row className="d-flex flex-row">
-  <p className="px-0 w-auto my-0 text-end align-self-center">No</p>
-  <Switch 
-    required
-    checked={props.is_new_construction}
-    onClick={handleToggleSwitchNew}
-    disabled={props.verify ? false : true}
-  />
-  <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
-</Row>
-
-const newComponentDesktop = () =>
-  <Row className="ms-3 mb-2 mt-1 d-flex flex-row">
-    <Form.Check
-      className="px-0 mx-0 w-50"
-      inline
-      required
-      label="Yes"
-      name="is_new_construction"
-      type={"radio"}
-      value="true"
-      checked={"true" === props.is_new_construction}
-      onChange={(e) => props.setIsNewConstruction(e.target.value)}
-      disabled={props.verify ? false : true}
-    />
-    <Form.Check
-      className="px-0 mx-0 w-50"
-      inline
-      required
-      label="No"
-      name="is_new_construction"
-      type={"radio"}
-      value="false"
-      checked={"false" === props.is_new_construction}
-      onChange={(e) => props.setIsNewConstruction(e.target.value)}
-      disabled={props.verify ? false : true}
-    />
-  </Row>
 
   return (
     <Container>
@@ -304,15 +415,21 @@ const newComponentDesktop = () =>
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-      {screenWidthM ? <h4 className="text-center text-info mb-4 h6 " id="blueHeader">APPLICANT'S INFORMATION</h4> : <></>}
+      {screenWidthM ? (
+        <h4 className="text-center text-info mb-4 h6 " id="blueHeader">
+          APPLICANT'S INFORMATION
+        </h4>
+      ) : (
+        <></>
+      )}
       <Row>
         <Col className="mx-auto" md={10}>
           <Form onSubmit={submitHandler}>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="account_no">
-                  <Form.Label className="d-flex justify-content-between">
-                    <b> GPA ELECTRIC ACCOUNT NUMBER </b>
+                  <Form.Label className="d-flex justify-content-between applicationTitle">
+                    GPA ELECTRIC ACCOUNT NUMBER
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -340,7 +457,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.account_no === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField requiredField">
                     *This Field is Required
                   </p>
                 ) : verifyClicked ? (
@@ -377,8 +494,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="bill_id">
-                  <Form.Label className="d-flex justify-content-between">
-                    <b> BILL ID (Last 5 Digits) </b>
+                  <Form.Label className="d-flex justify-content-between applicationTitle">
+                    BILL ID (Last 5 Digits)
                     <span
                       className="text-secondary"
                       onClick={() => {
@@ -415,7 +532,7 @@ const newComponentDesktop = () =>
                   </InputGroup>
                 </Form.Group>
                 {props.bill_id === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -427,7 +544,7 @@ const newComponentDesktop = () =>
               <Col md={12}>
                 <span>
                   <b>
-                    GPA Account's Name :{" "}
+                    <p id="accountName">GPA Account's Name :</p>{" "}
                     {customer_detail
                       ? customer_detail.info
                         ? customer_detail.info["@attributes"].Name
@@ -439,8 +556,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
-                  <Form.Label>
-                    <b>FIRST NAME</b>
+                  <Form.Label className=" applicationTitle">
+                    FIRST NAME
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -452,7 +569,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.firstname === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -461,8 +578,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="lastname">
-                  <Form.Label>
-                    <b>LAST NAME</b>
+                  <Form.Label className=" applicationTitle">
+                    LAST NAME
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -474,7 +591,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.lastname === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -483,9 +600,7 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
-                  <Form.Label>
-                    <b>M. I.</b>
-                  </Form.Label>
+                  <Form.Label className=" applicationTitle">M. I.</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -500,10 +615,8 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={12} className="mb-3">
                 <Form.Group controlId="service_location">
-                  <Form.Label>
-                    <b>
-                      SERVICE LOCATION (Address where equipment was installed)*
-                    </b>
+                  <Form.Label className=" applicationTitle">
+                    SERVICE LOCATION (Address where equipment was installed)*
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -515,7 +628,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.service_location === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -526,8 +639,8 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="city_village">
-                  <Form.Label>
-                    <b>CITY/VILLAGE</b>
+                  <Form.Label className=" applicationTitle">
+                    CITY/VILLAGE
                   </Form.Label>
                   <Form.Select
                     onChange={(e) => changeZipCode(e)}
@@ -543,7 +656,7 @@ const newComponentDesktop = () =>
                   </Form.Select>
                 </Form.Group>
                 {props.city_village === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -552,8 +665,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="zip_code">
-                  <Form.Label>
-                    <b>ZIP CODE</b>
+                  <Form.Label className=" applicationTitle">
+                    ZIP CODE
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -567,7 +680,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.zipcode === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -579,8 +692,8 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="email">
-                  <Form.Label>
-                    <b>EMAIL</b>{" "}
+                  <Form.Label className=" applicationTitle">
+                    EMAIL{" "}
                     <small className="text-muted">
                       (We will be sending updates to this E-mail)
                     </small>
@@ -594,7 +707,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.email === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -603,8 +716,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
-                  <Form.Label>
-                    <b>CONTACT NUMBER</b>
+                  <Form.Label className=" applicationTitle">
+                    CONTACT NUMBER
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -616,18 +729,18 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.tel_no === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : props.tel_no.length < 10 ? (
                   <>
-                    <p className="validate text-danger">
+                    <p className="validate text-danger requiredField">
                       *This Field requires 10 digits
                     </p>
                   </>
                 ) : props.tel_no.length > 10 ? (
                   <>
-                    <p className="validate text-danger">
+                    <p className="validate text-danger requiredField">
                       *This Field required 10 digits
                     </p>
                   </>
@@ -646,74 +759,30 @@ const newComponentDesktop = () =>
                 </p>
               </Col>
               <Col md={6} className="mb-3">
-                {screenWidthT ? ownerComponentDesktop() : ownerComponentMobile()}
-                <br />
-                {props.is_applicant_owner === "true" || !props.is_applicant_owner ? (
-                  <Form.Group controlId="telephone_no">
-                    <Form.Label>
-                      <b>Upload LOA</b>
-                      <span
-                        className="text-secondary"
-                        onClick={() => {
-                          setModalData(
-                            (p = {
-                              description: "LOA",
-                              image_sample: "./GPADSM7.png",
-                            })
-                          );
-                          setModalShow(true);
-                        }}
-                      >
-                        <i className="fa fa-question-circle"></i>{" "}
-                      </span>
-                    </Form.Label>
-                    <InputGroup>
-                      <Form.Control
-                        name="file"
-                        placeholder="Upload Lettter of Authorization"
-                        type="file"
-                        onChange={(e) => handleChangeLOA(e)}
-                      />
-                    </InputGroup>
-                    {props.letter_authorization === null ? (
-                      <p className="validate text-danger">
-                        *This Field is Required
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {props.letter_authorization ? (
-                      <>
-                        {fileCode ? (
-                          <>
-                            {fileCode.length !== 0 ? (
-                              <>
-                                {props.setLetterAuthorizationD(fileCode)}
-                                {console.log("File Code: ", fileCode)}
-                                {console.log(props.letter_authorizationD)}
-                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
-                                <br />
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </>
+                {screenWidthT
+                  ?
+                   <>
+                      {ownerComponentDesktop()}
+                      {
+                        props.is_applicant_owner === "false"  ?
+                        uploadLoa() : ''
+                      }                  
+                    </>
+                  : <>
+                      {ownerComponentMobile()}
+                      {!props.is_applicant_owner ||
+                        props.is_applicant_owner === false ? (
+                          uploadLoa()
                         ) : (
                           <></>
                         )}
-                        Filename: {props.letter_authorization.name} <br />
-                        File Type: {props.letter_authorization.type} <br />
-                        <br />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </Form.Group>
-                ) : (
-                  <></>
-                )}
+                  </>
+                      
+                  }
+                <br />
+                
                 {/* {props.is_applicant_owner == undefined ? (
-                    <p className="validate text-danger">*This Field is Required</p>
+                    <p className="validate text-danger requiredField">*This Field is Required</p>
                   ) : (
                     <></>
                 )} */}
@@ -734,11 +803,9 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={12} className="mb-3">
                 <Form.Group controlId="mailing_address">
-                  <Form.Label>
-                    <b>
-                      MAILING ADDRESS (Current address where we will send your
-                      rebate check)*
-                    </b>
+                  <Form.Label className=" applicationTitle">
+                    MAILING ADDRESS (Current address where we will send your
+                    rebate check)*
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -750,7 +817,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_address === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -762,9 +829,7 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_country">
-                  <Form.Label>
-                    <b>COUNTRY</b>
-                  </Form.Label>
+                  <Form.Label className=" applicationTitle">COUNTRY</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder=""
@@ -775,7 +840,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_country === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -784,8 +849,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_city_village">
-                  <Form.Label>
-                    <b>CITY/VILLAGE</b>
+                  <Form.Label className=" applicationTitle">
+                    CITY/VILLAGE
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -799,7 +864,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_city_village === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -808,8 +873,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="mailing_zipcode">
-                  <Form.Label>
-                    <b>ZIP CODE</b>
+                  <Form.Label className=" applicationTitle">
+                    ZIP CODE
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -823,7 +888,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.mailing_zipcode === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -834,8 +899,8 @@ const newComponentDesktop = () =>
             <Row>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
-                  <Form.Label>
-                    <b>HOME SIZE (approx.sq ft.)</b>
+                  <Form.Label className=" applicationTitle">
+                    HOME SIZE (approx.sq ft.)
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -850,7 +915,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.home_size === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -859,8 +924,8 @@ const newComponentDesktop = () =>
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_age">
-                  <Form.Label>
-                    <b>YEAR BUILT</b>
+                  <Form.Label className=" applicationTitle">
+                    YEAR BUILT
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -875,7 +940,7 @@ const newComponentDesktop = () =>
                   ></Form.Control>
                 </Form.Group>
                 {props.home_age === "" ? (
-                  <p className="validate text-danger">
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -883,10 +948,13 @@ const newComponentDesktop = () =>
                 )}
               </Col>
               <Col md={4} className="mb-3">
-                <Form.Label><b>NEW CONSTRUCTION</b></Form.Label> <br />
+                <Form.Label className=" applicationTitle">
+                  NEW CONSTRUCTION
+                </Form.Label>{" "}
+                <br />
                 {screenWidthM ? newComponentDesktop() : newComponentMobile()}
-                {props.is_new_construction === undefined ? (
-                  <p className="validate text-danger">
+                {!props.is_new_construction && !props.verify ? (
+                  <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
@@ -895,9 +963,12 @@ const newComponentDesktop = () =>
               </Col>
             </Row>
             <Row>
+              <Form.Label className="applicationTitle">
+                HOME TYPE (check one)
+              </Form.Label>{" "}
               {screenWidthM ? homeComponentDesktop() : homeComponentMobile()}
               {props.home_type === "" ? (
-                <p className="validate text-danger">
+                <p className="validate text-danger requiredField">
                   *This Field is Required
                 </p>
               ) : (

@@ -48,7 +48,7 @@ function Confirm(props) {
               <p>
                 Please record and keep this number for tracking your rebate
                 status{" "}
-                <a href="/" className="text-info">
+                <a href={`/track/${props.control_no}`} target="_blank" className="text-info">
                   <b>here</b>
                 </a>
                 . Your rebate control number will also be emailed for your
@@ -68,6 +68,7 @@ function Confirm(props) {
           <Link
             className="btn btn-info btn-lg px-5 py-3"
             to={`/printapplication?auth=${props.data.application_information.print_hash}`}
+            target="_blank" 
           >
             <h4 style={{ marginBottom: 0 }}>Print Application</h4>
           </Link>

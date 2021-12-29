@@ -279,7 +279,7 @@ function PrintApplicationSummary(props) {
         printDetailApplication(decryptString(creds, "superSecureToken"))
       );
     } else {
-      Swal.fire("ERROR", "Application doesn't exist", "error").then(() => {
+      Swal.fire("ERROR", "Application doesn't exist.", "error").then(() => {
         props.history.push("/");
       });
     }

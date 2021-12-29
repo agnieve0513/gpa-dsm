@@ -65,6 +65,23 @@ function SubmissionOfDocumentation(props) {
 
   const handleSubmit = (file, doc_type) => {};
 
+  const UploadIcon = () => {
+    return (
+      <div
+        style={{
+          width: "40px",
+          height: "38px",
+          backgroundColor: "#233E86",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <i style={{ color: "white" }} className="fa fa-upload"></i>
+      </div>
+    );
+  };
+
   const handleShowSuppDocs = () => {
     if (supportDoc === true) {
       setSupportDoc(false);
@@ -118,6 +135,7 @@ function SubmissionOfDocumentation(props) {
               required
               onChange={(e) => handleChange(e, "irs_form")}
             />
+            <UploadIcon />
           </InputGroup>
           {props.irs_form === null ? (
             <p className="validate text-danger">*This Field is Required</p>
@@ -157,10 +175,10 @@ function SubmissionOfDocumentation(props) {
         {supportDoc ? (
           <>
             <Form.Group controlId="other_supporting_doc1" className="mb-3">
-              <Row className="px-3 flex d-flex-row justify-content-between">
-              <p className="mx-0 mb-1 supportingDoc">Other Supporting Document 1</p>
-              <span
-                  className="px-0 text-secondary supportingDoc"
+              <p className="d-flex justify-content-between applicationTitle">
+                Other Supporting Document 1
+                <span
+                  className="text-secondary"
                   onClick={() => {
                     setModalData(
                       (p = {
@@ -173,13 +191,14 @@ function SubmissionOfDocumentation(props) {
                 >
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
-              </Row>
+              </p>
               <InputGroup>
                 <Form.Control
                   name="file2"
                   type="file"
                   onChange={(e) => handleChange(e, "other_doc1")}
                 />
+                <UploadIcon />
               </InputGroup>
               {props.other_doc1 ? (
                 <>
@@ -225,6 +244,7 @@ function SubmissionOfDocumentation(props) {
                   type="file"
                   onChange={(e) => handleChange(e, "other_doc2")}
                 />
+                <UploadIcon />
               </InputGroup>
               {props.other_doc2 ? (
                 <>
@@ -338,6 +358,7 @@ function SubmissionOfDocumentation(props) {
                 type="file"
                 onChange={(e) => handleChange(e, "invoice")}
               />
+              <UploadIcon />
             </InputGroup>
             {props.invoice ? (
               <>
