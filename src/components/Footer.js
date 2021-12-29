@@ -3,11 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap'
 
 function Footer() {
     return (
-        <footer className="py-3 text-center d-flex flex-grow-1 align-items-bottom w-100"
-            style={{
-                // bottom: 0
-            }}
-        >
+        <footer className="py-3 px-0 text-center d-flex flex-grow-1 align-items-end w-100">
             <Container className="align-self-end">
                 <Row>
                     <Col className="text-center">

@@ -50,9 +50,8 @@ function EquipmentReview(props) {
   let total_rebate = 0;
 
   return (
-    <Row className="w-100 mx-0 px-0">
-      <Col md={1}></Col>
-      <Col md={10}>
+    <Row className="w-100 mx-0 d-flex justify-content-center">
+      <Col sm={10} xl={8}>
         {width >= 425 ? (
           <h4 className="text-center text-info mb-3">Equipment Review</h4>
         ) : (
@@ -499,7 +498,6 @@ function EquipmentReview(props) {
           </Card.Body>
         </Card>
       </Col>
-      <Col md={1}></Col>
     </Row>
   );
 }
