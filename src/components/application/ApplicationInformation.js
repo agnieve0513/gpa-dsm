@@ -159,8 +159,8 @@ function ApplicationInformation(props) {
         type={"radio"}
         id={`inline-${"radio"}-1`}
         value={true}
-        checked={"true" == props.is_applicant_owner}
-        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        checked={true == props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(true)}
         className="w-auto"
         disabled={props.verify ? false : true}
       />
@@ -170,8 +170,8 @@ function ApplicationInformation(props) {
         name="is_applicant_owner"
         type={"radio"}
         value={false}
-        checked={"false" == props.is_applicant_owner}
-        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        checked={false == props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(false)}
         className="w-auto"
         disabled={props.verify ? false : true}
       />
@@ -229,8 +229,7 @@ function ApplicationInformation(props) {
   );
 
   const homeComponentDesktop = () => (
-    <Col md={12}>
-      <br />
+    <Col clas md={12}>
       <Form.Check
         inline
         label="Single Family"
@@ -919,6 +918,7 @@ function ApplicationInformation(props) {
                     YEAR BUILT
                   </Form.Label>
                   <Form.Control
+                    maxLength={4}
                     type="text"
                     placeholder=""
                     value={props.home_age}
