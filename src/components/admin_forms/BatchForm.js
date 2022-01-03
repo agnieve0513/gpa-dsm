@@ -152,6 +152,7 @@ function BatchForm({ current }) {
     if (batch_applications?.length === 0) {
       if (batchApplication.batch_applications) {
         setBatchApplication(batchApplication.batch_applications);
+        console.log("Triggerd");
       }
     } else if (batch_applications?.length > 0) {
       for (let i = 0; i < batch_applications?.length; i++) {
@@ -161,7 +162,7 @@ function BatchForm({ current }) {
             (value) => value.Application_Id === oldInfo.Application_Id
           );
 
-          if (newInfo) {
+          if (!newInfo) {
             changedItem = 1 + changedItem;
           }
         }
@@ -1772,7 +1773,7 @@ function BatchForm({ current }) {
                     // },
                   ]}
                   data={batch_applications}
-                  title={width < 770 ? "" : "Batch Application"}
+                  title={width < 770 ? "" : currentBatch}
                   options={{
                     headerStyle: {
                       backgroundColor: "#233f88",
