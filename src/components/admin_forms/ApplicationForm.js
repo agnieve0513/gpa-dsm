@@ -111,6 +111,7 @@ function ApplicationForm({ current }) {
   // const { applications } = applicationList;
 
   useEffect(() => {
+    console.log("old", applicationList.applications);
     let changedItem = 0;
     if (applications?.length === 0) {
       if (applicationList.applications) {
@@ -123,13 +124,11 @@ function ApplicationForm({ current }) {
           const newInfo = applicationList.applications.find(
             (value) => value.Application_Id === oldInfo.Application_Id
           );
-
+          console.log("newInfo", newInfo);
           if (newInfo) {
             if (newInfo.Last_Modified_On !== oldInfo.Last_Modified_On) {
               changedItem = 1 + changedItem;
             }
-          } else {
-            changedItem = 1 + changedItem;
           }
         }
 
@@ -141,7 +140,14 @@ function ApplicationForm({ current }) {
         }
       }
     }
-  }, [applicationList]);
+
+    if (applicationList.applications) {
+      if (applicationList.applications.length !== applications.length) {
+        setApplications(applicationList.applications);
+        setUpdatedTime(formatAMPM(new Date()));
+      }
+    }
+  }, [applicationList.applications]);
   const [intervalId, setIntervalId] = useState();
 
   useEffect(() => {
@@ -675,6 +681,11 @@ function ApplicationForm({ current }) {
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
+                                  Customer Name
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
                                   Installation Address
                                 </b>
                               </p>
@@ -727,6 +738,9 @@ function ApplicationForm({ current }) {
                               </p>
                               <p>
                                 <b>{application.Info_Bill_id || "N/A"}</b>
+                              </p>
+                              <p>
+                                <b>{application.Account_Name || "N/A"}</b>
                               </p>
                               <p>
                                 <b>{application.Info_Customer_name || "N/A"}</b>

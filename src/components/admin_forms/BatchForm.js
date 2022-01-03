@@ -1824,6 +1824,7 @@ function BatchForm({ current }) {
                     { title: "Batch Code", field: "Batch_code" },
                     { title: "Batch Type", field: "Batch_type" },
                     { title: "Batch Ferc", field: "Batch_ferc" },
+                    { title: "Total", field: "Batch_total" },
                     {
                       title: "MadeOn",
                       render: (rowData) => {
