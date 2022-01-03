@@ -62,7 +62,7 @@ TimeAgo.addDefaultLocale(en);
 // Create formatter (English).
 const timeAgo = new TimeAgo("en-US");
 
-function ApplicationForm() {
+function ApplicationForm({ current }) {
   const { height, width } = useWindowDimensions();
   const [commentShow, setCommentShow] = useState(false);
   const [show, setShow] = useState(false);
@@ -142,12 +142,24 @@ function ApplicationForm() {
       }
     }
   }, [applicationList]);
+  const [intervalId, setIntervalId] = useState();
 
   useEffect(() => {
-    setInterval(() => {
-      dispatch(listApplications());
-    }, 5000);
-  }, []);
+    if (current !== "application") {
+      clearInterval(intervalId);
+    }
+    console.log("current", current);
+  }, [current]);
+
+  useEffect(() => {
+    if (current == "application") {
+      const rerun = setInterval(() => {
+        dispatch(listApplications());
+      }, 5000);
+
+      setIntervalId(rerun);
+    }
+  }, [current]);
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { application } = applicationDetail;
@@ -370,7 +382,7 @@ function ApplicationForm() {
     oth2 = "";
 
   let total_rebate = 0;
-
+  console.log("aksjdh", application);
   const handleOnChange = (e, doc_type, control_no) => {
     console.log("control_no", control_no);
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
@@ -1970,11 +1982,18 @@ function ApplicationForm() {
               }}
               rowHeight={40}
             >
-              <AgGridColumn field="Control_Number" />
-              <AgGridColumn field="Application_Date" />
+              <AgGridColumn
+                headerName="Control Number"
+                field="Control_Number"
+              />
+              <AgGridColumn headerName="Name" field="customer_name" />
+              <AgGridColumn
+                headerName="Application Date"
+                field="Application_Date"
+              />
               <AgGridColumn field="Stage" />
               <AgGridColumn field="Status" />
-              <AgGridColumn field="System_Type" />
+              <AgGridColumn headerName="System Type" field="System_Type" />
               <AgGridColumn
                 field="Action"
                 type="medalColumn"

@@ -53,6 +53,7 @@ function ApplicationScreen() {
   const [account_no, setAccountNo] = useState("");
   const [bill_id, setBillId] = useState("");
   const [customer_type, setCustomerType] = useState("");
+  const [gpa_holder, setGpaHolder] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [middlename, setMiddlename] = useState("");
@@ -181,6 +182,7 @@ function ApplicationScreen() {
               is_new_construction: is_new_construction,
               application_type: customer_type,
               print_hash: controlNumber,
+              gpa_holders_name: gpa_holder,
             },
             new_equipment_information: new_equipments,
             existing_old_equipment_information: old_equipments,
@@ -460,8 +462,8 @@ function ApplicationScreen() {
           letter_authorization === "" ||
           installer_certification === "" ||
           disposal_slip === ""
-          ) {
-            errorMessage();
+        ) {
+          errorMessage();
         } else {
           setStep(currentStep + 1);
         }
@@ -504,6 +506,8 @@ function ApplicationScreen() {
                 setVerify={setVerify}
                 customer_type={customer_type}
                 setCustomerType={setCustomerType}
+                gpa_holder={gpa_holder}
+                setGpaHolder={setGpaHolder}
                 account_no={account_no}
                 setAccountNo={setAccountNo}
                 bill_id={bill_id}

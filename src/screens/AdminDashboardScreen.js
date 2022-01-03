@@ -29,6 +29,7 @@ function AdminDashboardScreen({ location, history }) {
   const [batchPaymentForm, setBatchPaymentForm] = useState(true);
   const [show_ui, setShowUi] = useState(false);
   const [role_id, setRoleId] = useState();
+  const [current, setCurrent] = useState("application");
 
   useEffect(() => {
     if (!localStorage.getItem("userInfo")) {
@@ -40,36 +41,21 @@ function AdminDashboardScreen({ location, history }) {
       setRoleId(roleId);
       let role_name = "";
 
-      if (roleId === 1) 
-      {
+      if (roleId === 1) {
         role_name = "Admin";
-      } 
-      else if (roleId === 2) 
-      {
+      } else if (roleId === 2) {
         role_name = "Customer Service";
-      } 
-      else if (roleId === 3) 
-      {
+      } else if (roleId === 3) {
         role_name = "Spord";
-      } 
-      else if (roleId === 4)
-      {
+      } else if (roleId === 4) {
         role_name = "Budget";
-      } 
-      else if (roleId === 5) 
-      {
+      } else if (roleId === 5) {
         role_name = "Accounting";
-      } 
-      else if (roleId === 6) 
-      {
+      } else if (roleId === 6) {
         role_name = "Supervisor";
-      } 
-      else if (roleId === 7) 
-      {
+      } else if (roleId === 7) {
         role_name = "Guest";
-      } 
-      else 
-      {
+      } else {
         role_name = "Unknown Role";
       }
 
@@ -77,16 +63,13 @@ function AdminDashboardScreen({ location, history }) {
 
       console.log(obj);
 
-      if (roleId === 4)
-      {
+      if (roleId === 4) {
         setApplicationForm(false);
-      } 
+      }
 
       if (roleId === 3 || roleId === 4 || roleId === 5 || roleId === 6) {
         setBatchForm(true);
-      }
-      
-      else if (roleId === 1) {
+      } else if (roleId === 1) {
         setUsersForm(true);
         setBatchForm(true);
         setEquipmentForm(true);
@@ -111,7 +94,11 @@ function AdminDashboardScreen({ location, history }) {
                     <Nav variant="pills mb-4" id="navEquipmentPills">
                       {applicationForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="application" className="d-flex align-items-center">
+                          <Nav.Link
+                            eventKey="application"
+                            className="d-flex align-items-center"
+                            onClick={() => setCurrent("application")}
+                          >
                             APPLICATION
                           </Nav.Link>
                         </Nav.Item>
@@ -121,7 +108,13 @@ function AdminDashboardScreen({ location, history }) {
 
                       {batchForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="batch" className="d-flex align-items-center">BATCH</Nav.Link>
+                          <Nav.Link
+                            eventKey="batch"
+                            className="d-flex align-items-center"
+                            onClick={() => setCurrent("batch")}
+                          >
+                            BATCH
+                          </Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -129,7 +122,13 @@ function AdminDashboardScreen({ location, history }) {
 
                       {usersForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="users" className="d-flex align-items-center">USERS</Nav.Link>
+                          <Nav.Link
+                            eventKey="users"
+                            className="d-flex align-items-center"
+                            onClick={() => setCurrent("users")}
+                          >
+                            USERS
+                          </Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -145,7 +144,13 @@ function AdminDashboardScreen({ location, history }) {
 
                       {tcForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="template" className="d-flex align-items-center">T & C TEMPLATE</Nav.Link>
+                          <Nav.Link
+                            eventKey="template"
+                            className="d-flex align-items-center"
+                            onClick={() => setCurrent("template")}
+                          >
+                            T & C TEMPLATE
+                          </Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -153,7 +158,13 @@ function AdminDashboardScreen({ location, history }) {
 
                       {recordForm ? (
                         <Nav.Item>
-                          <Nav.Link eventKey="records" className="d-flex align-items-center">RECORDS</Nav.Link>
+                          <Nav.Link
+                            eventKey="records"
+                            className="d-flex align-items-center"
+                            onClick={() => setCurrent("records")}
+                          >
+                            RECORDS
+                          </Nav.Link>
                         </Nav.Item>
                       ) : (
                         <></>
@@ -173,17 +184,19 @@ function AdminDashboardScreen({ location, history }) {
                 </Row>
               </Container>
               <Tab.Content>
-                <Tab.Pane eventKey="records">
-                  {<RecordsForm /> }
-                </Tab.Pane>
+                <Tab.Pane eventKey="records">{<RecordsForm />}</Tab.Pane>
                 <Tab.Pane eventKey="users">
                   {usersForm ? <UserForm /> : <></>}
                 </Tab.Pane>
                 <Tab.Pane eventKey="application">
-                  {applicationForm ? <ApplicationForm /> : <></>}
+                  {applicationForm ? (
+                    <ApplicationForm current={current} />
+                  ) : (
+                    <></>
+                  )}
                 </Tab.Pane>
                 <Tab.Pane eventKey="batch">
-                  {batchForm ? <BatchForm /> : <></>}
+                  {batchForm ? <BatchForm current={current} /> : <></>}
                 </Tab.Pane>
                 <Tab.Pane eventKey="equipment">
                   {equipmentForm ? <EquipmentForm /> : <></>}
