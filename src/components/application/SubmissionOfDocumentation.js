@@ -148,7 +148,7 @@ function SubmissionOfDocumentation(props) {
                 <>
                   {props.setIrsFormD(fileCode)}
                   {/* {console.log(props.irs_formD)} */}
-                  <Badge bg={"success"}>File Uploaded</Badge> <br />
+                  <Badge bg={"success"}>File Uploaded</Badge>
                 </>
               ) : (
                 <>no upload</>
@@ -211,9 +211,8 @@ function SubmissionOfDocumentation(props) {
                   ) : (
                     <>no upload</>
                   )}
-                  <p className="text-break"> Filename:{" "}{props.other_doc1.name} </p> <br />
-                  File Type: {props.other_doc1.type} <br />
-                  <br />
+                  Filename: {props.other_doc2.name} <br />
+                  File Type: {props.other_doc2.type} <br />
                 </>
               ) : (
                 <></>
@@ -257,8 +256,8 @@ function SubmissionOfDocumentation(props) {
                   ) : (
                     <>no upload</>
                   )}
-                  Filename: {props.other_doc1.name} <br />
-                  File Type: {props.other_doc1.type} <br />
+                  Filename: {props.other_doc2.name} <br />
+                  File Type: {props.other_doc2.type} <br />
                   <br />
                 </>
               ) : (
