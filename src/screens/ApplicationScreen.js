@@ -40,7 +40,7 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
 
   const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
@@ -121,7 +121,7 @@ function ApplicationScreen() {
   const [irs_form, setIrsForm] = useState(null);
   const [disposal_slip, setDisposalSlip] = useState(null);
   const [letter_authorization, setLetterAuthorization] = useState(null);
-  const [installer_certification, setInstallerCertification] = useState(null);
+  const [installer_certification, setInstallerCertification] = useState("");
   const [other_doc1, setOtherDoc1] = useState(null);
   const [other_doc2, setOtherDoc2] = useState(null);
   const [other_doc3, setOtherDoc3] = useState(null);
@@ -398,8 +398,7 @@ function ApplicationScreen() {
           tel_no.length > 10 ||
           tel_no.length < 10 ||
           is_applicant_owner === "" ||
-          (is_applicant_owner === "false" && letter_authorization === "") ||
-          // (is_applicant_owner === "false" && letter_authorization === "") ||
+          (is_applicant_owner===false && letter_authorization === null) ||
           mailing_address === "" ||
           mailing_city_village === "" ||
           mailing_zipcode === "" ||
@@ -430,6 +429,7 @@ function ApplicationScreen() {
           work_tel.length < 10 ||
           company_name === "" ||
           date_final_installation === "" ||
+          installer_certification === "" ||
           invoice === undefined
         ) {
           errorMessage();

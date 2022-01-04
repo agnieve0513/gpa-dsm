@@ -22,6 +22,7 @@ import ModalImage from "../ModalImage";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useWindowDimensions } from "../../hooks";
 const MySwal = withReactContent(Swal);
 
 function NewEuipmentInformation(props) {
@@ -33,6 +34,9 @@ function NewEuipmentInformation(props) {
     description: "",
     image_sample: "",
   });
+
+  const { height, width } = useWindowDimensions();
+  const screenWidthM = width > 425;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -147,7 +151,7 @@ function NewEuipmentInformation(props) {
           technician_name: props.technician_name,
           work_tel: props.work_tel,
           company_name: props.company_name,
-          technician_cert_no: props.technician_cert_no,
+          installer_certification: props.installer_certification,
           date_final_installation: props.date_final_installation,
           email: props.tech_email,
         },
@@ -185,13 +189,13 @@ function NewEuipmentInformation(props) {
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
               <p className="d-flex justify-content-between applicationTitle">
-                INSTALLER'S CERTIFICATION
+                INSTALLER'S CERTIFICATION NUMBER
                 <span
                   className="text-secondary"
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "INSTALLER'S CERTIFICATION",
+                        description: "INSTALLER'S CERTIFICATION NUMBER LOCATION",
                         image_sample: "./GPADSM8.png",
                       })
                     );
@@ -204,11 +208,20 @@ function NewEuipmentInformation(props) {
               <InputGroup>
                 <Form.Control
                   name="file2"
-                  placeholder="Installer's Certification"
+                  placeholder="Installer's Certification Number"
                   type="text"
+                  value={props.installer_certification}
+                  onChange={(e) => props.setInstallerCertification(e.target.value)}
                 />
               </InputGroup>
-              {props.installer_certification ? (
+              {props.installer_certification === "" ? (
+                <p className="validate text-danger requiredField">
+                  *This Field is Required
+                </p>
+              ) : (
+                <></>
+              )}
+              {/* {props.installer_certification ? (
                 <p className="text-wrap">
                   {fileCode ? (
                     <>
@@ -234,7 +247,7 @@ function NewEuipmentInformation(props) {
                 </p>
               ) : (
                 <></>
-              )}
+              )} */}
             </Form.Group>
           </Col>
           <Col md={12}>
@@ -301,8 +314,7 @@ function NewEuipmentInformation(props) {
                     <></>
                   )}
                   <p className="text-break">Filename: {props.invoice.name}</p>{" "}
-                  <br />
-                  File Type: {props.invoice.type} <br />
+                  File Type: {props.invoice.type}
                   <br />
                 </>
               ) : (
@@ -390,6 +402,11 @@ function NewEuipmentInformation(props) {
         {/* Row for installer's information */}
         <Row className="">
           <Col md={12} className="mb-3">
+            {screenWidthM ? (
+              <h4 className="text-center text-info mb-4">NEW EQUIPMENT INFORMATION</h4>
+            ) : (
+              <></>
+            )}
             <Form.Group controlId="system_type">
               <Form.Label className=" applicationTitle">SYSTEM TYPE</Form.Label>
               <Form.Select
@@ -425,10 +442,9 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <h4 className="text-center text-info mt-2 applicationSubHeader">
+        <h5 className="text-center text-info mt-2 applicationSubHeader pb-2">
           INSTALLER'S INFORMATION
-        </h4>
-
+        </h5>
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
@@ -542,9 +558,9 @@ function NewEuipmentInformation(props) {
         </Row>
         {installerCertificationHandler()}
 
-        <h4 className="text-center text-info mt-5 applicationSubHeader">
+        <h5 className="text-center text-info mt-5 pb-2 applicationSubHeader">
           EQUIPMENT INFORMATION
-        </h4>
+        </h5>
 
         <Row>
           <Col md={6} className="mb-3">

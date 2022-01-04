@@ -238,6 +238,36 @@ function FinalReview(props) {
                   </Row>
                   <Row>
                     <Col>
+                      <p className="title">City</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_city_village}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p className="title">Country</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_country}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p className="title">ZIP Code</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_zipcode}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
                       <p className="title">Home Size (approx. sq. ft.)</p>
                     </Col>
                     <Col>

@@ -226,6 +226,37 @@ function EquipmentReview(props) {
                   </Row>
                   <Row className="px-0">
                     <Col>
+                      <p className="title">City</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_city_village}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row className="px-0">
+                    <Col>
+                      <p className="title">Country</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_country}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row className="px-0">
+                    <Col>
+                      <p className="title">ZIP Code</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_zipcode}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row></Row>
+                  <Row className="px-0">
+                    <Col>
                       <p className="title">Home Size (approx. sq. ft.)</p>
                     </Col>
                     <Col>
@@ -364,7 +395,7 @@ function EquipmentReview(props) {
                                     {
                                       props.new_equipments[new_eq_index]
                                         .installer_information
-                                        .technician_cert_no
+                                        .installer_certification
                                     }{" "}
                                   </b>
                                 </p>
