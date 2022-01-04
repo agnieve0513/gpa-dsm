@@ -1274,11 +1274,18 @@ function RecordsForm() {
               }}
               rowHeight={40}
             >
-              <AgGridColumn field="Control_Number" />
-              <AgGridColumn field="Application_Date" />
+              <AgGridColumn
+                headerName="Control Number"
+                field="Control_Number"
+              />
+              <AgGridColumn headerName="Name" field="customer_name" />
+              <AgGridColumn
+                headerName="Application Date"
+                field="Application_Date"
+              />
               <AgGridColumn field="Stage" />
               <AgGridColumn field="Status" />
-              <AgGridColumn field="System_Type" />
+              <AgGridColumn headerName="System Type" field="System_Type" />
               <AgGridColumn
                 field="Action"
                 type="medalColumn"
