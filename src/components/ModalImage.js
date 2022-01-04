@@ -21,9 +21,9 @@ const ModalImage = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body
-          style={{ width: "auto" }}
           className=" text-center no-border"
           rounded
+          // style={{ width: "fit-content" }}
         >
           {
             _id === "3"
@@ -31,7 +31,7 @@ const ModalImage = (props) => {
             <p>The Link is provided for the W-9 Form. Click this <a href="https://www.irs.gov/pub/irs-pdf/fw9.pdf">link</a> to download</p>
             :
             <Image
-            style={{ width: size, height: "auto" }}
+            style={{ width: "100%", height: "auto" }}
             alt={description}
             src={image_sample}
             rounded

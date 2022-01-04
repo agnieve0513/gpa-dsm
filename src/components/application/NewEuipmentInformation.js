@@ -33,7 +33,7 @@ function NewEuipmentInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
-    size: "50%"
+    
   });
 
   const { height, width } = useWindowDimensions();
@@ -813,7 +813,6 @@ function NewEuipmentInformation(props) {
                       (p = {
                         description: "INVOICE",
                         image_sample: "./sample_invoice.png",
-                        size: "80%"
                       })
                     );
                     setModalShow(true);

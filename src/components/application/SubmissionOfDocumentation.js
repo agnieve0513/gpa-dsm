@@ -23,7 +23,7 @@ function SubmissionOfDocumentation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
-    size: "50%"
+    
   });
 
   let p = {};
