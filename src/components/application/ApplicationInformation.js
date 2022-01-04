@@ -925,7 +925,6 @@ function ApplicationInformation(props) {
                     onChange={(e) =>
                       handleNumericFields(e.target, "setHomeAge")
                     }
-                    maxLength="4"
                   ></Form.Control>
                 </Form.Group>
                 {props.home_age === "" ? (
