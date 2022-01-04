@@ -33,7 +33,6 @@ function NewEuipmentInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
-    
   });
 
   const { height, width } = useWindowDimensions();
@@ -62,6 +61,8 @@ function NewEuipmentInformation(props) {
     success: modelSuccess,
     models,
   } = customerEquipModel;
+
+  console.log('model no', props.model_no, models)
 
   const customerEquipmentDetail = useSelector(
     (state) => state.customerEquipmentDetail
@@ -679,20 +680,20 @@ function NewEuipmentInformation(props) {
                     } else {
                       if (me.model === "Indoor / Outdoor") {
                         return (
-                          <option key={me.id} value={me.id}>
+                          <option key={me.id} value={me.indoor_model + " / " + me.outdoor_model}>
                             {me.indoor_model} / {me.outdoor_model}
                           </option>
                         );
                       } else if (me.model === "Both") {
                         return (
-                          <option key={me.id} value={me.id}>
+                          <option key={me.id} value={me.indoor_model + " / " + me.outdoor_model + " " + me.package_model}>
                             {me.indoor_model} / {me.outdoor_model}/{" "}
                             {me.package_model}
                           </option>
                         );
                       } else {
                         return (
-                          <option key={me.id} value={me.id}>
+                          <option key={me.id} value={me.package_model}>
                             {me.package_model}
                           </option>
                         );
