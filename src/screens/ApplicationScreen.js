@@ -549,6 +549,7 @@ function ApplicationScreen() {
               />
             ) : step === 3 ? (
               <NewEuipmentInformation
+                delay_reason={delay_reason} setDelayReason={setDelayReason}
                 total_rebate={total_rebate}
                 setTotalRebate={setTotalRebate}
                 control_no={control_no}
