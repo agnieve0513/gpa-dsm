@@ -182,7 +182,7 @@ function ExistingEquipmentInformation(props) {
       <Col md={10} xl={6}>
         {width >= 425 ? (
           <h4 className="text-center text-info">
-            Existing Equipment Information
+            EXISTING EQUIPMENT INFORMATION
           </h4>
         ) : (
           <></>

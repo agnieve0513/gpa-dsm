@@ -100,7 +100,7 @@ function SubmissionOfDocumentation(props) {
       <Col md={3}></Col>
       <Col md={6}>
         {width >= 425 ? (
-          <h4 className="text-center text-info">Submission of Documentation</h4>
+          <h4 className="text-center text-info">SUBMISSION OF DOCUMENTATION</h4>
         ) : (
           <></>
         )}
