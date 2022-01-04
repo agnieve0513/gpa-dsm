@@ -106,12 +106,19 @@ function NewEuipmentInformation(props) {
       props.model_no === "" ||
       props.quantity === "" ||
       props.vendor === "" ||
+      props.invoice === null ||
       props.invoice_no === "" ||
       props.purchase_date === "" ||
       props.technician_name === "" ||
       props.work_tel === "" ||
       props.company_name === "" ||
-      props.date_final_installation === ""
+      props.date_final_installation === "" ||
+      Math.abs(
+                new Date(props.purchase_date) -
+                  new Date(props.date_final_installation)
+              ) /
+                (1000 * 3600 * 24) >
+              120 && props.delay_reason === ""
     ) {
       const Toast = MySwal.mixin({
         toast: true,
@@ -797,14 +804,21 @@ function NewEuipmentInformation(props) {
               ) /
                 (1000 * 3600 * 24) >
               120 ? (
-              <p className="validate text-danger requiredField">
-                (*Note: Your Application exceeded 120 days. Please be informed
-                that there might be a chance your application will be rejected
-                if you do not have valid reason for exceeding the alloted time.)
-              </p>
-            ) : (
-              ""
-            )}
+                <>
+                  <p className="validate text-warning requiredField">
+                    (*Note: Your Application exceeded 120 days. Please be informed
+                    that there might be a chance your application will be rejected
+                    if you do not have valid reason for exceeding the alloted time.)
+                  </p>
+                      <Form.Control
+                as="textarea" row={3}
+                onChange={(e) => props.setDelayReason(e.target.value)}
+                value={props.delay_reason}
+                required
+              >Please enter a valid reason for exeeding 120 days.</Form.Control>
+              </>
+            ) : ("")
+          }
           </Col>
         </Row>
 

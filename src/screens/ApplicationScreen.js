@@ -74,7 +74,7 @@ function ApplicationScreen() {
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
-
+  const [delay_reason, setDelayReason] = useState("");
   // Installer Information
   const [technician_name, setTechnicianName] = useState("");
   const [work_tel, setWorkTel] = useState("");
@@ -335,7 +335,7 @@ function ApplicationScreen() {
         quantity === "" ||
         vendor === "" ||
         invoice_no === "" ||
-        invoice === "" ||
+        invoice === null ||
         purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
@@ -421,7 +421,7 @@ function ApplicationScreen() {
           quantity === "" ||
           vendor === "" ||
           invoice_no === "" ||
-          invoice === "" ||
+          invoice === null ||
           purchase_date === "" ||
           technician_name === "" ||
           work_tel === "" ||

@@ -88,27 +88,32 @@ function ApplicationScreen() {
   let currentStage = {};
 
   const stages = [
-    { id: 0, stage: "Customer Service", percent: 20 },
+    { id: 0, stage: "Customer Service", percent: 10 },
     {
       id: 1,
       stage: "Spord",
-      percent: 40,
+      percent: 20,
     },
     {
       id: 2,
       stage: "Supervisor",
-      percent: 60,
+      percent: 40,
     },
     {
       id: 3,
       stage: "Budget",
-      percent: 80,
+      percent: 60,
     },
     {
       id: 4,
       stage: "Accounting",
-      percent: 100,
+      percent: 80,
     },
+    {
+      id:5,
+      stage: "Completed",
+      percent: 100,
+    }
   ];
 
   const resetHandler = () => {
@@ -156,12 +161,22 @@ function ApplicationScreen() {
                       <Row className="px-0 mb-4 mx-0 d-flex align-items-center">
                         <Col className="px-0">
                           <b className="px-0 d-flex mx-0" id="trackStep">
-                            Step{" "}
-                            {stages.find(
-                              (p) =>
-                                p.stage === track_application.table[0].Stage
-                            ).id + 1}{" "}
-                            of 5{" "}
+                            {
+                              track_application.table[0].Status === "Approved" ?
+                              <>
+                                  Step 6 of 6
+                              </>
+                              :
+                              <>
+                                Step{" "}
+                                {stages.find(
+                                  (p) =>
+                                    p.stage === track_application.table[0].Stage
+                                ).id + 1}{" "}
+                                of 6{" "}
+                              </>
+                            }
+                            
                           </b>
                         </Col>
                         <Col className="px-0" id="colBar">
@@ -170,6 +185,9 @@ function ApplicationScreen() {
                             id="trackBar"
                             variant="success"
                             now={
+                              track_application.table[0].Status === "Approved" ?
+                              100
+                              :
                               stages.find(
                                 (p) =>
                                   p.stage === track_application.table[0].Stage

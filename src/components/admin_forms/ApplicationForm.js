@@ -414,6 +414,7 @@ function ApplicationForm({ current }) {
   const selectHandler = () => {};
 
   const changeStatusHandler = (status) => {
+    setSubmited(false);
     setStatus(status);
     setShowModal(true);
 
