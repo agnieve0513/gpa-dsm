@@ -152,7 +152,6 @@ function BatchForm({ current }) {
     if (batch_applications?.length === 0) {
       if (batchApplication.batch_applications) {
         setBatchApplication(batchApplication.batch_applications);
-        console.log("Triggerd");
       }
     } else if (batch_applications?.length > 0) {
       for (let i = 0; i < batch_applications?.length; i++) {
@@ -162,8 +161,13 @@ function BatchForm({ current }) {
             (value) => value.Application_Id === oldInfo.Application_Id
           );
 
-          if (!newInfo) {
-            changedItem = 1 + changedItem;
+          if (newInfo) {
+            if (
+              newInfo.Status !== oldInfo.Status ||
+              newInfo.Stage !== oldInfo.Stage
+            ) {
+              changedItem = 1 + changedItem;
+            }
           }
         }
 
@@ -173,6 +177,15 @@ function BatchForm({ current }) {
             setUpdatedTime(formatAMPM(new Date()));
           }
         }
+      }
+    }
+
+    if (batchApplication.batch_applications) {
+      if (
+        batchApplication.batch_applications.length !== batch_applications.length
+      ) {
+        setBatchApplication(batchApplication.batch_applications);
+        setUpdatedTime(formatAMPM(new Date()));
       }
     }
   }, [batchApplication]);
@@ -202,6 +215,13 @@ function BatchForm({ current }) {
             setUpdatedTime(formatAMPM(new Date()));
           }
         }
+      }
+    }
+
+    if (batchApplication.batches) {
+      if (batchApplication.batches.length !== batches.length) {
+        setBatches(batchApplication.batches);
+        setUpdatedTime(formatAMPM(new Date()));
       }
     }
   }, [batchList]);

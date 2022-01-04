@@ -111,7 +111,6 @@ function ApplicationForm({ current }) {
   // const { applications } = applicationList;
 
   useEffect(() => {
-    console.log("old", applicationList.applications);
     let changedItem = 0;
     if (applications?.length === 0) {
       if (applicationList.applications) {
@@ -124,7 +123,6 @@ function ApplicationForm({ current }) {
           const newInfo = applicationList.applications.find(
             (value) => value.Application_Id === oldInfo.Application_Id
           );
-          console.log("newInfo", newInfo);
           if (newInfo) {
             if (newInfo.Last_Modified_On !== oldInfo.Last_Modified_On) {
               changedItem = 1 + changedItem;
@@ -146,6 +144,16 @@ function ApplicationForm({ current }) {
         setApplications(applicationList.applications);
         setUpdatedTime(formatAMPM(new Date()));
       }
+      if (applicationId) {
+        const isExist = applicationList.applications.find(
+          (value) => value.Application_Id === applicationId
+        );
+        if (!isExist) {
+          setShow(false);
+          setApplicationId(null);
+          Swal.fire("Info", "Application has already been transfered!", "info");
+        }
+      }
     }
   }, [applicationList.applications]);
   const [intervalId, setIntervalId] = useState();
@@ -166,15 +174,6 @@ function ApplicationForm({ current }) {
       setIntervalId(rerun);
     }
   }, [current]);
-
-  const applicationDetail = useSelector((state) => state.applicationDetail);
-  const { application } = applicationDetail;
-
-  const applicationComments = useSelector((state) => state.applicationComments);
-  const { comments } = applicationComments;
-
-  const applicationLogs = useSelector((state) => state.applicationLogs);
-  const { logs } = applicationLogs;
 
   const applicationUpdate = useSelector((state) => state.applicationUpdate);
   const {
@@ -225,6 +224,71 @@ function ApplicationForm({ current }) {
   const [gridColumnApi, setGridColumnApi] = useState(null);
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
+
+  const [intervalId2, setIntervalId2] = useState();
+
+  const applicationDetail = useSelector((state) => state.applicationDetail);
+  const { application } = applicationDetail;
+
+  const applicationComments = useSelector((state) => state.applicationComments);
+  const applicationLogs = useSelector((state) => state.applicationLogs);
+
+  // const [application, setApplication] = useState({});
+  const [logs, setLogs] = useState({});
+  const [comments, setComments] = useState({});
+
+  useEffect(() => {
+    if (comments?.length === 0) {
+      if (applicationComments.comments) {
+        setComments(applicationComments.comments);
+      }
+    }
+
+    if (applicationComments.comments) {
+      if (applicationComments.comments.length !== comments.length) {
+        setComments(applicationComments.comments);
+        setUpdatedTime(formatAMPM(new Date()));
+      }
+    }
+  }, [applicationLogs]);
+
+  useEffect(() => {
+    if (logs?.length === 0) {
+      if (applicationLogs.logs) {
+        setLogs(applicationLogs.logs);
+      }
+    }
+
+    if (applicationLogs.logs) {
+      if (applicationLogs.logs.length !== comments.length) {
+        setLogs(applicationLogs.logs);
+        setUpdatedTime(formatAMPM(new Date()));
+      }
+    }
+  }, [applicationLogs]);
+
+  useEffect(() => {
+    if (current !== "application") {
+      clearInterval(intervalId2);
+    }
+  }, [current]);
+
+  useEffect(() => {
+    if (current == "application") {
+      if (applicationId) {
+        if (intervalId2) {
+          clearInterval(intervalId2);
+        }
+        const rerun = setInterval(() => {
+          // dispatch(detailApplication(applicationId));
+          dispatch(logsApplication(applicationId));
+          dispatch(commentsApplication(applicationId));
+        }, 5000);
+
+        setIntervalId2(rerun);
+      }
+    }
+  }, [applicationId]);
 
   useEffect(() => {
     dispatch(listApplications());
@@ -388,7 +452,6 @@ function ApplicationForm({ current }) {
     oth2 = "";
 
   let total_rebate = 0;
-  console.log("aksjdh", application);
   const handleOnChange = (e, doc_type, control_no) => {
     console.log("control_no", control_no);
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
@@ -428,6 +491,7 @@ function ApplicationForm({ current }) {
       setStage(stage);
       setUpdateState(updateState + 1);
     }
+    setApplicationId(null);
   };
 
   useEffect(() => {
@@ -476,6 +540,8 @@ function ApplicationForm({ current }) {
   }, [updateState, status, stage, swalInfo, submited]);
 
   const resetHandler = () => {
+    clearInterval(intervalId2);
+    setApplicationId(null);
     setShow(false);
   };
 
@@ -1545,270 +1611,274 @@ function ApplicationForm({ current }) {
                       </ListGroup>
                     </Container>
                     <Container className="ml-2 mr-2">
-                      {roleId !== 4 ? (
+                      {roleId !== 4 && roleId !== 7 ? (
                         <h3 className="mt-3 mb-3">Update Status</h3>
                       ) : (
                         <></>
                       )}
-                      <Row>
-                        <Col md={12}>
-                          <Modal show={showModal} onHide={handleModalClose}>
-                            <Modal.Header closeButton>
-                              <Modal.Title>
+                      {roleId !== 7 ? (
+                        <Row>
+                          <Col md={12}>
+                            <Modal show={showModal} onHide={handleModalClose}>
+                              <Modal.Header closeButton>
+                                <Modal.Title>
+                                  {status === 3 ? (
+                                    <>Reject Application</>
+                                  ) : (
+                                    <>Process Application</>
+                                  )}
+                                </Modal.Title>
+                              </Modal.Header>
+                              <Modal.Body className="text-center">
                                 {status === 3 ? (
-                                  <>Reject Application</>
-                                ) : (
-                                  <>Process Application</>
-                                )}
-                              </Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body className="text-center">
-                              {status === 3 ? (
-                                <Container className="col-8 text-center btn-group-vertical">
-                                  <Form.Group
-                                    controlId="role_id"
-                                    className="mb-1"
-                                  >
-                                    <Form.Select
-                                      onChange={(e) =>
-                                        setReason(e.target.value)
-                                      }
-                                      value={reason}
-                                      required
+                                  <Container className="col-8 text-center btn-group-vertical">
+                                    <Form.Group
+                                      controlId="role_id"
+                                      className="mb-1"
                                     >
-                                      <option>Open this select menu</option>
-                                      <option value="0">None</option>
-                                      <option value="1">
-                                        Applicant is not a GPA Account holder or
-                                        property owner.
-                                      </option>
-                                      <option value="2">
-                                        Application information provided was
-                                        incorrect.
-                                      </option>
-                                      <option value="3">
-                                        Equipment was not installed within 120
-                                        days from invoice date.
-                                      </option>
-                                      <option value="4">
-                                        Application was not submitted within 120
-                                        days from install date.
-                                      </option>
-                                      <option value="5">
-                                        Missing or incorrect Invoice.
-                                      </option>
-                                      <option value="6">
-                                        Missing or incorrect W-9.
-                                      </option>
-                                      <option value="7">
-                                        Missing or Incorrect Installer
-                                        Information.
-                                      </option>
-                                      <option value="8">
-                                        Other: Please contact GPA for more
-                                        information.
-                                      </option>
-                                    </Form.Select>
-                                  </Form.Group>
-                                  <Button
-                                    variant={"danger"}
-                                    onClick={() => updateStatus(3, 0)}
-                                  >
-                                    Reject Application
-                                  </Button>
-                                </Container>
-                              ) : roleId === 2 ? (
-                                <Container>
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to SPORD");
-                                      updateStatus(1, 1);
-                                    }}
-                                  >
-                                    Send to SPORD
-                                  </Button>
-                                </Container>
-                              ) : roleId === 3 ? (
-                                <Container className="col-8 text-center btn-group-vertical">
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to Supervisor");
-                                      updateStatus(1, 3);
-                                    }}
-                                    className="mb-1"
-                                  >
-                                    Send to Supervisor
-                                  </Button>{" "}
-                                  <br />
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo(
-                                        "Send Back to Customer Service"
-                                      );
-                                      updateStatus(1, 4);
-                                    }}
-                                  >
-                                    Send Back to Customer Service
-                                  </Button>
-                                </Container>
-                              ) : roleId === 6 ? (
-                                <Container className="col-8 text-center btn-group-vertical">
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to Budget");
-                                      updateStatus(1, 5);
-                                    }}
-                                  >
-                                    Send to Budget
-                                  </Button>
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send Back to SPORD");
-                                      updateStatus(1, 1);
-                                    }}
-                                  >
-                                    Send Back to SPORD
-                                  </Button>
-                                </Container>
-                              ) : roleId === 4 ? (
-                                <Container className="col-8 text-center btn-group-vertical">
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to Accounting");
-                                      updateStatus(1, 2);
-                                    }}
-                                  >
-                                    Send to Accounting
-                                  </Button>
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send Back to Supervisor");
-                                      updateStatus(1, 3);
-                                    }}
-                                  >
-                                    Send Back to Supervisor
-                                  </Button>
-                                </Container>
-                              ) : roleId === 5 ? (
-                                <Container className="col-8 text-center btn-group-vertical">
-                                  <Button
-                                    variant={"success"}
-                                    className="mb-1"
-                                    onClick={() => {
-                                      setSwalInfo("Approve Application");
-                                      updateStatus(2, 0);
-                                    }}
-                                  >
-                                    Approve Application
-                                  </Button>
-                                  <br />
-                                  <Button
-                                    variant={"danger"}
-                                    className="mb-1"
-                                    onClick={() => {
-                                      setSwalInfo("(Decline) Send to Spord");
-                                      updateStatus(1, 1);
-                                    }}
-                                  >
-                                    (Decline) Send to Spord
-                                  </Button>
-                                  <br />
-                                  <Button
-                                    variant={"danger"}
-                                    className="mb-1"
-                                    onClick={() => {
-                                      setSwalInfo("(Decline) Send to CS");
-                                      updateStatus(1, 4);
-                                    }}
-                                  >
-                                    (Decline) Send to CS
-                                  </Button>
-                                </Container>
-                              ) : roleId === 1 ? (
-                                <Container className="col-8 text-center btn-group-vertical">
-                                  <Button
-                                    variant={"success"}
-                                    onClick={() => {
-                                      setSwalInfo("Approve Application");
-                                      updateStatus(2, 0);
-                                    }}
-                                  >
-                                    Approve Application
-                                  </Button>
-                                  <br />
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to CS");
-                                      updateStatus(1, 4);
-                                    }}
-                                  >
-                                    Send to CS
-                                  </Button>{" "}
-                                  <br />
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to SPORD");
-                                      updateStatus(1, 1);
-                                    }}
-                                  >
-                                    Send to SPORD
-                                  </Button>{" "}
-                                  <br />
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to Supervisor");
-                                      updateStatus(1, 3);
-                                    }}
-                                  >
-                                    Send to Supervisor
-                                  </Button>{" "}
-                                  <br />
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to Budget");
-                                      updateStatus(1, 5);
-                                    }}
-                                  >
-                                    Send to Budget
-                                  </Button>{" "}
-                                  <br />
-                                  <Button
-                                    onClick={() => {
-                                      setSwalInfo("Send to Accounting");
-                                      updateStatus(1, 2);
-                                    }}
-                                  >
-                                    Send to Accounting
-                                  </Button>{" "}
-                                  <br />
-                                </Container>
-                              ) : (
-                                <></>
-                              )}
-                            </Modal.Body>
-                          </Modal>
-                          {roleId !== 4 ? (
-                            <>
-                              <Button
-                                className="me-2"
-                                variant={"info processbtn"}
-                                onClick={() => changeStatusHandler(1)}
-                              >
-                                Process Sending
-                              </Button>
-                              <Button
-                                className="me-2 rejectbtn"
-                                variant={"danger"}
-                                onClick={() => changeStatusHandler(3)}
-                              >
-                                Reject
-                              </Button>
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </Col>
-                      </Row>
+                                      <Form.Select
+                                        onChange={(e) =>
+                                          setReason(e.target.value)
+                                        }
+                                        value={reason}
+                                        required
+                                      >
+                                        <option>Open this select menu</option>
+                                        <option value="0">None</option>
+                                        <option value="1">
+                                          Applicant is not a GPA Account holder
+                                          or property owner.
+                                        </option>
+                                        <option value="2">
+                                          Application information provided was
+                                          incorrect.
+                                        </option>
+                                        <option value="3">
+                                          Equipment was not installed within 120
+                                          days from invoice date.
+                                        </option>
+                                        <option value="4">
+                                          Application was not submitted within
+                                          120 days from install date.
+                                        </option>
+                                        <option value="5">
+                                          Missing or incorrect Invoice.
+                                        </option>
+                                        <option value="6">
+                                          Missing or incorrect W-9.
+                                        </option>
+                                        <option value="7">
+                                          Missing or Incorrect Installer
+                                          Information.
+                                        </option>
+                                        <option value="8">
+                                          Other: Please contact GPA for more
+                                          information.
+                                        </option>
+                                      </Form.Select>
+                                    </Form.Group>
+                                    <Button
+                                      variant={"danger"}
+                                      onClick={() => updateStatus(3, 0)}
+                                    >
+                                      Reject Application
+                                    </Button>
+                                  </Container>
+                                ) : roleId === 2 ? (
+                                  <Container>
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to SPORD");
+                                        updateStatus(1, 1);
+                                      }}
+                                    >
+                                      Send to SPORD
+                                    </Button>
+                                  </Container>
+                                ) : roleId === 3 ? (
+                                  <Container className="col-8 text-center btn-group-vertical">
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to Supervisor");
+                                        updateStatus(1, 3);
+                                      }}
+                                      className="mb-1"
+                                    >
+                                      Send to Supervisor
+                                    </Button>{" "}
+                                    <br />
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo(
+                                          "Send Back to Customer Service"
+                                        );
+                                        updateStatus(1, 4);
+                                      }}
+                                    >
+                                      Send Back to Customer Service
+                                    </Button>
+                                  </Container>
+                                ) : roleId === 6 ? (
+                                  <Container className="col-8 text-center btn-group-vertical">
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to Budget");
+                                        updateStatus(1, 5);
+                                      }}
+                                    >
+                                      Send to Budget
+                                    </Button>
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send Back to SPORD");
+                                        updateStatus(1, 1);
+                                      }}
+                                    >
+                                      Send Back to SPORD
+                                    </Button>
+                                  </Container>
+                                ) : roleId === 4 ? (
+                                  <Container className="col-8 text-center btn-group-vertical">
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to Accounting");
+                                        updateStatus(1, 2);
+                                      }}
+                                    >
+                                      Send to Accounting
+                                    </Button>
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send Back to Supervisor");
+                                        updateStatus(1, 3);
+                                      }}
+                                    >
+                                      Send Back to Supervisor
+                                    </Button>
+                                  </Container>
+                                ) : roleId === 5 ? (
+                                  <Container className="col-8 text-center btn-group-vertical">
+                                    <Button
+                                      variant={"success"}
+                                      className="mb-1"
+                                      onClick={() => {
+                                        setSwalInfo("Approve Application");
+                                        updateStatus(2, 0);
+                                      }}
+                                    >
+                                      Approve Application
+                                    </Button>
+                                    <br />
+                                    <Button
+                                      variant={"danger"}
+                                      className="mb-1"
+                                      onClick={() => {
+                                        setSwalInfo("(Decline) Send to Spord");
+                                        updateStatus(1, 1);
+                                      }}
+                                    >
+                                      (Decline) Send to Spord
+                                    </Button>
+                                    <br />
+                                    <Button
+                                      variant={"danger"}
+                                      className="mb-1"
+                                      onClick={() => {
+                                        setSwalInfo("(Decline) Send to CS");
+                                        updateStatus(1, 4);
+                                      }}
+                                    >
+                                      (Decline) Send to CS
+                                    </Button>
+                                  </Container>
+                                ) : roleId === 1 ? (
+                                  <Container className="col-8 text-center btn-group-vertical">
+                                    <Button
+                                      variant={"success"}
+                                      onClick={() => {
+                                        setSwalInfo("Approve Application");
+                                        updateStatus(2, 0);
+                                      }}
+                                    >
+                                      Approve Application
+                                    </Button>
+                                    <br />
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to CS");
+                                        updateStatus(1, 4);
+                                      }}
+                                    >
+                                      Send to CS
+                                    </Button>{" "}
+                                    <br />
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to SPORD");
+                                        updateStatus(1, 1);
+                                      }}
+                                    >
+                                      Send to SPORD
+                                    </Button>{" "}
+                                    <br />
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to Supervisor");
+                                        updateStatus(1, 3);
+                                      }}
+                                    >
+                                      Send to Supervisor
+                                    </Button>{" "}
+                                    <br />
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to Budget");
+                                        updateStatus(1, 5);
+                                      }}
+                                    >
+                                      Send to Budget
+                                    </Button>{" "}
+                                    <br />
+                                    <Button
+                                      onClick={() => {
+                                        setSwalInfo("Send to Accounting");
+                                        updateStatus(1, 2);
+                                      }}
+                                    >
+                                      Send to Accounting
+                                    </Button>{" "}
+                                    <br />
+                                  </Container>
+                                ) : (
+                                  <></>
+                                )}
+                              </Modal.Body>
+                            </Modal>
+                            {roleId !== 4 ? (
+                              <>
+                                <Button
+                                  className="me-2"
+                                  variant={"info processbtn"}
+                                  onClick={() => changeStatusHandler(1)}
+                                >
+                                  Process Sending
+                                </Button>
+                                <Button
+                                  className="me-2 rejectbtn"
+                                  variant={"danger"}
+                                  onClick={() => changeStatusHandler(3)}
+                                >
+                                  Reject
+                                </Button>
+                              </>
+                            ) : (
+                              <></>
+                            )}
+                          </Col>
+                        </Row>
+                      ) : (
+                        <></>
+                      )}
                     </Container>
                   </Tab.Pane>
                 </Tab.Content>

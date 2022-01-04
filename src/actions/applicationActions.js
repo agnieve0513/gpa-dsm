@@ -125,11 +125,7 @@ export const listApplicationsRecords = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      URL + "/application-list",
-      { roleId: 1 },
-      config
-    );
+    const { data } = await axios.post(URL + "/records", { roleId: 1 }, config);
 
     dispatch({
       type: APPLICATION_LIST_RECORD_SUCCESS,
