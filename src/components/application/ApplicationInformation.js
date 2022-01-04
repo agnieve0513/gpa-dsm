@@ -46,6 +46,7 @@ function ApplicationInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
+    
   });
 
   const [verifyClicked, setVerifyClicked] = useState(false);
@@ -210,7 +211,6 @@ function ApplicationInformation(props) {
 
   const homeComponentMobile = () => (
     <Col md={12}>
-      <br />
       <FormControl fullWidth>
         <Form.Select
           labelId="demo-simple-select-label"
@@ -313,8 +313,9 @@ function ApplicationInformation(props) {
   );
 
   const newComponentDesktop = () => (
-    <Row>
+    <Row className="d-flex flex-row py-2">
       <Form.Check
+        className="w-25"
         inline
         label="Yes"
         name="is_new_construction"
@@ -325,6 +326,7 @@ function ApplicationInformation(props) {
         disabled={props.verify ? false : true}
       />
       <Form.Check
+        className="w-25"
         inline
         label="No"
         name="is_new_construction"
@@ -711,13 +713,6 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
-                {props.email === "" ? (
-                  <p className="validate text-danger requiredField">
-                    *This Field is Required
-                  </p>
-                ) : (
-                  <></>
-                )}
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
@@ -927,7 +922,6 @@ function ApplicationInformation(props) {
                     onChange={(e) =>
                       handleNumericFields(e.target, "setHomeAge")
                     }
-                    maxLength="4"
                   ></Form.Control>
                 </Form.Group>
                 {props.home_age === "" ? (
@@ -944,7 +938,7 @@ function ApplicationInformation(props) {
                 </Form.Label>{" "}
                 <br />
                 {screenWidthM ? newComponentDesktop() : newComponentMobile()}
-                {!props.is_new_construction && !props.verify ? (
+                {props.is_new_construction === undefined ? (
                   <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>

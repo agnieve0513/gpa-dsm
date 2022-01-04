@@ -14,6 +14,7 @@ import {
 } from "react-bootstrap";
 
 import "./EquipmentReview.css";
+import city_zipcode from "./source_files/city_zipcode";
 import MaterialTable from "material-table";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { retrieveFileAction } from "../../actions/fileActions";
@@ -67,7 +68,7 @@ function FinalReview(props) {
       <Col md={1}></Col>
       <Col md={10}>
         {width >= 425 ? (
-          <h4 className="text-center text-info mb-3">Final Review</h4>
+          <h4 className="text-center text-info mb-3">FINAL REVIEW</h4>
         ) : (
           <></>
         )}
@@ -233,6 +234,36 @@ function FinalReview(props) {
                     <Col>
                       <p>
                         <b>{props.mailing_address}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p className="title">City</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.city_village ? city_zipcode.find(loc => loc._id === props.city_village).village : "None"}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p className="title">Country</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_country}</b>{" "}
+                      </p>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col>
+                      <p className="title">ZIP Code</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.mailing_zipcode}</b>{" "}
                       </p>
                     </Col>
                   </Row>

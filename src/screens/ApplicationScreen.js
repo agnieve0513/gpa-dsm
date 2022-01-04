@@ -40,7 +40,7 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
 
   const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
@@ -74,6 +74,8 @@ function ApplicationScreen() {
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
+  const [max_invoice, setMaxInvoice] = useState(0)
+  const [delay_reason, setDelayReason] = useState("");
 
   // Installer Information
   const [technician_name, setTechnicianName] = useState("");
@@ -82,6 +84,7 @@ function ApplicationScreen() {
   const [technician_cert_no, setTechnicianCertNo] = useState("");
   const [date_final_installation, setDateFinalInstallation] = useState("");
   const [tech_email, setTechEmail] = useState("");
+
   // Equipment
   const [manufacturers, setManufacturerList] = useState([]);
   const [models, setModelList] = useState([]);
@@ -106,6 +109,7 @@ function ApplicationScreen() {
   const [old_system_type, setOldSystemType] = useState("");
   const [old_quantity, setOldQuantity] = useState("");
   const [old_btu, setOldBtu] = useState("");
+
   // const [old_size, setOldSize] = useState("")
   const [old_years, setOldYears] = useState("");
   const [old_tons, setOldTons] = useState("");
@@ -121,7 +125,7 @@ function ApplicationScreen() {
   const [irs_form, setIrsForm] = useState(null);
   const [disposal_slip, setDisposalSlip] = useState(null);
   const [letter_authorization, setLetterAuthorization] = useState(null);
-  const [installer_certification, setInstallerCertification] = useState(null);
+  const [installer_certification, setInstallerCertification] = useState("");
   const [other_doc1, setOtherDoc1] = useState(null);
   const [other_doc2, setOtherDoc2] = useState(null);
   const [other_doc3, setOtherDoc3] = useState(null);
@@ -335,7 +339,7 @@ function ApplicationScreen() {
         quantity === "" ||
         vendor === "" ||
         invoice_no === "" ||
-        invoice === "" ||
+        invoice === null ||
         purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
@@ -393,13 +397,11 @@ function ApplicationScreen() {
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||
-          email === "" ||
           tel_no === "" ||
           tel_no.length > 10 ||
           tel_no.length < 10 ||
           is_applicant_owner === "" ||
-          (is_applicant_owner === "false" && letter_authorization === "") ||
-          // (is_applicant_owner === "false" && letter_authorization === "") ||
+          (is_applicant_owner===false && letter_authorization === null) ||
           mailing_address === "" ||
           mailing_city_village === "" ||
           mailing_zipcode === "" ||
@@ -422,7 +424,7 @@ function ApplicationScreen() {
           quantity === "" ||
           vendor === "" ||
           invoice_no === "" ||
-          invoice === "" ||
+          invoice === null ||
           purchase_date === "" ||
           technician_name === "" ||
           work_tel === "" ||
@@ -430,6 +432,7 @@ function ApplicationScreen() {
           work_tel.length < 10 ||
           company_name === "" ||
           date_final_installation === "" ||
+          installer_certification === "" ||
           invoice === undefined
         ) {
           errorMessage();
@@ -549,6 +552,7 @@ function ApplicationScreen() {
               />
             ) : step === 3 ? (
               <NewEuipmentInformation
+                delay_reason={delay_reason} setDelayReason={setDelayReason}
                 total_rebate={total_rebate}
                 setTotalRebate={setTotalRebate}
                 control_no={control_no}
@@ -574,6 +578,8 @@ function ApplicationScreen() {
                 setInvoiceNo={setInvoiceNo}
                 invoice={invoice}
                 setInvoice={setInvoice}
+                max_invoice={max_invoice}
+                setMaxInvoice={setMaxInvoice}
                 invoiceD={invoiceD}
                 setInvoiceD={setInvoiceD}
                 installer_certification={installer_certification}
@@ -680,6 +686,7 @@ function ApplicationScreen() {
                 setMailingAddress={setMailingAddress}
                 mailing_city_village={mailing_city_village}
                 setMailingCityVillage={setMailingCityVillage}
+                mailing_country={mailing_country}
                 mailing_zipcode={mailing_zipcode}
                 setMailingZipCode={setMailingZipCode}
                 home_size={home_size}

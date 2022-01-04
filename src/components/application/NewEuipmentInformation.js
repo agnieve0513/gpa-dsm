@@ -22,6 +22,7 @@ import ModalImage from "../ModalImage";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useWindowDimensions } from "../../hooks";
 const MySwal = withReactContent(Swal);
 
 function NewEuipmentInformation(props) {
@@ -32,7 +33,11 @@ function NewEuipmentInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
+    
   });
+
+  const { height, width } = useWindowDimensions();
+  const screenWidthM = width > 425;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -95,6 +100,17 @@ function NewEuipmentInformation(props) {
     showTable();
   }, [dispatch, props.new_equipments]);
 
+  const Toast = MySwal.mixin({
+    toast: true,
+    position: "top-right",
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    showConfirmButton: false,
+    timer: 3500,
+    timerProgressBars: true,
+  });
   const addEquipmentHandler = () => {
     if (
       props.system_type === "" ||
@@ -102,59 +118,62 @@ function NewEuipmentInformation(props) {
       props.model_no === "" ||
       props.quantity === "" ||
       props.vendor === "" ||
+      props.invoice === null ||
       props.invoice_no === "" ||
       props.purchase_date === "" ||
       props.technician_name === "" ||
       props.work_tel === "" ||
       props.company_name === "" ||
-      props.date_final_installation === ""
+      props.date_final_installation === "" ||
+      Math.abs(
+                new Date(props.purchase_date) -
+                  new Date(props.date_final_installation)
+              ) /
+                (1000 * 3600 * 24) >
+              120 && props.delay_reason === ""
     ) {
-      const Toast = MySwal.mixin({
-        toast: true,
-        position: "top-right",
-        iconColor: "white",
-        customClass: {
-          popup: "colored-toast",
-        },
-        showConfirmButton: false,
-        timer: 3500,
-        timerProgressBars: true,
-      });
-
       Toast.fire({
         icon: "info",
         title: "All Fields are required",
         text: "Fields should not be empty in order to proceed to next step",
       });
     } else {
-      // Object for saving . ...
-      const obj = {
-        control_no: props.control_no,
-        id: props.new_equipments.length,
-        system_type: props.system_type,
-        manufacturer: props.manufacturer,
-        model_no: props.model_no,
-        quantity: props.quantity,
-        btu: props.btu,
-        size: props.size,
-        rebate: props.rebate,
-        vendor: props.vendor,
-        type: props.type,
-        invoice_no: props.invoice_no,
-        purchase_date: props.purchase_date,
+      if (props.max_invoice > (totalQuantity + props.quantity)) {
+        // Object for saving . ...
+        const obj = {
+          control_no: props.control_no,
+          id: props.new_equipments.length,
+          system_type: props.system_type,
+          manufacturer: props.manufacturer,
+          model_no: props.model_no,
+          quantity: props.quantity,
+          btu: props.btu,
+          size: props.size,
+          rebate: props.rebate,
+          vendor: props.vendor,
+          type: props.type,
+          invoice_no: props.invoice_no,
+          purchase_date: props.purchase_date,
 
-        installer_information: {
-          technician_name: props.technician_name,
-          work_tel: props.work_tel,
-          company_name: props.company_name,
-          technician_cert_no: props.technician_cert_no,
-          date_final_installation: props.date_final_installation,
-          email: props.tech_email,
-        },
-      };
-      setTotalQuantity(parseInt(props.quantity) + parseInt(totalQuantity));
-      props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
-      props.setNewEquipments(props.new_equipments.concat(obj));
+          installer_information: {
+            technician_name: props.technician_name,
+            work_tel: props.work_tel,
+            company_name: props.company_name,
+            installer_certification: props.installer_certification,
+            date_final_installation: props.date_final_installation,
+            email: props.tech_email,
+          },
+        };
+        setTotalQuantity(parseInt(props.quantity) + parseInt(totalQuantity));
+        props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
+        props.setNewEquipments(props.new_equipments.concat(obj));
+      } else {
+        Toast.fire({
+          icon: "warning",
+          title: "Maximum Quantity of Invoice reached",
+          text: "Total quantity of equipment that can be added should be equal or less than specified maximum quantity.",
+        });
+      }
     }
   };
 
@@ -185,13 +204,13 @@ function NewEuipmentInformation(props) {
           <Col md={12}>
             <Form.Group controlId="installer_certification" className="mb-3">
               <p className="d-flex justify-content-between applicationTitle">
-                INSTALLER'S CERTIFICATION
+                INSTALLER'S CERTIFICATION NUMBER
                 <span
                   className="text-secondary"
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "INSTALLER'S CERTIFICATION",
+                        description: "INSTALLER'S CERTIFICATION NUMBER LOCATION",
                         image_sample: "./GPADSM8.png",
                       })
                     );
@@ -204,11 +223,20 @@ function NewEuipmentInformation(props) {
               <InputGroup>
                 <Form.Control
                   name="file2"
-                  placeholder="Installer's Certification"
+                  placeholder="Installer's Certification Number"
                   type="text"
+                  value={props.installer_certification}
+                  onChange={(e) => props.setInstallerCertification(e.target.value)}
                 />
               </InputGroup>
-              {props.installer_certification ? (
+              {props.installer_certification === "" ? (
+                <p className="validate text-danger requiredField">
+                  *This Field is Required
+                </p>
+              ) : (
+                <></>
+              )}
+              {/* {props.installer_certification ? (
                 <p className="text-wrap">
                   {fileCode ? (
                     <>
@@ -234,7 +262,7 @@ function NewEuipmentInformation(props) {
                 </p>
               ) : (
                 <></>
-              )}
+              )} */}
             </Form.Group>
           </Col>
           <Col md={12}>
@@ -242,7 +270,7 @@ function NewEuipmentInformation(props) {
               <p className="d-flex justify-content-between applicationTitle">
                 INVOICE
                 <span
-                  className="text-secondary mb-1"
+                  className="text-secondary"
                   onClick={() => {
                     setModalData(
                       (p = {
@@ -256,7 +284,7 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
               </p>
-              <InputGroup>
+              <InputGroup className="mb-2">
                 <Form.Control
                   name="file"
                   placeholder="Upload Invoice"
@@ -300,15 +328,33 @@ function NewEuipmentInformation(props) {
                   ) : (
                     <></>
                   )}
-                  <p className="text-break">Filename: {props.invoice.name}</p>{" "}
-                  <br />
-                  File Type: {props.invoice.type} <br />
-                  <br />
+                  <p className="text-break m-0">Filename: {props.invoice.name}</p>
+                  <p>File Type: {props.invoice.type}</p>
                 </>
               ) : (
                 <></>
               )}
             </Form.Group>
+          </Col>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="quantity">
+              <Form.Label className=" applicationTitle">MAX QUANTITY ON INVOICE</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder=""
+                min="1"
+                onChange={(e) => props.setMaxInvoice(e.target.value)}
+                value={props.max_invoice}
+                required
+              ></Form.Control>
+            </Form.Group>
+            {props.max_invoice < 1 ? (
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
+            ) : (
+              <></>
+            )}
           </Col>
         </Row>
       );
@@ -384,12 +430,40 @@ function NewEuipmentInformation(props) {
     );
   };
 
+  const handleShowExeededTime = () => {
+    if(props.delay_reason === "")
+    {
+      const Toast = MySwal.mixin({
+      toast: true,
+      position: "top-right",
+      iconColor: "white",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBars: true,
+    });
+
+    Toast.fire({
+      icon: "info",
+      title: "The application has exeeded 120 day",
+      text: "There might be a chance that it will be rejected, please provide a valid reason.",
+    });
+    }
+  }
+
   return (
     <Row className="mx-0 w-100 d-flex justify-content-center">
       <Col md={10} xl={6}>
         {/* Row for installer's information */}
         <Row className="">
           <Col md={12} className="mb-3">
+            {screenWidthM ? (
+              <h4 className="text-center text-info mb-4">NEW EQUIPMENT INFORMATION</h4>
+            ) : (
+              <></>
+            )}
             <Form.Group controlId="system_type">
               <Form.Label className=" applicationTitle">SYSTEM TYPE</Form.Label>
               <Form.Select
@@ -425,10 +499,9 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <h4 className="text-center text-info mt-2 applicationSubHeader">
+        <h5 className="text-center text-info mt-2 applicationSubHeader pb-2">
           INSTALLER'S INFORMATION
-        </h4>
-
+        </h5>
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="technician_name">
@@ -542,9 +615,9 @@ function NewEuipmentInformation(props) {
         </Row>
         {installerCertificationHandler()}
 
-        <h4 className="text-center text-info mt-5 applicationSubHeader">
+        <h5 className="text-center text-info mt-5 pb-2 applicationSubHeader">
           EQUIPMENT INFORMATION
-        </h4>
+        </h5>
 
         <Row>
           <Col md={6} className="mb-3">
@@ -721,21 +794,27 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="invoice_no">
-              <ModalImage
+              {/* <ModalImage
                 data={{
                   description: "Invoice",
                   image_sample: "./sample_invoice.png",
                 }}
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-              />
-              <Form.Label className=" applicationTitle">
+              /> */}
+              <Form.Label className=" applicationTitle d-flex flex-row justify-content-between">
                 INVOICE#{" "}
                 <a
                   className="text-secondary"
                   rel="noreferrer"
                   target="_blank"
                   onClick={() => {
+                    setModalData(
+                      (p = {
+                        description: "INVOICE",
+                        image_sample: "./sample_invoice.png",
+                      })
+                    );
                     setModalShow(true);
                   }}
                 >
@@ -781,14 +860,25 @@ function NewEuipmentInformation(props) {
               ) /
                 (1000 * 3600 * 24) >
               120 ? (
-              <p className="validate text-danger requiredField">
-                (*Note: Your Application exceeded 120 days. Please be informed
-                that there might be a chance your application will be rejected
-                if you do not have valid reason for exceeding the alloted time.)
-              </p>
-            ) : (
-              ""
-            )}
+                <>
+                  { handleShowExeededTime() }
+                <Form.Control
+                as="textarea" row={3}
+                onChange={(e) => props.setDelayReason(e.target.value)}
+                value={props.delay_reason}
+                required
+                placeholder="Please enter a valid reason for exeeding 120 days."
+              ></Form.Control>
+              {props.delay_reason === "" ? (
+                <p className="validate text-danger requiredField">
+                  *This Field is Required
+                </p>
+              ) : (
+                <></>
+              )}
+              </>
+            ) : ("")
+          }
           </Col>
         </Row>
 

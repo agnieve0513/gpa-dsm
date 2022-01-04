@@ -23,6 +23,7 @@ function SubmissionOfDocumentation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
+    
   });
 
   let p = {};
@@ -100,7 +101,7 @@ function SubmissionOfDocumentation(props) {
       <Col md={3}></Col>
       <Col md={6}>
         {width >= 425 ? (
-          <h4 className="text-center text-info">Submission of Documentation</h4>
+          <h4 className="text-center text-info">SUBMISSION OF DOCUMENTATION</h4>
         ) : (
           <></>
         )}
@@ -182,7 +183,7 @@ function SubmissionOfDocumentation(props) {
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "Upload IRS Form W-9",
+                        description: "Upload Supporting Document 1",
                         image_sample: "./GPADSM8.png",
                       })
                     );
@@ -227,7 +228,7 @@ function SubmissionOfDocumentation(props) {
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "Upload IRS Form W-9",
+                        description: "Upload Supporting Document 2",
                         image_sample: "./GPADSM8.png",
                       })
                     );
