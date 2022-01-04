@@ -40,7 +40,7 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
 
   const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
@@ -74,7 +74,9 @@ function ApplicationScreen() {
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
+  const [max_invoice, setMaxInvoice] = useState(0)
   const [delay_reason, setDelayReason] = useState("");
+
   // Installer Information
   const [technician_name, setTechnicianName] = useState("");
   const [work_tel, setWorkTel] = useState("");
@@ -82,6 +84,7 @@ function ApplicationScreen() {
   const [technician_cert_no, setTechnicianCertNo] = useState("");
   const [date_final_installation, setDateFinalInstallation] = useState("");
   const [tech_email, setTechEmail] = useState("");
+
   // Equipment
   const [manufacturers, setManufacturerList] = useState([]);
   const [models, setModelList] = useState([]);
@@ -106,6 +109,7 @@ function ApplicationScreen() {
   const [old_system_type, setOldSystemType] = useState("");
   const [old_quantity, setOldQuantity] = useState("");
   const [old_btu, setOldBtu] = useState("");
+
   // const [old_size, setOldSize] = useState("")
   const [old_years, setOldYears] = useState("");
   const [old_tons, setOldTons] = useState("");
@@ -393,7 +397,6 @@ function ApplicationScreen() {
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||
-          email === "" ||
           tel_no === "" ||
           tel_no.length > 10 ||
           tel_no.length < 10 ||
@@ -574,6 +577,8 @@ function ApplicationScreen() {
                 setInvoiceNo={setInvoiceNo}
                 invoice={invoice}
                 setInvoice={setInvoice}
+                max_invoice={max_invoice}
+                setMaxInvoice={setMaxInvoice}
                 invoiceD={invoiceD}
                 setInvoiceD={setInvoiceD}
                 installer_certification={installer_certification}
@@ -680,6 +685,7 @@ function ApplicationScreen() {
                 setMailingAddress={setMailingAddress}
                 mailing_city_village={mailing_city_village}
                 setMailingCityVillage={setMailingCityVillage}
+                mailing_country={mailing_country}
                 mailing_zipcode={mailing_zipcode}
                 setMailingZipCode={setMailingZipCode}
                 home_size={home_size}

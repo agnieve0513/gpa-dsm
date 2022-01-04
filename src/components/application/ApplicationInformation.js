@@ -712,13 +712,6 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
-                {props.email === "" ? (
-                  <p className="validate text-danger requiredField">
-                    *This Field is Required
-                  </p>
-                ) : (
-                  <></>
-                )}
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">

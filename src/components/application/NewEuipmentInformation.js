@@ -99,6 +99,17 @@ function NewEuipmentInformation(props) {
     showTable();
   }, [dispatch, props.new_equipments]);
 
+  const Toast = MySwal.mixin({
+    toast: true,
+    position: "top-right",
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    showConfirmButton: false,
+    timer: 3500,
+    timerProgressBars: true,
+  });
   const addEquipmentHandler = () => {
     if (
       props.system_type === "" ||
@@ -120,52 +131,48 @@ function NewEuipmentInformation(props) {
                 (1000 * 3600 * 24) >
               120 && props.delay_reason === ""
     ) {
-      const Toast = MySwal.mixin({
-        toast: true,
-        position: "top-right",
-        iconColor: "white",
-        customClass: {
-          popup: "colored-toast",
-        },
-        showConfirmButton: false,
-        timer: 3500,
-        timerProgressBars: true,
-      });
-
       Toast.fire({
         icon: "info",
         title: "All Fields are required",
         text: "Fields should not be empty in order to proceed to next step",
       });
     } else {
-      // Object for saving . ...
-      const obj = {
-        control_no: props.control_no,
-        id: props.new_equipments.length,
-        system_type: props.system_type,
-        manufacturer: props.manufacturer,
-        model_no: props.model_no,
-        quantity: props.quantity,
-        btu: props.btu,
-        size: props.size,
-        rebate: props.rebate,
-        vendor: props.vendor,
-        type: props.type,
-        invoice_no: props.invoice_no,
-        purchase_date: props.purchase_date,
+      if (props.max_invoice > (totalQuantity + props.quantity)) {
+        // Object for saving . ...
+        const obj = {
+          control_no: props.control_no,
+          id: props.new_equipments.length,
+          system_type: props.system_type,
+          manufacturer: props.manufacturer,
+          model_no: props.model_no,
+          quantity: props.quantity,
+          btu: props.btu,
+          size: props.size,
+          rebate: props.rebate,
+          vendor: props.vendor,
+          type: props.type,
+          invoice_no: props.invoice_no,
+          purchase_date: props.purchase_date,
 
-        installer_information: {
-          technician_name: props.technician_name,
-          work_tel: props.work_tel,
-          company_name: props.company_name,
-          installer_certification: props.installer_certification,
-          date_final_installation: props.date_final_installation,
-          email: props.tech_email,
-        },
-      };
-      setTotalQuantity(parseInt(props.quantity) + parseInt(totalQuantity));
-      props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
-      props.setNewEquipments(props.new_equipments.concat(obj));
+          installer_information: {
+            technician_name: props.technician_name,
+            work_tel: props.work_tel,
+            company_name: props.company_name,
+            installer_certification: props.installer_certification,
+            date_final_installation: props.date_final_installation,
+            email: props.tech_email,
+          },
+        };
+        setTotalQuantity(parseInt(props.quantity) + parseInt(totalQuantity));
+        props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
+        props.setNewEquipments(props.new_equipments.concat(obj));
+      } else {
+        Toast.fire({
+          icon: "warning",
+          title: "Maximum Quantity of Invoice reached",
+          text: "Total quantity of equipment that can be added should be equal or less than specified maximum quantity.",
+        });
+      }
     }
   };
 
@@ -262,7 +269,7 @@ function NewEuipmentInformation(props) {
               <p className="d-flex justify-content-between applicationTitle">
                 INVOICE
                 <span
-                  className="text-secondary mb-1"
+                  className="text-secondary"
                   onClick={() => {
                     setModalData(
                       (p = {
@@ -276,7 +283,7 @@ function NewEuipmentInformation(props) {
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
               </p>
-              <InputGroup>
+              <InputGroup className="mb-2">
                 <Form.Control
                   name="file"
                   placeholder="Upload Invoice"
@@ -320,14 +327,33 @@ function NewEuipmentInformation(props) {
                   ) : (
                     <></>
                   )}
-                  <p className="text-break">Filename: {props.invoice.name}</p>{" "}
-                  File Type: {props.invoice.type}
-                  <br />
+                  <p className="text-break m-0">Filename: {props.invoice.name}</p>
+                  <p>File Type: {props.invoice.type}</p>
                 </>
               ) : (
                 <></>
               )}
             </Form.Group>
+          </Col>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="quantity">
+              <Form.Label className=" applicationTitle">MAX QUANTITY ON INVOICE</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder=""
+                min="1"
+                onChange={(e) => props.setMaxInvoice(e.target.value)}
+                value={props.max_invoice}
+                required
+              ></Form.Control>
+            </Form.Group>
+            {props.max_invoice < 1 ? (
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
+            ) : (
+              <></>
+            )}
           </Col>
         </Row>
       );
