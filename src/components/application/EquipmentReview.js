@@ -163,7 +163,7 @@ function EquipmentReview(props) {
                     </Col>
                     <Col>
                       <p>
-                        <b>{city_zipcode.find(loc => loc._id === props.city_village).village}</b>{" "}
+                        <b>{props.city_village ? city_zipcode.find(loc => loc._id === props.city_village).village : "None"}</b>{" "}
                       </p>
                     </Col>
                   </Row>

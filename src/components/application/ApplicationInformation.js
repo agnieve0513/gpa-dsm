@@ -46,6 +46,7 @@ function ApplicationInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
+    size: "50%"
   });
 
   const [verifyClicked, setVerifyClicked] = useState(false);
@@ -351,6 +352,7 @@ function ApplicationInformation(props) {
                 (p = {
                   description: "LOA",
                   image_sample: "./GPADSM7.png",
+                  size: "100%"
                 })
               );
               setModalShow(true);
@@ -443,6 +445,7 @@ function ApplicationInformation(props) {
                           (p = {
                             description: "GPA ACCOUNT NUMBER",
                             image_sample: "./GPADSM1.png",
+                            size: "80%"
                           })
                         );
                         setModalShow(true);
@@ -509,6 +512,7 @@ function ApplicationInformation(props) {
                           (pp = {
                             description: "Bill ID",
                             image_sample: "./GPADSM3.png",
+                            size: "80%"
                           })
                         );
                         setModalShow(true);

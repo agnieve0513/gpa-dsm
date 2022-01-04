@@ -33,6 +33,7 @@ function NewEuipmentInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
+    size: "50%"
   });
 
   const { height, width } = useWindowDimensions();
@@ -770,21 +771,28 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="invoice_no">
-              <ModalImage
+              {/* <ModalImage
                 data={{
                   description: "Invoice",
                   image_sample: "./sample_invoice.png",
                 }}
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-              />
-              <Form.Label className=" applicationTitle">
+              /> */}
+              <Form.Label className=" applicationTitle d-flex flex-row justify-content-between">
                 INVOICE#{" "}
                 <a
                   className="text-secondary"
                   rel="noreferrer"
                   target="_blank"
                   onClick={() => {
+                    setModalData(
+                      (p = {
+                        description: "INVOICE",
+                        image_sample: "./sample_invoice.png",
+                        size: "80%"
+                      })
+                    );
                     setModalShow(true);
                   }}
                 >
