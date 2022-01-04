@@ -52,6 +52,8 @@ import { uploadFileAction } from "../../actions/fileActions";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useWindowDimensions } from "../../hooks";
+import { formatAMPM } from "../../helpers";
+import _ from "lodash";
 
 const MySwal = withReactContent(Swal);
 let p = {};
@@ -60,7 +62,7 @@ TimeAgo.addDefaultLocale(en);
 // Create formatter (English).
 const timeAgo = new TimeAgo("en-US");
 
-function ApplicationForm() {
+function ApplicationForm({ current }) {
   const { height, width } = useWindowDimensions();
   const [commentShow, setCommentShow] = useState(false);
   const [show, setShow] = useState(false);
@@ -90,6 +92,7 @@ function ApplicationForm() {
   const [swalInfo, setSwalInfo] = useState("");
   const [updateState, setUpdateState] = useState(0);
   const [submited, setSubmited] = useState(false);
+  const [updatedTime, setUpdatedTime] = useState(formatAMPM(new Date()));
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -104,7 +107,65 @@ function ApplicationForm() {
   const dispatch = useDispatch();
 
   const applicationList = useSelector((state) => state.applicationList);
-  const { applications } = applicationList;
+  const [applications, setApplications] = useState([]);
+  // const { applications } = applicationList;
+
+  useEffect(() => {
+    console.log("old", applicationList.applications);
+    let changedItem = 0;
+    if (applications?.length === 0) {
+      if (applicationList.applications) {
+        setApplications(applicationList.applications);
+      }
+    } else if (applications?.length > 0) {
+      for (let i = 0; i < applications?.length; i++) {
+        if (applicationList.applications) {
+          const oldInfo = applications[i];
+          const newInfo = applicationList.applications.find(
+            (value) => value.Application_Id === oldInfo.Application_Id
+          );
+          console.log("newInfo", newInfo);
+          if (newInfo) {
+            if (newInfo.Last_Modified_On !== oldInfo.Last_Modified_On) {
+              changedItem = 1 + changedItem;
+            }
+          }
+        }
+
+        if (i === applications?.length - 1) {
+          if (changedItem > 0) {
+            setApplications(applicationList.applications);
+            setUpdatedTime(formatAMPM(new Date()));
+          }
+        }
+      }
+    }
+
+    if (applicationList.applications) {
+      if (applicationList.applications.length !== applications.length) {
+        setApplications(applicationList.applications);
+        setUpdatedTime(formatAMPM(new Date()));
+      }
+    }
+  }, [applicationList.applications]);
+  const [intervalId, setIntervalId] = useState();
+
+  useEffect(() => {
+    if (current !== "application") {
+      clearInterval(intervalId);
+    }
+    console.log("current", current);
+  }, [current]);
+
+  useEffect(() => {
+    if (current == "application") {
+      const rerun = setInterval(() => {
+        dispatch(listApplications());
+      }, 5000);
+
+      setIntervalId(rerun);
+    }
+  }, [current]);
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { application } = applicationDetail;
@@ -327,7 +388,7 @@ function ApplicationForm() {
     oth2 = "";
 
   let total_rebate = 0;
-
+  console.log("aksjdh", application);
   const handleOnChange = (e, doc_type, control_no) => {
     console.log("control_no", control_no);
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
@@ -621,6 +682,11 @@ function ApplicationForm() {
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
+                                  Customer Name
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
                                   Installation Address
                                 </b>
                               </p>
@@ -673,6 +739,9 @@ function ApplicationForm() {
                               </p>
                               <p>
                                 <b>{application.Info_Bill_id || "N/A"}</b>
+                              </p>
+                              <p>
+                                <b>{application.Account_Name || "N/A"}</b>
                               </p>
                               <p>
                                 <b>{application.Info_Customer_name || "N/A"}</b>
@@ -1823,20 +1892,20 @@ function ApplicationForm() {
                 <hr />
 
                 {comments ? (
-                  comments.map((comment) => (
-                    <div className="p-3 mb-1">
-                      <h6>
-                        {comment.Made_By} |{" "}
-                        {timeAgo.format(
-                          new Date(comment.Made_On) - 60 * 60 * 1000,
-                          "twitter"
-                        )}
-                        <br />
-                        <small className="text-muted">{comment.role}</small>
-                      </h6>
-                      <h6 className="text-muted">{comment.Comment}</h6>
-                    </div>
-                  ))
+                  comments.map((comment) => {
+                    const madeOn = new Date(comment.Made_On.replace(/-/g, "/"));
+                    const stringDate = madeOn.toString().substring(0, 15);
+                    return (
+                      <div className="p-3 mb-1">
+                        <h6>
+                          {comment.Made_By} | {stringDate}
+                          <br />
+                          <small className="text-muted">{comment.role}</small>
+                        </h6>
+                        <h6 className="text-muted">{comment.Comment}</h6>
+                      </div>
+                    );
+                  })
                 ) : (
                   <></>
                 )}
@@ -1856,7 +1925,23 @@ function ApplicationForm() {
             {/* <Button onClick={() => saveState()} className="me-2" size='sm' variant={"success"}>Save State</Button>
                         <Button onClick={() => restoreState()} className="me-2" size='sm' variant={"secondary"}>Restore State</Button> */}
             <Row>
-              <Col md="12" style={{ padding: 0 }}>
+              <div
+                style={{
+                  padding: 0,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h6
+                  style={{
+                    marginRight: "auto",
+                    marginLeft: 3,
+                  }}
+                  className="text-muted"
+                >
+                  Last Update: {updatedTime}
+                </h6>
                 <Button
                   onClick={() => resetState()}
                   className="mb-2 float-end"
@@ -1865,16 +1950,21 @@ function ApplicationForm() {
                 >
                   Reset Filter
                 </Button>
-              </Col>
+              </div>
             </Row>
-            {
-              width < 700 ?
+            {width < 700 ? (
               <>
-                <Alert variant="info" onClose={() => setShow(false)} dismissible>
+                <Alert
+                  variant="info"
+                  onClose={() => setShow(false)}
+                  dismissible
+                >
                   <p>To filter data, please long press the selected column.</p>
                 </Alert>
-              </>:<></>
-            }
+              </>
+            ) : (
+              <></>
+            )}
             <AgGridReact
               className="agGridTable"
               frameworkComponents={{
@@ -1907,12 +1997,18 @@ function ApplicationForm() {
               }}
               rowHeight={40}
             >
-
-              <AgGridColumn field="Control_Number" />
-              <AgGridColumn field="Application_Date" />
+              <AgGridColumn
+                headerName="Control Number"
+                field="Control_Number"
+              />
+              <AgGridColumn headerName="Name" field="customer_name" />
+              <AgGridColumn
+                headerName="Application Date"
+                field="Application_Date"
+              />
               <AgGridColumn field="Stage" />
               <AgGridColumn field="Status" />
-              <AgGridColumn field="System_Type" />
+              <AgGridColumn headerName="System Type" field="System_Type" />
               <AgGridColumn
                 field="Action"
                 type="medalColumn"

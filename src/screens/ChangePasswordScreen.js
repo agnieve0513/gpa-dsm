@@ -8,6 +8,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import {
   useParams
 } from "react-router-dom";
+import Footer from '../components/Footer';
 
 function ChangePasswordScreen({location, history}) {
 
@@ -99,14 +100,12 @@ function ChangePasswordScreen({location, history}) {
     }
 
     return (
-        <div>
-            <Row md={3} xs={12} sm={12}>
-              <Col md={2} sm={12} xs={12}></Col>
+        <div className="change-pass-screen d-flex flex-column flex-grow-1">
+            <Row className="d-flex justify-content-center">
               <Col className="mt-4" md={8} sm={12} xs={12}>
                 <Row className="mb-5">
                   <Col md={4}></Col>
-                  <Col md={4}>
-                  </Col>
+                  <Col md={4}></Col>
                   <Col md={4}></Col>
                 </Row>
                 <Row className="mb-2">
@@ -117,9 +116,8 @@ function ChangePasswordScreen({location, history}) {
                   <Col md={1}></Col>
                 </Row>
                 <Form onSubmit={submitHandler}>
-                  <Row>
-                      <Col md={3}></Col>
-                      <Col md={6}>
+                  <Row className="d-flex justify-content-center">
+                      <Col md={10} xl={6}>
                           <Form.Group controlId='new_password'>
                             <Form.Label>New Password</Form.Label>
                             <Form.Control
@@ -178,19 +176,11 @@ function ChangePasswordScreen({location, history}) {
                             </Col>
                         </Row>
                       </Col>
-                      <Col md={3}></Col>
                   </Row>
                 </Form>
-                
-                <Row className="mt-2">
-                    <Col className="text-center">
-                        <small className="text-secondary">Energy Sense Rebate Program for Central, Ducted Systems <br/>
-                        Copyright &copy; 2020 GPA Powered By Xtendly</small>
-                    </Col>
-                </Row>
               </Col>
-              <Col md={2} sm={12} xs={12}></Col>
             </Row>
+            <Footer/>
         </div>
     )
 }

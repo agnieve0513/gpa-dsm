@@ -393,7 +393,7 @@ function NewEuipmentInformation(props) {
 
   return (
     <Row className="mx-0 w-100 d-flex justify-content-center">
-      <Col md={8}>
+      <Col md={10} xl={6}>
         {/* Row for installer's information */}
         <Row className="">
           <Col md={12} className="mb-3">

@@ -17,33 +17,12 @@
 
 .nav-link {
     color: rgba(0, 0, 0, 1);
+    width: 100%;
 }
 
 .nav-item {
     background-color: #D0D5DB;
     top: 100px;
-}
-
-
-
-@media (max-width: 990px) 
-{
-    .nav-item
-    {
-        width: 100%;
-    }
-
-    .nav-link
-    {
-        width: 100%;
-    }
-
-    .nav-tabs
-    {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
 }
 
 .title {
@@ -56,11 +35,6 @@
     margin-bottom: -.75rem;
     margin-left: -1rem;
     border-bottom: 0;
-}
-
-#CardForReview .card-body
-{
-    padding:0;
 }
 
 .MuiTableRow-root .MuiTableRow-head

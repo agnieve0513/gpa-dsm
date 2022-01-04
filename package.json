@@ -37,11 +37,12 @@
     "string-crypto": "^2.0.2",
     "sweetalert2": "^11.1.7",
     "sweetalert2-react-content": "^4.1.1",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "@types/react-pdf": "^5.0.9"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -62,8 +63,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-pdf": "^5.0.9"
   }
 }

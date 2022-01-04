@@ -1,0 +1,13 @@
+.supportingDoc {
+    width: fit-content;
+}
+
+.uploadDocButton {
+    width: max-content;
+}
+
+@media (max-width: 425px) {
+    .uploadDocButton {
+        width: 100%;
+    }
+}

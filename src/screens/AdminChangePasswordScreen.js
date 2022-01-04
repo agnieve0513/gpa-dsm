@@ -105,10 +105,9 @@ function AdminChangePasswordScreen({ location, history }) {
   };
 
   return (
-    <div className="change-pass-screen">
+    <div className="change-pass-screen d-flex flex-column flex-grow-1">
       <Header />
-      <Row md={3} xs={12} sm={12}>
-        <Col md={2} sm={12} xs={12}></Col>
+      <Row className="d-flex justify-content-center">
         <Col className="mt-4" md={8} sm={12} xs={12}>
           <Row className="mb-5">
             <Col md={4}></Col>
@@ -121,12 +120,11 @@ function AdminChangePasswordScreen({ location, history }) {
               <h1 className="mb-4 text-center text-info">Change Password</h1>
             </Col>
             <Col md={1}></Col>
-          </Row>
+          </Row>  
           <Row>
             <Form onSubmit={(e)=> submitHandler(e)}>
-              <Row>
-                <Col md={3}></Col>
-                <Col md={6}>
+              <Row className="d-flex justify-content-center">
+                <Col md={10} xl={6}>
                   <Form.Group controlId="old_password">
                     <Form.Label className="pt-2">Old Password</Form.Label>
                     <Form.Control
@@ -200,14 +198,12 @@ function AdminChangePasswordScreen({ location, history }) {
                     </Col>
                   </Row>
                 </Col>
-                <Col md={3}></Col>
               </Row>
             </Form>
           </Row>
-          <Footer />
         </Col>
-        <Col md={2} sm={12} xs={12}></Col>
       </Row>
+      <Footer/>
     </div>
   );
 }

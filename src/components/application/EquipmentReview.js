@@ -18,6 +18,8 @@ import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 
 function EquipmentReview(props) {
   const { height, width } = useWindowDimensions();
+  const squeezedTabs = width > 1283
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -50,22 +52,20 @@ function EquipmentReview(props) {
   let total_rebate = 0;
 
   return (
-    <Row className="w-100 mx-0 px-0">
-      <Col md={1}></Col>
-      <Col md={10}>
+    <Row className="w-100 mx-0 d-flex justify-content-center">
+      <Col sm={10} xl={8}>
         {width >= 425 ? (
           <h4 className="text-center text-info mb-3">Equipment Review</h4>
         ) : (
           <></>
         )}
 
-        <Card className="mb-5" id="CardForReview">
-          <Card.Body>
+        <Card className="mb-5 CardForReview" id="equipReviewCard">
+          <Card.Body className="p-0">
             <Tabs
               defaultActiveKey="application_information"
               transition={false}
-              id=""
-              className="mb-3"
+              className={squeezedTabs ? "mb-3" : "equipTabs mb-3 flex flex-column w-100"}
             >
               <Tab
                 eventKey="application_information"
@@ -447,7 +447,7 @@ function EquipmentReview(props) {
                 eventKey="old_quipment_info"
                 title="Old/Existing Equipment Information"
               >
-                <Container className="ml-2 mr-2">
+                <Container className="my-4">
                   <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
                     <h3 className="px-0 my-0 w-75 text-info text-start">
                       Old Equipment Info{" "}
@@ -499,7 +499,6 @@ function EquipmentReview(props) {
           </Card.Body>
         </Card>
       </Col>
-      <Col md={1}></Col>
     </Row>
   );
 }

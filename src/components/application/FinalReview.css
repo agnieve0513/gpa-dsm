@@ -19,26 +19,6 @@
     top: 100px;
 }
 
-@media (max-width: 1325px) 
-{
-    .nav-item
-    {
-        width: 100%;
-    }
-
-    .nav-link
-    {
-        width: 100%;
-    }
-
-    .nav-tabs
-    {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-}
-
 .title {
     color: #929292;
 }
@@ -49,9 +29,4 @@
     margin-bottom: -.75rem;
     margin-left: -1rem;
     border-bottom: 0;
-}
-
-#CardForFinalReview .card-body
-{
-    padding:0;
 }

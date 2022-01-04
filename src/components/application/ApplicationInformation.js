@@ -94,7 +94,7 @@ function ApplicationInformation(props) {
       dispatch(loadCustomerDetail(props.bill_id, props.account_no));
       setVerifyClicked(true);
     } else {
-        const Toast = MySwal.mixin({
+      const Toast = MySwal.mixin({
         toast: true,
         position: "top-right",
         iconColor: "white",
@@ -113,6 +113,15 @@ function ApplicationInformation(props) {
       });
     }
   };
+
+  useEffect(() => {
+    console.log("customer_detail", customer_detail);
+    if (customer_detail) {
+      if (customer_detail?.info) {
+        props.setGpaHolder(customer_detail.info["@attributes"].Name);
+      }
+    }
+  }, [customer_detail]);
 
   const handleFocus = () => {
     console.log("focused!");
@@ -158,9 +167,9 @@ function ApplicationInformation(props) {
         name="is_applicant_owner"
         type={"radio"}
         id={`inline-${"radio"}-1`}
-        value="true"
-        checked={"true" == props.is_applicant_owner}
-        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        value={true}
+        checked={true == props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(true)}
         className="w-auto"
         disabled={props.verify ? false : true}
       />
@@ -169,9 +178,9 @@ function ApplicationInformation(props) {
         label="No"
         name="is_applicant_owner"
         type={"radio"}
-        value="false"
-        checked={"false" == props.is_applicant_owner}
-        onChange={(e) => props.setIsApplicantOwner(e.target.value)}
+        value={false}
+        checked={false == props.is_applicant_owner}
+        onChange={(e) => props.setIsApplicantOwner(false)}
         className="w-auto"
         disabled={props.verify ? false : true}
       />
@@ -184,6 +193,7 @@ function ApplicationInformation(props) {
     } else {
       props.setIsApplicantOwner(true);
     }
+    console.log("appiowner", props.is_applicant_owner);
   }
 
   const ownerComponentMobile = () => (
@@ -192,7 +202,7 @@ function ApplicationInformation(props) {
       <Switch
         checked={props.is_applicant_owner}
         onClick={handleToggleSwitchOwner}
-        disabled={props.verify ? false : true}
+        // disabled={props.verify ? false : true}
       />
       <p className="px-0 w-auto my-0 text-start align-self-center">Yes</p>
     </Row>
@@ -228,8 +238,7 @@ function ApplicationInformation(props) {
   );
 
   const homeComponentDesktop = () => (
-    <Col md={12}>
-      <br />
+    <Col clas md={12}>
       <Form.Check
         inline
         label="Single Family"
@@ -328,85 +337,83 @@ function ApplicationInformation(props) {
     </Row>
   );
 
-  const uploadLoa = ()=>
-  {
-    return <Form.Group controlId="is_applicant_owner">
-                    <Form.Label className=" applicationTitle">
-                      Upload LOA
-                      <span
-                        className="text-secondary"
-                        style={{ marginLeft: "auto" }}
-                        onClick={() => {
-                          setModalData(
-                            (p = {
-                              description: "LOA",
-                              image_sample: "./GPADSM7.png",
-                            })
-                          );
-                          setModalShow(true);
-                        }}
-                      >
-                        <i className="fa fa-question-circle"></i>{" "}
-                      </span>
-                    </Form.Label>
-                    <InputGroup>
-                      <Form.Control
-                        name="file"
-                        placeholder="Upload Lettter of Authorization"
-                        type="file"
-                        onChange={(e) => handleChangeLOA(e)}
-                      />
-                      <div
-                        style={{
-                          width: "40px",
-                          height: "38px",
-                          backgroundColor: "#233E86",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <i
-                          style={{ color: "white" }}
-                          className="fa fa-upload"
-                        ></i>
-                      </div>
-                    </InputGroup>
-                    {props.letter_authorization === null ? (
-                      <p className="validate text-danger requiredField">
-                        *This Field is Required
-                      </p>
-                    ) : (
-                      <></>
-                    )}
-                    {props.letter_authorization ? (
-                      <>
-                        {fileCode ? (
-                          <>
-                            {fileCode.length !== 0 ? (
-                              <>
-                                {props.setLetterAuthorizationD(fileCode)}
-                                {console.log("File Code: ", fileCode)}
-                                {console.log(props.letter_authorizationD)}
-                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
-                                <br />
-                              </>
-                            ) : (
-                              <></>
-                            )}
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                        Filename: {props.letter_authorization.name} <br />
-                        File Type: {props.letter_authorization.type} <br />
-                        <br />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </Form.Group>;
-  }
+  const uploadLoa = () => {
+    return (
+      <Form.Group controlId="is_applicant_owner">
+        <Form.Label className=" applicationTitle">
+          Upload LOA
+          <span
+            className="text-secondary"
+            style={{ marginLeft: "auto" }}
+            onClick={() => {
+              setModalData(
+                (p = {
+                  description: "LOA",
+                  image_sample: "./GPADSM7.png",
+                })
+              );
+              setModalShow(true);
+            }}
+          >
+            <i className="fa fa-question-circle"></i>{" "}
+          </span>
+        </Form.Label>
+        <InputGroup>
+          <Form.Control
+            disabled={props.verify ? false : true}
+            name="file"
+            placeholder="Upload Lettter of Authorization"
+            type="file"
+            onChange={(e) => handleChangeLOA(e)}
+          />
+          <div
+            style={{
+              width: "40px",
+              height: "38px",
+              backgroundColor: "#233E86",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <i style={{ color: "white" }} className="fa fa-upload"></i>
+          </div>
+        </InputGroup>
+        {props.letter_authorization === null ? (
+          <p className="validate text-danger requiredField">
+            *This Field is Required
+          </p>
+        ) : (
+          <></>
+        )}
+        {props.letter_authorization ? (
+          <>
+            {fileCode ? (
+              <>
+                {fileCode.length !== 0 ? (
+                  <>
+                    {props.setLetterAuthorizationD(fileCode)}
+                    {console.log("File Code: ", fileCode)}
+                    {console.log(props.letter_authorizationD)}
+                    <Badge bg={"success"}>File Uploaded</Badge> <br />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+            Filename: {props.letter_authorization.name} <br />
+            File Type: {props.letter_authorization.type} <br />
+            <br />
+          </>
+        ) : (
+          <></>
+        )}
+      </Form.Group>
+    );
+  };
 
   return (
     <Container>
@@ -416,9 +423,7 @@ function ApplicationInformation(props) {
         onHide={() => setModalShow(false)}
       />
       {screenWidthM ? (
-        <h4 className="text-center text-info mb-4 h6 " id="blueHeader">
-          APPLICANT'S INFORMATION
-        </h4>
+        <h4 className="text-center text-info mb-4">APPLICANT'S INFORMATION</h4>
       ) : (
         <></>
       )}
@@ -547,7 +552,7 @@ function ApplicationInformation(props) {
                     <p id="accountName">GPA Account's Name :</p>{" "}
                     {customer_detail
                       ? customer_detail.info
-                        ? customer_detail.info["@attributes"].Name
+                        ? props.gpa_holder
                         : ""
                       : ""}{" "}
                   </b>
@@ -750,42 +755,27 @@ function ApplicationInformation(props) {
               </Col>
             </Row>
 
-            <Row>
+            <Row className="py-4">
               <Col md={6}>
-                <p>
+                <p className="pt-1 pe-4">
                   Applicant must be either the GPA account holder or the
                   property owner to claim a rebate. Is applicant the owner of
                   the residential property?
                 </p>
               </Col>
               <Col md={6} className="mb-3">
-                {screenWidthT
-                  ?
-                   <>
-                      {ownerComponentDesktop()}
-                      {
-                        props.is_applicant_owner === "false"  ?
-                        uploadLoa() : ''
-                      }                  
-                    </>
-                  : <>
-                      {ownerComponentMobile()}
-                      {!props.is_applicant_owner ||
-                        props.is_applicant_owner === false ? (
-                          uploadLoa()
-                        ) : (
-                          <></>
-                        )}
-                  </>
-                      
-                  }
+                {screenWidthT ? (
+                  <>{ownerComponentDesktop()}</>
+                ) : (
+                  <>{ownerComponentMobile()}</>
+                )}
+                {!props.is_applicant_owner ||
+                props.is_applicant_owner === "false" ? (
+                  uploadLoa()
+                ) : (
+                  <></>
+                )}
                 <br />
-                
-                {/* {props.is_applicant_owner == undefined ? (
-                    <p className="validate text-danger requiredField">*This Field is Required</p>
-                  ) : (
-                    <></>
-                )} */}
               </Col>
             </Row>
 
@@ -928,6 +918,7 @@ function ApplicationInformation(props) {
                     YEAR BUILT
                   </Form.Label>
                   <Form.Control
+                    maxLength={4}
                     type="text"
                     placeholder=""
                     value={props.home_age}

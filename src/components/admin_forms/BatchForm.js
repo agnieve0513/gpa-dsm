@@ -47,12 +47,13 @@ import TimeAgo from "javascript-time-ago";
 // English.
 import en from "javascript-time-ago/locale/en.json";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
+import { formatAMPM } from "../../helpers";
 
 TimeAgo.addDefaultLocale(en);
 // Create formatter (English).
 const timeAgo = new TimeAgo("en-US");
 
-function BatchForm() {
+function BatchForm({ current }) {
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let roleId = obj.message.original.roleId;
 
@@ -113,14 +114,8 @@ function BatchForm() {
 
   const dispatch = useDispatch();
 
-  const batchList = useSelector((state) => state.batchList);
-  const { batches } = batchList;
-
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { application } = applicationDetail;
-
-  const batchApplication = useSelector((state) => state.batchApplication);
-  const { batch_applications } = batchApplication;
 
   const applicationComments = useSelector((state) => state.applicationComments);
   const { comments } = applicationComments;
@@ -143,6 +138,104 @@ function BatchForm() {
     loading: batchUpdateLoading,
     success: batchUpdateSuccess,
   } = batchApplicationUpdate;
+
+  const [intervalId, setIntervalId] = useState();
+  const [intervalId2, setIntervalId2] = useState();
+  const batchApplication = useSelector((state) => state.batchApplication);
+  const [batch_applications, setBatchApplication] = useState([]);
+  const batchList = useSelector((state) => state.batchList);
+  const [batches, setBatches] = useState([]);
+  const [updatedTime, setUpdatedTime] = useState(formatAMPM(new Date()));
+
+  useEffect(() => {
+    let changedItem = 0;
+    if (batch_applications?.length === 0) {
+      if (batchApplication.batch_applications) {
+        setBatchApplication(batchApplication.batch_applications);
+        console.log("Triggerd");
+      }
+    } else if (batch_applications?.length > 0) {
+      for (let i = 0; i < batch_applications?.length; i++) {
+        if (batchApplication.batch_applications) {
+          const oldInfo = batch_applications[i];
+          const newInfo = batchApplication.batch_applications.find(
+            (value) => value.Application_Id === oldInfo.Application_Id
+          );
+
+          if (!newInfo) {
+            changedItem = 1 + changedItem;
+          }
+        }
+
+        if (i === batch_applications?.length - 1) {
+          if (changedItem > 0) {
+            setBatchApplication(batchApplication.batch_applications);
+            setUpdatedTime(formatAMPM(new Date()));
+          }
+        }
+      }
+    }
+  }, [batchApplication]);
+
+  useEffect(() => {
+    let changedItem = 0;
+    if (batches?.length === 0) {
+      if (batchList.batches) {
+        setBatches(batchList.batches);
+      }
+    } else if (batches?.length > 0) {
+      for (let i = 0; i < batches?.length; i++) {
+        if (batchList.batches) {
+          const oldInfo = batches[i];
+          const newInfo = batchList.batches.find(
+            (value) => value.batch_Id === oldInfo.batch_Id
+          );
+
+          if (newInfo) {
+            changedItem = 1 + changedItem;
+          }
+        }
+
+        if (i === batches?.length - 1) {
+          if (changedItem > 0) {
+            setBatches(batchList.batches);
+            setUpdatedTime(formatAMPM(new Date()));
+          }
+        }
+      }
+    }
+  }, [batchList]);
+
+  useEffect(() => {
+    if (current !== "batch") {
+      clearInterval(intervalId);
+    }
+  }, [current]);
+
+  useEffect(() => {
+    if (current == "batch") {
+      const rerun = setInterval(() => {
+        dispatch(listBatch());
+      }, 5000);
+
+      setIntervalId(rerun);
+    }
+  }, [current]);
+
+  useEffect(() => {
+    if (current == "batch") {
+      if (currentBatch) {
+        if (intervalId2) {
+          clearInterval(intervalId2);
+        }
+        const rerun = setInterval(() => {
+          dispatch(listBatchApplication(currentBatch));
+        }, 5000);
+
+        setIntervalId2(rerun);
+      }
+    }
+  }, [currentBatch]);
 
   useEffect(() => {
     dispatch(listBatch());
@@ -292,6 +385,9 @@ function BatchForm() {
   };
 
   const backToBatchesHandler = () => {
+    clearInterval(intervalId2);
+    setCurrentBatch(null);
+    setBatchApplication([]);
     setShowApplicationTab(false);
   };
 
@@ -314,7 +410,6 @@ function BatchForm() {
     dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
     return;
   };
-
 
   return (
     <>
@@ -1656,7 +1751,7 @@ function BatchForm() {
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
-                    {title: "Total Rebate", field: "TotalRebate"},
+                    { title: "Total Rebate", field: "TotalRebate" },
                     // {
                     //   title: "Action",
                     //   field: "actions",
@@ -1678,35 +1773,30 @@ function BatchForm() {
                     // },
                   ]}
                   data={batch_applications}
-                  title={width < 770 ? "" : "Batch Application"}
+                  title={width < 770 ? "" : currentBatch}
                   options={{
                     headerStyle: {
                       backgroundColor: "#233f88",
                       color: "#FFF",
-                       
                     },
-                    selection: true
+                    selection: true,
                   }}
-
-                  onSelectionChange={(rows) => rows.length > 0 
-                    ? 
-                      (
-                        <>
-                        {selectedIds = []}
-                        {
-                          rows.map(row => {
-                            selectedIds.push(row.Application_Id)
-                          })
-                        }
-                        {
-                          setSelectedIds(selectedIds)
-                        }
-                        </>
-                      )
-                    : (<>
-                      {selectedIds = []}
-                      {setSelectedIds(selectedIds)}
-                    </> )}
+                  onSelectionChange={(rows) =>
+                    rows.length > 0 ? (
+                      <>
+                        {(selectedIds = [])}
+                        {rows.map((row) => {
+                          selectedIds.push(row.Application_Id);
+                        })}
+                        {setSelectedIds(selectedIds)}
+                      </>
+                    ) : (
+                      <>
+                        {(selectedIds = [])}
+                        {setSelectedIds(selectedIds)}
+                      </>
+                    )
+                  }
                 />
                 <div className="d-flex flex-row-reverse">
                   <Button
@@ -1734,6 +1824,7 @@ function BatchForm() {
                     { title: "Batch Code", field: "Batch_code" },
                     { title: "Batch Type", field: "Batch_type" },
                     { title: "Batch Ferc", field: "Batch_ferc" },
+                    { title: "Total", field: "Batch_total" },
                     {
                       title: "MadeOn",
                       render: (rowData) => {

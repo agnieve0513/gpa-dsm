@@ -178,9 +178,8 @@ function ExistingEquipmentInformation(props) {
   };
 
   return (
-    <Row className="w-100 mx-0">
-      <Col md={3}></Col>
-      <Col md={6}>
+    <Row className="w-100 mx-0 d-flex justify-content-center">
+      <Col md={10} xl={6}>
         {width >= 425 ? (
           <h4 className="text-center text-info">
             Existing Equipment Information
@@ -530,7 +529,6 @@ function ExistingEquipmentInformation(props) {
           <Col md={12}>{showTable()}</Col>
         </Row>
       </Col>
-      <Col md={3}></Col>
     </Row>
   );
 }

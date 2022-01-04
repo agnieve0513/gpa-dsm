@@ -16,9 +16,16 @@ import {
 import "./EquipmentReview.css";
 import MaterialTable from "material-table";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
+import { retrieveFileAction } from "../../actions/fileActions";
+import { useDispatch } from "react-redux";
 
 function FinalReview(props) {
+  console.log('I am the file: ', props.irs_form)
+  const dispatch = useDispatch();
+
   const { height, width } = useWindowDimensions();
+  const squeezedTabs = width > 1367
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -65,13 +72,12 @@ function FinalReview(props) {
           <></>
         )}
 
-        <Card className="mb-5" id="CardForReview">
-          <Card.Body>
+        <Card className="mb-5">
+          <Card.Body className="p-0">
             <Tabs
               defaultActiveKey="application_information"
               transition={false}
-              id=""
-              className="mb-3"
+              className={squeezedTabs ? "mb-3" : "finalTabs mb-3 flex flex-column w-100"}
             >
               <Tab
                 eventKey="application_information"
@@ -455,7 +461,7 @@ function FinalReview(props) {
                 eventKey="old_quipment_info"
                 title="Old/Existing Equipment Information"
               >
-                <Container className="ml-2 mr-2">
+                <Container className="my-4">
                   <Row className="pt-3 pb-4 px-0 mx-0 d-flex flex-row justify-content-between w-100">
                     <h3 className="px-0 my-0 w-75 text-info text-start">
                       Old Equipment Info{" "}
@@ -523,48 +529,75 @@ function FinalReview(props) {
                   </Row>
                   {props.letter_authorization ? (
                     <>
+                      <b>
+                        LOA <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
                       <p>
-                        LOA <Badge bg={"success"}>Uploaded</Badge>{" "}
+                          Filename: {props.letter_authorization.name} <br />
+                          File Type: {props.letter_authorization.type}
                       </p>
                     </>
                   ) : (
                     <></>
                   )}
 
-                  <p>
-                    Invoice
-                    {props.invoice ? (
+                  {props.invoice ? (
                       <>
-                        <Badge bg={"success"}>Uploaded</Badge>
+                        <b>
+                          Invoice <Badge bg={"success"}>Uploaded</Badge>
+                        </b>
+                        <p>
+                          Filename: {props.invoice.name} <br />
+                          File Type: {props.invoice.type}
+                        </p>
                       </>
                     ) : (
                       <></>
                     )}
-                  </p>
                   {props.installer_certification ? (
                     <>
+                      <b>
+                        Installer's Certification <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
                       <p>
-                        Installer's Certification{" "}
-                        <Badge bg={"success"}>Uploaded</Badge>
+                        Filename: {props.installer_certification.name} <br />
+                        File Type: {props.installer_certification.type}
                       </p>
                     </>
                   ) : (
                     <></>
                   )}
-                  <p>
-                    IRS Form W-9
-                    {props.irs_form ? (
-                      <>
-                        <Badge bg={"success"}>Uploaded</Badge>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </p>
+                  {props.irs_form ? (
+                    <>
+                      <b>
+                        IRS Form W-9 <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
+                      <p>
+                        Filename: {props.irs_form.name} <br />
+                        File Type: {props.irs_form.type}
+                      </p>
+                      <Button
+                        className="mb-2"
+                        variant={"success"}
+                        onClick={() =>
+                          dispatch(
+                            retrieveFileAction(props.irs_form.name)
+                          )
+                        }
+                        size={"sm"}
+                      >Download</Button>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   {props.disposal_receipt ? (
                     <>
-                      <p>
+                      <b>
                         Disposal Receipt <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
+                      <p>
+                        Filename: {props.disposal_receipt.name} <br />
+                        File Type: {props.disposal_receipt.type}
                       </p>
                     </>
                   ) : (
@@ -572,9 +605,12 @@ function FinalReview(props) {
                   )}
                   {props.letter_authorization ? (
                     <>
+                      <b>
+                        Letter Authorization <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
                       <p>
-                        Letter Authorization{" "}
-                        <Badge bg={"success"}>Uploaded</Badge>
+                        Filename: {props.letter_authorization.name} <br />
+                        File Type: {props.letter_authorization.type}
                       </p>
                     </>
                   ) : (
@@ -582,9 +618,12 @@ function FinalReview(props) {
                   )}
                   {props.other_doc1 ? (
                     <>
+                      <b>
+                        Other Support Documents 1 <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
                       <p>
-                        Other Support Documents 1{" "}
-                        <Badge bg={"success"}>Uploaded</Badge>
+                        Filename: {props.other_doc1.name} <br />
+                        File Type: {props.other_doc1.type}
                       </p>
                     </>
                   ) : (
@@ -592,9 +631,12 @@ function FinalReview(props) {
                   )}
                   {props.other_doc2 ? (
                     <>
+                      <b>
+                        Other Support Documents 2 <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
                       <p>
-                        Other Support Documents 2{" "}
-                        <Badge bg={"success"}>Uploaded</Badge>
+                        Filename: {props.other_doc2.name} <br />
+                        File Type: {props.other_doc2.type}
                       </p>
                     </>
                   ) : (
