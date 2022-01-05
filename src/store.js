@@ -48,6 +48,7 @@ import {
   uploadFileReducer,
   retrieveFileReducer,
   retrievePdfReducer,
+  logsFileReducer,
 } from "./reducers/fileReducers";
 
 const reducer = combineReducers({
@@ -63,6 +64,7 @@ const reducer = combineReducers({
   uploadFile: uploadFileReducer,
   retrieveFile: retrieveFileReducer,
   retrievePdf: retrievePdfReducer,
+  logsFile: logsFileReducer,
 
   applicationList: applicationListReducer,
   applicationListRecord: applicationListRecordsReducer,

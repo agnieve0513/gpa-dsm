@@ -9,12 +9,15 @@ import {
   PDF_RETRIEVE_REQUEST,
   PDF_RETRIEVE_SUCCESS,
   PDF_RETRIEVE_FAIL,
+  LOG_FILE_REQUEST,
+  LOG_FILE_SUCCESS,
+  LOG_FILE_FAIL,
 } from "../constants/fileConstants";
 
 const URL = "https://gpadev-api-rebate.xtendly.com/api/v1";
 
 export const uploadFileAction =
-  (filepath, doctype, controlNo) => async (dispatch) => {
+  (filepath, doctype, controlNo, UserId) => async (dispatch) => {
     try {
       dispatch({
         type: FILE_UPLOAD_REQUEST,
@@ -24,6 +27,7 @@ export const uploadFileAction =
       bodyFormData.append("doctype", doctype);
       bodyFormData.append("controlNo", controlNo);
       bodyFormData.append("filepath", filepath);
+      bodyFormData.append("UserId", UserId);
 
       const config = {
         headers: {
@@ -132,6 +136,43 @@ export const retrievePdfAction = (message) => async (dispatch) => {
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const logsFileAction = () => async (dispatch, getState) => {
+  try {
+    let obj = JSON.parse(localStorage.getItem("userInfo"));
+
+    dispatch({
+      type: LOG_FILE_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${obj.message.original.access_token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      URL + "/log-list",
+      { applicationId: "TNC" },
+      config
+    );
+
+    dispatch({
+      type: LOG_FILE_SUCCESS,
+      payload: data.table,
+    });
+  } catch (error) {
+    dispatch({
+      type: LOG_FILE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.reponse.data.detail
           : error.message,
     });
   }
