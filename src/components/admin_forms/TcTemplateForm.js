@@ -22,7 +22,12 @@ import {
 
 import { useDispatch, useSelector } from "react-redux";
 import { useWindowDimensions } from "../../hooks";
-import { uploadFileAction, retrievePdfAction } from "../../actions/fileActions";
+import { formatAMPM } from "../../helpers";
+import {
+  uploadFileAction,
+  retrievePdfAction,
+  logsFileAction,
+} from "../../actions/fileActions";
 import DisplayPDF from "../application/Pdf";
 
 function TcTemplateForm() {
@@ -37,6 +42,37 @@ function TcTemplateForm() {
   console.log("WrapperRef", WrapperRef);
   const dispatch = useDispatch();
 
+  let obj = JSON.parse(localStorage.getItem("userInfo"));
+  let userId = obj.message.original.details.id;
+
+  const logsFile = useSelector((state) => state.logsFile);
+  const [author, setAuthor] = useState("");
+  const [authorDate, setAuthorDate] = useState("");
+
+  useEffect(() => {
+    if (logsFile.success) {
+      for (let i = 0; i < logsFile.success.length; i++) {
+        const data = logsFile.success[i];
+        if (code === "comm") {
+          if (data.Action.includes("comm")) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
+          }
+        } else {
+          if (data.Action.includes("resd")) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
+          }
+        }
+      }
+    }
+  }, [logsFile, code]);
   const uploadFile = useSelector((state) => state.uploadFile);
   const retriveTermsAndCondition = useSelector(
     (state) => state.retriveTermsAndCondition
@@ -44,7 +80,14 @@ function TcTemplateForm() {
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
   const handleUploadFile = () => {
-    dispatch(uploadFileAction(selectedFile, customer_type, "termsandconditions"));
+    dispatch(
+      uploadFileAction(
+        selectedFile,
+        customer_type,
+        "termsandconditions",
+        userId
+      )
+    );
     dispatch(retrievePdfAction(customer_type));
   };
 
@@ -59,6 +102,7 @@ function TcTemplateForm() {
 
   useEffect(() => {
     dispatch(retrievePdfAction(code));
+    dispatch(logsFileAction());
   }, [code, fileCode]);
 
   const handleDownload = () => {
@@ -209,6 +253,20 @@ function TcTemplateForm() {
           </Col>
         </Row>
         <Tab.Content>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <h5
+              style={{ marginBottom: 10, marginLeft: 10, marginTop: 20 }}
+              className="text-info"
+            >
+              {author}
+            </h5>
+            <h5
+              style={{ marginBottom: 10, marginLeft: "auto", marginTop: 20 }}
+              className="text-info"
+            >
+              {authorDate}
+            </h5>
+          </div>
           <div
             ref={WrapperRef}
             style={{
@@ -218,7 +276,7 @@ function TcTemplateForm() {
               paddingTop: 50,
               paddingBottom: 50,
               marginLeft: 10,
-              marginTop: 20,
+              marginTop: 10,
             }}
           >
             <DisplayPDF
