@@ -8,7 +8,7 @@ const prerequisites = [
       "c) Most recent Bill ID",
     ],
     additional: ``,
-    image_sample: "./GPADSM9.png",
+    image_sample: "./image_sample/3.jpg",
   },
   {
     _id: "2",
@@ -20,7 +20,7 @@ const prerequisites = [
     ],
     additional: `a) Installer must print and sign the invoice
         if they are the disposal party for existing equipment.`,
-    image_sample: "./GPADSM5.png",
+    image_sample: "./image_sample/4.jpg",
   },
   {
     _id: "3",
@@ -38,7 +38,7 @@ const prerequisites = [
     description: `Installer Information`,
     information: [`a) Technician Name, Company, Contact Number, and Email`],
     additional: "a) Technician Name, Company, Contact Number, and Email",
-    image_sample: "./GPADSM8.png",
+    image_sample: "./image_sample/7.jpg",
   },
   {
     _id: "5",
@@ -46,14 +46,14 @@ const prerequisites = [
     information: [],
     additional:
       "a) Customer must provide a disposal slip if the customer is the disposal party for existing equipment",
-    image_sample: "./GPADSM6.png",
+    image_sample: "./image_sample/5.jpg",
   },
   {
     _id: "6",
     description: `Letter of Authorization (LOA)`,
     information: [],
     additional: `a) Upload and attach LOA (Only if the applicant is neither the GPA Account Holder or Property)`,
-    image_sample: "./GPADSM7.png",
+    image_sample: "./image_sample/6.jpg",
   },
   {
     _id: "7",

@@ -120,7 +120,7 @@ function SubmissionOfDocumentation(props) {
                 setModalData(
                   (p = {
                     description: "Upload IRS Form W-9",
-                    image_sample: "./GPADSM8.png",
+                    image_sample: "./image_sample/7.jpg",
                   })
                 );
                 setModalShow(true);
@@ -286,8 +286,8 @@ function SubmissionOfDocumentation(props) {
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "Upload IRS Form W-9",
-                        image_sample: "./GPADSM7.png",
+                        description: "Upload Letter of Authorization",
+                        image_sample: "./image_sample/6.jpg",
                       })
                     );
                     setModalShow(true);
@@ -341,8 +341,8 @@ function SubmissionOfDocumentation(props) {
                 onClick={() => {
                   setModalData(
                     (p = {
-                      description: "Upload IRS Form W-9",
-                      image_sample: "./GPADSM7.png",
+                      description: "Upload Invoice",
+                      image_sample: "./sample_invoice.png",
                     })
                   );
                   setModalShow(true);
@@ -396,8 +396,8 @@ function SubmissionOfDocumentation(props) {
                 onClick={() => {
                   setModalData(
                     (p = {
-                      description: "Upload IRS Form W-9",
-                      image_sample: "./GPADSM7.png",
+                      description: "Upload Installer's Certification",
+                      image_sample: "./image_sample/7.jpg",
                     })
                   );
                   setModalShow(true);
@@ -449,8 +449,8 @@ function SubmissionOfDocumentation(props) {
                 onClick={() => {
                   setModalData(
                     (p = {
-                      description: "Upload IRS Form W-9",
-                      image_sample: "./GPADSM7.png",
+                      description: "Upload Disposal Receipt",
+                      image_sample: "./image_sample/5.jpg",
                     })
                   );
                   setModalShow(true);

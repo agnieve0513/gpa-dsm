@@ -428,7 +428,7 @@ function ExistingEquipmentInformation(props) {
                       setModalData(
                         (p = {
                           description: "DISPOSAL SLIP",
-                          image_sample: "./GPADSM5.png",
+                          image_sample: "./image_sample/5.jpg",
                         })
                       );
                       setModalShow(true);

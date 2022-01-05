@@ -342,7 +342,7 @@ function ApplicationInformation(props) {
   const uploadLoa = () => {
     return (
       <Form.Group controlId="is_applicant_owner">
-        <Form.Label className=" applicationTitle">
+        <Form.Label className=" applicationTitle d-flex flex-row justify-content-between">
           Upload LOA
           <span
             className="text-secondary"
@@ -351,7 +351,7 @@ function ApplicationInformation(props) {
               setModalData(
                 (p = {
                   description: "LOA",
-                  image_sample: "./GPADSM7.png",
+                  image_sample: "./image_sample/6.jpg",
                 })
               );
               setModalShow(true);
@@ -443,7 +443,7 @@ function ApplicationInformation(props) {
                         setModalData(
                           (p = {
                             description: "GPA ACCOUNT NUMBER",
-                            image_sample: "./GPADSM1.png",
+                            image_sample: "./image_sample/1.jpg",
                           })
                         );
                         setModalShow(true);
@@ -509,7 +509,7 @@ function ApplicationInformation(props) {
                         setModalData(
                           (pp = {
                             description: "Bill ID",
-                            image_sample: "./GPADSM3.png",
+                            image_sample: "./image_sample/3.jpg",
                           })
                         );
                         setModalShow(true);

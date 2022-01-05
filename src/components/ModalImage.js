@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Image } from "react-bootstrap";
 
 const ModalImage = (props) => {
-  const { description, image_sample, _id, size } = props?.data;
+  const { description, image_sample, _id } = props?.data;
   return (
     <>
       <Modal
@@ -23,7 +23,6 @@ const ModalImage = (props) => {
         <Modal.Body
           className=" text-center no-border"
           rounded
-          // style={{ width: "fit-content" }}
         >
           {
             _id === "3"
@@ -31,7 +30,7 @@ const ModalImage = (props) => {
             <p>The Link is provided for the W-9 Form. Click this <a href="https://www.irs.gov/pub/irs-pdf/fw9.pdf">link</a> to download</p>
             :
             <Image
-            style={{ width: "100%", height: "auto" }}
+            style={{ maxWidth: "1000px", width: "100%", height: "auto" }}
             alt={description}
             src={image_sample}
             rounded

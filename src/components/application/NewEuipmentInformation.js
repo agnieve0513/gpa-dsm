@@ -62,8 +62,6 @@ function NewEuipmentInformation(props) {
     models,
   } = customerEquipModel;
 
-  console.log('model no', props.model_no, models)
-
   const customerEquipmentDetail = useSelector(
     (state) => state.customerEquipmentDetail
   );
@@ -212,7 +210,7 @@ function NewEuipmentInformation(props) {
                     setModalData(
                       (p = {
                         description: "INSTALLER'S CERTIFICATION NUMBER LOCATION",
-                        image_sample: "./GPADSM8.png",
+                        image_sample: "./image_sample/7.jpg",
                       })
                     );
                     setModalShow(true);
@@ -276,7 +274,7 @@ function NewEuipmentInformation(props) {
                     setModalData(
                       (p = {
                         description: "DISPOSAL SLIP",
-                        image_sample: "./GPADSM5.png",
+                        image_sample: "./sample_invoice.png",
                       })
                     );
                     setModalShow(true);
@@ -795,14 +793,6 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="invoice_no">
-              {/* <ModalImage
-                data={{
-                  description: "Invoice",
-                  image_sample: "./sample_invoice.png",
-                }}
-                show={modalShow}
-                onHide={() => setModalShow(false)}
-              /> */}
               <Form.Label className=" applicationTitle d-flex flex-row justify-content-between">
                 INVOICE#{" "}
                 <a
