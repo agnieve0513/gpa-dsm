@@ -380,16 +380,6 @@ function EquipmentReview(props) {
                                   </b>
                                 </p>
                                 <p>
-                                  Technician AC{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.technician_name
-                                    }{" "}
-                                  </b>
-                                </p>
-                                <p>
                                   Certification No.{" "}
                                   <b>
                                     {" "}
