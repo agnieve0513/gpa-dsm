@@ -48,23 +48,32 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: 500,
-    fontSize: 20,
+    fontSize: 15,
     color: "#233E86",
+    fontFamily: "Montserrat",
+    marginTop: 10,
+    marginLeft: 20,
   },
   title1: {
     fontWeight: 500,
-    fontSize: 15,
+    fontSize: 12,
     color: "#233E86",
+    marginTop: 10,
+    marginLeft: 20,
+    fontFamily: "Montserrat",
   },
   text: {
-    fontSize: 13,
-    width: 300,
+    fontSize: 10,
     color: "#B6B6B6",
-    fontWeight: 500,
+    fontWeight: 400,
+    fontFamily: "Montserrat",
   },
   boldText: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: 500,
+    fontFamily: "Montserrat",
+    textAlign: "right",
+    marginLeft: "auto",
   },
   tableText: {
     fontWeight: 500,
@@ -102,101 +111,122 @@ const styles = StyleSheet.create({
     width: "99.99%",
     flexDirection: "row",
   },
+  textContainer: {
+    flexDirection: "row",
+    marginBottom: 5,
+    alignItems: "center",
+  },
+  boxContainer: { flex: 1, paddingHorizontal: 20, paddingVertical: 10 },
 });
 
 const EquipmentTable = ({ data, finalDate, index }) => {
   return (
     <>
-      <>
-        <Text style={styles.title1}>Equipment {index + 1}</Text>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>System Type: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_System_type}</Text>
+      <Text style={styles.title1}>Equipment {index + 1}</Text>
+      <View style={{ width: "100%", flexDirection: "row" }}>
+        <View style={styles.boxContainer}>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>System Type: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_System_type || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Vendor: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_Vendor || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Quantity: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_Quantity || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>BTU: </Text>
+            <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Manufacturer: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_Manufacturer || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Model Number: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_Model_no || "N/A"}
+            </Text>
+          </View>
         </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Vendor: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Vendor}</Text>
+        <View style={styles.boxContainer}>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Invioce#: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_Invoice_no || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Purchase Date: </Text>
+            <Text style={styles.boldText}>
+              {data?.newEquip_Purchase_date || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Type: </Text>
+            <Text style={styles.boldText}>{data?.newEquip_Type || "N/A"}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Tons: </Text>
+            <Text style={styles.boldText}>{data?.newEquip_Tons || "N/A"}</Text>
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Install Date: </Text>
+            <Text style={styles.boldText}>{finalDate || "N/A"}</Text>
+          </View>
         </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Quantity: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Quantity}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>BTU: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Btu}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Manufacturer: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Manufacturer}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Model Number: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Model_no}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Invioce#: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Invoice_no}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Purchase Date: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Purchase_date}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Type: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Type}</Text>
-        </View>
-        <View style={{ flexDirection: "row" }}>
-          <Text style={styles.text}>Tons: </Text>
-          <Text style={styles.boldText}>{data?.newEquip_Tons}</Text>
-        </View>
-        <View style={{ flexDirection: "row", marginBottom: 20 }}>
-          <Text style={styles.text}>Install Date: </Text>
-          <Text style={styles.boldText}>{finalDate}</Text>
-        </View>
-      </>
+      </View>
     </>
   );
 };
 
-const EquipmentTotalTable = ({ totalRebate, data }) => {
-  console.log("data", data);
+const Line = () => {
   return (
-    <View style={[styles.tableContainer]}>
-      <View style={styles.tableHeader}>
-        <View style={[styles.tableRow, { flex: 2, borderBottonWidth: 0 }]}>
-          <Text style={styles.tableText}>Equipment No.</Text>
-        </View>
-        <View style={[styles.tableRow, { borderBottonWidth: 0 }]}>
-          <Text style={styles.tableText}>QTY</Text>
-        </View>
-        <View style={[styles.tableRow, { flex: 2, borderBottonWidth: 0 }]}>
-          <Text style={styles.tableText}>Rebate</Text>
-        </View>
-      </View>
-      {data.map((value, index) => {
-        return (
-          <View key={index} style={styles.tableContent}>
-            <View style={[styles.tableRow, { flex: 2 }]}>
-              <Text style={styles.tableValue}>{index + 1}</Text>
-            </View>
-            <View style={[styles.tableRow]}>
-              <Text style={styles.tableValue}>{value.newEquip_Quantity}</Text>
-            </View>
-            <View style={[styles.tableRow, { flex: 2 }]}>
-              <Text style={styles.tableValue}>{value.newEquip_rebate}</Text>
-            </View>
-          </View>
-        );
-      })}
-      <View style={[styles.tableContent]}>
-        <View style={[styles.tableRow, { flex: 2, borderTopWidth: 0 }]}>
-          <Text style={styles.tableValue}>TOTAL</Text>
-        </View>
-        <View style={[styles.tableRow, { flex: 1.09, borderTopWidth: 0 }]}>
-          <Text style={styles.tableValue}>{totalRebate}</Text>
-        </View>
-      </View>
+    <View
+      style={{
+        width: "100%",
+        paddingHorizontal: 20,
+      }}
+    >
+      <View
+        style={{
+          height: 3,
+          width: "100%",
+          backgroundColor: "#C4C4C480",
+        }}
+      ></View>
     </View>
+  );
+};
+
+const StatusIcon = ({ check }) => {
+  return (
+    <>
+      {check ? (
+        <Image
+          src={require("../components/icons/check.png")}
+          style={{ width: 13, height: 13, marginLeft: "auto" }}
+          fixed={true}
+        />
+      ) : (
+        <Image
+          src={require("../components/icons/times.png")}
+          style={{ width: 13, height: 13, marginLeft: "auto" }}
+          fixed={true}
+        />
+      )}
+    </>
   );
 };
 
@@ -306,275 +336,231 @@ function PrintApplicationSummary(props) {
           <PDFViewer width={"100%"} height={"600"} showToolbar={true}>
             <Document>
               <Page size="LEGAL">
-                <View style={styles.section}>
-                  <Text style={styles.title}>Application Information</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Control Number: </Text>
-                    <Text style={styles.boldText}>{data?.Control_Number}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>
-                      GPA Electric Account Number:{" "}
-                    </Text>
-                    <Text style={styles.boldText}>{data?.Info_Account_no}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Bill ID: </Text>
-                    <Text style={styles.boldText}>{data?.Info_Bill_id}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Applicant Name: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Info_Customer_name}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Installation Address: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Info_Service_location}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>City: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Info_City_village}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>ZIP: </Text>
-                    <Text style={styles.boldText}>{data?.Info_Zipcode}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Email: </Text>
-                    <Text style={styles.boldText}>{data?.Info_Email}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Telephone Number: </Text>
-                    <Text style={styles.boldText}>{data?.Info_Tel_no}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>
-                      Owner Residential Property:{" "}
-                    </Text>
-                    <Text style={styles.boldText}>{data?.Info_Is_owner}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Mailing Address: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Info_Mailing_address}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>
-                      Home Size (approx. sq. ft.):{" "}
-                    </Text>
-                    <Text style={styles.boldText}>{data?.Info_Home_size}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>
-                      Home Age (approx. year bult):{" "}
-                    </Text>
-                    <Text style={styles.boldText}>{data?.Info_Home_age}</Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>New Construction: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Info_New_construction}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Home Type: </Text>
-                    <Text style={styles.boldText}>{data?.Info_Home_type}</Text>
-                  </View>
-                </View>
-                <View style={styles.section}>
-                  <Text style={styles.title}>New Equipment Information</Text>
-                  <EquipmentTable
-                    finalDate={data?.Installer_New_finaldate}
-                    data={data?.New_equipment[0]}
-                    index={0}
+                <View
+                  style={{
+                    height: 50,
+                    width: "100%",
+                    backgroundColor: "#233E8B",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Image
+                    source="/icon.png"
+                    style={{ width: 130, height: 35, marginLeft: 30 }}
+                    fixed={true}
                   />
                 </View>
-              </Page>
-              {data?.New_equipment.length > 1 ? (
-                <Page size="LEGAL">
-                  <View style={styles.section}>
-                    {data?.New_equipment.map((value, index) => {
-                      totalRebate = value?.newEquip_rebate + totalRebate;
-                      if (index !== 0) {
-                        return (
-                          <EquipmentTable
-                            finalDate={data?.Installer_New_finaldate}
-                            data={value}
-                            index={index}
-                          />
-                        );
-                      }
-                    })}
+                <Text style={styles.title}>Application Information</Text>
+                <View style={{ width: "100%", flexDirection: "row" }}>
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Control Number: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Control_Number || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        GPA Electric Account Number:{" "}
+                      </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Account_no || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Bill ID: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Bill_id || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Applicant Name: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Customer_name || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Installation Address: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Service_location || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>City: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_City_village || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>ZIP: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Zipcode || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Email: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Email || "N/A"}
+                      </Text>
+                    </View>
                   </View>
-                </Page>
-              ) : (
-                <></>
-              )}
-              <Page size="LEGAL">
-                <View style={styles.section}>
-                  <EquipmentTotalTable
-                    totalRebate={totalRebate}
-                    data={data?.New_equipment}
-                  />
-                  <Text style={styles.title}>Installer Information</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Technician Name: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Installer_New_name}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Work Telephone: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Installer_New_worktel}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Company: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Installer_New_companyname}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Certification No: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Installer_New_certno}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Email: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Installer_New_email}
-                    </Text>
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Date of Final: </Text>
-                    <Text style={styles.boldText}>
-                      {data?.Installer_New_finaldate}
-                    </Text>
-                  </View>
-                </View>
-                <View style={[styles.section, { marginTop: 0 }]}>
-                  <Text style={styles.title}>Submission of Documentation</Text>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Invioce: </Text>
-                    {data?.Submitted_docs[0]?.invoice ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>IRS-W9: </Text>
-                    {data?.Submitted_docs[0]?.irs_form ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Letter of Authorization: </Text>
-                    {data?.Submitted_docs[0]?.letter_authorization ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Disposal Slip: </Text>
-                    {data?.Submitted_docs[0]?.disposal_slip ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Other support documents 1: </Text>
-                    {data?.Submitted_docs[0]?.other_doc1 ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Other support documents 2: </Text>
-                    {data?.Submitted_docs[0]?.other_doc2 ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
-                  </View>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text style={styles.text}>Other support documents 3: </Text>
-                    {data?.Submitted_docs[0]?.other_doc3 ? (
-                      <Image
-                        src={require("../components/icons/check.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    ) : (
-                      <Image
-                        src={require("../components/icons/times.png")}
-                        style={{ width: 15, height: 15 }}
-                        fixed={true}
-                      />
-                    )}
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Telephone Number: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Tel_no || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        Owner Residential Property:{" "}
+                      </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Is_owner || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Mailing Address: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Mailing_address || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        Home Size (approx. sq. ft.):{" "}
+                      </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Home_size || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        Home Age (approx. year bult):{" "}
+                      </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Home_age || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>New Construction: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_New_construction || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Home Type: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Home_type || "N/A"}
+                      </Text>
+                    </View>
                   </View>
                 </View>
+                <Line />
+                <Text style={styles.title}>Submission of Documentation</Text>
+                <View style={{ width: "100%", flexDirection: "row" }}>
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Invoice: </Text>
+                      <StatusIcon check={data?.Submitted_docs[0]?.invoice} />
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>IRS-W9: </Text>
+                      <StatusIcon check={data?.Submitted_docs[0]?.irs_form} />
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Letter of Authorization: </Text>
+                      <StatusIcon
+                        check={data?.Submitted_docs[0]?.letter_authorization}
+                      />
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Disposal Slip: </Text>
+                      <StatusIcon
+                        check={data?.Submitted_docs[0]?.disposal_slip}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        Other support documents 1:{" "}
+                      </Text>
+
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc1} />
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        Other support documents 2:{" "}
+                      </Text>
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>
+                        Other support documents 3:{" "}
+                      </Text>
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc3} />
+                    </View>
+                  </View>
+                </View>
+                <Line />
+                <Text style={styles.title}>Installer Information</Text>
+                <View style={{ width: "100%", flexDirection: "row" }}>
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Technician Name: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Installer_New_name || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Work Telephone: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Installer_New_worktel || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Company: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Installer_New_companyname || "N/A"}
+                      </Text>
+                    </View>
+                  </View>
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Certification No: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Installer_New_certno || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Email: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Installer_New_email || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Date of Final: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Installer_New_finaldate || "N/A"}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                <Line />
+                <Text style={styles.title}>New Equipment Information</Text>
+
+                {data?.New_equipment.map((value, index) => {
+                  totalRebate = value?.newEquip_rebate + totalRebate;
+                  return (
+                    <EquipmentTable
+                      key={index}
+                      finalDate={data?.Installer_New_finaldate}
+                      data={value}
+                      index={index}
+                    />
+                  );
+                })}
               </Page>
             </Document>
           </PDFViewer>

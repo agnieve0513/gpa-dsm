@@ -50,24 +50,27 @@ function TcTemplateForm() {
   const [authorDate, setAuthorDate] = useState("");
 
   useEffect(() => {
+    let find = 0;
     if (logsFile.success) {
       for (let i = 0; i < logsFile.success.length; i++) {
         const data = logsFile.success[i];
         if (code === "comm") {
-          if (data.Action.includes("comm")) {
+          if (data.Action.includes("comm") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
             setAuthorDate(
               `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
             );
+            find = find + 1;
           }
         } else {
-          if (data.Action.includes("resd")) {
+          if (data.Action.includes("resd") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
             setAuthorDate(
               `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
             );
+            find = find + 1;
           }
         }
       }
