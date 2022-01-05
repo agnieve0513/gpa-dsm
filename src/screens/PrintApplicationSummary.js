@@ -187,6 +187,20 @@ const EquipmentTable = ({ data, finalDate, index }) => {
           </View>
         </View>
       </View>
+      <View
+        style={{
+          width: "100%",
+          paddingHorizontal: 20,
+        }}
+      >
+        <View
+          style={{
+            height: 1.5,
+            width: "100%",
+            backgroundColor: "#C4C4C480",
+          }}
+        ></View>
+      </View>
     </>
   );
 };
