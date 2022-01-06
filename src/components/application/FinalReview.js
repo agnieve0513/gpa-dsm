@@ -399,7 +399,7 @@ function FinalReview(props) {
                                     {
                                       props.new_equipments[new_eq_index]
                                         .installer_information
-                                        .technician_cert_no
+                                        .installer_certification
                                     }{" "}
                                   </b>
                                 </p>
@@ -597,7 +597,7 @@ function FinalReview(props) {
                         Filename: {props.irs_form.name} <br />
                         File Type: {props.irs_form.type}
                       </p>
-                      <Button
+                      {/* <Button
                         className="mb-2"
                         variant={"success"}
                         onClick={() =>
@@ -606,7 +606,7 @@ function FinalReview(props) {
                           )
                         }
                         size={"sm"}
-                      >Download</Button>
+                      >Download</Button> */}
                     </>
                   ) : (
                     <></>
