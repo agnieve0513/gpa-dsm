@@ -73,6 +73,9 @@ function ApplicationForm({ current }) {
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let roleId = obj.message.original.roleId;
 
+  const [tabThree, setTabThree] = useState(false);
+  const [tabFour, setTabFour] = useState(false);
+
   const [new_eq_index, setNewEqIndex] = useState(0);
   const [old_eq_index, setOldEqIndex] = useState(0);
   const [count_equipment, setCountEquipment] = useState(0);
@@ -702,12 +705,15 @@ function ApplicationForm({ current }) {
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="new_quipment_info">
+                      <Nav.Link eventKey="new_quipment_info" onClick={()=> {
+                        alert("payts")
+                        setTabThree(true);
+                      }}>
                         New Equipment Information
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="old_quipment_info">
+                      <Nav.Link eventKey="old_quipment_info" disabled={tabThree? "true": "false"}>
                         Old/Existing Equipment Information
                       </Nav.Link>
                     </Nav.Item>
@@ -1233,7 +1239,7 @@ function ApplicationForm({ current }) {
                                 <span>
                                   Invoice{" "}
                                   {
-                                    application?
+                                    application.Submitted_docs ?
                                     
                                     application.Submitted_docs[0]
                                               .invoice !== null?
