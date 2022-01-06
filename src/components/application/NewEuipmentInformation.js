@@ -107,7 +107,7 @@ function NewEuipmentInformation(props) {
       popup: "colored-toast",
     },
     showConfirmButton: false,
-    timer: 3500,
+    timer: 60000,
     timerProgressBars: true,
   });
   const addEquipmentHandler = () => {
@@ -446,7 +446,7 @@ function NewEuipmentInformation(props) {
 
     Toast.fire({
       icon: "info",
-      title: "The application has exeeded 120 day",
+      title: "The application has exceeded 120 day",
       text: "There might be a chance that it will be rejected, please provide a valid reason.",
     });
     }
@@ -858,7 +858,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => props.setDelayReason(e.target.value)}
                 value={props.delay_reason}
                 required
-                placeholder="Please enter a valid reason for exeeding 120 days."
+                placeholder="Please enter a valid reason for exceeding 120 days."
               ></Form.Control>
               {props.delay_reason === "" ? (
                 <p className="validate text-danger requiredField">

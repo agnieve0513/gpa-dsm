@@ -992,6 +992,10 @@ function ApplicationForm({ current }) {
                               title: "System Type",
                               field: "newEquip_System_type",
                             },
+                            {
+                              title: "Batch",
+                              field: "Batch_code",
+                            },
                             { title: "Vendor", field: "newEquip_Vendor" },
                             { title: "Quantity", field: "newEquip_Quantity" },
                             { title: "BTU", field: "newEquip_Btu" },
@@ -2080,6 +2084,10 @@ function ApplicationForm({ current }) {
               <AgGridColumn
                 headerName="Control Number"
                 field="Control_Number"
+              />
+              <AgGridColumn
+                headerName="Batch Code"
+                field="Batch_code"
               />
               <AgGridColumn headerName="Name" field="customer_name" />
               <AgGridColumn
