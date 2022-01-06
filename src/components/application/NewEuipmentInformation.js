@@ -678,20 +678,20 @@ function NewEuipmentInformation(props) {
                     } else {
                       if (me.model === "Indoor / Outdoor") {
                         return (
-                          <option key={me.id} value={me.indoor_model + " / " + me.outdoor_model}>
+                          <option key={me.id} value={me.id}>
                             {me.indoor_model} / {me.outdoor_model}
                           </option>
                         );
                       } else if (me.model === "Both") {
                         return (
-                          <option key={me.id} value={me.indoor_model + " / " + me.outdoor_model + " " + me.package_model}>
+                          <option key={me.id} value={me.id}>
                             {me.indoor_model} / {me.outdoor_model}/{" "}
                             {me.package_model}
                           </option>
                         );
                       } else {
                         return (
-                          <option key={me.id} value={me.package_model}>
+                          <option key={me.id} value={me.id}>
                             {me.package_model}
                           </option>
                         );
