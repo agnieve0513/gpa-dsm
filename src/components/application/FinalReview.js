@@ -175,13 +175,13 @@ function FinalReview(props) {
                     </Col>
                     <Col>
                       <p>
-                        <b>{props.city_village}</b>{" "}
+                        <b>{props.city_village ? city_zipcode.find(loc => loc._id === props.city_village).village : "None"}</b>{" "}
                       </p>
                     </Col>
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">ZIP</p>
+                      <p className="title">ZIP Code</p>
                     </Col>
                     <Col>
                       <p>
@@ -243,7 +243,7 @@ function FinalReview(props) {
                     </Col>
                     <Col>
                       <p>
-                        <b>{props.city_village ? city_zipcode.find(loc => loc._id === props.city_village).village : "None"}</b>{" "}
+                        <b>{props.mailing_city_address}</b>{" "}
                       </p>
                     </Col>
                   </Row>

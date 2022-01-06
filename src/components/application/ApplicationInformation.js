@@ -161,30 +161,46 @@ function ApplicationInformation(props) {
   const screenWidthT = width >= 768;
 
   const ownerComponentDesktop = () => (
-    <Row className="flex-row">
-      <Form.Check
-        inline
-        label="Yes"
-        name="is_applicant_owner"
-        type={"radio"}
-        id={`inline-${"radio"}-1`}
-        value={true}
-        checked={true == props.is_applicant_owner}
-        onChange={(e) => props.setIsApplicantOwner(true)}
-        className="w-auto"
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="No"
-        name="is_applicant_owner"
-        type={"radio"}
-        value={false}
-        checked={false == props.is_applicant_owner}
-        onChange={(e) => props.setIsApplicantOwner(false)}
-        className="w-auto"
-        disabled={props.verify ? false : true}
-      />
+    <Row className="flex-row justify-content-between">
+      <Form.Group className="d-flex flex-row w-auto px-0">
+        <Form.Check
+          inline
+          label="Yes"
+          name="is_applicant_owner"
+          type={"radio"}
+          id={`inline-${"radio"}-1`}
+          value={true}
+          checked={true == props.is_applicant_owner}
+          onChange={(e) => props.setIsApplicantOwner(true)}
+          className="w-50 px-4"
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="No"
+          name="is_applicant_owner"
+          type={"radio"}
+          value={false}
+          checked={false == props.is_applicant_owner}
+          onChange={(e) => props.setIsApplicantOwner(false)}
+          className="w-50 px-4"
+          disabled={props.verify ? false : true}
+        />
+      </Form.Group>
+      <span
+            className="text-secondary w-auto"
+            onClick={() => {
+              setModalData(
+                (p = {
+                  description: "LOA",
+                  image_sample: "./image_sample/6.jpg",
+                })
+              );
+              setModalShow(true);
+            }}
+          >
+            <i className="fa fa-question-circle"></i>{" "}
+          </span>
     </Row>
   );
 
@@ -342,24 +358,6 @@ function ApplicationInformation(props) {
   const uploadLoa = () => {
     return (
       <Form.Group controlId="is_applicant_owner">
-        <Form.Label className=" applicationTitle d-flex flex-row justify-content-between">
-          Upload LOA
-          <span
-            className="text-secondary"
-            style={{ marginLeft: "auto" }}
-            onClick={() => {
-              setModalData(
-                (p = {
-                  description: "LOA",
-                  image_sample: "./image_sample/6.jpg",
-                })
-              );
-              setModalShow(true);
-            }}
-          >
-            <i className="fa fa-question-circle"></i>{" "}
-          </span>
-        </Form.Label>
         <InputGroup>
           <Form.Control
             disabled={props.verify ? false : true}

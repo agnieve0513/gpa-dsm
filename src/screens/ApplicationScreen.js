@@ -40,7 +40,7 @@ function ApplicationScreen() {
 
   // Application Information
   const [saved, setSaved] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
   const [is_set_control_no, setIsSetControlNo] = useState(false);
 
   const [stepOneToStepFive, setStepOneToStepFive] = useState(false);
@@ -266,6 +266,7 @@ function ApplicationScreen() {
         mailing_zipcode === "" ||
         home_size === "" ||
         home_age === "" ||
+        home_age.length !== 4 ||
         is_new_construction === "" ||
         home_type === ""
       ) {
@@ -407,6 +408,7 @@ function ApplicationScreen() {
           mailing_zipcode === "" ||
           home_size === "" ||
           home_age === "" ||
+          home_age.length !== 4 ||
           is_new_construction === "" ||
           home_type === ""
         ) {
@@ -791,6 +793,7 @@ function ApplicationScreen() {
                 setHomeType={setHomeType}
                 is_new_construction={is_new_construction}
                 setIsNewConstruction={setIsNewConstruction}
+                mailing_country={mailing_country}
               />
             ) : step === 8 ? (
               <TermsAndCondition
