@@ -461,10 +461,7 @@ function ApplicationScreen() {
       } else if (currentStep === 6) {
         if (
           irs_form === null ||
-          invoice === "" ||
-          letter_authorization === "" ||
-          installer_certification === "" ||
-          disposal_slip === ""
+          invoice === ""
         ) {
           errorMessage();
         } else {
