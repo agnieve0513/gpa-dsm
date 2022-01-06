@@ -137,7 +137,7 @@ function NewEuipmentInformation(props) {
         text: "Fields should not be empty in order to proceed to next step",
       });
     } else {
-      if (props.max_invoice > (totalQuantity + props.quantity)) {
+      if (props.max_invoice >= parseInt(parseInt(totalQuantity) + parseInt(props.quantity))) {
         // Object for saving . ...
         const obj = {
           control_no: props.control_no,
@@ -342,7 +342,12 @@ function NewEuipmentInformation(props) {
                 type="number"
                 placeholder=""
                 min="1"
-                onChange={(e) => props.setMaxInvoice(e.target.value)}
+                onChange={(e) => {
+                  setTotalQuantity(0);
+                  props.setTotalRebate(0);
+                  props.setNewEquipments([]);
+                  props.setMaxInvoice(e.target.value);
+                }}
                 value={props.max_invoice}
                 required
               ></Form.Control>

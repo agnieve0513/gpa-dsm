@@ -74,7 +74,7 @@ function ApplicationScreen() {
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
-  const [max_invoice, setMaxInvoice] = useState(0)
+  const [max_invoice, setMaxInvoice] = useState(1)
   const [delay_reason, setDelayReason] = useState("");
 
   // Installer Information
