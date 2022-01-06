@@ -1233,6 +1233,8 @@ function ApplicationForm({ current }) {
                                 <span>
                                   Invoice{" "}
                                   {
+                                    application?
+                                    
                                     application.Submitted_docs[0]
                                               .invoice !== null?
                                               <Button
@@ -1250,6 +1252,7 @@ function ApplicationForm({ current }) {
                                   >
                                     Download
                                   </Button>:<></>
+                                    :''
                                   }
                                   
                                   <br />
