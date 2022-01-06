@@ -156,7 +156,7 @@ function ApplicationForm({ current }) {
         }
       }
     }
-  }, [applicationList.applications]);
+  }, [applicationList]);
   const [intervalId, setIntervalId] = useState();
 
   useEffect(() => {
@@ -229,14 +229,25 @@ function ApplicationForm({ current }) {
   const [intervalId2, setIntervalId2] = useState();
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
-  const { application } = applicationDetail;
-
   const applicationComments = useSelector((state) => state.applicationComments);
   const applicationLogs = useSelector((state) => state.applicationLogs);
 
-  // const [application, setApplication] = useState({});
+  const [application, setApplication] = useState();
   const [logs, setLogs] = useState({});
-  const [comments, setComments] = useState({});
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    if (applicationDetail.application) {
+      if (!application) {
+        setApplication(applicationDetail.application);
+      } else if (
+        applicationDetail.application.Last_Modified_On !==
+        application.Last_Modified_On
+      ) {
+        setApplication(applicationDetail.application);
+      }
+    }
+  }, [applicationDetail]);
 
   useEffect(() => {
     if (comments?.length === 0) {
@@ -248,10 +259,9 @@ function ApplicationForm({ current }) {
     if (applicationComments.comments) {
       if (applicationComments.comments.length !== comments.length) {
         setComments(applicationComments.comments);
-        setUpdatedTime(formatAMPM(new Date()));
       }
     }
-  }, [applicationLogs]);
+  }, [applicationComments]);
 
   useEffect(() => {
     if (logs?.length === 0) {
@@ -281,7 +291,7 @@ function ApplicationForm({ current }) {
           clearInterval(intervalId2);
         }
         const rerun = setInterval(() => {
-          // dispatch(detailApplication(applicationId));
+          dispatch(detailApplication(applicationId));
           dispatch(logsApplication(applicationId));
           dispatch(commentsApplication(applicationId));
         }, 5000);
@@ -292,12 +302,8 @@ function ApplicationForm({ current }) {
   }, [applicationId]);
 
   useEffect(() => {
-    dispatch(listApplications());
-    dispatch(listBatchCurrent());
-    dispatch(detailApplication(applicationId));
-    dispatch(logsApplication(applicationId));
     dispatch(commentsApplication(applicationId));
-  }, [applicationUpdate, batchAdd, addComment]);
+  }, [addComment]);
 
   // Grid Functions . . .
   const onGridReady = (params) => {
@@ -544,6 +550,9 @@ function ApplicationForm({ current }) {
   const resetHandler = () => {
     clearInterval(intervalId2);
     setApplicationId(null);
+    setApplication(null);
+    setComments([]);
+    setLogs({});
     setShow(false);
   };
 
@@ -1012,7 +1021,7 @@ function ApplicationForm({ current }) {
                           ]}
                           data={
                             application
-                              ? application.New_equipment.length === 0
+                              ? application?.New_equipment?.length === 0
                                 ? []
                                 : application.New_equipment
                               : []
@@ -1028,7 +1037,7 @@ function ApplicationForm({ current }) {
                       </Col>
                       <Col md={6}>
                         {application ? (
-                          application.New_equipment.length >= 1 ? (
+                          application?.New_equipment?.length >= 1 ? (
                             <>
                               <h3 className="mt-3 mb-3 text-info">
                                 Installer Information
@@ -1134,7 +1143,7 @@ function ApplicationForm({ current }) {
                             <tbody>
                               {application ? (
                                 <>
-                                  {application.New_equipment.map((eq, id) => (
+                                  {application?.New_equipment?.map((eq, id) => (
                                     <tr key={id + 1}>
                                       <td className="p-3">{id + 1}</td>
                                       <td className="p-3">
@@ -1191,7 +1200,7 @@ function ApplicationForm({ current }) {
                       ]}
                       data={
                         application
-                          ? application.Old_equipment.length === 0
+                          ? application?.Old_equipment?.length === 0
                             ? []
                             : application.Old_equipment
                           : []
