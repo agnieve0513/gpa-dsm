@@ -83,6 +83,7 @@ function ApplicationForm({ current }) {
   const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false);
   const [equipmentInfo, setEquipmentInfo] = useState([]);
   const [applicationId, setApplicationId] = useState(0);
+
   const [controlNo, setControlNo] = useState();
   const [status, setStatus] = useState("");
   const [stage, setStage] = useState("");
@@ -492,7 +493,6 @@ function ApplicationForm({ current }) {
       setStage(stage);
       setUpdateState(updateState + 1);
     }
-    setApplicationId(null);
   };
 
   useEffect(() => {
@@ -535,6 +535,7 @@ function ApplicationForm({ current }) {
           setSubmited(false);
           Swal.fire("Success", "Application has been processed!", "success");
           setShowModal(false);
+          setApplicationId(null);
         }
       });
     }
