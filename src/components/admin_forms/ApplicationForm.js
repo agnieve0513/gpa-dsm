@@ -1223,7 +1223,10 @@ function ApplicationForm({ current }) {
                               <Col md={4}>
                                 <span>
                                   Invoice{" "}
-                                  <Button
+                                  {
+                                    application.Submitted_docs[0]
+                                              .invoice !== null?
+                                              <Button
                                     className="mb-2"
                                     variant={"success"}
                                     onClick={() =>
@@ -1237,7 +1240,9 @@ function ApplicationForm({ current }) {
                                     size={"sm"}
                                   >
                                     Download
-                                  </Button>{" "}
+                                  </Button>:<></>
+                                  }
+                                  
                                   <br />
                                 </span>
                                 <Form.Group
