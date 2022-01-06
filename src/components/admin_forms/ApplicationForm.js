@@ -535,6 +535,7 @@ function ApplicationForm({ current }) {
           setSubmited(false);
           Swal.fire("Success", "Application has been processed!", "success");
           setShowModal(false);
+          setApplicationId(null);
         }
       });
     }
