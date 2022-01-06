@@ -915,7 +915,7 @@ function ApplicationInformation(props) {
                   <Form.Control
                     maxLength={4}
                     type="text"
-                    placeholder=""
+                    placeholder="YYYY"
                     value={props.home_age}
                     required
                     disabled={props.verify ? false : true}
@@ -928,9 +928,18 @@ function ApplicationInformation(props) {
                   <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
+                ) : 
+                <>
+                  {props.home_age.length < 4  ? (
+                  <p className="validate text-danger requiredField">
+                    *4 Digits is required
+                  </p>
                 ) : (
                   <></>
                 )}
+                </>
+                }
+                
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Label className=" applicationTitle">
