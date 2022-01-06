@@ -29,6 +29,7 @@ function NewEuipmentInformation(props) {
   const dispatch = useDispatch();
 
   const [totalQuantity, setTotalQuantity] = useState(0);
+  const [modelId, setModelID] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
@@ -71,6 +72,7 @@ function NewEuipmentInformation(props) {
     success: equipDetailSuccess,
     equipment_detail,
   } = customerEquipmentDetail;
+  console.log('equipmentstuff', equipDetailError, ' or ', equipDetailSuccess, 'finally', equipment_detail)
 
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
@@ -90,8 +92,29 @@ function NewEuipmentInformation(props) {
     props.setModelList(models);
   };
 
+  const handleModelNo = (id) => {
+    switch(id.model) {
+      case ("Indoor / Outdoor"): {
+        return (id.indoor_model + " / " + id.outdoor_model)
+      }
+      case ("Package"): {
+        return(id.package_model)
+      }
+      case ("Both"): {
+        return(id.indoor_model + " / " + id.outdoor_model + " / " + id.model)
+      }
+      default: {
+        return(id.model)
+      }
+    }
+  }
+
   const changeModelHandler = (e) => {
-    props.setModelNo(e.target.value);
+    setModelID(e.target.value)
+    var selectedModel = models.find(model => model.id === parseInt(e.target.value))
+    var modelName = handleModelNo(selectedModel)
+    // console.log('selMod', selectedModel, 'modelN', modelName)
+    props.setModelNo(modelName);
     dispatch(loadCustomerEquipmentDetail(e.target.value));
   };
 
@@ -177,7 +200,7 @@ function NewEuipmentInformation(props) {
   };
 
   const deleteEquipmentHandler = (rowdata) => {
-    console.log(rowdata);
+    // console.log(rowdata);
     props.setTotalRebate(props.total_rebate - rowdata.rebate);
     const index = props.new_equipments.indexOf(rowdata);
     const eqs = props.new_equipments;
@@ -317,7 +340,7 @@ function NewEuipmentInformation(props) {
                       {fileCode.length !== 0 ? (
                         <>
                           {props.setInvoiceD(fileCode)}
-                          {console.log(props.invoiceD)}
+                          {/* {console.log(props.invoiceD)} */}
                           <Badge bg={"success"}>File Uploaded</Badge> <br />
                         </>
                       ) : (
@@ -663,7 +686,7 @@ function NewEuipmentInformation(props) {
               </Form.Label>
               <Form.Select
                 onChange={(e) => changeModelHandler(e)}
-                value={props.model_no}
+                value={modelId}
               >
                 <option defaultValue hidden>
                   Select Model
@@ -716,7 +739,7 @@ function NewEuipmentInformation(props) {
                     <>
                       {props.setRebate(equipment_detail[0].rebate)}
                       {props.setSeer(equipment_detail[0].seer)}
-                      {console.log(equipment_detail[0].vendor)}
+                      {/* {console.log(equipment_detail[0].vendor)} */}
 
                       {equipment_detail[0].vendor === ""
                         ? props.setVendor("N/A")

@@ -329,7 +329,7 @@ function FinalReview(props) {
                               { title: "System Type", field: "system_type" },
                               { title: "Vendor", field: "vendor" },
                               { title: "Quantity", field: "quantity" },
-                              { title: "BTU", field: "btu" },
+                              { title: "BTU", field: "btu" }, 
                               { title: "Manufacturer", field: "manufacturer" },
                               { title: "Model Number", field: "model_no" },
                               { title: "Invoice#", field: "invoice_no" },
@@ -389,16 +389,6 @@ function FinalReview(props) {
                                     {
                                       props.new_equipments[new_eq_index]
                                         .installer_information.company_name
-                                    }{" "}
-                                  </b>
-                                </p>
-                                <p>
-                                  Technician AC{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.technician_name
                                     }{" "}
                                   </b>
                                 </p>
