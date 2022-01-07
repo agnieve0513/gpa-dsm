@@ -358,31 +358,6 @@ function NewEuipmentInformation(props) {
               )}
             </Form.Group>
           </Col>
-          <Col md={6} className="mb-3">
-            <Form.Group controlId="quantity">
-              <Form.Label className=" applicationTitle">MAX QUANTITY ON INVOICE</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder=""
-                min="1"
-                onChange={(e) => {
-                  setTotalQuantity(0);
-                  props.setTotalRebate(0);
-                  props.setNewEquipments([]);
-                  props.setMaxInvoice(e.target.value);
-                }}
-                value={props.max_invoice}
-                required
-              ></Form.Control>
-            </Form.Group>
-            {props.max_invoice < 1 ? (
-              <p className="validate text-danger requiredField">
-                *This Field is Required
-              </p>
-            ) : (
-              <></>
-            )}
-          </Col>
         </Row>
       );
     }
@@ -641,7 +616,34 @@ function NewEuipmentInformation(props) {
           </Col>
         </Row>
         {installerCertificationHandler()}
-
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="quantity">
+              <Form.Label className=" applicationTitle">MAX QUANTITY ON INVOICE</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder=""
+                min="1"
+                onChange={(e) => {
+                  setTotalQuantity(0);
+                  props.setTotalRebate(0);
+                  props.setNewEquipments([]);
+                  props.setMaxInvoice(e.target.value);
+                }}
+                value={props.max_invoice}
+                required
+              ></Form.Control>
+            </Form.Group>
+            {props.max_invoice < 1 ? (
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
+            ) : (
+              <></>
+            )}
+          </Col>
+        </Row>
+        
         <h5 className="text-center text-info mt-5 pb-2 applicationSubHeader">
           EQUIPMENT INFORMATION
         </h5>
