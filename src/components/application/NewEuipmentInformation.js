@@ -287,77 +287,7 @@ function NewEuipmentInformation(props) {
               )} */}
             </Form.Group>
           </Col>
-          <Col md={12}>
-            <Form.Group controlId="disposal_slip">
-              <p className="d-flex justify-content-between applicationTitle">
-                INVOICE
-                <span
-                  className="text-secondary"
-                  onClick={() => {
-                    setModalData(
-                      (p = {
-                        description: "DISPOSAL SLIP",
-                        image_sample: "./sample_invoice.png",
-                      })
-                    );
-                    setModalShow(true);
-                  }}
-                >
-                  <i className="fa fa-question-circle"></i>{" "}
-                </span>
-              </p>
-              <InputGroup className="mb-2">
-                <Form.Control
-                  name="file"
-                  placeholder="Upload Invoice"
-                  type="file"
-                  onChange={(e) => handleChangeInvoice(e)}
-                />
-                <div
-                  style={{
-                    width: "40px",
-                    height: "38px",
-                    backgroundColor: "#233E86",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <i style={{ color: "white" }} className="fa fa-upload"></i>
-                </div>
-              </InputGroup>
-              {props.invoice === null ? (
-                <p className="validate text-danger requiredField">
-                  *This Field is Required
-                </p>
-              ) : (
-                <></>
-              )}
-              {props.invoice ? (
-                <>
-                  {fileCode ? (
-                    <>
-                      {fileCode.length !== 0 ? (
-                        <>
-                          {props.setInvoiceD(fileCode)}
-                          {/* {console.log(props.invoiceD)} */}
-                          <Badge bg={"success"}>File Uploaded</Badge> <br />
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  <p className="text-break m-0">Filename: {props.invoice.name}</p>
-                  <p>File Type: {props.invoice.type}</p>
-                </>
-              ) : (
-                <></>
-              )}
-            </Form.Group>
-          </Col>
+          
         </Row>
       );
     }
@@ -616,6 +546,79 @@ function NewEuipmentInformation(props) {
           </Col>
         </Row>
         {installerCertificationHandler()}
+        <Row>
+          <Col md={12}>
+            <Form.Group controlId="disposal_slip">
+              <p className="d-flex justify-content-between applicationTitle">
+                INVOICE
+                <span
+                  className="text-secondary"
+                  onClick={() => {
+                    setModalData(
+                      (p = {
+                        description: "DISPOSAL SLIP",
+                        image_sample: "./sample_invoice.png",
+                      })
+                    );
+                    setModalShow(true);
+                  }}
+                >
+                  <i className="fa fa-question-circle"></i>{" "}
+                </span>
+              </p>
+              <InputGroup className="mb-2">
+                <Form.Control
+                  name="file"
+                  placeholder="Upload Invoice"
+                  type="file"
+                  onChange={(e) => handleChangeInvoice(e)}
+                />
+                <div
+                  style={{
+                    width: "40px",
+                    height: "38px",
+                    backgroundColor: "#233E86",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <i style={{ color: "white" }} className="fa fa-upload"></i>
+                </div>
+              </InputGroup>
+              {props.invoice === null ? (
+                <p className="validate text-danger requiredField">
+                  *This Field is Required
+                </p>
+              ) : (
+                <></>
+              )}
+              {props.invoice ? (
+                <>
+                  {fileCode ? (
+                    <>
+                      {fileCode.length !== 0 ? (
+                        <>
+                          {props.setInvoiceD(fileCode)}
+                          {/* {console.log(props.invoiceD)} */}
+                          <Badge bg={"success"}>File Uploaded</Badge> <br />
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  <p className="text-break m-0">Filename: {props.invoice.name}</p>
+                  <p>File Type: {props.invoice.type}</p>
+                </>
+              ) : (
+                <></>
+              )}
+            </Form.Group>
+          </Col>
+        </Row>
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="quantity">
