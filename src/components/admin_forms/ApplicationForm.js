@@ -73,8 +73,8 @@ function ApplicationForm({ current }) {
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let roleId = obj.message.original.roleId;
 
-  const [tabThree, setTabThree] = useState(false);
-  const [tabFour, setTabFour] = useState(false);
+  const [tabThree, setTabThree] = useState(true);
+  const [tabFour, setTabFour] = useState(true);
 
   const [new_eq_index, setNewEqIndex] = useState(0);
   const [old_eq_index, setOldEqIndex] = useState(0);
@@ -632,6 +632,9 @@ function ApplicationForm({ current }) {
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
+
+      setTabThree(true);
+      setTabFour(true);
       console.log("selected application: ", selected.data);
       dispatch(detailApplication(selected.data.Application_Id));
       setApplicationId(selected.data.Application_Id);
@@ -706,19 +709,20 @@ function ApplicationForm({ current }) {
                     </Nav.Item>
                     <Nav.Item>
                       <Nav.Link eventKey="new_quipment_info" onClick={()=> {
-                        alert("payts")
-                        setTabThree(true);
+                        setTabThree(false);
                       }}>
                         New Equipment Information
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="old_quipment_info" disabled={tabThree? "true": "false"}>
+                      <Nav.Link eventKey="old_quipment_info" disabled={tabThree} onClick={()=> {
+                        setTabFour(false);
+                      }}>
                         Old/Existing Equipment Information
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="submission_of_documentation">
+                      <Nav.Link eventKey="submission_of_documentation" disabled={tabFour}>
                         Submitted Documents
                       </Nav.Link>
                     </Nav.Item>
