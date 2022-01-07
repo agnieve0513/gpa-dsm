@@ -41,7 +41,10 @@ function NewEuipmentInformation(props) {
   const { height, width } = useWindowDimensions();
   const screenWidthM = width > 425;
 
-  const currentDate = moment(Date.now()).format("YYYY-MM-DD")
+  const date = new Date(Date.now())
+  date.setDate(date.getDate()+1)
+  const currentDate = moment(date).format("YYYY-MM-DD")
+  console.log('currdate', currentDate)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -76,7 +79,6 @@ function NewEuipmentInformation(props) {
     success: equipDetailSuccess,
     equipment_detail,
   } = customerEquipmentDetail;
-  console.log('equipmentstuff', equipDetailError, ' or ', equipDetailSuccess, 'finally', equipment_detail)
 
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
@@ -521,11 +523,13 @@ function NewEuipmentInformation(props) {
                 DATE OF FINAL INSTALLATION
               </Form.Label>
               <Form.Control
+                className="datePick"
                 type="date"
                 placeholder=""
                 onChange={(e) => props.setDateFinalInstallation(e.target.value)}
                 value={props.date_final_installation}
                 min={currentDate}
+                defaultValue={currentDate}
                 required
               ></Form.Control>
             </Form.Group>
