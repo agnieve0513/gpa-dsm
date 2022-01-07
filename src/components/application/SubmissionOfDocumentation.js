@@ -101,26 +101,21 @@ function SubmissionOfDocumentation(props) {
       <Col md={3}></Col>
       <Col md={6}>
         {width >= 425 ? (
-          <h4 className="text-center text-info">SUBMISSION OF DOCUMENTATION</h4>
+          <h4 className="text-center text-info mb-3 ">SUBMISSION OF DOCUMENTATION</h4>
         ) : (
           <></>
         )}
 
         <Form.Group controlId="irs_form" className="mb-3 text-wrap">
           <p>
-            IRS Form W-9{" "}
-            <small className="text-muted">
-              (Click this link to download the File and Enter your details on
-              it. After that, upload the file that contains your data
-              information)
-            </small>
+            <b>IRS Form W-9</b>{" "}
             <span
               className="text-secondary"
               onClick={() => {
                 setModalData(
                   (p = {
                     description: "Upload IRS Form W-9",
-                    image_sample: "./image_sample/7.jpg",
+                    id_: "3"
                   })
                 );
                 setModalShow(true);
@@ -128,8 +123,15 @@ function SubmissionOfDocumentation(props) {
             >
               <i className="fa fa-question-circle ps-2"></i>{" "}
             </span>
+            {props.irs_form  ? (
+              <>
+                <Badge bg={"success"}>File Uploaded</Badge>
+              </>
+            ) : (
+              <></>
+            )}
           </p>
-          <InputGroup className="mb-2">
+          <InputGroup className="mb-1">
             <Form.Control
               name="file2"
               type="file"
@@ -145,18 +147,9 @@ function SubmissionOfDocumentation(props) {
           )}
           {props.irs_form ? (
             <>
-              {fileCode ? (
-                <>
-                  {props.setIrsFormD(fileCode)}
-                  {/* {console.log(props.irs_formD)} */}
-                  <Badge bg={"success"}>File Uploaded</Badge>
-                </>
-              ) : (
-                <>no upload</>
-              )}
-              <p className="text-break"> Filename: {props.irs_form.name}</p>{" "}
-              File Type: {props.irs_form.type} <br />
-              <br />
+              {props.setIrsFormD(fileCode)}
+              <p className="m-0">Filename: {props.irs_form.name}</p>
+              <p className="m-0">File Type: {props.irs_form.type}</p>
             </>
           ) : (
             <></>
@@ -176,10 +169,16 @@ function SubmissionOfDocumentation(props) {
         {supportDoc ? (
           <>
             <Form.Group controlId="other_supporting_doc1" className="mb-3">
-              <p className="d-flex justify-content-between applicationTitle">
-                Other Supporting Document 1
+              <Row className="flex d-flex-row justify-content-between">
+                <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">Other Supporting Document 1 {" "}
+                {props.other_doc1 ? (
+                  <Badge bg={"success"}>File Uploaded</Badge>
+                ) : (
+                  <></>
+                )}
+                </p>
                 <span
-                  className="text-secondary"
+                  className="px-0 text-secondary supportingDoc"
                   onClick={() => {
                     setModalData(
                       (p = {
@@ -192,7 +191,7 @@ function SubmissionOfDocumentation(props) {
                 >
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>
-              </p>
+              </Row>
               <InputGroup>
                 <Form.Control
                   name="file2"
@@ -203,17 +202,9 @@ function SubmissionOfDocumentation(props) {
               </InputGroup>
               {props.other_doc1 ? (
                 <>
-                  {fileCode ? (
-                    <>
-                      {props.setOtherDoc1D(fileCode)}
-                      {/* {console.log(props.other_doc1D)} */}
-                      <Badge bg={"success"}>File Uploaded</Badge> <br />
-                    </>
-                  ) : (
-                    <>no upload</>
-                  )}
-                  Filename: {props.other_doc2.name} <br />
-                  File Type: {props.other_doc2.type} <br />
+                  {props.setOtherDoc1D(fileCode)}
+                  <p className="m-0">Filename: {props.other_doc1.name}</p>
+                  <p className="m-0">File Type: {props.other_doc1.type}</p>
                 </>
               ) : (
                 <></>
@@ -221,8 +212,14 @@ function SubmissionOfDocumentation(props) {
             </Form.Group>
 
             <Form.Group controlId="other_supporting_doc2" className="mb-3">
-              <Row className="px-3 flex d-flex-row justify-content-between">
-                <p className="m-0 mb-1 supportingDoc">Other Supporting Document 2</p>
+              <Row className="flex d-flex-row justify-content-between">
+                <p className="px-0 m-0 mb-1 supportingDoc fw-bold">Other Supporting Document 2{" "}
+                  {props.other_doc2 ? (
+                    <Badge bg={"success"}>File Uploaded</Badge>
+                  ) : (
+                    <></>
+                  )}
+                </p>
                 <span
                   className="px-0 text-secondary supportingDoc"
                   onClick={() => {
@@ -248,18 +245,9 @@ function SubmissionOfDocumentation(props) {
               </InputGroup>
               {props.other_doc2 ? (
                 <>
-                  {fileCode ? (
-                    <>
-                      {props.setOtherDoc2D(fileCode)}
-                      {/* {console.log(props.other_doc2D)} */}
-                      <Badge bg={"success"}>File Uploaded</Badge> <br />
-                    </>
-                  ) : (
-                    <>no upload</>
-                  )}
-                  Filename: {props.other_doc2.name} <br />
-                  File Type: {props.other_doc2.type} <br />
-                  <br />
+                  {props.setOtherDoc2D(fileCode)}
+                  <p className="m-0">Filename: {props.other_doc2.name}</p>
+                  <p className="m-0">File Type: {props.other_doc2.type}</p>
                 </>
               ) : (
                 <></>
@@ -276,10 +264,10 @@ function SubmissionOfDocumentation(props) {
           <>
             <Form.Group controlId="letter_authorization" className="mb-3">
               <p>
-                LOA (Letter of Authorization){" "}
+                <b>LOA (Letter of Authorization)</b>{" "}
                 <small className="text-muted">
                   If you want to update the existing upload, you can upload the
-                  file below
+                  file below {" "}
                 </small>
                 <span
                   className="text-secondary"
@@ -294,7 +282,12 @@ function SubmissionOfDocumentation(props) {
                   }}
                 >
                   <i className="fa fa-question-circle"></i>{" "}
-                </span>
+                </span>{" "}
+                {props.letter_authorization ? (
+                  <Badge bg={"success"}>File Uploaded</Badge>
+                ) : (
+                  <></>
+                )}
               </p>
               <InputGroup>
                 <Form.Control
@@ -305,18 +298,9 @@ function SubmissionOfDocumentation(props) {
               </InputGroup>
               {props.letter_authorization ? (
                 <>
-                  {fileCode ? (
-                    <>
-                      {props.setLetterAuthorizationD(fileCode)}
-                      {/* {console.log(props.letter_authorizationD)} */}
-                      <Badge bg={"success"}>File Uploaded</Badge> <br />
-                    </>
-                  ) : (
-                    <>no upload</>
-                  )}
-                  Filename: {props.letter_authorization.name} <br />
-                  File Type: {props.letter_authorization.type} <br />
-                  <br />
+                  {props.setLetterAuthorizationD(fileCode)}
+                  <p className="m-0">Filename: {props.letter_authorization.name}</p>
+                  <p className="m-0">File Type: {props.letter_authorization.type}</p>
                 </>
               ) : (
                 <></>
@@ -330,10 +314,10 @@ function SubmissionOfDocumentation(props) {
         {initInvoice ? (
           <Form.Group controlId="invoice" className="mb-3">
             <p>
-              Invoice{" "}
+              <b>Invoice</b>{" "}
               <small className="text-muted">
                 If you want to update the existing Invoice, you can upload the
-                file below
+                file below{" "}
               </small>
               <span
                 className="text-secondary"
@@ -349,7 +333,12 @@ function SubmissionOfDocumentation(props) {
                 }}
               >
                 <i className="fa fa-question-circle"></i>{" "}
-              </span>
+              </span>{" "}
+              {props.invoice ? (
+                <Badge bg={"success"}>File Uploaded</Badge>
+              ) : (
+                <></>
+              )}
             </p>
             <InputGroup>
               <Form.Control
@@ -362,18 +351,9 @@ function SubmissionOfDocumentation(props) {
             </InputGroup>
             {props.invoice ? (
               <>
-                {fileCode ? (
-                  <>
-                    {props.setInvoiceD(fileCode)}
-                    {console.log('invoiceID', props.invoiceD)}
-                    <Badge bg={"success"}>File Uploaded</Badge> <br />
-                  </>
-                ) : (
-                  <>no upload</>
-                )}
-                Filename: {props.invoice.name} <br />
-                File Type: {props.invoice.type} <br />
-                <br />
+                {props.setInvoiceD(fileCode)}
+                <p className="m-0">Filename: {props.invoice.name}</p>
+                <p className="m-0">File Type: {props.invoice.type}</p>
               </>
             ) : (
               <></>
@@ -386,10 +366,10 @@ function SubmissionOfDocumentation(props) {
         {props.installer_certification ? (
           <Form.Group controlId="installer_certification" className="mb-3">
             <p>
-              Installers Certification{" "}
+              <b>Installers Certification</b>{" "}
               <small className="text-muted">
                 If you want to update the existing upload, you can upload the
-                file below
+                file below{" "}
               </small>
               <span
                 className="text-secondary"
@@ -404,7 +384,12 @@ function SubmissionOfDocumentation(props) {
                 }}
               >
                 <i className="fa fa-question-circle"></i>{" "}
-              </span>
+              </span>{" "}
+              {props.installer_certification ? (
+                <Badge bg={"success"}>File Uploaded</Badge>
+              ) : (
+                <></>
+              )}
             </p>
             <InputGroup>
               <Form.Control
@@ -415,18 +400,9 @@ function SubmissionOfDocumentation(props) {
             </InputGroup>
             {props.installer_certification ? (
               <>
-                {fileCode ? (
-                  <>
-                    {props.setInstallerCertificationD(fileCode)}
-                    {/* {console.log(props.installer_certificationD)} */}
-                    <Badge bg={"success"}>File Uploaded</Badge> <br />
-                  </>
-                ) : (
-                  <>no upload</>
-                )}
-                Filename: {props.installer_certification.name} <br />
-                File Type: {props.installer_certification.type} <br />
-                <br />
+                {props.setInstallerCertificationD(fileCode)}
+                <p className="m-0">Filename: {props.installer_certification.name}</p>
+                <p className="m-0">File Type: {props.installer_certification.type}</p>
               </>
             ) : (
               <></>
@@ -439,10 +415,10 @@ function SubmissionOfDocumentation(props) {
         {props.disposal_slip ? (
           <Form.Group controlId="disposal_receipt" className="mb-3">
             <p>
-              Disposal Receipt{" "}
+              <b>Disposal Receipt</b>{" "}
               <small className="text-muted">
                 If you want to update the existing upload, you can upload the
-                file below
+                file below{" "}
               </small>
               <span
                 className="text-secondary"
@@ -457,7 +433,12 @@ function SubmissionOfDocumentation(props) {
                 }}
               >
                 <i className="fa fa-question-circle"></i>{" "}
-              </span>
+              </span>{" "}
+              {props.disposal_slip ? (
+                <Badge bg={"success"}>File Uploaded</Badge>
+              ) : (
+                <></>
+              )}
             </p>
             <InputGroup>
               <Form.Control
@@ -468,18 +449,9 @@ function SubmissionOfDocumentation(props) {
             </InputGroup>
             {props.disposal_slip ? (
               <>
-                {fileCode ? (
-                  <>
-                    {props.setDisposalSlipD(fileCode)}
-                    {/* {console.log(props.disposal_slipD)} */}
-                    <Badge bg={"success"}>File Uploaded</Badge> <br />
-                  </>
-                ) : (
-                  <>no upload</>
-                )}
-                Filename: {props.disposal_slip.name} <br />
-                File Type: {props.disposal_slip.type} <br />
-                <br />
+                {props.setDisposalSlipD(fileCode)}
+                <p className="m-0">Filename: {props.disposal_slip.name}</p>
+                <p className="m-0">File Type: {props.disposal_slip.type}</p>
               </>
             ) : (
               <></>
