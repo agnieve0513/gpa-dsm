@@ -434,7 +434,6 @@ function ApplicationScreen() {
           work_tel.length < 10 ||
           company_name === "" ||
           date_final_installation === "" ||
-          installer_certification === "" ||
           invoice === undefined
         ) {
           errorMessage();
