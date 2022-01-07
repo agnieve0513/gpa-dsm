@@ -243,7 +243,7 @@ function FinalReview(props) {
                     </Col>
                     <Col>
                       <p>
-                        <b>{props.mailing_city_address}</b>{" "}
+                        <b>{props.mailing_city_village}</b>{" "}
                       </p>
                     </Col>
                   </Row>
