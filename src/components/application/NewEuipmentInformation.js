@@ -525,7 +525,7 @@ function NewEuipmentInformation(props) {
                 placeholder=""
                 onChange={(e) => props.setDateFinalInstallation(e.target.value)}
                 value={props.date_final_installation}
-                max={currentDate}
+                min={currentDate}
                 required
               ></Form.Control>
             </Form.Group>
@@ -876,7 +876,7 @@ function NewEuipmentInformation(props) {
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
                 value={props.purchase_date}
-                max={currentDate}
+                min={currentDate}
                 required
               ></Form.Control>
             </Form.Group>

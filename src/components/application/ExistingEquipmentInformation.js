@@ -503,7 +503,7 @@ function ExistingEquipmentInformation(props) {
                 placeholder=""
                 value={props.date}
                 onChange={(e) => props.setDate(e.target.value)}
-                max={moment(Date.now()).format("YYYY-MM-DD")}
+                // max={moment(Date.now()).format("YYYY-MM-DD")}
                 required
                 disabled={props.no_existing ? true : false}
               ></Form.Control>
