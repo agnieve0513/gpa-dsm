@@ -19,10 +19,12 @@ import { uploadFileAction } from "../../actions/fileActions";
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
+import Moment from "react-moment";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useWindowDimensions } from "../../hooks";
+import moment from "moment";
 const MySwal = withReactContent(Swal);
 
 function NewEuipmentInformation(props) {
@@ -38,6 +40,8 @@ function NewEuipmentInformation(props) {
 
   const { height, width } = useWindowDimensions();
   const screenWidthM = width > 425;
+
+  const currentDate = moment(Date.now()).format("YYYY-MM-DD")
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -521,6 +525,7 @@ function NewEuipmentInformation(props) {
                 placeholder=""
                 onChange={(e) => props.setDateFinalInstallation(e.target.value)}
                 value={props.date_final_installation}
+                max={currentDate}
                 required
               ></Form.Control>
             </Form.Group>
@@ -871,6 +876,7 @@ function NewEuipmentInformation(props) {
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
                 value={props.purchase_date}
+                max={currentDate}
                 required
               ></Form.Control>
             </Form.Group>

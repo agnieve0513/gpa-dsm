@@ -18,9 +18,11 @@ import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
+import Moment from "react-moment";
 
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import moment from "moment";
 const MySwal = withReactContent(Swal);
 
 function ExistingEquipmentInformation(props) {
@@ -501,6 +503,7 @@ function ExistingEquipmentInformation(props) {
                 placeholder=""
                 value={props.date}
                 onChange={(e) => props.setDate(e.target.value)}
+                max={moment(Date.now()).format("YYYY-MM-DD")}
                 required
                 disabled={props.no_existing ? true : false}
               ></Form.Control>
