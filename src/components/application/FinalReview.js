@@ -325,22 +325,35 @@ function FinalReview(props) {
                       {props.new_equipments.length >= 1 ? (
                         <>
                           <MaterialTable
-                            columns={[
+                            columns={props.system_type === ("Dryer" || "Washer") ? [
                               { title: "System Type", field: "system_type" },
                               { title: "Vendor", field: "vendor" },
                               { title: "Quantity", field: "quantity" },
-                              { title: "BTU", field: "btu" }, 
-                              { title: "Manufacturer", field: "manufacturer" },
-                              { title: "Model Number", field: "model_no" },
+                              { title: "Years", field: "years" },
+                              { title: "Quantity", field: "quantity" },
+                              { title: "BTU", field: "btu" },
                               { title: "Invoice#", field: "invoice_no" },
-                              {
-                                title: "Purchase Date",
-                                field: "purchase_date",
-                              },
+                              { title: "Purchase Date", field: "purchase_date" },
                               { title: "Type", field: "type" },
                               { title: "Tons", field: "tons" },
-                              { title: "Install Date", field: "purchase_date" },
-                            ]}
+                              { title: "Seer", field: "seer" },
+                              { title: "Disposal Party", field: "disposal_party" },
+                              { title: "Date", field: "date" },
+                            ]:
+                            [
+                              { title: "System Type", field: "system_type" },
+                              { title: "Vendor", field: "vendor" },
+                              { title: "Quantity", field: "quantity" },
+                              { title: "Years", field: "years" },
+                              { title: "Quantity", field: "quantity" },
+                              { title: "Invoice#", field: "invoice_no" },
+                              { title: "Purchase Date", field: "purchase_date" },
+                              { title: "Type", field: "type" },
+                              { title: "Seer", field: "seer" },
+                              { title: "Disposal Party", field: "disposal_party" },
+                              { title: "Date", field: "date" },
+                            ]
+                          }
                             data={
                               props.new_equipments.length === 0
                                 ? []
@@ -495,25 +508,35 @@ function FinalReview(props) {
                     </button>
                   </Row>
                   <MaterialTable
-                    columns={[
+                    columns={props.system_type === ("Dryer" || "Washer") ? [
                       { title: "System Type", field: "system_type" },
                       { title: "Vendor", field: "vendor" },
                       { title: "Quantity", field: "quantity" },
                       { title: "Years", field: "years" },
                       { title: "Quantity", field: "quantity" },
                       { title: "BTU", field: "btu" },
-                      { title: "TONS", field: "tons" },
                       { title: "Invoice#", field: "invoice_no" },
-                      {
-                        title: "Purchase Date",
-                        field: "purchase_date",
-                      },
+                      { title: "Purchase Date", field: "purchase_date" },
                       { title: "Type", field: "type" },
                       { title: "Tons", field: "tons" },
                       { title: "Seer", field: "seer" },
                       { title: "Disposal Party", field: "disposal_party" },
                       { title: "Date", field: "date" },
-                    ]}
+                    ]:
+                    [
+                      { title: "System Type", field: "system_type" },
+                      { title: "Vendor", field: "vendor" },
+                      { title: "Quantity", field: "quantity" },
+                      { title: "Years", field: "years" },
+                      { title: "Quantity", field: "quantity" },
+                      { title: "Invoice#", field: "invoice_no" },
+                      { title: "Purchase Date", field: "purchase_date" },
+                      { title: "Type", field: "type" },
+                      { title: "Seer", field: "seer" },
+                      { title: "Disposal Party", field: "disposal_party" },
+                      { title: "Date", field: "date" },
+                    ]
+                  }
                     data={
                       props.old_equipments.length === 0
                         ? []

@@ -438,11 +438,12 @@ function ApplicationScreen() {
         ) {
           errorMessage();
         } else {
-          if (system_type === ("Washer" || "Dryer") &&  technician_cert_no === "") {
+          if (system_type !== ("Washer" || "Dryer") && technician_cert_no === "") {
             errorMessage();
+          } else {
+            setStep(currentStep + 1);
+            return;
           }
-          setStep(currentStep + 1);
-          return;
         }
       } else if (currentStep === 4) {
         if (no_existing) {
