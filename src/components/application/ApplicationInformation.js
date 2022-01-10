@@ -237,7 +237,7 @@ function ApplicationInformation(props) {
           disabled={props.verify ? false : true}
         >
           <option defaultValue hidden>
-            SELECT SYSTEM TYPE
+            SELECT HOME TYPE
           </option>
           {
             <>
@@ -1019,7 +1019,7 @@ function ApplicationInformation(props) {
             </Row>
             <Row>
               <Form.Label className="applicationTitle">
-                {props.customer_type === "RESID" ? 'HOME TYPE (check one)' : 'HOME TYPE (check one)'}
+                {props.customer_type === "RESID" ? 'HOME TYPE (check one)' : 'BUILDING TYPE (check one)'}
 
                 
               </Form.Label>{" "}
