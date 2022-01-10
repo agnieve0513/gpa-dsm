@@ -439,7 +439,6 @@ function ApplicationScreen() {
           errorMessage();
         } else {
           if (system_type === ("Washer" || "Dryer") &&  technician_cert_no === "") {
-            console.log('eyo im a thingy')
             errorMessage();
           }
           setStep(currentStep + 1);
