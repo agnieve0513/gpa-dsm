@@ -663,9 +663,7 @@ function ApplicationInformation(props) {
                 )}
                   </>
                 :''
-                  :<p className="validate text-danger requiredField">
-                    *This Field is Required
-                  </p>
+                  :''
                 }
               </Col>
               <Col md={2} className="mb-3">
