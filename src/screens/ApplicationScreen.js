@@ -252,7 +252,7 @@ function ApplicationScreen() {
         account_no === "" ||
         bill_id === "" ||
         firstname === "" ||
-        lastname === "" ||
+        (customer_type === "RESID" && lastname === "") ||
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
@@ -307,7 +307,7 @@ function ApplicationScreen() {
         account_no === "" ||
         bill_id === "" ||
         firstname === "" ||
-        lastname === "" ||
+        (customer_type === "RESID" && lastname === "") ||
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
@@ -394,7 +394,7 @@ function ApplicationScreen() {
           account_no === "" ||
           bill_id === "" ||
           firstname === "" ||
-          lastname === "" ||
+          (customer_type === "RESID" && lastname === "") ||
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||
@@ -429,6 +429,7 @@ function ApplicationScreen() {
           invoice === null ||
           purchase_date === "" ||
           technician_name === "" ||
+          technician_cert_no === "" ||
           work_tel === "" ||
           work_tel.length > 10 ||
           work_tel.length < 10 ||
@@ -580,8 +581,6 @@ function ApplicationScreen() {
                 setMaxInvoice={setMaxInvoice}
                 invoiceD={invoiceD}
                 setInvoiceD={setInvoiceD}
-                installer_certification={installer_certification}
-                setInstallerCertification={setInstallerCertification}
                 installer_certificationD={installer_certificationD}
                 setInstallerCertificationD={setInstallerCertificationD}
                 purchase_date={purchase_date}
@@ -653,6 +652,7 @@ function ApplicationScreen() {
                 stepOneToStepFive={stepOneToStepFive}
                 setStepOneToStepFive={setStepOneToStepFive}
                 step={step}
+                customer_type={customer_type}
                 setStep={setStep}
                 old_equipments={old_equipments}
                 setOldEquipments={setOldEquipments}
@@ -695,6 +695,7 @@ function ApplicationScreen() {
                 setHomeType={setHomeType}
                 is_new_construction={is_new_construction}
                 setIsNewConstruction={setIsNewConstruction}
+                technician_cert_no={technician_cert_no}
               />
             ) : step === 6 ? (
               <SubmissionOfDocumentation
@@ -734,6 +735,7 @@ function ApplicationScreen() {
             ) : step === 7 ? (
               <FinalReview
                 invoice={invoice}
+                customer_type={customer_type}
                 stepOneToStepSix={stepOneToStepSix}
                 setStepOneToStepSix={setStepOneToStepSix}
                 setInvoice={setInvoice}
@@ -793,6 +795,7 @@ function ApplicationScreen() {
                 is_new_construction={is_new_construction}
                 setIsNewConstruction={setIsNewConstruction}
                 mailing_country={mailing_country}
+                technician_cert_no={technician_cert_no}
               />
             ) : step === 8 ? (
               <TermsAndCondition

@@ -776,6 +776,11 @@ function ApplicationForm({ current }) {
                             <div style={{ marginRight: 50 }}>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
+                                  Control Number
+                                </b>
+                              </p>
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
                                   GPA Electric Account Number
                                 </b>
                               </p>
@@ -829,7 +834,7 @@ function ApplicationForm({ current }) {
                                 <b style={{ color: "#B6B6B6" }}>ZIP</b>
                               </p>
                               <p>
-                                <b style={{ color: "#B6B6B6" }}>HOME AGE</b>
+                                <b style={{ color: "#B6B6B6" }}>{application ? application.Type === "RESID" ? 'HOME': 'BUILDING' :''} AGE</b>
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
@@ -837,10 +842,13 @@ function ApplicationForm({ current }) {
                                 </b>
                               </p>
                               <p>
-                                <b style={{ color: "#B6B6B6" }}>HOME TYPE</b>
+                                <b style={{ color: "#B6B6B6" }}>{application ? application.Type === "RESID" ? 'HOME': 'BUILDING' :''} TYPE</b>
                               </p>
                             </div>
                             <div>
+                              <p>
+                                <b>{application.Control_Number || "N/A"}</b>
+                              </p>
                               <p>
                                 <b>{application.Info_Account_no || "N/A"}</b>
                               </p>

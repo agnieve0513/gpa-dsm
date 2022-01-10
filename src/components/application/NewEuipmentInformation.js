@@ -185,6 +185,7 @@ function NewEuipmentInformation(props) {
 
           installer_information: {
             technician_name: props.technician_name,
+            technician_cert_no: props.technician_cert_no,
             work_tel: props.work_tel,
             company_name: props.company_name,
             installer_certification: props.installer_certification,
@@ -253,11 +254,11 @@ function NewEuipmentInformation(props) {
                   name="file2"
                   placeholder="Installer's Certification Number"
                   type="text"
-                  value={props.installer_certification}
-                  onChange={(e) => props.setInstallerCertification(e.target.value)}
+                  value={props.technician_cert_no}
+                  onChange={(e) => props.setTechnicianCertNo(e.target.value)}
                 />
               </InputGroup>
-              {props.installer_certification === "" ? (
+              {props.technician_cert_no === "" ? (
                 <p className="validate text-danger requiredField">
                   *This Field is Required
                 </p>
