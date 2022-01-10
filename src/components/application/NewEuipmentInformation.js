@@ -44,7 +44,6 @@ function NewEuipmentInformation(props) {
   const date = new Date(Date.now())
   date.setDate(date.getDate()+1)
   const currentDate = moment(date).format("YYYY-MM-DD")
-  console.log('currdate', currentDate)
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -90,6 +89,7 @@ function NewEuipmentInformation(props) {
     props.setNewEquipments([]);
     dispatch(loadCustomerEquipManufacturer(e.target.value));
   };
+  console.log('system type', props.system_type)
 
   const changeManufacturerHandler = (e) => {
     props.setManufacturer(e.target.value);

@@ -429,7 +429,6 @@ function ApplicationScreen() {
           invoice === null ||
           purchase_date === "" ||
           technician_name === "" ||
-          technician_cert_no === "" ||
           work_tel === "" ||
           work_tel.length > 10 ||
           work_tel.length < 10 ||
@@ -439,6 +438,10 @@ function ApplicationScreen() {
         ) {
           errorMessage();
         } else {
+          if (system_type === ("Washer" || "Dryer") &&  technician_cert_no === "") {
+            console.log('eyo im a thingy')
+            errorMessage();
+          }
           setStep(currentStep + 1);
           return;
         }
