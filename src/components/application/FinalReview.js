@@ -398,8 +398,7 @@ function FinalReview(props) {
                                     {" "}
                                     {
                                       props.new_equipments[new_eq_index]
-                                        .installer_information
-                                        .installer_certification
+                                        .installer_information.technician_cert_no
                                     }{" "}
                                   </b>
                                 </p>

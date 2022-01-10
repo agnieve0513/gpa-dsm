@@ -429,6 +429,7 @@ function ApplicationScreen() {
           invoice === null ||
           purchase_date === "" ||
           technician_name === "" ||
+          technician_cert_no === "" ||
           work_tel === "" ||
           work_tel.length > 10 ||
           work_tel.length < 10 ||
@@ -580,8 +581,6 @@ function ApplicationScreen() {
                 setMaxInvoice={setMaxInvoice}
                 invoiceD={invoiceD}
                 setInvoiceD={setInvoiceD}
-                installer_certification={installer_certification}
-                setInstallerCertification={setInstallerCertification}
                 installer_certificationD={installer_certificationD}
                 setInstallerCertificationD={setInstallerCertificationD}
                 purchase_date={purchase_date}
@@ -695,6 +694,7 @@ function ApplicationScreen() {
                 setHomeType={setHomeType}
                 is_new_construction={is_new_construction}
                 setIsNewConstruction={setIsNewConstruction}
+                technician_cert_no={technician_cert_no}
               />
             ) : step === 6 ? (
               <SubmissionOfDocumentation
@@ -793,6 +793,7 @@ function ApplicationScreen() {
                 is_new_construction={is_new_construction}
                 setIsNewConstruction={setIsNewConstruction}
                 mailing_country={mailing_country}
+                technician_cert_no={technician_cert_no}
               />
             ) : step === 8 ? (
               <TermsAndCondition
