@@ -89,7 +89,6 @@ function NewEuipmentInformation(props) {
     props.setNewEquipments([]);
     dispatch(loadCustomerEquipManufacturer(e.target.value));
   };
-  console.log('system type', props.system_type)
 
   const changeManufacturerHandler = (e) => {
     props.setManufacturer(e.target.value);
