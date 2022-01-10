@@ -252,7 +252,7 @@ function ApplicationScreen() {
         account_no === "" ||
         bill_id === "" ||
         firstname === "" ||
-        lastname === "" ||
+        (customer_type === "RESID" && lastname === "") ||
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
@@ -307,7 +307,7 @@ function ApplicationScreen() {
         account_no === "" ||
         bill_id === "" ||
         firstname === "" ||
-        lastname === "" ||
+        (customer_type === "RESID" && lastname === "") ||
         service_location === "" ||
         city_village === "" ||
         zipcode === "" ||
@@ -394,7 +394,7 @@ function ApplicationScreen() {
           account_no === "" ||
           bill_id === "" ||
           firstname === "" ||
-          lastname === "" ||
+          (customer_type === "RESID" && lastname === "") ||
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||

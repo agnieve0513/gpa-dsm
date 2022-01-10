@@ -595,13 +595,23 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
-                {props.lastname === "" ? (
+                {
+                  props.verify?
+                  props.customer_type === "RESID" ?
+                  <>
+                  {props.lastname === "" ? (
                   <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
                 ) : (
                   <></>
                 )}
+                  </>
+                :''
+                  :<p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                }
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
