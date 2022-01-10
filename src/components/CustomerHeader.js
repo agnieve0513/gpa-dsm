@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function CustomerHeader() {
 
     return (
-    <header>
+    <header className='px-0'>
         <Navbar bg="info" variant="dark" expand="lg" collapseOnSelect className="p-3">
             <Container>
                 <Link to={`/`}>

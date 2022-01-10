@@ -140,20 +140,20 @@ function ApplicationScreen() {
   }
 
   return (
-    <Container className="m-0 p-0" fluid>
+    <Container className="m-0 p-0 h-100 d-flex flex-column" fluid>
       <CustomerHeader />
-      <Row className="px-0 mx-0 w-100">
+      <Row className="px-0 mx-0 mt-4 w-100 flex-grow-1">
         <Col className="px-0" xl={4} md={2} xs={"auto"} />
-        <Col className="mt-4">
+        <Col className="mt-4 position-relative">
           {isSearch ? (
             clickTrack ? (
               track_application ? (
                 track_application.table ? (
                   track_application.table.length > 0 ? (
                     // Show Application . . .
-                    <Container className="mb-2">
+                    <Container className="mt-4">
                       <h5
-                        className="text-center text-info fs-3"
+                        className="text-center text-info fs-3 mt-4"
                         id="trackTitle"
                       >
                         TRACK YOUR APPLICATION
