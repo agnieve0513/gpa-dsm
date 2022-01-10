@@ -1948,7 +1948,7 @@ function ApplicationForm({ current }) {
 
                         <h4>Event Logs</h4>
                         {logs ? (
-                          <div style={{ height: "200px", overflowY: "auto" }}>
+                          <div style={{ height: "440px", overflowY: "auto" }}>
                             {logs.map((log, index) => (
                               <div key={index}>
                                 <h6>{log.Action}</h6>
