@@ -148,44 +148,66 @@ function BatchForm({ current }) {
   const [updatedTime, setUpdatedTime] = useState(formatAMPM(new Date()));
 
   useEffect(() => {
-    let changedItem = 0;
-    if (batch_applications?.length === 0) {
-      if (batchApplication.batch_applications) {
-        setBatchApplication(batchApplication.batch_applications);
-      }
-    } else if (batch_applications?.length > 0) {
-      for (let i = 0; i < batch_applications?.length; i++) {
-        if (batchApplication.batch_applications) {
-          const oldInfo = batch_applications[i];
-          const newInfo = batchApplication.batch_applications.find(
-            (value) => value.Application_Id === oldInfo.Application_Id
-          );
+    if (batchApplication.batch_applications) {
+      let changedItem = 0;
+      let allBatchApplications = [];
+      const items = batchApplication.batch_applications;
+      const roles = [
+        "Admin",
+        "Customer Service",
+        "Spord",
+        "Budget",
+        "Accounting",
+        "Supervisor",
+        "Guest",
+        "Unknown Role",
+      ];
 
-          if (newInfo) {
-            if (
-              newInfo.Status !== oldInfo.Status ||
-              newInfo.Stage !== oldInfo.Stage
-            ) {
-              changedItem = 1 + changedItem;
+      for (let i = 0; i < items.length; i++) {
+        const currentRole = roles[roleId - 1];
+        if (currentRole === "Admin") {
+          allBatchApplications.push(items[i]);
+        } else if (currentRole === items[i].Stage) {
+          allBatchApplications.push(items[i]);
+        }
+      }
+
+      if (batch_applications?.length === 0) {
+        if (allBatchApplications) {
+          setBatchApplication(allBatchApplications);
+        }
+      } else if (batch_applications?.length > 0) {
+        for (let i = 0; i < batch_applications?.length; i++) {
+          if (allBatchApplications) {
+            const oldInfo = batch_applications[i];
+            const newInfo = allBatchApplications.find(
+              (value) => value.Application_Id === oldInfo.Application_Id
+            );
+
+            if (newInfo) {
+              if (
+                newInfo.Status !== oldInfo.Status ||
+                newInfo.Stage !== oldInfo.Stage
+              ) {
+                changedItem = 1 + changedItem;
+              }
+            }
+          }
+
+          if (i === batch_applications?.length - 1) {
+            if (changedItem > 0) {
+              setBatchApplication(allBatchApplications);
+              setUpdatedTime(formatAMPM(new Date()));
             }
           }
         }
-
-        if (i === batch_applications?.length - 1) {
-          if (changedItem > 0) {
-            setBatchApplication(batchApplication.batch_applications);
-            setUpdatedTime(formatAMPM(new Date()));
-          }
-        }
       }
-    }
 
-    if (batchApplication.batch_applications) {
-      if (
-        batchApplication.batch_applications.length !== batch_applications.length
-      ) {
-        setBatchApplication(batchApplication.batch_applications);
-        setUpdatedTime(formatAMPM(new Date()));
+      if (allBatchApplications) {
+        if (allBatchApplications.length !== batch_applications.length) {
+          setBatchApplication(allBatchApplications);
+          setUpdatedTime(formatAMPM(new Date()));
+        }
       }
     }
   }, [batchApplication]);
@@ -1613,15 +1635,28 @@ function BatchForm({ current }) {
                 </Container>
               ) : roleId === 4 ? (
                 <Container className="col-8 text-center btn-group-vertical">
-                  <Button
-                    className="mb-2"
-                    onClick={() => {
-                      setSwalInfo("Send to Accounting");
-                      updateStatus(1, 2);
-                    }}
-                  >
-                    Send to Accounting
-                  </Button>
+                  {batch_applications?.length === selectIds?.length ? (
+                    <Button
+                      className="mb-2"
+                      onClick={() => {
+                        setSwalInfo("Send to Accounting");
+                        updateStatus(1, 2);
+                      }}
+                    >
+                      Send to Accounting
+                    </Button>
+                  ) : (
+                    <Button
+                      className="mb-2"
+                      onClick={() => {
+                        setSwalInfo("Send to Accounting");
+                        updateStatus(1, 2);
+                      }}
+                      disabled
+                    >
+                      Send to Accounting
+                    </Button>
+                  )}
                   <Button
                     className="mb-2"
                     onClick={() => {
