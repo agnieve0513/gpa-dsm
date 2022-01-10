@@ -97,6 +97,7 @@ function ApplicationForm({ current }) {
   const [updateState, setUpdateState] = useState(0);
   const [submited, setSubmited] = useState(false);
   const [updatedTime, setUpdatedTime] = useState(formatAMPM(new Date()));
+  const [currentControlNum, setCurrentControlNum] = useState("");
 
   const [applicationClicked, setApplicationClicked] = useState(false);
   const [newEquipmentClicked, setNewEquipmentClicked] = useState(false);
@@ -632,13 +633,12 @@ function ApplicationForm({ current }) {
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
-
       setTabThree(true);
       setTabFour(true);
       console.log("selected application: ", selected.data);
       dispatch(detailApplication(selected.data.Application_Id));
       setApplicationId(selected.data.Application_Id);
-
+      setCurrentControlNum(selected.data.Control_Number);
       dispatch(commentsApplication(selected.data.Application_Id));
       dispatch(logsApplication(selected.data.Application_Id));
       setShow(true);
@@ -689,12 +689,23 @@ function ApplicationForm({ current }) {
             id="left-tabs-example"
             defaultActiveKey="application_information"
           >
-            <Button
-              className="mb-3 btn btn-light"
-              onClick={() => resetHandler()}
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <i className="fa fa-arrow-left"></i> Back to Application
-            </Button>
+              <Button
+                className="mb-3 btn btn-light"
+                onClick={() => resetHandler()}
+              >
+                <i className="fa fa-arrow-left"></i> Back to Application
+              </Button>
+              <h4 style={{ marginLeft: "auto" }}>{currentControlNum}</h4>
+            </div>
             <Row style={{ paddingLeft: 12 }}>
               <Col
                 className="p-0"
@@ -708,21 +719,31 @@ function ApplicationForm({ current }) {
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="new_quipment_info" onClick={()=> {
-                        setTabThree(false);
-                      }}>
+                      <Nav.Link
+                        eventKey="new_quipment_info"
+                        onClick={() => {
+                          setTabThree(false);
+                        }}
+                      >
                         New Equipment Information
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="old_quipment_info" disabled={tabThree} onClick={()=> {
-                        setTabFour(false);
-                      }}>
+                      <Nav.Link
+                        eventKey="old_quipment_info"
+                        disabled={tabThree}
+                        onClick={() => {
+                          setTabFour(false);
+                        }}
+                      >
                         Old/Existing Equipment Information
                       </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link eventKey="submission_of_documentation" disabled={tabFour}>
+                      <Nav.Link
+                        eventKey="submission_of_documentation"
+                        disabled={tabFour}
+                      >
                         Submitted Documents
                       </Nav.Link>
                     </Nav.Item>
@@ -1240,33 +1261,43 @@ function ApplicationForm({ current }) {
                           <>
                             <Row>
                               <Col md={4}>
-                                <span>
-                                  Invoice{" "}
-                                  {
-                                    application.Submitted_docs ?
-                                    
-                                    application.Submitted_docs[0]
-                                              .invoice !== null?
-                                              <Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        inv
-                                          ? inv
-                                          : application.Submitted_docs[0]
-                                              .invoice
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button>:<></>
-                                    :''
-                                  }
-                                  
-                                  <br />
-                                </span>
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span stlye={{ width: "100%" }}>
+                                    Invoice <br />
+                                  </span>
+                                  {application.Submitted_docs ? (
+                                    application.Submitted_docs[0].invoice !==
+                                    null ? (
+                                      <Button
+                                        className="mb-2"
+                                        variant={"success"}
+                                        onClick={() =>
+                                          handleRetrieveFile(
+                                            inv
+                                              ? inv
+                                              : application.Submitted_docs[0]
+                                                  .invoice
+                                          )
+                                        }
+                                        size={"sm"}
+                                        style={{ marginLeft: "auto" }}
+                                      >
+                                        Download
+                                      </Button>
+                                    ) : (
+                                      <></>
+                                    )
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
                                 <Form.Group
                                   controlId="invoice"
                                   className="mb-3"
@@ -1312,8 +1343,15 @@ function ApplicationForm({ current }) {
                                 </Form.Group>
                               </Col>
                               <Col md={4}>
-                                <span>
-                                  IRS-W9{" "}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span>IRS-W9 </span>
                                   <Button
                                     className="mb-2"
                                     variant={"success"}
@@ -1326,10 +1364,12 @@ function ApplicationForm({ current }) {
                                       )
                                     }
                                     size={"sm"}
+                                    style={{ marginLeft: "auto" }}
                                   >
                                     Download
-                                  </Button>{" "}
-                                </span>
+                                  </Button>
+                                </div>
+
                                 <Form.Group
                                   controlId="irs_form"
                                   className="mb-3"
@@ -1375,8 +1415,15 @@ function ApplicationForm({ current }) {
                                 </Form.Group>
                               </Col>
                               <Col md={4}>
-                                <span>
-                                  Letter of Authorization{" "}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span>Letter of Authorization </span>
                                   <Button
                                     className="mb-2"
                                     variant={"success"}
@@ -1389,11 +1436,11 @@ function ApplicationForm({ current }) {
                                       )
                                     }
                                     size={"sm"}
+                                    style={{ marginLeft: "auto" }}
                                   >
                                     Download
                                   </Button>
-                                </span>{" "}
-                                <br />
+                                </div>
                                 <Form.Group
                                   controlId="letter_authorization"
                                   className="mb-3"
@@ -1443,8 +1490,15 @@ function ApplicationForm({ current }) {
                                 </Form.Group>
                               </Col>
                               <Col md={4}>
-                                <span>
-                                  Disposal Slip{" "}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span>Disposal Slip </span>
                                   <Button
                                     className="mb-2"
                                     variant={"success"}
@@ -1457,11 +1511,11 @@ function ApplicationForm({ current }) {
                                       )
                                     }
                                     size={"sm"}
+                                    style={{ marginLeft: "auto" }}
                                   >
                                     Download
-                                  </Button>{" "}
-                                </span>{" "}
-                                <br />
+                                  </Button>
+                                </div>
                                 <Form.Group
                                   controlId="disposal_slilp"
                                   className="mb-3"
@@ -1508,8 +1562,15 @@ function ApplicationForm({ current }) {
                               </Col>
 
                               <Col md={4}>
-                                <span>
-                                  Other Document 1{" "}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span>Other Document 1 </span>
                                   <Button
                                     className="mb-2"
                                     variant={"success"}
@@ -1522,11 +1583,12 @@ function ApplicationForm({ current }) {
                                       )
                                     }
                                     size={"sm"}
+                                    style={{ marginLeft: "auto" }}
                                   >
                                     Download
-                                  </Button>{" "}
-                                </span>{" "}
-                                <br />
+                                  </Button>
+                                </div>
+
                                 <Form.Group
                                   controlId="other_doc1"
                                   className="mb-3"
@@ -1573,8 +1635,15 @@ function ApplicationForm({ current }) {
                               </Col>
 
                               <Col md={4}>
-                                <span>
-                                  Other Document 2{" "}
+                                <div
+                                  style={{
+                                    width: "100%",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <span>Other Document 2 </span>
                                   <Button
                                     className="mb-2"
                                     variant={"success"}
@@ -1587,11 +1656,12 @@ function ApplicationForm({ current }) {
                                       )
                                     }
                                     size={"sm"}
+                                    style={{ marginLeft: "auto" }}
                                   >
                                     Download
-                                  </Button>{" "}
-                                </span>{" "}
-                                <br />
+                                  </Button>
+                                </div>
+
                                 <Form.Group
                                   controlId="letter_authorization"
                                   className="mb-3"
@@ -2103,10 +2173,7 @@ function ApplicationForm({ current }) {
                 headerName="Control Number"
                 field="Control_Number"
               />
-              <AgGridColumn
-                headerName="Batch Code"
-                field="Batch_code"
-              />
+              <AgGridColumn headerName="Batch Code" field="Batch_code" />
               <AgGridColumn headerName="Name" field="customer_name" />
               <AgGridColumn
                 headerName="Application Date"

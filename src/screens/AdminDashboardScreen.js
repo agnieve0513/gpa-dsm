@@ -65,6 +65,7 @@ function AdminDashboardScreen({ location, history }) {
 
       if (roleId === 4) {
         setApplicationForm(false);
+        setCurrent("batch");
       }
 
       if (roleId === 3 || roleId === 4 || roleId === 5 || roleId === 6) {
