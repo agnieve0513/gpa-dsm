@@ -254,6 +254,8 @@ function ApplicationInformation(props) {
   );
 
   const homeComponentDesktop = () => (
+    props.customer_type  === "RESID" ?
+    
     <Col clas md={12}>
       <Form.Check
         inline
@@ -292,6 +294,59 @@ function ApplicationInformation(props) {
         type={"radio"}
         value="Mobile Home"
         checked={"Mobile Home" === props.home_type}
+        onChange={(e) => props.setHomeType(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="Other"
+        name="home_type"
+        type={"radio"}
+        value="Other"
+        checked={"Other" === props.home_type}
+        onChange={(e) => props.setHomeType(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+    </Col>
+    :
+    <Col>
+      <Form.Check
+        inline
+        label="RETAIL"
+        name="home_type"
+        type={"radio"}
+        value="RETAIL"
+        checked={"RETAIL" === props.home_type}
+        onChange={(e) => props.setHomeType(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="OFFICE"
+        name="home_type"
+        type={"radio"}
+        value="OFFICE"
+        checked={"OFFICE" === props.home_type}
+        onChange={(e) => props.setHomeType(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="RELIGIOUS BUILDING"
+        name="home_type"
+        type={"radio"}
+        value="RELIGIOUS BUILDING"
+        checked={"RELIGIOUS BUILDING" === props.home_type}
+        onChange={(e) => props.setHomeType(e.target.value)}
+        disabled={props.verify ? false : true}
+      />
+      <Form.Check
+        inline
+        label="FINANCIAL INSTITUTION"
+        name="home_type"
+        type={"radio"}
+        value="FINANCIAL INSTITUTION"
+        checked={"FINANCIAL INSTITUTION" === props.home_type}
         onChange={(e) => props.setHomeType(e.target.value)}
         disabled={props.verify ? false : true}
       />
@@ -893,7 +948,7 @@ function ApplicationInformation(props) {
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
                   <Form.Label className=" applicationTitle">
-                    HOME SIZE (approx.sq ft.)
+                    {props.customer_type === "RESID" ? 'HOME SIZE (approx.sq ft.)' : 'BUILDING SIZE (approx.sq ft.)'}
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -966,7 +1021,9 @@ function ApplicationInformation(props) {
             </Row>
             <Row>
               <Form.Label className="applicationTitle">
-                HOME TYPE (check one)
+                {props.customer_type === "RESID" ? 'HOME TYPE (check one)' : 'HOME TYPE (check one)'}
+
+                
               </Form.Label>{" "}
               {screenWidthM ? homeComponentDesktop() : homeComponentMobile()}
               {props.home_type === "" ? (

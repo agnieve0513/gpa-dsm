@@ -269,7 +269,7 @@ function FinalReview(props) {
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">Home Size (approx. sq. ft.)</p>
+                      <p className="title">{props.customer_type === "RESID"? 'Home' : 'Building'} Size (approx. sq. ft.)</p>
                     </Col>
                     <Col>
                       <p>
@@ -279,7 +279,7 @@ function FinalReview(props) {
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">Home Age (appox. year built)</p>
+                      <p className="title">{props.customer_type === "RESID"? 'Home' : 'Building'} Age (appox. year built)</p>
                     </Col>
                     <Col>
                       <p>
@@ -293,7 +293,7 @@ function FinalReview(props) {
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">Home Type</p>
+                      <p className="title">{props.customer_type === "RESID"? 'Home' : 'Building'} Type</p>
                     </Col>
                     <Col>
                       <p>

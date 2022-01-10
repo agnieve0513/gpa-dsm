@@ -652,6 +652,7 @@ function ApplicationScreen() {
                 stepOneToStepFive={stepOneToStepFive}
                 setStepOneToStepFive={setStepOneToStepFive}
                 step={step}
+                customer_type={customer_type}
                 setStep={setStep}
                 old_equipments={old_equipments}
                 setOldEquipments={setOldEquipments}
@@ -734,6 +735,7 @@ function ApplicationScreen() {
             ) : step === 7 ? (
               <FinalReview
                 invoice={invoice}
+                customer_type={customer_type}
                 stepOneToStepSix={stepOneToStepSix}
                 setStepOneToStepSix={setStepOneToStepSix}
                 setInvoice={setInvoice}
