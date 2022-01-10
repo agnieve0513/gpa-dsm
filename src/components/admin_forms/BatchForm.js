@@ -1660,11 +1660,11 @@ function BatchForm({ current }) {
                   <Button
                     className="mb-2"
                     onClick={() => {
-                      setSwalInfo("Send Back to Supervisor");
-                      updateStatus(1, 3);
+                      setSwalInfo("Send Back to Spord");
+                      updateStatus(1, 1);
                     }}
                   >
-                    Send Back to Supervisor
+                    Send Back to Spord
                   </Button>
                 </Container>
               ) : roleId === 5 ? (
