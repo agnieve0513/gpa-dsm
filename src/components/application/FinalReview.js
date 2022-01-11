@@ -61,6 +61,23 @@ function FinalReview(props) {
     setOldEqIndex(index);
   };
 
+  const showCertificateNo = () => {
+    if (props.system_type === "Dryer" || props.system_type === "Washer") {
+      return <></>
+    } else {
+      return <p>
+      Certification No.{" "}
+      <b>
+        {" "}
+        {
+          props.new_equipments[new_eq_index]
+            .installer_information.technician_cert_no
+        }{" "}
+      </b>
+    </p>
+    }
+  }
+
   let total_rebate = 0;
 
   return (
@@ -405,16 +422,7 @@ function FinalReview(props) {
                                     }{" "}
                                   </b>
                                 </p>
-                                <p>
-                                  Certification No.{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.technician_cert_no
-                                    }{" "}
-                                  </b>
-                                </p>
+                                { showCertificateNo() }
                                 <p className="mb-3">
                                   Email{" "}
                                   <b>

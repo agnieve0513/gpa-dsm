@@ -438,11 +438,16 @@ function ApplicationScreen() {
         ) {
           errorMessage();
         } else {
-          if (system_type !== ("Washer" || "Dryer") && technician_cert_no === "") {
-            errorMessage();
-          } else {
+          if ((system_type === "Washer" || system_type === "Dryer")) {
             setStep(currentStep + 1);
             return;
+          } else {
+            if (technician_cert_no === "") {
+              errorMessage();
+            } else {
+              setStep(currentStep + 1);
+              return;
+            }
           }
         }
       } else if (currentStep === 4) {
@@ -699,6 +704,7 @@ function ApplicationScreen() {
                 is_new_construction={is_new_construction}
                 setIsNewConstruction={setIsNewConstruction}
                 technician_cert_no={technician_cert_no}
+                system_type={system_type}
               />
             ) : step === 6 ? (
               <SubmissionOfDocumentation
