@@ -183,11 +183,11 @@ function TcTemplateForm() {
                 <option defaultChecked hidden>
                   Select Template Type
                 </option>
-                <option value="resd">Residential - Dryer/Washer</option>
-                <option value="resd">Residential - Air Conditioning (Ductless Systems)</option>
-                <option value="resd">Residential - Air Conditioning (Window Type Systems)</option>
-                <option value="resd">Commercial - Ductless Split Systems</option>
-                <option value="resd">Commercial - Central (Ducted Systems)</option>
+                <option value="resd_dryer_washer">Residential - Dryer/Washer</option>
+                <option value="resd_aircon_ductless">Residential - Air Conditioning (Ductless Systems)</option>
+                <option value="resd_aircon_window">Residential - Air Conditioning (Window Type Systems)</option>
+                <option value="comm_ductless">Commercial - Ductless Split Systems</option>
+                <option value="comm_ducted">Commercial - Central (Ducted Systems)</option>
               </Form.Select>
               <Button
                 variant="info"

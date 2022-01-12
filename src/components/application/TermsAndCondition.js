@@ -75,7 +75,6 @@ function TermsAndCondition(props) {
           <Col md={12}>
             <Form.Control
               type="date"
-              onChange={setDate}
               onChange={(e) => setDate(e.target.value)}
               value={date}
               defaultValue={date}

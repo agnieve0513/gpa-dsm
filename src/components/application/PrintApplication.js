@@ -303,7 +303,10 @@ function PrintApplication(props) {
                     }
                   </Text>
                 </View>
-                <View style={{ flexDirection: "row" }}>
+                {
+                  new_equipment_information[0]?.system_type === "Dryer"
+                  ? new_equipment_information[0]?.system_type === "Washer" ? 
+                  <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Certification No: </Text>
                   <Text style={styles.boldText}>
                     {
@@ -312,6 +315,9 @@ function PrintApplication(props) {
                     }
                   </Text>
                 </View>
+                  : null 
+                  : null
+                }
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Email: </Text>
                   <Text style={styles.boldText}>

@@ -539,13 +539,22 @@ function PrintApplicationSummary(props) {
                       </Text>
                     </View>
                   </View>
+                  
                   <View style={styles.boxContainer}>
-                    <View style={styles.textContainer}>
+                    {console.log(data)}
+                   {
+                        data.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                         data.New_equipment[0].newEquip_System_type !== "Washer" ?
+                           <View style={styles.textContainer}>
                       <Text style={styles.text}>Certification No: </Text>
                       <Text style={styles.boldText}>
-                        {data?.Installer_New_certno || "N/A"}
+                        {data?.newEquip_System_type || "N/A"}
+                        {/* {data.Installer_New_certno || "N/Certification NoA"} */}
+                        
                       </Text>
                     </View>
+                        : null :null
+                      }
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>Email: </Text>
                       <Text style={styles.boldText}>

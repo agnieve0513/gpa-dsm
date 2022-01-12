@@ -517,7 +517,7 @@ function ViewApplication({
                           </p>
                           <p className="mt-5 mb-5">
                             <b>
-                              {application.Info_Is_owner || "N/A"}
+                              {application.Info_Is_owner == 1 ? "true" : "false" || "N/A"}
                               <br />
                               <p
                                 style={{
@@ -727,11 +727,18 @@ function ViewApplication({
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>Company</b>
                               </p>
-                              <p>
-                                <b style={{ color: "#B6B6B6" }}>
-                                  Certification No.
-                                </b>
-                              </p>
+                              {
+                                application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                                application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>
+                                      Certification No.
+                                    </b>
+                                  </p>
+                                :null
+                                :null
+                              }
+                              
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>Email</b>
                               </p>
@@ -758,7 +765,13 @@ function ViewApplication({
                               </p>
                               <p>
                                 <b>
-                                  {application.Installer_New_certno || "N/A"}
+                                  {
+                                    application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                                    application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                                      application.Installer_New_certno || "N/A"
+                                    :null
+                                    :null
+                                  }
                                 </b>
                               </p>
                               <p>
