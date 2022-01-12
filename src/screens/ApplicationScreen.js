@@ -805,6 +805,7 @@ function ApplicationScreen() {
                 setIsNewConstruction={setIsNewConstruction}
                 mailing_country={mailing_country}
                 technician_cert_no={technician_cert_no}
+                system_type={system_type}
               />
             ) : step === 8 ? (
               <TermsAndCondition
