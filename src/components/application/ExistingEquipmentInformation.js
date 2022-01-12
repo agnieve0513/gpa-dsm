@@ -224,11 +224,12 @@ function ExistingEquipmentInformation(props) {
             </Form.Group>
           </Col>
         </Row>
-        {props.system_type === "Dryer" || props.system_type === "Washer" ? (
-          <Row className="px-0">
-            <Col md={6} className="mb-3">
+        <Row className="px-0">
+          {props.system_type !== "Dryer" ? props.system_type !== "Washer" ? 
+          
+           <Col md={6} className="mb-3">
               <Form.Group controlId="old_btu">
-                <Form.Label className="applicationTitle">BTU</Form.Label>
+                <Form.Label className="applicationTitle">{props.system_type !== "Dryer" ? props.system_type !== "Washer" ? "BTU" : "N/A" : "N/A"}</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder=""
@@ -245,10 +246,11 @@ function ExistingEquipmentInformation(props) {
               ) : (
                 <></>
               )}
-            </Col>
+            </Col> :null :null}
+           
             <Col md={6} className="mb-3">
               <Form.Group controlId="old_tons">
-                <Form.Label className="applicationTitle">TONS</Form.Label>
+                <Form.Label className="applicationTitle">{props.system_type !== "Dryer" ?  props.system_type !== "Washer" ? "TONS": "CUBIC SQ." : "CUBIC SQ."}</Form.Label>
                 <Form.Control
                   type="number"
                   placeholder=""
@@ -267,9 +269,6 @@ function ExistingEquipmentInformation(props) {
               )}
             </Col>
           </Row>
-        ) : (
-          <></>
-        )}
         <Row className="px-0">
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_quantity">
@@ -355,28 +354,33 @@ function ExistingEquipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <Row className="px-0">
-          <Col md={12} className="mb-3">
-            <Form.Group controlId="seer">
-              <Form.Label className="applicationTitle">
-                SEER
-              </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder=""
-                required
-                disabled={props.no_existing ? true : false}
-              ></Form.Control>
-            </Form.Group>
-            {/* {props.no_existing ? (
-              <> </>
-            ) : props.seer === "" ? (
-              <p className="validate text-danger">*This Field is Required</p>
-            ) : (
-              <></>
-            )} */}
-          </Col>
-        </Row>
+         {props.system_type !== "Dryer" ? props.system_type !== "Washer" ? 
+
+          <Row className="px-0">
+                    <Col md={12} className="mb-3">
+                      <Form.Group controlId="seer">
+                        <Form.Label className="applicationTitle">
+                          SEER
+                        </Form.Label>
+                        <Form.Control
+                          type="text"
+                          placeholder=""
+                          required
+                          disabled={props.no_existing ? true : false}
+                        ></Form.Control>
+                      </Form.Group>
+                      {/* {props.no_existing ? (
+                        <> </>
+                      ) : props.seer === "" ? (
+                        <p className="validate text-danger">*This Field is Required</p>
+                      ) : (
+                        <></>
+                      )} */}
+                    </Col>
+                  </Row>
+
+          :null :null}
+       
         <Row className="px-0">
           <Col md={12}>
             <Form.Label className="applicationTitle">

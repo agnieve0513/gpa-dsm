@@ -659,6 +659,7 @@ function ApplicationScreen() {
               />
             ) : step === 5 ? (
               <EquipmentReview
+                delay_reason={delay_reason}
                 stepOneToStepFive={stepOneToStepFive}
                 setStepOneToStepFive={setStepOneToStepFive}
                 step={step}
@@ -745,6 +746,7 @@ function ApplicationScreen() {
               />
             ) : step === 7 ? (
               <FinalReview
+                delay_reason={delay_reason}
                 invoice={invoice}
                 customer_type={customer_type}
                 stepOneToStepSix={stepOneToStepSix}

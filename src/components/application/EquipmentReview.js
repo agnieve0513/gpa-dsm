@@ -432,6 +432,15 @@ function EquipmentReview(props) {
                                     }{" "}
                                   </b>
                                 </p>
+                                {
+                                  props.delay_reason ?
+                                  <p>
+                                    Reason for exceeding 120 days{" "}
+                                    <b>
+                                      {props.delay_reason}
+                                    </b>
+                                  </p>: null
+                                }
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-3">

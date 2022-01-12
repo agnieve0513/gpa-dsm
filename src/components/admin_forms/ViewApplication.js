@@ -650,7 +650,65 @@ function ViewApplication({
                 </Row>
                 <Row className="px-0">
                   <Col className="mb-2 px-0" md={12}>
-                    <MaterialTable
+                    <Table striped hover responsive>
+                      <thead className="bg-info text-white">
+                        <tr>
+                          <th>#</th>
+                          <th>System Type</th>
+                            {
+                            application ? 
+                            application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                            application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                            <th>
+                                BTU
+                             </th>
+                            :null : null : null
+                            }
+                       
+                          <th>Vendor</th>
+                          <th>Manu facturer</th>
+                          <th>Model Number</th>
+                          <th>Invoice</th>
+                          {/* <th>{
+                            application ? 
+                            application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                          application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                          "Tons"
+                          :"Cubic sq.":"Cubic sq."
+                            : null
+                        }</th> */}
+                          <th>Install Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          application
+                          ? application?.New_equipment?.length === 0
+                            ? []
+                            : application.New_equipment.map((equip, indx) => 
+                            <tr>
+                              <td>{indx+1}</td>
+                              <td>{equip.newEquip_System_type}</td>
+                                {
+                                  equip.newEquip_System_type !== "Washer" ?
+                                  equip.newEquip_System_type !== "Dryer"?
+                                    <td>{equip.newEquip_Btu}</td>
+                                  :null :null
+                                }
+                              <td>{equip.newEquip_Vendor}</td>
+                              <td>{equip.newEquip_Manufacturer}</td>
+                              <td>{equip.newEquip_Model_no}</td>
+                              <td>{equip.newEquip_Invoice_no}</td>
+                              {/* <td>{equip.newEquip_Tons}</td> */}
+                              <td>{equip.newEquip_Purchase_date}</td>
+                            </tr>)
+                          : []
+                        }
+
+                      </tbody>
+
+                    </Table>
+                    {/* <MaterialTable
                       columns={[
                         {
                           title: "System Type",
@@ -697,7 +755,7 @@ function ViewApplication({
                           color: "#FFF",
                         },
                       }}
-                    />
+                    /> */}
                   </Col>
                   <Col md={6}>
                     {application ? (
@@ -853,7 +911,66 @@ function ViewApplication({
                 <h3 className="mt-3 mb-3 text-info">
                   Existing/Old Equipment Info{" "}
                 </h3>
-                <MaterialTable
+
+                <Table striped hover responsive>
+                  <thead className="bg-info text-white">
+                    <tr>
+                      <th>#</th>
+                      <th>System Type</th>
+                      <th>Years</th>
+                      <th>Quantity</th>
+                      {
+                        application ?
+                        application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                        application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                          <th>TONS</th>
+                        :<th>CUBIC SQ.</th>
+                        :<th>CUBIC SQ.</th>:null
+                      }
+                      <th>Eqpmt. Condition</th>
+                      {
+                        application ?
+                        application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                        application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                          <th>SEER</th>
+                        :null
+                        :null:null
+                      }
+                      <th>Disposal Party</th>
+                      <th>Disposal Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        application
+                        ? application?.Old_equipment?.length === 0
+                          ? []
+                          : application.Old_equipment.map((old_eqiup, indx) =>
+                          <tr>
+                            <td>{indx + 1}</td>
+                            <td>{old_eqiup.oldEquip_System_type}</td>
+                            <td>{old_eqiup.oldEquip_Years}</td>
+                            <td>{old_eqiup.oldEquip_Quantity}</td>
+                            <td>{old_eqiup.oldEquip_Tons}</td>
+                            <td>{old_eqiup.oldEquip_Conditon}</td>
+                            {
+                              application ?
+                              application.New_equipment[0].newEquip_System_type !== "Washer" ?
+                              application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                                <td>{old_eqiup.oldEquip_Seer}</td>
+                              :null
+                              :null:null
+                            }
+                            
+                            <td>{old_eqiup.oldEquip_Disposal_party}</td>
+                            <td>{old_eqiup.oldEquip_Disposal_date}</td>
+                          </tr>)
+                        : []
+                      }
+                    </tbody>
+
+                  </Table>
+                {/* <MaterialTable
                   columns={[
                     { title: "System Type", field: "oldEquip_System_type" },
                     { title: "Years", field: "oldEquip_Btu" },
@@ -884,7 +1001,7 @@ function ViewApplication({
                       color: "#FFF",
                     },
                   }}
-                />
+                /> */}
               </Tab.Pane>
               <Tab.Pane eventKey="submission_of_documentation">
                 <ModalImage
@@ -988,6 +1105,9 @@ function ViewApplication({
                               }}
                             >
                               <span>IRS-W9 </span>
+                              {application.Submitted_docs ? 
+                                application.Submitted_docs[0].irs_form !==
+                                null ? (
                               <Button
                                 className="mb-2"
                                 variant={"success"}
@@ -1002,7 +1122,8 @@ function ViewApplication({
                                 style={{ marginLeft: "auto" }}
                               >
                                 Download
-                              </Button>
+                              </Button>): <small className="text-danger">(*No file uploaded)</small> :null
+                            }
                             </div>
 
                             <Form.Group controlId="irs_form" className="mb-3">
@@ -1056,6 +1177,9 @@ function ViewApplication({
                               }}
                             >
                               <span>Letter of Authorization </span>
+                              {application.Submitted_docs ? 
+                                application.Submitted_docs[0].letter_authorization !==
+                                null ? (
                               <Button
                                 className="mb-2"
                                 variant={"success"}
@@ -1070,8 +1194,9 @@ function ViewApplication({
                                 size={"sm"}
                                 style={{ marginLeft: "auto" }}
                               >
-                                Download
-                              </Button>
+                                Download {" "}
+                              </Button>) : <small className="text-danger"> (*No file uploaded)</small> :null
+                              }
                             </div>
                             <Form.Group
                               controlId="letter_authorization"
@@ -1127,6 +1252,9 @@ function ViewApplication({
                               }}
                             >
                               <span>Disposal Slip </span>
+                              {application.Submitted_docs ? 
+                                application.Submitted_docs[0].disposal_slip !==
+                                null ? (
                               <Button
                                 className="mb-2"
                                 variant={"success"}
@@ -1142,7 +1270,8 @@ function ViewApplication({
                                 style={{ marginLeft: "auto" }}
                               >
                                 Download
-                              </Button>
+                              </Button>) : <small className="text-danger">(*No file uploaded )</small> : null 
+                              }
                             </div>
                             <Form.Group
                               controlId="disposal_slilp"
@@ -1199,6 +1328,9 @@ function ViewApplication({
                               }}
                             >
                               <span>Other Document 1 </span>
+                              {application.Submitted_docs ? 
+                                application.Submitted_docs[0].other_doc2 !==
+                                null ? (
                               <Button
                                 className="mb-2"
                                 variant={"success"}
@@ -1206,14 +1338,15 @@ function ViewApplication({
                                   handleRetrieveFile(
                                     oth1
                                       ? oth1
-                                      : application.Submitted_docs[0].other_doc1
+                                      : application.Submitted_docs[0].other_doc2
                                   )
                                 }
                                 size={"sm"}
                                 style={{ marginLeft: "auto" }}
                               >
                                 Download
-                              </Button>
+                              </Button>) : <small className="text-danger">(*No file uploaded)</small> :null 
+                              }
                             </div>
 
                             <Form.Group controlId="other_doc1" className="mb-3">
@@ -1268,6 +1401,9 @@ function ViewApplication({
                               }}
                             >
                               <span>Other Document 2 </span>
+                              {application.Submitted_docs ? 
+                                application.Submitted_docs[0].other_doc3 !==
+                                null ? (
                               <Button
                                 className="mb-2"
                                 variant={"success"}
@@ -1275,14 +1411,15 @@ function ViewApplication({
                                   handleRetrieveFile(
                                     oth2
                                       ? oth2
-                                      : application.Submitted_docs[0].other_doc2
+                                      : application.Submitted_docs[0].other_doc3
                                   )
                                 }
                                 size={"sm"}
                                 style={{ marginLeft: "auto" }}
                               >
                                 Download
-                              </Button>
+                              </Button>) : <small className="text-danger">(*No file uploaded)</small> : null 
+                              }
                             </div>
 
                             <Form.Group
