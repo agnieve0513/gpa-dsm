@@ -30,7 +30,6 @@ const MySwal = withReactContent(Swal);
 function NewEuipmentInformation(props) {
   const dispatch = useDispatch();
 
-  const [totalQuantity, setTotalQuantity] = useState(0);
   const [modelId, setModelID] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
@@ -165,7 +164,7 @@ function NewEuipmentInformation(props) {
         text: "Fields should not be empty in order to proceed to next step",
       });
     } else {
-      if (props.max_invoice >= parseInt(parseInt(totalQuantity) + parseInt(props.quantity))) {
+      if (props.max_invoice >= parseInt(parseInt(props.totalQuantity) + parseInt(props.quantity))) {
         // Object for saving . ...
         const obj = {
           control_no: props.control_no,
@@ -192,7 +191,7 @@ function NewEuipmentInformation(props) {
             email: props.tech_email,
           },
         };
-        setTotalQuantity(parseInt(props.quantity) + parseInt(totalQuantity));
+        props.setTotalQuantity(parseInt(props.quantity) + parseInt(props.totalQuantity));
         props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
         props.setNewEquipments(props.new_equipments.concat(obj));
       } else {
@@ -210,7 +209,7 @@ function NewEuipmentInformation(props) {
     props.setTotalRebate(props.total_rebate - rowdata.rebate);
     const index = props.new_equipments.indexOf(rowdata);
     const eqs = props.new_equipments;
-    setTotalQuantity(totalQuantity - rowdata.quantity);
+    props.setTotalQuantity(props.totalQuantity - rowdata.quantity);
     if (index > -1) {
       eqs.splice(index, 1);
       props.setNewEquipments(eqs);
@@ -637,7 +636,7 @@ function NewEuipmentInformation(props) {
                 placeholder=""
                 min="1"
                 onChange={(e) => {
-                  setTotalQuantity(0);
+                  props.setTotalQuantity(0);
                   props.setTotalRebate(0);
                   props.setNewEquipments([]);
                   props.setMaxInvoice(e.target.value);
@@ -947,7 +946,7 @@ function NewEuipmentInformation(props) {
 
         <Row className="mt-3">
           <Col md={12}>
-            <b>Total Quantity {totalQuantity} </b>
+            <b>Total Quantity {props.totalQuantity} </b>
             {showTable()}
           </Col>
         </Row>

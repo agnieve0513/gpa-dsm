@@ -86,6 +86,7 @@ function ApplicationScreen() {
   const [tech_email, setTechEmail] = useState("");
 
   // Equipment
+  const [totalQuantity, setTotalQuantity] = useState(0);
   const [manufacturers, setManufacturerList] = useState([]);
   const [models, setModelList] = useState([]);
 
@@ -559,6 +560,7 @@ function ApplicationScreen() {
               />
             ) : step === 3 ? (
               <NewEuipmentInformation
+                totalQuantity={totalQuantity} setTotalQuantity={setTotalQuantity}
                 delay_reason={delay_reason} setDelayReason={setDelayReason}
                 total_rebate={total_rebate}
                 setTotalRebate={setTotalRebate}
