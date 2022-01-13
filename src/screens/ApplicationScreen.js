@@ -188,6 +188,8 @@ function ApplicationScreen() {
               application_type: customer_type,
               print_hash: controlNumber,
               gpa_holders_name: gpa_holder,
+              delay_reason : delay_reason,
+
             },
             new_equipment_information: new_equipments,
             existing_old_equipment_information: old_equipments,

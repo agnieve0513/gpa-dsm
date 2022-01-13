@@ -9,6 +9,7 @@ import {
   Tab,
   Badge,
   InputGroup,
+  FormControl,
   Container,
   Button,
   Nav,
@@ -392,8 +393,8 @@ function ViewApplication({
                   <i className="fa fa-edit"></i>
                 </Nav.Item>
                 {/* <Nav.Item className="me-1">
-                                                <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
-                                                </Nav.Item> */}
+                  <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
+                  </Nav.Item> */}
               </Nav>
             </div>
           </Col>
@@ -486,7 +487,8 @@ function ViewApplication({
                         </div>
                         <div>
                           <p>
-                            <b>{application.Control_Number || "N/A"}</b>
+                            <b>{application.Control_Number || "N/A"} </b>
+                             
                           </p>
                           <p>
                             <b>{application.Info_Account_no || "N/A"}</b>
@@ -496,9 +498,21 @@ function ViewApplication({
                           </p>
                           <p>
                             <b>{application.Account_Name || "N/A"}</b>
+                            
                           </p>
                           <p>
+                            
+                            <InputGroup className="mb-3">
                             <b>{application.Info_Customer_name || "N/A"}</b>
+                                {/* <FormControl
+                                  placeholder="Applicant's Name"
+                                  aria-label="Applicant's Name"
+                                  aria-describedby="basic-addon2"
+                                /> */}
+                                <Button variant="outline-success" size="sm">
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                              </InputGroup>
                           </p>
                           <p>
                             <b>{application.Info_Mailing_address || "N/A"}</b>
@@ -805,6 +819,25 @@ function ViewApplication({
                                   Date of Final
                                 </b>
                               </p>
+                              {
+                                console.log(Math.abs(
+                                new Date(application.New_equipment[0].newEquip_Purchase_date) -
+                                  new Date(application.Installer_New_finaldate)
+                              ) /
+                                (1000 * 3600 * 24))
+                              }
+                              {
+                                Math.abs(
+                                new Date(application.New_equipment[0].newEquip_Purchase_date) -
+                                  new Date(application.Installer_New_finaldate)
+                              ) /
+                                (1000 * 3600 * 24) >
+                              120 ? <p>
+                                  <b style={{ color: "#B6B6B6" }}>
+                                  Reason for Exceeding 120 days
+                                </b>
+                              </p>:null
+                              }
                             </div>
                             <div>
                               <p>
@@ -842,6 +875,18 @@ function ViewApplication({
                                   {application.Installer_New_finaldate || "N/A"}
                                 </b>
                               </p>
+                              {
+                                Math.abs(
+                                new Date(application.New_equipment[0].newEquip_Purchase_date) -
+                                  new Date(application.Installer_New_finaldate)
+                              ) /
+                                (1000 * 3600 * 24) >
+                              120 ? <p>
+                                  <b>
+                                    {application.Delay_Reason}
+                                  </b>
+                              </p>:null
+                              }
                             </div>
                           </ListGroup>
                         </>
@@ -1767,6 +1812,7 @@ function ViewApplication({
                     <h6 className="mb-5">{application.Stage}</h6>
 
                     <h4>Event Logs</h4>
+                    {console.log(logs)}
                     {logs ? (
                       <div style={{ height: "440px", overflowY: "auto" }}>
                         {logs.map((log, index) => (
