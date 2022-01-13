@@ -60,6 +60,67 @@ function ViewApplication({
   const [submited, setSubmited] = useState(false);
   const [detailsToggle, setDetailsToggle] = useState(false);
 
+  const [enable_edit, setEnableEdit] = useState(false);
+  const [enable_equipment_edit, setEnableEquipmentEdit] = useState(false);
+
+  const [customer_name, setCustomerName] = useState("");
+  const [enable_customer_name, setEnableCustomerName] = useState(false);
+
+  const [service_location, setServiceLocation] = useState("");
+  const [enable_service_location, setEnableServiceLocation] = useState(false);
+
+  const [city_village, setCityVillage] = useState("");
+  const [enable_city_village, setEnableCityVillage] = useState(false);
+
+  const [zipcode, setZipCode] = useState("");
+  const [enable_zipcode, setEnableZipCode] = useState(false);
+
+  const [tel_no, setTelNo] = useState("");
+  const [enable_tel_no, setEnableTelNo] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [enable_email, setEnableEmail] = useState(false);
+
+  const [is_applicant_owner, setIsApplicantOwner] = useState(false);
+  const [enable_is_applicant_owner, setEnableIsApplicantOwner] = useState(false);
+
+  const [mailing_address, setMailingAddress] = useState("");
+  const [enable_mailing_address, setEnableMailingAddress] = useState(false);
+
+  const [mailing_city_village, setMailingCityVillage] = useState("");
+  const [enable_mailing_city_village, setEnableMailingCityVillage] = useState(false);
+
+  const [mailing_zipcode, setMailingZipCode] = useState("");
+  const [enable_mailing_zipcode, setEnableMailingZipCode] = useState(false);
+  
+  const [home_size, setHomeSize] = useState("");
+  const [enable_home_size, setEnableHomeSize] = useState(false);
+
+  const [home_age, setHomeAge] = useState("");
+  const [enable_home_age, setEnableHomeAge] = useState("");
+
+  const [home_type, setHomeType] = useState("");
+  const [enable_home_type, setEnableHomeType] = useState(false);
+
+  const [is_new_construction, setIsNewConstruction] = useState();
+  const [enable_is_new_construction, setEnableIsNewConstruction] = useState(false);
+
+  const [enable_installer_edit, setEnableInstallerEdit] = useState(false);
+  const [system_type, setSystemType] = useState();
+  const [btu, setBtu] = useState();
+  const [vendor, setVendor] = useState();
+  const [manufacturer, setManufacturer] = useState();
+  const [model_no, setModelNo] = useState();
+  const [invoice_no, setInvoiceNo] = useState();
+  const [purchase_date, setPurchaseDate] = useState();
+
+  const [installer_name, setInstallerName] = useState();
+  const [work_tel, setWorkTel] = useState();
+  const [company, setCompany] = useState();
+  const [cert_no, setCertNo] = useState();
+  const [installer_email, setInstallerEmail] = useState();
+  const [installer_final_date, setInstallerFinalDate] = useState();
+
   const handleModalClose = () => setShowModal(false);
 
   const dispatch = useDispatch();
@@ -163,6 +224,7 @@ function ViewApplication({
   }, [current]);
 
   useEffect(() => {
+    console.log(applicationId);
     if (current == "application" || current == "batch") {
       if (applicationId) {
         if (intervalId2) {
@@ -172,7 +234,7 @@ function ViewApplication({
           dispatch(detailApplication(applicationId));
           dispatch(logsApplication(applicationId));
           dispatch(commentsApplication(applicationId));
-        }, 5000);
+        }, 7000);
 
         setIntervalId2(rerun);
       }
@@ -324,6 +386,31 @@ function ViewApplication({
     }
   };
 
+  const handleUpdateInfo = () => {
+    const obj = {
+            application_information: {
+              customerName: customer_name,
+              serviceLocation: service_location,
+              cityVillage: city_village,
+              zipcode: zipcode,
+              email: email,
+              telNo: tel_no,
+              isApplicantOwner: is_applicant_owner,
+              mailingAddress: mailing_address,
+              mailingCity: mailing_city_village,
+              mailingZipcode: mailing_zipcode,
+              homeSize: home_size,
+              homeAge: home_age,
+              homeType: home_type,
+              isNewConstruction: is_new_construction,
+            }
+          };
+  }
+
+  const handleEquipmentEdit = (equipment_id) => {
+    console.log(equipment_id);
+    setEnableEquipmentEdit(true);
+  }
   return (
     <Container>
       <Tab.Container
@@ -426,24 +513,24 @@ function ViewApplication({
                               Name on GPA Account
                             </b>
                           </p>
-                          <p>
-                            <b style={{ color: "#B6B6B6" }}>Customer Name</b>
+                          <p className="mb-4">
+                            <b  style={{ color: "#B6B6B6" }}>Customer Name</b>
                           </p>
-                          <p>
+                          <p className="mb-4">
                             <b style={{ color: "#B6B6B6" }}>
                               Installation Address
                             </b>
                           </p>
-                          <p>
+                          <p className="mb-4">
                             <b style={{ color: "#B6B6B6" }}>City</b>
                           </p>
-                          <p>
+                          <p className="mb-4">
                             <b style={{ color: "#B6B6B6" }}>Zip</b>
                           </p>
-                          <p>
+                          <p className="mb-4">
                             <b style={{ color: "#B6B6B6" }}>Email</b>
                           </p>
-                          <p>
+                          <p className="mb-4">
                             <b style={{ color: "#B6B6B6" }}>Telephone Number</b>
                           </p>
                           <p className="mt-5 mb-5">
@@ -501,66 +588,409 @@ function ViewApplication({
                             
                           </p>
                           <p>
-                            
+                            {/* Customer Name */}
                             <InputGroup className="mb-3">
-                            <b>{application.Info_Customer_name || "N/A"}</b>
-                                {/* <FormControl
-                                  placeholder="Applicant's Name"
-                                  aria-label="Applicant's Name"
-                                  aria-describedby="basic-addon2"
-                                /> */}
-                                <Button variant="outline-success" size="sm">
+                                {
+                                  enable_customer_name ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableCustomerName(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableCustomerName(true)
+                                }}>
                                   <i className="fa fa-edit"></i>
                                 </Button>
+                                }
+                                {
+                                  enable_customer_name ?
+                                   <FormControl
+                                  placeholder={application.Info_Customer_name}
+                                  value= {customer_name}
+                                  onChange={(e)=>setCustomerName(e.target.value)}
+                                /> : <b className="ms-2">{application.Info_Customer_name || "N/A"}</b>
+                                }
+                                
                               </InputGroup>
                           </p>
                           <p>
-                            <b>{application.Info_Mailing_address || "N/A"}</b>
+                            {/* Installation Address */}
+                            <InputGroup className="mb-3">
+                                {
+                                  enable_service_location ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableServiceLocation(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableServiceLocation(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_service_location ?
+                                   <FormControl
+                                  placeholder={application.Info_Service_location}
+                                  value= {service_location}
+                                  onChange={(e)=>setServiceLocation(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_Service_location || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                           
                           </p>
                           <p>
-                            <b>{application.Info_Mailing_city || "N/A"}</b>
+                            <InputGroup className="mb-3">
+                                {
+                                  enable_city_village ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableCityVillage(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableCityVillage(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_city_village ?
+                                   <FormControl
+                                  placeholder={application.Info_City_village}
+                                  value= {city_village}
+                                  onChange={(e)=>setCityVillage(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_City_village || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Mailing_zip || "N/A"}</b>
+                             <InputGroup className="mb-3">
+                                {
+                                  enable_zipcode ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableZipCode(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableZipCode(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_zipcode ?
+                                   <FormControl
+                                  placeholder={application.Info_Zipcode}
+                                  value= {zipcode}
+                                  onChange={(e)=>setZipCode(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_Zipcode || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Email || "N/A"}</b>
+                            <InputGroup className="mb-3">
+                            {
+                                  enable_email ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableEmail(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableEmail(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_email ?
+                                   <FormControl
+                                  placeholder={application.Info_Email}
+                                  value= {email}
+                                  onChange={(e)=>setEmail(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_Email || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Tel_no || "N/A"}</b>
+                            <InputGroup className="mb-3">
+                            {
+                                  enable_tel_no ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableTelNo(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableTelNo(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_tel_no ?
+                                   <FormControl
+                                  placeholder={application.Info_Tel_no}
+                                  value= {tel_no}
+                                  onChange={(e)=>setTelNo(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_Tel_no || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p className="mt-5 mb-5">
-                            <b>
-                              {application.Info_Is_owner == 1 ? "true" : "false" || "N/A"}
-                              <br />
-                              <p
-                                style={{
-                                  color: "#F9F9FA",
-                                  userSelect: "none",
-                                }}
-                              >
-                                h
-                              </p>
-                            </b>
+                            <InputGroup className="">
+                            {
+                                  enable_is_applicant_owner ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableIsApplicantOwner(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableIsApplicantOwner(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_is_applicant_owner ?
+                                   <FormControl
+                                  placeholder={application.Info_Is_owner}
+                                  value= {is_applicant_owner}
+                                  onChange={(e)=>setIsApplicantOwner(e.target.value)}
+                                /> :  <b className="ms-2">
+                                        {application.Info_Is_owner == 1 ? "true" : "false" || "N/A"}
+                                      </b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Mailing_address || "N/A"}</b>
+                            <InputGroup className="mb-3">
+                            {
+                                  enable_mailing_address ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableMailingAddress(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableMailingAddress(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_mailing_address ?
+                                   <FormControl
+                                  placeholder={application.Info_Mailing_address}
+                                  value= {mailing_address}
+                                  onChange={(e)=>setMailingAddress(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_Mailing_address || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Mailing_city || "N/A"}</b>
+                            <InputGroup className="mb-3">
+                            {
+                                  enable_mailing_city_village ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableMailingCityVillage(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableMailingCityVillage(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_mailing_city_village ?
+                                   <FormControl
+                                  placeholder={application.Info_Mailing_city}
+                                  value= {mailing_city_village}
+                                  onChange={(e)=>setMailingCityVillage(e.target.value)}
+                                /> :  <b className="ms-2">{application.Info_Mailing_city || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Mailing_zip || "N/A"}</b>
+                             <InputGroup className="mb-3">
+                            {
+                                  enable_mailing_zipcode ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableMailingZipCode(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableMailingZipCode(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_mailing_zipcode ?
+                                   <FormControl
+                                  placeholder={application.Info_Mailing_zip}
+                                  value= {mailing_zipcode}
+                                  onChange={(e)=>setMailingZipCode(e.target.value)}
+                                /> : <b className="ms-2">{application.Info_Mailing_zip || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Home_age || "N/A"}</b>
+                             <InputGroup className="mb-3">
+                             {
+                                  enable_home_age ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableHomeAge(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableHomeAge(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_home_age ?
+                                   <FormControl
+                                  placeholder={application.Info_Home_age}
+                                  value= {home_age}
+                                  onChange={(e)=>setHomeAge(e.target.value)}
+                                /> : <b className="ms-2">{application.Info_Home_age || "N/A"}</b>
+                                }
+                               
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_New_construction || "N/A"}</b>
+                             <InputGroup className="mb-3">
+                            {
+                                  enable_is_new_construction ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableIsNewConstruction(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableIsNewConstruction(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_is_new_construction ?
+                                   <FormControl
+                                  placeholder={application.Info_New_construction}
+                                  value= {is_new_construction}
+                                  onChange={(e)=>setIsNewConstruction(e.target.value)}
+                                /> :<b className="ms-2">{application.Info_New_construction || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
                           <p>
-                            <b>{application.Info_Home_type || "N/A"}</b>
+                             <InputGroup className="mb-3">
+                            {
+                                  enable_home_type ?
+                                  <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableHomeType(false)
+                                  }}>
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                :
+                                <Button variant="outline-success" size="sm" onClick={()=> {
+                                  setEnableEdit(true)
+                                  setEnableHomeType(true)
+                                }}>
+                                  <i className="fa fa-edit"></i>
+                                </Button>
+                                }
+                                {
+                                  enable_home_type ?
+                                   <FormControl
+                                  placeholder={application.Info_Home_type}
+                                  value= {home_type}
+                                  onChange={(e)=>setHomeType(e.target.value)}
+                                /> :<b className="ms-2">{application.Info_Home_type || "N/A"}</b>
+                                }
+                                
+                              </InputGroup>
+                            
                           </p>
+                          {
+                            enable_edit ?
+                            <>
+                             <Button variant="success" className="me-2">Save</Button>
+                             <Button variant="secondary" onClick={()=>{
+                               setEnableEdit(false);
+                               setEnableCustomerName(false);
+                               setEnableServiceLocation(false);
+                               setEnableCityVillage(false);
+                               setEnableZipCode(false);
+                               setEnableTelNo(false);
+                               setEnableEmail(false);
+                               setEnableIsApplicantOwner(false);
+                               setEnableMailingAddress(false);
+                               setEnableMailingCityVillage(false);
+                               setEnableMailingZipCode(false);
+                               setEnableHomeSize(false);
+                               setEnableHomeAge(false);
+                               setEnableHomeType(false);
+                               setEnableIsNewConstruction(false);
+                            }}>Cancel</Button
+                             ></>:null
+                          }
+
                         </div>
                       </>
                     ) : (
@@ -650,7 +1080,9 @@ function ViewApplication({
                           <b>{application.Info_Home_type || "N/A"}</b>
                         </p>
                       </div>
+                      
                     )}
+
                   </ListGroup>
                 ) : (
                   <></>
@@ -692,6 +1124,7 @@ function ViewApplication({
                             : null
                         }</th> */}
                           <th>Install Date</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -702,19 +1135,99 @@ function ViewApplication({
                             : application.New_equipment.map((equip, indx) => 
                             <tr>
                               <td>{indx+1}</td>
-                              <td>{equip.newEquip_System_type}</td>
+                              <td>
+                                {
+                                  enable_equipment_edit ?
+                                    <FormControl 
+                                      placeholder={equip.newEquip_System_type}
+                                      value={system_type}
+                                      onChange={(e)=> setSystemType(e.target.value)}
+                                    />
+                                  : equip.newEquip_System_type
+                                }
+                              </td>
                                 {
                                   equip.newEquip_System_type !== "Washer" ?
                                   equip.newEquip_System_type !== "Dryer"?
-                                    <td>{equip.newEquip_Btu}</td>
+                                    <td>
+                                      {
+                                        enable_equipment_edit ?
+                                         <FormControl 
+                                            placeholder={equip.newEquip_Btu}
+                                            value={btu}
+                                            onChange={(e)=> setBtu(e.target.value)}
+                                          />
+                                        :equip.newEquip_Btu
+                                      }
+                                    </td>
                                   :null :null
                                 }
-                              <td>{equip.newEquip_Vendor}</td>
-                              <td>{equip.newEquip_Manufacturer}</td>
-                              <td>{equip.newEquip_Model_no}</td>
-                              <td>{equip.newEquip_Invoice_no}</td>
+                              <td>
+                                {
+                                  enable_equipment_edit?
+                                   <FormControl 
+                                      placeholder={equip.newEquip_Vendor}
+                                      value={vendor}
+                                      onChange={(e)=> setVendor(e.target.value)}
+                                    />
+                                  :equip.newEquip_Vendor
+                                }
+                              </td>
+                              <td>
+                                {
+                                  enable_equipment_edit?
+                                   <FormControl 
+                                      placeholder={equip.newEquip_Manufacturer}
+                                      value={manufacturer}
+                                      onChange={(e)=> setManufacturer(e.target.value)}
+                                    />
+                                  :equip.newEquip_Manufacturer
+                                }
+                                </td>
+                              <td>
+                                {
+                                  enable_equipment_edit?
+                                   <FormControl 
+                                      placeholder={equip.newEquip_Model_no}
+                                      value={model_no}
+                                      onChange={(e)=> setModelNo(e.target.value)}
+                                    />
+                                  :equip.newEquip_Model_no
+                                }
+                              </td>
+                              <td>
+                                {
+                                  enable_equipment_edit?
+                                   <FormControl 
+                                      placeholder={equip.newEquip_Invoice_no}
+                                      value={invoice_no}
+                                      onChange={(e)=> setInvoiceNo(e.target.value)}
+                                    />
+                                  :equip.newEquip_Invoice_no
+                                }
+                                </td>
                               {/* <td>{equip.newEquip_Tons}</td> */}
-                              <td>{equip.newEquip_Purchase_date}</td>
+                              <td>
+                                {
+                                  enable_equipment_edit?
+                                   <FormControl 
+                                      placeholder={equip.newEquip_Purchase_date}
+                                      value={purchase_date}
+                                      onChange={(e)=> setPurchaseDate(e.target.value)}
+                                    />
+                                  :equip.newEquip_Purchase_date
+                                }
+                                </td>
+                              <td>
+                                {
+                                  enable_equipment_edit ? 
+                                <>
+                                <Button size="sm" variant="success" className="me-2"><i className="fa fa-save"></i></Button>
+                                <Button size="sm" variant="danger" onClick={()=> setEnableEquipmentEdit(false)}><i className="fa fa-times"></i></Button>
+                                </>
+                                :<Button variant="success" size="sm" onClick={()=> handleEquipmentEdit(equip.newEquip_id)}><i className="fa fa-edit"></i></Button>
+                                }
+                              </td>
                             </tr>)
                           : []
                         }
@@ -776,7 +1289,7 @@ function ViewApplication({
                       application?.New_equipment?.length >= 1 ? (
                         <>
                           <h3 className="mt-3 mb-3 text-info">
-                            Installer Information
+                            Installer Information <Button onClick={()=> setEnableInstallerEdit(true)} variant="success" size="sm"><i className="fa fa-edit"></i></Button>
                           </h3>
                           <ListGroup
                             className="mb-3"
@@ -790,7 +1303,7 @@ function ViewApplication({
                                 <b style={{ color: "#B6B6B6" }}>
                                   Technician Name
                                 </b>
-                              </p>
+                              </p>{enable_installer_edit ? <br /> : null}
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
                                   Work Telephone
@@ -798,15 +1311,18 @@ function ViewApplication({
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>Company</b>
-                              </p>
+                              </p>{enable_installer_edit ? <br /> : null}
+
                               {
                                 application.New_equipment[0].newEquip_System_type !== "Washer" ?
                                 application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                                  <>
                                   <p>
                                     <b style={{ color: "#B6B6B6" }}>
                                       Certification No.
                                     </b>
-                                  </p>
+                                  </p>{enable_installer_edit ? <br /> : null}
+                                  </>
                                 :null
                                 :null
                               }
@@ -818,7 +1334,7 @@ function ViewApplication({
                                 <b style={{ color: "#B6B6B6" }}>
                                   Date of Final
                                 </b>
-                              </p>
+                              </p>{enable_installer_edit ? <br /> : null}
                               {
                                 console.log(Math.abs(
                                 new Date(application.New_equipment[0].newEquip_Purchase_date) -
@@ -841,39 +1357,93 @@ function ViewApplication({
                             </div>
                             <div>
                               <p>
-                                <b>{application.Installer_New_name || "N/A"}</b>
+                                {
+                                  enable_installer_edit ?
+                                   <FormControl
+                                  placeholder={application.Installer_New_name}
+                                  value= {installer_name}
+                                  onChange={(e)=>setInstallerName(e.target.value)}
+                                />: <b>{application.Installer_New_name || "N/A"}</b>
+                                }
+                               
                               </p>
                               <p>
-                                <b>
+                                {
+                                  enable_installer_edit ?
+                                   <FormControl
+                                  placeholder={application.Installer_New_worktel}
+                                  value= {work_tel}
+                                  onChange={(e)=>setWorkTel(e.target.value)}
+                                />:  <b>
                                   {application.Installer_New_worktel || "N/A"}
                                 </b>
+                                }
+                               
                               </p>
                               <p>
+                                 {
+                                  enable_installer_edit ?
+                                   <FormControl
+                                  placeholder={application.Installer_New_companyname || "N/A"}
+                                  value= {company}
+                                  onChange={(e)=>setCompany(e.target.value)}
+                                />:   
                                 <b>
-                                  {application.Installer_New_companyname ||
-                                    "N/A"}
+                                        {application.Installer_New_companyname || "N/A"}
                                 </b>
+                                }
                               </p>
                               <p>
-                                <b>
+                               
                                   {
                                     application.New_equipment[0].newEquip_System_type !== "Washer" ?
                                     application.New_equipment[0].newEquip_System_type !== "Dryer" ?
-                                      application.Installer_New_certno || "N/A"
+                                      <>
+                                      {
+                                          enable_installer_edit ?
+                                          <FormControl
+                                          placeholder={ application.Installer_New_certno || "N/A"}
+                                          value= {cert_no}
+                                          onChange={(e)=>setCertNo(e.target.value)}
+                                        />:   
+                                        <b>
+                                                { application.Installer_New_certno || "N/A"}
+                                        </b>
+                                      }
+                                      </>
+                                     
                                     :null
                                     :null
                                   }
-                                </b>
+                                
                               </p>
                               <p>
+                                {
+                                  enable_installer_edit ?
+                                   <FormControl
+                                  placeholder={application.Installer_New_email || "N/A"}
+                                  value= {installer_email}
+                                  onChange={(e)=>setInstallerEmail(e.target.value)}
+                                />:   
                                 <b>
                                   {application.Installer_New_email || "N/A"}
                                 </b>
+                                }
+                               
                               </p>
                               <p>
+                                 {
+                                  enable_installer_edit ?
+                                   <FormControl
+                                  placeholder={application.Installer_New_finaldate}
+                                  value= {installer_final_date}
+                                  onChange={(e)=>setInstallerFinalDate(e.target.value)}
+                                />:   
                                 <b>
                                   {application.Installer_New_finaldate || "N/A"}
                                 </b>
+                                }
+                                
                               </p>
                               {
                                 Math.abs(
@@ -886,6 +1456,13 @@ function ViewApplication({
                                     {application.Delay_Reason}
                                   </b>
                               </p>:null
+                              }
+                              {
+                                enable_installer_edit ?
+                                <>
+                                  <Button variant="success"  className="me-2">Save</Button>
+                                  <Button variant="secondary" onClick={()=> setEnableInstallerEdit(false)} >Cancel</Button>
+                                </>: null
                               }
                             </div>
                           </ListGroup>
