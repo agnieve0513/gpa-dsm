@@ -27,11 +27,21 @@ import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
 import "./ApplicationForm.css";
 import { uploadFileAction } from "../../actions/fileActions";
+import {editApplication, editEquipment} from "../../actions/applicationActions";
+import {
+  loadCustomerEquipManufacturer,
+  loadCustomerEquipModel,
+  loadCustomerEquipmentDetail,
+} from "../../actions/customerAction";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useWindowDimensions } from "../../hooks";
 import { formatAMPM } from "../../helpers";
 import _ from "lodash";
+import city_zipcode from "./city_zipcode";
+
+
 
 const MySwal = withReactContent(Swal);
 
@@ -62,49 +72,21 @@ function ViewApplication({
 
   const [enable_edit, setEnableEdit] = useState(false);
   const [enable_equipment_edit, setEnableEquipmentEdit] = useState(false);
-
   const [customer_name, setCustomerName] = useState("");
-  const [enable_customer_name, setEnableCustomerName] = useState(false);
-
   const [service_location, setServiceLocation] = useState("");
-  const [enable_service_location, setEnableServiceLocation] = useState(false);
-
   const [city_village, setCityVillage] = useState("");
-  const [enable_city_village, setEnableCityVillage] = useState(false);
-
   const [zipcode, setZipCode] = useState("");
-  const [enable_zipcode, setEnableZipCode] = useState(false);
-
   const [tel_no, setTelNo] = useState("");
-  const [enable_tel_no, setEnableTelNo] = useState(false);
-
   const [email, setEmail] = useState("");
-  const [enable_email, setEnableEmail] = useState(false);
-
   const [is_applicant_owner, setIsApplicantOwner] = useState(false);
-  const [enable_is_applicant_owner, setEnableIsApplicantOwner] = useState(false);
-
   const [mailing_address, setMailingAddress] = useState("");
-  const [enable_mailing_address, setEnableMailingAddress] = useState(false);
-
   const [mailing_city_village, setMailingCityVillage] = useState("");
-  const [enable_mailing_city_village, setEnableMailingCityVillage] = useState(false);
-
   const [mailing_zipcode, setMailingZipCode] = useState("");
-  const [enable_mailing_zipcode, setEnableMailingZipCode] = useState(false);
-  
   const [home_size, setHomeSize] = useState("");
-  const [enable_home_size, setEnableHomeSize] = useState(false);
-
   const [home_age, setHomeAge] = useState("");
-  const [enable_home_age, setEnableHomeAge] = useState("");
-
   const [home_type, setHomeType] = useState("");
-  const [enable_home_type, setEnableHomeType] = useState(false);
-
   const [is_new_construction, setIsNewConstruction] = useState();
-  const [enable_is_new_construction, setEnableIsNewConstruction] = useState(false);
-
+  
   const [enable_installer_edit, setEnableInstallerEdit] = useState(false);
   const [system_type, setSystemType] = useState();
   const [btu, setBtu] = useState();
@@ -166,11 +148,35 @@ function ViewApplication({
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
+  const applicationEdit = useSelector((state) => state.applicationEdit);
+  const { loading: editLoading, error: editError, edit_info } = applicationEdit;
+
+  const equipmentEdit = useSelector((state) => state.equipmentEdit);
+  const { loading: editEquipmentLoading, error: editEquipmentError, edit_equip } = equipmentEdit;
+
   const [intervalId2, setIntervalId2] = useState();
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const applicationComments = useSelector((state) => state.applicationComments);
   const applicationLogs = useSelector((state) => state.applicationLogs);
+
+  const customerEquipManufacturer = useSelector(
+    (state) => state.customerEquipManufacturer
+  );
+  const {
+    loading: manufacturerLoading,
+    error: manufacturerError,
+    success: manufacturerSuccess,
+    manufacturers,
+  } = customerEquipManufacturer;
+
+  const customerEquipModel = useSelector((state) => state.customerEquipModel);
+  const {
+    loading: modelLoading,
+    error: modelError,
+    success: modelSuccess,
+    models,
+  } = customerEquipModel;
 
   const [application, setApplication] = useState();
   const [logs, setLogs] = useState({});
@@ -230,8 +236,8 @@ function ViewApplication({
         if (intervalId2) {
           clearInterval(intervalId2);
         }
+        dispatch(detailApplication(applicationId));
         const rerun = setInterval(() => {
-          dispatch(detailApplication(applicationId));
           dispatch(logsApplication(applicationId));
           dispatch(commentsApplication(applicationId));
         }, 7000);
@@ -239,7 +245,7 @@ function ViewApplication({
         setIntervalId2(rerun);
       }
     }
-  }, [applicationId]);
+  }, [applicationId, edit_info]);
 
   useEffect(() => {
     dispatch(commentsApplication(applicationId));
@@ -386,30 +392,83 @@ function ViewApplication({
     }
   };
 
-  const handleUpdateInfo = () => {
-    const obj = {
-            application_information: {
-              customerName: customer_name,
-              serviceLocation: service_location,
-              cityVillage: city_village,
-              zipcode: zipcode,
-              email: email,
-              telNo: tel_no,
-              isApplicantOwner: is_applicant_owner,
-              mailingAddress: mailing_address,
-              mailingCity: mailing_city_village,
-              mailingZipcode: mailing_zipcode,
-              homeSize: home_size,
-              homeAge: home_age,
-              homeType: home_type,
-              isNewConstruction: is_new_construction,
-            }
-          };
-  }
-
   const handleEquipmentEdit = (equipment_id) => {
     console.log(equipment_id);
     setEnableEquipmentEdit(true);
+  }
+
+  const handleEditInfo = () => {
+     const obj = {
+              applicationId:applicationId,
+              customerName: customer_name ? customer_name : application.Info_Customer_name,
+              serviceLocation: service_location ? service_location:application.Info_Service_location ,
+              cityVillage: city_village ? city_village : application.Info_City_village,
+              zipcode: zipcode ? zipcode :  application.Info_Zipcode,
+              email: email ? email :application.Info_Email ,
+              telNo: tel_no ? tel_no : application.Info_Tel_no,
+              isApplicantOwner: is_applicant_owner ? is_applicant_owner : application.Info_Is_owner,
+              mailingAddress: mailing_address ? mailing_address : application.Info_Mailing_address,
+              mailingCity: mailing_city_village ? mailing_city_village : application.Info_Mailing_city,
+              mailingZipcode: mailing_zipcode ? mailing_zipcode : application.Info_Mailing_zip,
+              homeAge: home_age ? home_age : application.Info_Home_age,
+              homeType: home_type ? home_type : application.Info_Home_type,
+              isNewConstruction: is_new_construction ? is_new_construction : application.Info_New_construction,
+          };
+
+    dispatch(editApplication(obj));
+  }
+
+   const changeZipCode = (e) => {
+    setCityVillage(e.target.value);
+    const result = city_zipcode.find((p) => p._id === e.target.value);
+
+    if (result) {
+      setZipCode(result.zip_code);
+    }
+  };
+
+  const changeSystemTypeHandler = (e) => {
+      showRebateHandler();
+      setVendor("");
+      setSystemType(e.target.value);
+      dispatch(loadCustomerEquipManufacturer(e.target.value));
+  };
+
+    const showRebateHandler = () => {
+    if (system_type !== "Dryer" || system_type !== "Washer") {
+      return <></>;
+    } else {
+      return <></>;
+    }
+  };
+  const changeManufacturerHandler = (e) => {
+    setManufacturer(e.target.value);
+    dispatch(loadCustomerEquipModel(system_type, e.target.value));
+    setVendor("");
+  };
+
+  const handleEditNewEquipment = (equipment_id, indx) => {
+    alert(equipment_id)
+
+    const obj = {
+      new_equipment_information: {
+        id: equipment_id,
+        system_type: system_type ? system_type : application.New_equipment[indx].newEquip_System_type,
+        vendor:vendor ? vendor : application.New_equipment[indx].newEquip_Vendor ,
+        // quantity:quantity ? quantity : application.New_equipment[indx],
+        btu:btu ? btu : application.New_equipment[indx],
+        // size:size ? size : application.New_equipment[indx] ,
+        manufacturer: manufacturer ? manufacturer : application.New_equipment[indx].newEquip_Manufacturer ,
+        model_no:model_no ? model_no : application.New_equipment[indx].newEquip_Model_no,
+        invoice_no:invoice_no ? invoice_no : application.New_equipment[indx].newEquip_Invoice_no,
+        purchase_date:purchase_date ? purchase_date :  application.New_equipment[indx].newEquip_Purchase_date,
+      }
+     
+    };
+
+    dispatch(editEquipment(obj))
+
+
   }
   return (
     <Container>
@@ -513,42 +572,48 @@ function ViewApplication({
                               Name on GPA Account
                             </b>
                           </p>
-                          <p className="mb-4">
+                           <p className="mb-4">
+                            <b>
+                              Edit Information 
+                            </b>
+                          </p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b  style={{ color: "#B6B6B6" }}>Customer Name</b>
                           </p>
-                          <p className="mb-4">
+                         
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>
                               Installation Address
                             </b>
                           </p>
-                          <p className="mb-4">
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>City</b>
                           </p>
-                          <p className="mb-4">
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>Zip</b>
                           </p>
-                          <p className="mb-4">
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>Email</b>
                           </p>
-                          <p className="mb-4">
+                          <p style={{marginBottom: enable_edit ? "2.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>Telephone Number</b>
                           </p>
-                          <p className="mt-5 mb-5">
+                          <p style={{marginBottom: enable_edit ? "3.5rem" : "3.5rem" }}>
                             <b style={{ color: "#B6B6B6" }}>
                               Is Applicant the owner of the <br /> residential
                               property?
                             </b>
                           </p>
-                          <p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>MAILING ADDRESS</b>
                           </p>
-                          <p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>CITY</b>
                           </p>
-                          <p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>ZIP</b>
                           </p>
-                          <p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>
                               {application
                                 ? application.Type === "RESID"
@@ -558,10 +623,10 @@ function ViewApplication({
                               AGE
                             </b>
                           </p>
-                          <p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>NEW CONSTRUCTION</b>
                           </p>
-                          <p>
+                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b style={{ color: "#B6B6B6" }}>
                               {application
                                 ? application.Type === "RESID"
@@ -588,54 +653,42 @@ function ViewApplication({
                             
                           </p>
                           <p>
-                            {/* Customer Name */}
-                            <InputGroup className="mb-3">
-                                {
-                                  enable_customer_name ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableCustomerName(false)
+                           {
+                             enable_edit?
+                            <Button variant="outline-danger" size="sm" onClick={()=> {
+                                    setEnableEdit(false)
                                   }}>
                                     <i className="fa fa-times"></i>
+                                  </Button>:
+                                   <Button variant="outline-success" size="sm" onClick={()=> {
+                                    setEnableEdit(true)
+                                  }}>
+                                    <i className="fa fa-edit"></i>
                                   </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableCustomerName(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
+                           }
+                          </p>
+                          <p>
+                            {/* Customer Name */}
+                            <InputGroup className="mb-3">
+                            
                                 {
-                                  enable_customer_name ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Customer_name}
                                   value= {customer_name}
                                   onChange={(e)=>setCustomerName(e.target.value)}
-                                /> : <b className="ms-2">{application.Info_Customer_name || "N/A"}</b>
+                                /> : <b className="ms-2">
+                                    
+                                  {application.Info_Customer_name || "N/A"}</b>
                                 }
-                                
                               </InputGroup>
                           </p>
                           <p>
                             {/* Installation Address */}
                             <InputGroup className="mb-3">
+                               
                                 {
-                                  enable_service_location ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableServiceLocation(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableServiceLocation(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
-                                {
-                                  enable_service_location ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Service_location}
                                   value= {service_location}
@@ -648,28 +701,21 @@ function ViewApplication({
                           </p>
                           <p>
                             <InputGroup className="mb-3">
+                               
                                 {
-                                  enable_city_village ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableCityVillage(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableCityVillage(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
-                                {
-                                  enable_city_village ?
-                                   <FormControl
-                                  placeholder={application.Info_City_village}
-                                  value= {city_village}
-                                  onChange={(e)=>setCityVillage(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_City_village || "N/A"}</b>
+                                  enable_edit ?
+                                  <Form.Select
+                                      onChange={(e) => changeZipCode(e)}
+                                      value={city_village}
+                                    >
+                                      <option selected hidden>{application.Info_City_village ? city_zipcode.find((p) => p._id === application.Info_City_village) ? city_zipcode.find((p) => p._id === application.Info_City_village).village :"N/A" : "N/A" || "N/A"}</option>
+                                      {city_zipcode.map((p) => (
+                                        <option key={p._id} value={p._id}>
+                                          {p.village}
+                                        </option>
+                                      ))}
+                                    </Form.Select>
+                                  :  <b className="ms-2">{application.Info_City_village ? city_zipcode.find((p) => p._id === application.Info_City_village) ? city_zipcode.find((p) => p._id === application.Info_City_village).village : "N/A"  : "N/A"  || "N/A"}</b>
                                 }
                                 
                               </InputGroup>
@@ -677,23 +723,9 @@ function ViewApplication({
                           </p>
                           <p>
                              <InputGroup className="mb-3">
+                               
                                 {
-                                  enable_zipcode ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableZipCode(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableZipCode(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
-                                {
-                                  enable_zipcode ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Zipcode}
                                   value= {zipcode}
@@ -706,23 +738,9 @@ function ViewApplication({
                           </p>
                           <p>
                             <InputGroup className="mb-3">
-                            {
-                                  enable_email ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableEmail(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableEmail(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
+                            
                                 {
-                                  enable_email ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Email}
                                   value= {email}
@@ -735,23 +753,9 @@ function ViewApplication({
                           </p>
                           <p>
                             <InputGroup className="mb-3">
-                            {
-                                  enable_tel_no ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableTelNo(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableTelNo(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
+                           
                                 {
-                                  enable_tel_no ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Tel_no}
                                   value= {tel_no}
@@ -764,29 +768,19 @@ function ViewApplication({
                           </p>
                           <p className="mt-5 mb-5">
                             <InputGroup className="">
-                            {
-                                  enable_is_applicant_owner ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableIsApplicantOwner(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableIsApplicantOwner(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
                                 {
-                                  enable_is_applicant_owner ?
-                                   <FormControl
-                                  placeholder={application.Info_Is_owner}
-                                  value= {is_applicant_owner}
-                                  onChange={(e)=>setIsApplicantOwner(e.target.value)}
-                                /> :  <b className="ms-2">
-                                        {application.Info_Is_owner == 1 ? "true" : "false" || "N/A"}
+                                  enable_edit ?
+                                  <Form.Select
+                                    value= {is_applicant_owner}
+                                    onChange={(e)=>setIsApplicantOwner(e.target.value)}
+                                  >
+
+                                    <option selected hidden>{application.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}</option>
+                                    <option value="0">NO</option>
+                                    <option value="1">YES</option>
+                                  </Form.Select>
+                                    :  <b className="ms-2">
+                                        {application.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
                                       </b>
                                 }
                                 
@@ -795,23 +789,9 @@ function ViewApplication({
                           </p>
                           <p>
                             <InputGroup className="mb-3">
-                            {
-                                  enable_mailing_address ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableMailingAddress(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableMailingAddress(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
+                            
                                 {
-                                  enable_mailing_address ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Mailing_address}
                                   value= {mailing_address}
@@ -824,23 +804,9 @@ function ViewApplication({
                           </p>
                           <p>
                             <InputGroup className="mb-3">
-                            {
-                                  enable_mailing_city_village ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableMailingCityVillage(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableMailingCityVillage(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
+                           
                                 {
-                                  enable_mailing_city_village ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Mailing_city}
                                   value= {mailing_city_village}
@@ -853,23 +819,9 @@ function ViewApplication({
                           </p>
                           <p>
                              <InputGroup className="mb-3">
-                            {
-                                  enable_mailing_zipcode ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableMailingZipCode(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableMailingZipCode(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
+                          
                                 {
-                                  enable_mailing_zipcode ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Mailing_zip}
                                   value= {mailing_zipcode}
@@ -882,23 +834,8 @@ function ViewApplication({
                           </p>
                           <p>
                              <InputGroup className="mb-3">
-                             {
-                                  enable_home_age ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableHomeAge(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableHomeAge(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
                                 {
-                                  enable_home_age ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Home_age}
                                   value= {home_age}
@@ -911,23 +848,8 @@ function ViewApplication({
                           </p>
                           <p>
                              <InputGroup className="mb-3">
-                            {
-                                  enable_is_new_construction ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableIsNewConstruction(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableIsNewConstruction(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
                                 {
-                                  enable_is_new_construction ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_New_construction}
                                   value= {is_new_construction}
@@ -940,23 +862,8 @@ function ViewApplication({
                           </p>
                           <p>
                              <InputGroup className="mb-3">
-                            {
-                                  enable_home_type ?
-                                  <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableHomeType(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>
-                                :
-                                <Button variant="outline-success" size="sm" onClick={()=> {
-                                  setEnableEdit(true)
-                                  setEnableHomeType(true)
-                                }}>
-                                  <i className="fa fa-edit"></i>
-                                </Button>
-                                }
                                 {
-                                  enable_home_type ?
+                                  enable_edit ?
                                    <FormControl
                                   placeholder={application.Info_Home_type}
                                   value= {home_type}
@@ -970,23 +877,9 @@ function ViewApplication({
                           {
                             enable_edit ?
                             <>
-                             <Button variant="success" className="me-2">Save</Button>
+                             <Button variant="success" onClick={()=> handleEditInfo()} className="me-2">Save</Button>
                              <Button variant="secondary" onClick={()=>{
                                setEnableEdit(false);
-                               setEnableCustomerName(false);
-                               setEnableServiceLocation(false);
-                               setEnableCityVillage(false);
-                               setEnableZipCode(false);
-                               setEnableTelNo(false);
-                               setEnableEmail(false);
-                               setEnableIsApplicantOwner(false);
-                               setEnableMailingAddress(false);
-                               setEnableMailingCityVillage(false);
-                               setEnableMailingZipCode(false);
-                               setEnableHomeSize(false);
-                               setEnableHomeAge(false);
-                               setEnableHomeType(false);
-                               setEnableIsNewConstruction(false);
                             }}>Cancel</Button
                              ></>:null
                           }
@@ -1138,11 +1031,29 @@ function ViewApplication({
                               <td>
                                 {
                                   enable_equipment_edit ?
-                                    <FormControl 
-                                      placeholder={equip.newEquip_System_type}
+                                    <Form.Select
+                                      onChange={(e) => changeSystemTypeHandler(e)}
                                       value={system_type}
-                                      onChange={(e)=> setSystemType(e.target.value)}
-                                    />
+                                    >
+                                      <option defaultValue hidden>
+                                        {equip.newEquip_System_type}
+                                      </option>
+                                      {application.Type === "RESID" ? (
+                                        <>
+                                          <option value="Central AC">Central AC</option>
+                                          <option value="Split AC">Split AC</option>
+                                          <option value="Window AC">Window AC</option>
+                                          <option value="Washer">Washer</option>
+                                          <option value="Dryer">Dryer</option>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <option value="Central AC">Central AC - Commercial</option>
+                                          <option value="Split AC">Split AC - Commercial</option>
+                                          {/* <option value="Window AC">Window AC - Commercial</option> */}
+                                        </>
+                                      )}
+                                    </Form.Select>
                                   : equip.newEquip_System_type
                                 }
                               </td>
@@ -1176,11 +1087,24 @@ function ViewApplication({
                               <td>
                                 {
                                   enable_equipment_edit?
-                                   <FormControl 
-                                      placeholder={equip.newEquip_Manufacturer}
+                                    <Form.Select
+                                      onChange={(e) => changeManufacturerHandler(e)}
                                       value={manufacturer}
-                                      onChange={(e)=> setManufacturer(e.target.value)}
-                                    />
+                                    >
+                                      <option defaultValue hidden>
+                                        {equip.newEquip_Manufacturer}
+                                      </option>
+
+                                      {manufacturers ? (
+                                        manufacturers.map((ce) => (
+                                          <option key={ce.Manufacturer} value={ce.Manufacturer}>
+                                            {ce.Manufacturer}
+                                          </option>
+                                        ))
+                                      ) : (
+                                        <option>Loading . . .</option>
+                                      )}
+                                    </Form.Select>
                                   :equip.newEquip_Manufacturer
                                 }
                                 </td>
@@ -1222,7 +1146,7 @@ function ViewApplication({
                                 {
                                   enable_equipment_edit ? 
                                 <>
-                                <Button size="sm" variant="success" className="me-2"><i className="fa fa-save"></i></Button>
+                                <Button size="sm" variant="success" onClick={()=>handleEditNewEquipment(equip.newEquip_id, indx)} className="me-2"><i className="fa fa-save"></i></Button>
                                 <Button size="sm" variant="danger" onClick={()=> setEnableEquipmentEdit(false)}><i className="fa fa-times"></i></Button>
                                 </>
                                 :<Button variant="success" size="sm" onClick={()=> handleEquipmentEdit(equip.newEquip_id)}><i className="fa fa-edit"></i></Button>

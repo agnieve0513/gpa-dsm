@@ -25,6 +25,12 @@ import {
   APPLICATION_UPDATE_REQUEST,
   APPLICATION_UPDATE_SUCCESS,
   APPLICATION_UPDATE_FAIL,
+  APPLICATION_EDIT_REQUEST,
+  APPLICATION_EDIT_SUCCESS,
+  APPLICATION_EDIT_FAIL,
+  APPLICATION_EQUIP_EDIT_REQUEST,
+  APPLICATION_EQUIP_EDIT_SUCCESS,
+  APPLICATION_EQUIP_EDIT_FAIL,
   APPLICATION_TRACK_REQUEST,
   APPLICATION_TRACK_SUCCESS,
   APPLICATION_TRACK_FAIL,
@@ -185,6 +191,36 @@ export const applicationUpdateReducer = (state = {}, action) => {
       return { loading: false, success: true };
 
     case APPLICATION_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const applicationEditReducer = (state = {edit_info: []}, action) => {
+  switch (action.type) {
+    case APPLICATION_EDIT_REQUEST:
+      return { loading: true };
+
+    case APPLICATION_EDIT_SUCCESS:
+      return { loading: false, edit_info: true };
+
+    case APPLICATION_EDIT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const equipmentEditReducer = (state = {edit_equip: []}, action) => {
+  switch (action.type) {
+    case APPLICATION_EQUIP_EDIT_REQUEST:
+      return { loading: true };
+
+    case APPLICATION_EQUIP_EDIT_SUCCESS:
+      return { loading: false, edit_info: true };
+
+    case APPLICATION_EQUIP_EDIT_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

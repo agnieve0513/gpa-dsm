@@ -19,6 +19,7 @@ import { Link, useLocation } from "react-router-dom";
 import { printDetailApplication } from "../actions/applicationActions";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import city_zipcode from "./city_zipcode";
 
 Font.register({
   family: "Montserrat",
@@ -402,7 +403,7 @@ function PrintApplicationSummary(props) {
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>City: </Text>
                       <Text style={styles.boldText}>
-                        {data?.Info_City_village || "N/A"}
+                        { city_zipcode.find((p) => p._id === data?.Info_City_village) ? city_zipcode.find((p) => p._id === data?.Info_City_village).village :"N/A"  || "N/A"}
                       </Text>
                     </View>
                     <View style={styles.textContainer}>
@@ -430,7 +431,7 @@ function PrintApplicationSummary(props) {
                         Owner Residential Property:{" "}
                       </Text>
                       <Text style={styles.boldText}>
-                        {data?.Info_Is_owner || "N/A"}
+                        {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
                       </Text>
                     </View>
                     <View style={styles.textContainer}>

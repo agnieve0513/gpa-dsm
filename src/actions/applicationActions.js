@@ -22,6 +22,12 @@ import {
   APPLICATION_UPDATE_REQUEST,
   APPLICATION_UPDATE_SUCCESS,
   APPLICATION_UPDATE_FAIL,
+  APPLICATION_EDIT_REQUEST,
+  APPLICATION_EDIT_SUCCESS,
+  APPLICATION_EDIT_FAIL,
+  APPLICATION_EQUIP_EDIT_REQUEST,
+  APPLICATION_EQUIP_EDIT_SUCCESS,
+  APPLICATION_EQUIP_EDIT_FAIL,
   APPLICATION_TRACK_REQUEST,
   APPLICATION_TRACK_SUCCESS,
   APPLICATION_TRACK_FAIL,
@@ -417,6 +423,87 @@ export const updateApplication =
     } catch (error) {
       dispatch({
         type: APPLICATION_UPDATE_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+
+  export const editApplication =
+  (personal_info) => async (dispatch) => {
+    try {
+      let obj = JSON.parse(localStorage.getItem("userInfo"));
+
+      dispatch({
+        type: APPLICATION_EDIT_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${obj.message.original.access_token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        URL + "/edit-information",
+        personal_info,
+        config
+      );
+
+      dispatch({
+        type: APPLICATION_EDIT_SUCCESS,
+        payload: data,
+      });
+
+      // localStorage.setItem('userInfo', JSON.stringify(data))
+    } catch (error) {
+      dispatch({
+        type: APPLICATION_EDIT_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+  export const editEquipment =
+  (equipment_info) => async (dispatch) => {
+    try {
+      let obj = JSON.parse(localStorage.getItem("userInfo"));
+
+      dispatch({
+        type: APPLICATION_EQUIP_EDIT_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${obj.message.original.access_token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        URL + "/edit-equipment",
+        equipment_info,
+        config
+      );
+
+      dispatch({
+        type: APPLICATION_EQUIP_EDIT_SUCCESS,
+        payload: data,
+      });
+
+      // localStorage.setItem('userInfo', JSON.stringify(data))
+    } catch (error) {
+      dispatch({
+        type: APPLICATION_EQUIP_EDIT_FAIL,
         payload:
           error.response && error.response.data.detail
             ? error.response.data.detail

@@ -134,9 +134,22 @@ function NewEuipmentInformation(props) {
       popup: "colored-toast",
     },
     showConfirmButton: false,
+    timer: 5000,
+    timerProgressBars: true,
+  });
+
+  const Toast2 = MySwal.mixin({
+    toast: true,
+    position: "top-right",
+    iconColor: "white",
+    customClass: {
+      popup: "colored-toast",
+    },
+    showConfirmButton: false,
     timer: 60000,
     timerProgressBars: true,
   });
+
   const addEquipmentHandler = () => {
     if (
       props.system_type === "" ||
@@ -382,7 +395,7 @@ function NewEuipmentInformation(props) {
       timerProgressBars: true,
     });
 
-    Toast.fire({
+    Toast2.fire({
       icon: "info",
       title: "The application has exceeded 120 day",
       text: "There might be a chance that it will be rejected, please provide a valid reason.",
@@ -608,8 +621,9 @@ function NewEuipmentInformation(props) {
                       {fileCode.length !== 0 ? (
                         <>
                           {props.setInvoiceD(fileCode)}
-                          {/* {console.log(props.invoiceD)} */}
+                          {console.log(props.invoiceD)}
                           <Badge bg={"success"}>File Uploaded</Badge> <br />
+                          
                         </>
                       ) : (
                         <></>
