@@ -552,6 +552,10 @@ function ViewApplication({
                   <Nav.Link
                     eventKey="submission_of_documentation"
                     disabled={tabFour}
+                    className={paintFour? "bg-info text-white" : "" }
+                    onClick={() => {
+                      setPaintFour(true);
+                    }}
                   >
                     Submitted Documents
                   </Nav.Link>
@@ -559,7 +563,8 @@ function ViewApplication({
                 <Nav.Item
                   style={{ marginLeft: "auto", width: 50, paddingTop: 10 }}
                   className="d-flex aligns-items-center justify-content-center editbtn"
-                  onClick={() => handleDetailsToggle()}
+                  onClick={() => handleDetailsToggle()
+                  }
                 >
                   <i className="fa fa-edit"></i>
                 </Nav.Item>
