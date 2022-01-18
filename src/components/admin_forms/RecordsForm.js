@@ -106,8 +106,8 @@ function RecordsForm() {
   const { applications } = applicationListRecord;
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
-  const { application } = applicationDetail;
-
+  const { loading, error, application } = applicationDetail;
+  
   const applicationComments = useSelector((state) => state.applicationComments);
   const { comments } = applicationComments;
 
@@ -528,12 +528,20 @@ function RecordsForm() {
             id="left-tabs-example"
             defaultActiveKey="application_information"
           >
-            <Button
-              className="mb-3 btn btn-light"
-              onClick={() => resetHandler()}
-            >
-              <i className="fa fa-arrow-left"></i> Back to Application
-            </Button>
+            <div
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button className="mb-3 btn btn-light" onClick={() => resetHandler()}>
+            <i className="fa fa-arrow-left"></i> Back to Application
+          </Button>
+          <h4 style={{ marginLeft: "auto" }}>{application?.Control_Number}</h4>
+        </div>
             <Row style={{ paddingLeft: 12 }}>
               <Col
                 className="p-0"
