@@ -76,6 +76,15 @@ function AdminDashboardScreen({ location, history }) {
         setEquipmentForm(true);
         setTcForm(true);
       }
+
+      if(roleId === 7)
+      {
+        setUsersForm(false);
+        setBatchForm(false);
+        setEquipmentForm(false);
+        setTcForm(false);
+        setApplicationForm(false);
+      }
     }
   }, [history]);
 
@@ -87,7 +96,7 @@ function AdminDashboardScreen({ location, history }) {
           {show_ui ? (
             <Tab.Container
               id="left-tabs-example"
-              defaultActiveKey={role_id === 4 ? "batch" : "application"}
+              defaultActiveKey={role_id === 4 ? "batch" : role_id === 7 ? "records" : "application"}
             >
               <Container>
                 <Row className="p-0 mb-4" id="adminHeader">

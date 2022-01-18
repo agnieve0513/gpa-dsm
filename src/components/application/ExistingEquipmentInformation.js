@@ -26,6 +26,11 @@ import moment from "moment";
 const MySwal = withReactContent(Swal);
 
 function ExistingEquipmentInformation(props) {
+
+  const date = new Date(Date.now())
+  date.setDate(date.getDate())
+  const currentDate = moment(date).format("YYYY-MM-DD")
+
   const dispatch = useDispatch();
   const { height, width } = useWindowDimensions();
   const [modalShow, setModalShow] = useState(false);
@@ -100,6 +105,7 @@ function ExistingEquipmentInformation(props) {
       props.old_years === "" ||
       props.is_equipment_condition === "" ||
       props.disposal_party === "" ||
+      (props.disposal_party === "Customer" && props.disposal_slip === null) ||
       props.agree_terms === "" ||
       props.date === ""
     ) {
@@ -231,7 +237,7 @@ function ExistingEquipmentInformation(props) {
               <Form.Group controlId="old_btu">
                 <Form.Label className="applicationTitle">{props.system_type !== "Dryer" ? props.system_type !== "Washer" ? "BTU" : "N/A" : "N/A"}</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   placeholder=""
                   value={props.old_btu}
                   onChange={(e) => props.setOldBtu(e.target.value)}
@@ -363,7 +369,7 @@ function ExistingEquipmentInformation(props) {
                           SEER
                         </Form.Label>
                         <Form.Control
-                          type="text"
+                          type="number"
                           placeholder=""
                           required
                           disabled={props.no_existing ? true : false}
@@ -451,6 +457,13 @@ function ExistingEquipmentInformation(props) {
                     onChange={(e) => handleChangeDisposalSlip(e)}
                   />
                 </InputGroup>
+                {props.no_existing ? (
+                  <> </>
+                ) : props.disposal_slip === null ? (
+                  <p className="validate text-danger requiredField">*This Field is Required</p>
+                ) : (
+                  <></>
+                )}
                 {props.disposal_slip ? (
                   <>
                     {fileCode ? (
@@ -507,7 +520,7 @@ function ExistingEquipmentInformation(props) {
                 placeholder=""
                 value={props.date}
                 onChange={(e) => props.setDate(e.target.value)}
-                // max={moment(Date.now()).format("YYYY-MM-DD")}
+                max={currentDate}
                 required
                 disabled={props.no_existing ? true : false}
               ></Form.Control>

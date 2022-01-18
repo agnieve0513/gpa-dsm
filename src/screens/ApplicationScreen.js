@@ -61,7 +61,7 @@ function ApplicationScreen() {
   const [city_village, setCityVillage] = useState("");
   const [zipcode, setZipCode] = useState("");
   const [tel_no, setTelNo] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("@");
   const [is_applicant_owner, setIsApplicantOwner] = useState(false);
   const [mailing_address, setMailingAddress] = useState("");
   const [mailing_country, setMailingCountry] = useState("");
@@ -260,6 +260,7 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
+          email === "@" ||
         tel_no === "" ||
         tel_no.length > 10 ||
         tel_no.length < 10 ||
@@ -270,6 +271,7 @@ function ApplicationScreen() {
         home_size === "" ||
         home_age === "" ||
         home_age.length !== 4 ||
+        home_age > new Date().getFullYear() ||
         is_new_construction === "" ||
         home_type === ""
       ) {
@@ -315,6 +317,7 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
+          email === "@" ||
         tel_no === "" ||
         tel_no.length > 10 ||
         tel_no.length < 10 ||
@@ -324,6 +327,8 @@ function ApplicationScreen() {
         mailing_zipcode === "" ||
         home_size === "" ||
         home_age === "" ||
+        home_age.length !== 4 ||
+        home_age > new Date().getFullYear() ||
         is_new_construction === "" ||
         home_type === ""
       ) {
@@ -374,6 +379,7 @@ function ApplicationScreen() {
           old_years === "" ||
           is_equipment_condition === "" ||
           disposal_party === "" ||
+          (disposal_party === "Customer" && disposal_slip === null) ||
           agree_terms === "" ||
           date === ""
         ) {
@@ -401,6 +407,8 @@ function ApplicationScreen() {
           service_location === "" ||
           city_village === "" ||
           zipcode === "" ||
+          email === "" ||
+          email === "@" ||
           tel_no === "" ||
           tel_no.length > 10 ||
           tel_no.length < 10 ||
@@ -463,6 +471,7 @@ function ApplicationScreen() {
             old_years === "" ||
             is_equipment_condition === "" ||
             disposal_party === "" ||
+            (disposal_party === "Customer" && disposal_slip === null) ||
             agree_terms === "" ||
             date === ""
           ) {

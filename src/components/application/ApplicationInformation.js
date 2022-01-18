@@ -774,6 +774,13 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
+                {props.email === "@" || props.email === "" ? (
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="telephone_no">
@@ -816,7 +823,7 @@ function ApplicationInformation(props) {
                 <p className="pt-1 pe-4">
                   Applicant must be either the GPA account holder or the
                   property owner to claim a rebate. Is applicant the owner of
-                  the residential property?
+                  the property?
                 </p>
               </Col>
               <Col md={6} className="mb-3">
@@ -926,7 +933,7 @@ function ApplicationInformation(props) {
                     type="text"
                     placeholder=""
                     onChange={(e) =>
-                      handleNumericFields(e.target, "setMailingZipCode")
+                      props.setMailingZipCode(e.target.value)
                     }
                     value={props.mailing_zipcode}
                     required

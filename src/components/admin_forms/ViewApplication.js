@@ -56,6 +56,11 @@ function ViewApplication({
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let roleId = obj.message.original.roleId;
 
+  const [paintOne, setPaintOne] = useState(false);
+  const [paintTwo, setPaintTwo] = useState(false);
+  const [paintThree, setPaintThree] = useState(false);
+  const [paintFour, setPaintFour] = useState(false);
+
   const [tabThree, setTabThree] = useState(true);
   const [tabFour, setTabFour] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -77,7 +82,7 @@ function ViewApplication({
   const [city_village, setCityVillage] = useState("");
   const [zipcode, setZipCode] = useState("");
   const [tel_no, setTelNo] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("@");
   const [is_applicant_owner, setIsApplicantOwner] = useState(false);
   const [mailing_address, setMailingAddress] = useState("");
   const [mailing_city_village, setMailingCityVillage] = useState("");
@@ -477,8 +482,6 @@ function ViewApplication({
     };
 
     dispatch(editEquipment(obj))
-
-
   }
   return (
     <Container>
@@ -508,26 +511,38 @@ function ViewApplication({
             <div id="applicationFormNa">
               <Nav variant="pills">
                 <Nav.Item>
-                  <Nav.Link eventKey="application_information">
+                  <Nav.Link eventKey="application_information" 
+                    className={paintOne ? "bg-info text-white" : "" }
+                    onClick={() => {
+                      setPaintOne(true);
+                    }}
+                  >
                     Applicant Information
                   </Nav.Link>
                 </Nav.Item>
+
                 <Nav.Item>
                   <Nav.Link
+                    className={paintTwo ? "bg-info text-white" : "" }
                     eventKey="new_quipment_info"
                     onClick={() => {
                       setTabThree(false);
+                      setPaintTwo(true);
+                      setPaintOne(true);
                     }}
                   >
                     New Equipment Information
                   </Nav.Link>
                 </Nav.Item>
+
                 <Nav.Item>
                   <Nav.Link
                     eventKey="old_quipment_info"
                     disabled={tabThree}
+                    className={paintThree ? "bg-info text-white" : "" }
                     onClick={() => {
                       setTabFour(false);
+                      setPaintThree(true);
                     }}
                   >
                     Old/Existing Equipment Information
@@ -582,7 +597,7 @@ function ViewApplication({
                               Name on GPA Account
                             </b>
                           </p>
-                           <p className="mb-4">
+                           <p style={{marginBottom : "1.9rem"}}>
                             <b>
                               Edit Information 
                             </b>
@@ -677,7 +692,8 @@ function ViewApplication({
                                   </Button>
                            }
                           </p>
-                          <p>
+                          <Form>
+<p>
                             {/* Customer Name */}
                             <InputGroup className="mb-3">
                             
@@ -751,9 +767,10 @@ function ViewApplication({
                             
                                 {
                                   enable_edit ?
-                                   <FormControl
+                                   <Form.Control
                                   placeholder={application.Info_Email}
                                   value= {email}
+                                  type="email"
                                   onChange={(e)=>setEmail(e.target.value)}
                                 /> :  <b className="ms-2">{application.Info_Email || "N/A"}</b>
                                 }
@@ -766,9 +783,11 @@ function ViewApplication({
                            
                                 {
                                   enable_edit ?
-                                   <FormControl
+                                   <Form.Control
                                   placeholder={application.Info_Tel_no}
                                   value= {tel_no}
+                                  maxLength="10"
+                                  type="number"
                                   onChange={(e)=>setTelNo(e.target.value)}
                                 /> :  <b className="ms-2">{application.Info_Tel_no || "N/A"}</b>
                                 }
@@ -849,6 +868,7 @@ function ViewApplication({
                                    <FormControl
                                   placeholder={application.Info_Home_age}
                                   value= {home_age}
+                                  type="number"
                                   onChange={(e)=>setHomeAge(e.target.value)}
                                 /> : <b className="ms-2">{application.Info_Home_age || "N/A"}</b>
                                 }
@@ -860,11 +880,15 @@ function ViewApplication({
                              <InputGroup className="mb-3">
                                 {
                                   enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_New_construction}
+                                  <Form.Select
                                   value= {is_new_construction}
                                   onChange={(e)=>setIsNewConstruction(e.target.value)}
-                                /> :<b className="ms-2">{application.Info_New_construction || "N/A"}</b>
+                                  >
+                                      <option selected disabled hidden>{application.Info_New_construction}</option>
+                                      <option value="true">YES</option>
+                                      <option value="false">NO</option>
+                                    </Form.Select>
+                                   :<b className="ms-2">{application.Info_New_construction || "N/A"}</b>
                                 }
                                 
                               </InputGroup>
@@ -874,11 +898,33 @@ function ViewApplication({
                              <InputGroup className="mb-3">
                                 {
                                   enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Home_type}
+                                  <Form.Select 
                                   value= {home_type}
                                   onChange={(e)=>setHomeType(e.target.value)}
-                                /> :<b className="ms-2">{application.Info_Home_type || "N/A"}</b>
+                                  >
+                                    <option selected disabled hidden>
+                                        {application.Info_Home_type}
+                                      </option>
+                                   {application
+                                      ? application.Type === "RESID"
+                                      ? 
+                                      <>
+                                        <option>Single Family</option>
+                                        <option>Apartment</option>
+                                        <option>Condo</option>
+                                        <option>Mobile Home</option>
+                                        <option>Other</option>
+                                      </>
+                                      : <>
+                                         <option value={"RETAIL"}>RETAIL</option>
+                                         <option value={"OFFICE"}>OFFICE</option>
+                                         <option value={"RELIGIOUS BUILDING"}>RELIGIOUS BUILDING</option>
+                                         <option value={"FINANCIAL INSTITUTION"}>FINANCIAL INSTITUTION</option>
+                                         <option value={"Other"}>Other</option>
+                                      </> :null
+                                    }
+                                  </Form.Select>
+                                   :<b className="ms-2">{application.Info_Home_type || "N/A"}</b>
                                 }
                                 
                               </InputGroup>
@@ -893,6 +939,7 @@ function ViewApplication({
                             }}>Cancel</Button
                              ></>:null
                           }
+                            </Form>
 
                         </div>
                       </>

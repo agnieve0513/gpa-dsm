@@ -60,7 +60,7 @@ const prerequisites = [
     description: `Other Supporting Documents`,
     information: [],
     additional: `a) GPA will advise you if any supporting documents may be required.`,
-    image_sample: "./GPADSM4.png",
+    image_sample: "",
   },
 ];
 

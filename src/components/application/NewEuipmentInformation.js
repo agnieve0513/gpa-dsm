@@ -577,7 +577,7 @@ function NewEuipmentInformation(props) {
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "DISPOSAL SLIP",
+                        description: "INVOICE",
                         image_sample: "./sample_invoice.png",
                       })
                     );
