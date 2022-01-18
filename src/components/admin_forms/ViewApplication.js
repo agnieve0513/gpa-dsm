@@ -157,6 +157,10 @@ function ViewApplication({
   const [intervalId2, setIntervalId2] = useState();
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
+  const { loading, error, application } = applicationDetail;
+
+
+  // const applicationDetail = useSelector((state) => state.applicationDetail);
   const applicationComments = useSelector((state) => state.applicationComments);
   const applicationLogs = useSelector((state) => state.applicationLogs);
 
@@ -178,22 +182,22 @@ function ViewApplication({
     models,
   } = customerEquipModel;
 
-  const [application, setApplication] = useState();
+  // const [application, setApplication] = useState();
   const [logs, setLogs] = useState({});
   const [comments, setComments] = useState([]);
 
-  useEffect(() => {
-    if (applicationDetail.application) {
-      if (!application) {
-        setApplication(applicationDetail.application);
-      } else if (
-        applicationDetail.application.Last_Modified_On !==
-        application.Last_Modified_On
-      ) {
-        setApplication(applicationDetail.application);
-      }
-    }
-  }, [applicationDetail]);
+  // useEffect(() => {
+  //   if (applicationDetail.application) {
+  //     if (!application) {
+  //       setApplication(applicationDetail.application);
+  //     } else if (
+  //       applicationDetail.application.Last_Modified_On !==
+  //       application.Last_Modified_On
+  //     ) {
+  //       setApplication(applicationDetail.application);
+  //     }
+  //   }
+  // }, [applicationDetail]);
 
   useEffect(() => {
     if (comments?.length === 0) {
@@ -231,12 +235,16 @@ function ViewApplication({
 
   useEffect(() => {
     console.log(applicationId);
+    console.log(current);
+    console.log("testing this one");
     if (current == "application" || current == "batch") {
       if (applicationId) {
         if (intervalId2) {
           clearInterval(intervalId2);
         }
         dispatch(detailApplication(applicationId));
+        console.log("this was triggered");
+
         const rerun = setInterval(() => {
           dispatch(logsApplication(applicationId));
           dispatch(commentsApplication(applicationId));
@@ -245,7 +253,7 @@ function ViewApplication({
         setIntervalId2(rerun);
       }
     }
-  }, [applicationId, edit_info]);
+  }, [applicationId, applicationEdit]);
 
   useEffect(() => {
     dispatch(commentsApplication(applicationId));
@@ -345,7 +353,7 @@ function ViewApplication({
   const resetHandler = () => {
     clearInterval(intervalId2);
     setApplicationId(null);
-    setApplication(null);
+    // setApplication(null);
     setComments([]);
     setLogs({});
     setShow(false);
@@ -416,6 +424,8 @@ function ViewApplication({
           };
 
     dispatch(editApplication(obj));
+    Swal.fire("Success", "Application has been updated!", "success");
+
   }
 
    const changeZipCode = (e) => {

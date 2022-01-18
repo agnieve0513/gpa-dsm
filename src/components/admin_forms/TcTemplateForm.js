@@ -34,7 +34,7 @@ function TcTemplateForm() {
   const [selectedFile, setSelectedFile] = useState();
   const [customer_type, setCustomerType] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
-  const [code, setCode] = useState("comm");
+  const [code, setCode] = useState("resd_dryer_washer");
   const WrapperRef = React.useRef(null);
   const { width, height } = useWindowDimensions();
   const temp = width <= 990 ? 95 : 100;
@@ -54,17 +54,42 @@ function TcTemplateForm() {
     if (logsFile.success) {
       for (let i = 0; i < logsFile.success.length; i++) {
         const data = logsFile.success[i];
-        if (code === "comm") {
-          if (data.Action.includes("comm") && find === 0) {
+        if (code === "resd_dryer_washer") {
+          if (data.Action.includes("resd_dryer_washer") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
-            setAuthorDate(
-              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
-            );
+            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
             find = find + 1;
           }
-        } else {
-          if (data.Action.includes("resd") && find === 0) {
+        } 
+        else if (code === "resd_aircon_ductless") {
+          if (data.Action.includes("resd_aircon_ductless") && find === 0) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            find = find + 1;
+          }
+        } 
+
+        else if (code === "resd_aircon_window") {
+          if (data.Action.includes("resd_aircon_window") && find === 0) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            find = find + 1;
+          }
+        } 
+
+        else if (code === "comm_ductless") {
+          if (data.Action.includes("comm_ductless") && find === 0) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            find = find + 1;
+          }
+        } 
+        else {
+          if (data.Action.includes("comm_ducted") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
             setAuthorDate(
@@ -109,6 +134,7 @@ function TcTemplateForm() {
   }, [code, fileCode]);
 
   const handleDownload = () => {
+    console.log(retriveTermsAndCondition)
     if (retriveTermsAndCondition?.data) {
       const url = window.URL.createObjectURL(retriveTermsAndCondition?.data);
       const link = document.createElement("a");
@@ -116,13 +142,13 @@ function TcTemplateForm() {
       link.setAttribute(
         "download",
         `${
-          code === "comm" ? "Commercial" : "Residential"
-        }Template.${retriveTermsAndCondition?.data.type.substr(
-          retriveTermsAndCondition?.data.type.indexOf("/") + 1
-        )}`
+          code === "resd_dryer_washer" ? "Residential Dryer/Washer" : "Residential"
+        }Template.${retriveTermsAndCondition?.data.type.substr(retriveTermsAndCondition?.data.type.indexOf("/") + 1)}`
       );
       document.body.appendChild(link);
       link.click();
+
+      console.log(link);
     }
   };
 
@@ -237,14 +263,29 @@ function TcTemplateForm() {
           >
             <div id="applicationFormNa">
               <Nav variant="pills">
-                <Nav.Item onClick={() => setCode("comm")}>
-                  <Nav.Link eventKey="commercial_template">
-                    Commercial Template
+                <Nav.Item onClick={() => setCode("resd_dryer_washer")}>
+                  <Nav.Link eventKey="resd_dryer_washer_template">
+                    Residential Dryer/Washer Template
                   </Nav.Link>
                 </Nav.Item>
-                <Nav.Item onClick={() => setCode("resd")}>
-                  <Nav.Link eventKey="residential_template">
-                    Residential Template
+                <Nav.Item onClick={() => setCode("resd_aircon_ductless")}>
+                  <Nav.Link eventKey="resd_aircon_ductless_template">
+                    Residential - Air Conditioning (Ductless Systems)
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={() => setCode("resd_aircon_window")}>
+                  <Nav.Link eventKey="resd_aircon_window_template">
+                    Residential - Air Conditioning (Window Type Systems)
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={() => setCode("comm_ductless")}>
+                  <Nav.Link eventKey="comm_ductless_template">
+                    Commercial - Ductless Split Systems
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={() => setCode("comm_ducted")}>
+                  <Nav.Link eventKey="comm_ducted_template">
+                    Commercial - Central (Ducted Systems)
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item
