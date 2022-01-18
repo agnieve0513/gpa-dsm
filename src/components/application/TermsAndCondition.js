@@ -32,10 +32,15 @@ function TermsAndCondition(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     let template = "";
-    if(props.customer_type === "RESID" && props.customer_type === "Washer" || props.customer_type === "Dryer")
+    if(props.customer_type === "RESID" && props.customer_type === "Washer")
     {
       template = "resd_dryer_washer";
-    }else if(props.customer_type === "RESID" && props.customer_type === "Split AC")
+    }
+    else if(props.customer_type === "RESID" || props.customer_type === "Dryer")
+    {
+      template = "resd_dryer_washer";
+    }
+    else if(props.customer_type === "RESID" && props.customer_type === "Split AC")
     {
       template = "resd_aircon_ductless";
     }else if(props.customer_type === "RESID" && props.customer_type === "Window AC")
