@@ -2083,13 +2083,14 @@ function ViewApplication({
                 </Container>
                 <Container className="ml-2 mr-2">
                   {roleId !== 4 && roleId !== 7 ? (
-                    <h3 className="mt-3 mb-3">Update Status</h3>
+                    null
                   ) : (
                     <></>
                   )}
                   {roleId !== 7 ? (
                     <Row>
                       <Col md={12}>
+                        <h3 className="mt-3 mb-3">Update Status</h3>
                         <Modal show={showModal} onHide={handleModalClose}>
                           <Modal.Header closeButton>
                             <Modal.Title>
@@ -2348,68 +2349,8 @@ function ViewApplication({
                   ) : (
                     <></>
                   )}
-                </Container>
-              </Tab.Pane>
-            </Tab.Content>
-          </Col>
-          {detailsToggle ? (
-            <>
-              {application ? (
-                <>
-                  <Col
-                    className="customRow"
-                    md={3}
-                    style={{
-                      backgroundColor: "rgb(243, 244, 249)",
-                      borderLeft: "2px solid #d0d5db",
-                    }}
-                  >
-                    <h4 className="mt-3 mb-3">Details</h4>
-                    <h6 className="text-muted">Date Applied</h6>
-                    <h6>{application.Application_Date}</h6>
-                    <br />
-                    <h6 className="text-muted">Current Stage</h6>
-                    <h6>{application.Status}</h6>
-                    <br />
-                    <h6 className="text-muted">Current Department</h6>
-                    <h6 className="mb-5">{application.Stage}</h6>
-
-                    <h4>Event Logs</h4>
-                    {console.log(logs)}
-                    {logs ? (
-                      <div style={{ height: "440px", overflowY: "auto" }}>
-                        {logs.map((log, index) => (
-                          <div key={index}>
-                            <h6>{log.Action}</h6>
-                            <small className="text-muted">
-                              Made By: {log.Made_By}
-                            </small>
-                            <br />
-                            <small className="text-muted">
-                              Made On: {log.Made_On}
-                            </small>
-                            <hr />
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p>Loading...</p>
-                    )}
-                  </Col>
-                </>
-              ) : (
-                "loading . . "
-              )}
-            </>
-          ) : (
-            <></>
-          )}
-        </Row>
-        <hr />
-        {/* Comments section */}
-        <br />
-        <Row className="mt-2">
-          <Col md={9}>
+                  <Row className="mt-4">
+                    <Col md={9}>
             <Form>
               <Form.Group className="mb-3" controlId="comment">
                 <Form.Label>
@@ -2449,8 +2390,67 @@ function ViewApplication({
               <></>
             )}
           </Col>
-          <Col md={3}></Col>
+                    </Row>
+                </Container>
+              </Tab.Pane>
+            </Tab.Content>
+          </Col>
+          {detailsToggle ? (
+            <>
+              {application ? (
+                <>
+                  <Col
+                    className="customRow"
+                    md={3}
+                    style={{
+                      backgroundColor: "rgb(243, 244, 249)",
+                      borderLeft: "2px solid #d0d5db",
+                    }}
+                  >
+                    <h4 className="mt-3 mb-2">Details</h4>
+                    <h6 className="text-muted">Date Applied</h6>
+                    <h6>{application.Application_Date}</h6>
+                    <br />
+                    <h6 className="text-muted">Current Stage</h6>
+                    <h6>{application.Status}</h6>
+                    <br />
+                    <h6 className="text-muted">Current Department</h6>
+                    <h6 className="mb-2">{application.Stage}</h6>
+
+                    <h4>Event Logs</h4>
+                    {console.log(logs)}
+                    {logs ? (
+                      <div style={{ height: "700px", overflowY: "auto" }}>
+                        {logs.map((log, index) => (
+                          <div key={index}>
+                            <h6>{log.Action}</h6>
+                            <small className="text-muted">
+                              Made By: {log.Made_By}
+                            </small>
+                            <br />
+                            <small className="text-muted">
+                              Made On: {log.Made_On}
+                            </small>
+                            <hr />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p>Loading...</p>
+                    )}
+                  </Col>
+                </>
+              ) : (
+                "loading . . "
+              )}
+            </>
+          ) : (
+            <></>
+          )}
         </Row>
+        <hr />
+        {/* Comments section */}
+       
       </Tab.Container>
     </Container>
   );

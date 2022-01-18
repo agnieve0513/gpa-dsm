@@ -1220,7 +1220,7 @@ function RecordsForm() {
                           borderLeft: "2px solid #d0d5db",
                         }}
                       >
-                        <h4 className="mt-3 mb-3">Details</h4>
+                        <h4 className="mt-3 mb-2">Details</h4>
                         <h6 className="text-muted">Date Applied</h6>
                         <h6>{application.Application_Date}</h6>
                         <br />
@@ -1228,11 +1228,11 @@ function RecordsForm() {
                         <h6>{application.Status}</h6>
                         <br />
                         <h6 className="text-muted">Current Department</h6>
-                        <h6 className="mb-5">{application.Stage}</h6>
+                        <h6 className="mb-2">{application.Stage}</h6>
 
                         <h4>Event Logs</h4>
                         {logs ? (
-                          <div style={{ height: "200px", overflowY: "auto" }}>
+                          <div style={{ height: "700px", overflowY: "auto" }}>
                             {logs.map((log, index) => (
                               <div key={index}>
                                 <h6>{log.Action}</h6>
