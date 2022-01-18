@@ -31,7 +31,23 @@ function TermsAndCondition(props) {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(retrievePDFAction(props.customer_type === "COMM" ? "comm" : "resd"));
+    let template = "";
+    if(props.customer_type === "RESID" && props.customer_type === "Washer" || props.customer_type === "Dryer")
+    {
+      template = "resd_dryer_washer";
+    }else if(props.customer_type === "RESID" && props.customer_type === "Split AC")
+    {
+      template = "resd_aircon_ductless";
+    }else if(props.customer_type === "RESID" && props.customer_type === "Window AC")
+    {
+      template = "resd_aircon_window";
+    }else if(props.customer_type === "COMM" && props.customer_type === "Split AC")
+    {
+      template = "comm_ductless";
+    }else{
+      template = "comm_ducted";
+    }
+    dispatch(retrievePDFAction(template));
   }, []);
 
   const styles = StyleSheet.create({

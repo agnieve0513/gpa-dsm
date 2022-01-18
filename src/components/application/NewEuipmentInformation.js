@@ -41,7 +41,7 @@ function NewEuipmentInformation(props) {
   const screenWidthM = width > 425;
 
   const date = new Date(Date.now())
-  date.setDate(date.getDate()+1)
+  date.setDate(date.getDate())
   const currentDate = moment(date).format("YYYY-MM-DD")
 
   useEffect(() => {
@@ -540,7 +540,7 @@ function NewEuipmentInformation(props) {
                 placeholder=""
                 onChange={(e) => props.setDateFinalInstallation(e.target.value)}
                 value={props.date_final_installation}
-                min={currentDate}
+                max={currentDate}
                 defaultValue={currentDate}
                 required
               ></Form.Control>
@@ -893,7 +893,7 @@ function NewEuipmentInformation(props) {
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
                 value={props.purchase_date}
-                min={currentDate}
+                max={currentDate}
                 required
               ></Form.Control>
             </Form.Group>

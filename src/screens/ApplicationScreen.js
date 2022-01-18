@@ -818,6 +818,7 @@ function ApplicationScreen() {
                 customer_type={customer_type}
                 terms_and_agreement={terms_and_agreement}
                 setTermsAndAgreement={setTermsAndAgreement}
+                system_type={system_type}
               />
             ) : step === 9 ? (
               <>{handleSave()}</>

@@ -421,7 +421,7 @@ function ExistingEquipmentInformation(props) {
                 <ModalImage
                   data={{
                     description: "Disposal Receipt",
-                    image_sample: "./sample_invoice.png",
+                    image_sample: "./image_sample/5.jpg",
                   }}
                   show={modalShow}
                   onHide={() => setModalShow(false)}
