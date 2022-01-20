@@ -607,6 +607,7 @@ function ViewApplication({
                               Edit Information 
                             </b>
                           </p>
+                          
                           <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
                             <b  style={{ color: "#B6B6B6" }}>Applicant's Name</b>
                           </p>
