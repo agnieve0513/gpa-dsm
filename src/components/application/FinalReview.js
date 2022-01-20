@@ -663,20 +663,8 @@ function FinalReview(props) {
                   ) : (
                     <></>
                   )}
-                  {props.letter_authorization ? (
-                    <>
-                      <b>
-                        Letter Authorization <Badge bg={"success"}>Uploaded</Badge>
-                      </b>
-                      <p>
-                        Filename: {props.letter_authorization.name} <br />
-                        File Type: {props.letter_authorization.type}
-                      </p>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                  {props.other_doc1 ? (
+                  
+                  {props.other_doc2 ? (
                     <>
                       <b>
                         Other Support Documents 1 <Badge bg={"success"}>Uploaded</Badge>
@@ -689,7 +677,7 @@ function FinalReview(props) {
                   ) : (
                     <></>
                   )}
-                  {props.other_doc2 ? (
+                  {props.other_doc3 ? (
                     <>
                       <b>
                         Other Support Documents 2 <Badge bg={"success"}>Uploaded</Badge>

@@ -599,7 +599,7 @@ function ViewApplication({
                           </p>
                           <p>
                             <b style={{ color: "#B6B6B6" }}>
-                              Name on GPA Account
+                              GPA Account Holder's Name
                             </b>
                           </p>
                            <p style={{marginBottom : "1.9rem"}}>
@@ -608,7 +608,7 @@ function ViewApplication({
                             </b>
                           </p>
                           <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
-                            <b  style={{ color: "#B6B6B6" }}>Customer Name</b>
+                            <b  style={{ color: "#B6B6B6" }}>Applicant's Name</b>
                           </p>
                          
                           <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
@@ -630,7 +630,7 @@ function ViewApplication({
                           </p>
                           <p style={{marginBottom: enable_edit ? "3.5rem" : "3.5rem" }}>
                             <b style={{ color: "#B6B6B6" }}>
-                              Is Applicant the owner of the <br /> residential
+                              Is Applicant the owner of the <br />
                               property?
                             </b>
                           </p>
@@ -964,7 +964,7 @@ function ViewApplication({
                         </p>
                         <p>
                           <b style={{ color: "#B6B6B6" }}>
-                            Name on GPA Account
+                            Applicant's Name
                           </b>
                           <br />
                           <b>{application.Info_Customer_name || "N/A"}</b>
@@ -998,7 +998,7 @@ function ViewApplication({
                         </p>
                         <p className="mt-5 mb-5">
                           <b style={{ color: "#B6B6B6" }}>
-                            Is Applicant the owner of the <br /> residential
+                            Is Applicant the owner of the <br />
                             property?
                           </b>
                           <br />

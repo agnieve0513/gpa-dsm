@@ -601,7 +601,7 @@ function ApplicationInformation(props) {
               </Col>
             </Row>
             <Row>
-              <Col md={12}>
+              {/* <Col md={12}>
                 <span>
                   <b>
                     <p id="accountName">GPA Account's Name :</p>{" "}
@@ -613,7 +613,7 @@ function ApplicationInformation(props) {
                   </b>
                 </span>
                 <hr />
-              </Col>
+              </Col> */}
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
                   <Form.Label className=" applicationTitle">
