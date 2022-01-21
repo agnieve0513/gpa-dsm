@@ -652,7 +652,7 @@ function ApplicationScreen() {
                 setOldTons={setOldTons}
                 is_equipment_condition={is_equipment_condition}
                 setIsEquipmentCondition={setIsEquipmentCondition}
-                seer={seer}
+                seer={seer} 
                 setSeer={setSeer}
                 disposal_party={disposal_party}
                 setDisposalParty={setDisposalParty}
