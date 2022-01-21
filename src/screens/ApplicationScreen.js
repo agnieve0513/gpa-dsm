@@ -47,7 +47,7 @@ function ApplicationScreen() {
   const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
-  const [verify, setVerify] = useState(false);
+  const [verify, setVerify] = useState(true);
   const [control_no, setControlNo] = useState("");
 
   const [account_no, setAccountNo] = useState("");
@@ -420,6 +420,7 @@ function ApplicationScreen() {
           home_size === "" ||
           home_age === "" ||
           home_age.length !== 4 ||
+          home_age > new Date().getFullYear() ||
           is_new_construction === "" ||
           home_type === ""
         ) {

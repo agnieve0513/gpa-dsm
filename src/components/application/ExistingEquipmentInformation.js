@@ -125,6 +125,7 @@ function ExistingEquipmentInformation(props) {
         quantity: props.old_quantity,
         agree_terms: props.agree_terms,
       };
+      console.log(obj);
       props.setOldEquipments(props.old_equipments.concat(obj));
     }
   };
@@ -372,6 +373,8 @@ function ExistingEquipmentInformation(props) {
                           type="number"
                           placeholder=""
                           required
+                          value={props.seer}
+                          onChange={(e)=> props.setSeer(e.target.value)}
                           disabled={props.no_existing ? true : false}
                         ></Form.Control>
                       </Form.Group>

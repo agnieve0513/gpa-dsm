@@ -2422,7 +2422,9 @@ function ViewApplication({
                     {console.log(logs)}
                     {logs ? (
                       <div style={{ height: "700px", overflowY: "auto" }}>
-                        {logs.map((log, index) => (
+                        {
+                          logs.length > 0 ?
+                          logs.map((log, index) => (
                           <div key={index}>
                             <h6>{log.Action}</h6>
                             <small className="text-muted">
@@ -2434,7 +2436,8 @@ function ViewApplication({
                             </small>
                             <hr />
                           </div>
-                        ))}
+                        )): <>No Logs</>
+                      }
                       </div>
                     ) : (
                       <p>Loading...</p>
