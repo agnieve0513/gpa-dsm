@@ -24,6 +24,8 @@ import {
 import { retrieveFileAction } from "../../actions/fileActions";
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
+import StringCrypto from "string-crypto";
+
 import ModalImage from "../ModalImage";
 import "./ApplicationForm.css";
 import { uploadFileAction } from "../../actions/fileActions";
@@ -52,6 +54,9 @@ function ViewApplication({
   setApplicationId,
   applicationId,
 }) {
+
+   const { encryptString } = new StringCrypto();
+
   const { height, width } = useWindowDimensions();
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let roleId = obj.message.original.roleId;
@@ -483,6 +488,7 @@ function ViewApplication({
 
     dispatch(editEquipment(obj))
   }
+
   return (
     <Container>
       <Tab.Container
@@ -571,8 +577,9 @@ function ViewApplication({
                 <Nav.Item
                   style={{ width: 50, paddingTop: 10 }}
                   className="d-flex aligns-items-center justify-content-center editbtn"
-                  onClick={() => handleDetailsToggle()
-                  }
+                  to={`/printapplication?auth=${ encryptString(application.Control_Number, "superSecureToken")}`}
+                  target="_blank" 
+                  
                 >
                   <i className="fa fa-print"></i>
                 </Nav.Item>
