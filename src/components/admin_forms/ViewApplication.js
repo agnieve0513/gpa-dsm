@@ -914,7 +914,7 @@ function ViewApplication({
                                       <option value="true">YES</option>
                                       <option value="false">NO</option>
                                     </Form.Select>
-                                   :<b className="ms-2">{application.Info_New_construction || "N/A"}</b>
+                                   :<b className="ms-2">{application.Info_New_construction ? "YES" : "NO" || "N/A"}</b>
                                 }
                                 
                               </InputGroup>

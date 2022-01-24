@@ -459,7 +459,7 @@ function PrintApplicationSummary(props) {
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>New Construction: </Text>
                       <Text style={styles.boldText}>
-                        {data?.Info_New_construction || "N/A"}
+                        {data?.Info_New_construction ? "YES" : "NO" || "N/A"}
                       </Text>
                     </View>
                     <View style={styles.textContainer}>

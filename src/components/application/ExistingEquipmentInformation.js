@@ -244,6 +244,7 @@ function ExistingEquipmentInformation(props) {
                   onChange={(e) => props.setOldBtu(e.target.value)}
                   required
                   disabled={props.no_existing ? true : false}
+                  min="0"
                 ></Form.Control>
               </Form.Group>
               {props.no_existing ? (
@@ -376,6 +377,8 @@ function ExistingEquipmentInformation(props) {
                           value={props.seer}
                           onChange={(e)=> props.setSeer(e.target.value)}
                           disabled={props.no_existing ? true : false}
+                          min="0"
+
                         ></Form.Control>
                       </Form.Group>
                       {/* {props.no_existing ? (
