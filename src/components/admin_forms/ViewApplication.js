@@ -25,7 +25,7 @@ import { retrieveFileAction } from "../../actions/fileActions";
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import StringCrypto from "string-crypto";
-
+import {Link} from 'react-router-dom';
 import ModalImage from "../ModalImage";
 import "./ApplicationForm.css";
 import { uploadFileAction } from "../../actions/fileActions";
@@ -577,11 +577,15 @@ function ViewApplication({
                 <Nav.Item
                   style={{ width: 50, paddingTop: 10 }}
                   className="d-flex aligns-items-center justify-content-center editbtn"
-                  to={`/printapplication?auth=${ encryptString(application.Control_Number, "superSecureToken")}`}
-                  target="_blank" 
-                  
                 >
+                  <Link 
+                  className="text-black"
+                  to={`/printapplication?auth=${ encryptString(application ? application.Control_Number : "", "superSecureToken")}`}
+                  target="_blank" 
+                  >
                   <i className="fa fa-print"></i>
+                  </Link>
+                  
                 </Nav.Item>
                 {/* <Nav.Item className="me-1">
                   <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
