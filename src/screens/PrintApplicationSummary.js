@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-  
-import { Row, Col, Form, Container, Spinner, } from "react-bootstrap";
+import { Row, Col, Form, Container } from "react-bootstrap";
 import {
   PDFViewer,
   View,
@@ -338,8 +337,6 @@ function PrintApplicationSummary(props) {
   }, [applicationPrintDetail]);
 
   return (
-   data ?
-   <>
     <>
       <CustomerHeader />
       <div>
@@ -614,10 +611,6 @@ function PrintApplicationSummary(props) {
         </Container>
       </div>
     </>
-   </>
-   :  <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
   );
 }
 

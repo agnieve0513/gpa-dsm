@@ -215,8 +215,9 @@ function BatchForm({ current }) {
 
   useEffect(() => {
     if (current == "batch") {
-      const rerun = setInterval(() => {
         dispatch(listBatch());
+
+      const rerun = setInterval(() => {
       }, 5000);
 
       setIntervalId(rerun);
@@ -229,8 +230,9 @@ function BatchForm({ current }) {
         if (intervalId2) {
           clearInterval(intervalId2);
         }
-        const rerun = setInterval(() => {
           dispatch(listBatchApplication(currentBatch));
+
+        const rerun = setInterval(() => {
         }, 5000);
 
         setIntervalId2(rerun);

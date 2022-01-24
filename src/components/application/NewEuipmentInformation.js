@@ -318,7 +318,6 @@ function NewEuipmentInformation(props) {
           { title: "System Type", field: "system_type" },
           { title: "Manufacturer", field: "manufacturer" },
           { title: "Quantity", field: "quantity" },
-          { title: "Type", field: "type" },
           { title: "Purchase Date", field: "purchase_date" },
           {
             title: "Action",

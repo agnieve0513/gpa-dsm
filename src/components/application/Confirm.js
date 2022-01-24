@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container,Button, Row, Col } from "react-bootstrap";
 
 import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -13,6 +13,11 @@ function Confirm(props) {
   const printButtonHandler = () => {
     setPrint(true);
   };
+
+  const handleBack = () => {
+    props.setStep(1);
+    props.history.push('/');
+  }
 
   return print ? (
     <PrintApplication data={props} />
@@ -60,14 +65,14 @@ function Confirm(props) {
         </Container>
 
         <Container className="text-center mb-3" id="homebtn">
-          <Link to={`/`} className="btn btn-success btn-lg px-5">
+          <Button onClick={()=> handleBack()} className="btn btn-success btn-lg px-5">
             <h4>BACK TO GPA HOMEPAGE </h4>
-          </Link>
+          </Button>
         </Container>
         <Container className="text-center">
           <Link
             className="btn btn-info btn-lg px-5 py-3"
-            to={`/printapplication?auth=${props.data.application_information.print_hash}`}
+            to={`/printapplication?auth=${props.data.application_information?.print_hash}`}
             target="_blank" 
           >
             <h4 style={{ marginBottom: 0 }}>Print Application</h4>

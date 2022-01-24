@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 
 import { generateControlNo, register } from "../actions/customerAction";
 import StringCrypto from "string-crypto";
@@ -35,8 +35,8 @@ function ApplicationScreen() {
   );
   const { customerNo } = customerGenerateControlNo;
 
-  // const customerRegister = useSelector(state => state.customerRegister)
-  // const {loading:registerLoading,error:registerError, success:registerSuccess} = customerRegister
+  const customerRegister = useSelector(state => state.customerRegister)
+  const {loading:registerLoading,error:registerError, success:registerSuccess} = customerRegister
 
   // Application Information
   const [saved, setSaved] = useState(false);
@@ -47,7 +47,7 @@ function ApplicationScreen() {
   const [stepOneToStepSix, setStepOneToStepSix] = useState(false);
 
   // For verification
-  const [verify, setVerify] = useState(true);
+  const [verify, setVerify] = useState(false);
   const [control_no, setControlNo] = useState("");
 
   const [account_no, setAccountNo] = useState("");
@@ -218,6 +218,8 @@ function ApplicationScreen() {
               title: "Successfully Saved",
               text: "You will be directed to Success Page",
             });
+
+            
           }
         } else if (result.isDenied) {
           Swal.fire("Changes are not yet saved", "", "info");
@@ -506,8 +508,10 @@ function ApplicationScreen() {
   return (
     <div>
       <CustomerHeader />
-      {saved ? (
+      {registerSuccess ? (
         <Confirm
+          step={step}
+          setStep={setStep}
           data={data}
           control_no={control_no}
           setControlNo={setControlNo}
@@ -832,10 +836,29 @@ function ApplicationScreen() {
               />
             ) : step === 9 ? (
               <>{handleSave()}</>
-            ) : (
-              <></>
-            )}
-            <div className="mt-5 buttonGroup w-100">
+            ) : 
+            
+            (
+              <>
+                <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+              </>
+            )
+            }
+            {
+              step === 9 ?
+              <>
+               <center>
+                  <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+            <h6>Please Wait . . .</h6>
+               </center>
+              
+              </>:
+              <>
+              <div className="mt-5 buttonGroup w-100">
               <Button
                 onClick={() => handleBackClick(step)}
                 variant={"secondary"}
@@ -856,6 +879,8 @@ function ApplicationScreen() {
               </Button>
             </div>
             <Footer />
+            </>
+            }
           </div>
         </>
       )}

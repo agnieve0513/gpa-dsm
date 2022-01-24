@@ -568,10 +568,19 @@ function ViewApplication({
                 >
                   <i className="fa fa-edit"></i>
                 </Nav.Item>
+                <Nav.Item
+                  style={{ width: 50, paddingTop: 10 }}
+                  className="d-flex aligns-items-center justify-content-center editbtn"
+                  onClick={() => handleDetailsToggle()
+                  }
+                >
+                  <i className="fa fa-print"></i>
+                </Nav.Item>
                 {/* <Nav.Item className="me-1">
                   <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
                   </Nav.Item> */}
               </Nav>
+
             </div>
           </Col>
         </Row>
