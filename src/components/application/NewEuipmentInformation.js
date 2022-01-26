@@ -764,7 +764,6 @@ function NewEuipmentInformation(props) {
                   equipment_detail.length ? (
                     <>
                       {props.setRebate(equipment_detail[0].rebate)}
-                      {props.setSeer(equipment_detail[0].seer)}
                       {/* {console.log(equipment_detail[0].vendor)} */}
 
                       {equipment_detail[0].vendor === ""

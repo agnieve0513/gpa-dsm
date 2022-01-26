@@ -621,8 +621,6 @@ function ApplicationScreen() {
                 setManufacturerList={setManufacturerList}
                 models={models}
                 setModelList={setModelList}
-                seer={seer}
-                setSeer={setSeer}
                 technician_name={technician_name}
                 setTechnicianName={setTechnicianName}
                 work_tel={work_tel}
