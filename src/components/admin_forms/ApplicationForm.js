@@ -195,6 +195,14 @@ function ApplicationForm({ current }) {
                 >
                   Last Update: {updatedTime}
                 </h6>
+                 <Button
+                  onClick={() => resetState()}
+                  className="mb-2 me-2 float-end"
+                  size="sm"
+                  variant={"success"}
+                >
+                  Reload
+                </Button>
                 <Button
                   onClick={() => resetState()}
                   className="mb-2 float-end"
@@ -203,6 +211,7 @@ function ApplicationForm({ current }) {
                 >
                   Reset Filter
                 </Button>
+               
               </div>
             </Row>
             {width < 700 ? (

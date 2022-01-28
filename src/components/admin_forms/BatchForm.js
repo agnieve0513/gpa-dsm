@@ -636,6 +636,7 @@ function BatchForm({ current }) {
                 >
                   <i className="fa fa-arrow-left"></i> Back to Batches
                 </Button>
+
                 <MaterialTable
                   columns={[
                     // {
@@ -693,6 +694,13 @@ function BatchForm({ current }) {
                     },
                   ]}
                   data={batch_applications}
+                  components={{
+                    Toolbar: props => (
+                      <div>
+                           <Button className="p-2 m-2" variant="success" size="sm">Reload</Button>
+                      </div>
+                    ),
+                  }}
                   title={width < 770 ? "" : currentBatch}
                   options={{
                     headerStyle: {
@@ -773,16 +781,29 @@ function BatchForm({ current }) {
                     },
                   ]}
                   data={batches}
-                  title="Batch"
+                  title={
+                    <div>
+                      <h4>Batch <Button variant="success" size="sm">Reload</Button></h4>
+                      
+                    </div>
+                  }
                   options={{
                     rowStyle: {
                       height: "5px !important",
+                      search: true
                     },
                     headerStyle: {
                       backgroundColor: "#233f88",
                       color: "#FFF",
                     },
                   }}
+                  // components={{
+                  //   Toolbar: props => (
+                  //     <div>
+                  //      <Button className="p-2 m-2">Reload</Button>
+                  //     </div>
+                  //   ),
+                  // }}
                 />
               </Col>
             )}
