@@ -192,6 +192,16 @@ function ViewApplication({
     models,
   } = customerEquipModel;
 
+    const customerEquipmentDetail = useSelector(
+    (state) => state.customerEquipmentDetail
+  );
+  const {
+    loading: equipDetailLoading,
+    error: equipDetailError,
+    success: equipDetailSuccess,
+    equipment_detail,
+  } = customerEquipmentDetail;
+
   // const [application, setApplication] = useState();
   const [logs, setLogs] = useState({});
   const [comments, setComments] = useState([]);
@@ -464,11 +474,32 @@ function ViewApplication({
   const changeManufacturerHandler = (e) => {
     setManufacturer(e.target.value);
     dispatch(loadCustomerEquipModel(system_type, e.target.value));
-    setVendor("");
+  };
+  const handleModelNo = (id) => {
+    switch(id.model) {
+      case ("Indoor / Outdoor"): {
+        return (id.indoor_model + " / " + id.outdoor_model)
+      }
+      case ("Package"): {
+        return(id.package_model)
+      }
+      case ("Both"): {
+        return(id.indoor_model + " / " + id.outdoor_model + " / " + id.model)
+      }
+      default: {
+        return(id.model)
+      }
+    }
+  }
+  const changeModelHandler = (e) => {
+    setModelNo(e.target.value)
+    var selectedModel = models.find(model => model.id === parseInt(e.target.value))
+    var modelName = handleModelNo(selectedModel)
+    // console.log('selMod', selectedModel, 'modelN', modelName)
+    dispatch(loadCustomerEquipmentDetail(e.target.value));
   };
 
   const handleEditNewEquipment = (equipment_id, indx) => {
-    alert(equipment_id)
 
     const obj = {
       new_equipment_information: {
@@ -483,10 +514,11 @@ function ViewApplication({
         invoice_no:invoice_no ? invoice_no : application.New_equipment[indx].newEquip_Invoice_no,
         purchase_date:purchase_date ? purchase_date :  application.New_equipment[indx].newEquip_Purchase_date,
       }
-     
     };
 
     dispatch(editEquipment(obj))
+      Swal.fire("Success", "Equipment has been updated!", "success");
+
   }
 
   return (
@@ -1148,7 +1180,7 @@ function ViewApplication({
                                         enable_equipment_edit ?
                                          <FormControl 
                                             placeholder={equip.newEquip_Btu}
-                                            value={btu}
+                                            value={equipment_detail? equipment_detail[0]?.btu: null}
                                             onChange={(e)=> setBtu(e.target.value)}
                                           />
                                         :equip.newEquip_Btu
@@ -1159,11 +1191,17 @@ function ViewApplication({
                               <td>
                                 {
                                   enable_equipment_edit?
-                                   <FormControl 
-                                      placeholder={equip.newEquip_Vendor}
-                                      value={vendor}
-                                      onChange={(e)=> setVendor(e.target.value)}
-                                    />
+                                   <Form.Select
+                                       onChange={(e)=> setVendor(e.target.value)}
+                                     value={vendor}
+                                    >
+                                      <option hidden> {equip.newEquip_Vendor}</option>
+                                      {
+                                        equipment_detail?
+                                        <option>{equipment_detail[0]?.vendor}</option>
+                                        :null
+                                      }
+                                      </Form.Select>
                                   :equip.newEquip_Vendor
                                 }
                               </td>
@@ -1194,11 +1232,22 @@ function ViewApplication({
                               <td>
                                 {
                                   enable_equipment_edit?
-                                   <FormControl 
-                                      placeholder={equip.newEquip_Model_no}
+                                  <Form.Select
                                       value={model_no}
-                                      onChange={(e)=> setModelNo(e.target.value)}
-                                    />
+                                      onChange={(e) => changeModelHandler(e)}
+                                    >
+                                      <option selected hidden>
+                                        {equip.newEquip_Model_no}
+                                      </option>
+
+                                      {
+                                        models ?
+                                          models.map(mod => 
+                                            <option value={mod?.id}>{mod?.indoor_model}/{mod?.outdoor_model}</option>
+                                          )
+                                        :<></>
+                                      }
+                                    </Form.Select>
                                   :equip.newEquip_Model_no
                                 }
                               </td>
