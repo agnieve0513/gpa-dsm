@@ -518,7 +518,6 @@ function ViewApplication({
 
     dispatch(editEquipment(obj))
       Swal.fire("Success", "Equipment has been updated!", "success");
-
   }
 
   return (
@@ -942,7 +941,7 @@ function ViewApplication({
                                   value= {is_new_construction}
                                   onChange={(e)=>setIsNewConstruction(e.target.value)}
                                   >
-                                      <option selected disabled hidden>{application.Info_New_construction}</option>
+                                      <option selected disabled hidden>{application.Info_New_construction ? "YES" : "NO" || "N/A"}</option>
                                       <option value="true">YES</option>
                                       <option value="false">NO</option>
                                     </Form.Select>
