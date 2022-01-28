@@ -1200,11 +1200,31 @@ function RecordsForm() {
                                 <br />
                               </Col>
                             </Row>
+
                           </>
                         ) : (
                           ""
                         )}
                       </ListGroup>
+                      <h4 className="text-info">Comments</h4>
+                      {comments ? (
+                      comments.map((comment) => {
+                        const madeOn = new Date(comment.Made_On.replace(/-/g, "/"));
+                        const stringDate = madeOn.toString().substring(0, 15);
+                        return (
+                          <div className="p-3 mb-1">
+                            <h6>
+                              {comment.Made_By} | {stringDate}
+                              <br />
+                              <small className="text-muted">{comment.role}</small>
+                            </h6>
+                            <h6 className="text-muted">{comment.Comment}</h6>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <></>
+                    )}
                     </Container>
                   </Tab.Pane>
                 </Tab.Content>
