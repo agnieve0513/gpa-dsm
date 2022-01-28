@@ -265,6 +265,7 @@ function ExistingEquipmentInformation(props) {
                   value={props.old_tons}
                   onChange={(e) => props.setOldTons(e.target.value)}
                   required
+                  min="0"
                   disabled={props.no_existing ? true : false}
                 ></Form.Control>
               </Form.Group>
