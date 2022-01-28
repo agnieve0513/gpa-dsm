@@ -420,8 +420,11 @@ function ViewApplication({
     }
   };
 
-  const handleEquipmentEdit = (equipment_id) => {
+  const handleEquipmentEdit = (equipment_id, system_type, manifacturer, model_no) => {
     console.log(equipment_id);
+    changeSystemTypeHandler(system_type);
+    changeManufacturerHandler(manifacturer);
+    changeModelHandler(model_no);
     setEnableEquipmentEdit(true);
   }
 
@@ -460,8 +463,8 @@ function ViewApplication({
   const changeSystemTypeHandler = (e) => {
       showRebateHandler();
       setVendor("");
-      setSystemType(e.target.value);
-      dispatch(loadCustomerEquipManufacturer(e.target.value));
+      setSystemType(e);
+      dispatch(loadCustomerEquipManufacturer(e));
   };
 
     const showRebateHandler = () => {
@@ -472,8 +475,8 @@ function ViewApplication({
     }
   };
   const changeManufacturerHandler = (e) => {
-    setManufacturer(e.target.value);
-    dispatch(loadCustomerEquipModel(system_type, e.target.value));
+    setManufacturer(e);
+    dispatch(loadCustomerEquipModel(system_type, e));
   };
   const handleModelNo = (id) => {
     switch(id.model) {
@@ -492,11 +495,11 @@ function ViewApplication({
     }
   }
   const changeModelHandler = (e) => {
-    setModelNo(e.target.value)
-    var selectedModel = models.find(model => model.id === parseInt(e.target.value))
-    var modelName = handleModelNo(selectedModel)
+    setModelNo(e)
+    var selectedModel = models.find(model => model.id === parseInt(e))
+    // var modelName = handleModelNo(selectedModel)
     // console.log('selMod', selectedModel, 'modelN', modelName)
-    dispatch(loadCustomerEquipmentDetail(e.target.value));
+    dispatch(loadCustomerEquipmentDetail(e));
   };
 
   const handleEditNewEquipment = (equipment_id, indx) => {
@@ -1146,7 +1149,7 @@ function ViewApplication({
                                 {
                                   enable_equipment_edit ?
                                     <Form.Select
-                                      onChange={(e) => changeSystemTypeHandler(e)}
+                                      onChange={(e) => changeSystemTypeHandler(e.target.value)}
                                       value={system_type}
                                     >
                                       <option defaultValue hidden>
@@ -1208,7 +1211,7 @@ function ViewApplication({
                                 {
                                   enable_equipment_edit?
                                     <Form.Select
-                                      onChange={(e) => changeManufacturerHandler(e)}
+                                      onChange={(e) => changeManufacturerHandler(e.target.value)}
                                       value={manufacturer}
                                     >
                                       <option defaultValue hidden>
@@ -1233,7 +1236,7 @@ function ViewApplication({
                                   enable_equipment_edit?
                                   <Form.Select
                                       value={model_no}
-                                      onChange={(e) => changeModelHandler(e)}
+                                      onChange={(e) => changeModelHandler(e.target.value)}
                                     >
                                       <option selected hidden>
                                         {equip.newEquip_Model_no}
@@ -1280,7 +1283,7 @@ function ViewApplication({
                                 <Button size="sm" variant="success" onClick={()=>handleEditNewEquipment(equip.newEquip_id, indx)} className="me-2"><i className="fa fa-save"></i></Button>
                                 <Button size="sm" variant="danger" onClick={()=> setEnableEquipmentEdit(false)}><i className="fa fa-times"></i></Button>
                                 </>
-                                :<Button variant="success" size="sm" onClick={()=> handleEquipmentEdit(equip.newEquip_id)}><i className="fa fa-edit"></i></Button>
+                                :<Button variant="success" size="sm" onClick={()=> handleEquipmentEdit(equip.newEquip_id, equip.newEquip_System_type, equip.newEquip_Manufacturer, equip.newEquip_Model_no)}><i className="fa fa-edit"></i></Button>
                                 }
                               </td>
                             </tr>)
