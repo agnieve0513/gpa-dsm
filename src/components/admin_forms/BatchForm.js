@@ -694,14 +694,11 @@ function BatchForm({ current }) {
                     },
                   ]}
                   data={batch_applications}
-                  components={{
-                    Toolbar: props => (
-                      <div>
-                           <Button className="p-2 m-2" variant="success" size="sm">Reload</Button>
-                      </div>
-                    ),
-                  }}
-                  title={width < 770 ? "" : currentBatch}
+                  
+                  title={width < 770 ? "" : 
+                <div>
+                      <h5 className="text-info">{currentBatch} <Button variant="success" size="sm">Reload</Button></h5>
+                    </div>}
                   options={{
                     headerStyle: {
                       backgroundColor: "#233f88",
@@ -783,8 +780,7 @@ function BatchForm({ current }) {
                   data={batches}
                   title={
                     <div>
-                      <h4>Batch <Button variant="success" size="sm">Reload</Button></h4>
-                      
+                      <h5 className="text-info">Batch <Button variant="success" size="sm">Reload</Button></h5>
                     </div>
                   }
                   options={{

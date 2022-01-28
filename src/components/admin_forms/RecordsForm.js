@@ -686,7 +686,7 @@ function RecordsForm() {
                               </p>
                               <p className="mt-5 mb-5">
                                 <b>
-                                  {application.Info_Is_owner || "N/A"}
+                                  {application.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
                                   <br />
                                   <p
                                     style={{
@@ -714,7 +714,7 @@ function RecordsForm() {
                               </p>
                               <p>
                                 <b>
-                                  {application.Info_New_construction || "N/A"}
+                                 {application.Info_New_construction ? "YES" : "NO" || "N/A"}
                                 </b>
                               </p>
                               <p>
