@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./AdminDashboardScreen.css";
 
 import UserForm from "../components/admin_forms/UserForm";
+import ApplicationList from "../components/admin_forms/ApplicationList";
 import ApplicationForm from "../components/admin_forms/ApplicationForm";
 import RecordsForm from "../components/admin_forms/RecordsForm";
 import EquipmentForm from "../components/admin_forms/EquipmentForm";
@@ -184,11 +185,6 @@ function AdminDashboardScreen({ location, history }) {
                       ) : (
                         <></>
                       )}
-
-                      {/* {batchPaymentForm ?
-                                                <Nav.Item className="mr-1 mt-1">
-                                                    <Nav.Link eventKey="batch_payment">Batch Payment</Nav.Link>
-                                                </Nav.Item>:<></>} */}
                     </Nav>
                   </Col>
                   <Col md={4} id="dashboardTitle">
@@ -205,7 +201,7 @@ function AdminDashboardScreen({ location, history }) {
                 </Tab.Pane>
                 <Tab.Pane eventKey="application">
                   {applicationForm ? (
-                    <ApplicationForm current={current} />
+                    <ApplicationList current={current} />
                   ) : (
                     <></>
                   )}

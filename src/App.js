@@ -15,6 +15,7 @@ import PrintApplicationSummary from "./screens/PrintApplicationSummary";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import UserForm from "./components/admin_forms/UserForm";
+import AdminScreen from "./screens/AdminScreen";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
       <Route path="/change" component={AdminChangePasswordScreen} exact />
       <Route path="/email-change/:creds" component={ChangePasswordScreen} />
       <Route path="/changepass" component={ResetPasswordScreen} />
-      <Route path="/dashboard" component={AdminDashboardScreen} exact />
+      <Route path="/dashboard" component={AdminScreen} exact />
       <Route
         path="/printapplication"
         component={PrintApplicationSummary}
