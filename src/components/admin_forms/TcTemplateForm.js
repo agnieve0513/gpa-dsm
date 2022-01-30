@@ -58,37 +58,39 @@ function TcTemplateForm() {
           if (data.Action.includes("resd_dryer_washer") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
-            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
             find = find + 1;
           }
-        } 
-        else if (code === "resd_aircon_ductless") {
+        } else if (code === "resd_aircon_ductless") {
           if (data.Action.includes("resd_aircon_ductless") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
-            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
             find = find + 1;
           }
-        } 
-
-        else if (code === "resd_aircon_window") {
+        } else if (code === "resd_aircon_window") {
           if (data.Action.includes("resd_aircon_window") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
-            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
             find = find + 1;
           }
-        } 
-
-        else if (code === "comm_ductless") {
+        } else if (code === "comm_ductless") {
           if (data.Action.includes("comm_ductless") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
-            setAuthorDate(`${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
             find = find + 1;
           }
-        } 
-        else {
+        } else {
           if (data.Action.includes("comm_ducted") && find === 0) {
             setAuthor(data.Made_By);
             const newdate = new Date(data.Made_On);
@@ -134,7 +136,7 @@ function TcTemplateForm() {
   }, [code, fileCode]);
 
   const handleDownload = () => {
-    console.log(retriveTermsAndCondition)
+    console.log(retriveTermsAndCondition);
     if (retriveTermsAndCondition?.data) {
       const url = window.URL.createObjectURL(retriveTermsAndCondition?.data);
       const link = document.createElement("a");
@@ -142,8 +144,12 @@ function TcTemplateForm() {
       link.setAttribute(
         "download",
         `${
-          code === "resd_dryer_washer" ? "Residential Dryer/Washer" : "Residential"
-        }Template.${retriveTermsAndCondition?.data.type.substr(retriveTermsAndCondition?.data.type.indexOf("/") + 1)}`
+          code === "resd_dryer_washer"
+            ? "Residential Dryer/Washer"
+            : "Residential"
+        }Template.${retriveTermsAndCondition?.data.type.substr(
+          retriveTermsAndCondition?.data.type.indexOf("/") + 1
+        )}`
       );
       document.body.appendChild(link);
       link.click();
@@ -209,11 +215,21 @@ function TcTemplateForm() {
                 <option defaultChecked hidden>
                   Select Template Type
                 </option>
-                <option value="resd_dryer_washer">Residential - Dryer/Washer</option>
-                <option value="resd_aircon_ductless">Residential - Air Conditioning (Ductless Systems)</option>
-                <option value="resd_aircon_window">Residential - Air Conditioning (Window Type Systems)</option>
-                <option value="comm_ductless">Commercial - Ductless Split Systems</option>
-                <option value="comm_ducted">Commercial - Central (Ducted Systems)</option>
+                <option value="resd_dryer_washer">
+                  Residential - Dryer/Washer
+                </option>
+                <option value="resd_aircon_ductless">
+                  Residential - Air Conditioning (Ductless Systems)
+                </option>
+                <option value="resd_aircon_window">
+                  Residential - Air Conditioning (Window Type Systems)
+                </option>
+                <option value="comm_ductless">
+                  Commercial - Ductless Split Systems
+                </option>
+                <option value="comm_ducted">
+                  Commercial - Central (Ducted Systems)
+                </option>
               </Form.Select>
               <Button
                 variant="info"

@@ -7,7 +7,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Swal from "sweetalert2";
 import Header from "../components/Header";
 
-import './AdminChangePasswordScreen.css';
+import "./AdminChangePasswordScreen.css";
 import Footer from "../components/Footer";
 
 function AdminChangePasswordScreen({ location, history }) {
@@ -32,7 +32,7 @@ function AdminChangePasswordScreen({ location, history }) {
 
   // useEffect(() => {
   //   if (change_pass) {
-      
+
   //   }
   // }, [change_pass]);
 
@@ -43,39 +43,47 @@ function AdminChangePasswordScreen({ location, history }) {
     var symbols = new RegExp(/[^A-Z a-z 0-9]/);
 
     if (string.length >= 8) {
-      setLengthCheck(true)
+      setLengthCheck(true);
     } else {
-      setLengthCheck(false)
+      setLengthCheck(false);
     }
 
     if (numbers != null) {
-      setNumberCheck(true)
+      setNumberCheck(true);
     } else {
-      setNumberCheck(false)
+      setNumberCheck(false);
     }
 
     if (lowers != null) {
-      setLowerCheck(true)
+      setLowerCheck(true);
     } else {
-      setLowerCheck(false)
+      setLowerCheck(false);
     }
 
     if (uppers != null) {
-      setUpperCheck(true)
+      setUpperCheck(true);
     } else {
-      setUpperCheck(false)
+      setUpperCheck(false);
     }
 
     if (symbols.test(string)) {
-      setSymbolCheck(true)
+      setSymbolCheck(true);
     } else {
-      setSymbolCheck(false)
+      setSymbolCheck(false);
     }
 
-    setNewPassword(string)
-  }
+    setNewPassword(string);
+  };
 
-  var allChecksValid = lengthCheck ? upperCheck ? symbolCheck ? numberCheck ? true : false : false : false : false
+  var allChecksValid = lengthCheck
+    ? upperCheck
+      ? symbolCheck
+        ? numberCheck
+          ? true
+          : false
+        : false
+      : false
+    : false;
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -98,7 +106,6 @@ function AdminChangePasswordScreen({ location, history }) {
           history.push("/admin");
         }
       );
-     
     } else {
       Swal.fire("Failed", "Something went wrong. Please try again!", "error");
     }
@@ -120,9 +127,9 @@ function AdminChangePasswordScreen({ location, history }) {
               <h1 className="mb-4 text-center text-info">Change Password</h1>
             </Col>
             <Col md={1}></Col>
-          </Row>  
+          </Row>
           <Row>
-            <Form onSubmit={(e)=> submitHandler(e)}>
+            <Form onSubmit={(e) => submitHandler(e)}>
               <Row className="d-flex justify-content-center">
                 <Col md={10} xl={6}>
                   <Form.Group controlId="old_password">
@@ -146,7 +153,9 @@ function AdminChangePasswordScreen({ location, history }) {
                   </Form.Group>
 
                   <Form.Group controlId="confirm_new_password">
-                    <Form.Label className="pt-2">Confirm New Password</Form.Label>
+                    <Form.Label className="pt-2">
+                      Confirm New Password
+                    </Form.Label>
                     <Form.Control
                       type="password"
                       // placeholder='Enter Password'
@@ -163,26 +172,65 @@ function AdminChangePasswordScreen({ location, history }) {
                   <Row className="py-4 px-0 mx-auto">
                     <p className="w-auto mb-2 passDetails">Passwords must:</p>
                     <Row>
-                      {lengthCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
-                      <p className="passDetails px-0 w-auto">• Be a minimum of 8 characters</p>
+                      {lengthCheck ? (
+                        <i class="fas fa-check w-auto text-success"></i>
+                      ) : (
+                        <i class="fas fa-times w-auto text-danger"></i>
+                      )}
+                      <p className="passDetails px-0 w-auto">
+                        • Be a minimum of 8 characters
+                      </p>
                     </Row>
                     <Row>
-                      {lowerCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
-                      <p className="passDetails px-0 w-auto">• Include at least one lowercase letter (a-z)</p></Row>
+                      {lowerCheck ? (
+                        <i class="fas fa-check w-auto text-success"></i>
+                      ) : (
+                        <i class="fas fa-times w-auto text-danger"></i>
+                      )}
+                      <p className="passDetails px-0 w-auto">
+                        • Include at least one lowercase letter (a-z)
+                      </p>
+                    </Row>
                     <Row>
-                      {upperCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
-                      <p className="passDetails px-0 w-auto">• Include at least one uppercase letter (A-Z)</p></Row>
+                      {upperCheck ? (
+                        <i class="fas fa-check w-auto text-success"></i>
+                      ) : (
+                        <i class="fas fa-times w-auto text-danger"></i>
+                      )}
+                      <p className="passDetails px-0 w-auto">
+                        • Include at least one uppercase letter (A-Z)
+                      </p>
+                    </Row>
                     <Row>
-                      {numberCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
-                      <p className="passDetails px-0 w-auto">• Include at least one number (0-9)</p></Row>
+                      {numberCheck ? (
+                        <i class="fas fa-check w-auto text-success"></i>
+                      ) : (
+                        <i class="fas fa-times w-auto text-danger"></i>
+                      )}
+                      <p className="passDetails px-0 w-auto">
+                        • Include at least one number (0-9)
+                      </p>
+                    </Row>
                     <Row>
-                      {symbolCheck ? <i class="fas fa-check w-auto text-success"></i> : <i class="fas fa-times w-auto text-danger"></i>}
-                      <p className="passDetails px-0 w-auto">• Include at least one symbol</p></Row>
+                      {symbolCheck ? (
+                        <i class="fas fa-check w-auto text-success"></i>
+                      ) : (
+                        <i class="fas fa-times w-auto text-danger"></i>
+                      )}
+                      <p className="passDetails px-0 w-auto">
+                        • Include at least one symbol
+                      </p>
+                    </Row>
                   </Row>
                   <Row>
                     <Col md={6} className="mx-auto">
                       <div className="d-grid gap-2 mt-3">
-                        <Button type="submit" variant="success" className="" disabled={!allChecksValid}>
+                        <Button
+                          type="submit"
+                          variant="success"
+                          className=""
+                          disabled={!allChecksValid}
+                        >
                           SUBMIT
                         </Button>
                       </div>
@@ -203,7 +251,7 @@ function AdminChangePasswordScreen({ location, history }) {
           </Row>
         </Col>
       </Row>
-      <Footer/>
+      <Footer />
     </div>
   );
 }

@@ -197,7 +197,7 @@ export const applicationUpdateReducer = (state = {}, action) => {
   }
 };
 
-export const applicationEditReducer = (state = {edit_info: []}, action) => {
+export const applicationEditReducer = (state = { edit_info: [] }, action) => {
   switch (action.type) {
     case APPLICATION_EDIT_REQUEST:
       return { loading: true };
@@ -212,7 +212,7 @@ export const applicationEditReducer = (state = {edit_info: []}, action) => {
   }
 };
 
-export const equipmentEditReducer = (state = {edit_equip: []}, action) => {
+export const equipmentEditReducer = (state = { edit_equip: [] }, action) => {
   switch (action.type) {
     case APPLICATION_EQUIP_EDIT_REQUEST:
       return { loading: true };

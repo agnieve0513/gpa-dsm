@@ -25,11 +25,14 @@ import { retrieveFileAction } from "../../actions/fileActions";
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import StringCrypto from "string-crypto";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import ModalImage from "../ModalImage";
 import "./ApplicationForm.css";
 import { uploadFileAction } from "../../actions/fileActions";
-import {editApplication, editEquipment} from "../../actions/applicationActions";
+import {
+  editApplication,
+  editEquipment,
+} from "../../actions/applicationActions";
 import {
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
@@ -43,8 +46,6 @@ import { formatAMPM } from "../../helpers";
 import _ from "lodash";
 import city_zipcode from "./city_zipcode";
 
-
-
 const MySwal = withReactContent(Swal);
 
 function ViewApplication({
@@ -54,8 +55,7 @@ function ViewApplication({
   setApplicationId,
   applicationId,
 }) {
-
-   const { encryptString } = new StringCrypto();
+  const { encryptString } = new StringCrypto();
 
   const { height, width } = useWindowDimensions();
   let obj = JSON.parse(localStorage.getItem("userInfo"));
@@ -96,7 +96,7 @@ function ViewApplication({
   const [home_age, setHomeAge] = useState("");
   const [home_type, setHomeType] = useState("");
   const [is_new_construction, setIsNewConstruction] = useState();
-  
+
   const [enable_installer_edit, setEnableInstallerEdit] = useState(false);
   const [system_type, setSystemType] = useState();
   const [btu, setBtu] = useState();
@@ -162,13 +162,16 @@ function ViewApplication({
   const { loading: editLoading, error: editError, edit_info } = applicationEdit;
 
   const equipmentEdit = useSelector((state) => state.equipmentEdit);
-  const { loading: editEquipmentLoading, error: editEquipmentError, edit_equip } = equipmentEdit;
+  const {
+    loading: editEquipmentLoading,
+    error: editEquipmentError,
+    edit_equip,
+  } = equipmentEdit;
 
   const [intervalId2, setIntervalId2] = useState();
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { loading, error, application } = applicationDetail;
-
 
   // const applicationDetail = useSelector((state) => state.applicationDetail);
   const applicationComments = useSelector((state) => state.applicationComments);
@@ -192,7 +195,7 @@ function ViewApplication({
     models,
   } = customerEquipModel;
 
-    const customerEquipmentDetail = useSelector(
+  const customerEquipmentDetail = useSelector(
     (state) => state.customerEquipmentDetail
   );
   const {
@@ -420,38 +423,56 @@ function ViewApplication({
     }
   };
 
-  const handleEquipmentEdit = (equipment_id, system_type, manifacturer, model_no) => {
+  const handleEquipmentEdit = (
+    equipment_id,
+    system_type,
+    manifacturer,
+    model_no
+  ) => {
     console.log(equipment_id);
     changeSystemTypeHandler(system_type);
     changeManufacturerHandler(manifacturer);
     changeModelHandler(model_no);
     setEnableEquipmentEdit(true);
-  }
+  };
 
   const handleEditInfo = () => {
-     const obj = {
-              applicationId:applicationId,
-              customerName: customer_name ? customer_name : application.Info_Customer_name,
-              serviceLocation: service_location ? service_location:application.Info_Service_location ,
-              cityVillage: city_village ? city_village : application.Info_City_village,
-              zipcode: zipcode ? zipcode :  application.Info_Zipcode,
-              email: email ? email :application.Info_Email ,
-              telNo: tel_no ? tel_no : application.Info_Tel_no,
-              isApplicantOwner: is_applicant_owner ? is_applicant_owner : application.Info_Is_owner,
-              mailingAddress: mailing_address ? mailing_address : application.Info_Mailing_address,
-              mailingCity: mailing_city_village ? mailing_city_village : application.Info_Mailing_city,
-              mailingZipcode: mailing_zipcode ? mailing_zipcode : application.Info_Mailing_zip,
-              homeAge: home_age ? home_age : application.Info_Home_age,
-              homeType: home_type ? home_type : application.Info_Home_type,
-              isNewConstruction: is_new_construction ? is_new_construction : application.Info_New_construction,
-          };
+    const obj = {
+      applicationId: applicationId,
+      customerName: customer_name
+        ? customer_name
+        : application.Info_Customer_name,
+      serviceLocation: service_location
+        ? service_location
+        : application.Info_Service_location,
+      cityVillage: city_village ? city_village : application.Info_City_village,
+      zipcode: zipcode ? zipcode : application.Info_Zipcode,
+      email: email ? email : application.Info_Email,
+      telNo: tel_no ? tel_no : application.Info_Tel_no,
+      isApplicantOwner: is_applicant_owner
+        ? is_applicant_owner
+        : application.Info_Is_owner,
+      mailingAddress: mailing_address
+        ? mailing_address
+        : application.Info_Mailing_address,
+      mailingCity: mailing_city_village
+        ? mailing_city_village
+        : application.Info_Mailing_city,
+      mailingZipcode: mailing_zipcode
+        ? mailing_zipcode
+        : application.Info_Mailing_zip,
+      homeAge: home_age ? home_age : application.Info_Home_age,
+      homeType: home_type ? home_type : application.Info_Home_type,
+      isNewConstruction: is_new_construction
+        ? is_new_construction
+        : application.Info_New_construction,
+    };
 
     dispatch(editApplication(obj));
     Swal.fire("Success", "Application has been updated!", "success");
+  };
 
-  }
-
-   const changeZipCode = (e) => {
+  const changeZipCode = (e) => {
     setCityVillage(e.target.value);
     const result = city_zipcode.find((p) => p._id === e.target.value);
 
@@ -461,13 +482,13 @@ function ViewApplication({
   };
 
   const changeSystemTypeHandler = (e) => {
-      showRebateHandler();
-      setVendor("");
-      setSystemType(e);
-      dispatch(loadCustomerEquipManufacturer(e));
+    showRebateHandler();
+    setVendor("");
+    setSystemType(e);
+    dispatch(loadCustomerEquipManufacturer(e));
   };
 
-    const showRebateHandler = () => {
+  const showRebateHandler = () => {
     if (system_type !== "Dryer" || system_type !== "Washer") {
       return <></>;
     } else {
@@ -479,49 +500,60 @@ function ViewApplication({
     dispatch(loadCustomerEquipModel(system_type, e));
   };
   const handleModelNo = (id) => {
-    switch(id.model) {
-      case ("Indoor / Outdoor"): {
-        return (id.indoor_model + " / " + id.outdoor_model)
+    switch (id.model) {
+      case "Indoor / Outdoor": {
+        return id.indoor_model + " / " + id.outdoor_model;
       }
-      case ("Package"): {
-        return(id.package_model)
+      case "Package": {
+        return id.package_model;
       }
-      case ("Both"): {
-        return(id.indoor_model + " / " + id.outdoor_model + " / " + id.model)
+      case "Both": {
+        return id.indoor_model + " / " + id.outdoor_model + " / " + id.model;
       }
       default: {
-        return(id.model)
+        return id.model;
       }
     }
-  }
+  };
   const changeModelHandler = (e) => {
-    setModelNo(e)
-    var selectedModel = models.find(model => model.id === parseInt(e))
+    setModelNo(e);
+    var selectedModel = models.find((model) => model.id === parseInt(e));
     // var modelName = handleModelNo(selectedModel)
     // console.log('selMod', selectedModel, 'modelN', modelName)
     dispatch(loadCustomerEquipmentDetail(e));
   };
 
   const handleEditNewEquipment = (equipment_id, indx) => {
-
     const obj = {
       new_equipment_information: {
         id: equipment_id,
-        system_type: system_type ? system_type : application.New_equipment[indx].newEquip_System_type,
-        vendor:vendor ? vendor : application.New_equipment[indx].newEquip_Vendor ,
+        system_type: system_type
+          ? system_type
+          : application.New_equipment[indx].newEquip_System_type,
+        vendor: vendor
+          ? vendor
+          : application.New_equipment[indx].newEquip_Vendor,
         // quantity:quantity ? quantity : application.New_equipment[indx],
-        btu:btu ? btu : application.New_equipment[indx],
+        btu: btu ? btu : application.New_equipment[indx],
         // size:size ? size : application.New_equipment[indx] ,
-        manufacturer: manufacturer ? manufacturer : application.New_equipment[indx].newEquip_Manufacturer ,
-        model_no:model_no ? model_no : application.New_equipment[indx].newEquip_Model_no,
-        invoice_no:invoice_no ? invoice_no : application.New_equipment[indx].newEquip_Invoice_no,
-        purchase_date:purchase_date ? purchase_date :  application.New_equipment[indx].newEquip_Purchase_date,
-      }
+        manufacturer: manufacturer
+          ? manufacturer
+          : application.New_equipment[indx].newEquip_Manufacturer,
+        model_no: model_no
+          ? model_no
+          : application.New_equipment[indx].newEquip_Model_no,
+        invoice_no: invoice_no
+          ? invoice_no
+          : application.New_equipment[indx].newEquip_Invoice_no,
+        purchase_date: purchase_date
+          ? purchase_date
+          : application.New_equipment[indx].newEquip_Purchase_date,
+      },
     };
 
-    dispatch(editEquipment(obj))
-      Swal.fire("Success", "Equipment has been updated!", "success");
-  }
+    dispatch(editEquipment(obj));
+    Swal.fire("Success", "Equipment has been updated!", "success");
+  };
 
   return (
     <Container>
@@ -551,8 +583,9 @@ function ViewApplication({
             <div id="applicationFormNa">
               <Nav variant="pills">
                 <Nav.Item>
-                  <Nav.Link eventKey="application_information" 
-                    className={paintOne ? "bg-info text-white" : "" }
+                  <Nav.Link
+                    eventKey="application_information"
+                    className={paintOne ? "bg-info text-white" : ""}
                     onClick={() => {
                       setPaintOne(true);
                     }}
@@ -563,7 +596,7 @@ function ViewApplication({
 
                 <Nav.Item>
                   <Nav.Link
-                    className={paintTwo ? "bg-info text-white" : "" }
+                    className={paintTwo ? "bg-info text-white" : ""}
                     eventKey="new_quipment_info"
                     onClick={() => {
                       setTabThree(false);
@@ -579,7 +612,7 @@ function ViewApplication({
                   <Nav.Link
                     eventKey="old_quipment_info"
                     disabled={tabThree}
-                    className={paintThree ? "bg-info text-white" : "" }
+                    className={paintThree ? "bg-info text-white" : ""}
                     onClick={() => {
                       setTabFour(false);
                       setPaintThree(true);
@@ -592,7 +625,7 @@ function ViewApplication({
                   <Nav.Link
                     eventKey="submission_of_documentation"
                     disabled={tabFour}
-                    className={paintFour? "bg-info text-white" : "" }
+                    className={paintFour ? "bg-info text-white" : ""}
                     onClick={() => {
                       setPaintFour(true);
                     }}
@@ -603,8 +636,7 @@ function ViewApplication({
                 <Nav.Item
                   style={{ marginLeft: "auto", width: 50, paddingTop: 10 }}
                   className="d-flex aligns-items-center justify-content-center editbtn"
-                  onClick={() => handleDetailsToggle()
-                  }
+                  onClick={() => handleDetailsToggle()}
                 >
                   <i className="fa fa-edit"></i>
                 </Nav.Item>
@@ -612,20 +644,21 @@ function ViewApplication({
                   style={{ width: 50, paddingTop: 10 }}
                   className="d-flex aligns-items-center justify-content-center editbtn"
                 >
-                  <Link 
-                  className="text-black"
-                  to={`/printapplication?auth=${ encryptString(application ? application.Control_Number : "", "superSecureToken")}`}
-                  target="_blank" 
+                  <Link
+                    className="text-black"
+                    to={`/printapplication?auth=${encryptString(
+                      application ? application.Control_Number : "",
+                      "superSecureToken"
+                    )}`}
+                    target="_blank"
                   >
-                  <i className="fa fa-print"></i>
+                    <i className="fa fa-print"></i>
                   </Link>
-                  
                 </Nav.Item>
                 {/* <Nav.Item className="me-1">
                   <Nav.Link eventKey="verify_information">Update Status</Nav.Link>
                   </Nav.Item> */}
               </Nav>
-
             </div>
           </Col>
         </Row>
@@ -656,49 +689,91 @@ function ViewApplication({
                               GPA Account Holder's Name
                             </b>
                           </p>
-                           <p style={{marginBottom : "1.9rem"}}>
-                            <b>
-                              Edit Information 
-                            </b>
+                          <p style={{ marginBottom: "1.9rem" }}>
+                            <b>Edit Information</b>
                           </p>
-                          
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
-                            <b  style={{ color: "#B6B6B6" }}>Applicant's Name</b>
+
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
+                            <b style={{ color: "#B6B6B6" }}>Applicant's Name</b>
                           </p>
-                         
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>
                               Installation Address
                             </b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>City</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>Zip</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>Email</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "2.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "2.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>Telephone Number</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "3.5rem" : "3.5rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "3.5rem" : "3.5rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>
                               Is Applicant the owner of the <br />
                               property?
                             </b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>MAILING ADDRESS</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>CITY</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>ZIP</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>
                               {application
                                 ? application.Type === "RESID"
@@ -708,10 +783,18 @@ function ViewApplication({
                               AGE
                             </b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>NEW CONSTRUCTION</b>
                           </p>
-                          <p style={{marginBottom: enable_edit ? "1.9rem" : "1rem" }}>
+                          <p
+                            style={{
+                              marginBottom: enable_edit ? "1.9rem" : "1rem",
+                            }}
+                          >
                             <b style={{ color: "#B6B6B6" }}>
                               {application
                                 ? application.Type === "RESID"
@@ -725,7 +808,6 @@ function ViewApplication({
                         <div>
                           <p>
                             <b>{application.Control_Number || "N/A"} </b>
-                             
                           </p>
                           <p>
                             <b>{application.Info_Account_no || "N/A"}</b>
@@ -735,272 +817,354 @@ function ViewApplication({
                           </p>
                           <p>
                             <b>{application.Account_Name || "N/A"}</b>
-                            
                           </p>
                           <p>
-                           {
-                             enable_edit?
-                            <Button variant="outline-danger" size="sm" onClick={()=> {
-                                    setEnableEdit(false)
-                                  }}>
-                                    <i className="fa fa-times"></i>
-                                  </Button>:
-                                   <Button variant="outline-success" size="sm" onClick={()=> {
-                                    setEnableEdit(true)
-                                  }}>
-                                    <i className="fa fa-edit"></i>
-                                  </Button>
-                           }
+                            {enable_edit ? (
+                              <Button
+                                variant="outline-danger"
+                                size="sm"
+                                onClick={() => {
+                                  setEnableEdit(false);
+                                }}
+                              >
+                                <i className="fa fa-times"></i>
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outline-success"
+                                size="sm"
+                                onClick={() => {
+                                  setEnableEdit(true);
+                                }}
+                              >
+                                <i className="fa fa-edit"></i>
+                              </Button>
+                            )}
                           </p>
                           <Form>
-<p>
-                            {/* Customer Name */}
-                            <InputGroup className="mb-3">
-                            
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Customer_name}
-                                  value= {customer_name}
-                                  onChange={(e)=>setCustomerName(e.target.value)}
-                                /> : <b className="ms-2">
-                                    
-                                  {application.Info_Customer_name || "N/A"}</b>
-                                }
+                            <p>
+                              {/* Customer Name */}
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={application.Info_Customer_name}
+                                    value={customer_name}
+                                    onChange={(e) =>
+                                      setCustomerName(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Customer_name || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                          </p>
-                          <p>
-                            {/* Installation Address */}
-                            <InputGroup className="mb-3">
-                               
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Service_location}
-                                  value= {service_location}
-                                  onChange={(e)=>setServiceLocation(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_Service_location || "N/A"}</b>
-                                }
-                                
+                            </p>
+                            <p>
+                              {/* Installation Address */}
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={
+                                      application.Info_Service_location
+                                    }
+                                    value={service_location}
+                                    onChange={(e) =>
+                                      setServiceLocation(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Service_location || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                           
-                          </p>
-                          <p>
-                            <InputGroup className="mb-3">
-                               
-                                {
-                                  enable_edit ?
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
                                   <Form.Select
-                                      onChange={(e) => changeZipCode(e)}
-                                      value={city_village}
-                                    >
-                                      <option selected hidden>{application.Info_City_village ? city_zipcode.find((p) => p._id === application.Info_City_village) ? city_zipcode.find((p) => p._id === application.Info_City_village).village :"N/A" : "N/A" || "N/A"}</option>
-                                      {city_zipcode.map((p) => (
-                                        <option key={p._id} value={p._id}>
-                                          {p.village}
-                                        </option>
-                                      ))}
-                                    </Form.Select>
-                                  :  <b className="ms-2">{application.Info_City_village ? city_zipcode.find((p) => p._id === application.Info_City_village) ? city_zipcode.find((p) => p._id === application.Info_City_village).village : "N/A"  : "N/A"  || "N/A"}</b>
-                                }
-                                
-                              </InputGroup>
-                            
-                          </p>
-                          <p>
-                             <InputGroup className="mb-3">
-                               
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Zipcode}
-                                  value= {zipcode}
-                                  onChange={(e)=>setZipCode(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_Zipcode || "N/A"}</b>
-                                }
-                                
-                              </InputGroup>
-                            
-                          </p>
-                          <p>
-                            <InputGroup className="mb-3">
-                            
-                                {
-                                  enable_edit ?
-                                   <Form.Control
-                                  placeholder={application.Info_Email}
-                                  value= {email}
-                                  type="email"
-                                  onChange={(e)=>setEmail(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_Email || "N/A"}</b>
-                                }
-                                
-                              </InputGroup>
-                            
-                          </p>
-                          <p>
-                            <InputGroup className="mb-3">
-                           
-                                {
-                                  enable_edit ?
-                                   <Form.Control
-                                  placeholder={application.Info_Tel_no}
-                                  value= {tel_no}
-                                  maxLength="10"
-                                  type="number"
-                                  onChange={(e)=>setTelNo(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_Tel_no || "N/A"}</b>
-                                }
-                                
-                              </InputGroup>
-                            
-                          </p>
-                          <p className="mt-5 mb-5">
-                            <InputGroup className="">
-                                {
-                                  enable_edit ?
-                                  <Form.Select
-                                    value= {is_applicant_owner}
-                                    onChange={(e)=>setIsApplicantOwner(e.target.value)}
+                                    onChange={(e) => changeZipCode(e)}
+                                    value={city_village}
                                   >
-
-                                    <option selected hidden>{application.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}</option>
+                                    <option selected hidden>
+                                      {application.Info_City_village
+                                        ? city_zipcode.find(
+                                            (p) =>
+                                              p._id ===
+                                              application.Info_City_village
+                                          )
+                                          ? city_zipcode.find(
+                                              (p) =>
+                                                p._id ===
+                                                application.Info_City_village
+                                            ).village
+                                          : "N/A"
+                                        : "N/A" || "N/A"}
+                                    </option>
+                                    {city_zipcode.map((p) => (
+                                      <option key={p._id} value={p._id}>
+                                        {p.village}
+                                      </option>
+                                    ))}
+                                  </Form.Select>
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_City_village
+                                      ? city_zipcode.find(
+                                          (p) =>
+                                            p._id ===
+                                            application.Info_City_village
+                                        )
+                                        ? city_zipcode.find(
+                                            (p) =>
+                                              p._id ===
+                                              application.Info_City_village
+                                          ).village
+                                        : "N/A"
+                                      : "N/A" || "N/A"}
+                                  </b>
+                                )}
+                              </InputGroup>
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={application.Info_Zipcode}
+                                    value={zipcode}
+                                    onChange={(e) => setZipCode(e.target.value)}
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Zipcode || "N/A"}
+                                  </b>
+                                )}
+                              </InputGroup>
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <Form.Control
+                                    placeholder={application.Info_Email}
+                                    value={email}
+                                    type="email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Email || "N/A"}
+                                  </b>
+                                )}
+                              </InputGroup>
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <Form.Control
+                                    placeholder={application.Info_Tel_no}
+                                    value={tel_no}
+                                    maxLength="10"
+                                    type="number"
+                                    onChange={(e) => setTelNo(e.target.value)}
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Tel_no || "N/A"}
+                                  </b>
+                                )}
+                              </InputGroup>
+                            </p>
+                            <p className="mt-5 mb-5">
+                              <InputGroup className="">
+                                {enable_edit ? (
+                                  <Form.Select
+                                    value={is_applicant_owner}
+                                    onChange={(e) =>
+                                      setIsApplicantOwner(e.target.value)
+                                    }
+                                  >
+                                    <option selected hidden>
+                                      {application.Info_Is_owner == 1
+                                        ? "YES"
+                                        : "NO" || "N/A"}
+                                    </option>
                                     <option value="0">NO</option>
                                     <option value="1">YES</option>
                                   </Form.Select>
-                                    :  <b className="ms-2">
-                                        {application.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
-                                      </b>
-                                }
-                                
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Is_owner == 1
+                                      ? "YES"
+                                      : "NO" || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                            
-                          </p>
-                          <p>
-                            <InputGroup className="mb-3">
-                            
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Mailing_address}
-                                  value= {mailing_address}
-                                  onChange={(e)=>setMailingAddress(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_Mailing_address || "N/A"}</b>
-                                }
-                                
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={
+                                      application.Info_Mailing_address
+                                    }
+                                    value={mailing_address}
+                                    onChange={(e) =>
+                                      setMailingAddress(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Mailing_address || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                            
-                          </p>
-                          <p>
-                            <InputGroup className="mb-3">
-                           
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Mailing_city}
-                                  value= {mailing_city_village}
-                                  onChange={(e)=>setMailingCityVillage(e.target.value)}
-                                /> :  <b className="ms-2">{application.Info_Mailing_city || "N/A"}</b>
-                                }
-                                
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={application.Info_Mailing_city}
+                                    value={mailing_city_village}
+                                    onChange={(e) =>
+                                      setMailingCityVillage(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Mailing_city || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                            
-                          </p>
-                          <p>
-                             <InputGroup className="mb-3">
-                          
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Mailing_zip}
-                                  value= {mailing_zipcode}
-                                  onChange={(e)=>setMailingZipCode(e.target.value)}
-                                /> : <b className="ms-2">{application.Info_Mailing_zip || "N/A"}</b>
-                                }
-                                
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={application.Info_Mailing_zip}
+                                    value={mailing_zipcode}
+                                    onChange={(e) =>
+                                      setMailingZipCode(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Mailing_zip || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                            
-                          </p>
-                          <p>
-                             <InputGroup className="mb-3">
-                                {
-                                  enable_edit ?
-                                   <FormControl
-                                  placeholder={application.Info_Home_age}
-                                  value= {home_age}
-                                  type="number"
-                                  onChange={(e)=>setHomeAge(e.target.value)}
-                                /> : <b className="ms-2">{application.Info_Home_age || "N/A"}</b>
-                                }
-                               
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <FormControl
+                                    placeholder={application.Info_Home_age}
+                                    value={home_age}
+                                    type="number"
+                                    onChange={(e) => setHomeAge(e.target.value)}
+                                  />
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Home_age || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                            
-                          </p>
-                          <p>
-                             <InputGroup className="mb-3">
-                                {
-                                  enable_edit ?
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
                                   <Form.Select
-                                  value= {is_new_construction}
-                                  onChange={(e)=>setIsNewConstruction(e.target.value)}
-                                  >
-                                      <option selected disabled hidden>{application.Info_New_construction ? "YES" : "NO" || "N/A"}</option>
-                                      <option value="true">YES</option>
-                                      <option value="false">NO</option>
-                                    </Form.Select>
-                                   :<b className="ms-2">{application.Info_New_construction ? "YES" : "NO" || "N/A"}</b>
-                                }
-                                
-                              </InputGroup>
-                            
-                          </p>
-                          <p>
-                             <InputGroup className="mb-3">
-                                {
-                                  enable_edit ?
-                                  <Form.Select 
-                                  value= {home_type}
-                                  onChange={(e)=>setHomeType(e.target.value)}
+                                    value={is_new_construction}
+                                    onChange={(e) =>
+                                      setIsNewConstruction(e.target.value)
+                                    }
                                   >
                                     <option selected disabled hidden>
-                                        {application.Info_Home_type}
-                                      </option>
-                                   {application
-                                      ? application.Type === "RESID"
-                                      ? 
-                                      <>
-                                        <option>Single Family</option>
-                                        <option>Apartment</option>
-                                        <option>Condo</option>
-                                        <option>Mobile Home</option>
-                                        <option>Other</option>
-                                      </>
-                                      : <>
-                                         <option value={"RETAIL"}>RETAIL</option>
-                                         <option value={"OFFICE"}>OFFICE</option>
-                                         <option value={"RELIGIOUS BUILDING"}>RELIGIOUS BUILDING</option>
-                                         <option value={"FINANCIAL INSTITUTION"}>FINANCIAL INSTITUTION</option>
-                                         <option value={"Other"}>Other</option>
-                                      </> :null
-                                    }
+                                      {application.Info_New_construction
+                                        ? "YES"
+                                        : "NO" || "N/A"}
+                                    </option>
+                                    <option value="true">YES</option>
+                                    <option value="false">NO</option>
                                   </Form.Select>
-                                   :<b className="ms-2">{application.Info_Home_type || "N/A"}</b>
-                                }
-                                
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_New_construction
+                                      ? "YES"
+                                      : "NO" || "N/A"}
+                                  </b>
+                                )}
                               </InputGroup>
-                            
-                          </p>
-                          {
-                            enable_edit ?
-                            <>
-                             <Button variant="success" onClick={()=> handleEditInfo()} className="me-2">Save</Button>
-                             <Button variant="secondary" onClick={()=>{
-                               setEnableEdit(false);
-                            }}>Cancel</Button
-                             ></>:null
-                          }
-                            </Form>
-
+                            </p>
+                            <p>
+                              <InputGroup className="mb-3">
+                                {enable_edit ? (
+                                  <Form.Select
+                                    value={home_type}
+                                    onChange={(e) =>
+                                      setHomeType(e.target.value)
+                                    }
+                                  >
+                                    <option selected disabled hidden>
+                                      {application.Info_Home_type}
+                                    </option>
+                                    {application ? (
+                                      application.Type === "RESID" ? (
+                                        <>
+                                          <option>Single Family</option>
+                                          <option>Apartment</option>
+                                          <option>Condo</option>
+                                          <option>Mobile Home</option>
+                                          <option>Other</option>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <option value={"RETAIL"}>
+                                            RETAIL
+                                          </option>
+                                          <option value={"OFFICE"}>
+                                            OFFICE
+                                          </option>
+                                          <option value={"RELIGIOUS BUILDING"}>
+                                            RELIGIOUS BUILDING
+                                          </option>
+                                          <option
+                                            value={"FINANCIAL INSTITUTION"}
+                                          >
+                                            FINANCIAL INSTITUTION
+                                          </option>
+                                          <option value={"Other"}>Other</option>
+                                        </>
+                                      )
+                                    ) : null}
+                                  </Form.Select>
+                                ) : (
+                                  <b className="ms-2">
+                                    {application.Info_Home_type || "N/A"}
+                                  </b>
+                                )}
+                              </InputGroup>
+                            </p>
+                            {enable_edit ? (
+                              <>
+                                <Button
+                                  variant="success"
+                                  onClick={() => handleEditInfo()}
+                                  className="me-2"
+                                >
+                                  Save
+                                </Button>
+                                <Button
+                                  variant="secondary"
+                                  onClick={() => {
+                                    setEnableEdit(false);
+                                  }}
+                                >
+                                  Cancel
+                                </Button>
+                              </>
+                            ) : null}
+                          </Form>
                         </div>
                       </>
                     ) : (
@@ -1018,9 +1182,7 @@ function ViewApplication({
                           <b>{application.Info_Bill_id || "N/A"}</b>
                         </p>
                         <p>
-                          <b style={{ color: "#B6B6B6" }}>
-                            Applicant's Name
-                          </b>
+                          <b style={{ color: "#B6B6B6" }}>Applicant's Name</b>
                           <br />
                           <b>{application.Info_Customer_name || "N/A"}</b>
                         </p>
@@ -1090,9 +1252,7 @@ function ViewApplication({
                           <b>{application.Info_Home_type || "N/A"}</b>
                         </p>
                       </div>
-                      
                     )}
-
                   </ListGroup>
                 ) : (
                   <></>
@@ -1111,16 +1271,16 @@ function ViewApplication({
                         <tr>
                           <th>#</th>
                           <th>System Type</th>
-                            {
-                            application ? 
-                            application.New_equipment[0].newEquip_System_type !== "Dryer" ?
-                            application.New_equipment[0].newEquip_System_type !== "Washer" ?
-                            <th>
-                                BTU
-                             </th>
-                            :null : null : null
-                            }
-                       
+                          {application ? (
+                            application.New_equipment[0]
+                              .newEquip_System_type !== "Dryer" ? (
+                              application.New_equipment[0]
+                                .newEquip_System_type !== "Washer" ? (
+                                <th>BTU</th>
+                              ) : null
+                            ) : null
+                          ) : null}
+
                           <th>Vendor</th>
                           <th>Manu facturer</th>
                           <th>Model Number</th>
@@ -1138,160 +1298,234 @@ function ViewApplication({
                         </tr>
                       </thead>
                       <tbody>
-                        {
-                          application
+                        {application
                           ? application?.New_equipment?.length === 0
                             ? []
-                            : application.New_equipment.map((equip, indx) => 
-                            <tr>
-                              <td>{indx+1}</td>
-                              <td>
-                                {
-                                  enable_equipment_edit ?
-                                    <Form.Select
-                                      onChange={(e) => changeSystemTypeHandler(e.target.value)}
-                                      value={system_type}
-                                    >
-                                      <option defaultValue hidden>
-                                        {equip.newEquip_System_type}
-                                      </option>
-                                      {application.Type === "RESID" ? (
-                                        <>
-                                          <option value="Central AC">Central AC</option>
-                                          <option value="Split AC">Split AC</option>
-                                          <option value="Window AC">Window AC</option>
-                                          <option value="Washer">Washer</option>
-                                          <option value="Dryer">Dryer</option>
-                                        </>
-                                      ) : (
-                                        <>
-                                          <option value="Central AC">Central AC - Commercial</option>
-                                          <option value="Split AC">Split AC - Commercial</option>
-                                          {/* <option value="Window AC">Window AC - Commercial</option> */}
-                                        </>
-                                      )}
-                                    </Form.Select>
-                                  : equip.newEquip_System_type
-                                }
-                              </td>
-                                {
-                                  equip.newEquip_System_type !== "Washer" ?
-                                  equip.newEquip_System_type !== "Dryer"?
-                                    <td>
-                                      {
-                                        enable_equipment_edit ?
-                                         <FormControl 
-                                            placeholder={equip.newEquip_Btu}
-                                            value={equipment_detail? equipment_detail[0]?.btu: null}
-                                            onChange={(e)=> setBtu(e.target.value)}
-                                          />
-                                        :equip.newEquip_Btu
-                                      }
-                                    </td>
-                                  :null :null
-                                }
-                              <td>
-                                {
-                                  enable_equipment_edit?
-                                   <Form.Select
-                                       onChange={(e)=> setVendor(e.target.value)}
-                                     value={vendor}
-                                    >
-                                      <option hidden> {equip.newEquip_Vendor}</option>
-                                      {
-                                        equipment_detail?
-                                        <option>{equipment_detail[0]?.vendor}</option>
-                                        :null
-                                      }
-                                      </Form.Select>
-                                  :equip.newEquip_Vendor
-                                }
-                              </td>
-                              <td>
-                                {
-                                  enable_equipment_edit?
-                                    <Form.Select
-                                      onChange={(e) => changeManufacturerHandler(e.target.value)}
-                                      value={manufacturer}
-                                    >
-                                      <option defaultValue hidden>
-                                        {equip.newEquip_Manufacturer}
-                                      </option>
-
-                                      {manufacturers ? (
-                                        manufacturers.map((ce) => (
-                                          <option key={ce.Manufacturer} value={ce.Manufacturer}>
-                                            {ce.Manufacturer}
-                                          </option>
-                                        ))
-                                      ) : (
-                                        <option>Loading . . .</option>
-                                      )}
-                                    </Form.Select>
-                                  :equip.newEquip_Manufacturer
-                                }
-                                </td>
-                              <td>
-                                {
-                                  enable_equipment_edit?
-                                  <Form.Select
-                                      value={model_no}
-                                      onChange={(e) => changeModelHandler(e.target.value)}
-                                    >
-                                      <option selected hidden>
-                                        {equip.newEquip_Model_no}
-                                      </option>
-
-                                      {
-                                        models ?
-                                          models.map(mod => 
-                                            <option value={mod?.id}>{mod?.indoor_model}/{mod?.outdoor_model}</option>
+                            : application.New_equipment.map((equip, indx) => (
+                                <tr>
+                                  <td>{indx + 1}</td>
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <Form.Select
+                                        onChange={(e) =>
+                                          changeSystemTypeHandler(
+                                            e.target.value
                                           )
-                                        :<></>
-                                      }
-                                    </Form.Select>
-                                  :equip.newEquip_Model_no
-                                }
-                              </td>
-                              <td>
-                                {
-                                  enable_equipment_edit?
-                                   <FormControl 
-                                      placeholder={equip.newEquip_Invoice_no}
-                                      value={invoice_no}
-                                      onChange={(e)=> setInvoiceNo(e.target.value)}
-                                    />
-                                  :equip.newEquip_Invoice_no
-                                }
-                                </td>
-                              {/* <td>{equip.newEquip_Tons}</td> */}
-                              <td>
-                                {
-                                  enable_equipment_edit?
-                                   <FormControl 
-                                      placeholder={equip.newEquip_Purchase_date}
-                                      value={purchase_date}
-                                      onChange={(e)=> setPurchaseDate(e.target.value)}
-                                    />
-                                  :equip.newEquip_Purchase_date
-                                }
-                                </td>
-                              <td>
-                                {
-                                  enable_equipment_edit ? 
-                                <>
-                                <Button size="sm" variant="success" onClick={()=>handleEditNewEquipment(equip.newEquip_id, indx)} className="me-2"><i className="fa fa-save"></i></Button>
-                                <Button size="sm" variant="danger" onClick={()=> setEnableEquipmentEdit(false)}><i className="fa fa-times"></i></Button>
-                                </>
-                                :<Button variant="success" size="sm" onClick={()=> handleEquipmentEdit(equip.newEquip_id, equip.newEquip_System_type, equip.newEquip_Manufacturer, equip.newEquip_Model_no)}><i className="fa fa-edit"></i></Button>
-                                }
-                              </td>
-                            </tr>)
-                          : []
-                        }
+                                        }
+                                        value={system_type}
+                                      >
+                                        <option defaultValue hidden>
+                                          {equip.newEquip_System_type}
+                                        </option>
+                                        {application.Type === "RESID" ? (
+                                          <>
+                                            <option value="Central AC">
+                                              Central AC
+                                            </option>
+                                            <option value="Split AC">
+                                              Split AC
+                                            </option>
+                                            <option value="Window AC">
+                                              Window AC
+                                            </option>
+                                            <option value="Washer">
+                                              Washer
+                                            </option>
+                                            <option value="Dryer">Dryer</option>
+                                          </>
+                                        ) : (
+                                          <>
+                                            <option value="Central AC">
+                                              Central AC - Commercial
+                                            </option>
+                                            <option value="Split AC">
+                                              Split AC - Commercial
+                                            </option>
+                                            {/* <option value="Window AC">Window AC - Commercial</option> */}
+                                          </>
+                                        )}
+                                      </Form.Select>
+                                    ) : (
+                                      equip.newEquip_System_type
+                                    )}
+                                  </td>
+                                  {equip.newEquip_System_type !== "Washer" ? (
+                                    equip.newEquip_System_type !== "Dryer" ? (
+                                      <td>
+                                        {enable_equipment_edit ? (
+                                          <FormControl
+                                            placeholder={equip.newEquip_Btu}
+                                            value={
+                                              equipment_detail
+                                                ? equipment_detail[0]?.btu
+                                                : null
+                                            }
+                                            onChange={(e) =>
+                                              setBtu(e.target.value)
+                                            }
+                                          />
+                                        ) : (
+                                          equip.newEquip_Btu
+                                        )}
+                                      </td>
+                                    ) : null
+                                  ) : null}
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <Form.Select
+                                        onChange={(e) =>
+                                          setVendor(e.target.value)
+                                        }
+                                        value={vendor}
+                                      >
+                                        <option hidden>
+                                          {" "}
+                                          {equip.newEquip_Vendor}
+                                        </option>
+                                        {equipment_detail ? (
+                                          <option>
+                                            {equipment_detail[0]?.vendor}
+                                          </option>
+                                        ) : null}
+                                      </Form.Select>
+                                    ) : (
+                                      equip.newEquip_Vendor
+                                    )}
+                                  </td>
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <Form.Select
+                                        onChange={(e) =>
+                                          changeManufacturerHandler(
+                                            e.target.value
+                                          )
+                                        }
+                                        value={manufacturer}
+                                      >
+                                        <option defaultValue hidden>
+                                          {equip.newEquip_Manufacturer}
+                                        </option>
 
+                                        {manufacturers ? (
+                                          manufacturers.map((ce) => (
+                                            <option
+                                              key={ce.Manufacturer}
+                                              value={ce.Manufacturer}
+                                            >
+                                              {ce.Manufacturer}
+                                            </option>
+                                          ))
+                                        ) : (
+                                          <option>Loading . . .</option>
+                                        )}
+                                      </Form.Select>
+                                    ) : (
+                                      equip.newEquip_Manufacturer
+                                    )}
+                                  </td>
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <Form.Select
+                                        value={model_no}
+                                        onChange={(e) =>
+                                          changeModelHandler(e.target.value)
+                                        }
+                                      >
+                                        <option selected hidden>
+                                          {equip.newEquip_Model_no}
+                                        </option>
+
+                                        {models ? (
+                                          models.map((mod) => (
+                                            <option value={mod?.id}>
+                                              {mod?.indoor_model}/
+                                              {mod?.outdoor_model}
+                                            </option>
+                                          ))
+                                        ) : (
+                                          <></>
+                                        )}
+                                      </Form.Select>
+                                    ) : (
+                                      equip.newEquip_Model_no
+                                    )}
+                                  </td>
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <FormControl
+                                        placeholder={equip.newEquip_Invoice_no}
+                                        value={invoice_no}
+                                        onChange={(e) =>
+                                          setInvoiceNo(e.target.value)
+                                        }
+                                      />
+                                    ) : (
+                                      equip.newEquip_Invoice_no
+                                    )}
+                                  </td>
+                                  {/* <td>{equip.newEquip_Tons}</td> */}
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <FormControl
+                                        placeholder={
+                                          equip.newEquip_Purchase_date
+                                        }
+                                        value={purchase_date}
+                                        onChange={(e) =>
+                                          setPurchaseDate(e.target.value)
+                                        }
+                                      />
+                                    ) : (
+                                      equip.newEquip_Purchase_date
+                                    )}
+                                  </td>
+                                  <td>
+                                    {enable_equipment_edit ? (
+                                      <>
+                                        <Button
+                                          size="sm"
+                                          variant="success"
+                                          onClick={() =>
+                                            handleEditNewEquipment(
+                                              equip.newEquip_id,
+                                              indx
+                                            )
+                                          }
+                                          className="me-2"
+                                        >
+                                          <i className="fa fa-save"></i>
+                                        </Button>
+                                        <Button
+                                          size="sm"
+                                          variant="danger"
+                                          onClick={() =>
+                                            setEnableEquipmentEdit(false)
+                                          }
+                                        >
+                                          <i className="fa fa-times"></i>
+                                        </Button>
+                                      </>
+                                    ) : (
+                                      <Button
+                                        variant="success"
+                                        size="sm"
+                                        onClick={() =>
+                                          handleEquipmentEdit(
+                                            equip.newEquip_id,
+                                            equip.newEquip_System_type,
+                                            equip.newEquip_Manufacturer,
+                                            equip.newEquip_Model_no
+                                          )
+                                        }
+                                      >
+                                        <i className="fa fa-edit"></i>
+                                      </Button>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))
+                          : []}
                       </tbody>
-
                     </Table>
                     {/* <MaterialTable
                       columns={[
@@ -1347,7 +1581,14 @@ function ViewApplication({
                       application?.New_equipment?.length >= 1 ? (
                         <>
                           <h3 className="mt-3 mb-3 text-info">
-                            Installer Information <Button onClick={()=> setEnableInstallerEdit(true)} variant="success" size="sm"><i className="fa fa-edit"></i></Button>
+                            Installer Information{" "}
+                            <Button
+                              onClick={() => setEnableInstallerEdit(true)}
+                              variant="success"
+                              size="sm"
+                            >
+                              <i className="fa fa-edit"></i>
+                            </Button>
                           </h3>
                           <ListGroup
                             className="mb-3"
@@ -1361,7 +1602,8 @@ function ViewApplication({
                                 <b style={{ color: "#B6B6B6" }}>
                                   Technician Name
                                 </b>
-                              </p>{enable_installer_edit ? <br /> : null}
+                              </p>
+                              {enable_installer_edit ? <br /> : null}
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
                                   Work Telephone
@@ -1369,22 +1611,24 @@ function ViewApplication({
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>Company</b>
-                              </p>{enable_installer_edit ? <br /> : null}
+                              </p>
+                              {enable_installer_edit ? <br /> : null}
 
-                              {
-                                application.New_equipment[0].newEquip_System_type !== "Washer" ?
-                                application.New_equipment[0].newEquip_System_type !== "Dryer" ?
+                              {application.New_equipment[0]
+                                .newEquip_System_type !== "Washer" ? (
+                                application.New_equipment[0]
+                                  .newEquip_System_type !== "Dryer" ? (
                                   <>
-                                  <p>
-                                    <b style={{ color: "#B6B6B6" }}>
-                                      Certification No.
-                                    </b>
-                                  </p>{enable_installer_edit ? <br /> : null}
+                                    <p>
+                                      <b style={{ color: "#B6B6B6" }}>
+                                        Certification No.
+                                      </b>
+                                    </p>
+                                    {enable_installer_edit ? <br /> : null}
                                   </>
-                                :null
-                                :null
-                              }
-                              
+                                ) : null
+                              ) : null}
+
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>Email</b>
                               </p>
@@ -1392,136 +1636,171 @@ function ViewApplication({
                                 <b style={{ color: "#B6B6B6" }}>
                                   Date of Final
                                 </b>
-                              </p>{enable_installer_edit ? <br /> : null}
-                              {
-                                console.log(Math.abs(
-                                new Date(application.New_equipment[0].newEquip_Purchase_date) -
-                                  new Date(application.Installer_New_finaldate)
-                              ) /
-                                (1000 * 3600 * 24))
-                              }
-                              {
+                              </p>
+                              {enable_installer_edit ? <br /> : null}
+                              {console.log(
                                 Math.abs(
-                                new Date(application.New_equipment[0].newEquip_Purchase_date) -
+                                  new Date(
+                                    application.New_equipment[0].newEquip_Purchase_date
+                                  ) -
+                                    new Date(
+                                      application.Installer_New_finaldate
+                                    )
+                                ) /
+                                  (1000 * 3600 * 24)
+                              )}
+                              {Math.abs(
+                                new Date(
+                                  application.New_equipment[0].newEquip_Purchase_date
+                                ) -
                                   new Date(application.Installer_New_finaldate)
                               ) /
                                 (1000 * 3600 * 24) >
-                              120 ? <p>
+                              120 ? (
+                                <p>
                                   <b style={{ color: "#B6B6B6" }}>
-                                  Reason for Exceeding 120 days
-                                </b>
-                              </p>:null
-                              }
+                                    Reason for Exceeding 120 days
+                                  </b>
+                                </p>
+                              ) : null}
                             </div>
                             <div>
                               <p>
-                                {
-                                  enable_installer_edit ?
-                                   <FormControl
-                                  placeholder={application.Installer_New_name}
-                                  value= {installer_name}
-                                  onChange={(e)=>setInstallerName(e.target.value)}
-                                />: <b>{application.Installer_New_name || "N/A"}</b>
-                                }
-                               
+                                {enable_installer_edit ? (
+                                  <FormControl
+                                    placeholder={application.Installer_New_name}
+                                    value={installer_name}
+                                    onChange={(e) =>
+                                      setInstallerName(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b>
+                                    {application.Installer_New_name || "N/A"}
+                                  </b>
+                                )}
                               </p>
                               <p>
-                                {
-                                  enable_installer_edit ?
-                                   <FormControl
-                                  placeholder={application.Installer_New_worktel}
-                                  value= {work_tel}
-                                  onChange={(e)=>setWorkTel(e.target.value)}
-                                />:  <b>
-                                  {application.Installer_New_worktel || "N/A"}
-                                </b>
-                                }
-                               
+                                {enable_installer_edit ? (
+                                  <FormControl
+                                    placeholder={
+                                      application.Installer_New_worktel
+                                    }
+                                    value={work_tel}
+                                    onChange={(e) => setWorkTel(e.target.value)}
+                                  />
+                                ) : (
+                                  <b>
+                                    {application.Installer_New_worktel || "N/A"}
+                                  </b>
+                                )}
                               </p>
                               <p>
-                                 {
-                                  enable_installer_edit ?
-                                   <FormControl
-                                  placeholder={application.Installer_New_companyname || "N/A"}
-                                  value= {company}
-                                  onChange={(e)=>setCompany(e.target.value)}
-                                />:   
-                                <b>
-                                        {application.Installer_New_companyname || "N/A"}
-                                </b>
-                                }
+                                {enable_installer_edit ? (
+                                  <FormControl
+                                    placeholder={
+                                      application.Installer_New_companyname ||
+                                      "N/A"
+                                    }
+                                    value={company}
+                                    onChange={(e) => setCompany(e.target.value)}
+                                  />
+                                ) : (
+                                  <b>
+                                    {application.Installer_New_companyname ||
+                                      "N/A"}
+                                  </b>
+                                )}
                               </p>
                               <p>
-                               
-                                  {
-                                    application.New_equipment[0].newEquip_System_type !== "Washer" ?
-                                    application.New_equipment[0].newEquip_System_type !== "Dryer" ?
-                                      <>
-                                      {
-                                          enable_installer_edit ?
-                                          <FormControl
-                                          placeholder={ application.Installer_New_certno || "N/A"}
-                                          value= {cert_no}
-                                          onChange={(e)=>setCertNo(e.target.value)}
-                                        />:   
+                                {application.New_equipment[0]
+                                  .newEquip_System_type !== "Washer" ? (
+                                  application.New_equipment[0]
+                                    .newEquip_System_type !== "Dryer" ? (
+                                    <>
+                                      {enable_installer_edit ? (
+                                        <FormControl
+                                          placeholder={
+                                            application.Installer_New_certno ||
+                                            "N/A"
+                                          }
+                                          value={cert_no}
+                                          onChange={(e) =>
+                                            setCertNo(e.target.value)
+                                          }
+                                        />
+                                      ) : (
                                         <b>
-                                                { application.Installer_New_certno || "N/A"}
+                                          {application.Installer_New_certno ||
+                                            "N/A"}
                                         </b>
-                                      }
-                                      </>
-                                     
-                                    :null
-                                    :null
-                                  }
-                                
+                                      )}
+                                    </>
+                                  ) : null
+                                ) : null}
                               </p>
                               <p>
-                                {
-                                  enable_installer_edit ?
-                                   <FormControl
-                                  placeholder={application.Installer_New_email || "N/A"}
-                                  value= {installer_email}
-                                  onChange={(e)=>setInstallerEmail(e.target.value)}
-                                />:   
-                                <b>
-                                  {application.Installer_New_email || "N/A"}
-                                </b>
-                                }
-                               
+                                {enable_installer_edit ? (
+                                  <FormControl
+                                    placeholder={
+                                      application.Installer_New_email || "N/A"
+                                    }
+                                    value={installer_email}
+                                    onChange={(e) =>
+                                      setInstallerEmail(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b>
+                                    {application.Installer_New_email || "N/A"}
+                                  </b>
+                                )}
                               </p>
                               <p>
-                                 {
-                                  enable_installer_edit ?
-                                   <FormControl
-                                  placeholder={application.Installer_New_finaldate}
-                                  value= {installer_final_date}
-                                  onChange={(e)=>setInstallerFinalDate(e.target.value)}
-                                />:   
-                                <b>
-                                  {application.Installer_New_finaldate || "N/A"}
-                                </b>
-                                }
-                                
+                                {enable_installer_edit ? (
+                                  <FormControl
+                                    placeholder={
+                                      application.Installer_New_finaldate
+                                    }
+                                    value={installer_final_date}
+                                    onChange={(e) =>
+                                      setInstallerFinalDate(e.target.value)
+                                    }
+                                  />
+                                ) : (
+                                  <b>
+                                    {application.Installer_New_finaldate ||
+                                      "N/A"}
+                                  </b>
+                                )}
                               </p>
-                              {
-                                Math.abs(
-                                new Date(application.New_equipment[0].newEquip_Purchase_date) -
+                              {Math.abs(
+                                new Date(
+                                  application.New_equipment[0].newEquip_Purchase_date
+                                ) -
                                   new Date(application.Installer_New_finaldate)
                               ) /
                                 (1000 * 3600 * 24) >
-                              120 ? <p>
-                                  <b>
-                                    {application.Delay_Reason}
-                                  </b>
-                              </p>:null
-                              }
-                              {
-                                enable_installer_edit ?
+                              120 ? (
+                                <p>
+                                  <b>{application.Delay_Reason}</b>
+                                </p>
+                              ) : null}
+                              {enable_installer_edit ? (
                                 <>
-                                  <Button variant="success"  className="me-2">Save</Button>
-                                  <Button variant="secondary" onClick={()=> setEnableInstallerEdit(false)} >Cancel</Button>
-                                </>: null
-                              }
+                                  <Button variant="success" className="me-2">
+                                    Save
+                                  </Button>
+                                  <Button
+                                    variant="secondary"
+                                    onClick={() =>
+                                      setEnableInstallerEdit(false)
+                                    }
+                                  >
+                                    Cancel
+                                  </Button>
+                                </>
+                              ) : null}
                             </div>
                           </ListGroup>
                         </>
@@ -1599,57 +1878,62 @@ function ViewApplication({
                       <th>System Type</th>
                       <th>Years</th>
                       <th>Quantity</th>
-                      {
-                        application ?
-                        application.New_equipment[0].newEquip_System_type !== "Washer" ?
-                        application.New_equipment[0].newEquip_System_type !== "Dryer" ?
-                          <th>TONS</th>
-                        :<th>CUBIC SQ.</th>
-                        :<th>CUBIC SQ.</th>:null
-                      }
+                      {application ? (
+                        application.New_equipment[0].newEquip_System_type !==
+                        "Washer" ? (
+                          application.New_equipment[0].newEquip_System_type !==
+                          "Dryer" ? (
+                            <th>TONS</th>
+                          ) : (
+                            <th>CUBIC SQ.</th>
+                          )
+                        ) : (
+                          <th>CUBIC SQ.</th>
+                        )
+                      ) : null}
                       <th>Eqpmt. Condition</th>
-                      {
-                        application ?
-                        application.New_equipment[0].newEquip_System_type !== "Washer" ?
-                        application.New_equipment[0].newEquip_System_type !== "Dryer" ?
-                          <th>SEER</th>
-                        :null
-                        :null:null
-                      }
+                      {application ? (
+                        application.New_equipment[0].newEquip_System_type !==
+                        "Washer" ? (
+                          application.New_equipment[0].newEquip_System_type !==
+                          "Dryer" ? (
+                            <th>SEER</th>
+                          ) : null
+                        ) : null
+                      ) : null}
                       <th>Disposal Party</th>
                       <th>Disposal Date</th>
                     </tr>
-                    </thead>
-                    <tbody>
-                      {
-                        application
-                        ? application?.Old_equipment?.length === 0
-                          ? []
-                          : application.Old_equipment.map((old_eqiup, indx) =>
-                          <tr>
-                            <td>{indx + 1}</td>
-                            <td>{old_eqiup.oldEquip_System_type}</td>
-                            <td>{old_eqiup.oldEquip_Years}</td>
-                            <td>{old_eqiup.oldEquip_Quantity}</td>
-                            <td>{old_eqiup.oldEquip_Tons}</td>
-                            <td>{old_eqiup.oldEquip_Conditon}</td>
-                            {
-                              application ?
-                              application.New_equipment[0].newEquip_System_type !== "Washer" ?
-                              application.New_equipment[0].newEquip_System_type !== "Dryer" ?
-                                <td>{old_eqiup.oldEquip_Seer}</td>
-                              :null
-                              :null:null
-                            }
-                            
-                            <td>{old_eqiup.oldEquip_Disposal_party}</td>
-                            <td>{old_eqiup.oldEquip_Disposal_date}</td>
-                          </tr>)
-                        : []
-                      }
-                    </tbody>
+                  </thead>
+                  <tbody>
+                    {application
+                      ? application?.Old_equipment?.length === 0
+                        ? []
+                        : application.Old_equipment.map((old_eqiup, indx) => (
+                            <tr>
+                              <td>{indx + 1}</td>
+                              <td>{old_eqiup.oldEquip_System_type}</td>
+                              <td>{old_eqiup.oldEquip_Years}</td>
+                              <td>{old_eqiup.oldEquip_Quantity}</td>
+                              <td>{old_eqiup.oldEquip_Tons}</td>
+                              <td>{old_eqiup.oldEquip_Conditon}</td>
+                              {application ? (
+                                application.New_equipment[0]
+                                  .newEquip_System_type !== "Washer" ? (
+                                  application.New_equipment[0]
+                                    .newEquip_System_type !== "Dryer" ? (
+                                    <td>{old_eqiup.oldEquip_Seer}</td>
+                                  ) : null
+                                ) : null
+                              ) : null}
 
-                  </Table>
+                              <td>{old_eqiup.oldEquip_Disposal_party}</td>
+                              <td>{old_eqiup.oldEquip_Disposal_date}</td>
+                            </tr>
+                          ))
+                      : []}
+                  </tbody>
+                </Table>
                 {/* <MaterialTable
                   columns={[
                     { title: "System Type", field: "oldEquip_System_type" },
@@ -1785,25 +2069,31 @@ function ViewApplication({
                               }}
                             >
                               <span>IRS-W9 </span>
-                              {application.Submitted_docs ? 
+                              {application.Submitted_docs ? (
                                 application.Submitted_docs[0].irs_form !==
                                 null ? (
-                              <Button
-                                className="mb-2"
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    irs
-                                      ? irs
-                                      : application.Submitted_docs[0].irs_form
-                                  )
-                                }
-                                size={"sm"}
-                                style={{ marginLeft: "auto" }}
-                              >
-                                Download
-                              </Button>): <small className="text-danger">(*No file uploaded)</small> :null
-                            }
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        irs
+                                          ? irs
+                                          : application.Submitted_docs[0]
+                                              .irs_form
+                                      )
+                                    }
+                                    size={"sm"}
+                                    style={{ marginLeft: "auto" }}
+                                  >
+                                    Download
+                                  </Button>
+                                ) : (
+                                  <small className="text-danger">
+                                    (*No file uploaded)
+                                  </small>
+                                )
+                              ) : null}
                             </div>
 
                             <Form.Group controlId="irs_form" className="mb-3">
@@ -1857,26 +2147,32 @@ function ViewApplication({
                               }}
                             >
                               <span>Letter of Authorization </span>
-                              {application.Submitted_docs ? 
-                                application.Submitted_docs[0].letter_authorization !==
-                                null ? (
-                              <Button
-                                className="mb-2"
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    loa
-                                      ? loa
-                                      : application.Submitted_docs[0]
-                                          .letter_authorization
-                                  )
-                                }
-                                size={"sm"}
-                                style={{ marginLeft: "auto" }}
-                              >
-                                Download {" "}
-                              </Button>) : <small className="text-danger"> (*No file uploaded)</small> :null
-                              }
+                              {application.Submitted_docs ? (
+                                application.Submitted_docs[0]
+                                  .letter_authorization !== null ? (
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        loa
+                                          ? loa
+                                          : application.Submitted_docs[0]
+                                              .letter_authorization
+                                      )
+                                    }
+                                    size={"sm"}
+                                    style={{ marginLeft: "auto" }}
+                                  >
+                                    Download{" "}
+                                  </Button>
+                                ) : (
+                                  <small className="text-danger">
+                                    {" "}
+                                    (*No file uploaded)
+                                  </small>
+                                )
+                              ) : null}
                             </div>
                             <Form.Group
                               controlId="letter_authorization"
@@ -1932,26 +2228,31 @@ function ViewApplication({
                               }}
                             >
                               <span>Disposal Slip </span>
-                              {application.Submitted_docs ? 
+                              {application.Submitted_docs ? (
                                 application.Submitted_docs[0].disposal_slip !==
                                 null ? (
-                              <Button
-                                className="mb-2"
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    disp
-                                      ? disp
-                                      : application.Submitted_docs[0]
-                                          .disposal_slip
-                                  )
-                                }
-                                size={"sm"}
-                                style={{ marginLeft: "auto" }}
-                              >
-                                Download
-                              </Button>) : <small className="text-danger">(*No file uploaded )</small> : null 
-                              }
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        disp
+                                          ? disp
+                                          : application.Submitted_docs[0]
+                                              .disposal_slip
+                                      )
+                                    }
+                                    size={"sm"}
+                                    style={{ marginLeft: "auto" }}
+                                  >
+                                    Download
+                                  </Button>
+                                ) : (
+                                  <small className="text-danger">
+                                    (*No file uploaded )
+                                  </small>
+                                )
+                              ) : null}
                             </div>
                             <Form.Group
                               controlId="disposal_slilp"
@@ -2008,25 +2309,31 @@ function ViewApplication({
                               }}
                             >
                               <span>Other Document 1 </span>
-                              {application.Submitted_docs ? 
+                              {application.Submitted_docs ? (
                                 application.Submitted_docs[0].other_doc2 !==
                                 null ? (
-                              <Button
-                                className="mb-2"
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    oth1
-                                      ? oth1
-                                      : application.Submitted_docs[0].other_doc2
-                                  )
-                                }
-                                size={"sm"}
-                                style={{ marginLeft: "auto" }}
-                              >
-                                Download
-                              </Button>) : <small className="text-danger">(*No file uploaded)</small> :null 
-                              }
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        oth1
+                                          ? oth1
+                                          : application.Submitted_docs[0]
+                                              .other_doc2
+                                      )
+                                    }
+                                    size={"sm"}
+                                    style={{ marginLeft: "auto" }}
+                                  >
+                                    Download
+                                  </Button>
+                                ) : (
+                                  <small className="text-danger">
+                                    (*No file uploaded)
+                                  </small>
+                                )
+                              ) : null}
                             </div>
 
                             <Form.Group controlId="other_doc1" className="mb-3">
@@ -2081,25 +2388,31 @@ function ViewApplication({
                               }}
                             >
                               <span>Other Document 2 </span>
-                              {application.Submitted_docs ? 
+                              {application.Submitted_docs ? (
                                 application.Submitted_docs[0].other_doc3 !==
                                 null ? (
-                              <Button
-                                className="mb-2"
-                                variant={"success"}
-                                onClick={() =>
-                                  handleRetrieveFile(
-                                    oth2
-                                      ? oth2
-                                      : application.Submitted_docs[0].other_doc3
-                                  )
-                                }
-                                size={"sm"}
-                                style={{ marginLeft: "auto" }}
-                              >
-                                Download
-                              </Button>) : <small className="text-danger">(*No file uploaded)</small> : null 
-                              }
+                                  <Button
+                                    className="mb-2"
+                                    variant={"success"}
+                                    onClick={() =>
+                                      handleRetrieveFile(
+                                        oth2
+                                          ? oth2
+                                          : application.Submitted_docs[0]
+                                              .other_doc3
+                                      )
+                                    }
+                                    size={"sm"}
+                                    style={{ marginLeft: "auto" }}
+                                  >
+                                    Download
+                                  </Button>
+                                ) : (
+                                  <small className="text-danger">
+                                    (*No file uploaded)
+                                  </small>
+                                )
+                              ) : null}
                             </div>
 
                             <Form.Group
@@ -2154,11 +2467,7 @@ function ViewApplication({
                   </ListGroup>
                 </Container>
                 <Container className="ml-2 mr-2">
-                  {roleId !== 4 && roleId !== 7 ? (
-                    null
-                  ) : (
-                    <></>
-                  )}
+                  {roleId !== 4 && roleId !== 7 ? null : <></>}
                   {roleId !== 7 ? (
                     <Row>
                       <Col md={12}>
@@ -2423,46 +2732,55 @@ function ViewApplication({
                   )}
                   <Row className="mt-4">
                     <Col md={9}>
-            <Form>
-              <Form.Group className="mb-3" controlId="comment">
-                <Form.Label>
-                  <b>Comments</b>
-                </Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={5}
-                  onChange={(e) => changeCommentHandler(e.target.value)}
-                  value={comment}
-                />
-              </Form.Group>
-              <Button onClick={() => addCommentHandler()} variant="success">
-                Submit
-              </Button>
-              <br />
-              <br />
-            </Form>
-            <hr />
+                      <Form>
+                        <Form.Group className="mb-3" controlId="comment">
+                          <Form.Label>
+                            <b>Comments</b>
+                          </Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            rows={5}
+                            onChange={(e) =>
+                              changeCommentHandler(e.target.value)
+                            }
+                            value={comment}
+                          />
+                        </Form.Group>
+                        <Button
+                          onClick={() => addCommentHandler()}
+                          variant="success"
+                        >
+                          Submit
+                        </Button>
+                        <br />
+                        <br />
+                      </Form>
+                      <hr />
 
-            {comments ? (
-              comments.map((comment) => {
-                const madeOn = new Date(comment.Made_On.replace(/-/g, "/"));
-                const stringDate = madeOn.toString().substring(0, 15);
-                return (
-                  <div className="p-3 mb-1">
-                    <h6>
-                      {comment.Made_By} | {stringDate}
-                      <br />
-                      <small className="text-muted">{comment.role}</small>
-                    </h6>
-                    <h6 className="text-muted">{comment.Comment}</h6>
-                  </div>
-                );
-              })
-            ) : (
-              <></>
-            )}
-          </Col>
-                    </Row>
+                      {comments ? (
+                        comments.map((comment) => {
+                          const madeOn = new Date(
+                            comment.Made_On.replace(/-/g, "/")
+                          );
+                          const stringDate = madeOn.toString().substring(0, 15);
+                          return (
+                            <div className="p-3 mb-1">
+                              <h6>
+                                {comment.Made_By} | {stringDate}
+                                <br />
+                                <small className="text-muted">
+                                  {comment.role}
+                                </small>
+                              </h6>
+                              <h6 className="text-muted">{comment.Comment}</h6>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <></>
+                      )}
+                    </Col>
+                  </Row>
                 </Container>
               </Tab.Pane>
             </Tab.Content>
@@ -2493,22 +2811,23 @@ function ViewApplication({
                     {console.log(logs)}
                     {logs ? (
                       <div style={{ height: "700px", overflowY: "auto" }}>
-                        {
-                          logs.length > 0 ?
+                        {logs.length > 0 ? (
                           logs.map((log, index) => (
-                          <div key={index}>
-                            <h6>{log.Action}</h6>
-                            <small className="text-muted">
-                              Made By: {log.Made_By}
-                            </small>
-                            <br />
-                            <small className="text-muted">
-                              Made On: {log.Made_On}
-                            </small>
-                            <hr />
-                          </div>
-                        )): <>No Logs</>
-                      }
+                            <div key={index}>
+                              <h6>{log.Action}</h6>
+                              <small className="text-muted">
+                                Made By: {log.Made_By}
+                              </small>
+                              <br />
+                              <small className="text-muted">
+                                Made On: {log.Made_On}
+                              </small>
+                              <hr />
+                            </div>
+                          ))
+                        ) : (
+                          <>No Logs</>
+                        )}
                       </div>
                     ) : (
                       <p>Loading...</p>
@@ -2525,7 +2844,6 @@ function ViewApplication({
         </Row>
         <hr />
         {/* Comments section */}
-       
       </Tab.Container>
     </Container>
   );

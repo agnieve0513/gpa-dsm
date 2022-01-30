@@ -11,7 +11,7 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
-import './AdminForgotPassScreen.css';
+import "./AdminForgotPassScreen.css";
 
 import { forgotPassword } from "../actions/userActions";
 import { LinkContainer } from "react-router-bootstrap";
@@ -35,7 +35,7 @@ function AdminForgotPasswordScreen({ location, history }) {
   //   if (userForgotPassword.userInfo) {
   //     if (userForgotPassword.userInfo.status) {
   //       setLoading(false);
-        
+
   //     } else {
   //       setLoading(false);
   //       Swal.fire("Failed", "User was not found", "error");
@@ -48,11 +48,11 @@ function AdminForgotPasswordScreen({ location, history }) {
     setLoading(true);
     dispatch(forgotPassword(email));
     Swal.fire(
-          "Success",
-          "Password reset is sent to your email!",
-          "success"
-        ).then(() => history.push("/admin"));
-    };
+      "Success",
+      "Password reset is sent to your email!",
+      "success"
+    ).then(() => history.push("/admin"));
+  };
 
   return (
     <>
@@ -164,15 +164,14 @@ function AdminForgotPasswordScreen({ location, history }) {
               </Col>
             </Row>
           </Form>
-          </Col>
-          <Row className=" footer-text px-2 ">
-            <br/>
-            <small className="text-secondary text-center position-absolute footer-text">
-              Energy Sense Rebate Program for Central, Ducted Systems <br />
-              Copyright &copy; 2020 GPA Powered By Xtendly
-            </small>
-          </Row>
-        
+        </Col>
+        <Row className=" footer-text px-2 ">
+          <br />
+          <small className="text-secondary text-center position-absolute footer-text">
+            Energy Sense Rebate Program for Central, Ducted Systems <br />
+            Copyright &copy; 2020 GPA Powered By Xtendly
+          </small>
+        </Row>
       </Row>
     </>
   );

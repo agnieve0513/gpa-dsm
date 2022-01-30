@@ -215,10 +215,9 @@ function BatchForm({ current }) {
 
   useEffect(() => {
     if (current == "batch") {
-        dispatch(listBatch());
+      dispatch(listBatch());
 
-      const rerun = setInterval(() => {
-      }, 5000);
+      const rerun = setInterval(() => {}, 5000);
 
       setIntervalId(rerun);
     }
@@ -230,10 +229,9 @@ function BatchForm({ current }) {
         if (intervalId2) {
           clearInterval(intervalId2);
         }
-          dispatch(listBatchApplication(currentBatch));
+        dispatch(listBatchApplication(currentBatch));
 
-        const rerun = setInterval(() => {
-        }, 5000);
+        const rerun = setInterval(() => {}, 5000);
 
         setIntervalId2(rerun);
       }
@@ -694,11 +692,20 @@ function BatchForm({ current }) {
                     },
                   ]}
                   data={batch_applications}
-                  
-                  title={width < 770 ? "" : 
-                <div>
-                      <h5 className="text-info">{currentBatch} <Button variant="success" size="sm">Reload</Button></h5>
-                    </div>}
+                  title={
+                    width < 770 ? (
+                      ""
+                    ) : (
+                      <div>
+                        <h5 className="text-info">
+                          {currentBatch}{" "}
+                          <Button variant="success" size="sm">
+                            Reload
+                          </Button>
+                        </h5>
+                      </div>
+                    )
+                  }
                   options={{
                     headerStyle: {
                       backgroundColor: "#233f88",
@@ -780,13 +787,18 @@ function BatchForm({ current }) {
                   data={batches}
                   title={
                     <div>
-                      <h5 className="text-info">Batch <Button variant="success" size="sm">Reload</Button></h5>
+                      <h5 className="text-info">
+                        Batch{" "}
+                        <Button variant="success" size="sm">
+                          Reload
+                        </Button>
+                      </h5>
                     </div>
                   }
                   options={{
                     rowStyle: {
                       height: "5px !important",
-                      search: true
+                      search: true,
                     },
                     headerStyle: {
                       backgroundColor: "#233f88",

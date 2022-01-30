@@ -431,86 +431,83 @@ export const updateApplication =
     }
   };
 
+export const editApplication = (personal_info) => async (dispatch) => {
+  try {
+    let obj = JSON.parse(localStorage.getItem("userInfo"));
 
-  export const editApplication =
-  (personal_info) => async (dispatch) => {
-    try {
-      let obj = JSON.parse(localStorage.getItem("userInfo"));
+    dispatch({
+      type: APPLICATION_EDIT_REQUEST,
+    });
 
-      dispatch({
-        type: APPLICATION_EDIT_REQUEST,
-      });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${obj.message.original.access_token}`,
+      },
+    };
 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${obj.message.original.access_token}`,
-        },
-      };
+    const { data } = await axios.post(
+      URL + "/edit-information",
+      personal_info,
+      config
+    );
 
-      const { data } = await axios.post(
-        URL + "/edit-information",
-        personal_info,
-        config
-      );
+    dispatch({
+      type: APPLICATION_EDIT_SUCCESS,
+      payload: data,
+    });
 
-      dispatch({
-        type: APPLICATION_EDIT_SUCCESS,
-        payload: data,
-      });
+    // localStorage.setItem('userInfo', JSON.stringify(data))
+  } catch (error) {
+    dispatch({
+      type: APPLICATION_EDIT_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
-      // localStorage.setItem('userInfo', JSON.stringify(data))
-    } catch (error) {
-      dispatch({
-        type: APPLICATION_EDIT_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+export const editEquipment = (equipment_info) => async (dispatch) => {
+  try {
+    let obj = JSON.parse(localStorage.getItem("userInfo"));
 
-  export const editEquipment =
-  (equipment_info) => async (dispatch) => {
-    try {
-      let obj = JSON.parse(localStorage.getItem("userInfo"));
+    dispatch({
+      type: APPLICATION_EQUIP_EDIT_REQUEST,
+    });
 
-      dispatch({
-        type: APPLICATION_EQUIP_EDIT_REQUEST,
-      });
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${obj.message.original.access_token}`,
+      },
+    };
 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${obj.message.original.access_token}`,
-        },
-      };
+    const { data } = await axios.post(
+      URL + "/edit-equipment",
+      equipment_info,
+      config
+    );
 
-      const { data } = await axios.post(
-        URL + "/edit-equipment",
-        equipment_info,
-        config
-      );
+    dispatch({
+      type: APPLICATION_EQUIP_EDIT_SUCCESS,
+      payload: data,
+    });
 
-      dispatch({
-        type: APPLICATION_EQUIP_EDIT_SUCCESS,
-        payload: data,
-      });
-
-      // localStorage.setItem('userInfo', JSON.stringify(data))
-    } catch (error) {
-      dispatch({
-        type: APPLICATION_EQUIP_EDIT_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+    // localStorage.setItem('userInfo', JSON.stringify(data))
+  } catch (error) {
+    dispatch({
+      type: APPLICATION_EQUIP_EDIT_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");

@@ -35,8 +35,12 @@ function ApplicationScreen() {
   );
   const { customerNo } = customerGenerateControlNo;
 
-  const customerRegister = useSelector(state => state.customerRegister)
-  const {loading:registerLoading,error:registerError, success:registerSuccess} = customerRegister
+  const customerRegister = useSelector((state) => state.customerRegister);
+  const {
+    loading: registerLoading,
+    error: registerError,
+    success: registerSuccess,
+  } = customerRegister;
 
   // Application Information
   const [saved, setSaved] = useState(false);
@@ -74,7 +78,7 @@ function ApplicationScreen() {
 
   // New Equipment
   const [new_equipments, setNewEquipments] = useState([]);
-  const [max_invoice, setMaxInvoice] = useState(1)
+  const [max_invoice, setMaxInvoice] = useState(1);
   const [delay_reason, setDelayReason] = useState("");
 
   // Installer Information
@@ -188,8 +192,7 @@ function ApplicationScreen() {
               application_type: customer_type,
               print_hash: controlNumber,
               gpa_holders_name: gpa_holder,
-              delay_reason : delay_reason,
-
+              delay_reason: delay_reason,
             },
             new_equipment_information: new_equipments,
             existing_old_equipment_information: old_equipments,
@@ -218,8 +221,6 @@ function ApplicationScreen() {
               title: "Successfully Saved",
               text: "You will be directed to Success Page",
             });
-
-            
           }
         } else if (result.isDenied) {
           Swal.fire("Changes are not yet saved", "", "info");
@@ -262,7 +263,7 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
-          email === "@" ||
+        email === "@" ||
         tel_no === "" ||
         tel_no.length > 10 ||
         tel_no.length < 10 ||
@@ -319,7 +320,7 @@ function ApplicationScreen() {
         city_village === "" ||
         zipcode === "" ||
         email === "" ||
-          email === "@" ||
+        email === "@" ||
         tel_no === "" ||
         tel_no.length > 10 ||
         tel_no.length < 10 ||
@@ -415,7 +416,7 @@ function ApplicationScreen() {
           tel_no.length > 10 ||
           tel_no.length < 10 ||
           is_applicant_owner === "" ||
-          (is_applicant_owner===false && letter_authorization === null) ||
+          (is_applicant_owner === false && letter_authorization === null) ||
           mailing_address === "" ||
           mailing_city_village === "" ||
           mailing_zipcode === "" ||
@@ -452,7 +453,7 @@ function ApplicationScreen() {
         ) {
           errorMessage();
         } else {
-          if ((system_type === "Washer" || system_type === "Dryer")) {
+          if (system_type === "Washer" || system_type === "Dryer") {
             setStep(currentStep + 1);
             return;
           } else {
@@ -484,10 +485,7 @@ function ApplicationScreen() {
           }
         }
       } else if (currentStep === 6) {
-        if (
-          irs_form === null ||
-          invoice === ""
-        ) {
+        if (irs_form === null || invoice === "") {
           errorMessage();
         } else {
           setStep(currentStep + 1);
@@ -576,8 +574,10 @@ function ApplicationScreen() {
               />
             ) : step === 3 ? (
               <NewEuipmentInformation
-                totalQuantity={totalQuantity} setTotalQuantity={setTotalQuantity}
-                delay_reason={delay_reason} setDelayReason={setDelayReason}
+                totalQuantity={totalQuantity}
+                setTotalQuantity={setTotalQuantity}
+                delay_reason={delay_reason}
+                setDelayReason={setDelayReason}
                 total_rebate={total_rebate}
                 setTotalRebate={setTotalRebate}
                 control_no={control_no}
@@ -654,7 +654,7 @@ function ApplicationScreen() {
                 setOldTons={setOldTons}
                 is_equipment_condition={is_equipment_condition}
                 setIsEquipmentCondition={setIsEquipmentCondition}
-                seer={seer} 
+                seer={seer}
                 setSeer={setSeer}
                 disposal_party={disposal_party}
                 setDisposalParty={setDisposalParty}
@@ -834,51 +834,47 @@ function ApplicationScreen() {
               />
             ) : step === 9 ? (
               <>{handleSave()}</>
-            ) : 
-            
-            (
+            ) : (
               <>
                 <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
               </>
-            )
-            }
-            {
-              step === 9 ?
+            )}
+            {step === 9 ? (
               <>
-               <center>
+                <center>
                   <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-            <h6>Please Wait . . .</h6>
-               </center>
-              
-              </>:
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                  <h6>Please Wait . . .</h6>
+                </center>
+              </>
+            ) : (
               <>
-              <div className="mt-5 buttonGroup w-100">
-              <Button
-                onClick={() => handleBackClick(step)}
-                variant={"secondary"}
-                className="m-1 px-5 py-2 bottomButton"
-                id="cancelButton"
-                size={"lg"}
-              >
-                BACK
-              </Button>
-              <Button
-                onClick={() => handleNextClick(step)}
-                disabled={step > 1 ? (verify ? false : true) : ""}
-                variant={"success"}
-                size={"lg"}
-                className="m-1 px-5 py-2 bottomButton"
-              >
-                CONTINUE
-              </Button>
-            </div>
-            <Footer />
-            </>
-            }
+                <div className="mt-5 buttonGroup w-100">
+                  <Button
+                    onClick={() => handleBackClick(step)}
+                    variant={"secondary"}
+                    className="m-1 px-5 py-2 bottomButton"
+                    id="cancelButton"
+                    size={"lg"}
+                  >
+                    BACK
+                  </Button>
+                  <Button
+                    onClick={() => handleNextClick(step)}
+                    disabled={step > 1 ? (verify ? false : true) : ""}
+                    variant={"success"}
+                    size={"lg"}
+                    className="m-1 px-5 py-2 bottomButton"
+                  >
+                    CONTINUE
+                  </Button>
+                </div>
+                <Footer />
+              </>
+            )}
           </div>
         </>
       )}

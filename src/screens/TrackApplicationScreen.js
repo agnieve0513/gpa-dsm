@@ -41,17 +41,14 @@ function ApplicationScreen() {
 
   useEffect(() => {
     if (ctrl_no) {
-
       const timer = setTimeout(() => {
         dispatch(trackApplications(ctrl_no));
         setClickTrack(true);
         setIsSearch(true);
         setSearchVisible(false);
-
       }, 2500);
       return () => clearTimeout(timer);
-    }
-    else{
+    } else {
       setSearchVisible(true);
     }
   }, []);
@@ -110,34 +107,35 @@ function ApplicationScreen() {
       percent: 80,
     },
     {
-      id:5,
+      id: 5,
       stage: "Completed",
       percent: 100,
-    }
+    },
   ];
 
   const resetHandler = () => {
     setIsSearch(false);
     setControlNo("");
     setSearchVisible(true);
-
   };
 
   const noFound = () => {
-    return <>
-            <p>No Application was Found.</p>
-            <div class="d-grid gap-2 mt-5">
-              <button
-                style={{ borderRadius: "0.5rem" }}
-                className="btn btn-success py-3 mt-5"
-                id="submitbtn"
-                onClick={() => resetHandler()}
-              >
-                <b className="trackButtonText">TRACK NEW APPLICATION</b>
-              </button>
-            </div>
-          </> 
-  }
+    return (
+      <>
+        <p>No Application was Found.</p>
+        <div class="d-grid gap-2 mt-5">
+          <button
+            style={{ borderRadius: "0.5rem" }}
+            className="btn btn-success py-3 mt-5"
+            id="submitbtn"
+            onClick={() => resetHandler()}
+          >
+            <b className="trackButtonText">TRACK NEW APPLICATION</b>
+          </button>
+        </div>
+      </>
+    );
+  };
 
   return (
     <Container className="m-0 p-0 h-100 d-flex flex-column" fluid>
@@ -161,12 +159,10 @@ function ApplicationScreen() {
                       <Row className="px-0 mb-4 mx-0 d-flex align-items-center">
                         <Col className="px-0">
                           <b className="px-0 d-flex mx-0" id="trackStep">
-                            {
-                              track_application.table[0].Status === "Approved" ?
-                              <>
-                                  Step 6 of 6
-                              </>
-                              :
+                            {track_application.table[0].Status ===
+                            "Approved" ? (
+                              <>Step 6 of 6</>
+                            ) : (
                               <>
                                 Step{" "}
                                 {stages.find(
@@ -175,8 +171,7 @@ function ApplicationScreen() {
                                 ).id + 1}{" "}
                                 of 6{" "}
                               </>
-                            }
-                            
+                            )}
                           </b>
                         </Col>
                         <Col className="px-0" id="colBar">
@@ -185,13 +180,13 @@ function ApplicationScreen() {
                             id="trackBar"
                             variant="success"
                             now={
-                              track_application.table[0].Status === "Approved" ?
-                              100
-                              :
-                              stages.find(
-                                (p) =>
-                                  p.stage === track_application.table[0].Stage
-                              ).percent
+                              track_application.table[0].Status === "Approved"
+                                ? 100
+                                : stages.find(
+                                    (p) =>
+                                      p.stage ===
+                                      track_application.table[0].Stage
+                                  ).percent
                             }
                           />
                         </Col>
@@ -240,8 +235,7 @@ function ApplicationScreen() {
                         </button>
                       </Row>
                     </Container>
-                  ) : 
-                    (
+                  ) : (
                     <>
                       <p>No Application was Found.</p>
                       <div class="d-grid gap-2 mt-5">
@@ -251,19 +245,29 @@ function ApplicationScreen() {
                           id="submitbtn"
                           onClick={() => resetHandler()}
                         >
-                          <b className="trackButtonText">TRACK NEW APPLICATION</b>
+                          <b className="trackButtonText">
+                            TRACK NEW APPLICATION
+                          </b>
                         </button>
                       </div>
                     </>
-                    )
-                ) : searchVisible? noFound() : noFound()
-                
-              ) : searchVisible? noFound() :''
-            ) : searchVisible? noFound() :'payts 3'
-          ) : 
-
-              searchVisible ?
-              (
+                  )
+                ) : searchVisible ? (
+                  noFound()
+                ) : (
+                  noFound()
+                )
+              ) : searchVisible ? (
+                noFound()
+              ) : (
+                ""
+              )
+            ) : searchVisible ? (
+              noFound()
+            ) : (
+              "payts 3"
+            )
+          ) : searchVisible ? (
             <Container>
               <h4 className="text-center text-info mb-5">
                 TRACK YOUR APPLICATION
@@ -288,13 +292,13 @@ function ApplicationScreen() {
                 </button>
               </div>
             </Container>
-          ): 
-          <>
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </>
-          }
+          ) : (
+            <>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </>
+          )}
           <Link to={`/`} className="text-success mx-auto px-5">
             <h4 className="text-center fs-5" id="trackBackBtn">
               Back to Homepage

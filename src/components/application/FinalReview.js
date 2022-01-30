@@ -21,11 +21,11 @@ import { retrieveFileAction } from "../../actions/fileActions";
 import { useDispatch } from "react-redux";
 
 function FinalReview(props) {
-  console.log('I am the file: ', props.irs_form)
+  console.log("I am the file: ", props.irs_form);
   const dispatch = useDispatch();
 
   const { height, width } = useWindowDimensions();
-  const squeezedTabs = width > 1367
+  const squeezedTabs = width > 1367;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,20 +63,22 @@ function FinalReview(props) {
 
   const showCertificateNo = () => {
     if (props.system_type === "Dryer" || props.system_type === "Washer") {
-      return <></>
+      return <></>;
     } else {
-      return <p>
-      Certification No.{" "}
-      <b>
-        {" "}
-        {
-          props.new_equipments[new_eq_index]
-            .installer_information.technician_cert_no
-        }{" "}
-      </b>
-    </p>
+      return (
+        <p>
+          Certification No.{" "}
+          <b>
+            {" "}
+            {
+              props.new_equipments[new_eq_index].installer_information
+                .technician_cert_no
+            }{" "}
+          </b>
+        </p>
+      );
     }
-  }
+  };
 
   let total_rebate = 0;
 
@@ -95,7 +97,9 @@ function FinalReview(props) {
             <Tabs
               defaultActiveKey="application_information"
               transition={false}
-              className={squeezedTabs ? "mb-3" : "finalTabs mb-3 flex flex-column w-100"}
+              className={
+                squeezedTabs ? "mb-3" : "finalTabs mb-3 flex flex-column w-100"
+              }
             >
               <Tab
                 eventKey="application_information"
@@ -192,7 +196,13 @@ function FinalReview(props) {
                     </Col>
                     <Col>
                       <p>
-                        <b>{props.city_village ? city_zipcode.find(loc => loc._id === props.city_village).village : "None"}</b>{" "}
+                        <b>
+                          {props.city_village
+                            ? city_zipcode.find(
+                                (loc) => loc._id === props.city_village
+                              ).village
+                            : "None"}
+                        </b>{" "}
                       </p>
                     </Col>
                   </Row>
@@ -286,7 +296,10 @@ function FinalReview(props) {
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">{props.customer_type === "RESID"? 'Home' : 'Building'} Size (approx. sq. ft.)</p>
+                      <p className="title">
+                        {props.customer_type === "RESID" ? "Home" : "Building"}{" "}
+                        Size (approx. sq. ft.)
+                      </p>
                     </Col>
                     <Col>
                       <p>
@@ -296,7 +309,10 @@ function FinalReview(props) {
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">{props.customer_type === "RESID"? 'Home' : 'Building'} Age (appox. year built)</p>
+                      <p className="title">
+                        {props.customer_type === "RESID" ? "Home" : "Building"}{" "}
+                        Age (appox. year built)
+                      </p>
                     </Col>
                     <Col>
                       <p>
@@ -305,12 +321,21 @@ function FinalReview(props) {
                     </Col>
                   </Row>
                   <Row>
-                    <Col><p className='title'>New Construction</p></Col>
-                    <Col><p><b>{props.is_new_construction ? "Yes" : "No"}</b>{" "}</p></Col>
+                    <Col>
+                      <p className="title">New Construction</p>
+                    </Col>
+                    <Col>
+                      <p>
+                        <b>{props.is_new_construction ? "Yes" : "No"}</b>{" "}
+                      </p>
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
-                      <p className="title">{props.customer_type === "RESID"? 'Home' : 'Building'} Type</p>
+                      <p className="title">
+                        {props.customer_type === "RESID" ? "Home" : "Building"}{" "}
+                        Type
+                      </p>
                     </Col>
                     <Col>
                       <p>
@@ -342,35 +367,55 @@ function FinalReview(props) {
                       {props.new_equipments.length >= 1 ? (
                         <>
                           <MaterialTable
-                            columns={props.system_type === ("Dryer" || "Washer") ? [
-                              { title: "System Type", field: "system_type" },
-                              { title: "Vendor", field: "vendor" },
-                              { title: "Quantity", field: "quantity" },
-                              { title: "Years", field: "years" },
-                              { title: "Quantity", field: "quantity" },
-                              { title: "BTU", field: "btu" },
-                              { title: "Invoice#", field: "invoice_no" },
-                              { title: "Purchase Date", field: "purchase_date" },
-                              { title: "Type", field: "type" },
-                              { title: "Tons", field: "tons" },
-                              { title: "Seer", field: "seer" },
-                              { title: "Disposal Party", field: "disposal_party" },
-                              { title: "Date", field: "date" },
-                            ]:
-                            [
-                              { title: "System Type", field: "system_type" },
-                              { title: "Vendor", field: "vendor" },
-                              { title: "Quantity", field: "quantity" },
-                              { title: "Years", field: "years" },
-                              { title: "Quantity", field: "quantity" },
-                              { title: "Invoice#", field: "invoice_no" },
-                              { title: "Purchase Date", field: "purchase_date" },
-                              { title: "Type", field: "type" },
-                              { title: "Seer", field: "seer" },
-                              { title: "Disposal Party", field: "disposal_party" },
-                              { title: "Date", field: "date" },
-                            ]
-                          }
+                            columns={
+                              props.system_type === ("Dryer" || "Washer")
+                                ? [
+                                    {
+                                      title: "System Type",
+                                      field: "system_type",
+                                    },
+                                    { title: "Vendor", field: "vendor" },
+                                    { title: "Quantity", field: "quantity" },
+                                    { title: "Years", field: "years" },
+                                    { title: "Quantity", field: "quantity" },
+                                    { title: "BTU", field: "btu" },
+                                    { title: "Invoice#", field: "invoice_no" },
+                                    {
+                                      title: "Purchase Date",
+                                      field: "purchase_date",
+                                    },
+                                    { title: "Type", field: "type" },
+                                    { title: "Tons", field: "tons" },
+                                    { title: "Seer", field: "seer" },
+                                    {
+                                      title: "Disposal Party",
+                                      field: "disposal_party",
+                                    },
+                                    { title: "Date", field: "date" },
+                                  ]
+                                : [
+                                    {
+                                      title: "System Type",
+                                      field: "system_type",
+                                    },
+                                    { title: "Vendor", field: "vendor" },
+                                    { title: "Quantity", field: "quantity" },
+                                    { title: "Years", field: "years" },
+                                    { title: "Quantity", field: "quantity" },
+                                    { title: "Invoice#", field: "invoice_no" },
+                                    {
+                                      title: "Purchase Date",
+                                      field: "purchase_date",
+                                    },
+                                    { title: "Type", field: "type" },
+                                    { title: "Seer", field: "seer" },
+                                    {
+                                      title: "Disposal Party",
+                                      field: "disposal_party",
+                                    },
+                                    { title: "Date", field: "date" },
+                                  ]
+                            }
                             data={
                               props.new_equipments.length === 0
                                 ? []
@@ -422,7 +467,7 @@ function FinalReview(props) {
                                     }{" "}
                                   </b>
                                 </p>
-                                { showCertificateNo() }
+                                {showCertificateNo()}
                                 <p className="mb-3">
                                   Email{" "}
                                   <b>
@@ -444,15 +489,12 @@ function FinalReview(props) {
                                     }{" "}
                                   </b>
                                 </p>
-                                {
-                                  props.delay_reason ?
+                                {props.delay_reason ? (
                                   <p>
                                     Reason for exceeding 120 days{" "}
-                                    <b>
-                                      {props.delay_reason}
-                                    </b>
-                                  </p>: null
-                                }
+                                    <b>{props.delay_reason}</b>
+                                  </p>
+                                ) : null}
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-2">
@@ -525,35 +567,43 @@ function FinalReview(props) {
                     </button>
                   </Row>
                   <MaterialTable
-                    columns={props.system_type === ("Dryer" || "Washer") ? [
-                      { title: "System Type", field: "system_type" },
-                      { title: "Vendor", field: "vendor" },
-                      { title: "Quantity", field: "quantity" },
-                      { title: "Years", field: "years" },
-                      { title: "Quantity", field: "quantity" },
-                      { title: "BTU", field: "btu" },
-                      { title: "Invoice#", field: "invoice_no" },
-                      { title: "Purchase Date", field: "purchase_date" },
-                      { title: "Type", field: "type" },
-                      { title: "Tons", field: "tons" },
-                      { title: "Seer", field: "seer" },
-                      { title: "Disposal Party", field: "disposal_party" },
-                      { title: "Date", field: "date" },
-                    ]:
-                    [
-                      { title: "System Type", field: "system_type" },
-                      { title: "Vendor", field: "vendor" },
-                      { title: "Quantity", field: "quantity" },
-                      { title: "Years", field: "years" },
-                      { title: "Quantity", field: "quantity" },
-                      { title: "Invoice#", field: "invoice_no" },
-                      { title: "Purchase Date", field: "purchase_date" },
-                      { title: "Type", field: "type" },
-                      { title: "Seer", field: "seer" },
-                      { title: "Disposal Party", field: "disposal_party" },
-                      { title: "Date", field: "date" },
-                    ]
-                  }
+                    columns={
+                      props.system_type === ("Dryer" || "Washer")
+                        ? [
+                            { title: "System Type", field: "system_type" },
+                            { title: "Vendor", field: "vendor" },
+                            { title: "Quantity", field: "quantity" },
+                            { title: "Years", field: "years" },
+                            { title: "Quantity", field: "quantity" },
+                            { title: "BTU", field: "btu" },
+                            { title: "Invoice#", field: "invoice_no" },
+                            { title: "Purchase Date", field: "purchase_date" },
+                            { title: "Type", field: "type" },
+                            { title: "Tons", field: "tons" },
+                            { title: "Seer", field: "seer" },
+                            {
+                              title: "Disposal Party",
+                              field: "disposal_party",
+                            },
+                            { title: "Date", field: "date" },
+                          ]
+                        : [
+                            { title: "System Type", field: "system_type" },
+                            { title: "Vendor", field: "vendor" },
+                            { title: "Quantity", field: "quantity" },
+                            { title: "Years", field: "years" },
+                            { title: "Quantity", field: "quantity" },
+                            { title: "Invoice#", field: "invoice_no" },
+                            { title: "Purchase Date", field: "purchase_date" },
+                            { title: "Type", field: "type" },
+                            { title: "Seer", field: "seer" },
+                            {
+                              title: "Disposal Party",
+                              field: "disposal_party",
+                            },
+                            { title: "Date", field: "date" },
+                          ]
+                    }
                     data={
                       props.old_equipments.length === 0
                         ? []
@@ -593,8 +643,8 @@ function FinalReview(props) {
                         LOA <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
-                          Filename: {props.letter_authorization.name} <br />
-                          File Type: {props.letter_authorization.type}
+                        Filename: {props.letter_authorization.name} <br />
+                        File Type: {props.letter_authorization.type}
                       </p>
                     </>
                   ) : (
@@ -602,22 +652,23 @@ function FinalReview(props) {
                   )}
 
                   {props.invoice ? (
-                      <>
-                        <b>
-                          Invoice <Badge bg={"success"}>Uploaded</Badge>
-                        </b>
-                        <p>
-                          Filename: {props.invoice.name} <br />
-                          File Type: {props.invoice.type}
-                        </p>
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <>
+                      <b>
+                        Invoice <Badge bg={"success"}>Uploaded</Badge>
+                      </b>
+                      <p>
+                        Filename: {props.invoice.name} <br />
+                        File Type: {props.invoice.type}
+                      </p>
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   {props.installer_certification ? (
                     <>
                       <b>
-                        Installer's Certification <Badge bg={"success"}>Uploaded</Badge>
+                        Installer's Certification{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
                         Filename: {props.installer_certification.name} <br />
@@ -663,11 +714,12 @@ function FinalReview(props) {
                   ) : (
                     <></>
                   )}
-                  
+
                   {props.other_doc2 ? (
                     <>
                       <b>
-                        Other Support Documents 1 <Badge bg={"success"}>Uploaded</Badge>
+                        Other Support Documents 1{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
                         Filename: {props.other_doc1.name} <br />
@@ -680,7 +732,8 @@ function FinalReview(props) {
                   {props.other_doc3 ? (
                     <>
                       <b>
-                        Other Support Documents 2 <Badge bg={"success"}>Uploaded</Badge>
+                        Other Support Documents 2{" "}
+                        <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
                         Filename: {props.other_doc2.name} <br />

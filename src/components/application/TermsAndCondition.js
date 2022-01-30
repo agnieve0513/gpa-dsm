@@ -32,32 +32,36 @@ function TermsAndCondition(props) {
   useEffect(() => {
     window.scrollTo(0, 0);
     let template = "";
-    console.log(props.customer_type)
-    console.log(props.system_type)
-    if(props.customer_type === "RESID" && props.system_type === "Washer")
-    {
+    console.log(props.customer_type);
+    console.log(props.system_type);
+    if (props.customer_type === "RESID" && props.system_type === "Washer") {
       template = "resd_dryer_washer";
-    }
-    else if(props.customer_type === "RESID" && props.system_type === "Dryer")
-    {
+    } else if (
+      props.customer_type === "RESID" &&
+      props.system_type === "Dryer"
+    ) {
       template = "resd_dryer_washer";
-    }
-    else if(props.customer_type === "RESID" && props.system_type === "Central AC")
-    {
+    } else if (
+      props.customer_type === "RESID" &&
+      props.system_type === "Central AC"
+    ) {
       template = "resd_aircon_ductless";
-    }
-    else if(props.customer_type === "RESID" && props.system_type === "Split AC")
-    {
+    } else if (
+      props.customer_type === "RESID" &&
+      props.system_type === "Split AC"
+    ) {
       template = "resd_aircon_ductless";
-    }
-    else if(props.customer_type === "RESID" && props.system_type === "Window AC")
-    {
+    } else if (
+      props.customer_type === "RESID" &&
+      props.system_type === "Window AC"
+    ) {
       template = "resd_aircon_window";
-    }
-    else if(props.customer_type === "COMM" && props.system_type === "Split AC")
-    {
+    } else if (
+      props.customer_type === "COMM" &&
+      props.system_type === "Split AC"
+    ) {
       template = "comm_ductless";
-    }else{
+    } else {
       template = "comm_ducted";
     }
     console.log(template);

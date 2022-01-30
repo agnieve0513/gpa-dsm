@@ -20,24 +20,31 @@ const ModalImage = (props) => {
             {description}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body
-          className=" text-center no-border"
-          rounded
-        >
-          {
-            _id == "3" ?
-            <p>The Link is provided for the W-9 Form. Click this <a target="_blank" href="https://www.irs.gov/pub/irs-pdf/fw9.pdf">link</a> to download</p>
-            :
-              image_sample?
-              <Image
-            style={{ maxWidth: "1000px", width: "100%", height: "auto" }}
-            alt={description}
-            src={image_sample}
-            rounded
-          />:
-            <p>The Link is provided for the W-9 Form. Click this <a target="_blank" href="https://www.irs.gov/pub/irs-pdf/fw9.pdf">link</a> to download</p>
-          }
-          
+        <Modal.Body className=" text-center no-border" rounded>
+          {_id == "3" ? (
+            <p>
+              The Link is provided for the W-9 Form. Click this{" "}
+              <a target="_blank" href="https://www.irs.gov/pub/irs-pdf/fw9.pdf">
+                link
+              </a>{" "}
+              to download
+            </p>
+          ) : image_sample ? (
+            <Image
+              style={{ maxWidth: "1000px", width: "100%", height: "auto" }}
+              alt={description}
+              src={image_sample}
+              rounded
+            />
+          ) : (
+            <p>
+              The Link is provided for the W-9 Form. Click this{" "}
+              <a target="_blank" href="https://www.irs.gov/pub/irs-pdf/fw9.pdf">
+                link
+              </a>{" "}
+              to download
+            </p>
+          )}
         </Modal.Body>
       </Modal>
     </>

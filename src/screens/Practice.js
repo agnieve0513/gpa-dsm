@@ -12,7 +12,7 @@ function Practice() {
   };
 
   // handle click event of the Remove button
-  const handleRemoveClick = index => {
+  const handleRemoveClick = (index) => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
@@ -25,7 +25,9 @@ function Practice() {
 
   return (
     <div className="App">
-      <h3><a href="https://cluemediator.com">Clue Mediator</a></h3>
+      <h3>
+        <a href="https://cluemediator.com">Clue Mediator</a>
+      </h3>
       {inputList.map((x, i) => {
         return (
           <div className="box">
@@ -33,20 +35,24 @@ function Practice() {
               name="firstName"
               placeholder="Enter First Name"
               value={x.firstName}
-              onChange={e => handleInputChange(e, i)}
+              onChange={(e) => handleInputChange(e, i)}
             />
             <input
               className="ml10"
               name="lastName"
               placeholder="Enter Last Name"
               value={x.lastName}
-              onChange={e => handleInputChange(e, i)}
+              onChange={(e) => handleInputChange(e, i)}
             />
             <div className="btn-box">
-              {inputList.length !== 1 && <button
-                className="mr10"
-                onClick={() => handleRemoveClick(i)}>Remove</button>}
-              {inputList.length - 1 === i && <button onClick={handleAddClick}>Add</button>}
+              {inputList.length !== 1 && (
+                <button className="mr10" onClick={() => handleRemoveClick(i)}>
+                  Remove
+                </button>
+              )}
+              {inputList.length - 1 === i && (
+                <button onClick={handleAddClick}>Add</button>
+              )}
             </div>
           </div>
         );

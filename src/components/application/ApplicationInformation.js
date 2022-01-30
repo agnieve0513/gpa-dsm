@@ -46,7 +46,6 @@ function ApplicationInformation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
-    
   });
 
   const [verifyClicked, setVerifyClicked] = useState(false);
@@ -188,19 +187,19 @@ function ApplicationInformation(props) {
         />
       </Form.Group>
       <span
-            className="text-secondary w-auto"
-            onClick={() => {
-              setModalData(
-                (p = {
-                  description: "LOA",
-                  image_sample: "./image_sample/6.jpg",
-                })
-              );
-              setModalShow(true);
-            }}
-          >
-            <i className="fa fa-question-circle"></i>{" "}
-          </span>
+        className="text-secondary w-auto"
+        onClick={() => {
+          setModalData(
+            (p = {
+              description: "LOA",
+              image_sample: "./image_sample/6.jpg",
+            })
+          );
+          setModalShow(true);
+        }}
+      >
+        <i className="fa fa-question-circle"></i>{" "}
+      </span>
     </Row>
   );
 
@@ -253,115 +252,114 @@ function ApplicationInformation(props) {
     </Col>
   );
 
-  const homeComponentDesktop = () => (
-    props.customer_type  === "RESID" ?
-    
-    <Col clas md={12}>
-      <Form.Check
-        inline
-        label="Single Family"
-        name="home_type"
-        type={"radio"}
-        value="Single Family"
-        checked={"Single Family" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="Apartment"
-        name="home_type"
-        type={"radio"}
-        value="Apartment"
-        checked={"Apartment" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="Condo"
-        name="home_type"
-        type={"radio"}
-        value="Condo"
-        checked={"Condo" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="Mobile Home"
-        name="home_type"
-        type={"radio"}
-        value="Mobile Home"
-        checked={"Mobile Home" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="Other"
-        name="home_type"
-        type={"radio"}
-        value="Other"
-        checked={"Other" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-    </Col>
-    :
-    <Col>
-      <Form.Check
-        inline
-        label="RETAIL"
-        name="home_type"
-        type={"radio"}
-        value="RETAIL"
-        checked={"RETAIL" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="OFFICE"
-        name="home_type"
-        type={"radio"}
-        value="OFFICE"
-        checked={"OFFICE" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="RELIGIOUS BUILDING"
-        name="home_type"
-        type={"radio"}
-        value="RELIGIOUS BUILDING"
-        checked={"RELIGIOUS BUILDING" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="FINANCIAL INSTITUTION"
-        name="home_type"
-        type={"radio"}
-        value="FINANCIAL INSTITUTION"
-        checked={"FINANCIAL INSTITUTION" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-      <Form.Check
-        inline
-        label="Other"
-        name="home_type"
-        type={"radio"}
-        value="Other"
-        checked={"Other" === props.home_type}
-        onChange={(e) => props.setHomeType(e.target.value)}
-        disabled={props.verify ? false : true}
-      />
-    </Col>
-  );
+  const homeComponentDesktop = () =>
+    props.customer_type === "RESID" ? (
+      <Col clas md={12}>
+        <Form.Check
+          inline
+          label="Single Family"
+          name="home_type"
+          type={"radio"}
+          value="Single Family"
+          checked={"Single Family" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="Apartment"
+          name="home_type"
+          type={"radio"}
+          value="Apartment"
+          checked={"Apartment" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="Condo"
+          name="home_type"
+          type={"radio"}
+          value="Condo"
+          checked={"Condo" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="Mobile Home"
+          name="home_type"
+          type={"radio"}
+          value="Mobile Home"
+          checked={"Mobile Home" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="Other"
+          name="home_type"
+          type={"radio"}
+          value="Other"
+          checked={"Other" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+      </Col>
+    ) : (
+      <Col>
+        <Form.Check
+          inline
+          label="RETAIL"
+          name="home_type"
+          type={"radio"}
+          value="RETAIL"
+          checked={"RETAIL" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="OFFICE"
+          name="home_type"
+          type={"radio"}
+          value="OFFICE"
+          checked={"OFFICE" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="RELIGIOUS BUILDING"
+          name="home_type"
+          type={"radio"}
+          value="RELIGIOUS BUILDING"
+          checked={"RELIGIOUS BUILDING" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="FINANCIAL INSTITUTION"
+          name="home_type"
+          type={"radio"}
+          value="FINANCIAL INSTITUTION"
+          checked={"FINANCIAL INSTITUTION" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+        <Form.Check
+          inline
+          label="Other"
+          name="home_type"
+          type={"radio"}
+          value="Other"
+          checked={"Other" === props.home_type}
+          onChange={(e) => props.setHomeType(e.target.value)}
+          disabled={props.verify ? false : true}
+        />
+      </Col>
+    );
 
   const handleToggleSwitchNew = () => {
     if (props.is_new_construction) {
@@ -603,21 +601,26 @@ function ApplicationInformation(props) {
             <Row>
               <Col md={12}>
                 <span>
-
-                {customer_detail
-                  ? customer_detail.info
-                    ? 
-                    <>
-                      <b>
-                        <p id="accountName">GPA Account Holder: {props.gpa_holder}</p>
-                      </b>
-                      <hr />
-                      <b><p id="accountName">Applicant's Name</p></b>
-                    </>
-                    : ""
-                  : ""}
+                  {customer_detail ? (
+                    customer_detail.info ? (
+                      <>
+                        <b>
+                          <p id="accountName">
+                            GPA Account Holder: {props.gpa_holder}
+                          </p>
+                        </b>
+                        <hr />
+                        <b>
+                          <p id="accountName">Applicant's Name</p>
+                        </b>
+                      </>
+                    ) : (
+                      ""
+                    )
+                  ) : (
+                    ""
+                  )}
                 </span>
-                
               </Col>
               <Col md={6} className="mb-3">
                 <Form.Group controlId="first Name">
@@ -655,21 +658,23 @@ function ApplicationInformation(props) {
                     disabled={props.verify ? false : true}
                   ></Form.Control>
                 </Form.Group>
-                {
-                  props.verify?
-                  props.customer_type === "RESID" ?
-                  <>
-                  {props.lastname === "" ? (
-                  <p className="validate text-danger requiredField">
-                    *This Field is Required
-                  </p>
+                {props.verify ? (
+                  props.customer_type === "RESID" ? (
+                    <>
+                      {props.lastname === "" ? (
+                        <p className="validate text-danger requiredField">
+                          *This Field is Required
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                    </>
+                  ) : (
+                    ""
+                  )
                 ) : (
-                  <></>
+                  ""
                 )}
-                  </>
-                :''
-                  :''
-                }
               </Col>
               <Col md={2} className="mb-3">
                 <Form.Group controlId="middlename">
@@ -937,9 +942,7 @@ function ApplicationInformation(props) {
                   <Form.Control
                     type="text"
                     placeholder=""
-                    onChange={(e) =>
-                      props.setMailingZipCode(e.target.value)
-                    }
+                    onChange={(e) => props.setMailingZipCode(e.target.value)}
                     value={props.mailing_zipcode}
                     required
                     disabled={props.verify ? false : true}
@@ -958,7 +961,9 @@ function ApplicationInformation(props) {
               <Col md={4} className="mb-3">
                 <Form.Group controlId="home_size">
                   <Form.Label className=" applicationTitle">
-                    {props.customer_type === "RESID" ? 'HOME SIZE (approx.sq ft.)' : 'BUILDING SIZE (approx.sq ft.)'}
+                    {props.customer_type === "RESID"
+                      ? "HOME SIZE (approx.sq ft.)"
+                      : "BUILDING SIZE (approx.sq ft.)"}
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -1001,26 +1006,25 @@ function ApplicationInformation(props) {
                   <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
-                ) : 
-                <>
-                  {props.home_age.length < 4  ? (
-                  <p className="validate text-danger requiredField">
-                    *4 Digits is required
-                  </p>
                 ) : (
                   <>
-                    {
-                      props.home_age > new Date().getFullYear() ?
-                       <p className="validate text-danger requiredField">
-                          *Invalid Year
-                        </p>
-                      :''
-                    }
+                    {props.home_age.length < 4 ? (
+                      <p className="validate text-danger requiredField">
+                        *4 Digits is required
+                      </p>
+                    ) : (
+                      <>
+                        {props.home_age > new Date().getFullYear() ? (
+                          <p className="validate text-danger requiredField">
+                            *Invalid Year
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    )}
                   </>
                 )}
-                </>
-                }
-                
               </Col>
               <Col md={4} className="mb-3">
                 <Form.Label className=" applicationTitle">
@@ -1039,9 +1043,9 @@ function ApplicationInformation(props) {
             </Row>
             <Row>
               <Form.Label className="applicationTitle">
-                {props.customer_type === "RESID" ? 'HOME TYPE (check one)' : 'BUILDING TYPE (check one)'}
-
-                
+                {props.customer_type === "RESID"
+                  ? "HOME TYPE (check one)"
+                  : "BUILDING TYPE (check one)"}
               </Form.Label>{" "}
               {screenWidthM ? homeComponentDesktop() : homeComponentMobile()}
               {props.home_type === "" ? (

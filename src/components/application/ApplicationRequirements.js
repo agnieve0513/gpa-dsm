@@ -74,22 +74,21 @@ const desktopView = (setModalData, setModalShow) => (
               </td>
               <td key={"description_" + p._id}>
                 <b>{p.description}</b>{" "}
-                {
-                  p._id !== "7" ?
+                {p._id !== "7" ? (
                   <a
-                  className="text-secondary"
-                  // href={p.image_sample}
-                  rel="noreferrer"
-                  target="_blank"
-                  onClick={() => {
-                    setModalData(p);
-                    setModalShow(true);
-                  }}
-                >
-                  {" "}
-                  <i className="fa fa-question-circle"></i>{" "}
-                </a>:null
-                }
+                    className="text-secondary"
+                    // href={p.image_sample}
+                    rel="noreferrer"
+                    target="_blank"
+                    onClick={() => {
+                      setModalData(p);
+                      setModalShow(true);
+                    }}
+                  >
+                    {" "}
+                    <i className="fa fa-question-circle"></i>{" "}
+                  </a>
+                ) : null}
               </td>
               <td key={"information_" + p._id}>
                 {p.information.map((i) => (

@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Container,Button, Row, Col } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 
 import { FiThumbsUp } from "react-icons/fi";
 import { Link } from "react-router-dom";
@@ -16,8 +16,8 @@ function Confirm(props) {
 
   const handleBack = () => {
     props.setStep(1);
-    props.history.push('/');
-  }
+    props.history.push("/");
+  };
 
   return print ? (
     <PrintApplication data={props} />
@@ -53,7 +53,11 @@ function Confirm(props) {
               <p>
                 Please record and keep this number for tracking your rebate
                 status{" "}
-                <a href={`/track/${props.control_no}`} target="_blank" className="text-info">
+                <a
+                  href={`/track/${props.control_no}`}
+                  target="_blank"
+                  className="text-info"
+                >
                   <b>here</b>
                 </a>
                 . Your rebate control number will also be emailed for your
@@ -65,7 +69,10 @@ function Confirm(props) {
         </Container>
 
         <Container className="text-center mb-3" id="homebtn">
-          <Button onClick={()=> handleBack()} className="btn btn-success btn-lg px-5">
+          <Button
+            onClick={() => handleBack()}
+            className="btn btn-success btn-lg px-5"
+          >
             <h4>BACK TO GPA HOMEPAGE </h4>
           </Button>
         </Container>
@@ -73,7 +80,7 @@ function Confirm(props) {
           <Link
             className="btn btn-info btn-lg px-5 py-3"
             to={`/printapplication?auth=${props.data.application_information?.print_hash}`}
-            target="_blank" 
+            target="_blank"
           >
             <h4 style={{ marginBottom: 0 }}>Print Application</h4>
           </Link>

@@ -26,10 +26,9 @@ import moment from "moment";
 const MySwal = withReactContent(Swal);
 
 function ExistingEquipmentInformation(props) {
-
-  const date = new Date(Date.now())
-  date.setDate(date.getDate())
-  const currentDate = moment(date).format("YYYY-MM-DD")
+  const date = new Date(Date.now());
+  date.setDate(date.getDate());
+  const currentDate = moment(date).format("YYYY-MM-DD");
 
   const dispatch = useDispatch();
   const { height, width } = useWindowDimensions();
@@ -214,9 +213,7 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="system_type" className="mb-3">
-              <Form.Label className="applicationTitle">
-                SYSTEM TYPE
-              </Form.Label>
+              <Form.Label className="applicationTitle">SYSTEM TYPE</Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
@@ -232,58 +229,74 @@ function ExistingEquipmentInformation(props) {
           </Col>
         </Row>
         <Row className="px-0">
-          {props.system_type !== "Dryer" ? props.system_type !== "Washer" ? 
-          
-           <Col md={6} className="mb-3">
-              <Form.Group controlId="old_btu">
-                <Form.Label className="applicationTitle">{props.system_type !== "Dryer" ? props.system_type !== "Washer" ? "BTU" : "N/A" : "N/A"}</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder=""
-                  value={props.old_btu}
-                  onChange={(e) => props.setOldBtu(e.target.value)}
-                  required
-                  disabled={props.no_existing ? true : false}
-                  min="0"
-                ></Form.Control>
-              </Form.Group>
-              {props.no_existing ? (
-                <> </>
-              ) : props.old_btu === "" ? (
-                <p className="validate text-danger requiredField">*This Field is Required</p>
-              ) : (
-                <></>
-              )}
-            </Col> :null :null}
-           
-            <Col md={6} className="mb-3">
-              <Form.Group controlId="old_tons">
-                <Form.Label className="applicationTitle">{props.system_type !== "Dryer" ?  props.system_type !== "Washer" ? "TONS": "CUBIC SQ." : "CUBIC SQ."}</Form.Label>
-                <Form.Control
-                  type="number"
-                  placeholder=""
-                  value={props.old_tons}
-                  onChange={(e) => props.setOldTons(e.target.value)}
-                  required
-                  min="0"
-                  disabled={props.no_existing ? true : false}
-                ></Form.Control>
-              </Form.Group>
-              {props.no_existing ? (
-                <> </>
-              ) : props.old_tons === "" ? (
-                <p className="validate text-danger requiredField">*This Field is Required</p>
-              ) : (
-                <></>
-              )}
-            </Col>
-          </Row>
+          {props.system_type !== "Dryer" ? (
+            props.system_type !== "Washer" ? (
+              <Col md={6} className="mb-3">
+                <Form.Group controlId="old_btu">
+                  <Form.Label className="applicationTitle">
+                    {props.system_type !== "Dryer"
+                      ? props.system_type !== "Washer"
+                        ? "BTU"
+                        : "N/A"
+                      : "N/A"}
+                  </Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder=""
+                    value={props.old_btu}
+                    onChange={(e) => props.setOldBtu(e.target.value)}
+                    required
+                    disabled={props.no_existing ? true : false}
+                    min="0"
+                  ></Form.Control>
+                </Form.Group>
+                {props.no_existing ? (
+                  <> </>
+                ) : props.old_btu === "" ? (
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </Col>
+            ) : null
+          ) : null}
+
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="old_tons">
+              <Form.Label className="applicationTitle">
+                {props.system_type !== "Dryer"
+                  ? props.system_type !== "Washer"
+                    ? "TONS"
+                    : "CUBIC SQ."
+                  : "CUBIC SQ."}
+              </Form.Label>
+              <Form.Control
+                type="number"
+                placeholder=""
+                value={props.old_tons}
+                onChange={(e) => props.setOldTons(e.target.value)}
+                required
+                min="0"
+                disabled={props.no_existing ? true : false}
+              ></Form.Control>
+            </Form.Group>
+            {props.no_existing ? (
+              <> </>
+            ) : props.old_tons === "" ? (
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
+            ) : (
+              <></>
+            )}
+          </Col>
+        </Row>
         <Row className="px-0">
           <Col md={6} className="mb-3">
             <Form.Group controlId="old_quantity">
-              <Form.Label className="applicationTitle">
-                QUANTITY
-              </Form.Label>
+              <Form.Label className="applicationTitle">QUANTITY</Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""
@@ -297,7 +310,9 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.old_quantity === "" ? (
-              <p className="validate text-danger requiredField">*This Field is Required</p>
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
             ) : (
               <></>
             )}
@@ -320,7 +335,9 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.old_years === "" ? (
-              <p className="validate text-danger requiredField">*This Field is Required</p>
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
             ) : (
               <></>
             )}
@@ -357,48 +374,45 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.is_equipment_condition === "" ? (
-              <p className="validate text-danger requiredField">*This Field is Required</p>
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
             ) : (
               <></>
             )}
           </Col>
         </Row>
-         {props.system_type !== "Dryer" ? props.system_type !== "Washer" ? 
-
-          <Row className="px-0">
-                    <Col md={12} className="mb-3">
-                      <Form.Group controlId="seer">
-                        <Form.Label className="applicationTitle">
-                          SEER
-                        </Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder=""
-                          required
-                          value={props.seer}
-                          onChange={(e)=> props.setSeer(e.target.value)}
-                          disabled={props.no_existing ? true : false}
-                          min="0"
-
-                        ></Form.Control>
-                      </Form.Group>
-                      {/* {props.no_existing ? (
+        {props.system_type !== "Dryer" ? (
+          props.system_type !== "Washer" ? (
+            <Row className="px-0">
+              <Col md={12} className="mb-3">
+                <Form.Group controlId="seer">
+                  <Form.Label className="applicationTitle">SEER</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder=""
+                    required
+                    value={props.seer}
+                    onChange={(e) => props.setSeer(e.target.value)}
+                    disabled={props.no_existing ? true : false}
+                    min="0"
+                  ></Form.Control>
+                </Form.Group>
+                {/* {props.no_existing ? (
                         <> </>
                       ) : props.seer === "" ? (
                         <p className="validate text-danger">*This Field is Required</p>
                       ) : (
                         <></>
                       )} */}
-                    </Col>
-                  </Row>
+              </Col>
+            </Row>
+          ) : null
+        ) : null}
 
-          :null :null}
-       
         <Row className="px-0">
           <Col md={12}>
-            <Form.Label className="applicationTitle">
-              DISPOSAL PARTY
-            </Form.Label>{" "}
+            <Form.Label className="applicationTitle">DISPOSAL PARTY</Form.Label>{" "}
             <br />
             <Form.Check
               inline
@@ -424,7 +438,9 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.disposal_party === "" ? (
-              <p className="validate text-danger requiredField">*This Field is Required</p>
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
             ) : (
               <></>
             )}
@@ -440,7 +456,7 @@ function ExistingEquipmentInformation(props) {
                   onHide={() => setModalShow(false)}
                 />
                 <span className="d-flex flex-row justify-content-between disposalReceipt">
-                   DISPOSAL RECEIPT
+                  DISPOSAL RECEIPT
                   <span
                     className="text-secondary mb-1"
                     onClick={() => {
@@ -467,7 +483,9 @@ function ExistingEquipmentInformation(props) {
                 {props.no_existing ? (
                   <> </>
                 ) : props.disposal_slip === null ? (
-                  <p className="validate text-danger requiredField">*This Field is Required</p>
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
                 ) : (
                   <></>
                 )}
@@ -510,7 +528,9 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.agree_terms === "" ? (
-              <p className="validate text-danger requiredField">*This Field is Required</p>
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
             ) : (
               <></>
             )}
@@ -519,9 +539,7 @@ function ExistingEquipmentInformation(props) {
         <Row className="px-0">
           <Col md={12}>
             <Form.Group controlId="date" className="mb-3">
-              <Form.Label className="applicationTitle">
-                DATE
-              </Form.Label>
+              <Form.Label className="applicationTitle">DATE</Form.Label>
               <Form.Control
                 type="date"
                 placeholder=""
@@ -535,7 +553,9 @@ function ExistingEquipmentInformation(props) {
             {props.no_existing ? (
               <> </>
             ) : props.date === "" ? (
-              <p className="validate text-danger requiredField">*This Field is Required</p>
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
             ) : (
               <></>
             )}

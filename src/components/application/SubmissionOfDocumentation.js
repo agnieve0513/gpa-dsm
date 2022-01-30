@@ -23,26 +23,25 @@ function SubmissionOfDocumentation(props) {
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
-    
   });
 
   let p = {};
 
-  let initLetter = React.useMemo(() => props.letter_authorization, [])
-  let initInvoice = React.useMemo(() => props.invoice, [])
-  let initInstaller = React.useMemo(() => props.installer_certification, [])
-  let initDisposal = React.useMemo(() => props.disposal_slip, [])
-  if (initLetter && props.letter_authorization===undefined) {
-    props.setLetterAuthorization('')
+  let initLetter = React.useMemo(() => props.letter_authorization, []);
+  let initInvoice = React.useMemo(() => props.invoice, []);
+  let initInstaller = React.useMemo(() => props.installer_certification, []);
+  let initDisposal = React.useMemo(() => props.disposal_slip, []);
+  if (initLetter && props.letter_authorization === undefined) {
+    props.setLetterAuthorization("");
   }
-  if (initInvoice && props.invoice===undefined) {
-    props.setInvoice('')
+  if (initInvoice && props.invoice === undefined) {
+    props.setInvoice("");
   }
-  if (initInstaller && props.initInstaller===undefined) {
-    props.setInstallerCertification('')
+  if (initInstaller && props.initInstaller === undefined) {
+    props.setInstallerCertification("");
   }
-  if (initDisposal && props.disposal_slip===undefined) {
-    props.setDisposalSlip('')
+  if (initDisposal && props.disposal_slip === undefined) {
+    props.setDisposalSlip("");
   }
 
   const handleChange = (e, doc_type) => {
@@ -101,7 +100,9 @@ function SubmissionOfDocumentation(props) {
       <Col md={3}></Col>
       <Col md={6}>
         {width >= 425 ? (
-          <h4 className="text-center text-info mb-3 ">SUBMISSION OF DOCUMENTATION</h4>
+          <h4 className="text-center text-info mb-3 ">
+            SUBMISSION OF DOCUMENTATION
+          </h4>
         ) : (
           <></>
         )}
@@ -115,7 +116,7 @@ function SubmissionOfDocumentation(props) {
                 setModalData(
                   (p = {
                     description: "Upload IRS Form W-9",
-                    id_: "3"
+                    id_: "3",
                   })
                 );
                 setModalShow(true);
@@ -123,7 +124,7 @@ function SubmissionOfDocumentation(props) {
             >
               <i className="fa fa-question-circle ps-2"></i>{" "}
             </span>
-            {props.irs_form  ? (
+            {props.irs_form ? (
               <>
                 <Badge bg={"success"}>File Uploaded</Badge>
               </>
@@ -170,12 +171,13 @@ function SubmissionOfDocumentation(props) {
           <>
             <Form.Group controlId="other_supporting_doc1" className="mb-3">
               <Row className="flex d-flex-row justify-content-between">
-                <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">Other Supporting Document 1 {" "}
-                {props.other_doc1 ? (
-                  <Badge bg={"success"}>File Uploaded</Badge>
-                ) : (
-                  <></>
-                )}
+                <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">
+                  Other Supporting Document 1{" "}
+                  {props.other_doc1 ? (
+                    <Badge bg={"success"}>File Uploaded</Badge>
+                  ) : (
+                    <></>
+                  )}
                 </p>
                 <span
                   className="px-0 text-secondary supportingDoc"
@@ -213,7 +215,8 @@ function SubmissionOfDocumentation(props) {
 
             <Form.Group controlId="other_supporting_doc2" className="mb-3">
               <Row className="flex d-flex-row justify-content-between">
-                <p className="px-0 m-0 mb-1 supportingDoc fw-bold">Other Supporting Document 2{" "}
+                <p className="px-0 m-0 mb-1 supportingDoc fw-bold">
+                  Other Supporting Document 2{" "}
                   {props.other_doc2 ? (
                     <Badge bg={"success"}>File Uploaded</Badge>
                   ) : (
@@ -267,7 +270,7 @@ function SubmissionOfDocumentation(props) {
                 <b>LOA (Letter of Authorization)</b>{" "}
                 <small className="text-muted">
                   If you want to update the existing upload, you can upload the
-                  file below {" "}
+                  file below{" "}
                 </small>
                 <span
                   className="text-secondary"
@@ -299,8 +302,12 @@ function SubmissionOfDocumentation(props) {
               {props.letter_authorization ? (
                 <>
                   {props.setLetterAuthorizationD(fileCode)}
-                  <p className="m-0">Filename: {props.letter_authorization.name}</p>
-                  <p className="m-0">File Type: {props.letter_authorization.type}</p>
+                  <p className="m-0">
+                    Filename: {props.letter_authorization.name}
+                  </p>
+                  <p className="m-0">
+                    File Type: {props.letter_authorization.type}
+                  </p>
                 </>
               ) : (
                 <></>
@@ -321,7 +328,7 @@ function SubmissionOfDocumentation(props) {
               </small>
               <span
                 className="text-secondary"
-                onSubmit={e => e.preventDefault()}
+                onSubmit={(e) => e.preventDefault()}
                 onClick={() => {
                   setModalData(
                     (p = {
@@ -401,8 +408,12 @@ function SubmissionOfDocumentation(props) {
             {props.installer_certification ? (
               <>
                 {props.setInstallerCertificationD(fileCode)}
-                <p className="m-0">Filename: {props.installer_certification.name}</p>
-                <p className="m-0">File Type: {props.installer_certification.type}</p>
+                <p className="m-0">
+                  Filename: {props.installer_certification.name}
+                </p>
+                <p className="m-0">
+                  File Type: {props.installer_certification.type}
+                </p>
               </>
             ) : (
               <></>

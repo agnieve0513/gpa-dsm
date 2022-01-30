@@ -40,9 +40,9 @@ function NewEuipmentInformation(props) {
   const { height, width } = useWindowDimensions();
   const screenWidthM = width > 425;
 
-  const date = new Date(Date.now())
-  date.setDate(date.getDate())
-  const currentDate = moment(date).format("YYYY-MM-DD")
+  const date = new Date(Date.now());
+  date.setDate(date.getDate());
+  const currentDate = moment(date).format("YYYY-MM-DD");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -97,26 +97,28 @@ function NewEuipmentInformation(props) {
   };
 
   const handleModelNo = (id) => {
-    switch(id.model) {
-      case ("Indoor / Outdoor"): {
-        return (id.indoor_model + " / " + id.outdoor_model)
+    switch (id.model) {
+      case "Indoor / Outdoor": {
+        return id.indoor_model + " / " + id.outdoor_model;
       }
-      case ("Package"): {
-        return(id.package_model)
+      case "Package": {
+        return id.package_model;
       }
-      case ("Both"): {
-        return(id.indoor_model + " / " + id.outdoor_model + " / " + id.model)
+      case "Both": {
+        return id.indoor_model + " / " + id.outdoor_model + " / " + id.model;
       }
       default: {
-        return(id.model)
+        return id.model;
       }
     }
-  }
+  };
 
   const changeModelHandler = (e) => {
-    setModelID(e.target.value)
-    var selectedModel = models.find(model => model.id === parseInt(e.target.value))
-    var modelName = handleModelNo(selectedModel)
+    setModelID(e.target.value);
+    var selectedModel = models.find(
+      (model) => model.id === parseInt(e.target.value)
+    );
+    var modelName = handleModelNo(selectedModel);
     // console.log('selMod', selectedModel, 'modelN', modelName)
     props.setModelNo(modelName);
     dispatch(loadCustomerEquipmentDetail(e.target.value));
@@ -164,12 +166,12 @@ function NewEuipmentInformation(props) {
       props.work_tel === "" ||
       props.company_name === "" ||
       props.date_final_installation === "" ||
-      Math.abs(
-                new Date(props.purchase_date) -
-                  new Date(props.date_final_installation)
-              ) /
-                (1000 * 3600 * 24) >
-              120 && props.delay_reason === ""
+      (Math.abs(
+        new Date(props.purchase_date) - new Date(props.date_final_installation)
+      ) /
+        (1000 * 3600 * 24) >
+        120 &&
+        props.delay_reason === "")
     ) {
       Toast.fire({
         icon: "info",
@@ -177,7 +179,10 @@ function NewEuipmentInformation(props) {
         text: "Fields should not be empty in order to proceed to next step",
       });
     } else {
-      if (props.max_invoice >= parseInt(parseInt(props.totalQuantity) + parseInt(props.quantity))) {
+      if (
+        props.max_invoice >=
+        parseInt(parseInt(props.totalQuantity) + parseInt(props.quantity))
+      ) {
         // Object for saving . ...
         const obj = {
           control_no: props.control_no,
@@ -204,7 +209,9 @@ function NewEuipmentInformation(props) {
             email: props.tech_email,
           },
         };
-        props.setTotalQuantity(parseInt(props.quantity) + parseInt(props.totalQuantity));
+        props.setTotalQuantity(
+          parseInt(props.quantity) + parseInt(props.totalQuantity)
+        );
         props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
         props.setNewEquipments(props.new_equipments.concat(obj));
       } else {
@@ -250,7 +257,8 @@ function NewEuipmentInformation(props) {
                   onClick={() => {
                     setModalData(
                       (p = {
-                        description: "INSTALLER'S CERTIFICATION NUMBER LOCATION",
+                        description:
+                          "INSTALLER'S CERTIFICATION NUMBER LOCATION",
                         image_sample: "./image_sample/7.jpg",
                       })
                     );
@@ -305,7 +313,6 @@ function NewEuipmentInformation(props) {
               )} */}
             </Form.Group>
           </Col>
-          
         </Row>
       );
     }
@@ -380,27 +387,26 @@ function NewEuipmentInformation(props) {
   };
 
   const handleShowExeededTime = () => {
-    if(props.delay_reason === "")
-    {
+    if (props.delay_reason === "") {
       const Toast = MySwal.mixin({
-      toast: true,
-      position: "top-right",
-      iconColor: "white",
-      customClass: {
-        popup: "colored-toast",
-      },
-      showConfirmButton: false,
-      timer: 3500,
-      timerProgressBars: true,
-    });
+        toast: true,
+        position: "top-right",
+        iconColor: "white",
+        customClass: {
+          popup: "colored-toast",
+        },
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBars: true,
+      });
 
-    Toast2.fire({
-      icon: "info",
-      title: "The application has exceeded 120 day",
-      text: "There might be a chance that it will be rejected, please provide a valid reason.",
-    });
+      Toast2.fire({
+        icon: "info",
+        title: "The application has exceeded 120 day",
+        text: "There might be a chance that it will be rejected, please provide a valid reason.",
+      });
     }
-  }
+  };
 
   return (
     <Row className="mx-0 w-100 d-flex justify-content-center">
@@ -409,7 +415,9 @@ function NewEuipmentInformation(props) {
         <Row className="">
           <Col md={12} className="mb-3">
             {screenWidthM ? (
-              <h4 className="text-center text-info mb-4">NEW EQUIPMENT INFORMATION</h4>
+              <h4 className="text-center text-info mb-4">
+                NEW EQUIPMENT INFORMATION
+              </h4>
             ) : (
               <></>
             )}
@@ -622,7 +630,6 @@ function NewEuipmentInformation(props) {
                           {props.setInvoiceD(fileCode)}
                           {console.log(props.invoiceD)}
                           <Badge bg={"success"}>File Uploaded</Badge> <br />
-                          
                         </>
                       ) : (
                         <></>
@@ -631,7 +638,9 @@ function NewEuipmentInformation(props) {
                   ) : (
                     <></>
                   )}
-                  <p className="text-break m-0">Filename: {props.invoice.name}</p>
+                  <p className="text-break m-0">
+                    Filename: {props.invoice.name}
+                  </p>
                   <p>File Type: {props.invoice.type}</p>
                 </>
               ) : (
@@ -643,7 +652,9 @@ function NewEuipmentInformation(props) {
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group controlId="quantity">
-              <Form.Label className=" applicationTitle">MAX QUANTITY ON INVOICE</Form.Label>
+              <Form.Label className=" applicationTitle">
+                MAX QUANTITY ON INVOICE
+              </Form.Label>
               <Form.Control
                 type="number"
                 placeholder=""
@@ -667,7 +678,7 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        
+
         <h5 className="text-center text-info mt-5 pb-2 applicationSubHeader">
           EQUIPMENT INFORMATION
         </h5>
@@ -905,25 +916,27 @@ function NewEuipmentInformation(props) {
               ) /
                 (1000 * 3600 * 24) >
               120 ? (
-                <>
-                  { handleShowExeededTime() }
+              <>
+                {handleShowExeededTime()}
                 <Form.Control
-                as="textarea" row={3}
-                onChange={(e) => props.setDelayReason(e.target.value)}
-                value={props.delay_reason}
-                required
-                placeholder="Please enter a valid reason for exceeding 120 days."
-              ></Form.Control>
-              {props.delay_reason === "" ? (
-                <p className="validate text-danger requiredField">
-                  *This Field is Required
-                </p>
-              ) : (
-                <></>
-              )}
+                  as="textarea"
+                  row={3}
+                  onChange={(e) => props.setDelayReason(e.target.value)}
+                  value={props.delay_reason}
+                  required
+                  placeholder="Please enter a valid reason for exceeding 120 days."
+                ></Form.Control>
+                {props.delay_reason === "" ? (
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
               </>
-            ) : ("")
-          }
+            ) : (
+              ""
+            )}
           </Col>
         </Row>
 

@@ -303,21 +303,19 @@ function PrintApplication(props) {
                     }
                   </Text>
                 </View>
-                {
-                  new_equipment_information[0]?.system_type === "Dryer"
-                  ? new_equipment_information[0]?.system_type === "Washer" ? 
-                  <View style={{ flexDirection: "row" }}>
-                  <Text style={styles.text}>Certification No: </Text>
-                  <Text style={styles.boldText}>
-                    {
-                      new_equipment_information[0]?.installer_information
-                        ?.technician_cert_no
-                    }
-                  </Text>
-                </View>
-                  : null 
-                  : null
-                }
+                {new_equipment_information[0]?.system_type === "Dryer" ? (
+                  new_equipment_information[0]?.system_type === "Washer" ? (
+                    <View style={{ flexDirection: "row" }}>
+                      <Text style={styles.text}>Certification No: </Text>
+                      <Text style={styles.boldText}>
+                        {
+                          new_equipment_information[0]?.installer_information
+                            ?.technician_cert_no
+                        }
+                      </Text>
+                    </View>
+                  ) : null
+                ) : null}
                 <View style={{ flexDirection: "row" }}>
                   <Text style={styles.text}>Email: </Text>
                   <Text style={styles.boldText}>

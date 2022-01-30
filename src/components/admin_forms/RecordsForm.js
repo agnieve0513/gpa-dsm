@@ -107,7 +107,7 @@ function RecordsForm() {
 
   const applicationDetail = useSelector((state) => state.applicationDetail);
   const { loading, error, application } = applicationDetail;
-  
+
   const applicationComments = useSelector((state) => state.applicationComments);
   const { comments } = applicationComments;
 
@@ -529,19 +529,24 @@ function RecordsForm() {
             defaultActiveKey="application_information"
           >
             <div
-          style={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Button className="mb-3 btn btn-light" onClick={() => resetHandler()}>
-            <i className="fa fa-arrow-left"></i> Back to Application
-          </Button>
-          <h4 style={{ marginLeft: "auto" }}>{application?.Control_Number}</h4>
-        </div>
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                className="mb-3 btn btn-light"
+                onClick={() => resetHandler()}
+              >
+                <i className="fa fa-arrow-left"></i> Back to Application
+              </Button>
+              <h4 style={{ marginLeft: "auto" }}>
+                {application?.Control_Number}
+              </h4>
+            </div>
             <Row style={{ paddingLeft: 12 }}>
               <Col
                 className="p-0"
@@ -686,7 +691,9 @@ function RecordsForm() {
                               </p>
                               <p className="mt-5 mb-5">
                                 <b>
-                                  {application.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
+                                  {application.Info_Is_owner == 1
+                                    ? "YES"
+                                    : "NO" || "N/A"}
                                   <br />
                                   <p
                                     style={{
@@ -714,7 +721,9 @@ function RecordsForm() {
                               </p>
                               <p>
                                 <b>
-                                 {application.Info_New_construction ? "YES" : "NO" || "N/A"}
+                                  {application.Info_New_construction
+                                    ? "YES"
+                                    : "NO" || "N/A"}
                                 </b>
                               </p>
                               <p>
@@ -1056,96 +1065,101 @@ function RecordsForm() {
                               <Col md={4}>
                                 <span>
                                   Invoice{" "}
-                                  {
-                                    application.Submitted_docs[0].invoice !== null ?
+                                  {application.Submitted_docs[0].invoice !==
+                                  null ? (
                                     <Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        application.Submitted_docs[0].invoice
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button>:
-                                  <span className="text-danger">*No File Attached</span>
-                                  }
-                                  
+                                      className="mb-2"
+                                      variant={"success"}
+                                      onClick={() =>
+                                        handleRetrieveFile(
+                                          application.Submitted_docs[0].invoice
+                                        )
+                                      }
+                                      size={"sm"}
+                                    >
+                                      Download
+                                    </Button>
+                                  ) : (
+                                    <span className="text-danger">
+                                      *No File Attached
+                                    </span>
+                                  )}
                                   <br />
                                 </span>
                               </Col>
                               <Col md={4}>
                                 <span>
                                   IRS-W9{" "}
-                                  {
-                                    application.Submitted_docs[0].irs_form !== null ?
-<Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        application.Submitted_docs[0].irs_form
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button>
-                                  :
-                                  <span className="text-danger">*No File Attached</span>
-                                  }
+                                  {application.Submitted_docs[0].irs_form !==
+                                  null ? (
+                                    <Button
+                                      className="mb-2"
+                                      variant={"success"}
+                                      onClick={() =>
+                                        handleRetrieveFile(
+                                          application.Submitted_docs[0].irs_form
+                                        )
+                                      }
+                                      size={"sm"}
+                                    >
+                                      Download
+                                    </Button>
+                                  ) : (
+                                    <span className="text-danger">
+                                      *No File Attached
+                                    </span>
+                                  )}
                                 </span>
                               </Col>
                               <Col md={4}>
                                 <span>
                                   Letter of Authorization{" "}
-                                  {
-                                    application.Submitted_docs[0]
-                                          .letter_authorization !== null ?
-<Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        application.Submitted_docs[0]
-                                          .letter_authorization
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button>:
-                                  <span className="text-danger">*No File Attached</span>
-                                  }
-                                  
+                                  {application.Submitted_docs[0]
+                                    .letter_authorization !== null ? (
+                                    <Button
+                                      className="mb-2"
+                                      variant={"success"}
+                                      onClick={() =>
+                                        handleRetrieveFile(
+                                          application.Submitted_docs[0]
+                                            .letter_authorization
+                                        )
+                                      }
+                                      size={"sm"}
+                                    >
+                                      Download
+                                    </Button>
+                                  ) : (
+                                    <span className="text-danger">
+                                      *No File Attached
+                                    </span>
+                                  )}
                                 </span>{" "}
                                 <br />
                               </Col>
                               <Col md={4}>
                                 <span>
                                   Disposal Slip{" "}
-                                  {
-                                    application.Submitted_docs[0]
-                                          .disposal_slip !== null ?
-<Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        application.Submitted_docs[0]
-                                          .disposal_slip
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button> :
-                                  <span className="text-danger">*No File Attached</span>
-
-                                  }
-                                  {" "}
+                                  {application.Submitted_docs[0]
+                                    .disposal_slip !== null ? (
+                                    <Button
+                                      className="mb-2"
+                                      variant={"success"}
+                                      onClick={() =>
+                                        handleRetrieveFile(
+                                          application.Submitted_docs[0]
+                                            .disposal_slip
+                                        )
+                                      }
+                                      size={"sm"}
+                                    >
+                                      Download
+                                    </Button>
+                                  ) : (
+                                    <span className="text-danger">
+                                      *No File Attached
+                                    </span>
+                                  )}{" "}
                                 </span>{" "}
                                 <br />
                               </Col>
@@ -1153,24 +1167,26 @@ function RecordsForm() {
                               <Col md={4}>
                                 <span>
                                   Other Document 1{" "}
-                                  {
-                                    application.Submitted_docs[0].other_doc2 !== null ? 
-<Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        application.Submitted_docs[0].other_doc2
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button> :
-                                  <span className="text-danger">*No File Attached</span>
-
-                                  }
-                                  {" "}
+                                  {application.Submitted_docs[0].other_doc2 !==
+                                  null ? (
+                                    <Button
+                                      className="mb-2"
+                                      variant={"success"}
+                                      onClick={() =>
+                                        handleRetrieveFile(
+                                          application.Submitted_docs[0]
+                                            .other_doc2
+                                        )
+                                      }
+                                      size={"sm"}
+                                    >
+                                      Download
+                                    </Button>
+                                  ) : (
+                                    <span className="text-danger">
+                                      *No File Attached
+                                    </span>
+                                  )}{" "}
                                 </span>{" "}
                                 <br />
                               </Col>
@@ -1178,29 +1194,30 @@ function RecordsForm() {
                               <Col md={4}>
                                 <span>
                                   Other Document 2{" "}
-                                  {
-                                    application.Submitted_docs[0].other_doc3 !== null ?
-<Button
-                                    className="mb-2"
-                                    variant={"success"}
-                                    onClick={() =>
-                                      handleRetrieveFile(
-                                        application.Submitted_docs[0].other_doc3
-                                      )
-                                    }
-                                    size={"sm"}
-                                  >
-                                    Download
-                                  </Button> :
-                                  <span className="text-danger">*No File Attached</span>
-
-                                  }
-                                  {" "}
+                                  {application.Submitted_docs[0].other_doc3 !==
+                                  null ? (
+                                    <Button
+                                      className="mb-2"
+                                      variant={"success"}
+                                      onClick={() =>
+                                        handleRetrieveFile(
+                                          application.Submitted_docs[0]
+                                            .other_doc3
+                                        )
+                                      }
+                                      size={"sm"}
+                                    >
+                                      Download
+                                    </Button>
+                                  ) : (
+                                    <span className="text-danger">
+                                      *No File Attached
+                                    </span>
+                                  )}{" "}
                                 </span>{" "}
                                 <br />
                               </Col>
                             </Row>
-
                           </>
                         ) : (
                           ""
@@ -1208,23 +1225,27 @@ function RecordsForm() {
                       </ListGroup>
                       <h4 className="text-info">Comments</h4>
                       {comments ? (
-                      comments.map((comment) => {
-                        const madeOn = new Date(comment.Made_On.replace(/-/g, "/"));
-                        const stringDate = madeOn.toString().substring(0, 15);
-                        return (
-                          <div className="p-3 mb-1">
-                            <h6>
-                              {comment.Made_By} | {stringDate}
-                              <br />
-                              <small className="text-muted">{comment.role}</small>
-                            </h6>
-                            <h6 className="text-muted">{comment.Comment}</h6>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <></>
-                    )}
+                        comments.map((comment) => {
+                          const madeOn = new Date(
+                            comment.Made_On.replace(/-/g, "/")
+                          );
+                          const stringDate = madeOn.toString().substring(0, 15);
+                          return (
+                            <div className="p-3 mb-1">
+                              <h6>
+                                {comment.Made_By} | {stringDate}
+                                <br />
+                                <small className="text-muted">
+                                  {comment.role}
+                                </small>
+                              </h6>
+                              <h6 className="text-muted">{comment.Comment}</h6>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <></>
+                      )}
                     </Container>
                   </Tab.Pane>
                 </Tab.Content>
