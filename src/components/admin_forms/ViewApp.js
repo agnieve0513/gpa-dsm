@@ -238,7 +238,6 @@ function ViewApp(props) {
   } = customerEquipmentDetail;
 
   useEffect(() => {
-    alert("useEffect for viewing application was activated");
     dispatch(detailApplication(props.applicationId));
     dispatch(commentsApplication(props.applicationId));
     dispatch(logsApplication(props.applicationId));
