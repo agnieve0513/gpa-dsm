@@ -78,7 +78,7 @@ function EquipmentReview(props) {
 
   return (
     <Row className="w-100 mx-0 d-flex justify-content-center">
-      <Col sm={10} xl={8}>
+      <Col sm={12} xl={10}>
         {width >= 425 ? (
           <h4 className="text-center text-info mb-3">EQUIPMENT REVIEW</h4>
         ) : (
@@ -360,69 +360,40 @@ function EquipmentReview(props) {
                     <Col className="px-0" md={12}>
                       {props.new_equipments.length >= 1 ? (
                         <>
-                          <MaterialTable
-                            columns={
-                              props.system_type === ("Dryer" || "Washer")
-                                ? [
-                                    {
-                                      title: "System Type",
-                                      field: "system_type",
-                                    },
-                                    { title: "Vendor", field: "vendor" },
-                                    { title: "Quantity", field: "quantity" },
-                                    { title: "Years", field: "years" },
-                                    { title: "Quantity", field: "quantity" },
-                                    { title: "BTU", field: "btu" },
-                                    { title: "Invoice#", field: "invoice_no" },
-                                    {
-                                      title: "Purchase Date",
-                                      field: "purchase_date",
-                                    },
-                                    { title: "Type", field: "type" },
-                                    { title: "Tons", field: "tons" },
-                                    { title: "Seer", field: "seer" },
-                                    {
-                                      title: "Disposal Party",
-                                      field: "disposal_party",
-                                    },
-                                    { title: "Date", field: "date" },
-                                  ]
-                                : [
-                                    {
-                                      title: "System Type",
-                                      field: "system_type",
-                                    },
-                                    { title: "Vendor", field: "vendor" },
-                                    { title: "Quantity", field: "quantity" },
-                                    { title: "Years", field: "years" },
-                                    { title: "Quantity", field: "quantity" },
-                                    { title: "Invoice#", field: "invoice_no" },
-                                    {
-                                      title: "Purchase Date",
-                                      field: "purchase_date",
-                                    },
-                                    { title: "Type", field: "type" },
-                                    { title: "Seer", field: "seer" },
-                                    {
-                                      title: "Disposal Party",
-                                      field: "disposal_party",
-                                    },
-                                    { title: "Date", field: "date" },
-                                  ]
-                            }
-                            data={
-                              props.new_equipments.length === 0
-                                ? []
-                                : props.new_equipments
-                            }
-                            title={width < 770 ? "" : "New Equipments"}
-                            options={{
-                              headerStyle: {
-                                backgroundColor: "#233f88",
-                                color: "#FFF",
-                              },
-                            }}
-                          />
+                          <Table>
+                            <thead className="bg-info text-white">
+                              <tr>
+                                <th>#</th>
+                                <th>System Type</th>
+                                <th>Manufacturer</th>
+                                <th>Model Number</th>
+                                <th>Vendor</th>
+                                <th>Invoice#</th>
+                                <th>Quantity</th>
+                                <th>Purchase Date</th>
+                                <th>Rebate</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {console.log(props.new_equipments)}
+                              {props.new_equipments.length >= 1
+                                ? props.new_equipments.map((eq) => (
+                                    <tr>
+                                      <td>{eq.id + 1}</td>
+                                      <td>{props.system_type}</td>
+                                      <td>{eq.manufacturer}</td>
+                                      <td>{eq.model_no}</td>
+                                      <td>{eq.vendor}</td>
+                                      <td>{eq.invoice_no}</td>
+                                      <td>{eq.quantity}</td>
+                                      <td>{eq.purchase_date}</td>
+                                      <td>{eq.rebate || 0}</td>
+                                    </tr>
+                                  ))
+                                : null}
+                            </tbody>
+                          </Table>
+
                           <Row>
                             <Col md={6}>
                               <h3 className="mt-3 mb-3 text-info">
@@ -558,57 +529,58 @@ function EquipmentReview(props) {
                       <i className="fa fa-pen"></i>
                     </button>
                   </Row>
-                  <MaterialTable
-                    columns={
-                      props.system_type === ("Dryer" || "Washer")
-                        ? [
-                            { title: "System Type", field: "system_type" },
-                            { title: "Vendor", field: "vendor" },
-                            { title: "Quantity", field: "quantity" },
-                            { title: "Years", field: "years" },
-                            { title: "Quantity", field: "quantity" },
-                            { title: "BTU", field: "btu" },
-                            { title: "Invoice#", field: "invoice_no" },
-                            { title: "Purchase Date", field: "purchase_date" },
-                            { title: "Type", field: "type" },
-                            { title: "Tons", field: "tons" },
-                            { title: "Seer", field: "seer" },
-                            {
-                              title: "Disposal Party",
-                              field: "disposal_party",
-                            },
-                            { title: "Date", field: "date" },
-                          ]
-                        : [
-                            { title: "System Type", field: "system_type" },
-                            { title: "Vendor", field: "vendor" },
-                            { title: "Quantity", field: "quantity" },
-                            { title: "Years", field: "years" },
-                            { title: "Quantity", field: "quantity" },
-                            { title: "Invoice#", field: "invoice_no" },
-                            { title: "Purchase Date", field: "purchase_date" },
-                            { title: "Type", field: "type" },
-                            { title: "Seer", field: "seer" },
-                            {
-                              title: "Disposal Party",
-                              field: "disposal_party",
-                            },
-                            { title: "Date", field: "date" },
-                          ]
-                    }
-                    data={
-                      props.old_equipments.length === 0
-                        ? []
-                        : props.old_equipments
-                    }
-                    title={width < 770 ? "" : "Existing Equipments"}
-                    options={{
-                      headerStyle: {
-                        backgroundColor: "#233f88",
-                        color: "#FFF",
-                      },
-                    }}
-                  />
+                  <Table>
+                    <thead className="bg-info text-white">
+                      <tr>
+                        <th>#</th>
+                        <th>System Type</th>
+                        {props.system_type === ("Dryer" || "Washer") ? (
+                          <>
+                            <th>CUBIC</th>
+                          </>
+                        ) : (
+                          <>
+                            <th>BTU</th>
+                            <th>TONS</th>
+                            <th>SEER</th>
+                          </>
+                        )}
+                        <th>QUANTITY</th>
+                        <th>NO. OF YEARS</th>
+                        <th>Equipment Conditoin</th>
+                        <th>Disposal Party</th>
+                        <th>Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {console.log(props.old_equipments)}
+                      {props.old_equipments.length
+                        ? props.old_equipments.map((eq) => (
+                            <tr>
+                              <td>{eq.id}</td>
+                              <td>{props.system_type}</td>
+                              {props.system_type === ("Dryer" || "Washer") ? (
+                                <>
+                                  <td>{eq.btu}</td>
+                                </>
+                              ) : (
+                                <>
+                                  <td>{eq.btu}</td>
+                                  <td>{eq.tons}</td>
+                                  <td>{eq.seer}</td>
+                                </>
+                              )}
+                              <td>{eq.quantity}</td>
+                              <td>{eq.years}</td>
+                              <td>{eq.is_equipment_condition}</td>
+                              <td>{eq.disposal_party}</td>
+                              <td>{eq.date}</td>
+                            </tr>
+                          ))
+                        : null}
+                    </tbody>
+                  </Table>
+                  
                 </Container>
               </Tab>
             </Tabs>

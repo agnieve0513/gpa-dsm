@@ -511,6 +511,7 @@ function ApplicationInformation(props) {
                     }
                     maxLength="10"
                     value={props.account_no}
+                    disabled={props.verify ? true : false}
                     required
                   ></Form.Control>
                 </Form.Group>
@@ -577,6 +578,7 @@ function ApplicationInformation(props) {
                         handleNumericFields(e.target, "setBillId")
                       }
                       value={props.bill_id}
+                      disabled={props.verify ? true : false}
                       required
                       maxLength="5"
                     />
@@ -584,6 +586,7 @@ function ApplicationInformation(props) {
                       onClick={() => verifyCustomerHandler()}
                       variant="danger"
                       id="button-addon2"
+                      disabled={props.verify ? true : false}
                     >
                       Verify
                     </Button>
@@ -622,73 +625,102 @@ function ApplicationInformation(props) {
                   )}
                 </span>
               </Col>
-              <Col md={6} className="mb-3">
-                <Form.Group controlId="first Name">
-                  <Form.Label className=" applicationTitle">
-                    FIRST NAME
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder=""
-                    onChange={(e) => props.setFirstname(e.target.value)}
-                    value={props.firstname}
-                    required
-                    disabled={props.verify ? false : true}
-                  ></Form.Control>
-                </Form.Group>
-                {props.firstname === "" ? (
-                  <p className="validate text-danger requiredField">
-                    *This Field is Required
-                  </p>
-                ) : (
-                  <></>
-                )}
-              </Col>
-              <Col md={4} className="mb-3">
-                <Form.Group controlId="lastname">
-                  <Form.Label className=" applicationTitle">
-                    LAST NAME
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder=""
-                    onChange={(e) => props.setLastname(e.target.value)}
-                    value={props.lastname}
-                    required
-                    disabled={props.verify ? false : true}
-                  ></Form.Control>
-                </Form.Group>
-                {props.verify ? (
-                  props.customer_type === "RESID" ? (
-                    <>
-                      {props.lastname === "" ? (
-                        <p className="validate text-danger requiredField">
-                          *This Field is Required
-                        </p>
-                      ) : (
-                        <></>
-                      )}
-                    </>
+              {props.customer_type === "COMM" ? (
+                <Col md={12} className="mb-3">
+                  <Form.Group controlId="first Name">
+                    <Form.Label className=" applicationTitle">
+                      NAME
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder=""
+                      onChange={(e) => props.setFirstname(e.target.value)}
+                      value={props.firstname}
+                      required
+                      disabled={props.verify ? false : true}
+                    ></Form.Control>
+                  </Form.Group>
+                  {props.firstname === "" ? (
+                    <p className="validate text-danger requiredField">
+                      *This Field is Required
+                    </p>
                   ) : (
-                    ""
-                  )
-                ) : (
-                  ""
-                )}
-              </Col>
-              <Col md={2} className="mb-3">
-                <Form.Group controlId="middlename">
-                  <Form.Label className=" applicationTitle">M. I.</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder=""
-                    onChange={(e) => props.setMiddlename(e.target.value)}
-                    value={props.middlename}
-                    required
-                    disabled={props.verify ? false : true}
-                  ></Form.Control>
-                </Form.Group>
-              </Col>
+                    <></>
+                  )}
+                </Col>
+              ) : (
+                <>
+                  <Col md={6} className="mb-3">
+                    <Form.Group controlId="first Name">
+                      <Form.Label className=" applicationTitle">
+                        FIRST NAME
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder=""
+                        onChange={(e) => props.setFirstname(e.target.value)}
+                        value={props.firstname}
+                        required
+                        disabled={props.verify ? false : true}
+                      ></Form.Control>
+                    </Form.Group>
+                    {props.firstname === "" ? (
+                      <p className="validate text-danger requiredField">
+                        *This Field is Required
+                      </p>
+                    ) : (
+                      <></>
+                    )}
+                  </Col>
+                  <Col md={4} className="mb-3">
+                    <Form.Group controlId="lastname">
+                      <Form.Label className=" applicationTitle">
+                        LAST NAME
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder=""
+                        onChange={(e) => props.setLastname(e.target.value)}
+                        value={props.lastname}
+                        required
+                        disabled={props.verify ? false : true}
+                      ></Form.Control>
+                    </Form.Group>
+                    {props.verify ? (
+                      props.customer_type === "RESID" ? (
+                        <>
+                          {props.lastname === "" ? (
+                            <p className="validate text-danger requiredField">
+                              *This Field is Required
+                            </p>
+                          ) : (
+                            <></>
+                          )}
+                        </>
+                      ) : (
+                        ""
+                      )
+                    ) : (
+                      ""
+                    )}
+                  </Col>
+                  <Col md={2} className="mb-3">
+                    <Form.Group controlId="middlename">
+                      <Form.Label className=" applicationTitle">
+                        M. I.
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder=""
+                        onChange={(e) => props.setMiddlename(e.target.value)}
+                        value={props.middlename}
+                        required
+                        disabled={props.verify ? false : true}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                </>
+              )}
             </Row>
             <Row>
               <Col md={12} className="mb-3">
