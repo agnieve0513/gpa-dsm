@@ -468,6 +468,7 @@ function ViewApp(props) {
     dispatch(editEquipment(obj));
     Swal.fire("Success", "Installer's Info has been updated!", "success");
     setShowEditOldModal(false);
+    setReload(reload + 1)
   };
 
   const editInstallerHandler = () => {
@@ -493,6 +494,7 @@ function ViewApp(props) {
     dispatch(editEquipment(obj));
     Swal.fire("Success", "Installer's Info has been updated!", "success");
     setEnableInstallerEdit(false);
+    setReload(reload + 1)
   }
   const handleEditNewEquipment = (equipment_id, indx) => {
     const obj = {

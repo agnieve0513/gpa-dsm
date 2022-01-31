@@ -555,8 +555,7 @@ function PrintApplicationSummary(props) {
                         <View style={styles.textContainer}>
                           <Text style={styles.text}>Certification No: </Text>
                           <Text style={styles.boldText}>
-                            {data?.newEquip_System_type || "N/A"}
-                            {/* {data.Installer_New_certno || "N/Certification NoA"} */}
+                            {data.Installer_New_certno || "N/Certification NoA"}
                           </Text>
                         </View>
                       ) : null

@@ -137,15 +137,17 @@ function EquipmentReview(props) {
                     </Col>
                     <Col>
                       <p>
-                        <b>
-                          {props.lastname}, {props.firstname} {props.middlename}{" "}
-                        </b>
+                        <b>{props.gpa_holder}</b>
                       </p>
                     </Col>
                   </Row>
                   <Row className="px-0">
                     <Col>
-                      <p className="title">First Name</p>
+                      {props.customer_type == "COMM" ? (
+                        <p className="title">Applicant's Name</p>
+                      ) : (
+                        <p className="title">First Name</p>
+                      )}
                     </Col>
                     <Col>
                       <p>
@@ -153,26 +155,30 @@ function EquipmentReview(props) {
                       </p>
                     </Col>
                   </Row>
-                  <Row className="px-0">
-                    <Col>
-                      <p className="title">Middle Name</p>
-                    </Col>
-                    <Col>
-                      <p>
-                        <b>{props.middlename}</b>{" "}
-                      </p>
-                    </Col>
-                  </Row>
-                  <Row className="px-0">
-                    <Col>
-                      <p className="title">Last Name</p>
-                    </Col>
-                    <Col>
-                      <p>
-                        <b>{props.lastname}</b>{" "}
-                      </p>
-                    </Col>
-                  </Row>
+                  {props.customer_type !== "COMM" ? (
+                    <>
+                      <Row className="px-0">
+                        <Col>
+                          <p className="title">Middle Name</p>
+                        </Col>
+                        <Col>
+                          <p>
+                            <b>{props.middlename}</b>{" "}
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row className="px-0">
+                        <Col>
+                          <p className="title">Last Name</p>
+                        </Col>
+                        <Col>
+                          <p>
+                            <b>{props.lastname}</b>{" "}
+                          </p>
+                        </Col>
+                      </Row>
+                    </>
+                  ) : null}
                   <Row className="px-0">
                     <Col>
                       <p className="title">Installation Address</p>
@@ -580,7 +586,6 @@ function EquipmentReview(props) {
                         : null}
                     </tbody>
                   </Table>
-                  
                 </Container>
               </Tab>
             </Tabs>

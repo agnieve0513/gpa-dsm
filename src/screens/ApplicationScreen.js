@@ -58,6 +58,7 @@ function ApplicationScreen() {
   const [bill_id, setBillId] = useState("");
   const [customer_type, setCustomerType] = useState("");
   const [gpa_holder, setGpaHolder] = useState("");
+  const [gpa_holders_name, setGpaHoldersName] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [middlename, setMiddlename] = useState("");
@@ -687,6 +688,8 @@ function ApplicationScreen() {
                 setAccountNo={setAccountNo}
                 bill_id={bill_id}
                 setBillId={setBillId}
+                gpa_holder={gpa_holder}
+                setGpaHolder={setGpaHolder}
                 firstname={firstname}
                 setFirstname={setFirstname}
                 lastname={lastname}
@@ -789,6 +792,8 @@ function ApplicationScreen() {
                 setAccountNo={setAccountNo}
                 bill_id={bill_id}
                 setBillId={setBillId}
+                gpa_holder={gpa_holder}
+                setGpaHolder={setGpaHolder}
                 firstname={firstname}
                 setFirstname={setFirstname}
                 lastname={lastname}
