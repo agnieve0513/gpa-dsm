@@ -136,6 +136,7 @@ function ViewApp(props) {
   const [installer_certification, setInstallerCertification] = useState(null);
   const [other_doc1, setOtherDoc1] = useState(null);
   const [other_doc2, setOtherDoc2] = useState(null);
+  const [modelId, setModelID] = useState("");
 
 
   const [modalData, setModalData] = useState({
@@ -390,26 +391,30 @@ function ViewApp(props) {
     dispatch(loadCustomerEquipModel(system_type, e));
   };
   const handleModelNo = (id) => {
-    switch (id.model) {
-      case "Indoor / Outdoor": {
-        return id.indoor_model + " / " + id.outdoor_model;
-      }
-      case "Package": {
-        return id.package_model;
-      }
-      case "Both": {
-        return id.indoor_model + " / " + id.outdoor_model + " / " + id.model;
-      }
-      default: {
-        return id.model;
+    console.log("handleModelNo: ",id);
+    if(id){
+      switch (id.model) {
+        case "Indoor / Outdoor": {
+          return id.indoor_model + " / " + id.outdoor_model;
+        }
+        case "Package": {
+          return id.package_model;
+        }
+        case "Both": {
+          return id.indoor_model + " / " + id.outdoor_model + " / " + id.model;
+        }
+        default: {
+          return id.model;
+        }
       }
     }
   };
   const changeModelHandler = (e) => {
-    setModelNo(e);
-    var selectedModel = models.find((model) => model.id === parseInt(e));
-    console.log(selectedModel?.indoor_model+"/"+selectedModel?.outdoor_model);
-    setModelNo(handleModelNo(e));
+    setModelID(e);
+    let selectedModel = models.find((model) => model.id === parseInt(e));
+    let modelName = handleModelNo(selectedModel);
+    console.log(modelName);
+    setModelNo(modelName);
 
     dispatch(loadCustomerEquipmentDetail(e));
   };
