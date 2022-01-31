@@ -12,6 +12,7 @@ import EquipmentForm from "../components/admin_forms/EquipmentForm";
 import TcTemplateForm from "../components/admin_forms/TcTemplateForm";
 import BatchForm from "../components/admin_forms/BatchForm";
 import "./AdminDashboardScreen.css";
+import BatchList from "../components/admin_forms/BatchList";
 
 function AdminScreen({ location, history }) {
   const redirect = location.search ? location.search.split("=")[1] : "/admin";
@@ -83,6 +84,9 @@ function AdminScreen({ location, history }) {
     <div className="d-flex flex-column h-100">
       <Header />
       <Container fluid className="mt-4">
+        {console.log(
+          role_id === 4 ? "batch" : role_id === 7 ? "records" : "application"
+        )}
         <Tab.Container
           id="left-tabs-example"
           defaultActiveKey={
@@ -186,7 +190,7 @@ function AdminScreen({ location, history }) {
               {applicationForm ? <ApplicationList /> : <></>}
             </Tab.Pane>
             <Tab.Pane eventKey="batch">
-              {batchForm ? <BatchForm current={current} /> : <></>}
+              {batchForm ? <BatchList current={current} /> : <></>}
             </Tab.Pane>
             <Tab.Pane eventKey="equipment">
               {equipmentForm ? <EquipmentForm /> : <></>}

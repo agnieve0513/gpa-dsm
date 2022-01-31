@@ -93,6 +93,7 @@ function AdminDashboardScreen({ location, history }) {
       <Header />
       <div className="mt-4">
         <Container fluid>
+          {console.log("role id : ",role_id)}
           {show_ui ? (
             <Tab.Container
               id="left-tabs-example"

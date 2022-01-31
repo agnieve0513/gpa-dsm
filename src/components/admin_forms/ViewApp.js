@@ -68,8 +68,11 @@ function ViewApp(props) {
 
   const [tabThree, setTabThree] = useState(true);
   const [tabFour, setTabFour] = useState(true);
+
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [editOldModal, setShowEditOldModal] = useState(false);
 
   const [status, setStatus] = useState("");
   const [stage, setStage] = useState("");
@@ -108,6 +111,17 @@ function ViewApp(props) {
   const [invoice_no, setInvoiceNo] = useState("");
   const [purchase_date, setPurchaseDate] = useState("");
 
+  const [old_system_type, setOldSystemType] = useState("");
+  const [old_years, setOldYears] = useState("");
+  const [old_quantity, setOldQuantity] = useState("");
+  const [old_tons, setOldTons] = useState("");
+  const [old_btu, setOldBtu] = useState("");
+  const [old_equipment_condition, setOldEquipmentCondition] = useState("");
+  const [old_seer, setOldSeer] = useState("");
+  const [old_disposal_party, setOldDisposalParty] = useState("");
+  const [old_disposal_date, setOldDisposalDate] = useState("");
+  
+
   const [installer_name, setInstallerName] = useState("");
   const [work_tel, setWorkTel] = useState("");
   const [company, setCompany] = useState("");
@@ -123,7 +137,7 @@ function ViewApp(props) {
   const [other_doc1, setOtherDoc1] = useState(null);
   const [other_doc2, setOtherDoc2] = useState(null);
 
-  const [modalShow, setModalShow] = useState(false);
+
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
@@ -131,6 +145,7 @@ function ViewApp(props) {
 
   const [updateInfoReload, setUpdateInfoReload] = useState(0);
   const [selectedEquipmentIndex, setSelectedEquipmentIndex] = useState(0);
+  const [selectedOldEquipmentIndex, setSelectedOldEquipmentIndex] = useState(0);
 
   const handleOnChange = (e, doc_type, control_no) => {
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
@@ -154,6 +169,7 @@ function ViewApp(props) {
   const handleModalClose = () => {
     setShowModal(false);
     setShowEditModal(false);
+    setShowEditOldModal(false);
   };
 
   const dispatch = useDispatch();
@@ -241,7 +257,7 @@ function ViewApp(props) {
     dispatch(detailApplication(props.applicationId));
     dispatch(commentsApplication(props.applicationId));
     dispatch(logsApplication(props.applicationId));
-  }, [reload, updateInfoReload]);
+  }, [reload, updateInfoReload, edit_equip]);
 
   const resetHandler = () => {
     props.setShow(false);
@@ -392,39 +408,113 @@ function ViewApp(props) {
   const changeModelHandler = (e) => {
     setModelNo(e);
     var selectedModel = models.find((model) => model.id === parseInt(e));
+    console.log(selectedModel?.indoor_model+"/"+selectedModel?.outdoor_model);
+    setModelNo(
+      selectedModel?.indoor_model + "/" + selectedModel?.outdoor_model
+    );
     dispatch(loadCustomerEquipmentDetail(e));
   };
 
+  const handleEditOldEquipment = (equipment_id, indx) => {
+    const obj = {
+      existing_old_equipment_information: [
+        {
+          id: equipment_id,
+          system_type: old_system_type
+            ? old_system_type
+            : application.Old_equipment[indx].oldEquip_System_type,
+          btu: old_btu ? old_btu : application.Old_equipment[indx].oldEquip_Btu,
+          size: 0,
+          years: old_years
+            ? old_years
+            : application.Old_equipment[indx].oldEquip_Years,
+          quantity: old_quantity
+            ? old_quantity
+            : application.Old_equipment[indx].oldEquip_Quantity,
+          tons: old_tons
+            ? old_tons
+            : application.Old_equipment[indx].oldEquip_Tons,
+          is_equipment_condition: old_equipment_condition
+            ? old_equipment_condition
+            : application.Old_equipment[indx].oldEquip_Conditon,
+          seer: old_seer
+            ? old_seer
+            : application.Old_equipment[indx].oldEquip_Seer,
+          disposal_party: old_disposal_party
+            ? old_disposal_party
+            : application.Old_equipment[indx].oldEquip_Disposal_party,
+          date: old_disposal_date
+            ? old_disposal_date
+            : application.Old_equipment[indx].oldEquip_Disposal_date,
+        },
+      ],
+    };
+    dispatch(editEquipment(obj));
+    Swal.fire("Success", "Installer's Info has been updated!", "success");
+    setShowEditOldModal(false);
+  };
+
+  const editInstallerHandler = () => {
+    const obj  = {
+      installer_information: {
+        id: application.Installer_New_id,
+        technician_name: installer_name
+          ? installer_name
+          : application.Installer_New_name,
+        work_tel: work_tel ? work_tel : application.Installer_New_worktel,
+        company_name: company ? company : application.Installer_New_companyname,
+        technician_cert_no: cert_no
+          ? cert_no
+          : application.Installer_New_certno,
+        date_final_installation: installer_final_date
+          ? installer_final_date
+          : application.Installer_New_finaldate,
+        email: installer_email
+          ? installer_email
+          : application.Installer_New_email,
+      }
+    }
+    dispatch(editEquipment(obj));
+    Swal.fire("Success", "Installer's Info has been updated!", "success");
+    setEnableInstallerEdit(false);
+  }
   const handleEditNewEquipment = (equipment_id, indx) => {
     const obj = {
-      new_equipment_information: {
-        id: equipment_id,
-        system_type: system_type
-          ? system_type
-          : application.New_equipment[indx].newEquip_System_type,
-        vendor: vendor
-          ? vendor
-          : application.New_equipment[indx].newEquip_Vendor,
-        // quantity:quantity ? quantity : application.New_equipment[indx],
-        btu: btu ? btu : application.New_equipment[indx].newEquip_Btu,
-        // size:size ? size : application.New_equipment[indx] ,
-        manufacturer: manufacturer
-          ? manufacturer
-          : application.New_equipment[indx].newEquip_Manufacturer,
-        model_no: model_no
-          ? model_no
-          : application.New_equipment[indx].newEquip_Model_no,
-        invoice_no: invoice_no
-          ? invoice_no
-          : application.New_equipment[indx].newEquip_Invoice_no,
-        purchase_date: purchase_date
-          ? purchase_date
-          : application.New_equipment[indx].newEquip_Purchase_date,
-        quantity: quantity
-          ? quantity
-          : application.New_equipment[indx].newEquip_Quantity,
-      },
+      new_equipment_information: [
+        {
+          id: equipment_id,
+          system_type: system_type
+            ? system_type
+            : application.New_equipment[indx].newEquip_System_type,
+          vendor: vendor
+            ? vendor
+            : application.New_equipment[indx].newEquip_Vendor,
+          // quantity:quantity ? quantity : application.New_equipment[indx],
+          btu: btu ? btu : application.New_equipment[indx].newEquip_Btu,
+          // size:size ? size : application.New_equipment[indx] ,
+          manufacturer: manufacturer
+            ? manufacturer
+            : application.New_equipment[indx].newEquip_Manufacturer,
+          model_no: model_no
+            ? model_no
+            : application.New_equipment[indx].newEquip_Model_no,
+          invoice_no: invoice_no
+            ? invoice_no
+            : application.New_equipment[indx].newEquip_Invoice_no,
+          purchase_date: purchase_date
+            ? purchase_date
+            : application.New_equipment[indx].newEquip_Purchase_date,
+          quantity: quantity
+            ? quantity
+            : application.New_equipment[indx].newEquip_Quantity,
+          size: 0,
+          type: "",
+          tons: "",
+
+        },
+      ],
       installer_information: {
+        id: application.Installer_New_id,
         technician_name: installer_name
           ? installer_name
           : application.Installer_New_name,
@@ -463,6 +553,7 @@ function ViewApp(props) {
     } else {
       dispatch(editEquipment(obj));
       Swal.fire("Success", "Equipment has been updated!", "success");
+      setShowEditModal(false);
     }
   };
 
@@ -471,6 +562,11 @@ function ViewApp(props) {
     setStatus(status);
     setShowModal(true);
   };
+
+  const editOldEquipmentHandler = (indx, id) => {
+    setSelectedOldEquipmentIndex(indx);
+    setShowEditOldModal(true);
+  }
 
   const updateStatus = (status, stage, desc) => {
     setStage(stage);
@@ -538,7 +634,7 @@ function ViewApp(props) {
             <i className="fa fa-arrow-left"></i> Back to Application
           </Button>
           <Button
-            className="mb-3 btn btn-light"
+            className="mb-3 btn btn-success"
             onClick={() => reloadHandler()}
           >
             <i className="fa fa-refresh"></i> Reload Application
@@ -787,17 +883,7 @@ function ViewApp(props) {
                             <b>{application.Account_Name || "N/A"}</b>
                           </p>
                           <p>
-                            {enable_edit ? (
-                              <Button
-                                variant="outline-danger"
-                                size="sm"
-                                onClick={() => {
-                                  setEnableEdit(false);
-                                }}
-                              >
-                                <i className="fa fa-times"></i>
-                              </Button>
-                            ) : (
+                            {!enable_edit ? (
                               <Button
                                 variant="outline-success"
                                 size="sm"
@@ -806,6 +892,16 @@ function ViewApp(props) {
                                 }}
                               >
                                 <i className="fa fa-edit"></i>
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outline-danger"
+                                size="sm"
+                                onClick={() => {
+                                  setEnableEdit(false);
+                                }}
+                              >
+                                <i className="fa fa-times"></i>
                               </Button>
                             )}
                           </p>
@@ -1420,62 +1516,50 @@ function ViewApp(props) {
                 </Row>
                 <Row className="px-0">
                   <Col className="mb-2 px-0" md={12}>
-                    <Table striped hover responsive>
-                      <thead className="bg-info text-white">
-                        <tr>
-                          <th>#</th>
-                          <th>System Type</th>
-                          {application ? (
-                            application.New_equipment[0]
-                              .newEquip_System_type !== "Dryer" ? (
+                    <div table="table-responsive">
+                      <Table striped hover responsive>
+                        <thead className="bg-info text-white">
+                          <tr>
+                            <th>#</th>
+                            <th>System Type</th>
+                            {application ? (
                               application.New_equipment[0]
-                                .newEquip_System_type !== "Washer" ? (
-                                <th>BTU</th>
+                                .newEquip_System_type !== "Dryer" ? (
+                                application.New_equipment[0]
+                                  .newEquip_System_type !== "Washer" ? (
+                                  <th>BTU</th>
+                                ) : null
                               ) : null
-                            ) : null
-                          ) : null}
+                            ) : null}
 
-                          <th>Vendor</th>
-                          <th>Manu facturer</th>
-                          <th>Model Number</th>
-                          <th>Invoice</th>
-                          <th>Install Date</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {application
-                          ? application?.New_equipment?.length === 0
-                            ? []
-                            : application.New_equipment.map((equip, indx) => (
-                                <tr>
-                                  <td>{indx + 1}</td>
-                                  <td>{equip.newEquip_System_type}</td>
-                                  {equip.newEquip_System_type !== "Washer" ? (
-                                    equip.newEquip_System_type !== "Dryer" ? (
-                                      <td>{equip.newEquip_Btu}</td>
-                                    ) : null
-                                  ) : null}
-                                  <td>{equip.newEquip_Vendor} </td>
-                                  <td>{equip.newEquip_Manufacturer}</td>
-                                  <td>{equip.newEquip_Model_no}</td>
-                                  <td>{equip.newEquip_Invoice_no}</td>
-                                  {/* <td>{equip.newEquip_Tons}</td> */}
-                                  <td>{equip.newEquip_Purchase_date}</td>
-                                  <td>
-                                    {enable_equipment_edit ? (
-                                      <>
-                                        <Button
-                                          size="sm"
-                                          variant="danger"
-                                          onClick={() =>
-                                            setEnableEquipmentEdit(false)
-                                          }
-                                        >
-                                          <i className="fa fa-times"></i>
-                                        </Button>
-                                      </>
-                                    ) : (
+                            <th>Vendor</th>
+                            <th>Manu facturer</th>
+                            <th>Model Number</th>
+                            <th>Invoice</th>
+                            <th>Install Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {application
+                            ? application?.New_equipment?.length === 0
+                              ? []
+                              : application.New_equipment.map((equip, indx) => (
+                                  <tr>
+                                    <td>{indx + 1}</td>
+                                    <td>{equip.newEquip_System_type}</td>
+                                    {equip.newEquip_System_type !== "Washer" ? (
+                                      equip.newEquip_System_type !== "Dryer" ? (
+                                        <td>{equip.newEquip_Btu}</td>
+                                      ) : null
+                                    ) : null}
+                                    <td>{equip.newEquip_Vendor} </td>
+                                    <td>{equip.newEquip_Manufacturer}</td>
+                                    <td>{equip.newEquip_Model_no}</td>
+                                    <td>{equip.newEquip_Invoice_no}</td>
+                                    {/* <td>{equip.newEquip_Tons}</td> */}
+                                    <td>{equip.newEquip_Purchase_date}</td>
+                                    <td>
                                       <Button
                                         variant="success"
                                         size="sm"
@@ -1491,13 +1575,13 @@ function ViewApp(props) {
                                       >
                                         <i className="fa fa-edit"></i>
                                       </Button>
-                                    )}
-                                  </td>
-                                </tr>
-                              ))
-                          : []}
-                      </tbody>
-                    </Table>
+                                    </td>
+                                  </tr>
+                                ))
+                            : []}
+                        </tbody>
+                      </Table>
+                    </div>
                   </Col>
                   <Col md={6}>
                     {application ? (
@@ -1700,7 +1784,11 @@ function ViewApp(props) {
                               ) : null}
                               {enable_installer_edit ? (
                                 <>
-                                  <Button variant="success" className="me-2">
+                                  <Button
+                                    variant="success"
+                                    className="me-2"
+                                    onClick={() => editInstallerHandler()}
+                                  >
                                     Save
                                   </Button>
                                   <Button
@@ -1781,6 +1869,220 @@ function ViewApp(props) {
 
               {/* NOTE: OLD EQUIPMENT TAB */}
               <Tab.Pane eventKey="old_quipment_info">
+                <Modal show={editOldModal} onHide={handleModalClose}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Edit Old Equipment</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body className="">
+                    <Form.Group controlId="system_type" className="mb-1">
+                      <Form.Label>
+                        System Type:
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_System_type
+                          }
+                        </b>
+                      </Form.Label>
+                      <Form.Select
+                        onChange={(e) => setOldSystemType(e.target.value)}
+                        value={old_system_type}
+                      >
+                        {application?.Type === "RESID" ? (
+                          <>
+                            <option value="Central AC">Central AC</option>
+                            <option value="Split AC">Split AC</option>
+                            <option value="Window AC">Window AC</option>
+                            <option value="Washer">Washer</option>
+                            <option value="Dryer">Dryer</option>
+                          </>
+                        ) : (
+                          <>
+                            <option value="Central AC">
+                              Central AC - Commercial
+                            </option>
+                            <option value="Split AC">
+                              Split AC - Commercial
+                            </option>
+                            {/* <option value="Window AC">Window AC - Commercial</option> */}
+                          </>
+                        )}
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group
+                      controlId="equipment_condition"
+                      className="mb-1"
+                    >
+                      <Form.Label>
+                        Equipment Condition:{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Conditon
+                          }
+                        </b>
+                      </Form.Label>
+                      <Form.Select
+                        onChange={(e) =>
+                          setOldEquipmentCondition(e.target.value)
+                        }
+                        value={old_equipment_condition}
+                      >
+                        <option value="Operational">Operational</option>
+                        <option value="Failed">Failed</option>
+                      </Form.Select>
+                    </Form.Group>
+                    <Form.Group controlId="old_disposal_party" className="mb-1">
+                      <Form.Label>
+                        Disposal Party{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Disposal_party
+                          }
+                        </b>
+                      </Form.Label>
+                      <Form.Select
+                        onChange={(e) => setOldDisposalParty(e.target.value)}
+                        value={old_disposal_party}
+                      >
+                        <option value="Customer">Customer</option>
+                        <option value="Installer">Installer</option>
+                      </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group controlId="old_years" className="mb-1">
+                      <Form.Label>
+                        Number of Year:{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Years
+                          }
+                        </b>
+                      </Form.Label>
+                      <FormControl
+                        value={old_years}
+                        type="number"
+                        onChange={(e) => setOldYears(e.target.value)}
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="old_quantity" className="mb-1">
+                      <Form.Label>
+                        Quantity:{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Quantity
+                          }
+                        </b>
+                      </Form.Label>
+                      <FormControl
+                        value={old_quantity}
+                        onChange={(e) => setOldQuantity(e.target.value)}
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="old_tons" className="mb-1">
+                      <Form.Label>
+                        {application?.Old_equipment[selectedOldEquipmentIndex]
+                          .oldEquip_System_type === "Dryer" || "Washer"
+                          ? "Cubic"
+                          : "Tons"}
+                        :{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Tons
+                          }
+                        </b>
+                      </Form.Label>
+                      <FormControl
+                        value={old_tons}
+                        onChange={(e) => setOldTons(e.target.value)}
+                      />
+                    </Form.Group>
+
+                    {application?.Old_equipment[selectedOldEquipmentIndex]
+                      .oldEquip_System_type === "Dryer" || "Washer" ? null : (
+                      <Form.Group controlId="old_btu" className="mb-1">
+                        <Form.Label>
+                          BTU :{" "}
+                          <b>
+                            {
+                              application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Btu
+                            }
+                          </b>
+                        </Form.Label>
+                        <FormControl
+                          type="number"
+                          value={old_btu}
+                          onChange={(e) => setOldBtu(e.target.value)}
+                        />
+                      </Form.Group>
+                    )}
+
+                    <Form.Group controlId="old_seer" className="mb-1">
+                      <Form.Label>
+                        SEER:{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Seer
+                          }
+                        </b>
+                      </Form.Label>
+                      <FormControl
+                        value={old_seer}
+                        typep="number"
+                        onChange={(e) => setOldSeer(e.target.value)}
+                      />
+                    </Form.Group>
+
+                    <Form.Group controlId="old_disposal_date" className="mb-1">
+                      <Form.Label>
+                        Disposal Date:{" "}
+                        <b>
+                          {
+                            application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_Disposal_date
+                          }
+                        </b>
+                      </Form.Label>
+                      <FormControl
+                        type="date"
+                        value={old_disposal_date}
+                        onChange={(e) => setOldDisposalDate(e.target.value)}
+                      />
+                    </Form.Group>
+
+                    <Button
+                      className="mt-2"
+                      variant="success"
+                      onClick={() =>
+                        handleEditOldEquipment(
+                          application?.Old_equipment[selectedOldEquipmentIndex]
+                            .oldEquip_id,
+                          selectedOldEquipmentIndex
+                        )
+                      }
+                      className="me-2"
+                    >
+                      Update Information
+                    </Button>
+                  </Modal.Body>
+                </Modal>
                 <h3 className="mt-3 mb-3 text-info">
                   Existing/Old Equipment Info{" "}
                 </h3>
@@ -1817,6 +2119,7 @@ function ViewApp(props) {
                       ) : null}
                       <th>Disposal Party</th>
                       <th>Disposal Date</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1843,6 +2146,20 @@ function ViewApp(props) {
 
                               <td>{old_eqiup.oldEquip_Disposal_party}</td>
                               <td>{old_eqiup.oldEquip_Disposal_date}</td>
+                              <td>
+                                <Button
+                                  size="sm"
+                                  variant="success"
+                                  onClick={() =>
+                                    editOldEquipmentHandler(
+                                      indx,
+                                      old_eqiup.oldEquip_id
+                                    )
+                                  }
+                                >
+                                  <i className="fa fa-edit"> </i>
+                                </Button>
+                              </td>
                             </tr>
                           ))
                       : []}

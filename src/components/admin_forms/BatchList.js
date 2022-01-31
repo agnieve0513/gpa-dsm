@@ -3,11 +3,6 @@ import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
 import { listBatch, listBatchApplication } from "../../actions/batchActions";
 import {
-  uploadFileAction,
-  retrieveFileAction,
-} from "../../actions/fileActions";
-
-import {
   detailApplication,
   commentsApplication,
   addCommentAction,
@@ -22,238 +17,130 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { formatAMPM } from "../../helpers";
-import ViewApplication from "./ViewApplication";
+import ViewApp from "./ViewApp";
 
-function BatchForm({ current }) {
+function BatchList() {
   let obj = JSON.parse(localStorage.getItem("userInfo"));
+  let selectedIds = [];
   let roleId = obj.message.original.roleId;
+  const [updatedTime, setUpdatedTime] = useState(formatAMPM(new Date()));
+  const dispatch = useDispatch();
 
   const { height, width } = useWindowDimensions();
-
   const [showModal, setShowModal] = useState(false);
+  const [batchId, setBatchId] = useState(0);
   const [applicationId, setApplicationId] = useState(0);
   const [status, setStatus] = useState("");
   const [stage, setStage] = useState("");
   const [reason, setReason] = useState("");
   const [selectIds, setSelectedIds] = useState([]);
-  const [showBatchApplicationTable, setShowBatchApplicationTable] =
-    useState(false);
-  const [batch, setBatch] = useState("");
   const [swalInfo, setSwalInfo] = useState("");
   const [updateState, setUpdateState] = useState(0);
-
-  const [new_eq_index, setNewEqIndex] = useState(0);
-  const [equipmentInfo, setEquipmentInfo] = useState([]);
-  const [showNewEquipmentInfo, setShowNewEquipmentInfo] = useState(false);
-  const [showOldEquipmentInfo, setShowOldEquipmentInfo] = useState(false);
   const [currentBatch, setCurrentBatch] = useState();
   const [comment, setComment] = useState("");
-  const [detailsToggle, setDetailsToggle] = useState(false);
   const [show, setShow] = useState(false);
-
-  const [invoice, setInvoice] = useState(null);
-  const [irs_form, setIrsForm] = useState(null);
-  const [disposal_slip, setDisposalSlip] = useState(null);
-  const [letter_authorization, setLetterAuthorization] = useState(null);
-  const [installer_certification, setInstallerCertification] = useState(null);
-  const [other_doc1, setOtherDoc1] = useState(null);
-  const [other_doc2, setOtherDoc2] = useState(null);
-
   const [showApplicationTab, setShowApplicationTab] = useState(false);
+  const [currentControlNum, setCurrentControlNum] = useState("");
+  const [reload, setReload] = useState(0);
+  const [reloadBatchApp, setReloadBatchApp] = useState(0);
 
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
-  const handleModalClose = () => setShowModal(false);
-
-  const dispatch = useDispatch();
-
-  const applicationDetail = useSelector((state) => state.applicationDetail);
-  const { application } = applicationDetail;
-
-  const applicationComments = useSelector((state) => state.applicationComments);
-  const { comments } = applicationComments;
-
-  const applicationLogs = useSelector((state) => state.applicationLogs);
-  const { logs } = applicationLogs;
-
-  const applicationUpdate = useSelector((state) => state.applicationUpdate);
+  const batchList = useSelector((state) => state.batchList);
   const {
-    error: updateError,
-    loading: updateLoading,
-    success: successUpdate,
-  } = applicationUpdate;
+    loading: loadingBatchList,
+    error: errorBatchList,
+    batches,
+  } = batchList;
+
+  const batchApplication = useSelector((state) => state.batchApplication);
+  const {
+    loading: loadingBatchListApp,
+    error: errorBatchListApp,
+    batch_applications,
+  } = batchApplication;
 
   const batchApplicationUpdate = useSelector(
     (state) => state.batchApplicationUpdate
   );
+
   const {
     error: batchUpdateError,
     loading: batchUpdateLoading,
     success: batchUpdateSuccess,
   } = batchApplicationUpdate;
 
-  const [intervalId, setIntervalId] = useState();
-  const [intervalId2, setIntervalId2] = useState();
-  const batchApplication = useSelector((state) => state.batchApplication);
-  const [batch_applications, setBatchApplication] = useState([]);
-  const batchList = useSelector((state) => state.batchList);
-  const [batches, setBatches] = useState([]);
-  const [updatedTime, setUpdatedTime] = useState(formatAMPM(new Date()));
-  const [currentControlNum, setCurrentControlNum] = useState("");
-
-  useEffect(() => {
-    if (batchApplication.batch_applications) {
-      const items = batchApplication.batch_applications;
-      console.log("ITEMS", items);
-      if (items[0]?.Result == "No Data Found in batch") {
-        setBatchApplication([]);
-      }
-      let changedItem = 0;
-      let allBatchApplications = [];
-      const roles = [
-        "Admin",
-        "Customer Service",
-        "Spord",
-        "Budget",
-        "Accounting",
-        "Supervisor",
-        "Guest",
-        "Unknown Role",
-      ];
-
-      for (let i = 0; i < items.length; i++) {
-        const currentRole = roles[roleId - 1];
-        if (currentRole === "Admin") {
-          allBatchApplications.push(items[i]);
-        } else if (currentRole === items[i].Stage) {
-          allBatchApplications.push(items[i]);
-        }
-      }
-
-      if (batch_applications?.length === 0) {
-        if (allBatchApplications) {
-          setBatchApplication(allBatchApplications);
-        }
-      } else if (batch_applications?.length > 0) {
-        for (let i = 0; i < batch_applications?.length; i++) {
-          if (allBatchApplications) {
-            const oldInfo = batch_applications[i];
-            const newInfo = allBatchApplications.find(
-              (value) => value.Application_Id === oldInfo.Application_Id
-            );
-
-            if (newInfo) {
-              if (
-                newInfo.Status !== oldInfo.Status ||
-                newInfo.Stage !== oldInfo.Stage
-              ) {
-                changedItem = 1 + changedItem;
-              }
-            }
-          }
-
-          if (i === batch_applications?.length - 1) {
-            if (changedItem > 0) {
-              setBatchApplication(allBatchApplications);
-              setUpdatedTime(formatAMPM(new Date()));
-            }
-          }
-        }
-      }
-
-      if (allBatchApplications) {
-        if (allBatchApplications.length !== batch_applications.length) {
-          setBatchApplication(allBatchApplications);
-          setUpdatedTime(formatAMPM(new Date()));
-        }
-      }
-    }
-  }, [batchApplication]);
-
-  useEffect(() => {
-    let changedItem = 0;
-    if (batches?.length === 0) {
-      if (batchList.batches) {
-        setBatches(batchList.batches);
-      }
-    } else if (batches?.length > 0) {
-      for (let i = 0; i < batches?.length; i++) {
-        if (batchList.batches) {
-          const oldInfo = batches[i];
-          const newInfo = batchList.batches.find(
-            (value) => value.batch_Id === oldInfo.batch_Id
-          );
-
-          if (newInfo) {
-            changedItem = 1 + changedItem;
-          }
-        }
-
-        if (i === batches?.length - 1) {
-          if (changedItem > 0) {
-            setBatches(batchList.batches);
-            setUpdatedTime(formatAMPM(new Date()));
-          }
-        }
-      }
-    }
-
-    if (batchApplication.batches) {
-      if (batchApplication.batches.length !== batches.length) {
-        setBatches(batchApplication.batches);
-        setUpdatedTime(formatAMPM(new Date()));
-      }
-    }
-  }, [batchList]);
-
-  useEffect(() => {
-    if (current !== "batch") {
-      clearInterval(intervalId);
-    }
-  }, [current]);
-
-  useEffect(() => {
-    if (current == "batch") {
-      dispatch(listBatch());
-
-      const rerun = setInterval(() => {}, 5000);
-
-      setIntervalId(rerun);
-    }
-  }, [current]);
-
-  useEffect(() => {
-    if (current == "batch") {
-      if (currentBatch) {
-        if (intervalId2) {
-          clearInterval(intervalId2);
-        }
-        dispatch(listBatchApplication(currentBatch));
-
-        const rerun = setInterval(() => {}, 5000);
-
-        setIntervalId2(rerun);
-      }
-    }
-  }, [currentBatch]);
-
   useEffect(() => {
     dispatch(listBatch());
-    dispatch(listBatchApplication(currentBatch));
-  }, [dispatch, batchUpdateSuccess, applicationUpdate]);
+    setUpdatedTime(formatAMPM(new Date()));
+  }, [reload]);
+
+  useEffect(() => {
+    dispatch(listBatchApplication(batchId));
+  }, [reloadBatchApp, batchUpdateSuccess]);
+
+  const handleModalClose = () => setShowModal(false);
 
   const selectHandler = (rowdata) => {
     setCurrentBatch(rowdata.Id);
-
+    setBatchId(rowdata.Id);
     dispatch(listBatchApplication(rowdata.Id));
     setShowApplicationTab(true);
-    console.log("Batch Applications: ", batch_applications);
   };
 
-  let selectedIds = [];
+  const backToBatchesHandler = () => {
+    setShowApplicationTab(false);
+  };
 
-  // function for processing batch application
+  const applicationViewHandler = (rowdata) => {
+    setApplicationId(rowdata.Application_Id);
+    setCurrentControlNum(rowdata.Control_Number);
+    setShow(true);
+  };
+
+  const reloadBatchListHandler = () => {
+    setReload(reload + 1);
+  };
+
+  const reloadBatchAppHandler = () => {
+    setReloadBatchApp(reloadBatchApp + 1);
+  };
+  const updateStatus = (status, stage, swaInfo) => {
+    setStage(stage);
+    if (status === 3) {
+      Swal.fire({
+        title: "Are you sure you want to reject application?",
+        showCancelButton: true,
+        confirmButtonText: "Save",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(updateBatchApplication(selectIds, status, stage, reason));
+          setShow(false);
+          setShowModal(false);
+          Swal.fire("Success", "Application has been rejected!", "success");
+          setReloadBatchApp(reloadBatchApp + 1);
+        }
+      });
+    } else {
+      setStatus(status);
+      setStage(stage);
+      setUpdateState(updateState + 1);
+
+      Swal.fire({
+        title: `Are you sure you want to ${swaInfo}?`,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          dispatch(updateBatchApplication(selectIds, status, stage, reason));
+          setShowModal(false);
+          Swal.fire("Success", "Application has been processed!", "success");
+          setReloadBatchApp(reloadBatchApp + 1);
+        }
+      });
+    }
+  };
   const changeStatusHandler = (status) => {
     if (selectIds.length <= 0) {
       Swal.fire(
@@ -265,131 +152,12 @@ function BatchForm({ current }) {
       setStatus(status);
       setShowModal(true);
     }
-
-    console.log(selectedIds);
   };
-
-  let p = {};
-
-  const updateStatus = (status, stage) => {
-    console.log(status, " - ", stage);
-    setStage(stage);
-    if (status === 3) {
-      Swal.fire({
-        title: "Are you sure you want to reject application?",
-        // showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        // denyButtonText: `Cancel`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(updateBatchApplication(selectIds, status, stage, reason));
-          setShow(false);
-          setShowModal(false);
-          Swal.fire("Success", "Application has been rejected!", "success");
-        }
-      });
-    } else {
-      setStatus(status);
-      setStage(stage);
-      setUpdateState(updateState + 1);
-    }
-  };
-
-  useEffect(() => {
-    if (swalInfo !== "" && status !== "" && stage !== "") {
-      Swal.fire({
-        title: `Are you sure you want to ${swalInfo}?`,
-        // showDenyButton: true,
-        showCancelButton: true,
-        confirmButtonText: "Save",
-        // denyButtonText: `Cancel`,
-      }).then((result) => {
-        if (result.isConfirmed) {
-          dispatch(updateBatchApplication(selectIds, status, stage, reason));
-          // setShow(false);
-          setShowModal(false);
-          Swal.fire("Success", "Application has been processed!", "success");
-        }
-      });
-    }
-  }, [swalInfo, updateState, status, stage]);
-
-  const getSelected = (e, application_id) => {
-    const checked = e.target.checked;
-    if (checked) {
-      selectIds.push(application_id);
-    } else {
-      const index = selectIds.indexOf(application_id);
-      delete selectIds[index];
-    }
-
-    console.log(selectIds);
-  };
-
-  const changeCommentHandler = (text) => {
-    setComment(text);
-  };
-
-  const resetHandler = () => {
-    setShow(false);
-  };
-
-  const addCommentHandler = () => {
-    dispatch(addCommentAction(applicationId, comment));
-    setComment("");
-  };
-
-  const showNewEquipmentInformation = (index) => {
-    setNewEqIndex(index);
-    console.log(application);
-  };
-
-  const selectEquipment = (id, equipmentType) => {
-    if (equipmentType === "new_equipment") {
-      if (application.New_equipment[id]) {
-        setEquipmentInfo(application.New_equipment[id]);
-        setShowNewEquipmentInfo(true);
-      }
-    } else {
-      if (application.Old_equipment[id]) {
-        setEquipmentInfo(application.Old_equipment[id]);
-        setShowOldEquipmentInfo(true);
-      }
-    }
-  };
-
-  const applicationViewHandler = (rowdata) => {
-    console.log("rowdata", rowdata);
-    setApplicationId(rowdata.Application_Id);
-    dispatch(detailApplication(rowdata.Application_Id));
-    dispatch(commentsApplication(rowdata.Application_Id));
-    dispatch(logsApplication(rowdata.Application_Id));
-    setCurrentControlNum(rowdata.Control_Number);
-    setShow(true);
-  };
-
-  const backToBatchesHandler = () => {
-    clearInterval(intervalId2);
-    setCurrentBatch(null);
-    setBatchApplication([]);
-    setShowApplicationTab(false);
-  };
-
   return (
     <>
-      {show ? (
+      {!show ? (
         <Container>
-          <ViewApplication
-            setShow={setShow}
-            current={current}
-            currentControlNum={currentControlNum}
-            applicationId={applicationId}
-            setApplicationId={setApplicationId}
-          />
-        </Container>
-      ) : (
-        <Container>
+          {/* Modal for Approving Dissaproving Batch */}
           <Modal show={showModal} onHide={handleModalClose}>
             <Modal.Header closeButton>
               <Modal.Title>
@@ -443,8 +211,7 @@ function BatchForm({ current }) {
                 <Container>
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to SPORD");
-                      updateStatus(1, 1);
+                      updateStatus(1, 1, "Send to SPORD");
                     }}
                   >
                     Send to SPORD
@@ -454,8 +221,7 @@ function BatchForm({ current }) {
                 <Container className="col-8 text-center btn-group-vertical">
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to Supervisor");
-                      updateStatus(1, 3);
+                      updateStatus(1, 3, "Send to Supervisor");
                     }}
                     className="mb-1"
                   >
@@ -464,8 +230,7 @@ function BatchForm({ current }) {
                   <br />
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send Back to Customer Service");
-                      updateStatus(1, 4);
+                      updateStatus(1, 4, "Send Back to Customer Service");
                     }}
                   >
                     Send Back to Customer Service
@@ -475,16 +240,14 @@ function BatchForm({ current }) {
                 <Container className="col-8 text-center btn-group-vertical">
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to Budget");
-                      updateStatus(1, 5);
+                      updateStatus(1, 5, "Send to Budget");
                     }}
                   >
                     Send to Budget
                   </Button>
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send Back to SPORD");
-                      updateStatus(1, 1);
+                      updateStatus(1, 1, "Send Back to SPORD");
                     }}
                   >
                     Send Back to SPORD
@@ -496,8 +259,7 @@ function BatchForm({ current }) {
                     <Button
                       className="mb-2"
                       onClick={() => {
-                        setSwalInfo("Send to Accounting");
-                        updateStatus(1, 2);
+                        updateStatus(1, 2, "Send to Accounting");
                       }}
                     >
                       Send to Accounting
@@ -506,8 +268,7 @@ function BatchForm({ current }) {
                     <Button
                       className="mb-2"
                       onClick={() => {
-                        setSwalInfo("Send to Accounting");
-                        updateStatus(1, 2);
+                        updateStatus(1, 2, "Send to Accounting");
                       }}
                       disabled
                     >
@@ -517,8 +278,7 @@ function BatchForm({ current }) {
                   <Button
                     className="mb-2"
                     onClick={() => {
-                      setSwalInfo("Send Back to Spord");
-                      updateStatus(1, 1);
+                      updateStatus(1, 1, "Send Back to Spord");
                     }}
                   >
                     Send Back to Spord
@@ -530,8 +290,7 @@ function BatchForm({ current }) {
                     variant={"success"}
                     className="mb-1"
                     onClick={() => {
-                      setSwalInfo("Approve Application");
-                      updateStatus(2, 0);
+                      updateStatus(2, 0, "Approve Application");
                     }}
                   >
                     Approve Application
@@ -541,8 +300,7 @@ function BatchForm({ current }) {
                     variant={"danger"}
                     className="mb-1"
                     onClick={() => {
-                      setSwalInfo("(Decline) Send to Spord");
-                      updateStatus(1, 1);
+                      updateStatus(1, 1, "(Decline) Send to Spord");
                     }}
                   >
                     (Decline) Send to Spord
@@ -552,8 +310,7 @@ function BatchForm({ current }) {
                     variant={"danger"}
                     className="mb-1"
                     onClick={() => {
-                      setSwalInfo("(Decline) Send to CS");
-                      updateStatus(1, 4);
+                      updateStatus(1, 4, "(Decline) Send to CS");
                     }}
                   >
                     (Decline) Send to CS
@@ -564,8 +321,7 @@ function BatchForm({ current }) {
                   <Button
                     variant={"success"}
                     onClick={() => {
-                      setSwalInfo("Approve Application");
-                      updateStatus(2, 0);
+                      updateStatus(2, 0, "Approve Application");
                     }}
                   >
                     Approve Application
@@ -573,8 +329,7 @@ function BatchForm({ current }) {
                   <br />
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to CS");
-                      updateStatus(1, 4);
+                      updateStatus(1, 4, "Send to CS");
                     }}
                   >
                     Send to CS
@@ -582,8 +337,7 @@ function BatchForm({ current }) {
                   <br />
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to SPORD");
-                      updateStatus(1, 1);
+                      updateStatus(1, 1, "Send to SPORD");
                     }}
                   >
                     Send to SPORD
@@ -591,8 +345,7 @@ function BatchForm({ current }) {
                   <br />
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to Supervisor");
-                      updateStatus(1, 3);
+                      updateStatus(1, 3, "Send to Supervisor");
                     }}
                   >
                     Send to Supervisor
@@ -600,8 +353,7 @@ function BatchForm({ current }) {
                   <br />
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to Budget");
-                      updateStatus(1, 5);
+                      updateStatus(1, 5, "Send to Budget");
                     }}
                   >
                     Send to Budget
@@ -609,8 +361,7 @@ function BatchForm({ current }) {
                   <br />
                   <Button
                     onClick={() => {
-                      setSwalInfo("Send to Accounting");
-                      updateStatus(1, 2);
+                      updateStatus(1, 2, "Send to Accounting");
                     }}
                   >
                     Send to Accounting
@@ -634,10 +385,8 @@ function BatchForm({ current }) {
                 >
                   <i className="fa fa-arrow-left"></i> Back to Batches
                 </Button>
-
                 <MaterialTable
                   columns={[
-                  
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
@@ -676,7 +425,11 @@ function BatchForm({ current }) {
                       <div>
                         <h5 className="text-info">
                           {currentBatch}{" "}
-                          <Button variant="success" size="sm">
+                          <Button
+                            variant="success"
+                            size="sm"
+                            onClick={() => reloadBatchAppHandler()}
+                          >
                             Reload
                           </Button>
                         </h5>
@@ -761,12 +514,19 @@ function BatchForm({ current }) {
                       ),
                     },
                   ]}
-                  data={batches}
+                  data={batches?.length >= 1 ? batches : []}
                   title={
                     <div>
                       <h5 className="text-info">
                         Batch{" "}
-                        <Button variant="success" size="sm">
+                        <span className="text-default me-2">
+                          Last Update: {updatedTime}
+                        </span>
+                        <Button
+                          variant="success"
+                          size="sm"
+                          onClick={() => reloadBatchListHandler()}
+                        >
                           Reload
                         </Button>
                       </h5>
@@ -782,21 +542,24 @@ function BatchForm({ current }) {
                       color: "#FFF",
                     },
                   }}
-                  // components={{
-                  //   Toolbar: props => (
-                  //     <div>
-                  //      <Button className="p-2 m-2">Reload</Button>
-                  //     </div>
-                  //   ),
-                  // }}
                 />
               </Col>
             )}
           </Row>
         </Container>
+      ) : (
+        <ViewApp
+          show={show}
+          setShow={setShow}
+          reload={reload}
+          setReload={setReload}
+          applicationId={applicationId}
+          setApplicationId={setApplicationId}
+          currentControlNum={currentControlNum}
+        />
       )}
     </>
   );
 }
 
-export default BatchForm;
+export default BatchList;
