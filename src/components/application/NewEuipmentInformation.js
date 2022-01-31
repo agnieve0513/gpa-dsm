@@ -86,6 +86,7 @@ function NewEuipmentInformation(props) {
     props.setVendor("");
     props.setSystemType(e.target.value);
     props.setNewEquipments([]);
+    props.setTotalQuantity(0);
     dispatch(loadCustomerEquipManufacturer(e.target.value));
   };
 
