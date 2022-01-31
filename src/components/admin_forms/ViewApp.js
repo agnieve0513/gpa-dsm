@@ -409,9 +409,8 @@ function ViewApp(props) {
     setModelNo(e);
     var selectedModel = models.find((model) => model.id === parseInt(e));
     console.log(selectedModel?.indoor_model+"/"+selectedModel?.outdoor_model);
-    setModelNo(
-      selectedModel?.indoor_model + "/" + selectedModel?.outdoor_model
-    );
+    setModelNo(handleModelNo(e));
+
     dispatch(loadCustomerEquipmentDetail(e));
   };
 
@@ -1326,6 +1325,7 @@ function ViewApp(props) {
               {/* NOTE: NEW EQUIPMENT TAB */}
               <Tab.Pane eventKey="new_quipment_info">
                 <h3 className="mt-3 mb-3 text-info">New Equipment Info</h3>
+                {/* Modal for edit equipment . ..  */}
                 <Modal show={showEditModal} onHide={handleModalClose}>
                   <Modal.Header closeButton>
                     <Modal.Title>Edit Equipment</Modal.Title>
@@ -1413,11 +1413,35 @@ function ViewApp(props) {
                         onChange={(e) => changeModelHandler(e.target.value)}
                       >
                         {models ? (
-                          models.map((mod) => (
-                            <option value={mod?.id}>
-                              {mod?.indoor_model}/{mod?.outdoor_model}
-                            </option>
-                          ))
+                          models.map((mod) => {
+                            if(system_type === "Dryer" || system_type === "Washer"){
+                              return <option key={mod.id} value={mod.id}>
+                                {mod.model}{" "}
+                              </option>;
+                            }else if (mod.model === "Indoor / Outdoor")
+                            {
+                              return (
+                                <option key={mod.id} value={mod.id}>
+                                  {mod.indoor_model} / {mod.outdoor_model}
+                                </option>
+                              );
+                            }else if (mod.model === "Both") {
+                              return (
+                                <option key={mod.id} value={mod.id}>
+                                  {mod.indoor_model} / {mod.outdoor_model}/{" "}
+                                  {mod.package_model}
+                                </option>
+                              );
+                            }
+                            else {
+                              return (
+                                <option key={mod.id} value={mod.id}>
+                                  {mod.package_model}
+                                </option>
+                              );
+                            }
+                          }
+                          )
                         ) : (
                           <></>
                         )}
@@ -1821,7 +1845,7 @@ function ViewApp(props) {
                         width: "100%",
                       }}
                     >
-                      <Table size="lg" striped bordered hover>
+                      <Table size="lg" striped bordered hover responsive>
                         <thead className="bg-info text-white">
                           <tr className="py-5">
                             <th className="p-3">Equipment No.</th>
@@ -1878,11 +1902,11 @@ function ViewApp(props) {
                       <Form.Label>
                         System Type:
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_System_type
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ]?.oldEquip_System_type
+                            : null}
                         </b>
                       </Form.Label>
                       <Form.Select
@@ -1917,11 +1941,11 @@ function ViewApp(props) {
                       <Form.Label>
                         Equipment Condition:{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Conditon
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Conditon
+                            : null}
                         </b>
                       </Form.Label>
                       <Form.Select
@@ -1938,11 +1962,11 @@ function ViewApp(props) {
                       <Form.Label>
                         Disposal Party{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Disposal_party
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Disposal_party
+                            : null}
                         </b>
                       </Form.Label>
                       <Form.Select
@@ -1958,11 +1982,11 @@ function ViewApp(props) {
                       <Form.Label>
                         Number of Year:{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Years
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Years
+                            : null}
                         </b>
                       </Form.Label>
                       <FormControl
@@ -1976,11 +2000,11 @@ function ViewApp(props) {
                       <Form.Label>
                         Quantity:{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Quantity
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Quantity
+                            : null}
                         </b>
                       </Form.Label>
                       <FormControl
@@ -1991,17 +2015,20 @@ function ViewApp(props) {
 
                     <Form.Group controlId="old_tons" className="mb-1">
                       <Form.Label>
-                        {application?.Old_equipment[selectedOldEquipmentIndex]
-                          .oldEquip_System_type === "Dryer" || "Washer"
-                          ? "Cubic"
-                          : "Tons"}
+                        {application?.Old_equipment.length >= 1
+                          ? application?.Old_equipment[
+                              selectedOldEquipmentIndex
+                            ].oldEquip_System_type === "Dryer" || "Washer"
+                            ? "Cubic"
+                            : "Tons"
+                          : null}
                         :{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Tons
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Tons
+                            : null}
                         </b>
                       </Form.Label>
                       <FormControl
@@ -2010,36 +2037,38 @@ function ViewApp(props) {
                       />
                     </Form.Group>
 
-                    {application?.Old_equipment[selectedOldEquipmentIndex]
-                      .oldEquip_System_type === "Dryer" || "Washer" ? null : (
-                      <Form.Group controlId="old_btu" className="mb-1">
-                        <Form.Label>
-                          BTU :{" "}
-                          <b>
-                            {
-                              application?.Old_equipment[
-                                selectedOldEquipmentIndex
-                              ].oldEquip_Btu
-                            }
-                          </b>
-                        </Form.Label>
-                        <FormControl
-                          type="number"
-                          value={old_btu}
-                          onChange={(e) => setOldBtu(e.target.value)}
-                        />
-                      </Form.Group>
-                    )}
+                    {application?.Old_equipment.length >= 1 ? (
+                      application?.Old_equipment[selectedOldEquipmentIndex]
+                        .oldEquip_System_type === "Dryer" || "Washer" ? null : (
+                        <Form.Group controlId="old_btu" className="mb-1">
+                          <Form.Label>
+                            BTU :{" "}
+                            <b>
+                              {
+                                application?.Old_equipment[
+                                  selectedOldEquipmentIndex
+                                ].oldEquip_Btu
+                              }
+                            </b>
+                          </Form.Label>
+                          <FormControl
+                            type="number"
+                            value={old_btu}
+                            onChange={(e) => setOldBtu(e.target.value)}
+                          />
+                        </Form.Group>
+                      )
+                    ) : null}
 
                     <Form.Group controlId="old_seer" className="mb-1">
                       <Form.Label>
                         SEER:{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Seer
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Seer
+                            : null}
                         </b>
                       </Form.Label>
                       <FormControl
@@ -2053,11 +2082,11 @@ function ViewApp(props) {
                       <Form.Label>
                         Disposal Date:{" "}
                         <b>
-                          {
-                            application?.Old_equipment[
-                              selectedOldEquipmentIndex
-                            ].oldEquip_Disposal_date
-                          }
+                          {application?.Old_equipment.length >= 1
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_Disposal_date
+                            : null}
                         </b>
                       </Form.Label>
                       <FormControl
