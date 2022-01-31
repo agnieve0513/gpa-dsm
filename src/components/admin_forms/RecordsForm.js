@@ -171,6 +171,8 @@ function RecordsForm() {
   const [rowData, setRowData] = useState(null);
   const [selectedData, setSelectedData] = useState(null);
 
+  const [reload, setReload] = useState(0);
+
   // Grid Functions . . .
   const onGridReady = (params) => {
     setGridApi(params.api);
@@ -392,11 +394,11 @@ function RecordsForm() {
 
   useEffect(() => {
       dispatch(listApplicationsRecords());
-      dispatch(detailApplication(applicationId));
-      dispatch(logsApplication(applicationId));
+        dispatch(detailApplication(applicationId));
+        dispatch(logsApplication(applicationId));
 
-      dispatch(commentsApplication(applicationId));
-  }, []);
+        dispatch(commentsApplication(applicationId));
+  }, [reload]);
 
   const resetHandler = () => {
     setShow(false);
@@ -494,6 +496,10 @@ function RecordsForm() {
       setDetailsToggle(false);
     }
   };
+
+  const reloadTableHandler = () => {
+    setReload(reload+1)
+  }
 
   return (
     <div>
@@ -1299,6 +1305,14 @@ function RecordsForm() {
                   variant={"success"}
                 >
                   Reset Filter
+                </Button>
+                <Button
+                  onClick={() => reloadTableHandler()}
+                  className="mb-2 me-2 float-end"
+                  size="sm"
+                  variant={"success"}
+                >
+                  Reload Table
                 </Button>
               </Col>
             </Row>

@@ -430,7 +430,7 @@ function BatchList() {
                             size="sm"
                             onClick={() => reloadBatchAppHandler()}
                           >
-                            Reload
+                            Reload Table
                           </Button>
                         </h5>
                       </div>
@@ -527,7 +527,7 @@ function BatchList() {
                           size="sm"
                           onClick={() => reloadBatchListHandler()}
                         >
-                          Reload
+                          Reload Table
                         </Button>
                       </h5>
                     </div>

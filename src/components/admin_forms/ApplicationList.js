@@ -128,7 +128,7 @@ function ApplicationList() {
                   size="sm"
                   variant={"success"}
                 >
-                  Reload
+                  Reload Table
                 </Button>
                 <Button
                   onClick={() => resetState()}
