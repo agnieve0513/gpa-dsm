@@ -674,14 +674,14 @@ function FinalReview(props) {
                   ) : (
                     <></>
                   )}
-                  {props.disposal_receipt ? (
+                  {props.disposal_slip ? (
                     <>
                       <b>
                         Disposal Receipt <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
-                        Filename: {props.disposal_receipt.name} <br />
-                        File Type: {props.disposal_receipt.type}
+                        Filename: {props.disposal_slip.name} <br />
+                        File Type: {props.disposal_slip.type}
                       </p>
                     </>
                   ) : (
