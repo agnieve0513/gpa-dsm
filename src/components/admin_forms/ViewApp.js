@@ -91,7 +91,7 @@ function ViewApp(props) {
   const [city_village, setCityVillage] = useState("");
   const [zipcode, setZipCode] = useState("");
   const [tel_no, setTelNo] = useState("");
-  const [email, setEmail] = useState("@");
+  const [email, setEmail] = useState("");
   const [is_applicant_owner, setIsApplicantOwner] = useState(false);
   const [mailing_address, setMailingAddress] = useState("");
   const [mailing_city_village, setMailingCityVillage] = useState("");

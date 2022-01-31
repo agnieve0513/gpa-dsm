@@ -198,7 +198,7 @@ function ApplicationScreen() {
             existing_old_equipment_information: old_equipments,
             submitted_documents: {
               control_no: control_no,
-              invoice: invoiceD,
+              invoice: invoiceD ? invoiceD : "",
               irs_form: irs_formD,
               disposal_slip: disposal_slipD,
               letter_authorization: letter_authorizationD
