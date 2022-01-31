@@ -300,6 +300,7 @@ function ViewApp(props) {
     });
 
     setComment("");
+    setReload(reload + 1)
   };
 
   const changeCommentHandler = (text) => {
