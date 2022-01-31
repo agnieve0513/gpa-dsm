@@ -383,7 +383,6 @@ function FinalReview(props) {
                                 <th>Invoice#</th>
                                 <th>Quantity</th>
                                 <th>Purchase Date</th>
-                                <th>Rebate</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -399,7 +398,6 @@ function FinalReview(props) {
                                       <td>{eq.invoice_no}</td>
                                       <td>{eq.quantity}</td>
                                       <td>{eq.purchase_date}</td>
-                                      <td>{eq.rebate || 0}</td>
                                     </tr>
                                   ))
                                 : null}
@@ -485,10 +483,10 @@ function FinalReview(props) {
                                     <tr key={eq.id + 1}>
                                       <td className="p-3">{eq.quantity}</td>
                                       <td className="p-3">
-                                        {!eq.rebate ? 0 : eq.rebate}
+                                       $ {!eq.rebate ? 0 : eq.rebate}
                                       </td>
                                       <td className="p-3">
-                                        {!eq.rebate
+                                       $ {!eq.rebate
                                           ? 0
                                           : parseInt(eq.quantity) *
                                             parseInt(eq.rebate)}
