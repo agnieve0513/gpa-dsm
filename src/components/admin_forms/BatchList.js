@@ -390,7 +390,9 @@ function BatchList() {
                     { title: "Control No.", field: "Control_Number" },
                     { title: "Status", field: "Status" },
                     { title: "Stage", field: "Stage" },
-                    { title: "Total Rebate", field: "TotalRebate" },
+                    { title: "Total Rebate", field: "TotalRebate", render: (rowData) => {
+                      return <>$ {rowData.TotalRebate}</> }
+                    },
                     {
                       title: "Action",
                       field: "actions",
@@ -486,7 +488,9 @@ function BatchList() {
                     { title: "Batch Code", field: "Batch_code" },
                     { title: "Batch Type", field: "Batch_type" },
                     { title: "Batch Ferc", field: "Batch_ferc" },
-                    { title: "Total", field: "Batch_total" },
+                    { title: "Total", field: "Batch_total", render: (rowData) => {
+                      return <>$ {rowData.Batch_total}</>
+                    }},
                     {
                       title: "MadeOn",
                       render: (rowData) => {
@@ -516,20 +520,19 @@ function BatchList() {
                   ]}
                   data={batches?.length >= 1 ? batches : []}
                   title={
-                    <div>
-                      <h5 className="text-info">
-                        Batch{" "}
-                        <span className="text-default me-2">
-                          Last Update: {updatedTime}
-                        </span>
+                    <div className="mt-3">
+                      <h5 className="text-info">Batch </h5>
+                      <h6 className="text-muted">
+                        Last Update: {updatedTime}
                         <Button
                           variant="success"
                           size="sm"
                           onClick={() => reloadBatchListHandler()}
+                          className="ms-2"
                         >
                           Reload Table
                         </Button>
-                      </h5>
+                      </h6>
                     </div>
                   }
                   options={{

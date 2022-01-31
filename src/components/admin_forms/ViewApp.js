@@ -1891,7 +1891,7 @@ function ViewApp(props) {
                                         ))
                                       }
                                     </span>
-                                    {eq.newEquip_rebate}
+                                    ${eq.newEquip_rebate}
                                   </td>
                                 </tr>
                               ))}
@@ -1903,7 +1903,7 @@ function ViewApp(props) {
                             <td className="p-3 text-center" colSpan="2">
                               TOTAL
                             </td>
-                            <td className="p-3">{total_rebate}</td>
+                            <td className="p-3">${total_rebate}</td>
                           </tr>
                         </tbody>
                       </Table>

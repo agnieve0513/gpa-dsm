@@ -9,7 +9,7 @@ function Footer() {
           <Col className="text-center">
             <small className="">
               Energy Sense Rebate Program for Central, Ducted Systems <br />
-              Copyright &copy; 2020 GPA Powered By Xtendly
+              Copyright &copy; 2020 - 2022 GPA Powered By Xtendly
             </small>
           </Col>
         </Row>

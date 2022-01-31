@@ -17,7 +17,6 @@ function Confirm(props) {
   const handleBack = () => {
     props.setStep(1);
     window.location.href = "https://gparebate3.xtendly.com/";
-
   };
 
   return print ? (
