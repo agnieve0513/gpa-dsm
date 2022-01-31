@@ -1419,34 +1419,36 @@ function ViewApp(props) {
                       >
                         {models ? (
                           models.map((mod) => {
-                            if(system_type === "Dryer" || system_type === "Washer"){
-                              return <option key={mod.id} value={mod.id}>
-                                {mod.model}{" "}
-                              </option>;
-                            }else if (mod.model === "Indoor / Outdoor")
-                            {
+                            if (
+                              system_type === "Dryer" ||
+                              system_type === "Washer"
+                            ) {
+                              return (
+                                <option key={mod.id} value={mod.id}>
+                                  {mod.model}{" "}
+                                </option>
+                              );
+                            } else if (mod.model === "Indoor / Outdoor") {
                               return (
                                 <option key={mod.id} value={mod.id}>
                                   {mod.indoor_model} / {mod.outdoor_model}
                                 </option>
                               );
-                            }else if (mod.model === "Both") {
+                            } else if (mod.model === "Both") {
                               return (
                                 <option key={mod.id} value={mod.id}>
                                   {mod.indoor_model} / {mod.outdoor_model}/{" "}
                                   {mod.package_model}
                                 </option>
                               );
-                            }
-                            else {
+                            } else {
                               return (
                                 <option key={mod.id} value={mod.id}>
                                   {mod.package_model}
                                 </option>
                               );
                             }
-                          }
-                          )
+                          })
                         ) : (
                           <></>
                         )}
@@ -1997,6 +1999,7 @@ function ViewApp(props) {
                       <FormControl
                         value={old_years}
                         type="number"
+                        min="1"
                         onChange={(e) => setOldYears(e.target.value)}
                       />
                     </Form.Group>
@@ -2014,6 +2017,8 @@ function ViewApp(props) {
                       </Form.Label>
                       <FormControl
                         value={old_quantity}
+                        type="number"
+                        min="1"
                         onChange={(e) => setOldQuantity(e.target.value)}
                       />
                     </Form.Group>
@@ -2023,8 +2028,12 @@ function ViewApp(props) {
                         {application?.Old_equipment.length >= 1
                           ? application?.Old_equipment[
                               selectedOldEquipmentIndex
-                            ].oldEquip_System_type === "Dryer" || "Washer"
-                            ? "Cubic"
+                            ].oldEquip_System_type === "Dryer"
+                            ? application?.Old_equipment[
+                                selectedOldEquipmentIndex
+                              ].oldEquip_System_type === "Washer"
+                              ? "Cubic"
+                              : "Tons"
                             : "Tons"
                           : null}
                         :{" "}
@@ -2038,6 +2047,8 @@ function ViewApp(props) {
                       </Form.Label>
                       <FormControl
                         value={old_tons}
+                        type="number"
+                        min="1"
                         onChange={(e) => setOldTons(e.target.value)}
                       />
                     </Form.Group>
@@ -2078,7 +2089,8 @@ function ViewApp(props) {
                       </Form.Label>
                       <FormControl
                         value={old_seer}
-                        typep="number"
+                        type="number"
+                        min="1"
                         onChange={(e) => setOldSeer(e.target.value)}
                       />
                     </Form.Group>
