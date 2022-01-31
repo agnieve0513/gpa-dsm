@@ -137,6 +137,8 @@ function ViewApp(props) {
   const [other_doc1, setOtherDoc1] = useState(null);
   const [other_doc2, setOtherDoc2] = useState(null);
   const [modelId, setModelID] = useState("");
+  const [modelNumber, setModelNumber] = useState("");
+  const [modelName, setModelName] = useState("");
 
 
   const [modalData, setModalData] = useState({
@@ -308,23 +310,7 @@ function ViewApp(props) {
     dispatch(retrieveFileAction(code));
   };
 
-  const handleEquipmentEdit = (
-    index,
-    equipment_id,
-    system_type,
-    manifacturer,
-    model_no
-  ) => {
-    console.log("equipment index: ", index);
-    setSelectedEquipmentIndex(index);
-    console.log(application?.New_equipment[selectedEquipmentIndex]);
-    setShowEditModal(true);
-
-    changeSystemTypeHandler(system_type);
-    changeManufacturerHandler(manifacturer);
-    changeModelHandler(model_no);
-    setEnableEquipmentEdit(true);
-  };
+  
 
   const handleEditInfo = () => {
     const obj = {
@@ -361,6 +347,7 @@ function ViewApp(props) {
     dispatch(editApplication(obj));
     Swal.fire("Success", "Application has been updated!", "success");
     setUpdateInfoReload(updateInfoReload + 1);
+
   };
 
   const changeZipCode = (e) => {
@@ -388,7 +375,12 @@ function ViewApp(props) {
   };
   const changeManufacturerHandler = (e) => {
     setManufacturer(e);
-    dispatch(loadCustomerEquipModel(system_type, e));
+    dispatch(
+      loadCustomerEquipModel(
+        application.New_equipment[0].newEquip_System_type,
+        e
+      )
+    );
   };
   const handleModelNo = (id) => {
     console.log("handleModelNo: ",id);
@@ -412,11 +404,31 @@ function ViewApp(props) {
   const changeModelHandler = (e) => {
     setModelID(e);
     let selectedModel = models.find((model) => model.id === parseInt(e));
-    let modelName = handleModelNo(selectedModel);
-    console.log(modelName);
-    setModelNo(modelName);
+    console.log("First Load of Model: ", selectedModel)
+    let selectedModelName = handleModelNo(selectedModel);
+    console.log(selectedModelName);
+    setModelNumber(e);
+    setModelName(selectedModelName);
 
     dispatch(loadCustomerEquipmentDetail(e));
+  };
+
+  const handleEquipmentEdit = (
+    index,
+    equipment_id,
+    system_type,
+    manifacturer,
+    model_no
+  ) => {
+    console.log("equipment index: ", index);
+    setSelectedEquipmentIndex(index);
+    console.log(application?.New_equipment[selectedEquipmentIndex]);
+    setShowEditModal(true);
+
+    changeSystemTypeHandler(system_type);
+    changeManufacturerHandler(manifacturer);
+    changeModelHandler(model_no);
+    setEnableEquipmentEdit(true);
   };
 
   const handleEditOldEquipment = (equipment_id, indx) => {
@@ -499,8 +511,8 @@ function ViewApp(props) {
           manufacturer: manufacturer
             ? manufacturer
             : application.New_equipment[indx].newEquip_Manufacturer,
-          model_no: model_no
-            ? model_no
+          model_no: modelName
+            ? modelName
             : application.New_equipment[indx].newEquip_Model_no,
           invoice_no: invoice_no
             ? invoice_no
@@ -514,26 +526,25 @@ function ViewApp(props) {
           size: 0,
           type: "",
           tons: "",
-
         },
       ],
-      installer_information: {
-        id: application.Installer_New_id,
-        technician_name: installer_name
-          ? installer_name
-          : application.Installer_New_name,
-        work_tel: work_tel ? work_tel : application.Installer_New_worktel,
-        company_name: company ? company : application.Installer_New_companyname,
-        technician_cert_no: cert_no
-          ? cert_no
-          : application.Installer_New_certno,
-        date_final_installation: installer_final_date
-          ? installer_final_date
-          : application.Installer_New_finaldate,
-        email: installer_email
-          ? installer_email
-          : application.Installer_New_email,
-      },
+      // installer_information: {
+      //   id: application.Installer_New_id,
+      //   technician_name: installer_name
+      //     ? installer_name
+      //     : application.Installer_New_name,
+      //   work_tel: work_tel ? work_tel : application.Installer_New_worktel,
+      //   company_name: company ? company : application.Installer_New_companyname,
+      //   technician_cert_no: cert_no
+      //     ? cert_no
+      //     : application.Installer_New_certno,
+      //   date_final_installation: installer_final_date
+      //     ? installer_final_date
+      //     : application.Installer_New_finaldate,
+      //   email: installer_email
+      //     ? installer_email
+      //     : application.Installer_New_email,
+      // },
     };
     console.log("equipment_id", equipment_id);
     console.log("system_type", system_type);
@@ -548,7 +559,7 @@ function ViewApp(props) {
       system_type === "" ||
       vendor === "" ||
       manufacturer === "" ||
-      model_no === "" ||
+      modelName === "" ||
       invoice_no === "" ||
       purchase_date === "" ||
       quantity === ""
@@ -558,6 +569,7 @@ function ViewApp(props) {
       dispatch(editEquipment(obj));
       Swal.fire("Success", "Equipment has been updated!", "success");
       setShowEditModal(false);
+      setReload(reload+1)
     }
   };
 
@@ -643,7 +655,7 @@ function ViewApp(props) {
           >
             <i className="fa fa-refresh"></i> Reload Application
           </Button>
-          <h4 style={{ marginLeft: "auto" }}>{props.currentControlNum}</h4>
+          <h4 style={{ marginLeft: "auto" }}>{application?.Control_Number}</h4>
         </div>
 
         <Row style={{ paddingLeft: 12 }}>
@@ -1414,7 +1426,7 @@ function ViewApp(props) {
                         </b>
                       </Form.Label>
                       <Form.Select
-                        value={model_no}
+                        value={modelNumber}
                         onChange={(e) => changeModelHandler(e.target.value)}
                       >
                         {models ? (
@@ -1465,7 +1477,6 @@ function ViewApp(props) {
                         </b>
                       </Form.Label>
                       <br />
-                      <span>{vendor}</span>
                       <Form.Select
                         value={vendor}
                         onChange={(e) => setVendor(e.target.value)}
