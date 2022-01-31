@@ -135,43 +135,7 @@ export const listBatchApplication =
     }
   };
 
-// listBatchCurrent
-export const listBatchCurrent = () => async (dispatch, getState) => {
-  try {
-    let obj = JSON.parse(localStorage.getItem("userInfo"));
-
-    dispatch({
-      type: BATCH_CURRENT_REQUEST,
-    });
-
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${obj.message.original.access_token}`,
-      },
-    };
-
-    const { data } = await axios.post(
-      URL + "/batch-current",
-      { roleId: obj.message.original.roleId },
-      config
-    );
-
-    dispatch({
-      type: BATCH_CURRENT_SUCCESS,
-      payload: data.table,
-    });
-  } catch (error) {
-    dispatch({
-      type: BATCH_CURRENT_FAIL,
-      payload:
-        error.response && error.response.data.detail
-          ? error.reponse.data.detail
-          : error.message,
-    });
-  }
-};
+//
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");

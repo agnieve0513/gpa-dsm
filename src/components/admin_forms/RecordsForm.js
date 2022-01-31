@@ -28,7 +28,6 @@ import {
   logsApplication,
   updateApplication,
 } from "../../actions/applicationActions";
-import { listBatchCurrent, addNewBatch } from "../../actions/batchActions";
 import { retrieveFileAction } from "../../actions/fileActions";
 
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
@@ -392,39 +391,15 @@ function RecordsForm() {
   };
 
   useEffect(() => {
-    dispatch(listApplicationsRecords());
-    dispatch(listBatchCurrent());
-    dispatch(detailApplication(applicationId));
-    dispatch(logsApplication(applicationId));
+      dispatch(listApplicationsRecords());
+      dispatch(detailApplication(applicationId));
+      dispatch(logsApplication(applicationId));
 
-    dispatch(commentsApplication(applicationId));
-  }, [successUpdate, addBatchSuccess, commentSucess]);
+      dispatch(commentsApplication(applicationId));
+  }, []);
 
   const resetHandler = () => {
     setShow(false);
-  };
-
-  const addBatchHandler = () => {
-    if (window.confirm("Are you sure you want to create new Batch?")) {
-      dispatch(addNewBatch());
-    }
-  };
-
-  // TODO: Needed some revisions here if how to automate the adding of batch
-  // !This one is for adding to supervisor with batch
-  const selectBatchHandler = (batch_id) => {
-    if (window.confirm("Are you sure you want to send to Supervisor?")) {
-      setBatch(batch_id);
-      setStatus(status);
-      setStage(stage);
-      setBatchShowModal(false);
-
-      if (window.confirm("Are you sure you want to process application?")) {
-        dispatch(
-          updateApplication(applicationId, status, stage, reason, batch_id)
-        );
-      }
-    }
   };
 
   const selectEquipment = (id, equipmentType) => {

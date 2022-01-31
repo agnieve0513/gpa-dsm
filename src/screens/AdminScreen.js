@@ -16,6 +16,9 @@ import BatchList from "../components/admin_forms/BatchList";
 
 function AdminScreen({ location, history }) {
   const redirect = location.search ? location.search.split("=")[1] : "/admin";
+   let obj = JSON.parse(localStorage.getItem("userInfo"));
+   let roleId = obj.message.original.roleId;
+
   const [role_name, setRoleName] = useState("");
   const [applicationForm, setApplicationForm] = useState(true);
   const [equipmentForm, setEquipmentForm] = useState(false);
@@ -25,16 +28,24 @@ function AdminScreen({ location, history }) {
   const [recordForm, setRecordForm] = useState(true);
   const [role_id, setRoleId] = useState();
   const [current, setCurrent] = useState("application");
-
+  const [defaultTab, setDefaultTab] = useState(roleId === 4 ? "batch" : roleId === 7 ? "records": "application");
   useEffect(() => {
     if (!localStorage.getItem("userInfo")) {
       history.push(redirect);
     } else {
-      let obj = JSON.parse(localStorage.getItem("userInfo"));
-      let roleId = obj.message.original.roleId;
+     
       setRoleId(roleId);
 
       let role_name = "";
+
+      if(roleId === 4){
+        setDefaultTab("batch");
+      }else if(roleId === 7)
+      {
+        setDefaultTab("records")
+      }else {
+        setDefaultTab("application")
+      }
 
       if (roleId === 1) {
         role_name = "Admin";
@@ -84,14 +95,10 @@ function AdminScreen({ location, history }) {
     <div className="d-flex flex-column h-100">
       <Header />
       <Container fluid className="mt-4">
-        {console.log(
-          role_id === 4 ? "batch" : role_id === 7 ? "records" : "application"
-        )}
+        {console.log("Default Tab: ", defaultTab)}
         <Tab.Container
           id="left-tabs-example"
-          defaultActiveKey={
-            role_id === 4 ? "batch" : role_id === 7 ? "records" : "application"
-          }
+          defaultActiveKey={defaultTab}
         >
           <Container>
             <Row className="p-0 mb-4" id="adminHeader">
