@@ -501,6 +501,10 @@ function RecordsForm() {
     setReload(reload+1)
   }
 
+  const handleReloadApplication = () => {
+    setReload(reload + 1);
+  }
+
   return (
     <div>
       {show ? (
@@ -519,11 +523,12 @@ function RecordsForm() {
               }}
             >
               <Button
-                className="mb-3 btn btn-light"
+                className="mb-3 btn btn-light me-2"
                 onClick={() => resetHandler()}
               >
                 <i className="fa fa-arrow-left"></i> Back to Application
               </Button>
+              <Button className="mb-3 btn btn-success" onClick={()=> handleReloadApplication()}>Reload Application</Button>
               <h4 style={{ marginLeft: "auto" }}>
                 {application?.Control_Number}
               </h4>
