@@ -120,7 +120,8 @@ export const forgotPassword = (email) => async (dispatch) => {
 
     const { data } = await axios.post(
       URL + "/forgot-password",
-      { email: email, link: "https://gparebate3.xtendly.com" },
+      { email: email, link: "https://gparebates.com" },
+      // { email: email, link: "https://gparebate3.xtendly.com" },
       config
     );
 
