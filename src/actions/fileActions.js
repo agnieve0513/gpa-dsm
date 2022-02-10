@@ -14,7 +14,8 @@ import {
   LOG_FILE_FAIL,
 } from "../constants/fileConstants";
 
-const URL = "https://gpadev-api-rebate.xtendly.com/api/v1";
+const URL = process.env.REACT_APP_API_BASE_URL;
+
 
 export const uploadFileAction =
   (filepath, doctype, controlNo, UserId) => async (dispatch) => {

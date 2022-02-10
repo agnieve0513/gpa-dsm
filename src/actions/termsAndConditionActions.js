@@ -8,7 +8,7 @@ import {
   PDF_RETRIEVE_SUCCESS,
 } from "../constants/termsAndConditionConstants";
 
-const URL = "https://gpadev-api-rebate.xtendly.com/api/v1";
+const URL = process.env.REACT_APP_API_BASE_URL;
 
 export const uploadFile =
   (filepath, doctype, controlNo) => async (dispatch) => {
