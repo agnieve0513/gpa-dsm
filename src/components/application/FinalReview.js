@@ -545,7 +545,7 @@ function FinalReview(props) {
                         <th>System Type</th>
                         {props.system_type === ("Dryer" || "Washer") ? (
                           <>
-                            <th>CUBIC</th>
+                            <th>CUBIC FEET</th>
                           </>
                         ) : (
                           <>

@@ -209,7 +209,7 @@ export const loadCustomerDetail =
         },
         config
       );
-
+        console.log("verification success",data.info)
       dispatch({
         type: CUSTOMER_DETAIL_SUCCESS,
         payload: data,

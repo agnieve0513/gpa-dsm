@@ -172,7 +172,7 @@ function NewEuipmentInformation(props) {
       ) /
         (1000 * 3600 * 24) >
         120 &&
-        props.delay_reason === "")
+        props.delay_reason === "") 
     ) {
       Toast.fire({
         icon: "info",
@@ -239,7 +239,11 @@ function NewEuipmentInformation(props) {
   };
 
   const installerCertificationHandler = () => {
-    if (props.system_type === "Dryer" || props.system_type === "Washer") {
+    if (
+      props.system_type === "Dryer" ||
+      props.system_type === "Washer" ||
+      props.system_type === "Window AC"
+    ) {
       return <></>;
     } else {
       return (
@@ -557,8 +561,32 @@ function NewEuipmentInformation(props) {
               <p className="validate text-danger requiredField">
                 *This Field is Required
               </p>
+            ) : Math.abs(
+                new Date(props.date_final_installation) -
+                  new Date()
+              ) /
+                (1000 * 3600 * 24) >
+              120 ? (
+              <>
+                {handleShowExeededTime()}
+                <Form.Control
+                  as="textarea"
+                  row={3}
+                  onChange={(e) => props.setDelayReason(e.target.value)}
+                  value={props.delay_reason}
+                  required
+                  placeholder="Please enter a valid reason for exceeding 120 days."
+                ></Form.Control>
+                {props.delay_reason === "" ? (
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </>
             ) : (
-              <></>
+              ""
             )}
           </Col>
           <Col md={6} className="mb-3">
@@ -900,10 +928,11 @@ function NewEuipmentInformation(props) {
                 PURCHASE DATE (Date on invoice)
               </Form.Label>
               <Form.Control
+                onkeydown="return false"
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
                 value={props.purchase_date}
-                max={currentDate}
+                max={date}
                 required
               ></Form.Control>
             </Form.Group>

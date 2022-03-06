@@ -39,6 +39,10 @@ function ApplicationRequirements(props) {
             Please note that any missing, false, or incorrect information
             provided may cause a delay or even result in a denial of your
             application.{" "}
+          </span> <br />
+          <span className="text-danger">
+            *Note that the System will not run smoothly on Internet Explorer,
+            please install supported browsers (Google Chrome, Microsoft Edge, Mozilla Firefox, Safari){" "}
           </span>
         </p>
         {width > 425

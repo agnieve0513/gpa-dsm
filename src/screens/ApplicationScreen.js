@@ -200,7 +200,7 @@ function ApplicationScreen() {
             submitted_documents: {
               control_no: control_no,
               invoice: invoiceD ? invoiceD : "",
-              irs_form: irs_formD,
+              irs_form: irs_formD ? irs_formD : "",
               disposal_slip: disposal_slipD,
               letter_authorization: letter_authorizationD
                 ? letter_authorizationD
@@ -454,7 +454,11 @@ function ApplicationScreen() {
         ) {
           errorMessage();
         } else {
-          if (system_type === "Washer" || system_type === "Dryer") {
+          if (
+            system_type === "Washer" ||
+            system_type === "Dryer" ||
+            system_type === "Window AC"
+          ) {
             setStep(currentStep + 1);
             return;
           } else {

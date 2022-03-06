@@ -217,13 +217,27 @@ function ExistingEquipmentInformation(props) {
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.system_type}
-                disabled={true}
+                disabled={
+                  props.system_type === "Central AC" ||
+                  props.system_type === "Split AC" ||
+                  props.system_type === "Window AC"
+                    ? false
+                    : true
+                }
               >
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
                 <option value="Window AC">Window AC</option>
-                <option value="Dryer">Dryer</option>
-                <option value="Washer">Washer</option>
+                {props.system_type === "Central AC" ||
+                props.system_type === "Split AC" ||
+                props.system_type === "Window AC" ? (
+                  <></>
+                ) : (
+                  <>
+                    <option value="Dryer">Dryer</option>
+                    <option value="Washer">Washer</option>
+                  </>
+                )}
               </Form.Select>
             </Form.Group>
           </Col>
@@ -269,8 +283,8 @@ function ExistingEquipmentInformation(props) {
                 {props.system_type !== "Dryer"
                   ? props.system_type !== "Washer"
                     ? "TONS"
-                    : "CUBIC SQ."
-                  : "CUBIC SQ."}
+                    : "CUBIC FEET"
+                  : "CUBIC FEET"}
               </Form.Label>
               <Form.Control
                 type="number"

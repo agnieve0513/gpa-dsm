@@ -2162,10 +2162,10 @@ function ViewApp(props) {
                           "Dryer" ? (
                             <th>TONS</th>
                           ) : (
-                            <th>CUBIC SQ.</th>
+                            <th>CUBIC FEET</th>
                           )
                         ) : (
-                          <th>CUBIC SQ.</th>
+                          <th>CUBIC FEET</th>
                         )
                       ) : null}
                       <th>Eqpmt. Condition</th>
