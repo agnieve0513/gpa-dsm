@@ -40,6 +40,7 @@ import MaterialTable from "material-table";
 import ModalImage from "../ModalImage";
 
 import TimeAgo from "javascript-time-ago";
+import StringCrypto from "string-crypto";
 
 // English.
 import en from "javascript-time-ago/locale/en.json";
@@ -51,6 +52,7 @@ import { uploadFileAction } from "../../actions/fileActions";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useWindowDimensions } from "../../hooks";
+import { Link } from "react-router-dom";
 const MySwal = withReactContent(Swal);
 let p = {};
 
@@ -59,6 +61,9 @@ TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 function RecordsForm() {
+
+  const { encryptString } = new StringCrypto();
+
   const { height, width } = useWindowDimensions();
   const [commentShow, setCommentShow] = useState(false);
   const [show, setShow] = useState(false);
@@ -528,7 +533,12 @@ function RecordsForm() {
               >
                 <i className="fa fa-arrow-left"></i> Back to Application
               </Button>
-              <Button className="mb-3 btn btn-success" onClick={()=> handleReloadApplication()}>Reload Application</Button>
+              <Button
+                className="mb-3 btn btn-success"
+                onClick={() => handleReloadApplication()}
+              >
+                Reload Application
+              </Button>
               <h4 style={{ marginLeft: "auto" }}>
                 {application?.Control_Number}
               </h4>
@@ -566,6 +576,21 @@ function RecordsForm() {
                       onClick={() => handleDetailsToggle()}
                     >
                       <i className="fa fa-edit"></i>
+                    </Nav.Item>
+                    <Nav.Item
+                      style={{ width: 50, paddingTop: 10 }}
+                      className="d-flex aligns-items-center justify-content-center editbtn"
+                    >
+                      <Link
+                        className="text-black"
+                        to={`/printapplication?auth=${encryptString(
+                          application ? application.Control_Number : "",
+                          "superSecureToken"
+                        )}`}
+                        target="_blank"
+                      >
+                        <i className="fa fa-print"></i>
+                      </Link>
                     </Nav.Item>
                     {/* <Nav.Item className="me-1">
                                                 <Nav.Link eventKey="verify_information">Update Status</Nav.Link>

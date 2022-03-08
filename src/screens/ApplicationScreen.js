@@ -141,9 +141,9 @@ function ApplicationScreen() {
   const [disposal_slipD, setDisposalSlipD] = useState("");
   const [letter_authorizationD, setLetterAuthorizationD] = useState();
   const [installer_certificationD, setInstallerCertificationD] = useState();
-  const [other_doc1D, setOtherDoc1D] = useState("");
-  const [other_doc2D, setOtherDoc2D] = useState("");
-  const [other_doc3D, setOtherDoc3D] = useState("");
+  const [other_doc1D, setOtherDoc1D] = useState();
+  const [other_doc2D, setOtherDoc2D] = useState();
+  const [other_doc3D, setOtherDoc3D] = useState();
 
   const [terms_and_agreement, setTermsAndAgreement] = useState(false);
   const [total_rebate, setTotalRebate] = useState(0);
@@ -208,8 +208,8 @@ function ApplicationScreen() {
               other_doc1: installer_certificationD
                 ? installer_certificationD
                 : "",
-              other_doc2: other_doc1D,
-              other_doc3: other_doc2D,
+              other_doc2: other_doc2D ?other_doc2D : "" ,
+              other_doc3: other_doc3D ?other_doc3D : "",
             },
           };
 
@@ -608,6 +608,11 @@ function ApplicationScreen() {
                 setInvoiceNo={setInvoiceNo}
                 invoice={invoice}
                 setInvoice={setInvoice}
+                other_doc2={other_doc2}
+                setOtherDoc2={setOtherDoc2}
+                other_doc2D={other_doc2D}
+                setOtherDoc2D={setOtherDoc2D}
+                
                 max_invoice={max_invoice}
                 setMaxInvoice={setMaxInvoice}
                 invoiceD={invoiceD}

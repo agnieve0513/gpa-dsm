@@ -375,9 +375,18 @@ function NewEuipmentInformation(props) {
     }
   };
 
-  const handleChangeInvoice = (e) => {
-    props.setInvoice(e.target.files[0]);
-    dispatch(uploadFileAction(e.target.files[0], "invoice", props.control_no));
+    const handleChangeInvoice = (e) => {
+      props.setInvoice(e.target.files[0]);
+      dispatch(
+        uploadFileAction(e.target.files[0], "invoice", props.control_no)
+      );
+    };
+
+  const handleChangeConsiderationLetter = (e) => {
+    props.setOtherDoc2(e.target.files[0]);
+    dispatch(
+      uploadFileAction(e.target.files[0], "other_doc2", props.control_no)
+    );
   };
 
   const handleChangeInstallersInformation = (e) => {
@@ -553,6 +562,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => props.setDateFinalInstallation(e.target.value)}
                 value={props.date_final_installation}
                 max={currentDate}
+                onKeyDown={(e) => e.preventDefault()}
                 defaultValue={currentDate}
                 required
               ></Form.Control>
@@ -561,10 +571,7 @@ function NewEuipmentInformation(props) {
               <p className="validate text-danger requiredField">
                 *This Field is Required
               </p>
-            ) : Math.abs(
-                new Date(props.date_final_installation) -
-                  new Date()
-              ) /
+            ) : Math.abs(new Date(props.date_final_installation) - new Date()) /
                 (1000 * 3600 * 24) >
               120 ? (
               <>
@@ -932,7 +939,8 @@ function NewEuipmentInformation(props) {
                 type="date"
                 onChange={(e) => props.setPurchaseDate(e.target.value)}
                 value={props.purchase_date}
-                max={date}
+                max={currentDate}
+                onKeyDown={(e) => e.preventDefault()}
                 required
               ></Form.Control>
             </Form.Group>
@@ -971,7 +979,7 @@ function NewEuipmentInformation(props) {
         </Row>
 
         <Row>
-          <Col md={12}>
+          <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">
               <Form.Label className=" applicationTitle">REBATE</Form.Label>
               <Form.Control
@@ -983,6 +991,67 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
           </Col>
+          {props.delay_reason ? (
+            <Col md={6}>
+              <Form.Group controlId="disposal_slip">
+                <p className="d-flex justify-content-between applicationTitle">
+                  CONSIDERATION LETTER (Attached to Supporting Document)
+                </p>
+                <InputGroup className="mb-2">
+                  <Form.Control
+                    name="file"
+                    placeholder="Upload Consideration Letter"
+                    type="file"
+                    onChange={(e) => handleChangeConsiderationLetter(e)}
+                  />
+                  <div
+                    style={{
+                      width: "40px",
+                      height: "38px",
+                      backgroundColor: "#233E86",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <i style={{ color: "white" }} className="fa fa-upload"></i>
+                  </div>
+                </InputGroup>
+                {props.other_doc2 === null ? (
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {props.other_doc2 ? (
+                  <>
+                    {fileCode ? (
+                      <>
+                        {fileCode.length !== 0 ? (
+                          <>
+                            {props.setOtherDoc2D(fileCode)}
+                            {console.log(props.other_doc2D)}
+                            <Badge bg={"success"}>File Uploaded</Badge> <br />
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    <p className="text-break m-0">
+                      Filename: {props.invoice.name}
+                    </p>
+                    <p>File Type: {props.invoice.type}</p>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </Form.Group>
+            </Col>
+          ) : null}
         </Row>
 
         {/* Table and button Add Equipment */}

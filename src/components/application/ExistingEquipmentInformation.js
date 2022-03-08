@@ -185,6 +185,71 @@ function ExistingEquipmentInformation(props) {
     );
   };
 
+  const handleDisposalSlip = () => (
+    <Form.Group controlId="disposal_slip">
+                <ModalImage
+                  data={{
+                    description: "Disposal Receipt",
+                    image_sample: "./image_sample/5.jpg",
+                  }}
+                  show={modalShow}
+                  onHide={() => setModalShow(false)}
+                />
+                <span className="d-flex flex-row justify-content-between disposalReceipt">
+                  DISPOSAL RECEIPT
+                  <span
+                    className="text-secondary mb-1"
+                    onClick={() => {
+                      setModalData(
+                        (p = {
+                          description: "DISPOSAL SLIP",
+                          image_sample: "./image_sample/5.jpg",
+                        })
+                      );
+                      setModalShow(true);
+                    }}
+                  >
+                    <i className="fa fa-question-circle"></i>{" "}
+                  </span>
+                </span>
+                <InputGroup>
+                  <Form.Control
+                    name="file"
+                    placeholder="Upload Disposal Receipt"
+                    type="file"
+                    onChange={(e) => handleChangeDisposalSlip(e)}
+                  />
+                </InputGroup>
+                {props.no_existing ? (
+                  <> </>
+                ) : props.disposal_slip === null ? (
+                  <p className="validate text-danger requiredField">
+                    *This Field is Required
+                  </p>
+                ) : (
+                  <></>
+                )}
+                {props.disposal_slip ? (
+                  <>
+                    {fileCode ? (
+                      <>
+                        {props.setDisposalSlipD(fileCode)}
+                        {console.log(props.disposal_slipD)}
+                        <Badge bg={"success"}>File Uploaded</Badge> <br />
+                      </>
+                    ) : (
+                      <>no upload</>
+                    )}
+                    Filename: {props.disposal_slip.name} <br />
+                    File Type: {props.disposal_slip.type} <br />
+                    <br />
+                  </>
+                ) : (
+                  <></>
+                )}
+              </Form.Group>
+  )
+
   return (
     <Row className="w-100 mx-0 d-flex justify-content-center">
       <Col md={10} xl={6}>
@@ -290,7 +355,10 @@ function ExistingEquipmentInformation(props) {
                 type="number"
                 placeholder=""
                 value={props.old_tons}
-                onChange={(e) => props.setOldTons(e.target.value)}
+                onChange={(e) => {
+                  props.setOldBtu(e.target.value * 12000)
+                  props.setOldTons(e.target.value);
+                }}
                 required
                 min="0"
                 disabled={props.no_existing ? true : false}
@@ -459,69 +527,11 @@ function ExistingEquipmentInformation(props) {
               <></>
             )}
             <br />
-            {props.disposal_party === "Customer" ? (
-              <Form.Group controlId="disposal_slip">
-                <ModalImage
-                  data={{
-                    description: "Disposal Receipt",
-                    image_sample: "./image_sample/5.jpg",
-                  }}
-                  show={modalShow}
-                  onHide={() => setModalShow(false)}
-                />
-                <span className="d-flex flex-row justify-content-between disposalReceipt">
-                  DISPOSAL RECEIPT
-                  <span
-                    className="text-secondary mb-1"
-                    onClick={() => {
-                      setModalData(
-                        (p = {
-                          description: "DISPOSAL SLIP",
-                          image_sample: "./image_sample/5.jpg",
-                        })
-                      );
-                      setModalShow(true);
-                    }}
-                  >
-                    <i className="fa fa-question-circle"></i>{" "}
-                  </span>
-                </span>
-                <InputGroup>
-                  <Form.Control
-                    name="file"
-                    placeholder="Upload Disposal Receipt"
-                    type="file"
-                    onChange={(e) => handleChangeDisposalSlip(e)}
-                  />
-                </InputGroup>
-                {props.no_existing ? (
-                  <> </>
-                ) : props.disposal_slip === null ? (
-                  <p className="validate text-danger requiredField">
-                    *This Field is Required
-                  </p>
-                ) : (
-                  <></>
-                )}
-                {props.disposal_slip ? (
-                  <>
-                    {fileCode ? (
-                      <>
-                        {props.setDisposalSlipD(fileCode)}
-                        {console.log(props.disposal_slipD)}
-                        <Badge bg={"success"}>File Uploaded</Badge> <br />
-                      </>
-                    ) : (
-                      <>no upload</>
-                    )}
-                    Filename: {props.disposal_slip.name} <br />
-                    File Type: {props.disposal_slip.type} <br />
-                    <br />
-                  </>
-                ) : (
-                  <></>
-                )}
-              </Form.Group>
+            {
+            props.system_type === "Dryer" || props.system_type === "Washer" || props.system_type === "Window AC"?
+              handleDisposalSlip():
+            props.disposal_party === "Customer" ? (
+              handleDisposalSlip()
             ) : (
               <></>
             )}

@@ -381,7 +381,11 @@ function ApplicationInformation(props) {
     </Row>
   );
 
-  const newComponentDesktop = () => (
+  const newComponentDesktop = () => {
+    props.setIsNewConstruction(new Date().getFullYear() - props.home_age < 4 ? "true" : "false");
+
+    return (
+    
     <Row className="d-flex flex-row py-2">
       <Form.Check
         className="w-25"
@@ -392,8 +396,15 @@ function ApplicationInformation(props) {
         value="true"
         checked={"true" === props.is_new_construction}
         onChange={(e) => props.setIsNewConstruction(e.target.value)}
-        disabled={props.verify ? false : true}
+        disabled={
+          new Date().getFullYear() - props.home_age < 4
+            ? true
+            : props.verify
+            ? false
+            : true
+        }
       />
+      {console.log(new Date().getFullYear() - props.home_age)}
       <Form.Check
         className="w-25"
         inline
@@ -406,7 +417,7 @@ function ApplicationInformation(props) {
         disabled={props.verify ? false : true}
       />
     </Row>
-  );
+  )};
 
   const uploadLoa = () => {
     return (
@@ -628,9 +639,7 @@ function ApplicationInformation(props) {
               {props.customer_type === "COMM" ? (
                 <Col md={12} className="mb-3">
                   <Form.Group controlId="first Name">
-                    <Form.Label className=" applicationTitle">
-                      NAME
-                    </Form.Label>
+                    <Form.Label className=" applicationTitle">NAME</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder=""
@@ -1034,6 +1043,7 @@ function ApplicationInformation(props) {
                     }
                   ></Form.Control>
                 </Form.Group>
+               
                 {props.home_age === "" ? (
                   <p className="validate text-danger requiredField">
                     *This Field is Required
