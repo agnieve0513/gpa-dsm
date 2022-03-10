@@ -113,7 +113,7 @@ function ExistingEquipmentInformation(props) {
       const obj = {
         control_no: props.control_no,
         id: props.old_equipments.length + 1,
-        system_type: props.system_type,
+        system_type: props.old_system_type,
         btu: props.old_btu,
         years: props.old_years,
         tons: props.old_tons,
@@ -141,6 +141,16 @@ function ExistingEquipmentInformation(props) {
   };
 
   useEffect(() => {
+    if(props.system_type === "Dryer")
+    {
+      props.setOldSystemType("Dryer")
+    }else if(props.system_type === "Washer")
+    {
+      props.setOldSystemType("Washer")
+    }else{
+      props.setOldSystemType(props.system_type)
+    }
+
     showTable();
   }, [dispatch, props.old_equipments]);
 
@@ -277,11 +287,15 @@ function ExistingEquipmentInformation(props) {
         </Row>
         <Row className="px-0">
           <Col md={12}>
+            {console.log(props.old_system_type)}
+
             <Form.Group controlId="system_type" className="mb-3">
               <Form.Label className="applicationTitle">SYSTEM TYPE</Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
-                value={props.system_type}
+                value={
+                  props.old_system_type
+                }
                 disabled={
                   props.system_type === "Central AC" ||
                   props.system_type === "Split AC" ||
@@ -308,6 +322,38 @@ function ExistingEquipmentInformation(props) {
           </Col>
         </Row>
         <Row className="px-0">
+          <Col md={6} className="mb-3">
+            <Form.Group controlId="old_tons">
+              <Form.Label className="applicationTitle">
+                {props.system_type !== "Dryer"
+                  ? props.system_type !== "Washer"
+                    ? "TONS"
+                    : "CUBIC FEET"
+                  : "CUBIC FEET"}
+              </Form.Label>
+              <Form.Control
+                type="number"
+                placeholder=""
+                value={props.old_tons}
+                onChange={(e) => {
+                  props.setOldBtu(e.target.value * 12000);
+                  props.setOldTons(e.target.value);
+                }}
+                required
+                min="0"
+                disabled={props.no_existing ? true : false}
+              ></Form.Control>
+            </Form.Group>
+            {props.no_existing ? (
+              <> </>
+            ) : props.old_tons === "" ? (
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
+            ) : (
+              <></>
+            )}
+          </Col>
           {props.system_type !== "Dryer" ? (
             props.system_type !== "Washer" ? (
               <Col md={6} className="mb-3">
@@ -341,39 +387,6 @@ function ExistingEquipmentInformation(props) {
               </Col>
             ) : null
           ) : null}
-
-          <Col md={6} className="mb-3">
-            <Form.Group controlId="old_tons">
-              <Form.Label className="applicationTitle">
-                {props.system_type !== "Dryer"
-                  ? props.system_type !== "Washer"
-                    ? "TONS"
-                    : "CUBIC FEET"
-                  : "CUBIC FEET"}
-              </Form.Label>
-              <Form.Control
-                type="number"
-                placeholder=""
-                value={props.old_tons}
-                onChange={(e) => {
-                  props.setOldBtu(e.target.value * 12000)
-                  props.setOldTons(e.target.value);
-                }}
-                required
-                min="0"
-                disabled={props.no_existing ? true : false}
-              ></Form.Control>
-            </Form.Group>
-            {props.no_existing ? (
-              <> </>
-            ) : props.old_tons === "" ? (
-              <p className="validate text-danger requiredField">
-                *This Field is Required
-              </p>
-            ) : (
-              <></>
-            )}
-          </Col>
         </Row>
         <Row className="px-0">
           <Col md={6} className="mb-3">
@@ -527,10 +540,11 @@ function ExistingEquipmentInformation(props) {
               <></>
             )}
             <br />
-            {
-            props.system_type === "Dryer" || props.system_type === "Washer" || props.system_type === "Window AC"?
-              handleDisposalSlip():
-            props.disposal_party === "Customer" ? (
+            {props.system_type === "Dryer" ||
+            props.system_type === "Washer" ||
+            props.system_type === "Window AC" ? (
+              handleDisposalSlip()
+            ) : props.disposal_party === "Customer" ? (
               handleDisposalSlip()
             ) : (
               <></>
