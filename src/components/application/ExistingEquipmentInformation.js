@@ -141,15 +141,15 @@ function ExistingEquipmentInformation(props) {
   };
 
   useEffect(() => {
-    if(props.system_type === "Dryer")
-    {
-      props.setOldSystemType("Dryer")
-    }else if(props.system_type === "Washer")
-    {
-      props.setOldSystemType("Washer")
-    }else{
-      props.setOldSystemType(props.system_type)
-    }
+    // if(props.system_type === "Dryer")
+    // {
+    //   props.setOldSystemType("Dryer")
+    // }else if(props.system_type === "Washer")
+    // {
+    //   props.setOldSystemType("Washer")
+    // }else{
+    //   props.setOldSystemType(props.system_type)
+    // }
 
     showTable();
   }, [dispatch, props.old_equipments]);

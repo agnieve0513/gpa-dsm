@@ -201,7 +201,7 @@ function ApplicationScreen() {
               control_no: control_no,
               invoice: invoiceD ? invoiceD : "",
               irs_form: irs_formD ? irs_formD : "",
-              disposal_slip: disposal_slipD,
+              disposal_slip: disposal_slipD ? disposal_slipD : "",
               letter_authorization: letter_authorizationD
                 ? letter_authorizationD
                 : "",
