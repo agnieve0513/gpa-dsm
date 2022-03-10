@@ -323,10 +323,11 @@ function EquipmentReview(props) {
                   <Row className="px-0">
                     <Col>
                       <p className="title">New Construction</p>
+                      {console.log(props.is_new_construction)}
                     </Col>
                     <Col>
                       <p>
-                        <b>{props.is_new_construction ? "Yes" : "No"}</b>{" "}
+                        <b>{props.is_new_construction == true ? "Yes" : "No"}</b>{" "}
                       </p>
                     </Col>
                   </Row>

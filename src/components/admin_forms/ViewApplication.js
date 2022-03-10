@@ -329,7 +329,7 @@ function ViewApplication({
 
   useEffect(() => {
     if (status === 3 && submited === true) {
-      if (submited) {
+      if (submited === true) {
         Swal.fire({
           title: "Are you sure you want to reject application?",
           // showDenyButton: true,
@@ -346,12 +346,14 @@ function ViewApplication({
           }
         });
       }
-    } else if (
+    } 
+    else if (
       swalInfo !== "" &&
       status !== "" &&
       stage !== "" &&
       submited === true
     ) {
+      console.log("SwalInfo ", swalInfo)
       Swal.fire({
         title: `Are you sure you want to ${swalInfo}?`,
         // showDenyButton: true,

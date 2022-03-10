@@ -588,6 +588,7 @@ function ViewApp(props) {
   }
 
   const updateStatus = (status, stage, desc) => {
+    console.log("Status: ", desc)
     setStage(stage);
     setSubmited(true);
     if (status !== 3 || status !== "" || stage !== "") {
@@ -2791,7 +2792,7 @@ function ViewApp(props) {
                                 </Form.Group>
                                 <Button
                                   variant={"danger"}
-                                  onClick={() => updateStatus(3, 0)}
+                                  onClick={() => updateStatus(3, 0, "Reject Application")}
                                 >
                                   Reject Application
                                 </Button>

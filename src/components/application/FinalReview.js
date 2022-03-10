@@ -483,10 +483,11 @@ function FinalReview(props) {
                                     <tr key={eq.id + 1}>
                                       <td className="p-3">{eq.quantity}</td>
                                       <td className="p-3">
-                                       $ {!eq.rebate ? 0 : eq.rebate}
+                                        $ {!eq.rebate ? 0 : eq.rebate}
                                       </td>
                                       <td className="p-3">
-                                       $ {!eq.rebate
+                                        ${" "}
+                                        {!eq.rebate
                                           ? 0
                                           : parseInt(eq.quantity) *
                                             parseInt(eq.rebate)}
@@ -689,17 +690,18 @@ function FinalReview(props) {
                   {props.other_doc2 ? (
                     <>
                       <b>
-                        Other Support Documents 1{" "}
+                        Other Support Documents 1 (Consideration Letter){" "}
                         <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
-                        Filename: {props.other_doc1.name} <br />
-                        File Type: {props.other_doc1.type}
+                        Filename: {props.other_doc2.name} <br />
+                        File Type: {props.other_doc2.type}
                       </p>
                     </>
                   ) : (
                     <></>
                   )}
+
                   {props.other_doc3 ? (
                     <>
                       <b>
@@ -707,8 +709,8 @@ function FinalReview(props) {
                         <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
-                        Filename: {props.other_doc2.name} <br />
-                        File Type: {props.other_doc2.type}
+                        Filename: {props.other_doc3.name} <br />
+                        File Type: {props.other_doc3.type}
                       </p>
                     </>
                   ) : (

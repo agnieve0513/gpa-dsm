@@ -1381,6 +1381,10 @@ function RecordsForm() {
                 headerName="Control Number"
                 field="Control_Number"
               />
+              <AgGridColumn
+                headerName="Batch Code"
+                field="Batch_code"
+              />
               <AgGridColumn headerName="Name" field="customer_name" />
               <AgGridColumn
                 headerName="Application Date"

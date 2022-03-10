@@ -383,7 +383,7 @@ function ApplicationInformation(props) {
 
   const newComponentDesktop = () => {
     props.setIsNewConstruction(new Date().getFullYear() - props.home_age < 4 ? "true" : "false");
-
+    console.log(props.is_new_construction);
     return (
     
     <Row className="d-flex flex-row py-2">
