@@ -581,7 +581,7 @@ function FinalReview(props) {
                               {props.system_type === "Dryer" ||
                               props.system_type === "Washer" ? (
                                 <>
-                                  <td>{eq.btu}</td>
+                                  <td>{eq.tons}</td>
                                 </>
                               ) : (
                                 <>
