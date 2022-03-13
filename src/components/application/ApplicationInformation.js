@@ -150,7 +150,8 @@ function ApplicationInformation(props) {
       uploadFileAction(
         e.target.files[0],
         "letter_of_authorization",
-        props.control_no
+        props.control_no,
+        false
       )
     );
   };
@@ -457,8 +458,8 @@ function ApplicationInformation(props) {
                 {fileCode.length !== 0 ? (
                   <>
                     {props.setLetterAuthorizationD(fileCode)}
-                    {console.log("File Code: ", fileCode)}
-                    {console.log(props.letter_authorizationD)}
+                    {console.log("File Code For Letter of Authorization: ", fileCode)}
+                    {console.log("letterAuthorizationD value",props.letter_authorizationD)}
                     <Badge bg={"success"}>File Uploaded</Badge> <br />
                   </>
                 ) : (

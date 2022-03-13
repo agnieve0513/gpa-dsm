@@ -339,7 +339,7 @@ function RecordsForm() {
     } else if (doc_type === "disposal_receipt") {
       setDisposalSlip(e.target.files[0]);
     }
-    dispatch(uploadFileAction(e.target.files[0], doc_type, 0));
+    dispatch(uploadFileAction(e.target.files[0], doc_type, 0, false));
     return;
   };
   // }, [application, successUpdate, addBatchSuccess,commentSucess])

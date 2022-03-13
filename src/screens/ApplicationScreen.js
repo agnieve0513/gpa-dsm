@@ -96,6 +96,7 @@ function ApplicationScreen() {
   const [models, setModelList] = useState([]);
 
   const [system_type, setSystemType] = useState("");
+  const [newSeer, setNewSeer] = useState("");
   const [vendor, setVendor] = useState("");
   const [quantity, setQuantity] = useState("");
   const [btu, setBtu] = useState("");
@@ -202,7 +203,7 @@ function ApplicationScreen() {
               invoice: invoiceD ? invoiceD : "",
               irs_form: irs_formD ? irs_formD : "",
               disposal_slip: disposal_slipD ? disposal_slipD : "",
-              letter_authorization: letter_authorizationD
+              letter_authorization: letter_authorizationD ? letter_authorizationD : ""
                 ? letter_authorizationD
                 : "",
               other_doc1: installer_certificationD
@@ -584,6 +585,8 @@ function ApplicationScreen() {
                 delay_reason={delay_reason}
                 setDelayReason={setDelayReason}
                 total_rebate={total_rebate}
+                newSeer={newSeer}
+                setNewSeer={setNewSeer}
                 setTotalRebate={setTotalRebate}
                 control_no={control_no}
                 setControlNo={setControlNo}
@@ -612,7 +615,6 @@ function ApplicationScreen() {
                 setOtherDoc2={setOtherDoc2}
                 other_doc2D={other_doc2D}
                 setOtherDoc2D={setOtherDoc2D}
-                
                 max_invoice={max_invoice}
                 setMaxInvoice={setMaxInvoice}
                 invoiceD={invoiceD}
@@ -645,42 +647,44 @@ function ApplicationScreen() {
                 setTechEmail={setTechEmail}
               />
             ) : step === 4 ? (
-              <ExistingEquipmentInformation
-                control_no={control_no}
-                setControlNo={setControlNo}
-                no_existing={no_existing}
-                setNoExisting={setNoExisting}
-                old_equipments={old_equipments}
-                setOldEquipments={setOldEquipments}
-                is_no_existing_to_replace={is_no_existing_to_replace}
-                seIsNoExistingToReplace={seIsNoExistingToReplace}
-                old_system_type={old_system_type}
-                setOldSystemType={setOldSystemType}
-                system_type={system_type}
-                setSystemType={setSystemType}
-                old_years={old_years}
-                setOldYears={setOldYears}
-                old_tons={old_tons}
-                setOldTons={setOldTons}
-                is_equipment_condition={is_equipment_condition}
-                setIsEquipmentCondition={setIsEquipmentCondition}
-                seer={seer}
-                setSeer={setSeer}
-                disposal_party={disposal_party}
-                setDisposalParty={setDisposalParty}
-                disposal_slip={disposal_slip}
-                setDisposalSlip={setDisposalSlip}
-                disposal_slipD={disposal_slipD}
-                setDisposalSlipD={setDisposalSlipD}
-                date={date}
-                setDate={setDate}
-                old_btu={old_btu}
-                setOldBtu={setOldBtu}
-                old_quantity={old_quantity}
-                setOldQuantity={setOldQuantity}
-                agree_terms={agree_terms}
-                setAgreeTerms={setAgreeTerms}
-              />
+             
+                <ExistingEquipmentInformation
+                  control_no={control_no}
+                  setControlNo={setControlNo}
+                  no_existing={no_existing}
+                  setNoExisting={setNoExisting}
+                  old_equipments={old_equipments}
+                  setOldEquipments={setOldEquipments}
+                  is_no_existing_to_replace={is_no_existing_to_replace}
+                  seIsNoExistingToReplace={seIsNoExistingToReplace}
+                  old_system_type={old_system_type}
+                  setOldSystemType={setOldSystemType}
+                  system_type={system_type}
+                  setSystemType={setSystemType}
+                  old_years={old_years}
+                  setOldYears={setOldYears}
+                  old_tons={old_tons}
+                  setOldTons={setOldTons}
+                  is_equipment_condition={is_equipment_condition}
+                  setIsEquipmentCondition={setIsEquipmentCondition}
+                  seer={seer}
+                  setSeer={setSeer}
+                  disposal_party={disposal_party}
+                  setDisposalParty={setDisposalParty}
+                  disposal_slip={disposal_slip}
+                  setDisposalSlip={setDisposalSlip}
+                  disposal_slipD={disposal_slipD}
+                  setDisposalSlipD={setDisposalSlipD}
+                  date={date}
+                  setDate={setDate}
+                  old_btu={old_btu}
+                  setOldBtu={setOldBtu}
+                  old_quantity={old_quantity}
+                  setOldQuantity={setOldQuantity}
+                  agree_terms={agree_terms}
+                  setAgreeTerms={setAgreeTerms}
+                />
+             
             ) : step === 5 ? (
               <EquipmentReview
                 delay_reason={delay_reason}

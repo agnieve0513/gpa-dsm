@@ -33,7 +33,7 @@ import {
   updateApplication,
 } from "../../actions/applicationActions";
 import { retrieveFileAction } from "../../actions/fileActions";
-import { uploadFileAction } from "../../actions/fileActions";
+import { uploadFileAction, updateFileAction } from "../../actions/fileActions";
 import {
   editApplication,
   editEquipment,
@@ -139,7 +139,7 @@ function ViewApp(props) {
   const [modelId, setModelID] = useState("");
   const [modelNumber, setModelNumber] = useState("");
   const [modelName, setModelName] = useState("");
-
+  const [uploadCount, setUploadCount] = useState(0);
 
   const [modalData, setModalData] = useState({
     description: "",
@@ -151,22 +151,27 @@ function ViewApp(props) {
   const [selectedOldEquipmentIndex, setSelectedOldEquipmentIndex] = useState(0);
 
   const handleOnChange = (e, doc_type, control_no) => {
-    dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
-    if (doc_type === "irs_form") {
-      setIrsForm(e.target.files[0]);
-    } else if (doc_type === "other_doc1") {
-      setOtherDoc1(e.target.files[0]);
-    } else if (doc_type === "other_doc2") {
-      setOtherDoc2(e.target.files[0]);
-    } else if (doc_type === "letter_authorization") {
-      setLetterAuthorization(e.target.files[0]);
-    } else if (doc_type === "invoice") {
-      setInvoice(e.target.files[0]);
-    } else if (doc_type === "installer_certification") {
-      setInstallerCertification(e.target.files[0]);
-    } else if (doc_type === "disposal_receipt") {
-      setDisposalSlip(e.target.files[0]);
-    }
+
+    dispatch(uploadFileAction(e.target.files[0], doc_type, control_no, 0, true)).then(()=> {
+        if (doc_type === "irs_form") {
+          setIrsForm(e.target.files[0]);
+        } else if (doc_type === "other_doc1") {
+          setOtherDoc1(e.target.files[0]);
+        } else if (doc_type === "other_doc2") {
+          setOtherDoc2(e.target.files[0]);
+        } else if (doc_type === "letter_authorization") {
+          setLetterAuthorization(e.target.files[0]);
+        } else if (doc_type === "invoice") {
+          setInvoice(e.target.files[0]);
+        } else if (doc_type === "installer_certification") {
+          setInstallerCertification(e.target.files[0]);
+        } else if (doc_type === "disposal_slip") {
+          setDisposalSlip(e.target.files[0]);
+        }
+
+        setUploadCount(uploadCount + 1);
+    });
+    
     return;
   };
   const handleModalClose = () => {
@@ -176,6 +181,9 @@ function ViewApp(props) {
   };
 
   const dispatch = useDispatch();
+
+  const updateFile = useSelector((state) => state.updateFile);
+
 
   const applicationUpdate = useSelector((state) => state.applicationUpdate);
   const {
@@ -260,7 +268,7 @@ function ViewApp(props) {
     dispatch(detailApplication(props.applicationId));
     dispatch(commentsApplication(props.applicationId));
     dispatch(logsApplication(props.applicationId));
-  }, [reload, updateInfoReload, edit_equip]);
+  }, [reload, updateInfoReload, edit_equip, uploadCount]);
 
   const resetHandler = () => {
     props.setShow(false);
@@ -1551,7 +1559,6 @@ function ViewApp(props) {
                           selectedEquipmentIndex
                         )
                       }
-                      className="me-2"
                     >
                       Update Information
                     </Button>
@@ -1908,7 +1915,6 @@ function ViewApp(props) {
                           </tr>
                         </tbody>
                       </Table>
-                     
                     </div>
                   </Col>
                 </Row>
@@ -2139,7 +2145,6 @@ function ViewApp(props) {
                           selectedOldEquipmentIndex
                         )
                       }
-                      className="me-2"
                     >
                       Update Information
                     </Button>
@@ -2528,7 +2533,7 @@ function ViewApp(props) {
                                     onChange={(e) =>
                                       handleOnChange(
                                         e,
-                                        "disposal_receipt",
+                                        "disposal_slip",
                                         application.Control_Number
                                       )
                                     }
@@ -2602,12 +2607,12 @@ function ViewApp(props) {
                               {roleId !== 4 ? (
                                 <InputGroup>
                                   <Form.Control
-                                    name="other_doc1"
+                                    name="other_doc2"
                                     type="file"
                                     onChange={(e) =>
                                       handleOnChange(
                                         e,
-                                        "other_doc1",
+                                        "other_doc2",
                                         application.Control_Number
                                       )
                                     }
@@ -2689,7 +2694,7 @@ function ViewApp(props) {
                                     onChange={(e) =>
                                       handleOnChange(
                                         e,
-                                        "other_doc2",
+                                        "other_doc3",
                                         application.Control_Number
                                       )
                                     }
@@ -2792,7 +2797,9 @@ function ViewApp(props) {
                                 </Form.Group>
                                 <Button
                                   variant={"danger"}
-                                  onClick={() => updateStatus(3, 0, "Reject Application")}
+                                  onClick={() =>
+                                    updateStatus(3, 0, "Reject Application")
+                                  }
                                 >
                                   Reject Application
                                 </Button>

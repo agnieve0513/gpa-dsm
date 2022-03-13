@@ -380,6 +380,10 @@ function FinalReview(props) {
                                 <th>Manufacturer</th>
                                 <th>Model Number</th>
                                 <th>Vendor</th>
+                                {props.system_type === "Dryer" ||
+                                props.system_type === "Washer" ? null : (
+                                  <th>SEER</th>
+                                )}
                                 <th>Invoice#</th>
                                 <th>Quantity</th>
                                 <th>Purchase Date</th>
@@ -395,6 +399,10 @@ function FinalReview(props) {
                                       <td>{eq.manufacturer}</td>
                                       <td>{eq.model_no}</td>
                                       <td>{eq.vendor}</td>
+                                      {props.system_type === "Dryer" ||
+                                      props.system_type === "Washer" ? null : (
+                                        <td>{eq.seer}</td>
+                                      )}
                                       <td>{eq.invoice_no}</td>
                                       <td>{eq.quantity}</td>
                                       <td>{eq.purchase_date}</td>
@@ -544,7 +552,8 @@ function FinalReview(props) {
                       <tr>
                         <th>#</th>
                         <th>System Type</th>
-                        {props.system_type === ("Dryer" || "Washer") ? (
+                        {props.system_type === "Dryer" ||
+                        props.system_type === "Washer" ? (
                           <>
                             <th>CUBIC FEET</th>
                           </>
@@ -569,7 +578,8 @@ function FinalReview(props) {
                             <tr>
                               <td>{eq.id}</td>
                               <td>{props.system_type}</td>
-                              {props.system_type === ("Dryer" || "Washer") ? (
+                              {props.system_type === "Dryer" ||
+                              props.system_type === "Washer" ? (
                                 <>
                                   <td>{eq.btu}</td>
                                 </>

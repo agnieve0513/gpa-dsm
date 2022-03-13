@@ -12,13 +12,17 @@ import {
   LOG_FILE_REQUEST,
   LOG_FILE_SUCCESS,
   LOG_FILE_FAIL,
+  UPDATE_FILE_REQUEST,
+  UPDATE_FILE_SUCCESS,
+  UPDATE_FILE_FAIL,
 } from "../constants/fileConstants";
 
 const URL = process.env.REACT_APP_API_BASE_URL;
 
 
 export const uploadFileAction =
-  (filepath, doctype, controlNo, UserId) => async (dispatch) => {
+  (filepath, doctype, controlNo, UserId, on_edit) => async (dispatch) => {
+      console.log(on_edit)
     try {
       dispatch({
         type: FILE_UPLOAD_REQUEST,
@@ -30,22 +34,73 @@ export const uploadFileAction =
       bodyFormData.append("filepath", filepath);
       bodyFormData.append("UserId", UserId);
 
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+      
 
-      const { data } = await axios.post(
-        URL + "/upload-file",
-        bodyFormData,
-        config
-      );
 
-      dispatch({
-        type: FILE_UPLOAD_SUCCESS,
-        payload: data.message,
-      });
+      if(on_edit == true){
+        let obj = JSON.parse(localStorage.getItem("userInfo"));
+        
+        const config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        const { data } = await axios.post(
+          URL + "/upload-file",
+          bodyFormData,
+          config
+        );
+      console.log("Response from upload: ", data);
+
+        const config2 = {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": `Bearer ${obj.message.original.access_token}`,
+          },
+        };
+
+        const { data2 } = await axios.post(
+          URL + "/edit-file",
+          {
+            controlNo: controlNo,
+            filepath: data.message,
+            type: doctype,
+          },
+          config2
+        );
+
+        console.log("Response from data2: ", data2);
+
+        
+         dispatch({
+           type: FILE_UPLOAD_SUCCESS,
+           payload: data2,
+         });
+      }
+      else{
+        const config = {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        const { data } = await axios.post(
+          URL + "/upload-file",
+          bodyFormData,
+          config
+        );
+
+      console.log("Response from data: ", data);
+
+        dispatch({
+          type: FILE_UPLOAD_SUCCESS,
+          payload: data.message,
+        });
+      }
+
+     
     } catch (error) {
       dispatch({
         type: FILE_UPLOAD_FAIL,
@@ -178,3 +233,42 @@ export const logsFileAction = () => async (dispatch, getState) => {
     });
   }
 };
+
+
+export const updateFileAction =
+  (control_number, file_path, type) => async (dispatch, getState) => {
+    try {
+      let obj = JSON.parse(localStorage.getItem("userInfo"));
+
+      dispatch({
+        type: UPDATE_FILE_REQUEST,
+      });
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${obj.message.original.access_token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        URL + "/edit-file",
+        { controlNo: control_number, filepath: file_path, type: type },
+        config
+      );
+
+      dispatch({
+        type: UPDATE_FILE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_FILE_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.reponse.data.detail
+            : error.message,
+      });
+    }
+  };

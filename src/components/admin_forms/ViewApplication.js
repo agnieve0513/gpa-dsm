@@ -292,7 +292,7 @@ function ViewApplication({
   let total_rebate = 0;
   const handleOnChange = (e, doc_type, control_no) => {
     console.log("control_no", control_no);
-    dispatch(uploadFileAction(e.target.files[0], doc_type, control_no));
+    dispatch(uploadFileAction(e.target.files[0], doc_type, control_no, true));
     if (doc_type === "irs_form") {
       setIrsForm(e.target.files[0]);
     } else if (doc_type === "other_doc1") {

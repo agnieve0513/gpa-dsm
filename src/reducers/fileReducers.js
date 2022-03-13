@@ -11,6 +11,9 @@ import {
   LOG_FILE_REQUEST,
   LOG_FILE_SUCCESS,
   LOG_FILE_FAIL,
+  UPDATE_FILE_REQUEST,
+  UPDATE_FILE_SUCCESS,
+  UPDATE_FILE_FAIL,
 } from "../constants/fileConstants";
 
 export const uploadFileReducer = (state = { fileCode: [] }, action) => {
@@ -72,3 +75,19 @@ export const logsFileReducer = (state = {}, action) => {
       return state;
   }
 };
+
+export const updateFileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_FILE_REQUEST:
+      return { loading: true };
+
+    case UPDATE_FILE_SUCCESS:
+      return { loading: false, success: action.payload };
+
+    case UPDATE_FILE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+

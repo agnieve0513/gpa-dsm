@@ -63,6 +63,15 @@ function TcTemplateForm() {
             );
             find = find + 1;
           }
+        } else if (code === "resd_ducted") {
+          if (data.Action.includes("resd_ducted") && find === 0) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
+            find = find + 1;
+          }
         } else if (code === "resd_aircon_ductless") {
           if (data.Action.includes("resd_aircon_ductless") && find === 0) {
             setAuthor(data.Made_By);
@@ -115,7 +124,8 @@ function TcTemplateForm() {
         selectedFile,
         customer_type,
         "termsandconditions",
-        userId
+        userId,
+         false
       )
     );
     dispatch(retrievePdfAction(customer_type));
@@ -215,6 +225,9 @@ function TcTemplateForm() {
                 <option defaultChecked hidden>
                   Select Template Type
                 </option>
+                <option value="resd_ducted">
+                  Residential - Central (Ducted Systems)
+                </option>
                 <option value="resd_dryer_washer">
                   Residential - Dryer/Washer
                 </option>
@@ -279,6 +292,11 @@ function TcTemplateForm() {
           >
             <div id="applicationFormNa">
               <Nav variant="pills">
+                <Nav.Item onClick={() => setCode("resd_ducted")}>
+                  <Nav.Link eventKey="resd_ducted_template">
+                    Residential Ducted
+                  </Nav.Link>
+                </Nav.Item>
                 <Nav.Item onClick={() => setCode("resd_dryer_washer")}>
                   <Nav.Link eventKey="resd_dryer_washer_template">
                     Residential Dryer/Washer Template

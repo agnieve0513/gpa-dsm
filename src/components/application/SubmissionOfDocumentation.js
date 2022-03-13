@@ -25,6 +25,15 @@ function SubmissionOfDocumentation(props) {
     image_sample: "",
   });
 
+  const [loaTrigger, setLoaTrigger] = useState(false);
+  const [invoiceTrigger, setInvoiceTrigger] = useState(false);
+  const [irsFormTrigger, setIrsFormTrigger] = useState(false);
+  const [disposalSlipTrigger, setDisposalSlipTrigger] = useState(false);
+  const [otherDoc1Trigger, setOtherDoc1Trigger] = useState(false);
+  const [otherDoc2Trigger, setOtherDoc2Trigger] = useState(false);
+  const [otherDoc3Trigger, setOtherDoc3Trigger] = useState(false);
+
+
   let p = {};
 
   let initLetter = React.useMemo(() => props.letter_authorization, []);
@@ -60,7 +69,7 @@ function SubmissionOfDocumentation(props) {
     } else if (doc_type === "disposal_receipt") {
       props.setDisposalSlip(e.target.files[0]);
     }
-    dispatch(uploadFileAction(e.target.files[0], doc_type, props.control_no));
+    dispatch(uploadFileAction(e.target.files[0], doc_type, props.control_no, false));
   };
 
   const handleSubmit = (file, doc_type) => {};
@@ -92,6 +101,11 @@ function SubmissionOfDocumentation(props) {
 
   return (
     <Row className="w-100 mx-0 px-4">
+      {console.log("InvoiceD: ", props.invoiceD)}
+      {console.log("irsD: ", props.irs_formD)}
+      {console.log("disposal_slipD: ", props.disposal_slipD)}
+      {console.log("letter_authorizationD: ", props.letter_authorizationD)}
+      {console.log("other_doc1D: ", props.other_doc1D)}
       <ModalImage
         data={modalData}
         show={modalShow}
@@ -137,7 +151,10 @@ function SubmissionOfDocumentation(props) {
               name="file2"
               type="file"
               required
-              onChange={(e) => handleChange(e, "irs_form")}
+              onChange={(e) =>{
+                 handleChange(e, "irs_form");
+                 setIrsFormTrigger(true);
+              }}
             />
             <UploadIcon />
           </InputGroup>
@@ -148,7 +165,10 @@ function SubmissionOfDocumentation(props) {
           )}
           {props.irs_form ? (
             <>
-              {props.setIrsFormD(fileCode)}
+              {
+                irsFormTrigger === true ? props.setIrsFormD(fileCode):null
+              }
+              {console.log("IRSD VALUE: ", props.irs_formD)}
               <p className="m-0">Filename: {props.irs_form.name}</p>
               <p className="m-0">File Type: {props.irs_form.type}</p>
             </>
@@ -198,13 +218,19 @@ function SubmissionOfDocumentation(props) {
                 <Form.Control
                   name="file2"
                   type="file"
-                  onChange={(e) => handleChange(e, "other_doc1")}
+                  onChange={(e) => {
+                    handleChange(e, "other_doc1");
+                    setOtherDoc1Trigger(true);
+                  }}
                 />
                 <UploadIcon />
               </InputGroup>
               {props.other_doc1 ? (
                 <>
-                  {props.setOtherDoc1D(fileCode)}
+                  {
+                    otherDoc1Trigger === true ?
+                    props.setOtherDoc1D(fileCode): null
+                  }
                   <p className="m-0">Filename: {props.other_doc1.name}</p>
                   <p className="m-0">File Type: {props.other_doc1.type}</p>
                 </>
@@ -242,13 +268,19 @@ function SubmissionOfDocumentation(props) {
                 <Form.Control
                   name="file2215353"
                   type="file"
-                  onChange={(e) => handleChange(e, "other_doc2")}
+                  onChange={(e) => {
+                    handleChange(e, "other_doc2");
+                    setOtherDoc2Trigger(true);
+                  }}
                 />
                 <UploadIcon />
               </InputGroup>
               {props.other_doc2 ? (
                 <>
-                  {props.setOtherDoc2D(fileCode)}
+                  {
+                    otherDoc1Trigger ?
+                    props.setOtherDoc2D(fileCode): null
+                  }
                   <p className="m-0">Filename: {props.other_doc2.name}</p>
                   <p className="m-0">File Type: {props.other_doc2.type}</p>
                 </>
@@ -296,12 +328,18 @@ function SubmissionOfDocumentation(props) {
                 <Form.Control
                   name="file2"
                   type="file"
-                  onChange={(e) => handleChange(e, "letter_authorization")}
+                  onChange={(e) => {
+                    handleChange(e, "letter_authorization");
+                    setLoaTrigger(true);
+                  }}
                 />
               </InputGroup>
               {props.letter_authorization ? (
                 <>
-                  {props.setLetterAuthorizationD(fileCode)}
+                  {
+                    loaTrigger === true ?
+                    props.setLetterAuthorizationD(fileCode):null
+                  }
                   <p className="m-0">
                     Filename: {props.letter_authorization.name}
                   </p>
@@ -352,13 +390,19 @@ function SubmissionOfDocumentation(props) {
                 name="file212351"
                 placeholder="Invoice"
                 type="file"
-                onChange={(e) => handleChange(e, "invoice")}
+                onChange={(e) => {
+                  handleChange(e, "invoice");
+                  setInvoiceTrigger(true);
+                }}
               />
               <UploadIcon />
             </InputGroup>
             {props.invoice ? (
               <>
-                {props.setInvoiceD(fileCode)}
+                {
+                  invoiceTrigger === true ?
+                  props.setInvoiceD(fileCode): null
+                }
                 <p className="m-0">Filename: {props.invoice.name}</p>
                 <p className="m-0">File Type: {props.invoice.type}</p>
               </>
@@ -370,7 +414,7 @@ function SubmissionOfDocumentation(props) {
           <></>
         )}
         {/*  */}
-        {props.installer_certification ? (
+        {/* {props.installer_certification ? (
           <Form.Group controlId="installer_certification" className="mb-3">
             <p>
               <b>Installers Certification</b>{" "}
@@ -421,7 +465,7 @@ function SubmissionOfDocumentation(props) {
           </Form.Group>
         ) : (
           <></>
-        )}
+        )} */}
         {/*  */}
         {props.disposal_slip ? (
           <Form.Group controlId="disposal_receipt" className="mb-3">
@@ -455,12 +499,18 @@ function SubmissionOfDocumentation(props) {
               <Form.Control
                 name="file211"
                 type="file"
-                onChange={(e) => handleChange(e, "disposal_receipt")}
+                onChange={(e) => {
+                  handleChange(e, "disposal_receipt");
+                  disposalSlipTrigger(true);
+                }}
               />
             </InputGroup>
             {props.disposal_slip ? (
               <>
-                {props.setDisposalSlipD(fileCode)}
+                {
+                  disposalSlipTrigger === true ? 
+                  props.setDisposalSlipD(fileCode): null
+                }
                 <p className="m-0">Filename: {props.disposal_slip.name}</p>
                 <p className="m-0">File Type: {props.disposal_slip.type}</p>
               </>

@@ -144,10 +144,14 @@ const EquipmentTable = ({ data, finalDate, index }) => {
               {data?.newEquip_Quantity || "N/A"}
             </Text>
           </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>BTU: </Text>
-            <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
-          </View>
+
+          {data.newEquip_Btu !== "N/A" ? (
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>BTU: </Text>
+              <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
+            </View>
+          ) : null}
+
           <View style={styles.textContainer}>
             <Text style={styles.text}>Manufacturer: </Text>
             <Text style={styles.boldText}>
@@ -174,14 +178,24 @@ const EquipmentTable = ({ data, finalDate, index }) => {
               {data?.newEquip_Purchase_date || "N/A"}
             </Text>
           </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>Type: </Text>
-            <Text style={styles.boldText}>{data?.newEquip_Type || "N/A"}</Text>
-          </View>
-          <View style={styles.textContainer}>
+
+          {data.newEquip_Type ? (
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>Type: </Text>
+              <Text style={styles.boldText}>
+                {data?.newEquip_Type || "N/A"}
+              </Text>
+            </View>
+          ) : null}
+
+         {
+           data.newEquip_Tons ?
+            <View style={styles.textContainer}>
             <Text style={styles.text}>Tons: </Text>
             <Text style={styles.boldText}>{data?.newEquip_Tons || "N/A"}</Text>
-          </View>
+          </View>: null
+         }
+
           <View style={styles.textContainer}>
             <Text style={styles.text}>Install Date: </Text>
             <Text style={styles.boldText}>{finalDate || "N/A"}</Text>
@@ -446,6 +460,20 @@ function PrintApplicationSummary(props) {
                         {data?.Info_Mailing_address || "N/A"}
                       </Text>
                     </View>
+
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Mailing Country: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Mailing_city || "N/A"}
+                      </Text>
+                    </View>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Mailing Zip Code: </Text>
+                      <Text style={styles.boldText}>
+                        {data?.Info_Mailing_zip || "N/A"}
+                      </Text>
+                    </View>
+
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
                         Home Size (approx. sq. ft.):{" "}
@@ -506,18 +534,11 @@ function PrintApplicationSummary(props) {
                       <Text style={styles.text}>
                         Other support documents 1:{" "}
                       </Text>
-
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc1} />
-                    </View>
-                    <View style={styles.textContainer}>
-                      <Text style={styles.text}>
-                        Other support documents 2:{" "}
-                      </Text>
                       <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Other support documents 3:{" "}
+                        Other support documents 2:{" "}
                       </Text>
                       <StatusIcon check={data?.Submitted_docs[0]?.other_doc3} />
                     </View>

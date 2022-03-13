@@ -137,7 +137,7 @@ function NewEuipmentInformation(props) {
       popup: "colored-toast",
     },
     showConfirmButton: false,
-    timer: 5000,
+    timer: 3000,
     timerProgressBars: true,
   });
 
@@ -149,7 +149,7 @@ function NewEuipmentInformation(props) {
       popup: "colored-toast",
     },
     showConfirmButton: false,
-    timer: 60000,
+    timer: 4000,
     timerProgressBars: true,
   });
 
@@ -199,6 +199,7 @@ function NewEuipmentInformation(props) {
           type: props.type,
           invoice_no: props.invoice_no,
           purchase_date: props.purchase_date,
+          seer: props.newSeer,
 
           installer_information: {
             technician_name: props.technician_name,
@@ -378,14 +379,14 @@ function NewEuipmentInformation(props) {
     const handleChangeInvoice = (e) => {
       props.setInvoice(e.target.files[0]);
       dispatch(
-        uploadFileAction(e.target.files[0], "invoice", props.control_no)
+        uploadFileAction(e.target.files[0], "invoice", props.control_no, false)
       );
     };
 
   const handleChangeConsiderationLetter = (e) => {
     props.setOtherDoc2(e.target.files[0]);
     dispatch(
-      uploadFileAction(e.target.files[0], "other_doc2", props.control_no)
+      uploadFileAction(e.target.files[0], "other_doc2", props.control_no, false)
     );
   };
 
@@ -395,7 +396,8 @@ function NewEuipmentInformation(props) {
       uploadFileAction(
         e.target.files[0],
         "installers_information",
-        props.control_no
+        props.control_no,
+        false
       )
     );
   };
@@ -664,7 +666,7 @@ function NewEuipmentInformation(props) {
                       {fileCode.length !== 0 ? (
                         <>
                           {props.setInvoiceD(fileCode)}
-                          {console.log(props.invoiceD)}
+                          {console.log("INVOICE D VALUE: ", props.invoiceD)}
                           <Badge bg={"success"}>File Uploaded</Badge> <br />
                         </>
                       ) : (
@@ -810,6 +812,7 @@ function NewEuipmentInformation(props) {
                 equipment_detail ? (
                   equipment_detail.length ? (
                     <>
+                      {props.setNewSeer(equipment_detail[0].seer)}
                       {props.setRebate(equipment_detail[0].rebate)}
                       {/* {console.log(equipment_detail[0].vendor)} */}
 
@@ -977,7 +980,16 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-
+        <Form.Group controlId="rebate">
+          <Form.Label className=" applicationTitle">Seer</Form.Label>
+          <Form.Control
+            type="hidden"
+            onChange={(e) => props.setNewSeer(e.target.value)}
+            value={props.newSeer}
+            required
+            disabled={true}
+          ></Form.Control>
+        </Form.Group>
         <Row>
           <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">
