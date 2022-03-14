@@ -493,7 +493,9 @@ function PrintApplicationSummary(props) {
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>New Construction: </Text>
                       <Text style={styles.boldText}>
-                        {data?.Info_New_construction == "true" ? "YES" : "NO" || "N/A"}
+                        {data?.Info_New_construction == "true"
+                          ? "YES"
+                          : "NO" || "N/A"}
                       </Text>
                     </View>
                     <View style={styles.textContainer}>
@@ -534,7 +536,9 @@ function PrintApplicationSummary(props) {
                       <Text style={styles.text}>
                         Other support documents 1:{" "}
                       </Text>
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc1} />
+                      <StatusIcon
+                        check={data?.Submitted_docs[0]?.installer_cert}
+                      />
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
@@ -570,17 +574,16 @@ function PrintApplicationSummary(props) {
 
                   <View style={styles.boxContainer}>
                     {console.log(data)}
-                    {data.New_equipment[0].newEquip_System_type !== "Dryer" ? (
-                      data.New_equipment[0].newEquip_System_type !==
-                      "Washer" ? (
-                        <View style={styles.textContainer}>
-                          <Text style={styles.text}>Certification No: </Text>
-                          <Text style={styles.boldText}>
-                            {data.Installer_New_certno || "N/Certification NoA"}
-                          </Text>
-                        </View>
-                      ) : null
-                    ) : null}
+                    {data.New_equipment[0].newEquip_System_type === "Dryer" ||
+                    data.New_equipment[0].newEquip_System_type ===
+                      "Washer" ? null : (
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Certification No: </Text>
+                        <Text style={styles.boldText}>
+                          {data.Installer_New_certno || "N/A"}
+                        </Text>
+                      </View>
+                    )}
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>Email: </Text>
                       <Text style={styles.boldText}>

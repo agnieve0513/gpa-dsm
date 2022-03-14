@@ -36,6 +36,8 @@ function NewEuipmentInformation(props) {
     description: "",
     image_sample: "",
   });
+  const [invoiceTrigger, setInvoiceTrigger] = useState(false);
+  const [clTrigger, setClTrigger] = useState(false);
 
   const { height, width } = useWindowDimensions();
   const screenWidthM = width > 425;
@@ -380,14 +382,14 @@ function NewEuipmentInformation(props) {
       props.setInvoice(e.target.files[0]);
       dispatch(
         uploadFileAction(e.target.files[0], "invoice", props.control_no, false)
-      );
+      )
     };
 
   const handleChangeConsiderationLetter = (e) => {
     props.setOtherDoc1(e.target.files[0]);
     dispatch(
       uploadFileAction(e.target.files[0], "other_doc1", props.control_no, false)
-    );
+    )
   };
 
 
@@ -626,7 +628,11 @@ function NewEuipmentInformation(props) {
                   name="file"
                   placeholder="Upload Invoice"
                   type="file"
-                  onChange={(e) => handleChangeInvoice(e)}
+                  onChange={(e) => {
+                    handleChangeInvoice(e);
+                    setInvoiceTrigger(true);
+                    setClTrigger(false);
+                  }}
                 />
                 <div
                   style={{
@@ -654,9 +660,16 @@ function NewEuipmentInformation(props) {
                     <>
                       {fileCode.length !== 0 ? (
                         <>
-                          {props.setInvoiceD(fileCode)}
-                          {console.log("INVOICE D VALUE: ", props.invoiceD)}
-                          <Badge bg={"success"}>File Uploaded</Badge> <br />
+                          {invoiceTrigger == true ? (
+                            <>
+                              {props.setInvoiceD(fileCode)}
+                              {console.log("INVOICE D VALUE: ", props.invoiceD)}
+                              {console.log(
+                                "------------------------------------------"
+                              )}
+                              <Badge bg={"success"}>File Uploaded</Badge> <br />
+                            </>
+                          ) : null}
                         </>
                       ) : (
                         <></>
@@ -969,20 +982,24 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <Row>
-          <Col md={12}>
-            <Form.Group controlId="rebate">
-              <Form.Label className=" applicationTitle">Seer</Form.Label>
-              <Form.Control
-                type="text"
-                onChange={(e) => props.setNewSeer(e.target.value)}
-                value={props.newSeer}
-                required
-                disabled={true}
-              ></Form.Control>
-            </Form.Group>
-          </Col>
-        </Row>
+        {props.system_type === "Dryer" || props.system_type === "Washer" ? (
+          <></>
+        ) : (
+          <Row>
+            <Col md={12}>
+              <Form.Group controlId="rebate">
+                <Form.Label className=" applicationTitle">SEER</Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={(e) => props.setNewSeer(e.target.value)}
+                  value={props.newSeer}
+                  required
+                  disabled={true}
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">
@@ -1007,7 +1024,11 @@ function NewEuipmentInformation(props) {
                     name="file"
                     placeholder="Upload Consideration Letter"
                     type="file"
-                    onChange={(e) => handleChangeConsiderationLetter(e)}
+                    onChange={(e) => {
+                      handleChangeConsiderationLetter(e);
+                      setClTrigger(true);
+                      setInvoiceTrigger(false);
+                    }}
                   />
                   <div
                     style={{
@@ -1035,9 +1056,20 @@ function NewEuipmentInformation(props) {
                       <>
                         {fileCode.length !== 0 ? (
                           <>
-                            {props.setOtherDoc1D(fileCode)}
-                            {console.log(props.other_doc1D)}
-                            <Badge bg={"success"}>File Uploaded</Badge> <br />
+                            {clTrigger == true ? (
+                              <>
+                                {props.setOtherDoc1D(fileCode)}
+                                {console.log(
+                                  "CONSIDERATION LETTER D ",
+                                  props.other_doc1D
+                                )}
+                                {console.log(
+                                  "------------------------------------------"
+                                )}
+                                <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                <br />
+                              </>
+                            ) : null}
                           </>
                         ) : (
                           <></>

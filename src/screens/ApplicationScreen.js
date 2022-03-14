@@ -380,6 +380,7 @@ function ApplicationScreen() {
       } else {
         setStep(currentStep + 1);
         if (
+          old_system_type === "" ||
           old_quantity === "" ||
           old_years === "" ||
           is_equipment_condition === "" ||
@@ -476,6 +477,7 @@ function ApplicationScreen() {
           setStep(currentStep + 1);
         } else {
           if (
+            old_system_type === "" ||
             old_equipments.length === 0 ||
             old_quantity === "" ||
             old_years === "" ||

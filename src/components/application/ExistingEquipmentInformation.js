@@ -104,6 +104,7 @@ function ExistingEquipmentInformation(props) {
   };
   const addEquipmentHandler = () => {
     if (
+      props.old_system_type === "" ||
       props.old_quantity === "" ||
       props.old_years === "" ||
       props.is_equipment_condition === "" ||
@@ -297,9 +298,7 @@ function ExistingEquipmentInformation(props) {
               <Form.Label className="applicationTitle">SYSTEM TYPE</Form.Label>
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
-                value={
-                  props.old_system_type
-                }
+                value={props.old_system_type}
                 disabled={
                   props.system_type === "Central AC" ||
                   props.system_type === "Split AC" ||
@@ -308,6 +307,7 @@ function ExistingEquipmentInformation(props) {
                     : true
                 }
               >
+                <option value=""></option>
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
                 <option value="Window AC">Window AC</option>
@@ -323,6 +323,13 @@ function ExistingEquipmentInformation(props) {
                 )}
               </Form.Select>
             </Form.Group>
+            {props.old_system_type === "" ? (
+              <p className="validate text-danger requiredField">
+                *This Field is Required
+              </p>
+            ) : (
+              <></>
+            )}
           </Col>
         </Row>
         <Row className="px-0">

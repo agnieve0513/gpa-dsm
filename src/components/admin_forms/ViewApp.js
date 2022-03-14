@@ -133,7 +133,7 @@ function ViewApp(props) {
   const [irs_form, setIrsForm] = useState(null);
   const [disposal_slip, setDisposalSlip] = useState(null);
   const [letter_authorization, setLetterAuthorization] = useState(null);
-  const [installer_certification, setInstallerCertification] = useState(null);
+  const [installer_cert, setInstallerCertification] = useState(null);
   const [other_doc1, setOtherDoc1] = useState(null);
   const [other_doc2, setOtherDoc2] = useState(null);
   const [modelId, setModelID] = useState("");
@@ -163,7 +163,7 @@ function ViewApp(props) {
           setLetterAuthorization(e.target.files[0]);
         } else if (doc_type === "invoice") {
           setInvoice(e.target.files[0]);
-        } else if (doc_type === "installer_certification") {
+        } else if (doc_type === "installer_cert") {
           setInstallerCertification(e.target.files[0]);
         } else if (doc_type === "disposal_slip") {
           setDisposalSlip(e.target.files[0]);
@@ -1172,7 +1172,8 @@ function ViewApp(props) {
                                     }
                                   >
                                     <option selected disabled hidden>
-                                      {application.Info_New_construction == "true"
+                                      {application.Info_New_construction ==
+                                      "true"
                                         ? "YES"
                                         : "NO" || "N/A"}
                                     </option>
@@ -2577,7 +2578,7 @@ function ViewApp(props) {
                             >
                               <span>Other Document 1 </span>
                               {application.Submitted_docs ? (
-                                application.Submitted_docs[0].other_doc2 !==
+                                application.Submitted_docs[0].installer_cert !==
                                 null ? (
                                   <Button
                                     className="mb-2"
@@ -2587,7 +2588,7 @@ function ViewApp(props) {
                                         oth1
                                           ? oth1
                                           : application.Submitted_docs[0]
-                                              .other_doc2
+                                              .installer_cert
                                       )
                                     }
                                     size={"sm"}
@@ -2603,16 +2604,19 @@ function ViewApp(props) {
                               ) : null}
                             </div>
 
-                            <Form.Group controlId="other_doc1" className="mb-3">
+                            <Form.Group
+                              controlId="installer_cert"
+                              className="mb-3"
+                            >
                               {roleId !== 4 ? (
                                 <InputGroup>
                                   <Form.Control
-                                    name="other_doc2"
+                                    name="installer_cert"
                                     type="file"
                                     onChange={(e) =>
                                       handleOnChange(
                                         e,
-                                        "other_doc2",
+                                        "other_doc1",
                                         application.Control_Number
                                       )
                                     }
@@ -2622,7 +2626,7 @@ function ViewApp(props) {
                                 <></>
                               )}
 
-                              {other_doc1 ? (
+                              {installer_cert ? (
                                 <>
                                   {fileCode ? (
                                     <>
@@ -2635,8 +2639,8 @@ function ViewApp(props) {
                                   ) : (
                                     <>no upload</>
                                   )}
-                                  Filename: {other_doc1.name} <br />
-                                  File Type: {other_doc1.type} <br />
+                                  Filename: {installer_cert.name} <br />
+                                  File Type: {installer_cert.type} <br />
                                   <br />
                                 </>
                               ) : (
