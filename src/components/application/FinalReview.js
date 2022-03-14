@@ -697,30 +697,30 @@ function FinalReview(props) {
                     <></>
                   )}
 
-                  {props.other_doc2 ? (
+                  {props.other_doc1 ? (
                     <>
                       <b>
                         Other Support Documents 1 (Consideration Letter){" "}
                         <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
-                        Filename: {props.other_doc2.name} <br />
-                        File Type: {props.other_doc2.type}
+                        Filename: {props.other_doc1.name} <br />
+                        File Type: {props.other_doc1.type}
                       </p>
                     </>
                   ) : (
                     <></>
                   )}
 
-                  {props.other_doc3 ? (
+                  {props.other_doc2 ? (
                     <>
                       <b>
                         Other Support Documents 2{" "}
                         <Badge bg={"success"}>Uploaded</Badge>
                       </b>
                       <p>
-                        Filename: {props.other_doc3.name} <br />
-                        File Type: {props.other_doc3.type}
+                        Filename: {props.other_doc2.name} <br />
+                        File Type: {props.other_doc2.type}
                       </p>
                     </>
                   ) : (
