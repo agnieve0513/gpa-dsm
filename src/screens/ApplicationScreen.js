@@ -203,14 +203,14 @@ function ApplicationScreen() {
               invoice: invoiceD ? invoiceD : "",
               irs_form: irs_formD ? irs_formD : "",
               disposal_slip: disposal_slipD ? disposal_slipD : "",
-              letter_authorization: letter_authorizationD ? letter_authorizationD : ""
+              letter_authorization: letter_authorizationD
+                ? letter_authorizationD
+                : ""
                 ? letter_authorizationD
                 : "",
-              other_doc1: installer_certificationD
-                ? installer_certificationD
-                : "",
-              other_doc2: other_doc2D ?other_doc2D : "" ,
-              other_doc3: other_doc3D ?other_doc3D : "",
+              other_doc1: other_doc2D ? other_doc2D : "",
+              other_doc2: other_doc1D ? other_doc1D : "",
+              other_doc3: other_doc3D ? other_doc3D : "",
             },
           };
 
