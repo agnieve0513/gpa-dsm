@@ -278,7 +278,7 @@ function SubmissionOfDocumentation(props) {
               {props.other_doc2 ? (
                 <>
                   {
-                    otherDoc1Trigger ?
+                    otherDoc2Trigger ?
                     props.setOtherDoc2D(fileCode): null
                   }
                   <p className="m-0">Filename: {props.other_doc2.name}</p>
