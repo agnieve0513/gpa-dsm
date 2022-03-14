@@ -208,8 +208,8 @@ function ApplicationScreen() {
                 : ""
                 ? letter_authorizationD
                 : "",
-              other_doc1: other_doc2D ? other_doc2D : "",
-              other_doc2: other_doc1D ? other_doc1D : "",
+              other_doc1: other_doc1D ? other_doc1D : "",
+              other_doc2: other_doc2D ? other_doc2D : "",
               other_doc3: other_doc3D ? other_doc3D : "",
             },
           };

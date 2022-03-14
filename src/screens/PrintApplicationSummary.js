@@ -534,13 +534,13 @@ function PrintApplicationSummary(props) {
                       <Text style={styles.text}>
                         Other support documents 1:{" "}
                       </Text>
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc1} />
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
                         Other support documents 2:{" "}
                       </Text>
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc3} />
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
                     </View>
                   </View>
                 </View>

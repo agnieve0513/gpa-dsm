@@ -56,7 +56,7 @@ function EquipmentReview(props) {
     props.system_type !== "Dryer" || props.system_type !== "Washer"
   );
   const showCertificateNo = () => {
-    if (props.system_type === "Dryer" || props.system_type === "Washer") {
+    if (props.system_type === "Dryer" || props.system_type === "Washer" || props.system_type === "Window AC") {
       return <></>;
     } else {
       return (

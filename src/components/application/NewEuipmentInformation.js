@@ -384,23 +384,12 @@ function NewEuipmentInformation(props) {
     };
 
   const handleChangeConsiderationLetter = (e) => {
-    props.setOtherDoc2(e.target.files[0]);
+    props.setOtherDoc1(e.target.files[0]);
     dispatch(
-      uploadFileAction(e.target.files[0], "other_doc2", props.control_no, false)
+      uploadFileAction(e.target.files[0], "other_doc1", props.control_no, false)
     );
   };
 
-  const handleChangeInstallersInformation = (e) => {
-    props.setInstallerCertification(e.target.files[0]);
-    dispatch(
-      uploadFileAction(
-        e.target.files[0],
-        "installers_information",
-        props.control_no,
-        false
-      )
-    );
-  };
 
   const handleShowExeededTime = () => {
     if (props.delay_reason === "") {
@@ -1033,7 +1022,7 @@ function NewEuipmentInformation(props) {
                     <i style={{ color: "white" }} className="fa fa-upload"></i>
                   </div>
                 </InputGroup>
-                {props.other_doc2 === null ? (
+                {props.other_doc1 === null ? (
                   <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>
@@ -1047,7 +1036,7 @@ function NewEuipmentInformation(props) {
                         {fileCode.length !== 0 ? (
                           <>
                             {props.setOtherDoc2D(fileCode)}
-                            {console.log(props.other_doc2D)}
+                            {console.log(props.other_doc1D)}
                             <Badge bg={"success"}>File Uploaded</Badge> <br />
                           </>
                         ) : (
@@ -1058,9 +1047,9 @@ function NewEuipmentInformation(props) {
                       <></>
                     )}
                     <p className="text-break m-0">
-                      Filename: {props.invoice.name}
+                      Filename: {props.other_doc1.name}
                     </p>
-                    <p>File Type: {props.invoice.type}</p>
+                    <p>File Type: {props.other_doc1.type}</p>
                   </>
                 ) : (
                   <></>
