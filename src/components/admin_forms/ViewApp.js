@@ -2968,7 +2968,7 @@ function ViewApp(props) {
                             )}
                           </Modal.Body>
                         </Modal>
-                        {roleId !== 4 ? (
+                        {roleId !== 7 ? (
                           <>
                             <Button
                               className="me-2"
