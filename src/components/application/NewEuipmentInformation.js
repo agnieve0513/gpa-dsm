@@ -1029,13 +1029,13 @@ function NewEuipmentInformation(props) {
                 ) : (
                   <></>
                 )}
-                {props.other_doc2 ? (
+                {props.other_doc1 ? (
                   <>
                     {fileCode ? (
                       <>
                         {fileCode.length !== 0 ? (
                           <>
-                            {props.setOtherDoc2D(fileCode)}
+                            {props.setOtherDoc1D(fileCode)}
                             {console.log(props.other_doc1D)}
                             <Badge bg={"success"}>File Uploaded</Badge> <br />
                           </>
