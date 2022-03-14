@@ -328,7 +328,7 @@ function EquipmentReview(props) {
                     <Col>
                       <p>
                         <b>
-                          {props.is_new_construction == true ? "Yes" : "No"}
+                          {props.is_new_construction == "true" ? "Yes" : "No"}
                         </b>{" "}
                       </p>
                     </Col>

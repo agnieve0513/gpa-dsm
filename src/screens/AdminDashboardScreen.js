@@ -64,10 +64,10 @@ function AdminDashboardScreen({ location, history }) {
 
       console.log(obj);
 
-      if (roleId === 4) {
-        setApplicationForm(false);
-        setCurrent("batch");
-      }
+      // if (roleId === 4) {
+      //   setApplicationForm(true);
+      //   setCurrent("batch");
+      // }
 
       if (roleId === 3 || roleId === 4 || roleId === 5 || roleId === 6) {
         setBatchForm(true);

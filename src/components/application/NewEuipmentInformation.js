@@ -980,16 +980,20 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        <Form.Group controlId="rebate">
-          <Form.Label className=" applicationTitle">Seer</Form.Label>
-          <Form.Control
-            type="hidden"
-            onChange={(e) => props.setNewSeer(e.target.value)}
-            value={props.newSeer}
-            required
-            disabled={true}
-          ></Form.Control>
-        </Form.Group>
+        <Row>
+          <Col md={12}>
+            <Form.Group controlId="rebate">
+              <Form.Label className=" applicationTitle">Seer</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={(e) => props.setNewSeer(e.target.value)}
+                value={props.newSeer}
+                required
+                disabled={true}
+              ></Form.Control>
+            </Form.Group>
+          </Col>
+        </Row>
         <Row>
           <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">

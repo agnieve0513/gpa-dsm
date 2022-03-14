@@ -68,8 +68,8 @@ function AdminScreen({ location, history }) {
       setRoleName(role_name);
 
       if (roleId === 4) {
-        setApplicationForm(false);
-        setCurrent("batch");
+        setApplicationForm(true);
+        setCurrent("application");
       }
 
       if (roleId === 3 || roleId === 4 || roleId === 5 || roleId === 6) {

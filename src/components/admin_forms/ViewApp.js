@@ -1172,7 +1172,7 @@ function ViewApp(props) {
                                     }
                                   >
                                     <option selected disabled hidden>
-                                      {application.Info_New_construction
+                                      {application.Info_New_construction == "true"
                                         ? "YES"
                                         : "NO" || "N/A"}
                                     </option>
@@ -1181,7 +1181,7 @@ function ViewApp(props) {
                                   </Form.Select>
                                 ) : (
                                   <b className="ms-2">
-                                    {application.Info_New_construction
+                                    {application.Info_New_construction == "true"
                                       ? "YES"
                                       : "NO" || "N/A"}
                                   </b>
