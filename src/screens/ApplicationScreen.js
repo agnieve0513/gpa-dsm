@@ -611,9 +611,13 @@ function ApplicationScreen() {
                 setInvoiceNo={setInvoiceNo}
                 invoice={invoice}
                 setInvoice={setInvoice}
+                other_doc1={other_doc1}
                 other_doc2={other_doc2}
+                setOtherDoc1={setOtherDoc1}
                 setOtherDoc2={setOtherDoc2}
+                other_doc1D={other_doc1D}
                 other_doc2D={other_doc2D}
+                setOtherDoc1D={setOtherDoc1D}
                 setOtherDoc2D={setOtherDoc2D}
                 max_invoice={max_invoice}
                 setMaxInvoice={setMaxInvoice}
@@ -647,44 +651,42 @@ function ApplicationScreen() {
                 setTechEmail={setTechEmail}
               />
             ) : step === 4 ? (
-             
-                <ExistingEquipmentInformation
-                  control_no={control_no}
-                  setControlNo={setControlNo}
-                  no_existing={no_existing}
-                  setNoExisting={setNoExisting}
-                  old_equipments={old_equipments}
-                  setOldEquipments={setOldEquipments}
-                  is_no_existing_to_replace={is_no_existing_to_replace}
-                  seIsNoExistingToReplace={seIsNoExistingToReplace}
-                  old_system_type={old_system_type}
-                  setOldSystemType={setOldSystemType}
-                  system_type={system_type}
-                  setSystemType={setSystemType}
-                  old_years={old_years}
-                  setOldYears={setOldYears}
-                  old_tons={old_tons}
-                  setOldTons={setOldTons}
-                  is_equipment_condition={is_equipment_condition}
-                  setIsEquipmentCondition={setIsEquipmentCondition}
-                  seer={seer}
-                  setSeer={setSeer}
-                  disposal_party={disposal_party}
-                  setDisposalParty={setDisposalParty}
-                  disposal_slip={disposal_slip}
-                  setDisposalSlip={setDisposalSlip}
-                  disposal_slipD={disposal_slipD}
-                  setDisposalSlipD={setDisposalSlipD}
-                  date={date}
-                  setDate={setDate}
-                  old_btu={old_btu}
-                  setOldBtu={setOldBtu}
-                  old_quantity={old_quantity}
-                  setOldQuantity={setOldQuantity}
-                  agree_terms={agree_terms}
-                  setAgreeTerms={setAgreeTerms}
-                />
-             
+              <ExistingEquipmentInformation
+                control_no={control_no}
+                setControlNo={setControlNo}
+                no_existing={no_existing}
+                setNoExisting={setNoExisting}
+                old_equipments={old_equipments}
+                setOldEquipments={setOldEquipments}
+                is_no_existing_to_replace={is_no_existing_to_replace}
+                seIsNoExistingToReplace={seIsNoExistingToReplace}
+                old_system_type={old_system_type}
+                setOldSystemType={setOldSystemType}
+                system_type={system_type}
+                setSystemType={setSystemType}
+                old_years={old_years}
+                setOldYears={setOldYears}
+                old_tons={old_tons}
+                setOldTons={setOldTons}
+                is_equipment_condition={is_equipment_condition}
+                setIsEquipmentCondition={setIsEquipmentCondition}
+                seer={seer}
+                setSeer={setSeer}
+                disposal_party={disposal_party}
+                setDisposalParty={setDisposalParty}
+                disposal_slip={disposal_slip}
+                setDisposalSlip={setDisposalSlip}
+                disposal_slipD={disposal_slipD}
+                setDisposalSlipD={setDisposalSlipD}
+                date={date}
+                setDate={setDate}
+                old_btu={old_btu}
+                setOldBtu={setOldBtu}
+                old_quantity={old_quantity}
+                setOldQuantity={setOldQuantity}
+                agree_terms={agree_terms}
+                setAgreeTerms={setAgreeTerms}
+              />
             ) : step === 5 ? (
               <EquipmentReview
                 delay_reason={delay_reason}
