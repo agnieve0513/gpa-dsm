@@ -189,7 +189,7 @@ function SubmissionOfDocumentation(props) {
         </Row>
         {supportDoc ? (
           <>
-            <Form.Group controlId="other_supporting_doc1" className="mb-3">
+            {/* <Form.Group controlId="other_supporting_doc1" className="mb-3">
               <Row className="flex d-flex-row justify-content-between">
                 <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">
                   Other Supporting Document 1{" "}
@@ -237,12 +237,12 @@ function SubmissionOfDocumentation(props) {
               ) : (
                 <></>
               )}
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group controlId="other_supporting_doc2" className="mb-3">
               <Row className="flex d-flex-row justify-content-between">
                 <p className="px-0 m-0 mb-1 supportingDoc fw-bold">
-                  Other Supporting Document 2{" "}
+                  Other Supporting Document 1{" "}
                   {props.other_doc2 ? (
                     <Badge bg={"success"}>File Uploaded</Badge>
                   ) : (
