@@ -2771,8 +2771,8 @@ function ViewApp(props) {
                   </ListGroup>
                 </Container>
                 <Container className="ml-2 mr-2">
-                  {roleId !== 7 ? null : <></>}
-                  {roleId !== 7 ? (
+                  {roleId !== 4 ? null : <></>}
+                  {roleId !== 4 ? (
                     <Row>
                       <Col md={12}>
                         <h3 className="mt-3 mb-3">Update Status</h3>
