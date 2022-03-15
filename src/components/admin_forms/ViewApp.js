@@ -1610,14 +1610,14 @@ function ViewApp(props) {
                             <th>System Type</th>
                             {application ? (
                               application.New_equipment[0]
-                                .newEquip_System_type !== "Dryer" ||
+                                .newEquip_System_type === "Dryer" ||
                               application.New_equipment[0]
-                                .newEquip_System_type !== "Washer" ? (
+                                .newEquip_System_type === "Washer" ? null : (
                                 <>
                                   <th>BTU</th>
                                   <th>SEER</th>
                                 </>
-                              ) : null
+                              )
                             ) : null}
 
                             <th>Vendor</th>
