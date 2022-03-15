@@ -559,14 +559,14 @@ function ViewApp(props) {
       //     : application.Installer_New_email,
       // },
     };
-    console.log("equipment_id", equipment_id);
-    console.log("system_type", system_type);
-    console.log("vendor", vendor);
-    console.log("manufacturer", manufacturer);
-    console.log("model_no", model_no);
-    console.log("invoice_no", invoice_no);
-    console.log("purchase_date", purchase_date);
-    console.log("quantity", quantity);
+    console.log("equipment_id: ", equipment_id);
+    console.log("system_type: ", system_type);
+    console.log("vendor: ", vendor);
+    console.log("manufacturer: ", manufacturer);
+    console.log("model_no: ", model_no);
+    console.log("invoice_no: ", invoice_no);
+    console.log("purchase_date: ", purchase_date);
+    console.log("quantity: ", quantity);
     if (
       equipment_id === "" ||
       system_type === "" ||
@@ -1625,7 +1625,7 @@ function ViewApp(props) {
                             <th>Model Number</th>
                             <th>Invoice</th>
                             <th>Install Date</th>
-                            <th>Action</th>
+                            {roleId === 4 ? null : <th>Action</th>}
                           </tr>
                         </thead>
                         <tbody>
@@ -1650,23 +1650,25 @@ function ViewApp(props) {
                                     <td>{equip.newEquip_Invoice_no}</td>
                                     {/* <td>{equip.newEquip_Tons}</td> */}
                                     <td>{equip.newEquip_Purchase_date}</td>
-                                    <td>
-                                      <Button
-                                        variant="success"
-                                        size="sm"
-                                        onClick={() =>
-                                          handleEquipmentEdit(
-                                            indx,
-                                            equip.newEquip_id,
-                                            equip.newEquip_System_type,
-                                            equip.newEquip_Manufacturer,
-                                            equip.newEquip_Model_no
-                                          )
-                                        }
-                                      >
-                                        <i className="fa fa-edit"></i>
-                                      </Button>
-                                    </td>
+                                    {roleId === 4 ? null : (
+                                      <td>
+                                        <Button
+                                          variant="success"
+                                          size="sm"
+                                          onClick={() =>
+                                            handleEquipmentEdit(
+                                              indx,
+                                              equip.newEquip_id,
+                                              equip.newEquip_System_type,
+                                              equip.newEquip_Manufacturer,
+                                              equip.newEquip_Model_no
+                                            )
+                                          }
+                                        >
+                                          <i className="fa fa-edit"></i>
+                                        </Button>
+                                      </td>
+                                    )}
                                   </tr>
                                 ))
                             : []}
@@ -1680,13 +1682,15 @@ function ViewApp(props) {
                         <>
                           <h3 className="mt-3 mb-3 text-info">
                             Installer Information{" "}
-                            <Button
-                              onClick={() => setEnableInstallerEdit(true)}
-                              variant="success"
-                              size="sm"
-                            >
-                              <i className="fa fa-edit"></i>
-                            </Button>
+                            {roleId === 4 ? null : (
+                              <Button
+                                onClick={() => setEnableInstallerEdit(true)}
+                                variant="success"
+                                size="sm"
+                              >
+                                <i className="fa fa-edit"></i>
+                              </Button>
+                            )}
                           </h3>
                           <ListGroup
                             className="mb-3"
@@ -2227,7 +2231,7 @@ function ViewApp(props) {
                       ) : null}
                       <th>Disposal Party</th>
                       <th>Disposal Date</th>
-                      <th>Action</th>
+                      {roleId === 4 ? null : <th>Action</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -2254,20 +2258,22 @@ function ViewApp(props) {
 
                               <td>{old_eqiup.oldEquip_Disposal_party}</td>
                               <td>{old_eqiup.oldEquip_Disposal_date}</td>
-                              <td>
-                                <Button
-                                  size="sm"
-                                  variant="success"
-                                  onClick={() =>
-                                    editOldEquipmentHandler(
-                                      indx,
-                                      old_eqiup.oldEquip_id
-                                    )
-                                  }
-                                >
-                                  <i className="fa fa-edit"> </i>
-                                </Button>
-                              </td>
+                              {roleId === 4 ? null : (
+                                <td>
+                                  <Button
+                                    size="sm"
+                                    variant="success"
+                                    onClick={() =>
+                                      editOldEquipmentHandler(
+                                        indx,
+                                        old_eqiup.oldEquip_id
+                                      )
+                                    }
+                                  >
+                                    <i className="fa fa-edit"> </i>
+                                  </Button>
+                                </td>
+                              )}
                             </tr>
                           ))
                       : []}
