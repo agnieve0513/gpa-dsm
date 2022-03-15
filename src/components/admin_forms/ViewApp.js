@@ -105,6 +105,7 @@ function ViewApp(props) {
   const [system_type, setSystemType] = useState("");
   const [quantity, setQuantity] = useState("");
   const [btu, setBtu] = useState("");
+  const [seer, setSeer] = useState("");
   const [vendor, setVendor] = useState("");
   const [manufacturer, setManufacturer] = useState("");
   const [model_no, setModelNo] = useState("");
@@ -537,6 +538,7 @@ function ViewApp(props) {
           size: 0,
           type: "",
           tons: "",
+          seer: seerVal
         },
       ],
       // installer_information: {
@@ -642,6 +644,8 @@ function ViewApp(props) {
       });
     }
   };
+
+  let seerVal = 0;
 
   return (
     <Container>
@@ -1496,9 +1500,12 @@ function ViewApp(props) {
                       >
                         <option>Select Vendor</option>
                         {equipment_detail ? (
-                          <option value={equipment_detail[0]?.vendor}>
-                            {equipment_detail[0]?.vendor}
-                          </option>
+                          <>
+                            {(seerVal = equipment_detail[0]?.seer)}
+                            <option value={equipment_detail[0]?.vendor}>
+                              {equipment_detail[0]?.vendor}
+                            </option>
+                          </>
                         ) : null}
                       </Form.Select>
                     </Form.Group>
@@ -1550,6 +1557,25 @@ function ViewApp(props) {
                         onChange={(e) => setQuantity(e.target.value)}
                       />
                     </Form.Group>
+
+                    <Form.Group controlId="purchase_date" className="mb-2">
+                      <Form.Label>
+                        SEER:{" "}
+                        <b>
+                          {
+                            application?.New_equipment[selectedEquipmentIndex]
+                              .newEquip_Seer
+                          }
+                        </b>
+                      </Form.Label>
+                      <FormControl
+                        value={seerVal}
+                        type="number"
+                        min="0"
+                        onChange={(e) => setSeer(e.target.value)}
+                        disabled={true}
+                      />
+                    </Form.Group>
                     <Button
                       className="mt-2"
                       variant="success"
@@ -1578,11 +1604,13 @@ function ViewApp(props) {
                             <th>System Type</th>
                             {application ? (
                               application.New_equipment[0]
-                                .newEquip_System_type !== "Dryer" ? (
-                                application.New_equipment[0]
-                                  .newEquip_System_type !== "Washer" ? (
+                                .newEquip_System_type !== "Dryer" ||
+                              application.New_equipment[0]
+                                .newEquip_System_type !== "Washer" ? (
+                                <>
                                   <th>BTU</th>
-                                ) : null
+                                  <th>SEER</th>
+                                </>
                               ) : null
                             ) : null}
 
@@ -1604,7 +1632,10 @@ function ViewApp(props) {
                                     <td>{equip.newEquip_System_type}</td>
                                     {equip.newEquip_System_type !== "Washer" ? (
                                       equip.newEquip_System_type !== "Dryer" ? (
-                                        <td>{equip.newEquip_Btu}</td>
+                                        <>
+                                          <td>{equip.newEquip_Btu}</td>
+                                          <td>{equip.newEquip_Seer}</td>
+                                        </>
                                       ) : null
                                     ) : null}
                                     <td>{equip.newEquip_Vendor} </td>
