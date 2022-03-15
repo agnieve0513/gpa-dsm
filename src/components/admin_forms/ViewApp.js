@@ -785,9 +785,11 @@ function ViewApp(props) {
                               GPA Account Holder's Name
                             </b>
                           </p>
-                          <p style={{ marginBottom: "1.9rem" }}>
-                            <b>Edit Information</b>
-                          </p>
+                          {roleId === 4 ? null : (
+                            <p style={{ marginBottom: "1.9rem" }}>
+                              <b>Edit Information</b>
+                            </p>
+                          )}
 
                           <p
                             style={{
@@ -915,26 +917,30 @@ function ViewApp(props) {
                             <b>{application.Account_Name || "N/A"}</b>
                           </p>
                           <p>
-                            {!enable_edit ? (
-                              <Button
-                                variant="outline-success"
-                                size="sm"
-                                onClick={() => {
-                                  setEnableEdit(true);
-                                }}
-                              >
-                                <i className="fa fa-edit"></i>
-                              </Button>
-                            ) : (
-                              <Button
-                                variant="outline-danger"
-                                size="sm"
-                                onClick={() => {
-                                  setEnableEdit(false);
-                                }}
-                              >
-                                <i className="fa fa-times"></i>
-                              </Button>
+                            {roleId === 4 ? null : (
+                              <>
+                                {!enable_edit ? (
+                                  <Button
+                                    variant="outline-success"
+                                    size="sm"
+                                    onClick={() => {
+                                      setEnableEdit(true);
+                                    }}
+                                  >
+                                    <i className="fa fa-edit"></i>
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="outline-danger"
+                                    size="sm"
+                                    onClick={() => {
+                                      setEnableEdit(false);
+                                    }}
+                                  >
+                                    <i className="fa fa-times"></i>
+                                  </Button>
+                                )}
+                              </>
                             )}
                           </p>
                           <Form>
@@ -1800,7 +1806,8 @@ function ViewApp(props) {
                                 application.New_equipment[0]
                                   .newEquip_System_type === "Dryer" ||
                                 application.New_equipment[0]
-                                  .newEquip_System_type === "Window AC" ? null : (
+                                  .newEquip_System_type ===
+                                  "Window AC" ? null : (
                                   <>
                                     {enable_installer_edit ? (
                                       <FormControl
