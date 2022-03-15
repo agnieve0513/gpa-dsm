@@ -1796,30 +1796,31 @@ function ViewApp(props) {
                               </p>
                               <p>
                                 {application.New_equipment[0]
-                                  .newEquip_System_type !== "Washer" ? (
-                                  application.New_equipment[0]
-                                    .newEquip_System_type !== "Dryer" ? (
-                                    <>
-                                      {enable_installer_edit ? (
-                                        <FormControl
-                                          placeholder={
-                                            application.Installer_New_certno ||
-                                            "N/A"
-                                          }
-                                          value={cert_no}
-                                          onChange={(e) =>
-                                            setCertNo(e.target.value)
-                                          }
-                                        />
-                                      ) : (
-                                        <b>
-                                          {application.Installer_New_certno ||
-                                            "N/A"}
-                                        </b>
-                                      )}
-                                    </>
-                                  ) : null
-                                ) : null}
+                                  .newEquip_System_type === "Washer" ||
+                                application.New_equipment[0]
+                                  .newEquip_System_type === "Dryer" ||
+                                application.New_equipment[0]
+                                  .newEquip_System_type === "Window AC" ? null : (
+                                  <>
+                                    {enable_installer_edit ? (
+                                      <FormControl
+                                        placeholder={
+                                          application.Installer_New_certno ||
+                                          "N/A"
+                                        }
+                                        value={cert_no}
+                                        onChange={(e) =>
+                                          setCertNo(e.target.value)
+                                        }
+                                      />
+                                    ) : (
+                                      <b>
+                                        {application.Installer_New_certno ||
+                                          "N/A"}
+                                      </b>
+                                    )}
+                                  </>
+                                )}
                               </p>
                               <p>
                                 {enable_installer_edit ? (
