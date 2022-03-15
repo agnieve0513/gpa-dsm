@@ -1707,19 +1707,20 @@ function ViewApp(props) {
                               {enable_installer_edit ? <br /> : null}
 
                               {application.New_equipment[0]
-                                .newEquip_System_type !== "Washer" ? (
-                                application.New_equipment[0]
-                                  .newEquip_System_type !== "Dryer" ? (
-                                  <>
-                                    <p>
-                                      <b style={{ color: "#B6B6B6" }}>
-                                        Certification No.
-                                      </b>
-                                    </p>
-                                    {enable_installer_edit ? <br /> : null}
-                                  </>
-                                ) : null
-                              ) : null}
+                                .newEquip_System_type === "Washer" ||
+                              application.New_equipment[0]
+                                .newEquip_System_type === "Dryer" ||
+                              application.New_equipment[0]
+                                .newEquip_System_type === "Window AC" ? null : (
+                                <>
+                                  <p>
+                                    <b style={{ color: "#B6B6B6" }}>
+                                      Certification No.
+                                    </b>
+                                  </p>
+                                  {enable_installer_edit ? <br /> : null}
+                                </>
+                              )}
 
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>Email</b>
