@@ -575,8 +575,9 @@ function PrintApplicationSummary(props) {
                   <View style={styles.boxContainer}>
                     {console.log(data)}
                     {data.New_equipment[0].newEquip_System_type === "Dryer" ||
+                    data.New_equipment[0].newEquip_System_type === "Washer" ||
                     data.New_equipment[0].newEquip_System_type ===
-                      "Washer" ? null : (
+                      "Window AC" ? null : (
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>Certification No: </Text>
                         <Text style={styles.boldText}>
