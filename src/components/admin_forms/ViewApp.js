@@ -417,7 +417,7 @@ function ViewApp(props) {
     let selectedModel = models.find((model) => model.id === parseInt(e));
     console.log("First Load of Model: ", selectedModel)
     let selectedModelName = handleModelNo(selectedModel);
-    console.log(selectedModelName);
+    console.log("Model Name", selectedModelName);
     setModelNumber(e);
     setModelName(selectedModelName);
 
@@ -512,8 +512,8 @@ function ViewApp(props) {
       new_equipment_information: [
         {
           id: equipment_id,
-          system_type: systemTypeVal
-            ? systemTypeVal
+          system_type: system_type
+            ? system_type
             : application.New_equipment[indx].newEquip_System_type,
           vendor: vendor
             ? vendor
