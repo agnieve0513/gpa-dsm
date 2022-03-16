@@ -373,6 +373,7 @@ function ViewApp(props) {
     showRebateHandler();
     setVendor("");
     setSystemType(e);
+    systemTypeVal = e;
     dispatch(loadCustomerEquipManufacturer(e));
   };
 
@@ -387,7 +388,7 @@ function ViewApp(props) {
     setManufacturer(e);
     dispatch(
       loadCustomerEquipModel(
-        application.New_equipment[0].newEquip_System_type,
+        system_type,
         e
       )
     );
@@ -511,8 +512,8 @@ function ViewApp(props) {
       new_equipment_information: [
         {
           id: equipment_id,
-          system_type: system_type
-            ? system_type
+          system_type: systemTypeVal
+            ? systemTypeVal
             : application.New_equipment[indx].newEquip_System_type,
           vendor: vendor
             ? vendor
@@ -538,7 +539,7 @@ function ViewApp(props) {
           size: 0,
           type: "",
           tons: "",
-          seer: seerVal
+          seer: seerVal,
         },
       ],
       // installer_information: {
@@ -646,6 +647,7 @@ function ViewApp(props) {
   };
 
   let seerVal = 0;
+  let systemTypeVal = "";
 
   return (
     <Container>
@@ -1383,7 +1385,9 @@ function ViewApp(props) {
                       </Form.Label>
                       <Form.Select
                         onChange={(e) =>
-                          changeSystemTypeHandler(e.target.value)
+                          {
+                            changeSystemTypeHandler(e.target.value)
+                          }
                         }
                         value={system_type}
                       >
