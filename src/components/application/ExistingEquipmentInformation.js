@@ -232,7 +232,22 @@ function ExistingEquipmentInformation(props) {
           name="file"
           placeholder="Upload Disposal Receipt"
           type="file"
-          onChange={(e) => handleChangeDisposalSlip(e)}
+          onChange={(e) => 
+            {
+                if (
+                  e.target.files[0].type ===
+                  "application/pdf" ||
+                  e.target.files[0].type === "image/png" ||
+                  e.target.files[0].type === "image/jpeg"
+                ){
+                   handleChangeDisposalSlip(e);
+                }else{
+                  errorFileInvalidMessage()
+                  e.target.value = null;
+                  
+                }
+              }
+          }
         />
       </InputGroup>
       {props.no_existing ? (
@@ -264,7 +279,25 @@ function ExistingEquipmentInformation(props) {
       )}
     </Form.Group>
   );
+           const errorFileInvalidMessage = () => {
+             const Toast = MySwal.mixin({
+               toast: true,
+               position: "top-right",
+               iconColor: "white",
+               customClass: {
+                 popup: "colored-toast",
+               },
+               showConfirmButton: false,
+               timer: 3500,
+               timerProgressBars: true,
+             });
 
+             Toast.fire({
+               icon: "info",
+               title: "Invalid File Uploaded",
+               text: "Please note that only Images (JPG, JPEG, PNG) and PDF files are accepted by the system.",
+             });
+           };
   return (
     <Row className="w-100 mx-0 d-flex justify-content-center">
       <Col md={10} xl={6}>

@@ -437,6 +437,25 @@ function NewEuipmentInformation(props) {
      }
    };
 
+   const errorFileInvalidMessage = () => {
+     const Toast = MySwal.mixin({
+       toast: true,
+       position: "top-right",
+       iconColor: "white",
+       customClass: {
+         popup: "colored-toast",
+       },
+       showConfirmButton: false,
+       timer: 3500,
+       timerProgressBars: true,
+     });
+
+     Toast.fire({
+       icon: "info",
+       title: "Invalid File Uploaded",
+       text: "Please note that only Images (JPG, JPEG, PNG) and PDF files are accepted by the system.",
+     });
+   };
 
   return (
     <Row className="mx-0 w-100 d-flex justify-content-center">
@@ -652,7 +671,16 @@ function NewEuipmentInformation(props) {
                   placeholder="Upload Invoice"
                   type="file"
                   onChange={(e) => {
-                    handleChangeInvoice(e);
+                      if (
+                        e.target.files[0].type === "application/pdf" ||
+                        e.target.files[0].type === "image/png" ||
+                        e.target.files[0].type === "image/jpeg"
+                      ) {
+                          handleChangeInvoice(e);
+                      } else {
+                        errorFileInvalidMessage();
+                        e.target.value = null;
+                      }
                     setInvoiceTrigger(true);
                     setClTrigger(false);
                   }}

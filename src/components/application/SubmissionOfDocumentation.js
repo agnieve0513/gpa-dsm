@@ -6,6 +6,10 @@ import { uploadFileAction } from "../../actions/fileActions";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import "./SubmissionOfDocumentation.css";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
+
 function SubmissionOfDocumentation(props) {
   const { height, width } = useWindowDimensions();
   const [supportDoc, setSupportDoc] = useState(false);
@@ -99,6 +103,26 @@ function SubmissionOfDocumentation(props) {
     }
   };
 
+     const errorFileInvalidMessage = () => {
+       const Toast = MySwal.mixin({
+         toast: true,
+         position: "top-right",
+         iconColor: "white",
+         customClass: {
+           popup: "colored-toast",
+         },
+         showConfirmButton: false,
+         timer: 3500,
+         timerProgressBars: true,
+       });
+
+       Toast.fire({
+         icon: "info",
+         title: "Invalid File Uploaded",
+         text: "Please note that only Images (JPG, JPEG, PNG) and PDF files are accepted by the system.",
+       });
+     };
+
   return (
     <Row className="w-100 mx-0 px-4">
       {console.log("InvoiceD: ", props.invoiceD)}
@@ -152,8 +176,17 @@ function SubmissionOfDocumentation(props) {
               type="file"
               required
               onChange={(e) =>{
-                 handleChange(e, "irs_form");
-                 setIrsFormTrigger(true);
+                  if (
+                    e.target.files[0].type === "application/pdf" ||
+                    e.target.files[0].type === "image/png" ||
+                    e.target.files[0].type === "image/jpeg"
+                  ) {
+                      handleChange(e, "irs_form");
+                      setIrsFormTrigger(true);
+                  } else {
+                    errorFileInvalidMessage();
+                    e.target.value = null;
+                  }
               }}
             />
             <UploadIcon />
@@ -219,8 +252,17 @@ function SubmissionOfDocumentation(props) {
                   name="file2"
                   type="file"
                   onChange={(e) => {
-                    handleChange(e, "other_doc1");
-                    setOtherDoc1Trigger(true);
+                      if (
+                        e.target.files[0].type === "application/pdf" ||
+                        e.target.files[0].type === "image/png" ||
+                        e.target.files[0].type === "image/jpeg"
+                      ) {
+                          handleChange(e, "other_doc1");
+                          setOtherDoc1Trigger(true);
+                      } else {
+                        errorFileInvalidMessage();
+                        e.target.value = null;
+                      }
                   }}
                 />
                 <UploadIcon />
@@ -269,8 +311,18 @@ function SubmissionOfDocumentation(props) {
                   name="file2215353"
                   type="file"
                   onChange={(e) => {
-                    handleChange(e, "other_doc2");
-                    setOtherDoc2Trigger(true);
+                     if (
+                       e.target.files[0].type === "application/pdf" ||
+                       e.target.files[0].type === "image/png" ||
+                       e.target.files[0].type === "image/jpeg"
+                     ) {
+                        handleChange(e, "other_doc2");
+                        setOtherDoc2Trigger(true);
+                        
+                     } else {
+                       errorFileInvalidMessage();
+                       e.target.value = null;
+                     }
                   }}
                 />
                 <UploadIcon />
@@ -329,7 +381,17 @@ function SubmissionOfDocumentation(props) {
                   name="file2"
                   type="file"
                   onChange={(e) => {
-                    handleChange(e, "letter_authorization");
+                     if (
+                       e.target.files[0].type === "application/pdf" ||
+                       e.target.files[0].type === "image/png" ||
+                       e.target.files[0].type === "image/jpeg"
+                     ) {
+                        handleChange(e, "letter_authorization");
+                     } else {
+                       errorFileInvalidMessage();
+                       e.target.value = null;
+                     }
+                   
                     setLoaTrigger(true);
                   }}
                 />
@@ -391,8 +453,19 @@ function SubmissionOfDocumentation(props) {
                 placeholder="Invoice"
                 type="file"
                 onChange={(e) => {
-                  handleChange(e, "invoice");
-                  setInvoiceTrigger(true);
+                   if (
+                     e.target.files[0].type === "application/pdf" ||
+                     e.target.files[0].type === "image/png" ||
+                     e.target.files[0].type === "image/jpeg"
+                   ) {
+                     handleChange(e, "invoice");
+                    setInvoiceTrigger(true);
+
+                   } else {
+                     errorFileInvalidMessage();
+                     e.target.value = null;
+                   }
+                  
                 }}
               />
               <UploadIcon />
@@ -499,10 +572,22 @@ function SubmissionOfDocumentation(props) {
               <Form.Control
                 name="file211"
                 type="file"
-                onChange={(e) => {
-                  handleChange(e, "disposal_receipt");
-                  disposalSlipTrigger(true);
-                }}
+                onChange={
+                  (e) => {
+                   if (
+                     e.target.files[0].type === "application/pdf" ||
+                     e.target.files[0].type === "image/png" ||
+                     e.target.files[0].type === "image/jpeg"
+                   ) {
+                     handleChange(e, "disposal_receipt");
+                      disposalSlipTrigger(true);
+                   } else {
+                     errorFileInvalidMessage();
+                     e.target.value = null;
+                   }
+                  
+                }
+              }
               />
             </InputGroup>
             {props.disposal_slip ? (

@@ -153,6 +153,8 @@ function ViewApp(props) {
 
   const handleOnChange = (e, doc_type, control_no) => {
 
+    console.log("FILE DETAILS: ",e.target.files[0].type);
+
     dispatch(uploadFileAction(e.target.files[0], doc_type, control_no, 0, true)).then(()=> {
         if (doc_type === "irs_form") {
           setIrsForm(e.target.files[0]);
@@ -648,6 +650,26 @@ function ViewApp(props) {
 
   let seerVal = 0;
   let systemTypeVal = "";
+
+   const errorFileInvalidMessage = () => {
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "top-right",
+      iconColor: "white",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBars: true,
+    });
+
+    Toast.fire({
+      icon: "info",
+      title: "Invalid File Uploaded",
+      text: "Please note that only Images (JPG, JPEG, PNG) and PDF files are accepted by the system.",
+    });
+  };
 
   return (
     <Container>
@@ -2343,11 +2365,25 @@ function ViewApp(props) {
                                     name="invoice"
                                     type="file"
                                     onChange={(e) =>
-                                      handleOnChange(
-                                        e,
-                                        "invoice",
-                                        application.Control_Number
-                                      )
+                                      {
+                                        if (
+                                          e.target.files[0].type ===
+                                          "application/pdf" ||
+                                          e.target.files[0].type === "image/png" ||
+                                          e.target.files[0].type === "image/jpeg"
+                                        ){
+                                           handleOnChange(
+                                            e,
+                                            "invoice",
+                                            application.Control_Number
+                                          );
+                                        }else{
+                                          errorFileInvalidMessage()
+                                          e.target.value = null;
+                                         
+                                        }
+                                          
+                                      }
                                     }
                                   />
                                 </InputGroup>
@@ -2421,11 +2457,26 @@ function ViewApp(props) {
                                     name="irs_form"
                                     type="file"
                                     onChange={(e) =>
-                                      handleOnChange(
-                                        e,
-                                        "irs_form",
-                                        application.Control_Number
-                                      )
+
+                                      {
+                                        if (
+                                          e.target.files[0].type ===
+                                          "application/pdf" ||
+                                          e.target.files[0].type === "image/png" ||
+                                          e.target.files[0].type === "image/jpeg"
+                                        ){
+                                           handleOnChange(
+                                            e,
+                                            "irs_form",
+                                            application.Control_Number
+                                          );
+                                        }else{
+                                          errorFileInvalidMessage()
+                                          e.target.value = null;
+                                         
+                                        }
+                                          
+                                      }
                                     }
                                   />
                                 </InputGroup>
@@ -2502,11 +2553,26 @@ function ViewApp(props) {
                                     name="letter_authorization"
                                     type="file"
                                     onChange={(e) =>
-                                      handleOnChange(
-                                        e,
-                                        "letter_authorization",
-                                        application.Control_Number
-                                      )
+
+                                      {
+                                        if (
+                                          e.target.files[0].type ===
+                                          "application/pdf" ||
+                                          e.target.files[0].type === "image/png" ||
+                                          e.target.files[0].type === "image/jpeg"
+                                        ){
+                                           handleOnChange(
+                                            e,
+                                            "letter_authorization",
+                                            application.Control_Number
+                                          );
+                                        }else{
+                                          errorFileInvalidMessage()
+                                          e.target.value = null;
+                                         
+                                        }
+                                          
+                                      }
                                     }
                                   />
                                 </InputGroup>
@@ -2582,11 +2648,24 @@ function ViewApp(props) {
                                     name="disposal_slilp"
                                     type="file"
                                     onChange={(e) =>
-                                      handleOnChange(
-                                        e,
-                                        "disposal_slip",
-                                        application.Control_Number
-                                      )
+                                      {
+                                        if (
+                                          e.target.files[0].type ===
+                                          "application/pdf" ||
+                                          e.target.files[0].type === "image/png" ||
+                                          e.target.files[0].type === "image/jpeg"
+                                        ){
+                                           handleOnChange(
+                                            e,
+                                            "disposal_slip",
+                                            application.Control_Number
+                                          );
+                                        }else{
+                                          errorFileInvalidMessage()
+                                          e.target.value = null;
+                                         
+                                        }
+                                      }
                                     }
                                   />
                                 </InputGroup>
@@ -2664,11 +2743,24 @@ function ViewApp(props) {
                                     name="installer_cert"
                                     type="file"
                                     onChange={(e) =>
-                                      handleOnChange(
-                                        e,
-                                        "other_doc1",
-                                        application.Control_Number
-                                      )
+                                      {
+                                        if (
+                                          e.target.files[0].type ===
+                                          "application/pdf" ||
+                                          e.target.files[0].type === "image/png" ||
+                                          e.target.files[0].type === "image/jpeg"
+                                        ){
+                                           handleOnChange(
+                                            e,
+                                            "other_doc1",
+                                            application.Control_Number
+                                          );
+                                        }else{
+                                          errorFileInvalidMessage()
+                                          e.target.value = null;
+                                         
+                                        }
+                                      }
                                     }
                                   />
                                 </InputGroup>
@@ -2746,11 +2838,24 @@ function ViewApp(props) {
                                     name="letter_authorization"
                                     type="file"
                                     onChange={(e) =>
-                                      handleOnChange(
-                                        e,
-                                        "other_doc3",
-                                        application.Control_Number
-                                      )
+                                      {
+                                        if (
+                                          e.target.files[0].type ===
+                                          "application/pdf" ||
+                                          e.target.files[0].type === "image/png" ||
+                                          e.target.files[0].type === "image/jpeg"
+                                        ){
+                                           handleOnChange(
+                                            e,
+                                            "other_doc3",
+                                            application.Control_Number
+                                          );
+                                        }else{
+                                          errorFileInvalidMessage()
+                                          e.target.value = null;
+                                         
+                                        }
+                                      }
                                     }
                                   />
                                 </InputGroup>
