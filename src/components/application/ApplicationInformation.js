@@ -383,8 +383,8 @@ function ApplicationInformation(props) {
   );
 
   const newComponentDesktop = () => {
-    props.setIsNewConstruction(new Date().getFullYear() - props.home_age < 4 ? "true" : "false");
-    console.log(props.is_new_construction);
+    // props.setIsNewConstruction(new Date().getFullYear() - props.home_age < 4 ? "true" : "false");
+    // console.log(props.is_new_construction);
     return (
     
     <Row className="d-flex flex-row py-2">
@@ -397,13 +397,13 @@ function ApplicationInformation(props) {
         value="true"
         checked={"true" === props.is_new_construction}
         onChange={(e) => props.setIsNewConstruction(e.target.value)}
-        disabled={
-          new Date().getFullYear() - props.home_age < 4
-            ? true
-            : props.verify
-            ? false
-            : true
-        }
+        // disabled={
+        //   new Date().getFullYear() - props.home_age < 4
+        //     ? true
+        //     : props.verify
+        //     ? false
+        //     : true
+        // }
       />
       {console.log(new Date().getFullYear() - props.home_age)}
       <Form.Check

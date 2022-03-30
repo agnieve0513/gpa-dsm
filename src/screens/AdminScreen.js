@@ -72,7 +72,7 @@ function AdminScreen({ location, history }) {
         setCurrent("application");
       }
 
-      if (roleId === 3 || roleId === 4 || roleId === 5 || roleId === 6) {
+      if (roleId === 3 || roleId === 4 ||  roleId === 6) {
         setBatchForm(true);
       } else if (roleId === 1) {
         setUsersForm(true);

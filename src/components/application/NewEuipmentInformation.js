@@ -415,6 +415,29 @@ function NewEuipmentInformation(props) {
     }
   };
 
+   const handleShowExeededTime2 = () => {
+     if (props.delay_reason2 === "") {
+       const Toast = MySwal.mixin({
+         toast: true,
+         position: "top-right",
+         iconColor: "white",
+         customClass: {
+           popup: "colored-toast",
+         },
+         showConfirmButton: false,
+         timer: 3500,
+         timerProgressBars: true,
+       });
+
+       Toast2.fire({
+         icon: "info",
+         title: "The application has exceeded 120 day",
+         text: "There might be a chance that it will be rejected, please provide a valid reason.",
+       });
+     }
+   };
+
+
   return (
     <Row className="mx-0 w-100 d-flex justify-content-center">
       <Col md={10} xl={6}>
@@ -568,16 +591,16 @@ function NewEuipmentInformation(props) {
                 (1000 * 3600 * 24) >
               120 ? (
               <>
-                {handleShowExeededTime()}
+                {handleShowExeededTime2()}
                 <Form.Control
                   as="textarea"
                   row={3}
-                  onChange={(e) => props.setDelayReason(e.target.value)}
-                  value={props.delay_reason}
+                  onChange={(e) => props.setDelayReason2(e.target.value)}
+                  value={props.delay_reason2}
                   required
                   placeholder="Please enter a valid reason for exceeding 120 days."
                 ></Form.Control>
-                {props.delay_reason === "" ? (
+                {props.delay_reason2 === "" ? (
                   <p className="validate text-danger requiredField">
                     *This Field is Required
                   </p>

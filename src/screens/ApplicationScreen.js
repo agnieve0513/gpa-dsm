@@ -81,6 +81,7 @@ function ApplicationScreen() {
   const [new_equipments, setNewEquipments] = useState([]);
   const [max_invoice, setMaxInvoice] = useState(1);
   const [delay_reason, setDelayReason] = useState("");
+  const [delay_reason2, setDelayReason2] = useState("");
 
   // Installer Information
   const [technician_name, setTechnicianName] = useState("");
@@ -195,6 +196,7 @@ function ApplicationScreen() {
               print_hash: controlNumber,
               gpa_holders_name: gpa_holder,
               delay_reason: delay_reason,
+              delay_reason2: delay_reason2,
             },
             new_equipment_information: new_equipments,
             existing_old_equipment_information: old_equipments,
@@ -254,6 +256,27 @@ function ApplicationScreen() {
       text: "Fields should not be empty in order to proceed to next step",
     });
   };
+
+  const errorEmptyEquipmentMessage = () => {
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "top-right",
+      iconColor: "white",
+      customClass: {
+        popup: "colored-toast",
+      },
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBars: true,
+    });
+
+    Toast.fire({
+      icon: "info",
+      title: "Atleast One (1) Equipment is required",
+      text: "Please add atleast one (1) equipment in order to proceed",
+    });
+  };
+
   const handleNextClick = (currentStep) => {
     if (currentStep === 2 && stepOneToStepFive) {
       if (
@@ -289,7 +312,6 @@ function ApplicationScreen() {
 
     if (currentStep === 3 && stepOneToStepFive) {
       if (
-        new_equipments.length === 0 ||
         system_type === "" ||
         manufacturer === "" ||
         model_no === "" ||
@@ -306,7 +328,12 @@ function ApplicationScreen() {
         date_final_installation === ""
       ) {
         errorMessage();
-      } else {
+      } 
+      else if( new_equipments.length === 0){
+        errorEmptyEquipmentMessage();
+      }
+      
+      else {
         setStep(currentStep + 2);
         return;
       }
@@ -346,7 +373,6 @@ function ApplicationScreen() {
 
     if (currentStep === 3 && stepOneToStepSix) {
       if (
-        new_equipments.length === 0 ||
         system_type === "" ||
         manufacturer === "" ||
         model_no === "" ||
@@ -363,6 +389,8 @@ function ApplicationScreen() {
         date_final_installation === ""
       ) {
         errorMessage();
+      } else if (new_equipments.length === 0) {
+        errorEmptyEquipmentMessage();
       } else {
         setStep(currentStep + 4);
         return;
@@ -437,7 +465,6 @@ function ApplicationScreen() {
         }
       } else if (currentStep === 3) {
         if (
-          new_equipments.length === 0 ||
           system_type === "" ||
           manufacturer === "" ||
           model_no === "" ||
@@ -455,6 +482,8 @@ function ApplicationScreen() {
           invoice === undefined
         ) {
           errorMessage();
+        } else if (new_equipments.length === 0) {
+          errorEmptyEquipmentMessage();
         } else {
           if (
             system_type === "Washer" ||
@@ -478,7 +507,6 @@ function ApplicationScreen() {
         } else {
           if (
             old_system_type === "" ||
-            old_equipments.length === 0 ||
             old_quantity === "" ||
             old_years === "" ||
             is_equipment_condition === "" ||
@@ -488,7 +516,11 @@ function ApplicationScreen() {
             date === ""
           ) {
             errorMessage();
-          } else {
+          } 
+          else if(old_equipments.length === 0){
+            errorEmptyEquipmentMessage();
+          }
+          else {
             setStep(currentStep + 1);
           }
         }
@@ -586,6 +618,8 @@ function ApplicationScreen() {
                 setTotalQuantity={setTotalQuantity}
                 delay_reason={delay_reason}
                 setDelayReason={setDelayReason}
+                delay_reason2={delay_reason2}
+                setDelayReason2={setDelayReason2}
                 total_rebate={total_rebate}
                 newSeer={newSeer}
                 setNewSeer={setNewSeer}

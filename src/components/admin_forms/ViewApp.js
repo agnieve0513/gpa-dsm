@@ -787,7 +787,7 @@ function ViewApp(props) {
                               GPA Account Holder's Name
                             </b>
                           </p>
-                          {roleId === 4 ? null : (
+                          {roleId === 10 ? null : (
                             <p style={{ marginBottom: "1.9rem" }}>
                               <b>Edit Information</b>
                             </p>
@@ -919,7 +919,7 @@ function ViewApp(props) {
                             <b>{application.Account_Name || "N/A"}</b>
                           </p>
                           <p>
-                            {roleId === 4 ? null : (
+                            {roleId === 10 ? null : (
                               <>
                                 {!enable_edit ? (
                                   <Button
@@ -1629,7 +1629,7 @@ function ViewApp(props) {
                             <th>Model Number</th>
                             <th>Invoice</th>
                             <th>Install Date</th>
-                            {roleId === 4 ? null : <th>Action</th>}
+                            {roleId === 10 ? null : <th>Action</th>}
                           </tr>
                         </thead>
                         <tbody>
@@ -1654,7 +1654,7 @@ function ViewApp(props) {
                                     <td>{equip.newEquip_Invoice_no}</td>
                                     {/* <td>{equip.newEquip_Tons}</td> */}
                                     <td>{equip.newEquip_Purchase_date}</td>
-                                    {roleId === 4 ? null : (
+                                    {roleId === 10 ? null : (
                                       <td>
                                         <Button
                                           variant="success"
@@ -1686,7 +1686,7 @@ function ViewApp(props) {
                         <>
                           <h3 className="mt-3 mb-3 text-info">
                             Installer Information{" "}
-                            {roleId === 4 ? null : (
+                            {roleId === 10 ? null : (
                               <Button
                                 onClick={() => setEnableInstallerEdit(true)}
                                 variant="success"
@@ -2235,7 +2235,7 @@ function ViewApp(props) {
                       ) : null}
                       <th>Disposal Party</th>
                       <th>Disposal Date</th>
-                      {roleId === 4 ? null : <th>Action</th>}
+                      {roleId === 10 ? null : <th>Action</th>}
                     </tr>
                   </thead>
                   <tbody>
@@ -2262,7 +2262,7 @@ function ViewApp(props) {
 
                               <td>{old_eqiup.oldEquip_Disposal_party}</td>
                               <td>{old_eqiup.oldEquip_Disposal_date}</td>
-                              {roleId === 4 ? null : (
+                              {roleId === 10 ? null : (
                                 <td>
                                   <Button
                                     size="sm"
@@ -2337,7 +2337,7 @@ function ViewApp(props) {
                               )}
                             </div>
                             <Form.Group controlId="invoice" className="mb-3">
-                              {roleId !== 4 ? (
+                              {roleId !== 10 ? (
                                 <InputGroup>
                                   <Form.Control
                                     name="invoice"
@@ -2415,7 +2415,7 @@ function ViewApp(props) {
                             </div>
 
                             <Form.Group controlId="irs_form" className="mb-3">
-                              {roleId !== 4 ? (
+                              {roleId !== 10 ? (
                                 <InputGroup>
                                   <Form.Control
                                     name="irs_form"
@@ -2496,7 +2496,7 @@ function ViewApp(props) {
                               controlId="letter_authorization"
                               className="mb-3"
                             >
-                              {roleId !== 4 ? (
+                              {roleId !== 10 ? (
                                 <InputGroup>
                                   <Form.Control
                                     name="letter_authorization"
@@ -2576,7 +2576,7 @@ function ViewApp(props) {
                               controlId="disposal_slilp"
                               className="mb-3"
                             >
-                              {roleId !== 4 ? (
+                              {roleId !== 10 ? (
                                 <InputGroup>
                                   <Form.Control
                                     name="disposal_slilp"
@@ -2658,7 +2658,7 @@ function ViewApp(props) {
                               controlId="installer_cert"
                               className="mb-3"
                             >
-                              {roleId !== 4 ? (
+                              {roleId !== 10 ? (
                                 <InputGroup>
                                   <Form.Control
                                     name="installer_cert"
@@ -2740,7 +2740,7 @@ function ViewApp(props) {
                               controlId="letter_authorization"
                               className="mb-3"
                             >
-                              {roleId !== 4 ? (
+                              {roleId !== 10 ? (
                                 <InputGroup>
                                   <Form.Control
                                     name="letter_authorization"
@@ -2788,8 +2788,8 @@ function ViewApp(props) {
                   </ListGroup>
                 </Container>
                 <Container className="ml-2 mr-2">
-                  {roleId !== 4 ? null : <></>}
-                  {roleId !== 4 ? (
+                  {/* {roleId !== 10 ? null : <></>} */}
+                  {roleId !== 10 ? (
                     <Row>
                       <Col md={12}>
                         <h3 className="mt-3 mb-3">Update Status</h3>
@@ -2908,7 +2908,7 @@ function ViewApp(props) {
                                   Send Back to SPORD
                                 </Button>
                               </Container>
-                            ) : roleId === 4 ? (
+                            ) : roleId === 10 ? (
                               <Container className="col-8 text-center btn-group-vertical">
                                 <Button
                                   onClick={() => {
@@ -3044,9 +3044,11 @@ function ViewApp(props) {
                         )}
                       </Col>
                     </Row>
-                  ) : (
+                  ) : 
+                  (
                     <></>
-                  )}
+                  )
+                  }
                   <Row className="mt-4">
                     <Col md={9}>
                       <Form>
