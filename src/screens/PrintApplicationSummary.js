@@ -265,6 +265,7 @@ const template = {
   Status: "",
   Stage: "",
   Reason: "",
+  Reason2: "",
   Type: "",
   Application_Date: "",
   Last_Modified_On: "",
@@ -570,6 +571,17 @@ function PrintApplicationSummary(props) {
                         {data?.Installer_New_companyname || "N/A"}
                       </Text>
                     </View>
+{/* 
+                    {data.Reason2 === "None" ||
+                    data.Reason2 === "N/A" || data.Reason2 === "" ? null : (
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Reason2: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Reason2 || "N/A"}
+                        </Text>
+                      </View>
+                    )} */}
+
                   </View>
 
                   <View style={styles.boxContainer}>
@@ -597,6 +609,15 @@ function PrintApplicationSummary(props) {
                         {data?.Installer_New_finaldate || "N/A"}
                       </Text>
                     </View>
+
+                    {data.Reason !== "None" ? (
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Reason: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Reason || "N/A"}
+                        </Text>
+                      </View>
+                    ) : null}
                   </View>
                 </View>
 
