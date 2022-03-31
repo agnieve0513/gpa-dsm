@@ -677,12 +677,12 @@ function NewEuipmentInformation(props) {
                         e.target.files[0].type === "image/jpeg"
                       ) {
                           handleChangeInvoice(e);
+                          setInvoiceTrigger(true);
+                          setClTrigger(false);
                       } else {
                         errorFileInvalidMessage();
                         e.target.value = null;
                       }
-                    setInvoiceTrigger(true);
-                    setClTrigger(false);
                   }}
                 />
                 <div
@@ -1076,9 +1076,19 @@ function NewEuipmentInformation(props) {
                     placeholder="Upload Consideration Letter"
                     type="file"
                     onChange={(e) => {
-                      handleChangeConsiderationLetter(e);
-                      setClTrigger(true);
-                      setInvoiceTrigger(false);
+                      if (
+                        e.target.files[0].type === "application/pdf" ||
+                        e.target.files[0].type === "image/png" ||
+                        e.target.files[0].type === "image/jpeg"
+                      ) {
+                          handleChangeConsiderationLetter(e);
+                          setClTrigger(true);
+                          setInvoiceTrigger(false);
+                      }else{
+                         errorFileInvalidMessage();
+                         e.target.value = null;
+                      }
+                      
                     }}
                   />
                   <div
