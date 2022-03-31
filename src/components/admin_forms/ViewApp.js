@@ -2893,8 +2893,7 @@ function ViewApp(props) {
                   </ListGroup>
                 </Container>
                 <Container className="ml-2 mr-2">
-                  {/* {roleId !== 10 ? null : <></>} */}
-                  {roleId !== 10 ? (
+                 
                     <Row>
                       <Col md={12}>
                         <h3 className="mt-3 mb-3">Update Status</h3>
@@ -3013,7 +3012,7 @@ function ViewApp(props) {
                                   Send Back to SPORD
                                 </Button>
                               </Container>
-                            ) : roleId === 10 ? (
+                            ) : roleId === 4 ? (
                               <Container className="col-8 text-center btn-group-vertical">
                                 <Button
                                   onClick={() => {
@@ -3149,11 +3148,7 @@ function ViewApp(props) {
                         )}
                       </Col>
                     </Row>
-                  ) : 
-                  (
-                    <></>
-                  )
-                  }
+                
                   <Row className="mt-4">
                     <Col md={9}>
                       <Form>
