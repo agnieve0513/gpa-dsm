@@ -121,7 +121,6 @@ function ViewApp(props) {
   const [old_seer, setOldSeer] = useState("");
   const [old_disposal_party, setOldDisposalParty] = useState("");
   const [old_disposal_date, setOldDisposalDate] = useState("");
-  
 
   const [installer_name, setInstallerName] = useState("");
   const [work_tel, setWorkTel] = useState("");
@@ -152,29 +151,30 @@ function ViewApp(props) {
   const [selectedOldEquipmentIndex, setSelectedOldEquipmentIndex] = useState(0);
 
   const handleOnChange = (e, doc_type, control_no) => {
+    console.log("FILE DETAILS: ", e.target.files[0].type);
 
-    console.log("FILE DETAILS: ",e.target.files[0].type);
+    dispatch(
+      uploadFileAction(e.target.files[0], doc_type, control_no, 0, true)
+    ).then(() => {
+      if (doc_type === "irs_form") {
+        setIrsForm(e.target.files[0]);
+      } else if (doc_type === "other_doc1") {
+        setOtherDoc1(e.target.files[0]);
+      } else if (doc_type === "other_doc2") {
+        setOtherDoc2(e.target.files[0]);
+      } else if (doc_type === "letter_authorization") {
+        setLetterAuthorization(e.target.files[0]);
+      } else if (doc_type === "invoice") {
+        setInvoice(e.target.files[0]);
+      } else if (doc_type === "installer_cert") {
+        setInstallerCertification(e.target.files[0]);
+      } else if (doc_type === "disposal_slip") {
+        setDisposalSlip(e.target.files[0]);
+      }
 
-    dispatch(uploadFileAction(e.target.files[0], doc_type, control_no, 0, true)).then(()=> {
-        if (doc_type === "irs_form") {
-          setIrsForm(e.target.files[0]);
-        } else if (doc_type === "other_doc1") {
-          setOtherDoc1(e.target.files[0]);
-        } else if (doc_type === "other_doc2") {
-          setOtherDoc2(e.target.files[0]);
-        } else if (doc_type === "letter_authorization") {
-          setLetterAuthorization(e.target.files[0]);
-        } else if (doc_type === "invoice") {
-          setInvoice(e.target.files[0]);
-        } else if (doc_type === "installer_cert") {
-          setInstallerCertification(e.target.files[0]);
-        } else if (doc_type === "disposal_slip") {
-          setDisposalSlip(e.target.files[0]);
-        }
-
-        setUploadCount(uploadCount + 1);
+      setUploadCount(uploadCount + 1);
     });
-    
+
     return;
   };
   const handleModalClose = () => {
@@ -186,7 +186,6 @@ function ViewApp(props) {
   const dispatch = useDispatch();
 
   const updateFile = useSelector((state) => state.updateFile);
-
 
   const applicationUpdate = useSelector((state) => state.applicationUpdate);
   const {
@@ -311,7 +310,7 @@ function ViewApp(props) {
     });
 
     setComment("");
-    setReload(reload + 1)
+    setReload(reload + 1);
   };
 
   const changeCommentHandler = (text) => {
@@ -321,8 +320,6 @@ function ViewApp(props) {
   const handleRetrieveFile = (code, filename) => {
     dispatch(retrieveFileAction(code, filename));
   };
-
-  
 
   const handleEditInfo = () => {
     const obj = {
@@ -359,7 +356,6 @@ function ViewApp(props) {
     dispatch(editApplication(obj));
     Swal.fire("Success", "Application has been updated!", "success");
     setUpdateInfoReload(updateInfoReload + 1);
-
   };
 
   const changeZipCode = (e) => {
@@ -388,16 +384,11 @@ function ViewApp(props) {
   };
   const changeManufacturerHandler = (e) => {
     setManufacturer(e);
-    dispatch(
-      loadCustomerEquipModel(
-        system_type,
-        e
-      )
-    );
+    dispatch(loadCustomerEquipModel(system_type, e));
   };
   const handleModelNo = (id) => {
-    console.log("handleModelNo: ",id);
-    if(id){
+    console.log("handleModelNo: ", id);
+    if (id) {
       switch (id.model) {
         case "Indoor / Outdoor": {
           return id.indoor_model + " / " + id.outdoor_model;
@@ -417,7 +408,7 @@ function ViewApp(props) {
   const changeModelHandler = (e) => {
     setModelID(e);
     let selectedModel = models.find((model) => model.id === parseInt(e));
-    console.log("First Load of Model: ", selectedModel)
+    console.log("First Load of Model: ", selectedModel);
     let selectedModelName = handleModelNo(selectedModel);
     console.log("Model Name", selectedModelName);
     setModelNumber(e);
@@ -481,11 +472,11 @@ function ViewApp(props) {
     dispatch(editEquipment(obj));
     Swal.fire("Success", "Installer's Info has been updated!", "success");
     setShowEditOldModal(false);
-    setReload(reload + 1)
+    setReload(reload + 1);
   };
 
   const editInstallerHandler = () => {
-    const obj  = {
+    const obj = {
       installer_information: {
         id: application.Installer_New_id,
         technician_name: installer_name
@@ -502,13 +493,13 @@ function ViewApp(props) {
         email: installer_email
           ? installer_email
           : application.Installer_New_email,
-      }
-    }
+      },
+    };
     dispatch(editEquipment(obj));
     Swal.fire("Success", "Installer's Info has been updated!", "success");
     setEnableInstallerEdit(false);
-    setReload(reload + 1)
-  }
+    setReload(reload + 1);
+  };
   const handleEditNewEquipment = (equipment_id, indx) => {
     const obj = {
       new_equipment_information: [
@@ -585,7 +576,7 @@ function ViewApp(props) {
       dispatch(editEquipment(obj));
       Swal.fire("Success", "Equipment has been updated!", "success");
       setShowEditModal(false);
-      setReload(reload+1)
+      setReload(reload + 1);
     }
   };
 
@@ -598,10 +589,10 @@ function ViewApp(props) {
   const editOldEquipmentHandler = (indx, id) => {
     setSelectedOldEquipmentIndex(indx);
     setShowEditOldModal(true);
-  }
+  };
 
   const updateStatus = (status, stage, desc) => {
-    console.log("Status: ", desc)
+    console.log("Status: ", desc);
     setStage(stage);
     setSubmited(true);
     if (status !== 3 || status !== "" || stage !== "") {
@@ -651,7 +642,7 @@ function ViewApp(props) {
   let seerVal = 0;
   let systemTypeVal = "";
 
-   const errorFileInvalidMessage = () => {
+  const errorFileInvalidMessage = () => {
     const Toast = MySwal.mixin({
       toast: true,
       position: "top-right",
@@ -1766,17 +1757,21 @@ function ViewApp(props) {
                               </p>
                               {enable_installer_edit ? <br /> : null}
 
-                              <p>
-                                <b style={{ color: "#B6B6B6" }}>
-                                  Reason for Exceeding 120 days
-                                </b>
-                              </p>
+                              {application?.Delay_Reason ? (
+                                <p>
+                                  <b style={{ color: "#B6B6B6" }}>
+                                    Reason for Exceeding 120 days
+                                  </b>
+                                </p>
+                              ) : null}
 
-                              <p>
-                                <b style={{ color: "#B6B6B6" }}>
-                                  Reason for Exceeding 120 days (2)
-                                </b>
-                              </p>
+                              {application?.Delay_Reason2 ? (
+                                <p>
+                                  <b style={{ color: "#B6B6B6" }}>
+                                    Reason for Exceeding 120 days (2)
+                                  </b>
+                                </p>
+                              ) : null}
                             </div>
                             <div>
                               <p>
@@ -2337,7 +2332,9 @@ function ViewApp(props) {
                                           ? inv
                                           : application.Submitted_docs[0]
                                               .invoice,
-                                        application.Control_Number+"-"+"Invoice"
+                                        application.Control_Number +
+                                          "-" +
+                                          "Invoice"
                                       )
                                     }
                                     size={"sm"}
@@ -2426,7 +2423,9 @@ function ViewApp(props) {
                                           ? irs
                                           : application.Submitted_docs[0]
                                               .irs_form,
-                                        application.Control_Number+"-"+"IRS-W9"
+                                        application.Control_Number +
+                                          "-" +
+                                          "IRS-W9"
                                       )
                                     }
                                     size={"sm"}
@@ -2516,8 +2515,9 @@ function ViewApp(props) {
                                           ? loa
                                           : application.Submitted_docs[0]
                                               .letter_authorization,
-                                              application.Control_Number+"-"+"Letter Authorization"
-
+                                        application.Control_Number +
+                                          "-" +
+                                          "Letter Authorization"
                                       )
                                     }
                                     size={"sm"}
@@ -2609,9 +2609,10 @@ function ViewApp(props) {
                                         disp
                                           ? disp
                                           : application.Submitted_docs[0]
-                                              .disposal_slip, 
-                                              application.Control_Number+"-"+"Disposal Slip"
-
+                                              .disposal_slip,
+                                        application.Control_Number +
+                                          "-" +
+                                          "Disposal Slip"
                                       )
                                     }
                                     size={"sm"}
@@ -2704,8 +2705,9 @@ function ViewApp(props) {
                                           ? oth1
                                           : application.Submitted_docs[0]
                                               .installer_cert,
-                                              application.Control_Number+"-"+"Other Document1"
-
+                                        application.Control_Number +
+                                          "-" +
+                                          "Other Document1"
                                       )
                                     }
                                     size={"sm"}
@@ -2799,8 +2801,9 @@ function ViewApp(props) {
                                           ? oth2
                                           : application.Submitted_docs[0]
                                               .other_doc3,
-                                              application.Control_Number+"-"+"Other Document"
-
+                                        application.Control_Number +
+                                          "-" +
+                                          "Other Document"
                                       )
                                     }
                                     size={"sm"}
