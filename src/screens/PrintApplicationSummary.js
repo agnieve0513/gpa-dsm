@@ -264,8 +264,8 @@ const template = {
   Control_Number: "",
   Status: "",
   Stage: "",
-  Reason: "",
-  Reason2: "",
+  Delay_Reason: "",
+  Delay_Reason2: "",
   Type: "",
   Application_Date: "",
   Last_Modified_On: "",
@@ -537,15 +537,13 @@ function PrintApplicationSummary(props) {
                       <Text style={styles.text}>
                         Other support documents 1:{" "}
                       </Text>
-                      <StatusIcon
-                        check={data?.Submitted_docs[0]?.installer_cert}
-                      />
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
                         Other support documents 2:{" "}
                       </Text>
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc3} />
                     </View>
                   </View>
                 </View>
@@ -571,17 +569,17 @@ function PrintApplicationSummary(props) {
                         {data?.Installer_New_companyname || "N/A"}
                       </Text>
                     </View>
-{/* 
-                    {data.Reason2 === "None" ||
-                    data.Reason2 === "N/A" || data.Reason2 === "" ? null : (
+
+                    {data.Delay_Reason === "None" ||
+                    data.Delay_Reason === "N/A" ||
+                    data.Delay_Reason === "" ? null : (
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Reason2: </Text>
+                        <Text style={styles.text}>Delay Reason: </Text>
                         <Text style={styles.boldText}>
-                          {data?.Reason2 || "N/A"}
+                          {data?.Delay_Reason || "N/A"}
                         </Text>
                       </View>
-                    )} */}
-
+                    )}
                   </View>
 
                   <View style={styles.boxContainer}>
@@ -610,11 +608,11 @@ function PrintApplicationSummary(props) {
                       </Text>
                     </View>
 
-                    {data.Reason !== "None" ? (
+                    {data.Delay_Reason2 !== "None" ? (
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Reason: </Text>
+                        <Text style={styles.text}>Delay Reason2: </Text>
                         <Text style={styles.boldText}>
-                          {data?.Reason || "N/A"}
+                          {data?.Delay_Reason2 || "N/A"}
                         </Text>
                       </View>
                     ) : null}
