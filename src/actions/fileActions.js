@@ -112,7 +112,7 @@ export const uploadFileAction =
     }
   };
 
-export const retrieveFileAction = (message) => async (dispatch) => {
+export const retrieveFileAction = (message, filename) => async (dispatch) => {
   try {
     let obj = JSON.parse(localStorage.getItem("userInfo"));
 
@@ -136,7 +136,7 @@ export const retrieveFileAction = (message) => async (dispatch) => {
     link.href = url;
     link.setAttribute(
       "download",
-      `file.${data.type.substr(data.type.indexOf("/") + 1)}`
+      `${filename}.${data.type.substr(data.type.indexOf("/") + 1)}`
     );
     document.body.appendChild(link);
     link.click();

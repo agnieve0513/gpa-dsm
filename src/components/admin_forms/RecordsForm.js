@@ -489,9 +489,9 @@ function RecordsForm() {
 
   const reader = new FileReader();
 
-  const handleRetrieveFile = (code) => {
+  const handleRetrieveFile = (code, filename) => {
     console.log(code);
-    dispatch(retrieveFileAction(code));
+    dispatch(retrieveFileAction(code, filename));
   };
 
   const handleDetailsToggle = () => {
@@ -1083,7 +1083,10 @@ function RecordsForm() {
                                       variant={"success"}
                                       onClick={() =>
                                         handleRetrieveFile(
-                                          application.Submitted_docs[0].invoice
+                                          application.Submitted_docs[0].invoice,
+                                          application.Control_Number +
+                                            "-" +
+                                            "Invoice"
                                         )
                                       }
                                       size={"sm"}
@@ -1108,7 +1111,11 @@ function RecordsForm() {
                                       variant={"success"}
                                       onClick={() =>
                                         handleRetrieveFile(
-                                          application.Submitted_docs[0].irs_form
+                                          application.Submitted_docs[0]
+                                            .irs_form,
+                                          application.Control_Number +
+                                            "-" +
+                                            "IRS-W9"
                                         )
                                       }
                                       size={"sm"}
@@ -1133,7 +1140,10 @@ function RecordsForm() {
                                       onClick={() =>
                                         handleRetrieveFile(
                                           application.Submitted_docs[0]
-                                            .letter_authorization
+                                            .letter_authorization,
+                                          application.Control_Number +
+                                            "-" +
+                                            "Letter Authorization"
                                         )
                                       }
                                       size={"sm"}
@@ -1159,7 +1169,10 @@ function RecordsForm() {
                                       onClick={() =>
                                         handleRetrieveFile(
                                           application.Submitted_docs[0]
-                                            .disposal_slip
+                                            .disposal_slip,
+                                          application.Control_Number +
+                                            "-" +
+                                            "Disposal Slip"
                                         )
                                       }
                                       size={"sm"}
@@ -1186,7 +1199,10 @@ function RecordsForm() {
                                       onClick={() =>
                                         handleRetrieveFile(
                                           application.Submitted_docs[0]
-                                            .other_doc2
+                                            .other_doc2,
+                                          application.Control_Number +
+                                            "-" +
+                                            "Other Document 1"
                                         )
                                       }
                                       size={"sm"}
@@ -1213,7 +1229,10 @@ function RecordsForm() {
                                       onClick={() =>
                                         handleRetrieveFile(
                                           application.Submitted_docs[0]
-                                            .other_doc3
+                                            .other_doc3,
+                                          application.Control_Number +
+                                            "-" +
+                                            "Other Document 2"
                                         )
                                       }
                                       size={"sm"}
@@ -1381,10 +1400,7 @@ function RecordsForm() {
                 headerName="Control Number"
                 field="Control_Number"
               />
-              <AgGridColumn
-                headerName="Batch Code"
-                field="Batch_code"
-              />
+              <AgGridColumn headerName="Batch Code" field="Batch_code" />
               <AgGridColumn headerName="Name" field="customer_name" />
               <AgGridColumn
                 headerName="Application Date"

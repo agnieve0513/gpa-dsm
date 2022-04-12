@@ -318,8 +318,8 @@ function ViewApp(props) {
     setComment(text);
   };
 
-  const handleRetrieveFile = (code) => {
-    dispatch(retrieveFileAction(code));
+  const handleRetrieveFile = (code, filename) => {
+    dispatch(retrieveFileAction(code, filename));
   };
 
   
@@ -1406,11 +1406,9 @@ function ViewApp(props) {
                         </b>
                       </Form.Label>
                       <Form.Select
-                        onChange={(e) =>
-                          {
-                            changeSystemTypeHandler(e.target.value)
-                          }
-                        }
+                        onChange={(e) => {
+                          changeSystemTypeHandler(e.target.value);
+                        }}
                         value={system_type}
                       >
                         {application?.Type === "RESID" ? (
@@ -1767,20 +1765,18 @@ function ViewApp(props) {
                                 </b>
                               </p>
                               {enable_installer_edit ? <br /> : null}
-                              {Math.abs(
-                                new Date(
-                                  application.New_equipment[0].newEquip_Purchase_date
-                                ) -
-                                  new Date(application.Installer_New_finaldate)
-                              ) /
-                                (1000 * 3600 * 24) >
-                              120 ? (
-                                <p>
-                                  <b style={{ color: "#B6B6B6" }}>
-                                    Reason for Exceeding 120 days
-                                  </b>
-                                </p>
-                              ) : null}
+
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  Reason for Exceeding 120 days
+                                </b>
+                              </p>
+
+                              <p>
+                                <b style={{ color: "#B6B6B6" }}>
+                                  Reason for Exceeding 120 days (2)
+                                </b>
+                              </p>
                             </div>
                             <div>
                               <p>
@@ -1894,18 +1890,15 @@ function ViewApp(props) {
                                   </b>
                                 )}
                               </p>
-                              {Math.abs(
-                                new Date(
-                                  application.New_equipment[0].newEquip_Purchase_date
-                                ) -
-                                  new Date(application.Installer_New_finaldate)
-                              ) /
-                                (1000 * 3600 * 24) >
-                              120 ? (
-                                <p>
-                                  <b>{application.Delay_Reason}</b>
-                                </p>
-                              ) : null}
+
+                              <p>
+                                <b>{application?.Delay_Reason || null}</b>
+                              </p>
+
+                              <p>
+                                <b>{application?.Delay_Reason2 || null}</b>
+                              </p>
+
                               {enable_installer_edit ? (
                                 <>
                                   <Button
@@ -2343,7 +2336,8 @@ function ViewApp(props) {
                                         inv
                                           ? inv
                                           : application.Submitted_docs[0]
-                                              .invoice
+                                              .invoice,
+                                        application.Control_Number+"-"+"Invoice"
                                       )
                                     }
                                     size={"sm"}
@@ -2364,27 +2358,24 @@ function ViewApp(props) {
                                   <Form.Control
                                     name="invoice"
                                     type="file"
-                                    onChange={(e) =>
-                                      {
-                                        if (
-                                          e.target.files[0].type ===
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ===
                                           "application/pdf" ||
-                                          e.target.files[0].type === "image/png" ||
-                                          e.target.files[0].type === "image/jpeg"
-                                        ){
-                                           handleOnChange(
-                                            e,
-                                            "invoice",
-                                            application.Control_Number
-                                          );
-                                        }else{
-                                          errorFileInvalidMessage()
-                                          e.target.value = null;
-                                         
-                                        }
-                                          
+                                        e.target.files[0].type ===
+                                          "image/png" ||
+                                        e.target.files[0].type === "image/jpeg"
+                                      ) {
+                                        handleOnChange(
+                                          e,
+                                          "invoice",
+                                          application.Control_Number
+                                        );
+                                      } else {
+                                        errorFileInvalidMessage();
+                                        e.target.value = null;
                                       }
-                                    }
+                                    }}
                                   />
                                 </InputGroup>
                               ) : (
@@ -2434,7 +2425,8 @@ function ViewApp(props) {
                                         irs
                                           ? irs
                                           : application.Submitted_docs[0]
-                                              .irs_form
+                                              .irs_form,
+                                        application.Control_Number+"-"+"IRS-W9"
                                       )
                                     }
                                     size={"sm"}
@@ -2456,28 +2448,24 @@ function ViewApp(props) {
                                   <Form.Control
                                     name="irs_form"
                                     type="file"
-                                    onChange={(e) =>
-
-                                      {
-                                        if (
-                                          e.target.files[0].type ===
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ===
                                           "application/pdf" ||
-                                          e.target.files[0].type === "image/png" ||
-                                          e.target.files[0].type === "image/jpeg"
-                                        ){
-                                           handleOnChange(
-                                            e,
-                                            "irs_form",
-                                            application.Control_Number
-                                          );
-                                        }else{
-                                          errorFileInvalidMessage()
-                                          e.target.value = null;
-                                         
-                                        }
-                                          
+                                        e.target.files[0].type ===
+                                          "image/png" ||
+                                        e.target.files[0].type === "image/jpeg"
+                                      ) {
+                                        handleOnChange(
+                                          e,
+                                          "irs_form",
+                                          application.Control_Number
+                                        );
+                                      } else {
+                                        errorFileInvalidMessage();
+                                        e.target.value = null;
                                       }
-                                    }
+                                    }}
                                   />
                                 </InputGroup>
                               ) : (
@@ -2527,7 +2515,9 @@ function ViewApp(props) {
                                         loa
                                           ? loa
                                           : application.Submitted_docs[0]
-                                              .letter_authorization
+                                              .letter_authorization,
+                                              application.Control_Number+"-"+"Letter Authorization"
+
                                       )
                                     }
                                     size={"sm"}
@@ -2552,28 +2542,24 @@ function ViewApp(props) {
                                   <Form.Control
                                     name="letter_authorization"
                                     type="file"
-                                    onChange={(e) =>
-
-                                      {
-                                        if (
-                                          e.target.files[0].type ===
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ===
                                           "application/pdf" ||
-                                          e.target.files[0].type === "image/png" ||
-                                          e.target.files[0].type === "image/jpeg"
-                                        ){
-                                           handleOnChange(
-                                            e,
-                                            "letter_authorization",
-                                            application.Control_Number
-                                          );
-                                        }else{
-                                          errorFileInvalidMessage()
-                                          e.target.value = null;
-                                         
-                                        }
-                                          
+                                        e.target.files[0].type ===
+                                          "image/png" ||
+                                        e.target.files[0].type === "image/jpeg"
+                                      ) {
+                                        handleOnChange(
+                                          e,
+                                          "letter_authorization",
+                                          application.Control_Number
+                                        );
+                                      } else {
+                                        errorFileInvalidMessage();
+                                        e.target.value = null;
                                       }
-                                    }
+                                    }}
                                   />
                                 </InputGroup>
                               ) : (
@@ -2623,7 +2609,9 @@ function ViewApp(props) {
                                         disp
                                           ? disp
                                           : application.Submitted_docs[0]
-                                              .disposal_slip
+                                              .disposal_slip, 
+                                              application.Control_Number+"-"+"Disposal Slip"
+
                                       )
                                     }
                                     size={"sm"}
@@ -2647,26 +2635,24 @@ function ViewApp(props) {
                                   <Form.Control
                                     name="disposal_slilp"
                                     type="file"
-                                    onChange={(e) =>
-                                      {
-                                        if (
-                                          e.target.files[0].type ===
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ===
                                           "application/pdf" ||
-                                          e.target.files[0].type === "image/png" ||
-                                          e.target.files[0].type === "image/jpeg"
-                                        ){
-                                           handleOnChange(
-                                            e,
-                                            "disposal_slip",
-                                            application.Control_Number
-                                          );
-                                        }else{
-                                          errorFileInvalidMessage()
-                                          e.target.value = null;
-                                         
-                                        }
+                                        e.target.files[0].type ===
+                                          "image/png" ||
+                                        e.target.files[0].type === "image/jpeg"
+                                      ) {
+                                        handleOnChange(
+                                          e,
+                                          "disposal_slip",
+                                          application.Control_Number
+                                        );
+                                      } else {
+                                        errorFileInvalidMessage();
+                                        e.target.value = null;
                                       }
-                                    }
+                                    }}
                                   />
                                 </InputGroup>
                               ) : (
@@ -2717,7 +2703,9 @@ function ViewApp(props) {
                                         oth1
                                           ? oth1
                                           : application.Submitted_docs[0]
-                                              .installer_cert
+                                              .installer_cert,
+                                              application.Control_Number+"-"+"Other Document1"
+
                                       )
                                     }
                                     size={"sm"}
@@ -2742,26 +2730,24 @@ function ViewApp(props) {
                                   <Form.Control
                                     name="installer_cert"
                                     type="file"
-                                    onChange={(e) =>
-                                      {
-                                        if (
-                                          e.target.files[0].type ===
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ===
                                           "application/pdf" ||
-                                          e.target.files[0].type === "image/png" ||
-                                          e.target.files[0].type === "image/jpeg"
-                                        ){
-                                           handleOnChange(
-                                            e,
-                                            "other_doc1",
-                                            application.Control_Number
-                                          );
-                                        }else{
-                                          errorFileInvalidMessage()
-                                          e.target.value = null;
-                                         
-                                        }
+                                        e.target.files[0].type ===
+                                          "image/png" ||
+                                        e.target.files[0].type === "image/jpeg"
+                                      ) {
+                                        handleOnChange(
+                                          e,
+                                          "other_doc1",
+                                          application.Control_Number
+                                        );
+                                      } else {
+                                        errorFileInvalidMessage();
+                                        e.target.value = null;
                                       }
-                                    }
+                                    }}
                                   />
                                 </InputGroup>
                               ) : (
@@ -2812,7 +2798,9 @@ function ViewApp(props) {
                                         oth2
                                           ? oth2
                                           : application.Submitted_docs[0]
-                                              .other_doc3
+                                              .other_doc3,
+                                              application.Control_Number+"-"+"Other Document"
+
                                       )
                                     }
                                     size={"sm"}
@@ -2837,26 +2825,24 @@ function ViewApp(props) {
                                   <Form.Control
                                     name="letter_authorization"
                                     type="file"
-                                    onChange={(e) =>
-                                      {
-                                        if (
-                                          e.target.files[0].type ===
+                                    onChange={(e) => {
+                                      if (
+                                        e.target.files[0].type ===
                                           "application/pdf" ||
-                                          e.target.files[0].type === "image/png" ||
-                                          e.target.files[0].type === "image/jpeg"
-                                        ){
-                                           handleOnChange(
-                                            e,
-                                            "other_doc3",
-                                            application.Control_Number
-                                          );
-                                        }else{
-                                          errorFileInvalidMessage()
-                                          e.target.value = null;
-                                         
-                                        }
+                                        e.target.files[0].type ===
+                                          "image/png" ||
+                                        e.target.files[0].type === "image/jpeg"
+                                      ) {
+                                        handleOnChange(
+                                          e,
+                                          "other_doc3",
+                                          application.Control_Number
+                                        );
+                                      } else {
+                                        errorFileInvalidMessage();
+                                        e.target.value = null;
                                       }
-                                    }
+                                    }}
                                   />
                                 </InputGroup>
                               ) : (
@@ -2893,262 +2879,249 @@ function ViewApp(props) {
                   </ListGroup>
                 </Container>
                 <Container className="ml-2 mr-2">
-                 
-                    <Row>
-                      <Col md={12}>
-                        <h3 className="mt-3 mb-3">Update Status</h3>
-                        <Modal show={showModal} onHide={handleModalClose}>
-                          <Modal.Header closeButton>
-                            <Modal.Title>
-                              {status === 3 ? (
-                                <>Reject Application</>
-                              ) : (
-                                <>Process Application</>
-                              )}
-                            </Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body className="text-center">
+                  <Row>
+                    <Col md={12}>
+                      <h3 className="mt-3 mb-3">Update Status</h3>
+                      <Modal show={showModal} onHide={handleModalClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>
                             {status === 3 ? (
-                              <Container className="col-8 text-center btn-group-vertical">
-                                <Form.Group
-                                  controlId="role_id"
-                                  className="mb-1"
-                                >
-                                  <Form.Select
-                                    onChange={(e) => setReason(e.target.value)}
-                                    value={reason}
-                                    required
-                                  >
-                                    <option>Open this select menu</option>
-                                    <option value="0">None</option>
-                                    <option value="1">
-                                      Applicant is not a GPA Account holder or
-                                      property owner.
-                                    </option>
-                                    <option value="2">
-                                      Application information provided was
-                                      incorrect.
-                                    </option>
-                                    <option value="3">
-                                      Equipment was not installed within 120
-                                      days from invoice date.
-                                    </option>
-                                    <option value="4">
-                                      Application was not submitted within 120
-                                      days from install date.
-                                    </option>
-                                    <option value="5">
-                                      Missing or incorrect Invoice.
-                                    </option>
-                                    <option value="6">
-                                      Missing or incorrect W-9.
-                                    </option>
-                                    <option value="7">
-                                      Missing or Incorrect Installer
-                                      Information.
-                                    </option>
-                                    <option value="8">
-                                      Other: Please contact GPA for more
-                                      information.
-                                    </option>
-                                  </Form.Select>
-                                </Form.Group>
-                                <Button
-                                  variant={"danger"}
-                                  onClick={() =>
-                                    updateStatus(3, 0, "Reject Application")
-                                  }
-                                >
-                                  Reject Application
-                                </Button>
-                              </Container>
-                            ) : roleId === 2 ? (
-                              <Container>
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 1, "Send to SPORD");
-                                  }}
-                                >
-                                  Send to SPORD
-                                </Button>
-                              </Container>
-                            ) : roleId === 3 ? (
-                              <Container className="col-8 text-center btn-group-vertical">
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 3, "Send to Supervisor");
-                                  }}
-                                  className="mb-1"
-                                >
-                                  Send to Supervisor
-                                </Button>{" "}
-                                <br />
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(
-                                      1,
-                                      4,
-                                      "Send Back to Customer Service"
-                                    );
-                                  }}
-                                >
-                                  Send Back to Customer Service
-                                </Button>
-                              </Container>
-                            ) : roleId === 6 ? (
-                              <Container className="col-8 text-center btn-group-vertical">
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 5, "Send to Budget");
-                                  }}
-                                >
-                                  Send to Budget
-                                </Button>
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 1, "Send Back to SPORD");
-                                  }}
-                                >
-                                  Send Back to SPORD
-                                </Button>
-                              </Container>
-                            ) : roleId === 4 ? (
-                              <Container className="col-8 text-center btn-group-vertical">
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 2, "Send to Accounting");
-                                  }}
-                                >
-                                  Send to Accounting
-                                </Button>
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(
-                                      1,
-                                      3,
-                                      "Send Back to Supervisor"
-                                    );
-                                  }}
-                                >
-                                  Send Back to Supervisor
-                                </Button>
-                              </Container>
-                            ) : roleId === 5 ? (
-                              <Container className="col-8 text-center btn-group-vertical">
-                                <Button
-                                  variant={"success"}
-                                  className="mb-1"
-                                  onClick={() => {
-                                    updateStatus(2, 0, "Approve Application");
-                                  }}
-                                >
-                                  Approve Application
-                                </Button>
-                                <br />
-                                <Button
-                                  variant={"danger"}
-                                  className="mb-1"
-                                  onClick={() => {
-                                    updateStatus(
-                                      1,
-                                      1,
-                                      "(Decline) Send to Spord"
-                                    );
-                                  }}
-                                >
-                                  (Decline) Send to Spord
-                                </Button>
-                                <br />
-                                <Button
-                                  variant={"danger"}
-                                  className="mb-1"
-                                  onClick={() => {
-                                    updateStatus(1, 4, "(Decline) Send to CS");
-                                  }}
-                                >
-                                  (Decline) Send to CS
-                                </Button>
-                              </Container>
-                            ) : roleId === 1 ? (
-                              <Container className="col-8 text-center btn-group-vertical">
-                                <Button
-                                  variant={"success"}
-                                  onClick={() => {
-                                    updateStatus(2, 0, "Approve Application");
-                                  }}
-                                >
-                                  Approve Application
-                                </Button>
-                                <br />
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 4, "Send to CS");
-                                  }}
-                                >
-                                  Send to CS
-                                </Button>{" "}
-                                <br />
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 1, "Send to SPORD");
-                                  }}
-                                >
-                                  Send to SPORD
-                                </Button>{" "}
-                                <br />
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 3, "Send to Supervisor");
-                                  }}
-                                >
-                                  Send to Supervisor
-                                </Button>{" "}
-                                <br />
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 5, "Send to Budget");
-                                  }}
-                                >
-                                  Send to Budget
-                                </Button>{" "}
-                                <br />
-                                <Button
-                                  onClick={() => {
-                                    updateStatus(1, 2, "Send to Accounting");
-                                  }}
-                                >
-                                  Send to Accounting
-                                </Button>{" "}
-                                <br />
-                              </Container>
+                              <>Reject Application</>
                             ) : (
-                              <></>
+                              <>Process Application</>
                             )}
-                          </Modal.Body>
-                        </Modal>
-                        {roleId !== 7 ? (
-                          <>
-                            <Button
-                              className="me-2"
-                              variant={"info processbtn"}
-                              onClick={() => changeStatusHandler(1)}
-                            >
-                              Process Sending
-                            </Button>
-                            <Button
-                              className="me-2 rejectbtn"
-                              variant={"danger"}
-                              onClick={() => changeStatusHandler(3)}
-                            >
-                              Reject
-                            </Button>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </Col>
-                    </Row>
-                
+                          </Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body className="text-center">
+                          {status === 3 ? (
+                            <Container className="col-8 text-center btn-group-vertical">
+                              <Form.Group controlId="role_id" className="mb-1">
+                                <Form.Select
+                                  onChange={(e) => setReason(e.target.value)}
+                                  value={reason}
+                                  required
+                                >
+                                  <option>Open this select menu</option>
+                                  <option value="0">None</option>
+                                  <option value="1">
+                                    Applicant is not a GPA Account holder or
+                                    property owner.
+                                  </option>
+                                  <option value="2">
+                                    Application information provided was
+                                    incorrect.
+                                  </option>
+                                  <option value="3">
+                                    Equipment was not installed within 120 days
+                                    from invoice date.
+                                  </option>
+                                  <option value="4">
+                                    Application was not submitted within 120
+                                    days from install date.
+                                  </option>
+                                  <option value="5">
+                                    Missing or incorrect Invoice.
+                                  </option>
+                                  <option value="6">
+                                    Missing or incorrect W-9.
+                                  </option>
+                                  <option value="7">
+                                    Missing or Incorrect Installer Information.
+                                  </option>
+                                  <option value="8">
+                                    Other: Please contact GPA for more
+                                    information.
+                                  </option>
+                                </Form.Select>
+                              </Form.Group>
+                              <Button
+                                variant={"danger"}
+                                onClick={() =>
+                                  updateStatus(3, 0, "Reject Application")
+                                }
+                              >
+                                Reject Application
+                              </Button>
+                            </Container>
+                          ) : roleId === 2 ? (
+                            <Container>
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 1, "Send to SPORD");
+                                }}
+                              >
+                                Send to SPORD
+                              </Button>
+                            </Container>
+                          ) : roleId === 3 ? (
+                            <Container className="col-8 text-center btn-group-vertical">
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 3, "Send to Supervisor");
+                                }}
+                                className="mb-1"
+                              >
+                                Send to Supervisor
+                              </Button>{" "}
+                              <br />
+                              <Button
+                                onClick={() => {
+                                  updateStatus(
+                                    1,
+                                    4,
+                                    "Send Back to Customer Service"
+                                  );
+                                }}
+                              >
+                                Send Back to Customer Service
+                              </Button>
+                            </Container>
+                          ) : roleId === 6 ? (
+                            <Container className="col-8 text-center btn-group-vertical">
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 5, "Send to Budget");
+                                }}
+                              >
+                                Send to Budget
+                              </Button>
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 1, "Send Back to SPORD");
+                                }}
+                              >
+                                Send Back to SPORD
+                              </Button>
+                            </Container>
+                          ) : roleId === 4 ? (
+                            <Container className="col-8 text-center btn-group-vertical">
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 2, "Send to Accounting");
+                                }}
+                              >
+                                Send to Accounting
+                              </Button>
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 3, "Send Back to Supervisor");
+                                }}
+                              >
+                                Send Back to Supervisor
+                              </Button>
+                            </Container>
+                          ) : roleId === 5 ? (
+                            <Container className="col-8 text-center btn-group-vertical">
+                              <Button
+                                variant={"success"}
+                                className="mb-1"
+                                onClick={() => {
+                                  updateStatus(2, 0, "Approve Application");
+                                }}
+                              >
+                                Approve Application
+                              </Button>
+                              <br />
+                              <Button
+                                variant={"danger"}
+                                className="mb-1"
+                                onClick={() => {
+                                  updateStatus(1, 1, "(Decline) Send to Spord");
+                                }}
+                              >
+                                (Decline) Send to Spord
+                              </Button>
+                              <br />
+                              <Button
+                                variant={"danger"}
+                                className="mb-1"
+                                onClick={() => {
+                                  updateStatus(1, 4, "(Decline) Send to CS");
+                                }}
+                              >
+                                (Decline) Send to CS
+                              </Button>
+                            </Container>
+                          ) : roleId === 1 ? (
+                            <Container className="col-8 text-center btn-group-vertical">
+                              <Button
+                                variant={"success"}
+                                onClick={() => {
+                                  updateStatus(2, 0, "Approve Application");
+                                }}
+                              >
+                                Approve Application
+                              </Button>
+                              <br />
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 4, "Send to CS");
+                                }}
+                              >
+                                Send to CS
+                              </Button>{" "}
+                              <br />
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 1, "Send to SPORD");
+                                }}
+                              >
+                                Send to SPORD
+                              </Button>{" "}
+                              <br />
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 3, "Send to Supervisor");
+                                }}
+                              >
+                                Send to Supervisor
+                              </Button>{" "}
+                              <br />
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 5, "Send to Budget");
+                                }}
+                              >
+                                Send to Budget
+                              </Button>{" "}
+                              <br />
+                              <Button
+                                onClick={() => {
+                                  updateStatus(1, 2, "Send to Accounting");
+                                }}
+                              >
+                                Send to Accounting
+                              </Button>{" "}
+                              <br />
+                            </Container>
+                          ) : (
+                            <></>
+                          )}
+                        </Modal.Body>
+                      </Modal>
+                      {roleId !== 7 ? (
+                        <>
+                          <Button
+                            className="me-2"
+                            variant={"info processbtn"}
+                            onClick={() => changeStatusHandler(1)}
+                          >
+                            Process Sending
+                          </Button>
+                          <Button
+                            className="me-2 rejectbtn"
+                            variant={"danger"}
+                            onClick={() => changeStatusHandler(3)}
+                          >
+                            Reject
+                          </Button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </Col>
+                  </Row>
+
                   <Row className="mt-4">
                     <Col md={9}>
                       <Form>
