@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Form, Container } from "react-bootstrap";
 import {
+  PDFDownloadLink,
   PDFViewer,
   View,
   Document,
@@ -10,6 +11,7 @@ import {
   Font,
   Image,
 } from "@react-pdf/renderer";
+import {saveAs} from 'file-saver';
 import black from "../components/fonts/Montserrat-Black.ttf";
 import bold from "../components/fonts/Montserrat-Bold.ttf";
 import regular from "../components/fonts/Montserrat-Regular.ttf";
@@ -363,7 +365,294 @@ function PrintApplicationSummary(props) {
           >
             PRINT YOUR APPLICATION
           </h5>
-          <PDFViewer width={"100%"} height={"600"} showToolbar={true}>
+          <PDFDownloadLink
+          className="btn btn-info mb-2 btn-sm"
+            document={
+              <Document>
+                <Page size="LEGAL">
+                  <View
+                    style={{
+                      height: 50,
+                      width: "100%",
+                      backgroundColor: "#233E8B",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Image
+                      source="/icon.png"
+                      style={{ width: 130, height: 35, marginLeft: 30 }}
+                      fixed={true}
+                    />
+                  </View>
+                  <Text style={styles.title}>Application Information</Text>
+                  <View style={{ width: "100%", flexDirection: "row" }}>
+                    <View style={styles.boxContainer}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Control Number: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Control_Number || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          GPA Electric Account Number:{" "}
+                        </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Account_no || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Bill ID: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Bill_id || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Applicant Name: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Customer_name || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Installation Address: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Service_location || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>City: </Text>
+                        <Text style={styles.boldText}>
+                          {city_zipcode.find(
+                            (p) => p._id === data?.Info_City_village
+                          )
+                            ? city_zipcode.find(
+                                (p) => p._id === data?.Info_City_village
+                              ).village
+                            : "N/A" || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>ZIP: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Zipcode || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Email: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Email || "N/A"}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.boxContainer}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Telephone Number: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Tel_no || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          Owner Residential Property:{" "}
+                        </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Mailing Address: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Mailing_address || "N/A"}
+                        </Text>
+                      </View>
+
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Mailing Country: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Mailing_city || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Mailing Zip Code: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Mailing_zip || "N/A"}
+                        </Text>
+                      </View>
+
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          Home Size (approx. sq. ft.):{" "}
+                        </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Home_size || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          Home Age (approx. year bult):{" "}
+                        </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Home_age || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>New Construction: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_New_construction == "true"
+                            ? "YES"
+                            : "NO" || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Home Type: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Info_Home_type || "N/A"}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                  <Line />
+                  <Text style={styles.title}>Submission of Documentation</Text>
+                  <View style={{ width: "100%", flexDirection: "row" }}>
+                    <View style={styles.boxContainer}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Invoice: </Text>
+                        <StatusIcon check={data?.Submitted_docs[0]?.invoice} />
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>IRS-W9: </Text>
+                        <StatusIcon check={data?.Submitted_docs[0]?.irs_form} />
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          Letter of Authorization:{" "}
+                        </Text>
+                        <StatusIcon
+                          check={data?.Submitted_docs[0]?.letter_authorization}
+                        />
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Disposal Slip: </Text>
+                        <StatusIcon
+                          check={data?.Submitted_docs[0]?.disposal_slip}
+                        />
+                      </View>
+                    </View>
+                    <View style={styles.boxContainer}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          Other support documents 1:{" "}
+                        </Text>
+                        <StatusIcon
+                          check={data?.Submitted_docs[0]?.other_doc2}
+                        />
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>
+                          Other support documents 2:{" "}
+                        </Text>
+                        <StatusIcon
+                          check={data?.Submitted_docs[0]?.other_doc3}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <Line />
+                  <Text style={styles.title}>Installer Information</Text>
+                  <View style={{ width: "100%", flexDirection: "row" }}>
+                    <View style={styles.boxContainer}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Technician Name: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Installer_New_name || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Work Telephone: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Installer_New_worktel || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Company: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Installer_New_companyname || "N/A"}
+                        </Text>
+                      </View>
+
+                      {data.Delay_Reason === "None" ||
+                      data.Delay_Reason === "N/A" ||
+                      data.Delay_Reason === "" ? null : (
+                        <View style={styles.textContainer}>
+                          <Text style={styles.text}>Delay Reason: </Text>
+                          <Text style={styles.boldText}>
+                            {data?.Delay_Reason || "N/A"}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+
+                    <View style={styles.boxContainer}>
+                      {console.log(data)}
+                      {data.New_equipment[0].newEquip_System_type === "Dryer" ||
+                      data.New_equipment[0].newEquip_System_type === "Washer" ||
+                      data.New_equipment[0].newEquip_System_type ===
+                        "Window AC" ? null : (
+                        <View style={styles.textContainer}>
+                          <Text style={styles.text}>Certification No: </Text>
+                          <Text style={styles.boldText}>
+                            {data.Installer_New_certno || "N/A"}
+                          </Text>
+                        </View>
+                      )}
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Email: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Installer_New_email || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Date of Final: </Text>
+                        <Text style={styles.boldText}>
+                          {data?.Installer_New_finaldate || "N/A"}
+                        </Text>
+                      </View>
+
+                      {data.Delay_Reason2 !== "None" ? (
+                        <View style={styles.textContainer}>
+                          <Text style={styles.text}>Delay Reason2: </Text>
+                          <Text style={styles.boldText}>
+                            {data?.Delay_Reason2 || "N/A"}
+                          </Text>
+                        </View>
+                      ) : null}
+                    </View>
+                  </View>
+
+                  <Line />
+                  <Text style={styles.title}>New Equipment Information</Text>
+
+                  {data?.New_equipment.map((value, index) => {
+                    totalRebate = value?.newEquip_rebate + totalRebate;
+                    return (
+                      <EquipmentTable
+                        key={index}
+                        finalDate={data?.Installer_New_finaldate}
+                        data={value}
+                        index={index}
+                      />
+                    );
+                  })}
+                </Page>
+              </Document>
+            }
+            fileName={`${data?.Control_Number}.pdf`}
+          >
+            {({ blob, url, loading, error }) =>
+              loading ? "Loading document..." : "Download PDF"
+            }
+          </PDFDownloadLink>
+          <PDFViewer width={"100%"} height={"600"} showToolbar={false}>
             <Document>
               <Page size="LEGAL">
                 <View
