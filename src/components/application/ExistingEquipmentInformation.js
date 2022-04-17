@@ -9,6 +9,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import {
+  loadCustomerSystemType,
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
   loadCustomerEquipmentDetail,
@@ -39,6 +40,7 @@ function ExistingEquipmentInformation(props) {
   });
 
   useEffect(() => {
+    dispatch(loadCustomerSystemType(props.customer_type));
     window.scrollTo(0, 0);
     if(props.system_type === "Dryer" || props.system_type === "Washer")
     {
@@ -50,6 +52,14 @@ function ExistingEquipmentInformation(props) {
 
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
+
+    const customerSystemType = useSelector((state) => state.customerSystemType);
+    const {
+      loading: systemTypeLoading,
+      error: systemTypeError,
+      success: systemTypeSuccess,
+      system_types,
+    } = customerSystemType;
 
   const customerEquipManufacturer = useSelector(
     (state) => state.customerEquipManufacturer
@@ -332,15 +342,28 @@ function ExistingEquipmentInformation(props) {
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.old_system_type}
-                disabled={
-                  props.system_type === "Central AC" ||
-                  props.system_type === "Split AC" ||
-                  props.system_type === "Window AC"
-                    ? false
-                    : true
-                }
+                disabled={props.no_existing ? true : false}
+                // disabled={
+                //   props.system_type === "Central AC" ||
+                //   props.system_type === "Split AC" ||
+                //   props.system_type === "Window AC"
+                //     ? false
+                //     : true
+                // }
               >
-                <option value=""></option>
+                <option defaultValue hidden>
+                  {systemTypeLoading
+                    ? "LOADING SYSTEM TYPES..."
+                    : "SELECT SYSTEM TYPE"}
+                </option>
+                {systemTypeLoading ? (
+                  <p>Loading . . .</p>
+                ) : system_types ? (
+                  system_types.map((sys_type) => (
+                    <option value={sys_type.type}>{sys_type.type}</option>
+                  ))
+                ) : null}
+                {/* <option value=""></option>
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
                 <option value="Window AC">Window AC</option>
@@ -353,7 +376,7 @@ function ExistingEquipmentInformation(props) {
                     <option value="Dryer">Dryer</option>
                     <option value="Washer">Washer</option>
                   </>
-                )}
+                )} */}
               </Form.Select>
             </Form.Group>
             {props.old_system_type === "" ? (

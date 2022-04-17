@@ -98,7 +98,8 @@ function ApplicationScreen() {
 
   const [system_type, setSystemType] = useState("");
   const [newSeer, setNewSeer] = useState("");
-  const [vendor, setVendor] = useState("");
+  const [newSeer2, setNewSeer2] = useState("");
+  const [vendor, setVendor] = useState([]);
   const [quantity, setQuantity] = useState("");
   const [btu, setBtu] = useState("");
   const [size, setSize] = useState("");
@@ -617,12 +618,15 @@ function ApplicationScreen() {
                 totalQuantity={totalQuantity}
                 setTotalQuantity={setTotalQuantity}
                 delay_reason={delay_reason}
+                customer_type={customer_type}
                 setDelayReason={setDelayReason}
                 delay_reason2={delay_reason2}
                 setDelayReason2={setDelayReason2}
                 total_rebate={total_rebate}
                 newSeer={newSeer}
+                newSeer2={newSeer2}
                 setNewSeer={setNewSeer}
+                setNewSeer2={setNewSeer2}
                 setTotalRebate={setTotalRebate}
                 control_no={control_no}
                 setControlNo={setControlNo}
@@ -690,6 +694,7 @@ function ApplicationScreen() {
               <ExistingEquipmentInformation
                 control_no={control_no}
                 setControlNo={setControlNo}
+                customer_type={customer_type}
                 no_existing={no_existing}
                 setNoExisting={setNoExisting}
                 old_equipments={old_equipments}

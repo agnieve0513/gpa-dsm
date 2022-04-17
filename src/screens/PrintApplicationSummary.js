@@ -364,7 +364,7 @@ function PrintApplicationSummary(props) {
             id="trackTitle"
           >
             PRINT YOUR APPLICATION
-          </h5>
+          </h5> 
           <PDFDownloadLink
           className="btn btn-info mb-2 btn-sm"
             document={

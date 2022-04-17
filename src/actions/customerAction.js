@@ -21,6 +21,9 @@ import {
   CUSTOMER_VERIFY_REQUEST,
   CUSTOMER_VERIFY_SUCCESS,
   CUSTOMER_VERIFY_FAIL,
+  CUSTOMER_SYSTEM_TYPE_REQUEST,
+  CUSTOMER_SYSTEM_TYPE_SUCCESS,
+  CUSTOMER_SYSTEM_TYPE_FAIL
 } from "../constants/customerConstants";
 
 const URL = process.env.REACT_APP_API_BASE_URL;
@@ -86,6 +89,40 @@ export const generateControlNo = () => async (dispatch) => {
   }
 };
 
+export const loadCustomerSystemType = (customer_type) => async (dispatch, getState) => {
+
+  customer_type = "E-COM1";
+  try {
+    dispatch({
+      type: CUSTOMER_SYSTEM_TYPE_REQUEST,
+    });
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+
+    const { data } = await axios.get(
+      URL + `/fetch-system-type-guam?resType=${customer_type}`,
+      config
+    );
+
+    dispatch({
+      type: CUSTOMER_SYSTEM_TYPE_SUCCESS,
+      payload: data.system_type,
+    });
+  } catch (error) {
+    dispatch({
+      type: CUSTOMER_SYSTEM_TYPE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.reponse.data.detail
+          : error.message,
+    });
+  }
+}
+
 export const loadCustomerEquipManufacturer =
   (system_type) => async (dispatch, getState) => {
     try {
@@ -99,11 +136,7 @@ export const loadCustomerEquipManufacturer =
         },
       };
 
-      const { data } = await axios.post(
-        URL + "/fetch-equipment",
-        { system_type: system_type },
-        config
-      );
+      const { data } = await axios.get(URL + `/fetch-equipment-guam?system_type=${system_type}`, config);
 
       dispatch({
         type: CUSTOMER_EQUIP_MANUFACTURER_SUCCESS,
@@ -133,9 +166,8 @@ export const loadCustomerEquipModel =
         },
       };
 
-      const { data } = await axios.post(
-        URL + "/fetch-equipment",
-        { system_type: system_type, vendor: manufacturer },
+      const { data } = await axios.get(
+        URL + `/fetch-equipment-guam?system_type=${system_type}&vendor=${manufacturer}`,
         config
       );
 
@@ -227,7 +259,9 @@ export const loadCustomerDetail =
   };
 
 export const loadCustomerEquipmentDetail =
-  (model_id) => async (dispatch, getState) => {
+  (model_id,res_type) => async (dispatch, getState) => {
+    res_type = "E-COM1";
+
     try {
       dispatch({
         type: CUSTOMER_EQUIPMENT_DETAIL_REQUEST,
@@ -240,7 +274,7 @@ export const loadCustomerEquipmentDetail =
       };
 
       const { data } = await axios.get(
-        URL + `/fetch-equipment-details?id=${model_id}`,
+        URL + `/fetch-equipment-details-guam?id=${model_id}&resType=${res_type}`,
         config
       );
 

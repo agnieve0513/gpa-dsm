@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import "./NewEquipmentInformation.css";
 import {
+  loadCustomerSystemType,
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
   loadCustomerEquipmentDetail,
@@ -47,6 +48,7 @@ function NewEuipmentInformation(props) {
   const currentDate = moment(date).format("YYYY-MM-DD");
 
   useEffect(() => {
+    dispatch(loadCustomerSystemType(props.customer_type));
     window.scrollTo(0, 0);
   }, []);
 
@@ -61,6 +63,14 @@ function NewEuipmentInformation(props) {
     success: manufacturerSuccess,
     manufacturers,
   } = customerEquipManufacturer;
+
+  const customerSystemType = useSelector((state) => state.customerSystemType);
+  const {
+    loading: systemTypeLoading,
+    error: systemTypeError,
+    success: systemTypeSuccess,
+    system_types,
+  } = customerSystemType;
 
   const customerEquipModel = useSelector((state) => state.customerEquipModel);
   const {
@@ -100,19 +110,10 @@ function NewEuipmentInformation(props) {
   };
 
   const handleModelNo = (id) => {
-    switch (id.model) {
-      case "Indoor / Outdoor": {
-        return id.indoor_model + " / " + id.outdoor_model;
-      }
-      case "Package": {
-        return id.package_model;
-      }
-      case "Both": {
-        return id.indoor_model + " / " + id.outdoor_model + " / " + id.model;
-      }
-      default: {
-        return id.model;
-      }
+    if(id.package_model){
+      return id.package_model; 
+    }else {
+     return id.indoor_model + "/" + id.outdoor_model; 
     }
   };
 
@@ -477,9 +478,19 @@ function NewEuipmentInformation(props) {
                 value={props.system_type}
               >
                 <option defaultValue hidden>
-                  SELECT SYSTEM TYPE
+                  {systemTypeLoading
+                    ? "LOADING SYSTEM TYPES..."
+                    : "SELECT SYSTEM TYPE"}
                 </option>
-                {props.customer_type === "RESID" ? (
+                {systemTypeLoading ? (
+                  <p>Loading . . .</p>
+                ) : system_types ? (
+                  system_types.map((sys_type) => (
+                    <option value={sys_type.type}>{sys_type.type}</option>
+                  ))
+                ) : null}
+                {/* {
+                props.customer_type === "RESID" ? (
                   <>
                     <option value="Central AC">Central AC</option>
                     <option value="Split AC">Split AC</option>
@@ -491,9 +502,9 @@ function NewEuipmentInformation(props) {
                   <>
                     <option value="Central AC">Central AC - Commercial</option>
                     <option value="Split AC">Split AC - Commercial</option>
-                    {/* <option value="Window AC">Window AC - Commercial</option> */}
                   </>
-                )}
+                )
+                } */}
               </Form.Select>
             </Form.Group>
             {props.system_type === "" ? (
@@ -671,18 +682,18 @@ function NewEuipmentInformation(props) {
                   placeholder="Upload Invoice"
                   type="file"
                   onChange={(e) => {
-                      if (
-                        e.target.files[0].type === "application/pdf" ||
-                        e.target.files[0].type === "image/png" ||
-                        e.target.files[0].type === "image/jpeg"
-                      ) {
-                          handleChangeInvoice(e);
-                          setInvoiceTrigger(true);
-                          setClTrigger(false);
-                      } else {
-                        errorFileInvalidMessage();
-                        e.target.value = null;
-                      }
+                    if (
+                      e.target.files[0].type === "application/pdf" ||
+                      e.target.files[0].type === "image/png" ||
+                      e.target.files[0].type === "image/jpeg"
+                    ) {
+                      handleChangeInvoice(e);
+                      setInvoiceTrigger(true);
+                      setClTrigger(false);
+                    } else {
+                      errorFileInvalidMessage();
+                      e.target.value = null;
+                    }
                   }}
                 />
                 <div
@@ -820,71 +831,86 @@ function NewEuipmentInformation(props) {
                   Select Model
                 </option>
                 {models ? (
-                  models.map((me) => {
+                  models.map((me, indx) => {
                     props.setVendor("");
-                    if (
-                      props.system_type === "Dryer" ||
-                      props.system_type === "Washer"
-                    ) {
+                    if (me.package_model === null) {
                       return (
-                        <option key={me.id} value={me.id}>
-                          {me.model}{" "}
+                        <option key={me.id + indx} value={me.id}>
+                          {" "}
+                          {me.indoor_model ? me.indoor_model + "/" : ""}{" "}
+                          {me.outdoor_model ? me.outdoor_model + "/" : ""}{" "}
                         </option>
                       );
                     } else {
-                      if (me.model === "Indoor / Outdoor") {
-                        return (
-                          <option key={me.id} value={me.id}>
-                            {me.indoor_model} / {me.outdoor_model}
-                          </option>
-                        );
-                      } else if (me.model === "Both") {
-                        return (
-                          <option key={me.id} value={me.id}>
-                            {me.indoor_model} / {me.outdoor_model}/{" "}
-                            {me.package_model}
-                          </option>
-                        );
-                      } else {
-                        return (
-                          <option key={me.id} value={me.id}>
-                            {me.package_model}
-                          </option>
-                        );
-                      }
+                      return (
+                        <option key={me.id + indx} value={me.id}>
+                          {me.package_model}
+                        </option>
+                      );
                     }
+                    // if (
+                    //   props.system_type === "Dryer" ||
+                    //   props.system_type === "Washer"
+                    // ) {
+                    //   return (
+                    //     <option key={me.id} value={me.id}>
+                    //       {me.model}{" "}
+                    //     </option>
+                    //   );
+                    // } else {
+                    //   if (me.model === "Indoor / Outdoor") {
+                    //     return (
+                    //       <option key={me.id} value={me.id}>
+                    //         {me.indoor_model} / {me.outdoor_model}
+                    //       </option>
+                    //     );
+                    //   } else if (me.model === "Both") {
+                    //     return (
+                    //       <option key={me.id} value={me.id}>
+                    //         {me.indoor_model} / {me.outdoor_model}/{" "}
+                    //         {me.package_model}
+                    //       </option>
+                    //     );
+                    //   } else {
+                    //     return (
+                    //       <option key={me.id} value={me.id}>
+                    //         {me.package_model}
+                    //       </option>
+                    //     );
+                    //   }
+                    // }
                   })
                 ) : (
                   <>
-                    {props.setVendor("")}
                     <option>Loading . . . </option>
                   </>
                 )}
               </Form.Select>
-              {props.model_no ? (
-                equipment_detail ? (
-                  equipment_detail.length ? (
-                    <>
-                      {props.setNewSeer(equipment_detail[0].seer)}
-                      {props.setRebate(equipment_detail[0].rebate)}
-                      {/* {console.log(equipment_detail[0].vendor)} */}
+              {equipment_detail ? (
+                equipment_detail.length > 0 ? (
+                  <>
+                    {props.setNewSeer(equipment_detail[0].value1)}
+                    {props.setNewSeer2(equipment_detail[0].value2)}
+                    {props.setRebate(equipment_detail[0].rebate)}
+                    {props.setVendor(
+                      equipment_detail[0].vendor.length > 0
+                        ? equipment_detail[0].vendor[0]
+                        : "N/A"
+                    )}
 
-                      {equipment_detail[0].vendor === ""
-                        ? props.setVendor("N/A")
-                        : props.setVendor(equipment_detail[0].vendor)}
-
-                      {equipment_detail[0].btu === ""
-                        ? props.setBtu("N/A")
-                        : props.setBtu(equipment_detail[0].btu)}
-                    </>
-                  ) : (
-                    <>{props.setVendor("")}</>
-                  )
+                    {equipment_detail[0].btu === ""
+                      ? props.setBtu("N/A")
+                      : props.setBtu(
+                          equipment_detail[0].btu
+                            ? equipment_detail[0].btu
+                            : equipment_detail[0].tons
+                        )}
+                  </>
                 ) : (
-                  <>{props.setVendor("")}</>
+                  <></>
                 )
               ) : (
-                <>{props.setVendor("")}</>
+                <></>
               )}
             </Form.Group>
             {props.model_no === "" ? (
@@ -920,20 +946,32 @@ function NewEuipmentInformation(props) {
           <Col md={6} className="mb-3">
             <Form.Group controlId="vendor">
               <Form.Label className=" applicationTitle">VENDOR</Form.Label>
+              {equipment_detail
+                ? console.log("EQUIOPMENT DETAIL: ", equipment_detail[0])
+                : console.log("NO EQUIPMENT DETAIL")}
               <Form.Select
                 onChange={(e) => props.setVendor(e.target.value)}
                 value={props.vendor}
               >
-                <option defaultValue hidden>
+                {/* <option hidden>
                   Select Vendor
-                </option>
-                {props.vendor === "" ? (
+                </option> */}
+                {equipment_detail ? (
+                  equipment_detail[0]?.vendor.map((val) => (
+                    <option value={val}>{val}</option>
+                  ))
+                ) : (
+                  <option value={""}>Loading Vendor . . . </option>
+                )}
+                {/* {props.vendor === "" ? (
                   <>
                     <option></option>
                   </>
                 ) : (
-                  <option value={props.vendor}>{props.vendor}</option>
-                )}
+                  props.vendor.map((x) => (
+                    <option value={x}>{x}</option>
+                  ))
+                )} */}
               </Form.Select>
             </Form.Group>
             {props.vendor === "" ? (
@@ -1033,24 +1071,84 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        {props.system_type === "Dryer" || props.system_type === "Washer" ? (
+        {equipment_detail ? (
+          equipment_detail[0] ? (
+            <Row>
+              {equipment_detail[0].display1 ? (
+                <Col md={equipment_detail[0].display2 ? 6 : 12}>
+                  <Form.Group controlId="value1">
+                    <Form.Label className=" applicationTitle">
+                      {equipment_detail[0].display1}
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => props.setNewSeer(e.target.value)}
+                      value={equipment_detail[0].value1}
+                      required
+                      disabled={true}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              ) : null}
+
+              {equipment_detail[0].display2 ? (
+                <Col md={equipment_detail[0].display1 ? 6 : 12}>
+                  <Form.Group controlId="value2">
+                    <Form.Label className=" applicationTitle">
+                      {equipment_detail[0].display2}
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => props.setNewSeer(e.target.value)}
+                      value={equipment_detail[0].value2}
+                      required
+                      disabled={true}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              ) : null}
+            </Row>
+          ) : null
+        ) : null}
+        {/* {props.system_type === "Dryer" || props.system_type === "Washer" ? (
           <></>
         ) : (
           <Row>
-            <Col md={12}>
-              <Form.Group controlId="rebate">
-                <Form.Label className=" applicationTitle">SEER</Form.Label>
-                <Form.Control
-                  type="text"
-                  onChange={(e) => props.setNewSeer(e.target.value)}
-                  value={props.newSeer}
-                  required
-                  disabled={true}
-                ></Form.Control>
-              </Form.Group>
-            </Col>
+            {equipment_detail[0].display1 ? (
+              <Col md={equipment_detail[0].display2 ? 6 : 12}>
+                <Form.Group controlId="value1">
+                  <Form.Label className=" applicationTitle">
+                    {equipment_detail[0].display1}
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => props.setNewSeer(e.target.value)}
+                    value={props.newSeer}
+                    required
+                    disabled={true}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+            ) : null}
+
+            {equipment_detail[0].display2 ? (
+              <Col md={equipment_detail[0].display1 ? 6 : 12}>
+                <Form.Group controlId="value2">
+                  <Form.Label className=" applicationTitle">
+                    {equipment_detail[0].display2}
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    onChange={(e) => props.setNewSeer(e.target.value)}
+                    value={props.newSeer}
+                    required
+                    disabled={true}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+            ) : null}
           </Row>
-        )}
+        )} */}
         <Row>
           <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">
@@ -1081,14 +1179,13 @@ function NewEuipmentInformation(props) {
                         e.target.files[0].type === "image/png" ||
                         e.target.files[0].type === "image/jpeg"
                       ) {
-                          handleChangeConsiderationLetter(e);
-                          setClTrigger(true);
-                          setInvoiceTrigger(false);
-                      }else{
-                         errorFileInvalidMessage();
-                         e.target.value = null;
+                        handleChangeConsiderationLetter(e);
+                        setClTrigger(true);
+                        setInvoiceTrigger(false);
+                      } else {
+                        errorFileInvalidMessage();
+                        e.target.value = null;
                       }
-                      
                     }}
                   />
                   <div

@@ -24,7 +24,28 @@ import {
   CUSTOMER_VERIFY_REQUEST,
   CUSTOMER_VERIFY_SUCCESS,
   CUSTOMER_VERIFY_FAIL,
+  CUSTOMER_SYSTEM_TYPE_REQUEST,
+  CUSTOMER_SYSTEM_TYPE_SUCCESS,
+  CUSTOMER_SYSTEM_TYPE_FAIL,
 } from "../constants/customerConstants";
+
+export const customerSystemTypesReducer = (
+  state = { system_types: [] },
+  action
+) => {
+  switch (action.type) {
+    case CUSTOMER_SYSTEM_TYPE_REQUEST:
+      return { loading: true };
+
+    case CUSTOMER_SYSTEM_TYPE_SUCCESS:
+      return { loading: false, system_types: action.payload };
+
+    case CUSTOMER_SYSTEM_TYPE_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
 
 export const customerEquipManufacturersReducer = (
   state = { manufacturers: [] },

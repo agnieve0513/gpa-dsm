@@ -39,6 +39,7 @@ import {
   editEquipment,
 } from "../../actions/applicationActions";
 import {
+  loadCustomerSystemType,
   loadCustomerEquipManufacturer,
   loadCustomerEquipModel,
   loadCustomerEquipmentDetail,
@@ -238,6 +239,14 @@ function ViewApp(props) {
   const applicationLogs = useSelector((state) => state.applicationLogs);
   const { loading: loadingLogs, error: errorLogs, logs } = applicationLogs;
 
+  const customerSystemType = useSelector((state) => state.customerSystemType);
+  const {
+    loading: systemTypeLoading,
+    error: systemTypeError,
+    success: systemTypeSuccess,
+    system_types,
+  } = customerSystemType;
+
   const customerEquipManufacturer = useSelector(
     (state) => state.customerEquipManufacturer
   );
@@ -425,6 +434,8 @@ function ViewApp(props) {
     model_no
   ) => {
     console.log("equipment index: ", index);
+    dispatch(loadCustomerSystemType(props.customer_type));
+
     setSelectedEquipmentIndex(index);
     console.log(application?.New_equipment[selectedEquipmentIndex]);
     setShowEditModal(true);
@@ -1402,7 +1413,22 @@ function ViewApp(props) {
                         }}
                         value={system_type}
                       >
-                        {application?.Type === "RESID" ? (
+                        <option defaultValue hidden>
+                          {systemTypeLoading
+                            ? "LOADING SYSTEM TYPES..."
+                            : "SELECT SYSTEM TYPE"}
+                        </option>
+                        {systemTypeLoading ? (
+                          <p>Loading . . .</p>
+                        ) : system_types ? (
+                          system_types.map((sys_type) => (
+                            <option value={sys_type.type}>
+                              {sys_type.type}
+                            </option>
+                          ))
+                        ) : null}
+                        {/* {
+                        application?.Type === "RESID" ? (
                           <>
                             <option value="Central AC">Central AC</option>
                             <option value="Split AC">Split AC</option>
@@ -1418,9 +1444,9 @@ function ViewApp(props) {
                             <option value="Split AC">
                               Split AC - Commercial
                             </option>
-                            {/* <option value="Window AC">Window AC - Commercial</option> */}
                           </>
-                        )}
+                        )
+                        } */}
                       </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="manufacturer" className="mb-1">
@@ -1439,6 +1465,7 @@ function ViewApp(props) {
                         }
                         value={manufacturer}
                       >
+                         <option defaultValue hidden>Select Manufacturer</option>
                         {manufacturers ? (
                           manufacturers.map((ce) => (
                             <option
@@ -1467,7 +1494,36 @@ function ViewApp(props) {
                         value={modelNumber}
                         onChange={(e) => changeModelHandler(e.target.value)}
                       >
+                         <option defaultValue hidden>Select Model</option>
+
                         {models ? (
+                          models.map((me, indx) => {
+                            if (me.package_model === null) {
+                              return (
+                                <option key={me.id + indx} value={me.id}>
+                                  {" "}
+                                  {me.indoor_model
+                                    ? me.indoor_model + "/"
+                                    : ""}{" "}
+                                  {me.outdoor_model
+                                    ? me.outdoor_model + "/"
+                                    : ""}{" "}
+                                </option>
+                              );
+                            } else {
+                              return (
+                                <option key={me.id + indx} value={me.id}>
+                                  {me.package_model}
+                                </option>
+                              );
+                            }
+                          })
+                        ) : (
+                          <>
+                            <option>Loading . . . </option>
+                          </>
+                        )}
+                        {/* {models ? (
                           models.map((mod) => {
                             if (
                               system_type === "Dryer" ||
@@ -1501,7 +1557,7 @@ function ViewApp(props) {
                           })
                         ) : (
                           <></>
-                        )}
+                        )} */}
                       </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="vendor" className="mb-1">
@@ -1521,13 +1577,12 @@ function ViewApp(props) {
                       >
                         <option>Select Vendor</option>
                         {equipment_detail ? (
-                          <>
-                            {(seerVal = equipment_detail[0]?.seer)}
-                            <option value={equipment_detail[0]?.vendor}>
-                              {equipment_detail[0]?.vendor}
-                            </option>
-                          </>
-                        ) : null}
+                          equipment_detail[0]?.vendor.map((val) => (
+                            <option value={val}>{val}</option>
+                          ))
+                        ) : (
+                          <option value={""}>Loading Vendor . . . </option>
+                        )}
                       </Form.Select>
                     </Form.Group>
                     <Form.Group controlId="invoice_no" className="mb-1">
@@ -1590,7 +1645,9 @@ function ViewApp(props) {
                         </b>
                       </Form.Label>
                       <FormControl
-                        value={seerVal}
+                        value={
+                          equipment_detail ? equipment_detail[0]?.value1 : 0
+                        }
                         type="number"
                         min="0"
                         onChange={(e) => setSeer(e.target.value)}

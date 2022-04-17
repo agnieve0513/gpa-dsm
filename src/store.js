@@ -37,6 +37,7 @@ import {
   customerVerifyReducer,
   customerRegisterReducer,
   customerGenerateControlNoReducer,
+  customerSystemTypesReducer,
   customerEquipManufacturersReducer,
   customerEquipModelReducer,
   customerEquipmentDetailReducer,
@@ -92,6 +93,7 @@ const reducer = combineReducers({
 
   customerRegister: customerRegisterReducer,
   customerGenerateControlNo: customerGenerateControlNoReducer,
+  customerSystemType: customerSystemTypesReducer,
   customerEquipManufacturer: customerEquipManufacturersReducer,
   customerEquipmentDetail: customerEquipmentDetailReducer,
   customerEquipModel: customerEquipModelReducer,
