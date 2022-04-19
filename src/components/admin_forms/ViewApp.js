@@ -2287,6 +2287,8 @@ function ViewApp(props) {
                       <FormControl
                         type="date"
                         value={old_disposal_date}
+                        max={currentDate}
+                        onKeyDown={(e) => e.preventDefault()}
                         onChange={(e) => setOldDisposalDate(e.target.value)}
                       />
                     </Form.Group>
@@ -2888,7 +2890,7 @@ function ViewApp(props) {
                             >
                               <span>Other Document 2 </span>
                               {application.Submitted_docs ? (
-                                application.Submitted_docs[0].other_doc3 !==
+                                application.Submitted_docs[0].other_doc2 !==
                                 null ? (
                                   <Button
                                     className="mb-2"
@@ -2898,7 +2900,7 @@ function ViewApp(props) {
                                         oth2
                                           ? oth2
                                           : application.Submitted_docs[0]
-                                              .other_doc3,
+                                              .other_doc2,
                                         application.Control_Number +
                                           "-" +
                                           "Other Document"
