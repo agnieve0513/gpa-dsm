@@ -1123,6 +1123,7 @@ function NewEuipmentInformation(props) {
           props.system_type === "Dryer" || props.system_type === "Washer" ? (
           <></>
         ) : (
+          equipment_detail && equipment_detail.length > 0 ?
           <Row>
             {equipment_detail[0].display1 ? (
               <Col md={equipment_detail[0].display2 ? 6 : 12}>
@@ -1139,7 +1140,8 @@ function NewEuipmentInformation(props) {
                   ></Form.Control>
                 </Form.Group>
               </Col>
-            ) : null}
+            ) : null
+            }
 
             {equipment_detail[0].display2 ? (
               <Col md={equipment_detail[0].display1 ? 6 : 12}>
@@ -1157,7 +1159,7 @@ function NewEuipmentInformation(props) {
                 </Form.Group>
               </Col>
             ) : null}
-          </Row>
+          </Row>: null
         ):null
         }
         <Row>
