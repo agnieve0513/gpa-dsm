@@ -49,6 +49,7 @@ function ApplicationInformation(props) {
   });
 
   const [verifyClicked, setVerifyClicked] = useState(false);
+  const [loaTrigger, setLoaTrigger] = useState(false);
 
   const dispatch = useDispatch();
   let pp = {};
@@ -115,6 +116,20 @@ function ApplicationInformation(props) {
   };
 
   useEffect(() => {
+
+    if(fileCode){
+      if (loaTrigger == true) {
+        console.log(
+          "File Code Saved After Successful Uploading of file: ",
+          fileCode
+        );
+        props.setLetterAuthorizationD(fileCode);
+        setLoaTrigger(false);
+      }
+    }
+  }, [fileCode]);
+
+  useEffect(() => {
     console.log("customer_detail", customer_detail);
     if (customer_detail) {
       if (customer_detail?.info) {
@@ -145,6 +160,7 @@ function ApplicationInformation(props) {
   const handleSubmitLOA = () => {};
 
   const handleChangeLOA = (e) => {
+    setLoaTrigger(true);
     props.setLetterAuthorization(e.target.files[0]);
     dispatch(
       uploadFileAction(
@@ -153,7 +169,7 @@ function ApplicationInformation(props) {
         props.control_no,
         false
       )
-    );
+    )
   };
 
 
@@ -474,7 +490,6 @@ function ApplicationInformation(props) {
               <>
                 {fileCode.length !== 0 ? (
                   <>
-                    {props.setLetterAuthorizationD(fileCode)}
                     {console.log("File Code For Letter of Authorization: ", fileCode)}
                     {console.log("letterAuthorizationD value",props.letter_authorizationD)}
                     <Badge bg={"success"}>File Uploaded</Badge> <br />

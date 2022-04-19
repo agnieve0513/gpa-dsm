@@ -203,17 +203,15 @@ function ApplicationScreen() {
             existing_old_equipment_information: old_equipments,
             submitted_documents: {
               control_no: control_no,
-              invoice: invoiceD ? invoiceD : "",
-              irs_form: irs_formD ? irs_formD : "",
-              disposal_slip: disposal_slipD ? disposal_slipD : "",
+              invoice: invoiceD,
+              irs_form: irs_formD,
+              disposal_slip: disposal_slipD ? disposal_slipD : '',
               letter_authorization: letter_authorizationD
-                ? letter_authorizationD
-                : ""
                 ? letter_authorizationD
                 : "",
               other_doc1: other_doc1D ? other_doc1D : "",
               other_doc2: other_doc2D ? other_doc2D : "",
-              other_doc3: other_doc3D ? other_doc3D : "",
+              other_doc3: other_doc3D ? other_doc3D : ""
             },
           };
 

@@ -91,9 +91,6 @@ export const uploadFileAction =
           bodyFormData,
           config
         );
-
-      console.log("Response from data: ", data);
-
         dispatch({
           type: FILE_UPLOAD_SUCCESS,
           payload: data.message,

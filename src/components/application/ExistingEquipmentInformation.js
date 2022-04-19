@@ -34,6 +34,8 @@ function ExistingEquipmentInformation(props) {
   const dispatch = useDispatch();
   const { height, width } = useWindowDimensions();
   const [modalShow, setModalShow] = useState(false);
+  const [disposalTrigger, setDisposalTrigger] = useState(false);
+
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
@@ -47,6 +49,7 @@ function ExistingEquipmentInformation(props) {
       props.setOldSystemType(props.system_type);
     }
   }, []);
+
 
   let p = {};
 
@@ -154,7 +157,21 @@ function ExistingEquipmentInformation(props) {
     }
     dispatch(loadCustomerEquipManufacturer("Central AC"));
   };
+  
+  useEffect(() => {
+    if (fileCode) {
+      if (disposalTrigger) {
+        props.setDisposalSlipD(fileCode);
+        console.log(
+          "File code for Disposal Slip after successfully uploading file: ",
+          fileCode
+        );
+        setDisposalTrigger(false);
+      }
+    }
+  }, [fileCode]);
 
+  
   useEffect(() => {
     // if(props.system_type === "Dryer")
     // {
@@ -248,6 +265,7 @@ function ExistingEquipmentInformation(props) {
               e.target.files[0].type === "image/png" ||
               e.target.files[0].type === "image/jpeg"
             ) {
+              setDisposalTrigger(true);
               handleChangeDisposalSlip(e);
             } else {
               errorFileInvalidMessage();
@@ -269,7 +287,6 @@ function ExistingEquipmentInformation(props) {
         <>
           {fileCode ? (
             <>
-              {props.setDisposalSlipD(fileCode)}
               {console.log("DISPOSAL SLIPD CODE VALUE: ", props.disposal_slipD)}
               <Badge bg={"success"}>File Uploaded</Badge> <br />
             </>

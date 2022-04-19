@@ -132,6 +132,20 @@ function NewEuipmentInformation(props) {
     showTable();
   }, [dispatch, props.new_equipments]);
 
+  useEffect(() => {
+    if(fileCode){
+      if (invoiceTrigger) {
+        props.setInvoiceD(fileCode);
+        console.log(
+          "File code for Invoice after successfully upload file: ",
+          fileCode
+        );
+
+        setInvoiceTrigger(false);
+      }
+    }
+  }, [fileCode]);
+
   const Toast = MySwal.mixin({
     toast: true,
     position: "top-right",
@@ -728,7 +742,6 @@ function NewEuipmentInformation(props) {
                         <>
                           {invoiceTrigger == true ? (
                             <>
-                              {props.setInvoiceD(fileCode)}
                               {console.log("INVOICE D VALUE: ", props.invoiceD)}
                               {console.log(
                                 "------------------------------------------"
@@ -960,9 +973,9 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => handleChangeVendor(e)}
                 value={props.vendor}
               >
-                {/* <option hidden>
+                <option defaultValue hidden>
                   Select Vendor
-                </option> */}
+                </option>
                 {equipment_detail ? (
                   equipment_detail[0]?.vendor.map((val) => (
                     <option value={val}>{val}</option>

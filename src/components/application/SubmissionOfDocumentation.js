@@ -23,20 +23,73 @@ function SubmissionOfDocumentation(props) {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    
+    if(fileCode){
+      switch (docType) {
+        case "loa":
+          props.setLetterAuthorizationD(fileCode);
+          console.log(
+            "File code for LOA after successfully uploading file:",
+            fileCode
+          );
+          break;
+        case "invoice":
+          props.setInvoiceD(fileCode);
+          console.log(
+            "File code for Invoice after successfully uploading file:",
+            fileCode
+          );
+          break;
+        case "irs":
+          props.setIrsFormD(fileCode);
+          console.log(
+            "File code for IRS after successfully uploading file:",
+            fileCode
+          );
+          break;
+        case "other_doc1":
+          props.setOtherDoc1D(fileCode);
+          console.log(
+            "File code for Other Doc1 after successfully uploading file:",
+            fileCode
+          );
+          break;
+        case "other_doc2":
+          props.setOtherDoc2D(fileCode);
+          console.log(
+            "File code for Other Doc2 after successfully uploading file:",
+            fileCode
+          );
+          break;
+      }
+      setIrsFormTrigger(false);
+      setInvoiceTrigger(false);
+      setLoaTrigger(false);
+      setDisposalSlipTrigger(false);
+      setOtherDoc1Trigger(false);
+      setOtherDoc2Trigger(false);
+      setOtherDoc3Trigger(false);
+    }
+ 
+  }, [
+   fileCode
+  ]);
+
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
     description: "",
     image_sample: "",
   });
 
-  const [loaTrigger, setLoaTrigger] = useState(false);
-  const [invoiceTrigger, setInvoiceTrigger] = useState(false);
-  const [irsFormTrigger, setIrsFormTrigger] = useState(false);
-  const [disposalSlipTrigger, setDisposalSlipTrigger] = useState(false);
-  const [otherDoc1Trigger, setOtherDoc1Trigger] = useState(false);
-  const [otherDoc2Trigger, setOtherDoc2Trigger] = useState(false);
-  const [otherDoc3Trigger, setOtherDoc3Trigger] = useState(false);
-
+  const [loaTrigger, setLoaTrigger] = useState(0);
+  const [invoiceTrigger, setInvoiceTrigger] = useState(0);
+  const [irsFormTrigger, setIrsFormTrigger] = useState(0);
+  const [disposalSlipTrigger, setDisposalSlipTrigger] = useState(0);
+  const [otherDoc1Trigger, setOtherDoc1Trigger] = useState(0);
+  const [otherDoc2Trigger, setOtherDoc2Trigger] = useState(0);
+  const [otherDoc3Trigger, setOtherDoc3Trigger] = useState(0);
+  const [docType, setDocType] = useState("");
 
   let p = {};
 
@@ -44,6 +97,7 @@ function SubmissionOfDocumentation(props) {
   let initInvoice = React.useMemo(() => props.invoice, []);
   let initInstaller = React.useMemo(() => props.installer_certification, []);
   let initDisposal = React.useMemo(() => props.disposal_slip, []);
+
   if (initLetter && props.letter_authorization === undefined) {
     props.setLetterAuthorization("");
   }
@@ -182,7 +236,9 @@ function SubmissionOfDocumentation(props) {
                   e.target.files[0].type === "image/jpeg"
                 ) {
                   handleChange(e, "irs_form");
-                  setIrsFormTrigger(true);
+
+                  setDocType('irs')
+                  setIrsFormTrigger(irsFormTrigger + 1);
                 } else {
                   errorFileInvalidMessage();
                   e.target.value = null;
@@ -198,7 +254,7 @@ function SubmissionOfDocumentation(props) {
           )}
           {props.irs_form ? (
             <>
-              {irsFormTrigger === true ? props.setIrsFormD(fileCode) : null}
+             
               {console.log("IRSD VALUE: ", props.irs_formD)}
               <p className="m-0">Filename: {props.irs_form.name}</p>
               <p className="m-0">File Type: {props.irs_form.type}</p>
@@ -259,7 +315,9 @@ function SubmissionOfDocumentation(props) {
                       e.target.files[0].type === "image/jpeg"
                     ) {
                       handleChange(e, "other_doc1");
-                      setOtherDoc1Trigger(true);
+
+                      setDocType('other_doc1');
+                      setOtherDoc1Trigger(otherDoc1Trigger + 1);
                     } else {
                       errorFileInvalidMessage();
                       e.target.value = null;
@@ -317,7 +375,9 @@ function SubmissionOfDocumentation(props) {
                       e.target.files[0].type === "image/jpeg"
                     ) {
                       handleChange(e, "other_doc2");
-                      setOtherDoc2Trigger(true);
+
+                      setDocType('other_doc2');
+                      setOtherDoc2Trigger(otherDoc2Trigger + 1);
                     } else {
                       errorFileInvalidMessage();
                       e.target.value = null;
@@ -388,7 +448,8 @@ function SubmissionOfDocumentation(props) {
                       e.target.value = null;
                     }
 
-                    setLoaTrigger(true);
+                    setDocType('loa');
+                    setLoaTrigger(loaTrigger + 1);
                   }}
                 />
               </InputGroup>
@@ -454,7 +515,9 @@ function SubmissionOfDocumentation(props) {
                     e.target.files[0].type === "image/jpeg"
                   ) {
                     handleChange(e, "invoice");
-                    setInvoiceTrigger(true);
+
+                    setDocType('invoice')
+                    setInvoiceTrigger(invoiceTrigger + 1);
                   } else {
                     errorFileInvalidMessage();
                     e.target.value = null;

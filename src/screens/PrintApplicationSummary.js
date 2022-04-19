@@ -541,22 +541,18 @@ function PrintApplicationSummary(props) {
                     <View style={styles.boxContainer}>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Other support documents 1:{" "}
+                          Supporting Documents 1: (Consideration Letter){" "}
                         </Text>
                         <StatusIcon
-                          check={
-                            data?.Submitted_docs[0]?.other_doc2
-                              ? data?.Submitted_docs[0]?.other_doc2
-                              : data?.Submitted_docs[0]?.installer_cert
-                          }
+                          check={data?.Submitted_docs[0]?.installer_cert}
                         />
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Other support documents 2:{" "}
+                          Supporting Documents 2:{" "}
                         </Text>
                         <StatusIcon
-                          check={data?.Submitted_docs[0]?.other_doc3}
+                          check={data?.Submitted_docs[0]?.other_doc2}
                         />
                       </View>
                     </View>
@@ -832,21 +828,17 @@ function PrintApplicationSummary(props) {
                   <View style={styles.boxContainer}>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Other support documents 1:{" "}
+                        Supporting Documents 1: (Consideration Letter):{" "}
                       </Text>
                       <StatusIcon
-                        check={
-                          data?.Submitted_docs[0]?.other_doc2
-                            ? data?.Submitted_docs[0]?.other_doc2
-                            : data?.Submitted_docs[0]?.installer_cert
-                        }
+                        check={data?.Submitted_docs[0]?.installer_cert}
                       />
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Other support documents 2:{" "}
+                        Supporting Documents 2:{" "}
                       </Text>
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc3} />
+                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
                     </View>
                   </View>
                 </View>
