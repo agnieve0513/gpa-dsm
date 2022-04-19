@@ -891,35 +891,34 @@ function NewEuipmentInformation(props) {
                   </>
                 )}
               </Form.Select>
-              {
-              props.customer_type !== "RESID" ?
-              equipment_detail ? (
-                equipment_detail.length > 0 ? (
-                  <>
-                    {props.setNewSeer(equipment_detail[0].value1)}
-                    {props.setNewSeer2(equipment_detail[0].value2)}
-                    {props.setRebate(equipment_detail[0].rebate)}
-                    {/* {props.setVendor(
+              {props.customer_type !== "RESID" ? (
+                equipment_detail ? (
+                  equipment_detail.length > 0 ? (
+                    <>
+                      {props.setNewSeer(equipment_detail[0].value1)}
+                      {props.setNewSeer2(equipment_detail[0].value2)}
+                      {props.setRebate(equipment_detail[0].rebate)}
+                      {/* {props.setVendor(
                       equipment_detail[0].vendor.length > 0
                         ? equipment_detail[0].vendor[0]
                         : "N/A"
                     )} */}
 
-                    {equipment_detail[0].btu === ""
-                      ? props.setBtu("N/A")
-                      : props.setBtu(
-                          equipment_detail[0].btu
-                            ? equipment_detail[0].btu
-                            : equipment_detail[0].tons
-                        )}
-                  </>
+                      {equipment_detail[0].btu === ""
+                        ? props.setBtu("N/A")
+                        : props.setBtu(
+                            equipment_detail[0].btu
+                              ? equipment_detail[0].btu
+                              : equipment_detail[0].tons
+                          )}
+                    </>
+                  ) : (
+                    <></>
+                  )
                 ) : (
                   <></>
                 )
-              ) : (
-                <></>
-              ):null
-              }
+              ) : null}
             </Form.Group>
             {props.model_no === "" ? (
               <p className="validate text-danger requiredField">
@@ -1083,7 +1082,7 @@ function NewEuipmentInformation(props) {
           equipment_detail[0] ? (
             <Row>
               {equipment_detail[0].display1 ? (
-                <Col md={equipment_detail[0].display2 ? 6 : 12}>
+                <Col md={equipment_detail[0].display2.length > 0 ? 6 : 12}>
                   <Form.Group controlId="value1">
                     <Form.Label className=" applicationTitle">
                       {equipment_detail[0].display1}
@@ -1099,7 +1098,7 @@ function NewEuipmentInformation(props) {
                 </Col>
               ) : null}
 
-              {equipment_detail[0].display2 ? (
+              {equipment_detail[0].display2.length > 0 ? (
                 <Col md={equipment_detail[0].display1 ? 6 : 12}>
                   <Form.Group controlId="value2">
                     <Form.Label className=" applicationTitle">
