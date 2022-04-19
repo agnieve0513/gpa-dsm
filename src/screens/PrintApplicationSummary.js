@@ -584,7 +584,7 @@ function PrintApplicationSummary(props) {
                       data.Delay_Reason === "N/A" ||
                       data.Delay_Reason === "" ? null : (
                         <View style={styles.textContainer}>
-                          <Text style={styles.text}>Delay Reason: </Text>
+                          <Text style={styles.text}>Delay For Date of Purchase </Text>
                           <Text style={styles.boldText}>
                             {data?.Delay_Reason || "N/A"}
                           </Text>
@@ -620,7 +620,7 @@ function PrintApplicationSummary(props) {
 
                       {data.Delay_Reason2 !== "None" ? (
                         <View style={styles.textContainer}>
-                          <Text style={styles.text}>Delay Reason2: </Text>
+                          <Text style={styles.text}>Delay For Final Installation </Text>
                           <Text style={styles.boldText}>
                             {data?.Delay_Reason2 || "N/A"}
                           </Text>
@@ -863,7 +863,7 @@ function PrintApplicationSummary(props) {
                     data.Delay_Reason === "N/A" ||
                     data.Delay_Reason === "" ? null : (
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Delay Reason: </Text>
+                        <Text style={styles.text}>Delay For Date of Purchase </Text>
                         <Text style={styles.boldText}>
                           {data?.Delay_Reason || "N/A"}
                         </Text>
@@ -899,7 +899,7 @@ function PrintApplicationSummary(props) {
 
                     {data.Delay_Reason2 !== "None" ? (
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Delay Reason2: </Text>
+                        <Text style={styles.text}>Delay For Final Installation </Text>
                         <Text style={styles.boldText}>
                           {data?.Delay_Reason2 || "N/A"}
                         </Text>

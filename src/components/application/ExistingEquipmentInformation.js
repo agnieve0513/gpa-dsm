@@ -220,8 +220,8 @@ function ExistingEquipmentInformation(props) {
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-      <span className="d-flex flex-row justify-content-between disposalReceipt">
-        DISPOSAL RECEIPT
+      <span className="d-flex flex-row justify-content-between disposalReceipt mt-2">
+        <b>DISPOSAL RECEIPT</b>
         <span
           className="text-secondary mb-1"
           onClick={() => {
@@ -242,22 +242,18 @@ function ExistingEquipmentInformation(props) {
           name="file"
           placeholder="Upload Disposal Receipt"
           type="file"
-          onChange={(e) => 
-            {
-                if (
-                  e.target.files[0].type ===
-                  "application/pdf" ||
-                  e.target.files[0].type === "image/png" ||
-                  e.target.files[0].type === "image/jpeg"
-                ){
-                   handleChangeDisposalSlip(e);
-                }else{
-                  errorFileInvalidMessage()
-                  e.target.value = null;
-                  
-                }
-              }
-          }
+          onChange={(e) => {
+            if (
+              e.target.files[0].type === "application/pdf" ||
+              e.target.files[0].type === "image/png" ||
+              e.target.files[0].type === "image/jpeg"
+            ) {
+              handleChangeDisposalSlip(e);
+            } else {
+              errorFileInvalidMessage();
+              e.target.value = null;
+            }
+          }}
         />
       </InputGroup>
       {props.no_existing ? (

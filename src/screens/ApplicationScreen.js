@@ -630,7 +630,6 @@ function ApplicationScreen() {
                 setTotalRebate={setTotalRebate}
                 control_no={control_no}
                 setControlNo={setControlNo}
-                customer_type={customer_type}
                 new_equipments={new_equipments}
                 setNewEquipments={setNewEquipments}
                 system_type={system_type}

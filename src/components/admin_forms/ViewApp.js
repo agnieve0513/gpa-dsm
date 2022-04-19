@@ -1392,7 +1392,7 @@ function ViewApp(props) {
               <Tab.Pane eventKey="new_quipment_info">
                 <h3 className="mt-3 mb-3 text-info">New Equipment Info</h3>
                 {/* Modal for edit equipment . ..  */}
-                <Modal show={showEditModal} onHide={handleModalClose}>
+                <Modal show={showEditModal} onHide={handleModalClose} centered>
                   <Modal.Header closeButton>
                     <Modal.Title>Edit Equipment</Modal.Title>
                   </Modal.Header>
@@ -1465,7 +1465,9 @@ function ViewApp(props) {
                         }
                         value={manufacturer}
                       >
-                         <option defaultValue hidden>Select Manufacturer</option>
+                        <option defaultValue hidden>
+                          Select Manufacturer
+                        </option>
                         {manufacturers ? (
                           manufacturers.map((ce) => (
                             <option
@@ -1494,7 +1496,9 @@ function ViewApp(props) {
                         value={modelNumber}
                         onChange={(e) => changeModelHandler(e.target.value)}
                       >
-                         <option defaultValue hidden>Select Model</option>
+                        <option defaultValue hidden>
+                          Select Model
+                        </option>
 
                         {models ? (
                           models.map((me, indx) => {
@@ -1817,7 +1821,7 @@ function ViewApp(props) {
                               {application?.Delay_Reason ? (
                                 <p>
                                   <b style={{ color: "#B6B6B6" }}>
-                                    Reason for Exceeding 120 days
+                                    Delay For Date of Purchase
                                   </b>
                                 </p>
                               ) : null}
@@ -1825,7 +1829,7 @@ function ViewApp(props) {
                               {application?.Delay_Reason2 ? (
                                 <p>
                                   <b style={{ color: "#B6B6B6" }}>
-                                    Reason for Exceeding 120 days (2)
+                                    Delay For Final Installation
                                   </b>
                                 </p>
                               ) : null}
@@ -2038,7 +2042,7 @@ function ViewApp(props) {
 
               {/* NOTE: OLD EQUIPMENT TAB */}
               <Tab.Pane eventKey="old_quipment_info">
-                <Modal show={editOldModal} onHide={handleModalClose}>
+                <Modal show={editOldModal} onHide={handleModalClose} centered>
                   <Modal.Header closeButton>
                     <Modal.Title>Edit Old Equipment</Modal.Title>
                   </Modal.Header>
@@ -2447,7 +2451,7 @@ function ViewApp(props) {
                                       <br />
                                     </>
                                   ) : (
-                                    <>no upload</>
+                                    <></>
                                   )}
                                   Filename: {invoice.name} <br />
                                   File Type: {invoice.type} <br />
@@ -2942,7 +2946,11 @@ function ViewApp(props) {
                   <Row>
                     <Col md={12}>
                       <h3 className="mt-3 mb-3">Update Status</h3>
-                      <Modal show={showModal} onHide={handleModalClose}>
+                      <Modal
+                        show={showModal}
+                        onHide={handleModalClose}
+                        centered
+                      >
                         <Modal.Header closeButton>
                           <Modal.Title>
                             {status === 3 ? (
@@ -3019,11 +3027,10 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(1, 3, "Send to Supervisor");
                                 }}
-                                className="mb-1"
+                                className="mb-3"
                               >
                                 Send to Supervisor
                               </Button>{" "}
-                              <br />
                               <Button
                                 onClick={() => {
                                   updateStatus(
@@ -3074,27 +3081,27 @@ function ViewApp(props) {
                             <Container className="col-8 text-center btn-group-vertical">
                               <Button
                                 variant={"success"}
-                                className="mb-1"
+                                className="mb-3"
                                 onClick={() => {
                                   updateStatus(2, 0, "Approve Application");
                                 }}
                               >
                                 Approve Application
                               </Button>
-                              <br />
+
                               <Button
                                 variant={"danger"}
-                                className="mb-1"
+                                className="mb-3"
                                 onClick={() => {
                                   updateStatus(1, 1, "(Decline) Send to Spord");
                                 }}
                               >
                                 (Decline) Send to Spord
                               </Button>
-                              <br />
+
                               <Button
                                 variant={"danger"}
-                                className="mb-1"
+                                className="mb-3"
                                 onClick={() => {
                                   updateStatus(1, 4, "(Decline) Send to CS");
                                 }}
@@ -3109,50 +3116,50 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(2, 0, "Approve Application");
                                 }}
+                                className="mb-3"
                               >
                                 Approve Application
                               </Button>
-                              <br />
                               <Button
                                 onClick={() => {
                                   updateStatus(1, 4, "Send to CS");
                                 }}
+                                className="mb-3"
                               >
                                 Send to CS
                               </Button>{" "}
-                              <br />
                               <Button
                                 onClick={() => {
                                   updateStatus(1, 1, "Send to SPORD");
                                 }}
+                                className="mb-3"
                               >
                                 Send to SPORD
                               </Button>{" "}
-                              <br />
                               <Button
                                 onClick={() => {
                                   updateStatus(1, 3, "Send to Supervisor");
                                 }}
+                                className="mb-3"
                               >
                                 Send to Supervisor
                               </Button>{" "}
-                              <br />
                               <Button
                                 onClick={() => {
                                   updateStatus(1, 5, "Send to Budget");
                                 }}
+                                className="mb-3"
                               >
                                 Send to Budget
                               </Button>{" "}
-                              <br />
                               <Button
                                 onClick={() => {
                                   updateStatus(1, 2, "Send to Accounting");
                                 }}
+                                className="mb-3"
                               >
                                 Send to Accounting
                               </Button>{" "}
-                              <br />
                             </Container>
                           ) : (
                             <></>
@@ -3257,7 +3264,7 @@ function ViewApp(props) {
                     <h6>{application.Status}</h6>
                     <br />
                     <h6 className="text-muted">Current Department</h6>
-                    <h6 className="mb-2">{application.Stage}</h6>
+                    <h6 className="mb-4">{application.Stage}</h6>
 
                     <h4>Event Logs</h4>
                     {logs ? (

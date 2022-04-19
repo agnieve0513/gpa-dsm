@@ -837,8 +837,8 @@ function NewEuipmentInformation(props) {
                       return (
                         <option key={me.id + indx} value={me.id}>
                           {" "}
-                          {me.indoor_model ? me.indoor_model + "/" : ""}{" "}
-                          {me.outdoor_model ? me.outdoor_model + "/" : ""}{" "}
+                          {me.indoor_model ? me.indoor_model + " / " : ""}{" "}
+                          {me.outdoor_model ? me.outdoor_model : ""}
                         </option>
                       );
                     } else {

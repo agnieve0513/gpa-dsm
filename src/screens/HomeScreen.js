@@ -75,9 +75,12 @@ function HomeScreen() {
             </a>
           </p>
           <p className="pd-6">
-            <Link to={`/faq`} className="text-white">
+            <a
+              href="https://guampowerauthority.com/energysense"
+              className="text-white"
+            >
               <u>Online Rebate Requirements and FAQ</u>
-            </Link>
+            </a>
           </p>
           <Row className="p-4" />
         </Row>

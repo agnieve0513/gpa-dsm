@@ -34,7 +34,7 @@ function ApplicationRequirements(props) {
         {/* <h4 className="text-center text-info" id="appReqHeader">APPLICATION REQUIREMENTS</h4> */}
         <p className="px-8 text-center" id="appReqSub">
           For a smooth and complete application process we recommend that you
-          have all of the following information listed below readily available.
+          have all of the following information listed below readily available. <br />
           <span className="text-danger">
             Please note that any missing, false, or incorrect information
             provided may cause a delay or even result in a denial of your

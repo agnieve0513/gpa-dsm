@@ -19,7 +19,8 @@ import {
   View,
   StyleSheet,
 } from "@react-pdf/renderer";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { useDispatch, useSelector } from "react-redux";
 import { useWindowDimensions } from "../../hooks";
 import { formatAMPM } from "../../helpers";
@@ -29,6 +30,8 @@ import {
   logsFileAction,
 } from "../../actions/fileActions";
 import DisplayPDF from "../application/Pdf";
+
+const MySwal = withReactContent(Swal);
 
 function TcTemplateForm() {
   const [selectedFile, setSelectedFile] = useState();
@@ -168,6 +171,26 @@ function TcTemplateForm() {
     }
   };
 
+   const errorFileInvalidMessage = () => {
+     const Toast = MySwal.mixin({
+       toast: true,
+       position: "top-right",
+       iconColor: "white",
+       customClass: {
+         popup: "colored-toast",
+       },
+       showConfirmButton: false,
+       timer: 3500,
+       timerProgressBars: true,
+     });
+
+     Toast.fire({
+       icon: "info",
+       title: "Invalid File Uploaded",
+       text: "Please note that only PDF file is accepted by the system.",
+     });
+   };
+
   return (
     <Container>
       <Row className="mb-3">
@@ -175,107 +198,125 @@ function TcTemplateForm() {
           <h3 style={{ marginBottom: 10 }} className="text-info">
             Upload T&C Template
           </h3>
-          <Form.Label>Terms & Condition</Form.Label>
-          {width <= 990 ? (
-            <InputGroup
-              style={{ display: "flex", flexDirection: "column" }}
-              className="mb-3"
-            >
-              <FormControl
-                style={{ width: "100%", marginBottom: 10 }}
-                placeholder="Terms and Condition"
-                type="file"
-                onChange={(e) => changeHandler(e)}
-              />
-              <Form.Select
-                style={{ width: "100%", marginBottom: 10 }}
-                value={customer_type}
-                onChange={(e) => {
-                  setCustomerType(e.target.value);
-                }}
+          <Form.Group controlId="invoice" className="mb-3">
+            <Form.Label>Terms & Condition</Form.Label>
+            {width <= 990 ? (
+              <InputGroup
+                style={{ display: "flex", flexDirection: "column" }}
+                className="mb-3"
               >
-                <option defaultChecked hidden>
-                  Select Template Type
-                </option>
-                <option value="resd">Residential</option>
-                <option value="comm">Commercial</option>
-              </Form.Select>
-              <Button
-                style={{ borderRadius: 5 }}
-                variant="info"
-                id="button-addon2"
-                onClick={() => handleUploadFile()}
-              >
-                Upload
-              </Button>
-            </InputGroup>
-          ) : (
-            <InputGroup className="mb-3">
-              <FormControl
-                placeholder="Terms and Condition"
-                type="file"
-                onChange={(e) => changeHandler(e)}
-              />
-              <Form.Select
-                value={customer_type}
-                onChange={(e) => {
-                  setCustomerType(e.target.value);
-                }}
-              >
-                <option defaultChecked hidden>
-                  Select Template Type
-                </option>
-                <option value="resd_ducted">
-                  Residential - Central (Ducted Systems)
-                </option>
-                <option value="resd_dryer_washer">
-                  Residential - Dryer/Washer
-                </option>
-                <option value="resd_aircon_ductless">
-                  Residential - Air Conditioning (Ductless Systems)
-                </option>
-                <option value="resd_aircon_window">
-                  Residential - Air Conditioning (Window Type Systems)
-                </option>
-                <option value="comm_ductless">
-                  Commercial - Ductless Split Systems
-                </option>
-                <option value="comm_ducted">
-                  Commercial - Central (Ducted Systems)
-                </option>
-              </Form.Select>
-              <Button
-                variant="info"
-                id="button-addon2"
-                onClick={() => handleUploadFile()}
-              >
-                Upload
-              </Button>
-            </InputGroup>
-          )}
-          {selectedFile ? (
-            <>
-              {fileCode ? (
-                <>
-                  {fileCode.length !== 0 ? (
-                    <>
-                      {console.log(selectedFile)}
-                      <Badge bg={"success"}>File Uploaded</Badge> <br />
-                      Filename: {selectedFile.name} <br />
-                      File Type: {selectedFile.type} <br />
-                      <br />
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </>
-              ) : (
-                <></>
-              )}
-            </>
-          ) : (
-            <></>
-          )}
+                <FormControl
+                  style={{ width: "100%", marginBottom: 10 }}
+                  placeholder="Terms and Condition"
+                  type="file"
+                  name="terms_and_condition"
+                  onChange={(e) => {
+                   
+                    if (e.target.files[0].type === "application/pdf") {
+                      changeHandler(e);
+                    } else {
+                      errorFileInvalidMessage();
+                      e.target.value = null;
+                    }
+                  }}
+                />
+                <Form.Select
+                  style={{ width: "100%", marginBottom: 10 }}
+                  value={customer_type}
+                  onChange={(e) => {
+                    setCustomerType(e.target.value);
+                  }}
+                >
+                  <option defaultChecked hidden>
+                    Select Template Type
+                  </option>
+                  <option value="resd">Residential</option>
+                  <option value="comm">Commercial</option>
+                </Form.Select>
+                <Button
+                  style={{ borderRadius: 5 }}
+                  variant="info"
+                  id="button-addon2"
+                  onClick={() => handleUploadFile()}
+                >
+                  Upload
+                </Button>
+              </InputGroup>
+            ) : (
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Terms and Condition"
+                  type="file"
+                  onChange={(e) => {
+                     if (e.target.files[0].type === "application/pdf") {
+                       changeHandler(e);
+                     } else {
+                       errorFileInvalidMessage();
+                       e.target.value = null;
+                     }
+                  }}
+                />
+                <Form.Select
+                  value={customer_type}
+                  onChange={(e) => {
+                    setCustomerType(e.target.value);
+                  }}
+                >
+                  <option defaultChecked hidden>
+                    Select Template Type
+                  </option>
+                  <option value="resd_ducted">
+                    Residential - Central (Ducted Systems)
+                  </option>
+                  <option value="resd_dryer_washer">
+                    Residential - Dryer/Washer
+                  </option>
+                  <option value="resd_aircon_ductless">
+                    Residential - Air Conditioning (Ductless Systems)
+                  </option>
+                  <option value="resd_aircon_window">
+                    Residential - Air Conditioning (Window Type Systems)
+                  </option>
+                  <option value="comm_ductless">
+                    Commercial - Ductless Split Systems
+                  </option>
+                  <option value="comm_ducted">
+                    Commercial - Central (Ducted Systems)
+                  </option>
+                </Form.Select>
+                <Button
+                  variant="info"
+                  id="button-addon2"
+                  onClick={() => handleUploadFile()}
+                >
+                  Upload
+                </Button>
+              </InputGroup>
+            )}
+            {selectedFile ? (
+              <>
+                {fileCode ? (
+                  <>
+                    {fileCode.length !== 0 ? (
+                      <>
+                        {console.log(selectedFile)}
+                        <Badge bg={"success"}>File Uploaded</Badge> <br />
+                        Filename: {selectedFile.name} <br />
+                        File Type: {selectedFile.type} <br />
+                        <br />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <></>
+            )}
+          </Form.Group>
         </Col>
       </Row>
       <h3 style={{ marginBottom: 20, marginLeft: 10 }} className="text-info">

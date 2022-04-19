@@ -471,13 +471,13 @@ function FinalReview(props) {
                                 </p>
                                 {props.delay_reason ? (
                                   <p>
-                                    Reason for exceeding 120 days{" "}
+                                    Delay For Date of Purchase{" "}
                                     <b>{props.delay_reason}</b>
                                   </p>
                                 ) : null}
                                 {props.delay_reason2 ? (
                                   <p>
-                                    Reason for exceeding 120 days{" "}
+                                    Delay For Final Installation{" "}
                                     <b>{props.delay_reason2}</b>
                                   </p>
                                 ) : null}

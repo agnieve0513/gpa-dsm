@@ -1,5 +1,4 @@
 .modal-dialog-centered {
-    max-width: fit-content;
 }
 
 @media (max-width: 425px) {

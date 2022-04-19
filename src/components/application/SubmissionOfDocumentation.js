@@ -175,18 +175,18 @@ function SubmissionOfDocumentation(props) {
               name="file2"
               type="file"
               required
-              onChange={(e) =>{
-                  if (
-                    e.target.files[0].type === "application/pdf" ||
-                    e.target.files[0].type === "image/png" ||
-                    e.target.files[0].type === "image/jpeg"
-                  ) {
-                      handleChange(e, "irs_form");
-                      setIrsFormTrigger(true);
-                  } else {
-                    errorFileInvalidMessage();
-                    e.target.value = null;
-                  }
+              onChange={(e) => {
+                if (
+                  e.target.files[0].type === "application/pdf" ||
+                  e.target.files[0].type === "image/png" ||
+                  e.target.files[0].type === "image/jpeg"
+                ) {
+                  handleChange(e, "irs_form");
+                  setIrsFormTrigger(true);
+                } else {
+                  errorFileInvalidMessage();
+                  e.target.value = null;
+                }
               }}
             />
             <UploadIcon />
@@ -198,9 +198,7 @@ function SubmissionOfDocumentation(props) {
           )}
           {props.irs_form ? (
             <>
-              {
-                irsFormTrigger === true ? props.setIrsFormD(fileCode):null
-              }
+              {irsFormTrigger === true ? props.setIrsFormD(fileCode) : null}
               {console.log("IRSD VALUE: ", props.irs_formD)}
               <p className="m-0">Filename: {props.irs_form.name}</p>
               <p className="m-0">File Type: {props.irs_form.type}</p>
@@ -226,6 +224,9 @@ function SubmissionOfDocumentation(props) {
               <Row className="flex d-flex-row justify-content-between">
                 <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">
                   Other Supporting Document 1{" "}
+                  <small class="text-muted">
+                    This is for Consideration Letter
+                  </small>{" "}
                   {props.other_doc1 ? (
                     <Badge bg={"success"}>File Uploaded</Badge>
                   ) : (
@@ -252,27 +253,26 @@ function SubmissionOfDocumentation(props) {
                   name="file2"
                   type="file"
                   onChange={(e) => {
-                      if (
-                        e.target.files[0].type === "application/pdf" ||
-                        e.target.files[0].type === "image/png" ||
-                        e.target.files[0].type === "image/jpeg"
-                      ) {
-                          handleChange(e, "other_doc1");
-                          setOtherDoc1Trigger(true);
-                      } else {
-                        errorFileInvalidMessage();
-                        e.target.value = null;
-                      }
+                    if (
+                      e.target.files[0].type === "application/pdf" ||
+                      e.target.files[0].type === "image/png" ||
+                      e.target.files[0].type === "image/jpeg"
+                    ) {
+                      handleChange(e, "other_doc1");
+                      setOtherDoc1Trigger(true);
+                    } else {
+                      errorFileInvalidMessage();
+                      e.target.value = null;
+                    }
                   }}
                 />
                 <UploadIcon />
               </InputGroup>
               {props.other_doc1 ? (
                 <>
-                  {
-                    otherDoc1Trigger === true ?
-                    props.setOtherDoc1D(fileCode): null
-                  }
+                  {otherDoc1Trigger === true
+                    ? props.setOtherDoc1D(fileCode)
+                    : null}
                   <p className="m-0">Filename: {props.other_doc1.name}</p>
                   <p className="m-0">File Type: {props.other_doc1.type}</p>
                 </>
@@ -311,28 +311,24 @@ function SubmissionOfDocumentation(props) {
                   name="file2215353"
                   type="file"
                   onChange={(e) => {
-                     if (
-                       e.target.files[0].type === "application/pdf" ||
-                       e.target.files[0].type === "image/png" ||
-                       e.target.files[0].type === "image/jpeg"
-                     ) {
-                        handleChange(e, "other_doc2");
-                        setOtherDoc2Trigger(true);
-                        
-                     } else {
-                       errorFileInvalidMessage();
-                       e.target.value = null;
-                     }
+                    if (
+                      e.target.files[0].type === "application/pdf" ||
+                      e.target.files[0].type === "image/png" ||
+                      e.target.files[0].type === "image/jpeg"
+                    ) {
+                      handleChange(e, "other_doc2");
+                      setOtherDoc2Trigger(true);
+                    } else {
+                      errorFileInvalidMessage();
+                      e.target.value = null;
+                    }
                   }}
                 />
                 <UploadIcon />
               </InputGroup>
               {props.other_doc2 ? (
                 <>
-                  {
-                    otherDoc2Trigger ?
-                    props.setOtherDoc2D(fileCode): null
-                  }
+                  {otherDoc2Trigger ? props.setOtherDoc2D(fileCode) : null}
                   <p className="m-0">Filename: {props.other_doc2.name}</p>
                   <p className="m-0">File Type: {props.other_doc2.type}</p>
                 </>
@@ -381,27 +377,26 @@ function SubmissionOfDocumentation(props) {
                   name="file2"
                   type="file"
                   onChange={(e) => {
-                     if (
-                       e.target.files[0].type === "application/pdf" ||
-                       e.target.files[0].type === "image/png" ||
-                       e.target.files[0].type === "image/jpeg"
-                     ) {
-                        handleChange(e, "letter_authorization");
-                     } else {
-                       errorFileInvalidMessage();
-                       e.target.value = null;
-                     }
-                   
+                    if (
+                      e.target.files[0].type === "application/pdf" ||
+                      e.target.files[0].type === "image/png" ||
+                      e.target.files[0].type === "image/jpeg"
+                    ) {
+                      handleChange(e, "letter_authorization");
+                    } else {
+                      errorFileInvalidMessage();
+                      e.target.value = null;
+                    }
+
                     setLoaTrigger(true);
                   }}
                 />
               </InputGroup>
               {props.letter_authorization ? (
                 <>
-                  {
-                    loaTrigger === true ?
-                    props.setLetterAuthorizationD(fileCode):null
-                  }
+                  {loaTrigger === true
+                    ? props.setLetterAuthorizationD(fileCode)
+                    : null}
                   <p className="m-0">
                     Filename: {props.letter_authorization.name}
                   </p>
@@ -453,29 +448,24 @@ function SubmissionOfDocumentation(props) {
                 placeholder="Invoice"
                 type="file"
                 onChange={(e) => {
-                   if (
-                     e.target.files[0].type === "application/pdf" ||
-                     e.target.files[0].type === "image/png" ||
-                     e.target.files[0].type === "image/jpeg"
-                   ) {
-                     handleChange(e, "invoice");
+                  if (
+                    e.target.files[0].type === "application/pdf" ||
+                    e.target.files[0].type === "image/png" ||
+                    e.target.files[0].type === "image/jpeg"
+                  ) {
+                    handleChange(e, "invoice");
                     setInvoiceTrigger(true);
-
-                   } else {
-                     errorFileInvalidMessage();
-                     e.target.value = null;
-                   }
-                  
+                  } else {
+                    errorFileInvalidMessage();
+                    e.target.value = null;
+                  }
                 }}
               />
               <UploadIcon />
             </InputGroup>
             {props.invoice ? (
               <>
-                {
-                  invoiceTrigger === true ?
-                  props.setInvoiceD(fileCode): null
-                }
+                {invoiceTrigger === true ? props.setInvoiceD(fileCode) : null}
                 <p className="m-0">Filename: {props.invoice.name}</p>
                 <p className="m-0">File Type: {props.invoice.type}</p>
               </>
@@ -572,30 +562,26 @@ function SubmissionOfDocumentation(props) {
               <Form.Control
                 name="file211"
                 type="file"
-                onChange={
-                  (e) => {
-                   if (
-                     e.target.files[0].type === "application/pdf" ||
-                     e.target.files[0].type === "image/png" ||
-                     e.target.files[0].type === "image/jpeg"
-                   ) {
-                     handleChange(e, "disposal_receipt");
-                      disposalSlipTrigger(true);
-                   } else {
-                     errorFileInvalidMessage();
-                     e.target.value = null;
-                   }
-                  
-                }
-              }
+                onChange={(e) => {
+                  if (
+                    e.target.files[0].type === "application/pdf" ||
+                    e.target.files[0].type === "image/png" ||
+                    e.target.files[0].type === "image/jpeg"
+                  ) {
+                    handleChange(e, "disposal_receipt");
+                    disposalSlipTrigger(true);
+                  } else {
+                    errorFileInvalidMessage();
+                    e.target.value = null;
+                  }
+                }}
               />
             </InputGroup>
             {props.disposal_slip ? (
               <>
-                {
-                  disposalSlipTrigger === true ? 
-                  props.setDisposalSlipD(fileCode): null
-                }
+                {disposalSlipTrigger === true
+                  ? props.setDisposalSlipD(fileCode)
+                  : null}
                 <p className="m-0">Filename: {props.disposal_slip.name}</p>
                 <p className="m-0">File Type: {props.disposal_slip.type}</p>
               </>
