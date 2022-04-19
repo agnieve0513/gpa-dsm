@@ -225,7 +225,7 @@ function SubmissionOfDocumentation(props) {
                 <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">
                   Other Supporting Document 1{" "}
                   <small class="text-muted">
-                    This is for Consideration Letter
+                    (Consideration Letter)
                   </small>{" "}
                   {props.other_doc1 ? (
                     <Badge bg={"success"}>File Uploaded</Badge>
