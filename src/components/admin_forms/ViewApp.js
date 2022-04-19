@@ -614,9 +614,10 @@ function ViewApp(props) {
     setShowModal(true);
   };
 
-  const editOldEquipmentHandler = (indx, id) => {
+  const editOldEquipmentHandler = (indx, id, type) => {
     setSelectedOldEquipmentIndex(indx);
     setShowEditOldModal(true);
+    dispatch(loadCustomerSystemType(type));
   };
 
   const updateStatus = (status, stage, desc) => {
@@ -1411,7 +1412,7 @@ function ViewApp(props) {
                 {/* Modal for edit equipment . ..  */}
                 <Modal show={showEditModal} onHide={handleModalClose} centered>
                   <Modal.Header closeButton>
-                    <Modal.Title>Edit Equipment</Modal.Title>
+                    <Modal.Title>Edit New Equipment</Modal.Title>
                   </Modal.Header>
                   <Modal.Body className="">
                     <Form.Group controlId="system_type" className="mb-1">
@@ -2083,7 +2084,22 @@ function ViewApp(props) {
                         onChange={(e) => setOldSystemType(e.target.value)}
                         value={old_system_type}
                       >
-                        {application?.Type === "RESID" ? (
+                        <option defaultValue hidden>
+                          {systemTypeLoading
+                            ? "LOADING SYSTEM TYPES..."
+                            : "SELECT SYSTEM TYPE"}
+                        </option>
+                        {systemTypeLoading ? (
+                          <p>Loading . . .</p>
+                        ) : system_types ? (
+                          system_types.map((sys_type) => (
+                            <option value={sys_type.type}>
+                              {sys_type.type}
+                            </option>
+                          ))
+                        ) : null}
+                        
+                        {/* {application?.Type === "RESID" ? (
                           <>
                             <option value="Central AC">Central AC</option>
                             <option value="Split AC">Split AC</option>
@@ -2099,9 +2115,8 @@ function ViewApp(props) {
                             <option value="Split AC">
                               Split AC - Commercial
                             </option>
-                            {/* <option value="Window AC">Window AC - Commercial</option> */}
                           </>
-                        )}
+                        )} */}
                       </Form.Select>
                     </Form.Group>
                     <Form.Group
@@ -2362,7 +2377,8 @@ function ViewApp(props) {
                                     onClick={() =>
                                       editOldEquipmentHandler(
                                         indx,
-                                        old_eqiup.oldEquip_id
+                                        old_eqiup.oldEquip_id,
+                                        application.Type
                                       )
                                     }
                                   >
