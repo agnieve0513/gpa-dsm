@@ -364,9 +364,9 @@ function PrintApplicationSummary(props) {
             id="trackTitle"
           >
             PRINT YOUR APPLICATION
-          </h5> 
+          </h5>
           <PDFDownloadLink
-          className="btn btn-info mb-2 btn-sm"
+            className="btn btn-info mb-2 btn-sm"
             document={
               <Document>
                 <Page size="LEGAL">
@@ -544,7 +544,11 @@ function PrintApplicationSummary(props) {
                           Other support documents 1:{" "}
                         </Text>
                         <StatusIcon
-                          check={data?.Submitted_docs[0]?.other_doc2}
+                          check={
+                            data?.Submitted_docs[0]?.other_doc2
+                              ? data?.Submitted_docs[0]?.other_doc2
+                              : data?.Submitted_docs[0]?.installer_cert
+                          }
                         />
                       </View>
                       <View style={styles.textContainer}>
@@ -584,7 +588,9 @@ function PrintApplicationSummary(props) {
                       data.Delay_Reason === "N/A" ||
                       data.Delay_Reason === "" ? null : (
                         <View style={styles.textContainer}>
-                          <Text style={styles.text}>Delay For Date of Purchase </Text>
+                          <Text style={styles.text}>
+                            Delay For Date of Purchase{" "}
+                          </Text>
                           <Text style={styles.boldText}>
                             {data?.Delay_Reason || "N/A"}
                           </Text>
@@ -620,7 +626,9 @@ function PrintApplicationSummary(props) {
 
                       {data.Delay_Reason2 !== "None" ? (
                         <View style={styles.textContainer}>
-                          <Text style={styles.text}>Delay For Final Installation </Text>
+                          <Text style={styles.text}>
+                            Delay For Final Installation{" "}
+                          </Text>
                           <Text style={styles.boldText}>
                             {data?.Delay_Reason2 || "N/A"}
                           </Text>
@@ -826,7 +834,13 @@ function PrintApplicationSummary(props) {
                       <Text style={styles.text}>
                         Other support documents 1:{" "}
                       </Text>
-                      <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
+                      <StatusIcon
+                        check={
+                          data?.Submitted_docs[0]?.other_doc2
+                            ? data?.Submitted_docs[0]?.other_doc2
+                            : data?.Submitted_docs[0]?.installer_cert
+                        }
+                      />
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
@@ -863,7 +877,9 @@ function PrintApplicationSummary(props) {
                     data.Delay_Reason === "N/A" ||
                     data.Delay_Reason === "" ? null : (
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Delay For Date of Purchase </Text>
+                        <Text style={styles.text}>
+                          Delay For Date of Purchase{" "}
+                        </Text>
                         <Text style={styles.boldText}>
                           {data?.Delay_Reason || "N/A"}
                         </Text>
@@ -899,7 +915,9 @@ function PrintApplicationSummary(props) {
 
                     {data.Delay_Reason2 !== "None" ? (
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Delay For Final Installation </Text>
+                        <Text style={styles.text}>
+                          Delay For Final Installation{" "}
+                        </Text>
                         <Text style={styles.boldText}>
                           {data?.Delay_Reason2 || "N/A"}
                         </Text>

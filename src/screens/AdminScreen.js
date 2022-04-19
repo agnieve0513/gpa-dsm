@@ -96,10 +96,7 @@ function AdminScreen({ location, history }) {
       <Header />
       <Container fluid className="mt-4">
         {console.log("Default Tab: ", defaultTab)}
-        <Tab.Container
-          id="left-tabs-example"
-          defaultActiveKey={defaultTab}
-        >
+        <Tab.Container id="left-tabs-example" defaultActiveKey={defaultTab}>
           <Container>
             <Row className="p-0 mb-4" id="adminHeader">
               <Col md={8} className="d-flex" id="adminDashBoardNav">

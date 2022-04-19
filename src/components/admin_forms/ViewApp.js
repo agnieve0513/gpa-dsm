@@ -46,6 +46,8 @@ import {
 } from "../../actions/customerAction";
 import ModalImage from "../ModalImage";
 
+import './ViewApp.css';
+
 const MySwal = withReactContent(Swal);
 
 function ViewApp(props) {
@@ -2969,7 +2971,7 @@ function ViewApp(props) {
                                   value={reason}
                                   required
                                 >
-                                  <option>Open this select menu</option>
+                                  <option value="">Open this select menu</option>
                                   <option value="0">None</option>
                                   <option value="1">
                                     Applicant is not a GPA Account holder or
@@ -3005,7 +3007,15 @@ function ViewApp(props) {
                               <Button
                                 variant={"danger"}
                                 onClick={() =>
-                                  updateStatus(3, 0, "Reject Application")
+                                  {
+                                    if(reason === "")
+                                    {
+                                      Swal.fire("No Reason Selected", "Please Select Reason to Reject", "error");
+
+                                    }else{
+                                      updateStatus(3, 0, "Reject Application")
+                                    }
+                                  }
                                 }
                               >
                                 Reject Application
