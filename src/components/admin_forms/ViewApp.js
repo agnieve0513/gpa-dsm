@@ -20,6 +20,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 import { useWindowDimensions } from "../../hooks";
 import { formatAMPM } from "../../helpers";
@@ -49,6 +50,9 @@ import ModalImage from "../ModalImage";
 import './ViewApp.css';
 
 const MySwal = withReactContent(Swal);
+  const date = new Date(Date.now());
+  date.setDate(date.getDate());
+  const currentDate = moment(date).format("YYYY-MM-DD");
 
 function ViewApp(props) {
   let total_rebate = 0;
@@ -514,10 +518,19 @@ function ViewApp(props) {
     setEnableInstallerEdit(false);
     setReload(reload + 1);
   };
-  const handleEditNewEquipment = (equipment_id, indx) => {
+  const handleEditNewEquipment = (control_no, equipment_id, indx) => {
+
+    var me = equipment_detail ? equipment_detail[0] : [];
+
+    var modelName = me.indoor_model ? me.indoor_model : "" + me.outdoor_model && me.indoor_model ? " / " : " " + me.outdoor_model ? me.outdoor_model : "";
+
     const obj = {
+      
       new_equipment_information: [
         {
+          application_information : {
+              control_no:control_no
+          },
           id: equipment_id,
           system_type: system_type
             ? system_type
@@ -1621,6 +1634,8 @@ function ViewApp(props) {
                       <FormControl
                         value={purchase_date}
                         type="date"
+                        max={currentDate}
+                        onKeyDown={(e) => e.preventDefault()}
                         onChange={(e) => setPurchaseDate(e.target.value)}
                       />
                     </Form.Group>
@@ -1667,6 +1682,7 @@ function ViewApp(props) {
                       variant="success"
                       onClick={() =>
                         handleEditNewEquipment(
+                          application.Control_Number,
                           application?.New_equipment[selectedEquipmentIndex]
                             .newEquip_id,
                           selectedEquipmentIndex
