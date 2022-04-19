@@ -416,7 +416,7 @@ function ViewApp(props) {
       }
     }
   };
-  const changeModelHandler = (e) => {
+  const changeModelHandler = (e, customer_type) => {
     setModelID(e);
     let selectedModel = models.find((model) => model.id === parseInt(e));
     console.log("First Load of Model: ", selectedModel);
@@ -424,8 +424,7 @@ function ViewApp(props) {
     console.log("Model Name", selectedModelName);
     setModelNumber(e);
     setModelName(selectedModelName);
-
-    dispatch(loadCustomerEquipmentDetail(e));
+    dispatch(loadCustomerEquipmentDetail(e, customer_type));
   };
 
   const handleEquipmentEdit = (
@@ -433,10 +432,12 @@ function ViewApp(props) {
     equipment_id,
     system_type,
     manifacturer,
-    model_no
+    model_no,
+    type
   ) => {
     console.log("equipment index: ", index);
-    dispatch(loadCustomerSystemType(props.customer_type));
+
+    dispatch(loadCustomerSystemType(type));
 
     setSelectedEquipmentIndex(index);
     console.log(application?.New_equipment[selectedEquipmentIndex]);
@@ -444,7 +445,7 @@ function ViewApp(props) {
 
     changeSystemTypeHandler(system_type);
     changeManufacturerHandler(manifacturer);
-    changeModelHandler(model_no);
+    changeModelHandler(model_no, type);
     setEnableEquipmentEdit(true);
   };
 
@@ -545,7 +546,8 @@ function ViewApp(props) {
           size: 0,
           type: "",
           tons: "",
-          seer: seerVal,
+          seer: equipment_detail ? equipment_detail[0]?.value1 : 0,
+          rebate:equipment_detail ? equipment_detail[0]?.rebate : 0,
         },
       ],
       // installer_information: {
@@ -1496,7 +1498,7 @@ function ViewApp(props) {
                       </Form.Label>
                       <Form.Select
                         value={modelNumber}
-                        onChange={(e) => changeModelHandler(e.target.value)}
+                        onChange={(e) => changeModelHandler(e.target.value, application.Type)}
                       >
                         <option defaultValue hidden>
                           Select Model
@@ -1739,7 +1741,8 @@ function ViewApp(props) {
                                               equip.newEquip_id,
                                               equip.newEquip_System_type,
                                               equip.newEquip_Manufacturer,
-                                              equip.newEquip_Model_no
+                                              equip.newEquip_Model_no,
+                                              application.Type
                                             )
                                           }
                                         >
@@ -3059,6 +3062,7 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(1, 5, "Send to Budget");
                                 }}
+                                className="mb-3"
                               >
                                 Send to Budget
                               </Button>
@@ -3066,6 +3070,7 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(1, 1, "Send Back to SPORD");
                                 }}
+                                className="mb-3"
                               >
                                 Send Back to SPORD
                               </Button>
@@ -3076,6 +3081,7 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(1, 2, "Send to Accounting");
                                 }}
+                                className="mb-3"
                               >
                                 Send to Accounting
                               </Button>
@@ -3083,6 +3089,7 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(1, 3, "Send Back to Supervisor");
                                 }}
+                                className="mb-3"
                               >
                                 Send Back to Supervisor
                               </Button>

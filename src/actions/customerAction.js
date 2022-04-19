@@ -91,7 +91,11 @@ export const generateControlNo = () => async (dispatch) => {
 
 export const loadCustomerSystemType = (customer_type) => async (dispatch, getState) => {
 
-  customer_type = "E-COM1";
+  // customer_type = "E-COM1";
+  if(customer_type === "COMM")
+  {
+    customer_type = "E-COM1";
+  }
   try {
     dispatch({
       type: CUSTOMER_SYSTEM_TYPE_REQUEST,
@@ -260,7 +264,9 @@ export const loadCustomerDetail =
 
 export const loadCustomerEquipmentDetail =
   (model_id,res_type) => async (dispatch, getState) => {
-    res_type = "E-COM1";
+     if (res_type === "COMM") {
+       res_type = "E-COM1";
+     }
 
     try {
       dispatch({

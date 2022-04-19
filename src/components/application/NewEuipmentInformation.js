@@ -95,7 +95,7 @@ function NewEuipmentInformation(props) {
 
   const changeSystemTypeHandler = (e) => {
     showRebateHandler();
-    props.setVendor("");
+    // props.setVendor("");
     props.setSystemType(e.target.value);
     props.setNewEquipments([]);
     props.setTotalQuantity(0);
@@ -105,7 +105,7 @@ function NewEuipmentInformation(props) {
   const changeManufacturerHandler = (e) => {
     props.setManufacturer(e.target.value);
     dispatch(loadCustomerEquipModel(props.system_type, e.target.value));
-    props.setVendor("");
+    // props.setVendor("");
     props.setModelList(models);
   };
 
@@ -125,7 +125,7 @@ function NewEuipmentInformation(props) {
     var modelName = handleModelNo(selectedModel);
     // console.log('selMod', selectedModel, 'modelN', modelName)
     props.setModelNo(modelName);
-    dispatch(loadCustomerEquipmentDetail(e.target.value));
+    dispatch(loadCustomerEquipmentDetail(e.target.value, props.customer_type));
   };
 
   useEffect(() => {
@@ -457,6 +457,10 @@ function NewEuipmentInformation(props) {
        text: "Please note that only Images (JPG, JPEG, PNG) and PDF files are accepted by the system.",
      });
    };
+
+   const handleChangeVendor = (e) => {
+     props.setVendor(e.target.value);
+   }
 
   return (
     <Row className="mx-0 w-100 d-flex justify-content-center">
@@ -832,7 +836,7 @@ function NewEuipmentInformation(props) {
                 </option>
                 {models ? (
                   models.map((me, indx) => {
-                    props.setVendor("");
+                    // props.setVendor("");
                     if (me.package_model === null) {
                       return (
                         <option key={me.id + indx} value={me.id}>
@@ -886,17 +890,19 @@ function NewEuipmentInformation(props) {
                   </>
                 )}
               </Form.Select>
-              {equipment_detail ? (
+              {
+              props.customer_type !== "RESID" ?
+              equipment_detail ? (
                 equipment_detail.length > 0 ? (
                   <>
                     {props.setNewSeer(equipment_detail[0].value1)}
                     {props.setNewSeer2(equipment_detail[0].value2)}
                     {props.setRebate(equipment_detail[0].rebate)}
-                    {props.setVendor(
+                    {/* {props.setVendor(
                       equipment_detail[0].vendor.length > 0
                         ? equipment_detail[0].vendor[0]
                         : "N/A"
-                    )}
+                    )} */}
 
                     {equipment_detail[0].btu === ""
                       ? props.setBtu("N/A")
@@ -911,7 +917,8 @@ function NewEuipmentInformation(props) {
                 )
               ) : (
                 <></>
-              )}
+              ):null
+              }
             </Form.Group>
             {props.model_no === "" ? (
               <p className="validate text-danger requiredField">
@@ -950,7 +957,7 @@ function NewEuipmentInformation(props) {
                 ? console.log("EQUIOPMENT DETAIL: ", equipment_detail[0])
                 : console.log("NO EQUIPMENT DETAIL")}
               <Form.Select
-                onChange={(e) => props.setVendor(e.target.value)}
+                onChange={(e) => handleChangeVendor(e)}
                 value={props.vendor}
               >
                 {/* <option hidden>
@@ -1110,7 +1117,9 @@ function NewEuipmentInformation(props) {
             </Row>
           ) : null
         ) : null}
-        {/* {props.system_type === "Dryer" || props.system_type === "Washer" ? (
+        {
+          props.customer_type !== "RESID" ?
+          props.system_type === "Dryer" || props.system_type === "Washer" ? (
           <></>
         ) : (
           <Row>
@@ -1148,7 +1157,8 @@ function NewEuipmentInformation(props) {
               </Col>
             ) : null}
           </Row>
-        )} */}
+        ):null
+        }
         <Row>
           <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">

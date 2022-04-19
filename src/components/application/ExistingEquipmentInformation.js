@@ -338,27 +338,36 @@ function ExistingEquipmentInformation(props) {
               <Form.Select
                 onChange={(e) => changeSystemTypeHandler(e)}
                 value={props.old_system_type}
-                disabled={props.no_existing ? true : false}
-                // disabled={
-                //   props.system_type === "Central AC" ||
-                //   props.system_type === "Split AC" ||
-                //   props.system_type === "Window AC"
-                //     ? false
-                //     : true
-                // }
+                disabled={
+                  props.no_existing
+                    ? true
+                    : props.system_type === "Dryer" ||
+                      props.system_type === "Washer"
+                    ? true
+                    : false
+                }
               >
                 <option defaultValue hidden>
                   {systemTypeLoading
                     ? "LOADING SYSTEM TYPES..."
                     : "SELECT SYSTEM TYPE"}
                 </option>
-                {systemTypeLoading ? (
+                {
+                props.system_type !== "Dryer" && props.system_type !== "Washer" ?
+                  systemTypeLoading ? (
                   <p>Loading . . .</p>
                 ) : system_types ? (
                   system_types.map((sys_type) => (
                     <option value={sys_type.type}>{sys_type.type}</option>
                   ))
-                ) : null}
+                ) : null
+                :
+                <>
+                    <option value="Dryer">Dryer</option>
+                    <option value="Washer">Washer</option>
+                  </>
+                }
+                
                 {/* <option value=""></option>
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
