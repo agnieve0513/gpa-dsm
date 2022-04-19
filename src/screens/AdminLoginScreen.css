@@ -5,6 +5,10 @@
     background-size:100% 100%;
 }
 
+.mt-5{
+    margin-top: 4rem!important;
+}
+
 @media (min-width: 768px) and (min-height: 1024px) {
     .main-content
     {

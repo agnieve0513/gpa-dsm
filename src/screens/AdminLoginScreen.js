@@ -53,15 +53,16 @@ function AdminLoginScreen({ location, history }) {
   };
 
   return (
-    <Row md={3} xs={12} sm={12} id="homeScreen2">
-      <Col md={2} sm={12} xs={12}></Col>
+    <Row  id="homeScreen2">
+      <Col lg={2} md={2} sm={12} xs={12}></Col>
       <Col
-        className="text-center mt-4 position-relative main-content"
+        className="text-center mt-5 position-relative"
+        lg={8}
         md={8}
         sm={12}
         xs={12}
       >
-        <Row className="mx-0 d-flex justify-content-center" id="formContent">
+        <Row className="mx-0 d-flex justify-content-center">
           <Row className="">
             <Col md={4}></Col>
             <Col md={4}>
@@ -132,6 +133,7 @@ function AdminLoginScreen({ location, history }) {
           </small>
         </Row>
       </Col>
+      <Col lg={2} md={2} sm={12} xs={12}></Col>
     </Row>
   );
 }
