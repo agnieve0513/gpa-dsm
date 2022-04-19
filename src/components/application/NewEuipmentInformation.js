@@ -1079,8 +1079,46 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        
-        {
+        {equipment_detail ? (
+          equipment_detail[0] ? (
+            <Row>
+              {equipment_detail[0].display1 ? (
+                <Col md={equipment_detail[0].display2 ? 6 : 12}>
+                  <Form.Group controlId="value1">
+                    <Form.Label className=" applicationTitle">
+                      {equipment_detail[0].display1}
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => props.setNewSeer(e.target.value)}
+                      value={equipment_detail[0].value1}
+                      required
+                      disabled={true}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              ) : null}
+
+              {equipment_detail[0].display2 ? (
+                <Col md={equipment_detail[0].display1 ? 6 : 12}>
+                  <Form.Group controlId="value2">
+                    <Form.Label className=" applicationTitle">
+                      {equipment_detail[0].display2}
+                    </Form.Label>
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => props.setNewSeer(e.target.value)}
+                      value={equipment_detail[0].value2}
+                      required
+                      disabled={true}
+                    ></Form.Control>
+                  </Form.Group>
+                </Col>
+              ) : null}
+            </Row>
+          ) : null
+        ) : null}
+        {/* {
           props.customer_type !== "RESID" ?
           props.system_type === "Dryer" || props.system_type === "Washer" ? (
           <></>
@@ -1123,7 +1161,7 @@ function NewEuipmentInformation(props) {
             ) : null}
           </Row>: null
         ):null
-        }
+        } */}
         <Row>
           <Col md={props.delay_reason ? 6 : 12}>
             <Form.Group controlId="rebate">
