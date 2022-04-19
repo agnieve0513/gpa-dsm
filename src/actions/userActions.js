@@ -184,22 +184,23 @@ export const logout = () => (dispatch) => {
 };
 
 export const register =
-  (role_id, name, email, password, role_name) => async (dispatch) => {
+  (role_id, name, email, password) => async (dispatch) => {
+    var role_name = "";
     try {
       let obj = JSON.parse(localStorage.getItem("userInfo"));
-      if (role_id === 1) {
+      if (role_id == 1) {
         role_name = "Admin";
-      } else if (role_id === 2) {
+      } else if (role_id == 2) {
         role_name = "Customer Service";
-      } else if (role_id === 3) {
+      } else if (role_id == 3) {
         role_name = "Spord";
-      } else if (role_id === 4) {
+      } else if (role_id == 4) {
         role_name = "Budget";
-      } else if (role_id === 5) {
+      } else if (role_id == 5) {
         role_name = "Accounting";
-      } else if (role_id === 6) {
+      } else if (role_id == 6) {
         role_name = "Supervisor";
-      } else if (role_id === 7) {
+      } else if (role_id == 7) {
         role_name = "Guest";
       } else {
         role_name = "Unknown Role";

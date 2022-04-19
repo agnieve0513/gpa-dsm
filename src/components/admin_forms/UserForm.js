@@ -28,6 +28,9 @@ function UserForm({ history, location }) {
   const [role_id, setRoleId] = useState("");
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
+  const [saveTrigger, setSaveTrigger] = useState(false);
+  const [updateTrigger, setUpdateTrigger] = useState(false);
+  const [deleteTrigger, setDeleteTrigger] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -237,20 +240,40 @@ function UserForm({ history, location }) {
     dispatch(listUsers());
   }, [dispatch, successDelete, userResult, successUpdate]);
 
+  useEffect(() => {
+    if(userResult){
+      if(saveTrigger){
+        if(userResult.success == true){
+          Swal.fire("Success!", "User Successfully Added", "success");
+          clearHandler();
+          setSaveTrigger(false);
+        }else{
+          Swal.fire("Error!", "Invalid Registration", "error");
+        }
+      }
+    }
+  }, [userResult]);
+
   const submitHandler = (e) => {
     e.preventDefault();
+
+    setSaveTrigger(true);
     if (password !== confirmPassword) {
       setMessage("Passwords do not Match");
     } else {
       if (action === "update") {
         dispatch(update(id, role_id, name, email));
-        Swal.fire("Success!", "User Info Successfully Updated", "success");
-        clearHandler();
+        // Swal.fire("Success!", "User Info Successfully Updated", "success");
+        // clearHandler();
       } else {
+        console.log("Role ID: ",role_id);
+        console.log("NAME: ", name);
+        console.log("EMAIL: ", email);
+        console.log("PASSWORD: ", password);
         dispatch(register(role_id, name, email, password));
 
-        Swal.fire("Success!", "User Successfully Added", "success");
-        clearHandler();
+        // Swal.fire("Success!", "User Successfully Added", "success");
+        // clearHandler();
       }
     }
   };
@@ -289,6 +312,7 @@ function UserForm({ history, location }) {
       confirmButtonText: "Delete",
       denyButtonText: `Cancel`,
     }).then((result) => {
+      setDeleteTrigger(true);
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         dispatch(deleteUser(id));
@@ -352,6 +376,8 @@ function UserForm({ history, location }) {
       </div>
     );
   };
+
+
 
   return (
     <Container>
