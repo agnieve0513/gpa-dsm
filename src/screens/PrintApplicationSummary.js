@@ -453,7 +453,11 @@ function PrintApplicationSummary(props) {
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Owner Residential Property:{" "}
+                          Owner{" "}
+                          {data?.Type === "RESID"
+                            ? "Residential"
+                            : "Commercial"}{" "}
+                          Property:{" "}
                         </Text>
                         <Text style={styles.boldText}>
                           {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
@@ -481,7 +485,8 @@ function PrintApplicationSummary(props) {
 
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Home Size (approx. sq. ft.):{" "}
+                          {data?.Type == "RESID" ? "Home" : "Building"} Size
+                          (approx. sq. ft.):{" "}
                         </Text>
                         <Text style={styles.boldText}>
                           {data?.Info_Home_size || "N/A"}
@@ -489,7 +494,8 @@ function PrintApplicationSummary(props) {
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Home Age (approx. year bult):{" "}
+                          {data?.Type == "RESID" ? "Home" : "Building"} Age
+                          (approx. year bult):{" "}
                         </Text>
                         <Text style={styles.boldText}>
                           {data?.Info_Home_age || "N/A"}
@@ -504,7 +510,9 @@ function PrintApplicationSummary(props) {
                         </Text>
                       </View>
                       <View style={styles.textContainer}>
-                        <Text style={styles.text}>Home Type: </Text>
+                        <Text style={styles.text}>
+                          {data?.Type == "RESID" ? "Home" : "Building"} Type:{" "}
+                        </Text>
                         <Text style={styles.boldText}>
                           {data?.Info_Home_type || "N/A"}
                         </Text>
@@ -742,7 +750,7 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Owner Residential Property:{" "}
+                        {data?.Type === "RESID" ? "Residential" : "Commercial"}{" "}
                       </Text>
                       <Text style={styles.boldText}>
                         {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
@@ -770,7 +778,8 @@ function PrintApplicationSummary(props) {
 
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Home Size (approx. sq. ft.):{" "}
+                        {data?.Type == "RESID" ? "Home" : "Building"} Size
+                        (approx. sq. ft.):{" "}
                       </Text>
                       <Text style={styles.boldText}>
                         {data?.Info_Home_size || "N/A"}
@@ -778,7 +787,8 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Home Age (approx. year bult):{" "}
+                        {data?.Type == "RESID" ? "Home" : "Building"} Age
+                        (approx. year bult):{" "}
                       </Text>
                       <Text style={styles.boldText}>
                         {data?.Info_Home_age || "N/A"}
@@ -793,7 +803,9 @@ function PrintApplicationSummary(props) {
                       </Text>
                     </View>
                     <View style={styles.textContainer}>
-                      <Text style={styles.text}>Home Type: </Text>
+                      <Text style={styles.text}>
+                        {data?.Type == "RESID" ? "Home" : "Building"} Type:{" "}
+                      </Text>
                       <Text style={styles.boldText}>
                         {data?.Info_Home_type || "N/A"}
                       </Text>
@@ -835,9 +847,7 @@ function PrintApplicationSummary(props) {
                       />
                     </View>
                     <View style={styles.textContainer}>
-                      <Text style={styles.text}>
-                        Supporting Documents 2:{" "}
-                      </Text>
+                      <Text style={styles.text}>Supporting Documents 2: </Text>
                       <StatusIcon check={data?.Submitted_docs[0]?.other_doc2} />
                     </View>
                   </View>
