@@ -336,6 +336,15 @@ function ViewApp(props) {
     dispatch(retrieveFileAction(code, filename));
   };
 
+    const handleNumericFields = (input, propVar) => {
+    const re = /^[0-9\b]+$/;
+
+    // if value is not blank, then test the regex
+    if (input.value === "" || re.test(input.value)) {
+      props[propVar](input.value);
+    }
+  };
+
   const handleEditInfo = () => {
     const obj = {
       applicationId: props.applicationId,
@@ -1721,7 +1730,7 @@ function ViewApp(props) {
                             <th>Manu facturer</th>
                             <th>Model Number</th>
                             <th>Invoice</th>
-                            <th>Purchae Date</th>
+                            <th>Purchase Date</th>
                             {roleId === 10 ? null : <th>Action</th>}
                           </tr>
                         </thead>
@@ -1879,7 +1888,8 @@ function ViewApp(props) {
                                       application.Installer_New_worktel
                                     }
                                     value={work_tel}
-                                    onChange={(e) => setWorkTel(e.target.value)}
+                                    onChange={(e) => handleNumericFields(e.target, "setWorkTel")}
+                                    maxLength="10"
                                   />
                                 ) : (
                                   <b>
@@ -1952,15 +1962,19 @@ function ViewApp(props) {
                               </p>
                               <p>
                                 {enable_installer_edit ? (
+                                 <>
                                   <FormControl
-                                    placeholder={
-                                      application.Installer_New_finaldate
-                                    }
+                                  
                                     value={installer_final_date}
                                     onChange={(e) =>
                                       setInstallerFinalDate(e.target.value)
                                     }
+                                     max={currentDate}
+                                    onKeyDown={(e) => e.preventDefault()}
+                                    type="date"
                                   />
+                                  <small className="text-muted">{application.Installer_New_finaldate}</small>
+                                 </>
                                 ) : (
                                   <b>
                                     {application.Installer_New_finaldate ||
