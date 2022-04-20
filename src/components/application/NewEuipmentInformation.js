@@ -847,7 +847,8 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Model
                 </option>
-                {models ? (
+                {
+                models ? (
                   models.map((me, indx) => {
                     // props.setVendor("");
                     if (me.package_model === null) {
@@ -904,38 +905,39 @@ function NewEuipmentInformation(props) {
                   </>
                 )}
               </Form.Select>
-              {props.customer_type !== "RESID" ? (
-                equipment_detail ? (
-                  equipment_detail.length > 0 ? (
-                    <>
-                      {props.setNewSeer(equipment_detail[0].value1)}
-                      {props.setNewSeer2(equipment_detail[0].value2)}
-                      {props.setRebate(equipment_detail[0].rebate)}
-                      {/* {props.setVendor(
+              {equipment_detail ? (
+                equipment_detail.length > 0 ? (
+                  <>
+                    {props.setNewSeer(equipment_detail[0].value1)}
+                    {props.setNewSeer2(equipment_detail[0].value2)}
+                    {props.setRebate(equipment_detail[0].rebate)}
+                    {/* {props.setVendor(
                       equipment_detail[0].vendor.length > 0
                         ? equipment_detail[0].vendor[0]
                         : "N/A"
                     )} */}
 
-                      {equipment_detail[0].btu === ""
-                        ? props.setBtu("N/A")
-                        : props.setBtu(
-                            equipment_detail[0].btu
-                              ? equipment_detail[0].btu
-                              : equipment_detail[0].tons
-                          )}
-                    </>
-                  ) : (
-                    <></>
-                  )
+                    {equipment_detail[0].btu === ""
+                      ? props.setBtu("N/A")
+                      : props.setBtu(
+                          equipment_detail[0].btu
+                            ? equipment_detail[0].btu
+                            : equipment_detail[0].tons
+                        )}
+                  </>
                 ) : (
                   <></>
                 )
-              ) : null}
+              ) : (
+                <></>
+              )}
             </Form.Group>
             {props.model_no === "" ? (
               <p className="validate text-danger requiredField">
-                *This Field is Required
+                {
+                  models == "" ? '*No Model Found' : '*This Field is Required'
+                }
+                
               </p>
             ) : (
               <></>

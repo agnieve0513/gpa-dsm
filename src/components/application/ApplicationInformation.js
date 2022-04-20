@@ -689,7 +689,8 @@ function ApplicationInformation(props) {
                   )}
                 </span>
               </Col>
-              {props.customer_type === "COMM" ? (
+              {props.customer_type === "COMM" ||
+              props.customer_type === "E-COM2" ? (
                 <Col md={12} className="mb-3">
                   <Form.Group controlId="first Name">
                     <Form.Label className=" applicationTitle">NAME</Form.Label>
@@ -1096,7 +1097,7 @@ function ApplicationInformation(props) {
                     }
                   ></Form.Control>
                 </Form.Group>
-               
+
                 {props.home_age === "" ? (
                   <p className="validate text-danger requiredField">
                     *This Field is Required
