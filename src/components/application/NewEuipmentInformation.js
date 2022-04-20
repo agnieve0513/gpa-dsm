@@ -847,8 +847,7 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Model
                 </option>
-                {
-                models ? (
+                {models ? (
                   models.map((me, indx) => {
                     // props.setVendor("");
                     if (me.package_model === null) {
@@ -934,10 +933,7 @@ function NewEuipmentInformation(props) {
             </Form.Group>
             {props.model_no === "" ? (
               <p className="validate text-danger requiredField">
-                {
-                  models == "" ? '*No Model Found' : '*This Field is Required'
-                }
-                
+                {models == "" ? "*No Model Found" : "*This Field is Required"}
               </p>
             ) : (
               <></>
@@ -959,11 +955,14 @@ function NewEuipmentInformation(props) {
             </Form.Group>
             {props.quantity === "" ? (
               <p className="validate text-danger requiredField">
-                *This Field is Required
+                  *This Field is Required
               </p>
-            ) : (
-              <></>
-            )}
+            ) : 
+              <p className="validate text-danger requiredField">
+                  {props.max_invoice < props.quantity
+                  ? "*Quantity Should not be greater than Max Quantity": null }
+              </p>
+            }
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="vendor">
@@ -1189,7 +1188,7 @@ function NewEuipmentInformation(props) {
               ></Form.Control>
             </Form.Group>
           </Col>
-          {props.delay_reason ? (
+          {/* {props.delay_reason ? (
             <Col md={6}>
               <Form.Group controlId="disposal_slip">
                 <p className="d-flex justify-content-between applicationTitle">
@@ -1273,7 +1272,7 @@ function NewEuipmentInformation(props) {
                 )}
               </Form.Group>
             </Col>
-          ) : null}
+          ) : null} */}
         </Row>
 
         {/* Table and button Add Equipment */}

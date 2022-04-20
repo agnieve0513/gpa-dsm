@@ -1721,7 +1721,7 @@ function ViewApp(props) {
                             <th>Manu facturer</th>
                             <th>Model Number</th>
                             <th>Invoice</th>
-                            <th>Install Date</th>
+                            <th>Purchae Date</th>
                             {roleId === 10 ? null : <th>Action</th>}
                           </tr>
                         </thead>
