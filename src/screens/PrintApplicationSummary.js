@@ -160,11 +160,17 @@ const EquipmentTable = ({ data, finalDate, index }) => {
               {data?.newEquip_Manufacturer || "N/A"}
             </Text>
           </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>Model Number: </Text>
-            <Text style={styles.boldText}>
-              {data?.newEquip_Model_no || "N/A"}
-            </Text>
+          <View
+            style={{
+              width: "100%",
+            }}
+          >
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>Model Number: </Text>
+              <Text style={styles.boldText}>
+                {data?.newEquip_Model_no || "N/A"}
+              </Text>
+            </View>
           </View>
         </View>
         <View style={styles.boxContainer}>
@@ -190,13 +196,14 @@ const EquipmentTable = ({ data, finalDate, index }) => {
             </View>
           ) : null}
 
-         {
-           data.newEquip_Tons ?
+          {data.newEquip_Tons ? (
             <View style={styles.textContainer}>
-            <Text style={styles.text}>Tons: </Text>
-            <Text style={styles.boldText}>{data?.newEquip_Tons || "N/A"}</Text>
-          </View>: null
-         }
+              <Text style={styles.text}>Tons: </Text>
+              <Text style={styles.boldText}>
+                {data?.newEquip_Tons || "N/A"}
+              </Text>
+            </View>
+          ) : null}
 
           <View style={styles.textContainer}>
             <Text style={styles.text}>Install Date: </Text>
