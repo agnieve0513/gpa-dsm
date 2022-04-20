@@ -690,7 +690,7 @@ function ApplicationInformation(props) {
                 </span>
               </Col>
               {props.customer_type === "COMM" ||
-              props.customer_type === "E-COM2" ? (
+              props.customer_type === "E-COM-2" ? (
                 <Col md={12} className="mb-3">
                   <Form.Group controlId="first Name">
                     <Form.Label className=" applicationTitle">NAME</Form.Label>
