@@ -11,7 +11,7 @@ import {
   Font,
   Image,
 } from "@react-pdf/renderer";
-import {saveAs} from 'file-saver';
+import { saveAs } from "file-saver";
 import black from "../components/fonts/Montserrat-Black.ttf";
 import bold from "../components/fonts/Montserrat-Bold.ttf";
 import regular from "../components/fonts/Montserrat-Regular.ttf";
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat",
     textAlign: "right",
     marginLeft: "auto",
+    ellipsizeMode: "tail",
   },
   tableText: {
     fontWeight: 500,
@@ -167,9 +168,20 @@ const EquipmentTable = ({ data, finalDate, index }) => {
           >
             <View style={styles.textContainer}>
               <Text style={styles.text}>Model Number: </Text>
-              <Text style={styles.boldText}>
-                {data?.newEquip_Model_no || "N/A"}
-              </Text>
+              {data?.newEquip_Model_no?.length > 20 ? (
+                <View style={{ marginLeft: "auto" }}>
+                  <Text style={styles.boldText}>
+                    {data?.newEquip_Model_no?.substring(0, 18) || "N/A"}
+                  </Text>
+                  <Text style={styles.boldText}>
+                    {data?.newEquip_Model_no?.substring(18) || ""}
+                  </Text>
+                </View>
+              ) : (
+                <Text style={styles.boldText}>
+                  {data?.newEquip_Model_no || "N/A"}
+                </Text>
+              )}
             </View>
           </View>
         </View>
