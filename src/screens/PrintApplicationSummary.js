@@ -750,7 +750,9 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
+                        Owner{" "}
                         {data?.Type === "RESID" ? "Residential" : "Commercial"}{" "}
+                        Property:{" "}
                       </Text>
                       <Text style={styles.boldText}>
                         {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
