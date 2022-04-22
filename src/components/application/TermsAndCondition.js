@@ -43,22 +43,32 @@ function TermsAndCondition(props) {
       template = "resd_dryer_washer";
     } else if (
       props.customer_type === "RESID" &&
-      props.system_type === "Central AC"
+      props.system_type === "Airconditioner-Central"
     ) {
       template = "resd_aircon_ductless";
     } else if (
       props.customer_type === "RESID" &&
-      props.system_type === "Split AC"
+      props.system_type === "Airconditioner-Split"
     ) {
       template = "resd_aircon_ductless";
     } else if (
       props.customer_type === "RESID" &&
-      props.system_type === "Window AC"
+      props.system_type === "Airconditioner-Window"
     ) {
       template = "resd_aircon_window";
     } else if (
+      props.customer_type === "E-COM-2" &&
+      props.system_type === "Airconditioner-Split"
+    ) {
+      template = "comm_ductless";
+    } else if (
+      props.customer_type === "E-COM-2" &&
+      props.system_type === "Airconditioner-Central"
+    ) {
+      template = "comm_ductless";
+    } else if (
       props.customer_type === "COMM" &&
-      props.system_type === "Split AC"
+      props.system_type === "Airconditioner-Split"
     ) {
       template = "comm_ductless";
     } else {
