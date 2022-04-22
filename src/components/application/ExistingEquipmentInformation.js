@@ -374,9 +374,14 @@ function ExistingEquipmentInformation(props) {
                   systemTypeLoading ? (
                   <p>Loading . . .</p>
                 ) : system_types ? (
-                  system_types.map((sys_type) => (
-                    <option value={sys_type.type}>{sys_type.type}</option>
-                  ))
+                  system_types.map((sys_type) => {
+                    if (sys_type.type == "Washer" || sys_type.type == "Dryer") {
+                      return null;
+                    }
+                    return (
+                      <option value={sys_type.type}>{sys_type.type}</option>
+                    );
+                  })
                 ) : null
                 :
                 <>
