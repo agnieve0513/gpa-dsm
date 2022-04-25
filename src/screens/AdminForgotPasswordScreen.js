@@ -169,7 +169,7 @@ function AdminForgotPasswordScreen({ location, history }) {
           <br />
           <small className="text-secondary text-center position-absolute footer-text">
             Energy Sense Rebate Program for Central, Ducted Systems <br />
-            Copyright &copy; 2020 GPA Powered By Xtendly
+            Copyright &copy; 2022 GPA Powered By Xtendly
           </small>
         </Row>
       </Row>

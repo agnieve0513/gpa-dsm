@@ -88,7 +88,7 @@ function HomeScreen() {
           <br />
           <small className="text-secondary position-absolute footer-text">
             Energy Sense Rebate Program <br />
-            Copyright &copy; 2020 GPA Powered By Xtendly
+            Copyright &copy; 2022 GPA Powered By Xtendly
           </small>
         </Row>
       </Col>

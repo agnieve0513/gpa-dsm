@@ -129,7 +129,7 @@ function AdminLoginScreen({ location, history }) {
           <br />
           <small className="my-2 px-2 text-secondary position-absolute footer-text text-center">
             Energy Sense Rebate Program for Central, Ducted Systems <br />
-            Copyright &copy; 2020 GPA Powered By Xtendly
+            Copyright &copy; 2022 GPA Powered By Xtendly
           </small>
         </Row>
       </Col>

@@ -524,7 +524,7 @@ function ApplicationScreen() {
           }
         }
       } else if (currentStep === 6) {
-        if (irs_form === null || invoice === "") {
+        if (irs_form === null || invoice === "" || irs_formD === "" || invoiceD === "") {
           errorMessage();
         } else {
           setStep(currentStep + 1);
