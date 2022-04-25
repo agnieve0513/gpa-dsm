@@ -1,24 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { Row, Alert, Container, Button } from "react-bootstrap";
+import { Row, Alert, Container, Button, Spinner } from "react-bootstrap";
 import { listApplications } from "../../actions/applicationActions";
 
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 import { useDispatch, useSelector } from "react-redux";
 
 import "./ApplicationForm.css";
-import Swal from "sweetalert2";
 import { useWindowDimensions } from "../../hooks";
 import { formatAMPM } from "../../helpers";
 import _ from "lodash";
 
 import ViewApp from "./ViewApp";
 
+const MySwal = withReactContent(Swal);
+
 function ApplicationList() {
   const { height, width } = useWindowDimensions();
   const [show, setShow] = useState(false);
+
+  const Toast = MySwal.mixin({
+    toast: true,
+    position: "center",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
 
   const [tabThree, setTabThree] = useState(true);
   const [tabFour, setTabFour] = useState(true);
@@ -37,6 +49,11 @@ function ApplicationList() {
   useEffect(() => {
     dispatch(listApplications());
     setUpdatedTime(formatAMPM(new Date()));
+    Toast.fire({
+      icon: "info",
+      title: "Loading Data",
+      text: "Please wait while the table is loading the data.",
+    });
   }, [reload]);
 
   //   TODO: Put Reload Function Here . . .
@@ -72,7 +89,7 @@ function ApplicationList() {
 
   const handleViewApplication = (data) => {
     console.log(data);
-    setApplicationId(data.Application_Id)
+    setApplicationId(data.Application_Id);
     setShow(true);
   };
   const ButtonView = (selected) => {
@@ -120,7 +137,7 @@ function ApplicationList() {
                   }}
                   className="text-muted"
                 >
-                  Last Update: {updatedTime}
+                  Last Update: {updatedTime}{" "}
                 </h6>
                 <Button
                   onClick={() => handleReload()}
