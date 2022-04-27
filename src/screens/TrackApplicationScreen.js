@@ -40,15 +40,6 @@ function ApplicationScreen() {
   const [searchVisible, setSearchVisible] = useState(false);
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    if (control_no !== "") {
-      dispatch(trackApplications(control_no));
-      setSearchVisible(false);
-    } else {
-      setSearchVisible(true);
-    }
-  }, [count]);
-
   const dispatch = useDispatch();
 
   let { ctrl_no } = useParams();
@@ -62,6 +53,15 @@ function ApplicationScreen() {
   const { loading, error, track_application } = applicationTrack;
 
   const [isSearch, setIsSearch] = useState();
+
+   useEffect(() => {
+     if (control_no !== "" || ctrl_no !== "") {
+       dispatch(trackApplications(control_no ? control_no : ctrl_no));
+       setSearchVisible(false);
+     } else {
+       setSearchVisible(true);
+     }
+   }, [count]);
 
   const trackApplicationHandler = () => {
     setCount(count + 1);
@@ -116,14 +116,15 @@ function ApplicationScreen() {
       <>
         <p>No Application was Found.</p>
         <div class="d-grid gap-2 mt-5">
-          <button
+          <a
             style={{ borderRadius: "0.5rem" }}
             className="btn btn-success py-3 mt-5"
             id="submitbtn"
-            onClick={() => resetHandler()}
+            // onClick={() => resetHandler()}
+            href="https://gparebates.com/track"
           >
             <b className="trackButtonText">TRACK NEW APPLICATION</b>
-          </button>
+          </a>
         </div>
       </>
     );
@@ -238,14 +239,15 @@ function ApplicationScreen() {
                       </p>
                     </Row>
                     <Row className="px-0">
-                      <button
+                      <a
                         style={{ borderRadius: "0.5rem" }}
                         className="btn btn-success py-3 mt-5 fw-normal"
                         id="submitbtn"
-                        onClick={() => resetHandler()}
+                        href="https://gparebates.com/track"
+                        // onClick={() => resetHandler()}
                       >
                         <b className="trackButtonText">TRACK NEW APPLICATION</b>
-                      </button>
+                      </a>
                     </Row>
                   </>
                 ) : (
