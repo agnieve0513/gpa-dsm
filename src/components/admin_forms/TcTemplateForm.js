@@ -34,6 +34,15 @@ import DisplayPDF from "../application/Pdf";
 const MySwal = withReactContent(Swal);
 
 function TcTemplateForm() {
+
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+
   const [selectedFile, setSelectedFile] = useState();
   const [customer_type, setCustomerType] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
@@ -53,6 +62,11 @@ function TcTemplateForm() {
   const [authorDate, setAuthorDate] = useState("");
 
   useEffect(() => {
+    // Toast.fire({
+    //   icon: "info",
+    //   title: "Loading Data",
+    //   text: "Please wait while the table is loading the data.",
+    // });
     let find = 0;
     if (logsFile.success) {
       for (let i = 0; i < logsFile.success.length; i++) {

@@ -88,6 +88,11 @@ function ApplicationList() {
   };
 
   const handleViewApplication = (data) => {
+     Toast.fire({
+      icon: "info",
+      title: "Loading Data",
+      text: "Please wait while the table is loading the data.",
+    });
     console.log(data);
     setApplicationId(data.Application_Id);
     setShow(true);

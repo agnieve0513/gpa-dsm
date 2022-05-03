@@ -37,7 +37,7 @@ function ApplicationScreen() {
   // const styles = StyleSheet.create({
   //     section: {  textAlign: 'justify', margin: 30, fontSize:12,lineHeight:2 }
   // });
-  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(true);
   const [count, setCount] = useState(0);
 
   const dispatch = useDispatch();
@@ -54,14 +54,14 @@ function ApplicationScreen() {
 
   const [isSearch, setIsSearch] = useState();
 
-   useEffect(() => {
-     if (control_no !== "" || ctrl_no !== "") {
-       dispatch(trackApplications(control_no ? control_no : ctrl_no));
-       setSearchVisible(false);
-     } else {
-       setSearchVisible(true);
-     }
-   }, [count]);
+  useEffect(() => {
+    if (control_no !== "" || typeof ctrl_no !== "undefined") {
+      dispatch(trackApplications(control_no ? control_no : ctrl_no));
+      setSearchVisible(false);
+    } else {
+      setSearchVisible(true);
+    }
+  }, [count]);
 
   const trackApplicationHandler = () => {
     setCount(count + 1);
@@ -111,25 +111,6 @@ function ApplicationScreen() {
     setCount(count + 1);
   };
 
-  const noFound = () => {
-    return (
-      <>
-        <p>No Application was Found.</p>
-        <div class="d-grid gap-2 mt-5">
-          <a
-            style={{ borderRadius: "0.5rem" }}
-            className="btn btn-success py-3 mt-5"
-            id="submitbtn"
-            // onClick={() => resetHandler()}
-            href="https://gparebates.com/track"
-          >
-            <b className="trackButtonText">TRACK NEW APPLICATION</b>
-          </a>
-        </div>
-      </>
-    );
-  };
-
   return (
     <Container className="m-0 p-0 h-100 d-flex flex-column" fluid>
       {console.log(applicationTrack)}
@@ -173,7 +154,21 @@ function ApplicationScreen() {
                     Loading . . .{" "}
                   </>
                 ) : error ? (
-                  <> {noFound()}</>
+                  <>
+                    <p>No Application was Found.</p>
+                    <div class="d-grid gap-2 mt-5">
+                      <a
+                        style={{ borderRadius: "0.5rem" }}
+                        className="btn btn-success py-3 mt-5"
+                        id="submitbtn"
+                        // onClick={() => resetHandler()}
+                        href="https://gparebates.com/track"
+                        // href="http://localhost:3000/track"
+                      >
+                        <b className="trackButtonText">TRACK NEW APPLICATION</b>
+                      </a>
+                    </div>
+                  </>
                 ) : track_application.length > 0 ? (
                   <>
                     <Row className="px-0 mb-4 mx-0 d-flex align-items-center">
@@ -243,6 +238,7 @@ function ApplicationScreen() {
                         style={{ borderRadius: "0.5rem" }}
                         className="btn btn-success py-3 mt-5 fw-normal"
                         id="submitbtn"
+                        // href="http://localhost:3000/track"
                         href="https://gparebates.com/track"
                         // onClick={() => resetHandler()}
                       >

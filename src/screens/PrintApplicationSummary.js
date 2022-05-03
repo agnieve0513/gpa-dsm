@@ -221,6 +221,11 @@ const EquipmentTable = ({ data, finalDate, index }) => {
             <Text style={styles.text}>Install Date: </Text>
             <Text style={styles.boldText}>{finalDate || "N/A"}</Text>
           </View>
+
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Rebate: </Text>
+            <Text style={styles.boldText}>{data.newEquip_rebate || "N/A"}</Text>
+          </View>
         </View>
       </View>
       <View

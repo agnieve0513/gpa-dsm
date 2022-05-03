@@ -12,14 +12,28 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import MaterialTable from "material-table";
 import "./BatchForm.css";
-import Swal from "sweetalert2";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { formatAMPM } from "../../helpers";
 import ViewApp from "./ViewApp";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 function BatchList() {
+
+   const Toast = MySwal.mixin({
+     toast: true,
+     position: "center",
+     showConfirmButton: false,
+     timer: 3000,
+     timerProgressBar: true,
+   });
+
+
   let obj = JSON.parse(localStorage.getItem("userInfo"));
   let selectedIds = [];
   let roleId = obj.message.original.roleId;
@@ -72,17 +86,36 @@ function BatchList() {
   } = batchApplicationUpdate;
 
   useEffect(() => {
+
+     Toast.fire({
+       icon: "info",
+       title: "Loading Data",
+       text: "Please wait while the table is loading the data.",
+     });
+
     dispatch(listBatch());
     setUpdatedTime(formatAMPM(new Date()));
   }, [reload]);
 
   useEffect(() => {
+
+     Toast.fire({
+       icon: "info",
+       title: "Loading Data",
+       text: "Please wait while the table is loading the data.",
+     });
     dispatch(listBatchApplication(batchId));
   }, [reloadBatchApp, batchUpdateSuccess]);
 
   const handleModalClose = () => setShowModal(false);
 
   const selectHandler = (rowdata) => {
+
+        Toast.fire({
+          icon: "info",
+          title: "Loading Data",
+          text: "Please wait while the table is loading the data.",
+        });
     setCurrentBatch(rowdata.Id);
     setBatchId(rowdata.Id);
     dispatch(listBatchApplication(rowdata.Id));
@@ -94,6 +127,7 @@ function BatchList() {
   };
 
   const applicationViewHandler = (rowdata) => {
+     
     setApplicationId(rowdata.Application_Id);
     setCurrentControlNum(rowdata.Control_Number);
     setShow(true);

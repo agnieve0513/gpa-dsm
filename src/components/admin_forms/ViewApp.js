@@ -55,6 +55,15 @@ const MySwal = withReactContent(Swal);
   const currentDate = moment(date).format("YYYY-MM-DD");
 
 function ViewApp(props) {
+
+  const Toast = MySwal.mixin({
+    toast: true,
+    position: "center",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
   let total_rebate = 0;
   let inv,
     irs,
@@ -135,6 +144,8 @@ function ViewApp(props) {
   const [cert_no, setCertNo] = useState("");
   const [installer_email, setInstallerEmail] = useState("");
   const [installer_final_date, setInstallerFinalDate] = useState("");
+  const [delay_reason, setDelayReason] = useState("");
+  const [delay_reason2, setDelayReason2] = useState("");
 
   const [invoice, setInvoice] = useState(null);
   const [irs_form, setIrsForm] = useState(null);
@@ -158,6 +169,11 @@ function ViewApp(props) {
   const [selectedOldEquipmentIndex, setSelectedOldEquipmentIndex] = useState(0);
 
   const handleOnChange = (e, doc_type, control_no) => {
+        Toast.fire({
+      icon: "info",
+      title: "Uploaded Successfully",
+      text: "Please wait while the uploaded file is being fetched.",
+    });
     console.log("FILE DETAILS: ", e.target.files[0].type);
 
     dispatch(
@@ -292,6 +308,11 @@ function ViewApp(props) {
   };
 
   const reloadHandler = () => {
+        Toast.fire({
+          icon: "info",
+          title: "Loading Data",
+          text: "Please wait while the table is loading the data.",
+        });
     setReload(reload + 1);
   };
 
@@ -375,6 +396,8 @@ function ViewApp(props) {
       isNewConstruction: is_new_construction
         ? is_new_construction
         : application.Info_New_construction,
+        Delay_Reason: delay_reason ? delay_reason : application.Delay_Reason,
+        Delay_Reason2: delay_reason2 ? delay_reason2 : application.Delay_Reason2,
     };
 
     dispatch(editApplication(obj));
@@ -1847,7 +1870,7 @@ function ViewApp(props) {
                                   Date of Final
                                 </b>
                               </p>
-                              {enable_installer_edit ? <br /> : null}
+                              {enable_installer_edit ? <><br /> <br /> </>: null}
 
                               {application?.Delay_Reason ? (
                                 <p>
@@ -1984,11 +2007,41 @@ function ViewApp(props) {
                               </p>
 
                               <p>
-                                <b>{application?.Delay_Reason || null}</b>
+                                {enable_installer_edit ? (
+                                 <>
+                                  <FormControl
+                                  
+                                    value={delay_reason}
+                                    onChange={(e) =>
+                                      setDelayReason(e.target.value)
+                                    }
+                                    type="text"
+                                    placeholder={application.Delay_Reason}
+                                  />
+                                 </>
+                                ) : (
+                                  <b>{application?.Delay_Reason || null}</b>
+                                )}
+                                
                               </p>
 
                               <p>
-                                <b>{application?.Delay_Reason2 || null}</b>
+                                {enable_installer_edit ? (
+                                 <>
+                                  <FormControl
+                                  
+                                    value={delay_reason2}
+                                    onChange={(e) =>
+                                      setDelayReason2(e.target.value)
+                                    }
+                                    type="text"
+                                    placeholder={application.Delay_Reason2}
+                                  />
+                                 </>
+                                ) : (
+                                  <b>{application?.Delay_Reason2 || null}</b>
+                                )}
+                                
                               </p>
 
                               {enable_installer_edit ? (
@@ -2952,7 +3005,7 @@ function ViewApp(props) {
                                       ) {
                                         handleOnChange(
                                           e,
-                                          "other_doc3",
+                                          "other_doc2",
                                           application.Control_Number
                                         );
                                       } else {
@@ -2966,7 +3019,7 @@ function ViewApp(props) {
                                 <></>
                               )}
 
-                              {other_doc2 ? (
+                              {/* {other_doc2 ? (
                                 <>
                                   {fileCode ? (
                                     <>
@@ -2985,7 +3038,7 @@ function ViewApp(props) {
                                 </>
                               ) : (
                                 <></>
-                              )}
+                              )} */}
                             </Form.Group>
                           </Col>
                         </Row>
@@ -3023,7 +3076,7 @@ function ViewApp(props) {
                                   required
                                 >
                                   <option value="">Open this select menu</option>
-                                  <option value="0">None</option>
+                                  {/* <option value="0">None</option> */}
                                   <option value="1">
                                     Applicant is not a GPA Account holder or
                                     property owner.

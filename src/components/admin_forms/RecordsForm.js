@@ -62,6 +62,14 @@ const timeAgo = new TimeAgo("en-US");
 
 function RecordsForm() {
 
+  const Toast = MySwal.mixin({
+    toast: true,
+    position: "center",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
   const { encryptString } = new StringCrypto();
 
   const { height, width } = useWindowDimensions();
@@ -398,6 +406,11 @@ function RecordsForm() {
   };
 
   useEffect(() => {
+     Toast.fire({
+       icon: "info",
+       title: "Loading Data",
+       text: "Please wait while the table is loading the data.",
+     });
       dispatch(listApplicationsRecords());
         dispatch(detailApplication(applicationId));
         dispatch(logsApplication(applicationId));
@@ -459,6 +472,11 @@ function RecordsForm() {
   // testing lng ...
   const ButtonClick = (selected) => {
     const onButtonClick = () => {
+        Toast.fire({
+          icon: "info",
+          title: "Loading Data",
+          text: "Please wait while the table is loading the data.",
+        });
       console.log("selected application: ", selected.data);
       dispatch(detailApplication(selected.data.Application_Id));
       setApplicationId(selected.data.Application_Id);
