@@ -109,12 +109,16 @@ function NewEuipmentInformation(props) {
     props.setModelList(models);
   };
 
-  const handleModelNo = (id) => {
-    if(id.package_model){
-      return id.package_model; 
-    }else {
-     return id.indoor_model + "/" + id.outdoor_model; 
-    }
+  const handleModelNo = (me) => {
+    var modelName = me.indoor_model
+      ? me.indoor_model
+      : "" + me.outdoor_model && me.indoor_model
+      ? " / "
+      : " " + me.outdoor_model
+      ? me.outdoor_model
+      : "";
+
+      return modelName
   };
 
   const changeModelHandler = (e) => {
