@@ -477,8 +477,8 @@ function ApplicationScreen() {
           work_tel.length > 10 ||
           work_tel.length < 10 ||
           company_name === "" ||
-          date_final_installation === "" ||
-          invoice === undefined
+          date_final_installation === ""
+          // typeof invoice === "undefined"
         ) {
           errorMessage();
         } else if (new_equipments.length === 0) {
@@ -487,7 +487,7 @@ function ApplicationScreen() {
           if (
             system_type === "Washer" ||
             system_type === "Dryer" ||
-            system_type === "Window AC"
+            system_type === "Airconditioner-Window"
           ) {
             setStep(currentStep + 1);
             return;

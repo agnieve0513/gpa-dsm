@@ -47,15 +47,14 @@ import {
 } from "../../actions/customerAction";
 import ModalImage from "../ModalImage";
 
-import './ViewApp.css';
+import "./ViewApp.css";
 
 const MySwal = withReactContent(Swal);
-  const date = new Date(Date.now());
-  date.setDate(date.getDate());
-  const currentDate = moment(date).format("YYYY-MM-DD");
+const date = new Date(Date.now());
+date.setDate(date.getDate());
+const currentDate = moment(date).format("YYYY-MM-DD");
 
 function ViewApp(props) {
-
   const Toast = MySwal.mixin({
     toast: true,
     position: "center",
@@ -169,7 +168,7 @@ function ViewApp(props) {
   const [selectedOldEquipmentIndex, setSelectedOldEquipmentIndex] = useState(0);
 
   const handleOnChange = (e, doc_type, control_no) => {
-        Toast.fire({
+    Toast.fire({
       icon: "info",
       title: "Uploaded Successfully",
       text: "Please wait while the uploaded file is being fetched.",
@@ -308,11 +307,11 @@ function ViewApp(props) {
   };
 
   const reloadHandler = () => {
-        Toast.fire({
-          icon: "info",
-          title: "Loading Data",
-          text: "Please wait while the table is loading the data.",
-        });
+    Toast.fire({
+      icon: "info",
+      title: "Loading Data",
+      text: "Please wait while the table is loading the data.",
+    });
     setReload(reload + 1);
   };
 
@@ -357,7 +356,7 @@ function ViewApp(props) {
     dispatch(retrieveFileAction(code, filename));
   };
 
-    const handleNumericFields = (input, propVar) => {
+  const handleNumericFields = (input, propVar) => {
     const re = /^[0-9\b]+$/;
 
     // if value is not blank, then test the regex
@@ -396,8 +395,8 @@ function ViewApp(props) {
       isNewConstruction: is_new_construction
         ? is_new_construction
         : application.Info_New_construction,
-        Delay_Reason: delay_reason ? delay_reason : application.Delay_Reason,
-        Delay_Reason2: delay_reason2 ? delay_reason2 : application.Delay_Reason2,
+      Delay_Reason: delay_reason ? delay_reason : application.Delay_Reason,
+      Delay_Reason2: delay_reason2 ? delay_reason2 : application.Delay_Reason2,
     };
 
     dispatch(editApplication(obj));
@@ -551,17 +550,21 @@ function ViewApp(props) {
     setReload(reload + 1);
   };
   const handleEditNewEquipment = (control_no, equipment_id, indx) => {
-
     var me = equipment_detail ? equipment_detail[0] : [];
 
-    var modelName = me.indoor_model ? me.indoor_model : "" + me.outdoor_model && me.indoor_model ? " / " : " " + me.outdoor_model ? me.outdoor_model : "";
+    var modelName = me.indoor_model
+      ? me.indoor_model
+      : "" + me.outdoor_model && me.indoor_model
+      ? " / "
+      : " " + me.outdoor_model
+      ? me.outdoor_model
+      : "";
 
     const obj = {
-      
       new_equipment_information: [
         {
-          application_information : {
-              control_no:control_no
+          application_information: {
+            control_no: control_no,
           },
           id: equipment_id,
           system_type: system_type
@@ -592,7 +595,7 @@ function ViewApp(props) {
           type: "",
           tons: "",
           seer: equipment_detail ? equipment_detail[0]?.value1 : 0,
-          rebate:equipment_detail ? equipment_detail[0]?.rebate : 0,
+          rebate: equipment_detail ? equipment_detail[0]?.rebate : 0,
         },
       ],
       // installer_information: {
@@ -1544,7 +1547,9 @@ function ViewApp(props) {
                       </Form.Label>
                       <Form.Select
                         value={modelNumber}
-                        onChange={(e) => changeModelHandler(e.target.value, application.Type)}
+                        onChange={(e) =>
+                          changeModelHandler(e.target.value, application.Type)
+                        }
                       >
                         <option defaultValue hidden>
                           Select Model
@@ -1556,12 +1561,11 @@ function ViewApp(props) {
                               return (
                                 <option key={me.id + indx} value={me.id}>
                                   {" "}
-                                  {me.indoor_model
-                                    ? me.indoor_model 
-                                    : ""}{me.outdoor_model && me.indoor_model ? " / " : " " }
-                                  {me.outdoor_model
-                                    ?  me.outdoor_model
-                                    : ""}{" "}
+                                  {me.indoor_model ? me.indoor_model : ""}
+                                  {me.outdoor_model && me.indoor_model
+                                    ? " / "
+                                    : " "}
+                                  {me.outdoor_model ? me.outdoor_model : ""}{" "}
                                 </option>
                               );
                             } else {
@@ -1870,7 +1874,11 @@ function ViewApp(props) {
                                   Date of Final
                                 </b>
                               </p>
-                              {enable_installer_edit ? <><br /> <br /> </>: null}
+                              {enable_installer_edit ? (
+                                <>
+                                  <br /> <br />{" "}
+                                </>
+                              ) : null}
 
                               {application?.Delay_Reason ? (
                                 <p>
@@ -1911,7 +1919,12 @@ function ViewApp(props) {
                                       application.Installer_New_worktel
                                     }
                                     value={work_tel}
-                                    onChange={(e) => handleNumericFields(e.target, "setWorkTel")}
+                                    onChange={(e) =>
+                                      handleNumericFields(
+                                        e.target,
+                                        "setWorkTel"
+                                      )
+                                    }
                                     maxLength="10"
                                   />
                                 ) : (
@@ -1985,19 +1998,20 @@ function ViewApp(props) {
                               </p>
                               <p>
                                 {enable_installer_edit ? (
-                                 <>
-                                  <FormControl
-                                  
-                                    value={installer_final_date}
-                                    onChange={(e) =>
-                                      setInstallerFinalDate(e.target.value)
-                                    }
-                                     max={currentDate}
-                                    onKeyDown={(e) => e.preventDefault()}
-                                    type="date"
-                                  />
-                                  <small className="text-muted">{application.Installer_New_finaldate}</small>
-                                 </>
+                                  <>
+                                    <FormControl
+                                      value={installer_final_date}
+                                      onChange={(e) =>
+                                        setInstallerFinalDate(e.target.value)
+                                      }
+                                      max={currentDate}
+                                      onKeyDown={(e) => e.preventDefault()}
+                                      type="date"
+                                    />
+                                    <small className="text-muted">
+                                      {application.Installer_New_finaldate}
+                                    </small>
+                                  </>
                                 ) : (
                                   <b>
                                     {application.Installer_New_finaldate ||
@@ -2005,44 +2019,47 @@ function ViewApp(props) {
                                   </b>
                                 )}
                               </p>
+                              {application?.Delay_Reason ? (
+                                <>
+                                  <p>
+                                    {enable_installer_edit ? (
+                                      <>
+                                        <FormControl
+                                          value={delay_reason}
+                                          onChange={(e) =>
+                                            setDelayReason(e.target.value)
+                                          }
+                                          type="text"
+                                          placeholder={application.Delay_Reason}
+                                        />
+                                      </>
+                                    ) : (
+                                      <b>{application?.Delay_Reason || null}</b>
+                                    )}
+                                  </p>
 
-                              <p>
-                                {enable_installer_edit ? (
-                                 <>
-                                  <FormControl
-                                  
-                                    value={delay_reason}
-                                    onChange={(e) =>
-                                      setDelayReason(e.target.value)
-                                    }
-                                    type="text"
-                                    placeholder={application.Delay_Reason}
-                                  />
-                                 </>
-                                ) : (
-                                  <b>{application?.Delay_Reason || null}</b>
-                                )}
-                                
-                              </p>
-
-                              <p>
-                                {enable_installer_edit ? (
-                                 <>
-                                  <FormControl
-                                  
-                                    value={delay_reason2}
-                                    onChange={(e) =>
-                                      setDelayReason2(e.target.value)
-                                    }
-                                    type="text"
-                                    placeholder={application.Delay_Reason2}
-                                  />
-                                 </>
-                                ) : (
-                                  <b>{application?.Delay_Reason2 || null}</b>
-                                )}
-                                
-                              </p>
+                                  <p>
+                                    {enable_installer_edit ? (
+                                      <>
+                                        <FormControl
+                                          value={delay_reason2}
+                                          onChange={(e) =>
+                                            setDelayReason2(e.target.value)
+                                          }
+                                          type="text"
+                                          placeholder={
+                                            application.Delay_Reason2
+                                          }
+                                        />
+                                      </>
+                                    ) : (
+                                      <b>
+                                        {application?.Delay_Reason2 || null}
+                                      </b>
+                                    )}
+                                  </p>
+                                </>
+                              ) : null}
 
                               {enable_installer_edit ? (
                                 <>
@@ -2165,7 +2182,7 @@ function ViewApp(props) {
                             </option>
                           ))
                         ) : null}
-                        
+
                         {/* {application?.Type === "RESID" ? (
                           <>
                             <option value="Central AC">Central AC</option>
@@ -2548,7 +2565,7 @@ function ViewApp(props) {
 
                               {invoice ? (
                                 <>
-                                  {fileCode ? (
+                                  {/* {fileCode ? (
                                     <>
                                       <p hidden>{(inv = fileCode)}</p>
                                       <Badge bg={"success"}>
@@ -2561,7 +2578,7 @@ function ViewApp(props) {
                                   )}
                                   Filename: {invoice.name} <br />
                                   File Type: {invoice.type} <br />
-                                  <br />
+                                  <br /> */}
                                 </>
                               ) : (
                                 <></>
@@ -2640,7 +2657,7 @@ function ViewApp(props) {
 
                               {irs_form ? (
                                 <>
-                                  {fileCode ? (
+                                  {/* {fileCode ? (
                                     <>
                                       <p hidden>{(irs = fileCode)}</p>
                                       <Badge bg={"success"}>
@@ -2653,7 +2670,7 @@ function ViewApp(props) {
                                   )}
                                   Filename: {irs_form.name} <br />
                                   File Type: {irs_form.type} <br />
-                                  <br />
+                                  <br /> */}
                                 </>
                               ) : (
                                 <></>
@@ -2735,7 +2752,7 @@ function ViewApp(props) {
 
                               {letter_authorization ? (
                                 <>
-                                  {fileCode ? (
+                                  {/* {fileCode ? (
                                     <>
                                       <p hidden>{(loa = fileCode)}</p>
                                       <Badge bg={"success"}>
@@ -2748,7 +2765,7 @@ function ViewApp(props) {
                                   )}
                                   Filename: {letter_authorization.name} <br />
                                   File Type: {letter_authorization.type} <br />
-                                  <br />
+                                  <br /> */}
                                 </>
                               ) : (
                                 <></>
@@ -2829,7 +2846,7 @@ function ViewApp(props) {
 
                               {disposal_slip ? (
                                 <>
-                                  {fileCode ? (
+                                  {/* {fileCode ? (
                                     <>
                                       <p hidden>{(disp = fileCode)}</p>
                                       <Badge bg={"success"}>
@@ -2842,7 +2859,7 @@ function ViewApp(props) {
                                   )}
                                   Filename: {disposal_slip.name} <br />
                                   File Type: {disposal_slip.type} <br />
-                                  <br />
+                                  <br /> */}
                                 </>
                               ) : (
                                 <></>
@@ -2925,7 +2942,7 @@ function ViewApp(props) {
 
                               {installer_cert ? (
                                 <>
-                                  {fileCode ? (
+                                  {/* {fileCode ? (
                                     <>
                                       <p hidden>{(oth1 = fileCode)}</p>
                                       <Badge bg={"success"}>
@@ -2938,7 +2955,7 @@ function ViewApp(props) {
                                   )}
                                   Filename: {installer_cert.name} <br />
                                   File Type: {installer_cert.type} <br />
-                                  <br />
+                                  <br /> */}
                                 </>
                               ) : (
                                 <></>
@@ -3075,7 +3092,9 @@ function ViewApp(props) {
                                   value={reason}
                                   required
                                 >
-                                  <option value="">Open this select menu</option>
+                                  <option value="">
+                                    Open this select menu
+                                  </option>
                                   {/* <option value="0">None</option> */}
                                   <option value="1">
                                     Applicant is not a GPA Account holder or
@@ -3110,17 +3129,17 @@ function ViewApp(props) {
                               </Form.Group>
                               <Button
                                 variant={"danger"}
-                                onClick={() =>
-                                  {
-                                    if(reason === "")
-                                    {
-                                      Swal.fire("No Reason Selected", "Please Select Reason to Reject", "error");
-
-                                    }else{
-                                      updateStatus(3, 0, "Reject Application")
-                                    }
+                                onClick={() => {
+                                  if (reason === "") {
+                                    Swal.fire(
+                                      "No Reason Selected",
+                                      "Please Select Reason to Reject",
+                                      "error"
+                                    );
+                                  } else {
+                                    updateStatus(3, 0, "Reject Application");
                                   }
-                                }
+                                }}
                               >
                                 Reject Application
                               </Button>

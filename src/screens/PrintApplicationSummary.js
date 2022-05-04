@@ -619,9 +619,15 @@ function PrintApplicationSummary(props) {
                           <Text style={styles.text}>
                             Delay For Date of Purchase{" "}
                           </Text>
-                          <Text style={styles.boldText}>
-                            {data?.Delay_Reason || "N/A"}
-                          </Text>
+
+                          <View style={{ marginLeft: "auto" }}>
+                            <Text style={styles.boldText}>
+                              {data?.Delay_Reason?.substring(0, 18) || "N/A"}
+                            </Text>
+                            <Text style={styles.boldText}>
+                              {data?.Delay_Reason?.substring(18) || ""}
+                            </Text>
+                          </View>
                         </View>
                       )}
                     </View>
@@ -657,9 +663,14 @@ function PrintApplicationSummary(props) {
                           <Text style={styles.text}>
                             Delay For Final Installation{" "}
                           </Text>
-                          <Text style={styles.boldText}>
-                            {data?.Delay_Reason2 || "N/A"}
-                          </Text>
+                          <View style={{ marginLeft: "auto" }}>
+                            <Text style={styles.boldText}>
+                              {data?.Delay_Reason2?.substring(0, 18) || "N/A"}
+                            </Text>
+                            <Text style={styles.boldText}>
+                              {data?.Delay_Reason2?.substring(18) || ""}
+                            </Text>
+                          </View>
                         </View>
                       ) : null}
                     </View>
@@ -908,9 +919,15 @@ function PrintApplicationSummary(props) {
                         <Text style={styles.text}>
                           Delay For Date of Purchase{" "}
                         </Text>
-                        <Text style={styles.boldText}>
-                          {data?.Delay_Reason || "N/A"}
-                        </Text>
+
+                        <View style={{ marginLeft: "auto" }}>
+                          <Text style={styles.boldText}>
+                            {data?.Delay_Reason?.substring(0, 18) || "N/A"}
+                          </Text>
+                          <Text style={styles.boldText}>
+                            {data?.Delay_Reason?.substring(18) || ""}
+                          </Text>
+                        </View>
                       </View>
                     )}
                   </View>
@@ -946,9 +963,16 @@ function PrintApplicationSummary(props) {
                         <Text style={styles.text}>
                           Delay For Final Installation{" "}
                         </Text>
-                        <Text style={styles.boldText}>
-                          {data?.Delay_Reason2 || "N/A"}
-                        </Text>
+
+                        <View style={{ marginLeft: "auto" }}>
+                          <Text style={styles.boldText}>
+                            {data?.Delay_Reason2?.substring(0, 18) || "N/A"}
+                          </Text>
+                          <Text style={styles.boldText}>
+                            {data?.Delay_Reason2?.substring(18) || ""}
+                          </Text>
+                        </View>
+                     
                       </View>
                     ) : null}
                   </View>

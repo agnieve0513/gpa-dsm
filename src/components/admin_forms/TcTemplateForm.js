@@ -147,8 +147,16 @@ function TcTemplateForm() {
     );
     dispatch(retrievePdfAction(customer_type));
   };
-
+  
+  const loadingFileToast = () => {
+      Toast.fire({
+      icon: "info",
+      title: "Loading Data",
+      text: "Please wait while the file loading.",
+    });
+  }
   const changeHandler = (event) => {
+  
     setSelectedFile(event.target.files[0]);
     setIsFilePicked(true);
   };
@@ -158,6 +166,8 @@ function TcTemplateForm() {
   });
 
   useEffect(() => {
+      loadingFileToast();
+
     dispatch(retrievePdfAction(code));
     dispatch(logsFileAction());
   }, [code, fileCode]);

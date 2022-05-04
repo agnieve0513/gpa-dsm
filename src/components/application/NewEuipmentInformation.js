@@ -253,7 +253,7 @@ function NewEuipmentInformation(props) {
       eqs.splice(index, 1);
       props.setNewEquipments(eqs);
     }
-    dispatch(loadCustomerEquipManufacturer("Central AC"));
+    dispatch(loadCustomerEquipManufacturer(props.system_type));
   };
 
   const installerCertificationHandler = () => {

@@ -11,6 +11,15 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
 function SubmissionOfDocumentation(props) {
+
+    const Toast = MySwal.mixin({
+      toast: true,
+      position: "center",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+
   const { height, width } = useWindowDimensions();
   const [supportDoc, setSupportDoc] = useState(false);
 
@@ -19,6 +28,14 @@ function SubmissionOfDocumentation(props) {
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
+
+  const uploadSuccessfully = ()=> {
+     Toast.fire({
+       icon: "info",
+       title: "Uploaded Successfully",
+       text: "Please wait while the uploaded file is being fetched.",
+     });
+  }
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -26,6 +43,9 @@ function SubmissionOfDocumentation(props) {
   useEffect(() => {
     
     if(fileCode){
+
+      
+
       switch (docType) {
         case "loa":
           props.setLetterAuthorizationD(fileCode);
@@ -33,6 +53,7 @@ function SubmissionOfDocumentation(props) {
             "File code for LOA after successfully uploading file:",
             fileCode
           );
+          uploadSuccessfully();
           break;
         case "invoice":
           props.setInvoiceD(fileCode);
@@ -40,6 +61,7 @@ function SubmissionOfDocumentation(props) {
             "File code for Invoice after successfully uploading file:",
             fileCode
           );
+          uploadSuccessfully();
           break;
         case "irs":
           props.setIrsFormD(fileCode);
@@ -47,6 +69,7 @@ function SubmissionOfDocumentation(props) {
             "File code for IRS after successfully uploading file:",
             fileCode
           );
+          uploadSuccessfully();
           break;
         case "other_doc1":
           props.setOtherDoc1D(fileCode);
@@ -54,6 +77,7 @@ function SubmissionOfDocumentation(props) {
             "File code for Other Doc1 after successfully uploading file:",
             fileCode
           );
+          uploadSuccessfully();
           break;
         case "other_doc2":
           props.setOtherDoc2D(fileCode);
@@ -61,6 +85,7 @@ function SubmissionOfDocumentation(props) {
             "File code for Other Doc2 after successfully uploading file:",
             fileCode
           );
+          uploadSuccessfully();
           break;
       }
       setIrsFormTrigger(false);

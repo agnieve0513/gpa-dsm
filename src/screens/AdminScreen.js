@@ -14,10 +14,31 @@ import BatchForm from "../components/admin_forms/BatchForm";
 import "./AdminDashboardScreen.css";
 import BatchList from "../components/admin_forms/BatchList";
 
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
 function AdminScreen({ location, history }) {
+  const Toast = MySwal.mixin({
+    toast: true,
+    position: "center",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+
+  const loadingFileToast = () => {
+    Toast.fire({
+      icon: "info",
+      title: "Loading Data",
+      text: "Please wait while the file loading.",
+    });
+  };
+
   const redirect = location.search ? location.search.split("=")[1] : "/admin";
-   let obj = JSON.parse(localStorage.getItem("userInfo"));
-   let roleId = obj.message.original.roleId;
+  let obj = JSON.parse(localStorage.getItem("userInfo"));
+  let roleId = obj.message.original.roleId;
 
   const [role_name, setRoleName] = useState("");
   const [applicationForm, setApplicationForm] = useState(true);
@@ -28,23 +49,23 @@ function AdminScreen({ location, history }) {
   const [recordForm, setRecordForm] = useState(true);
   const [role_id, setRoleId] = useState();
   const [current, setCurrent] = useState("application");
-  const [defaultTab, setDefaultTab] = useState(roleId === 4 ? "batch" : roleId === 7 ? "records": "application");
+  const [defaultTab, setDefaultTab] = useState(
+    roleId === 4 ? "batch" : roleId === 7 ? "records" : "application"
+  );
   useEffect(() => {
     if (!localStorage.getItem("userInfo")) {
       history.push(redirect);
     } else {
-     
       setRoleId(roleId);
 
       let role_name = "";
 
-      if(roleId === 4){
+      if (roleId === 4) {
         setDefaultTab("batch");
-      }else if(roleId === 7)
-      {
-        setDefaultTab("records")
-      }else {
-        setDefaultTab("application")
+      } else if (roleId === 7) {
+        setDefaultTab("records");
+      } else {
+        setDefaultTab("application");
       }
 
       if (roleId === 1) {
@@ -72,7 +93,7 @@ function AdminScreen({ location, history }) {
         setCurrent("application");
       }
 
-      if (roleId === 3 || roleId === 4 ||  roleId === 6) {
+      if (roleId === 3 || roleId === 4 || roleId === 6) {
         setBatchForm(true);
       } else if (roleId === 1) {
         setUsersForm(true);
@@ -106,7 +127,9 @@ function AdminScreen({ location, history }) {
                       <Nav.Link
                         eventKey="application"
                         className="d-flex align-items-center"
-                        onClick={() => setCurrent("application")}
+                        onClick={() => {
+                          setCurrent("application");
+                        }}
                       >
                         APPLICATION
                       </Nav.Link>
@@ -156,7 +179,10 @@ function AdminScreen({ location, history }) {
                       <Nav.Link
                         eventKey="template"
                         className="d-flex align-items-center"
-                        onClick={() => setCurrent("template")}
+                        onClick={() => {
+                          loadingFileToast();
+                          setCurrent("template");
+                        }}
                       >
                         T & C TEMPLATE
                       </Nav.Link>
