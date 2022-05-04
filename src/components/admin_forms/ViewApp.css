@@ -1,3 +1,7 @@
 #payts.swal2-height-auto{
     height:100% !important;
 }
+
+td{
+    word-break:break-all !important;
+}

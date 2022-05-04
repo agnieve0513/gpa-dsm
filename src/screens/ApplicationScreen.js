@@ -782,6 +782,8 @@ function ApplicationScreen() {
               />
             ) : step === 6 ? (
               <SubmissionOfDocumentation
+                verify={verify}
+                setVerify={setVerify}
                 invoice={invoice}
                 setInvoice={setInvoice}
                 invoiceD={invoiceD}

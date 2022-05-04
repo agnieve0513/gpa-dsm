@@ -21,7 +21,10 @@ import { Link, useLocation } from "react-router-dom";
 import { printDetailApplication } from "../actions/applicationActions";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import city_zipcode from "./city_zipcode";
+
+const MySwal = withReactContent(Swal);
 
 Font.register({
   family: "Montserrat",
@@ -284,6 +287,8 @@ const StatusIcon = ({ check }) => {
     </>
   );
 };
+let line1 = 0;
+let line2 = 0;
 
 const template = {
   Application_Id: 0,
@@ -348,6 +353,15 @@ const template = {
 };
 
 function PrintApplicationSummary(props) {
+
+   const Toast = MySwal.mixin({
+     toast: true,
+     position: "center",
+     showConfirmButton: false,
+     timer: 3000,
+     timerProgressBar: true,
+   });
+
   const dispatch = useDispatch();
   const useQuery = () => new URLSearchParams(useLocation().search);
   const { decryptString } = new StringCrypto();
@@ -360,6 +374,13 @@ function PrintApplicationSummary(props) {
   let totalRebate = 0;
 
   useEffect(() => {
+
+     Toast.fire({
+       icon: "info",
+       title: "Loading Document",
+       text: "Please wait while file is being fetched.",
+     });
+
     if (creds) {
       dispatch(
         printDetailApplication(decryptString(creds, "superSecureToken"))
@@ -376,6 +397,24 @@ function PrintApplicationSummary(props) {
       setData(applicationPrintDetail.application);
     }
   }, [applicationPrintDetail]);
+
+  line1 = Math.round(data?.Delay_Reason.length / 18);
+  line2 = Math.round(data?.Delay_Reason2.length / 18);
+  console.log("LINE1: ", line1);
+  console.log("LINE2: ", line2);
+  let arr1=[];
+  let arr2= [];
+
+  for(let i=0; i < line1; i++){
+    arr1.push(data?.Delay_Reason.substring(i * 18, (i+1)*18 ));
+  }
+
+  for (let i = 0; i < line2; i++) {
+    arr2.push(data?.Delay_Reason2.substring(i * 18, (i + 1) * 18));
+  }
+
+  console.log("ARR1: ",arr1);
+  console.log("ARR2", arr2);
 
   return (
     <>
@@ -616,17 +655,19 @@ function PrintApplicationSummary(props) {
                       data.Delay_Reason === "N/A" ||
                       data.Delay_Reason === "" ? null : (
                         <View style={styles.textContainer}>
+                          {console.log(
+                            "DELAY REASON1 (2): ",
+                            data?.Delay_Reason
+                          )}
+
                           <Text style={styles.text}>
                             Delay For Date of Purchase{" "}
                           </Text>
 
                           <View style={{ marginLeft: "auto" }}>
-                            <Text style={styles.boldText}>
-                              {data?.Delay_Reason?.substring(0, 18) || "N/A"}
-                            </Text>
-                            <Text style={styles.boldText}>
-                              {data?.Delay_Reason?.substring(18) || ""}
-                            </Text>
+                            {arr1.map((arr) => (
+                              <Text style={styles.boldText}>{arr}-</Text>
+                            ))}
                           </View>
                         </View>
                       )}
@@ -660,16 +701,18 @@ function PrintApplicationSummary(props) {
 
                       {data.Delay_Reason2 !== "None" ? (
                         <View style={styles.textContainer}>
+                          {console.log(
+                            "DELAY REASON2 (2): ",
+                            data?.Delay_Reason.substring(0, 18)
+                          )}
+
                           <Text style={styles.text}>
                             Delay For Final Installation{" "}
                           </Text>
                           <View style={{ marginLeft: "auto" }}>
-                            <Text style={styles.boldText}>
-                              {data?.Delay_Reason2?.substring(0, 18) || "N/A"}
-                            </Text>
-                            <Text style={styles.boldText}>
-                              {data?.Delay_Reason2?.substring(18) || ""}
-                            </Text>
+                            {arr2.map((arr) => (
+                              <Text style={styles.boldText}>{arr}-</Text>
+                            ))}
                           </View>
                         </View>
                       ) : null}
@@ -916,17 +959,15 @@ function PrintApplicationSummary(props) {
                     data.Delay_Reason === "N/A" ||
                     data.Delay_Reason === "" ? null : (
                       <View style={styles.textContainer}>
+                        {console.log("DELAY REASON1: ", data?.Delay_Reason)}
                         <Text style={styles.text}>
                           Delay For Date of Purchase{" "}
                         </Text>
 
                         <View style={{ marginLeft: "auto" }}>
-                          <Text style={styles.boldText}>
-                            {data?.Delay_Reason?.substring(0, 18) || "N/A"}
-                          </Text>
-                          <Text style={styles.boldText}>
-                            {data?.Delay_Reason?.substring(18) || ""}
-                          </Text>
+                          {arr1.map((arr) => (
+                            <Text style={styles.boldText}>{arr}-</Text>
+                          ))}
                         </View>
                       </View>
                     )}
@@ -960,19 +1001,17 @@ function PrintApplicationSummary(props) {
 
                     {data.Delay_Reason2 !== "None" ? (
                       <View style={styles.textContainer}>
+                        {console.log("DELAY REASON2: ", data?.Delay_Reason)}
+
                         <Text style={styles.text}>
                           Delay For Final Installation{" "}
                         </Text>
 
                         <View style={{ marginLeft: "auto" }}>
-                          <Text style={styles.boldText}>
-                            {data?.Delay_Reason2?.substring(0, 18) || "N/A"}
-                          </Text>
-                          <Text style={styles.boldText}>
-                            {data?.Delay_Reason2?.substring(18) || ""}
-                          </Text>
+                          {arr2.map((arr) => (
+                            <Text style={styles.boldText}>{arr}</Text>
+                          ))}
                         </View>
-                     
                       </View>
                     ) : null}
                   </View>

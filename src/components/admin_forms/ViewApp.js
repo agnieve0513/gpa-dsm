@@ -545,6 +545,10 @@ function ViewApp(props) {
       },
     };
     dispatch(editEquipment(obj));
+    if(delay_reason || delay_reason2)
+    {
+      handleEditInfo();
+    }
     Swal.fire("Success", "Installer's Info has been updated!", "success");
     setEnableInstallerEdit(false);
     setReload(reload + 1);
@@ -1880,7 +1884,18 @@ function ViewApp(props) {
                                 </>
                               ) : null}
 
-                              {application?.Delay_Reason ? (
+                              {application.Delay_Reason ||
+                              Math.abs(
+                                new Date(application.Installer_New_finaldate) -
+                                  new Date()
+                              ) /
+                                (1000 * 3600 * 24) >
+                                120 ||
+                              Math.abs(
+                                new Date(installer_final_date) - new Date()
+                              ) /
+                                (1000 * 3600 * 24) >
+                                120 ? (
                                 <p>
                                   <b style={{ color: "#B6B6B6" }}>
                                     Delay For Date of Purchase
@@ -1888,7 +1903,18 @@ function ViewApp(props) {
                                 </p>
                               ) : null}
 
-                              {application?.Delay_Reason2 ? (
+                              {application.Delay_Reason2 ||
+                              Math.abs(
+                                new Date(application.Installer_New_finaldate) -
+                                  new Date()
+                              ) /
+                                (1000 * 3600 * 24) >
+                                120 ||
+                              Math.abs(
+                                new Date(installer_final_date) - new Date()
+                              ) /
+                                (1000 * 3600 * 24) >
+                                120 ? (
                                 <p>
                                   <b style={{ color: "#B6B6B6" }}>
                                     Delay For Final Installation
@@ -2019,47 +2045,76 @@ function ViewApp(props) {
                                   </b>
                                 )}
                               </p>
-                              {application?.Delay_Reason ? (
-                                <>
-                                  <p>
-                                    {enable_installer_edit ? (
-                                      <>
-                                        <FormControl
-                                          value={delay_reason}
-                                          onChange={(e) =>
-                                            setDelayReason(e.target.value)
-                                          }
-                                          type="text"
-                                          placeholder={application.Delay_Reason}
-                                        />
-                                      </>
-                                    ) : (
-                                      <b>{application?.Delay_Reason || null}</b>
-                                    )}
-                                  </p>
+                              <>
+                                {/* installer_final_date */}
+                                {console.log(
+                                  "DATE REASON: ",
+                                  Math.abs(
+                                    new Date(installer_final_date) - new Date()
+                                  )
+                                )}
+                                <p>
+                                  {enable_installer_edit &&
+                                  (application.Delay_Reason ||
+                                    Math.abs(
+                                      new Date(
+                                        application.Installer_New_finaldate
+                                      ) - new Date()
+                                    ) /
+                                      (1000 * 3600 * 24) >
+                                      120 ||
+                                    Math.abs(
+                                      new Date(installer_final_date) -
+                                        new Date()
+                                    ) /
+                                      (1000 * 3600 * 24) >
+                                      120) ? (
+                                    <>
+                                      <FormControl
+                                        value={delay_reason}
+                                        onChange={(e) =>
+                                          setDelayReason(e.target.value)
+                                        }
+                                        type="text"
+                                        placeholder={application.Delay_Reason}
+                                      />
+                                    </>
+                                  ) : (
+                                    <b>{application?.Delay_Reason || null}</b>
+                                  )}
+                                </p>
 
-                                  <p>
-                                    {enable_installer_edit ? (
-                                      <>
-                                        <FormControl
-                                          value={delay_reason2}
-                                          onChange={(e) =>
-                                            setDelayReason2(e.target.value)
-                                          }
-                                          type="text"
-                                          placeholder={
-                                            application.Delay_Reason2
-                                          }
-                                        />
-                                      </>
-                                    ) : (
-                                      <b>
-                                        {application?.Delay_Reason2 || null}
-                                      </b>
-                                    )}
-                                  </p>
-                                </>
-                              ) : null}
+                                <p>
+                                  {enable_installer_edit &&
+                                  (application.Delay_Reason2 ||
+                                    Math.abs(
+                                      new Date(
+                                        application.Installer_New_finaldate
+                                      ) - new Date()
+                                    ) /
+                                      (1000 * 3600 * 24) >
+                                      120 ||
+                                    Math.abs(
+                                      new Date(installer_final_date) -
+                                        new Date()
+                                    ) /
+                                      (1000 * 3600 * 24) >
+                                      120) ? (
+                                    <>
+                                      <FormControl
+                                        value={delay_reason2}
+                                        onChange={(e) =>
+                                          setDelayReason2(e.target.value)
+                                        }
+                                        type="text"
+                                        placeholder={application.Delay_Reason2}
+                                      />
+                                    </>
+                                  ) : (
+                                    <b>{application?.Delay_Reason2 || null}</b>
+                                  )}
+                                </p>
+                              </>
 
                               {enable_installer_edit ? (
                                 <>
@@ -2565,20 +2620,11 @@ function ViewApp(props) {
 
                               {invoice ? (
                                 <>
-                                  {/* {fileCode ? (
-                                    <>
-                                      <p hidden>{(inv = fileCode)}</p>
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <></>
-                                  )}
+                                  <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                  <br />
                                   Filename: {invoice.name} <br />
                                   File Type: {invoice.type} <br />
-                                  <br /> */}
+                                  <br />
                                 </>
                               ) : (
                                 <></>
@@ -2657,20 +2703,11 @@ function ViewApp(props) {
 
                               {irs_form ? (
                                 <>
-                                  {/* {fileCode ? (
-                                    <>
-                                      <p hidden>{(irs = fileCode)}</p>
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <>no upload</>
-                                  )}
+                                  <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                  <br />
                                   Filename: {irs_form.name} <br />
                                   File Type: {irs_form.type} <br />
-                                  <br /> */}
+                                  <br />
                                 </>
                               ) : (
                                 <></>
@@ -2752,20 +2789,11 @@ function ViewApp(props) {
 
                               {letter_authorization ? (
                                 <>
-                                  {/* {fileCode ? (
-                                    <>
-                                      <p hidden>{(loa = fileCode)}</p>
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <>no upload</>
-                                  )}
+                                  <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                  <br />
                                   Filename: {letter_authorization.name} <br />
                                   File Type: {letter_authorization.type} <br />
-                                  <br /> */}
+                                  <br />
                                 </>
                               ) : (
                                 <></>
@@ -2846,20 +2874,11 @@ function ViewApp(props) {
 
                               {disposal_slip ? (
                                 <>
-                                  {/* {fileCode ? (
-                                    <>
-                                      <p hidden>{(disp = fileCode)}</p>
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <>no upload</>
-                                  )}
+                                  <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                  <br />
                                   Filename: {disposal_slip.name} <br />
                                   File Type: {disposal_slip.type} <br />
-                                  <br /> */}
+                                  <br />
                                 </>
                               ) : (
                                 <></>
@@ -2940,22 +2959,13 @@ function ViewApp(props) {
                                 <></>
                               )}
 
-                              {installer_cert ? (
+                              {other_doc1 ? (
                                 <>
-                                  {/* {fileCode ? (
-                                    <>
-                                      <p hidden>{(oth1 = fileCode)}</p>
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <>no upload</>
-                                  )}
-                                  Filename: {installer_cert.name} <br />
-                                  File Type: {installer_cert.type} <br />
-                                  <br /> */}
+                                  <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                  <br />
+                                  Filename: {other_doc1.name} <br />
+                                  File Type: {other_doc1.type} <br />
+                                  <br />
                                 </>
                               ) : (
                                 <></>
@@ -3036,26 +3046,17 @@ function ViewApp(props) {
                                 <></>
                               )}
 
-                              {/* {other_doc2 ? (
+                              {other_doc2 ? (
                                 <>
-                                  {fileCode ? (
-                                    <>
-                                      <p hidden>{(oth2 = fileCode)}</p>
-                                      <Badge bg={"success"}>
-                                        File Uploaded
-                                      </Badge>{" "}
-                                      <br />
-                                    </>
-                                  ) : (
-                                    <>no upload</>
-                                  )}
+                                  <Badge bg={"success"}>File Uploaded</Badge>{" "}
+                                  <br />
                                   Filename: {other_doc2.name} <br />
                                   File Type: {other_doc2.type} <br />
                                   <br />
                                 </>
                               ) : (
                                 <></>
-                              )} */}
+                              )}
                             </Form.Group>
                           </Col>
                         </Row>

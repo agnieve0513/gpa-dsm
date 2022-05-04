@@ -34,7 +34,10 @@ function SubmissionOfDocumentation(props) {
        icon: "info",
        title: "Uploaded Successfully",
        text: "Please wait while the uploaded file is being fetched.",
-     });
+     }).then(()=> {
+       props.setVerify(true);
+     }
+     )
   }
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -43,8 +46,7 @@ function SubmissionOfDocumentation(props) {
   useEffect(() => {
     
     if(fileCode){
-
-      
+      props.setVerify(false);
 
       switch (docType) {
         case "loa":

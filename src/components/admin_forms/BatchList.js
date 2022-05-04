@@ -127,7 +127,11 @@ function BatchList() {
   };
 
   const applicationViewHandler = (rowdata) => {
-     
+     Toast.fire({
+       icon: "info",
+       title: "Loading Data",
+       text: "Please wait while the data are being fetched.",
+     });
     setApplicationId(rowdata.Application_Id);
     setCurrentControlNum(rowdata.Control_Number);
     setShow(true);

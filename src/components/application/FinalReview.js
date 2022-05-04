@@ -413,93 +413,149 @@ function FinalReview(props) {
                           </Table>
                           <Row>
                             <Col md={6}>
-                              <h3 className="mt-3 mb-3 text-info">
-                                Installer Information
-                              </h3>
+                              <Row>
+                                <Col md={12}>
+                                  <h3 className="mt-3 mb-3 text-info">
+                                    Installer Information
+                                  </h3>
+                                </Col>
+                              </Row>
                               <ListGroup className="mb-3">
-                                <p>
-                                  Technician Name{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.technician_name
-                                    }{" "}
-                                  </b>
-                                </p>
-                                <p>
-                                  Work Telephone{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.work_tel
-                                    }{" "}
-                                  </b>
-                                </p>
-                                <p>
-                                  Company{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.company_name
-                                    }{" "}
-                                  </b>
-                                </p>
-                                {showCertificateNo()}
-                                <p className="mb-3">
-                                  Email{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information.email
-                                    }{" "}
-                                  </b>
-                                </p>
-                                <p>
-                                  Date of Final{" "}
-                                  <b>
-                                    {" "}
-                                    {
-                                      props.new_equipments[new_eq_index]
-                                        .installer_information
-                                        .date_final_installation
-                                    }{" "}
-                                  </b>
-                                </p>
-                                {props.delay_reason ? (
-                                  <p>
-                                    Delay For Date of Purchase{" "}
-                                    <b>{props.delay_reason}</b>
-                                  </p>
-                                ) : null}
-                                {props.delay_reason2 ? (
-                                  <p>
-                                    Delay For Final Installation{" "}
-                                    <b>{props.delay_reason2}</b>
-                                  </p>
-                                ) : null}
+                                <Row>
+                                  <Col md={5}>
+                                    <p>
+                                      <b style={{ color: "#B6B6B6" }}>
+                                        Technician Name{" "}
+                                      </b>
+                                    </p>
+                                  </Col>
+                                  <Col md={7}>
+                                    <b>
+                                      {" "}
+                                      {
+                                        props.new_equipments[new_eq_index]
+                                          .installer_information.technician_name
+                                      }{" "}
+                                    </b>
+                                  </Col>
+                                  <Col md={5}>
+                                    <p>
+                                      {" "}
+                                      <b style={{ color: "#B6B6B6" }}>
+                                        Work Telephone
+                                      </b>{" "}
+                                    </p>
+                                  </Col>
+                                  <Col md={7}>
+                                    <b>
+                                      {" "}
+                                      {
+                                        props.new_equipments[new_eq_index]
+                                          .installer_information.work_tel
+                                      }{" "}
+                                    </b>
+                                  </Col>
+                                  <Col md={5}>
+                                    <p>
+                                      <b style={{ color: "#B6B6B6" }}>
+                                        {" "}
+                                        Company
+                                      </b>
+                                    </p>
+                                  </Col>
+                                  <Col md={7}>
+                                    <b>
+                                      {" "}
+                                      {
+                                        props.new_equipments[new_eq_index]
+                                          .installer_information.company_name
+                                      }{" "}
+                                    </b>
+                                  </Col>
+                                  {showCertificateNo()}
+                                  <Col md={5}>
+                                    <p className="mb-3">
+                                      <b style={{ color: "#B6B6B6" }}>Email</b>
+                                    </p>
+                                  </Col>
+                                  <Col md={7}>
+                                    <b>
+                                      {" "}
+                                      {
+                                        props.new_equipments[new_eq_index]
+                                          .installer_information.email
+                                      }{" "}
+                                    </b>
+                                  </Col>
+                                  <Col md={5}>
+                                    <p>
+                                      <b style={{ color: "#B6B6B6" }}>
+                                        Date of Final
+                                      </b>
+                                    </p>
+                                  </Col>
+                                  <Col md={7}>
+                                    <b>
+                                      {" "}
+                                      {
+                                        props.new_equipments[new_eq_index]
+                                          .installer_information
+                                          .date_final_installation
+                                      }{" "}
+                                    </b>
+                                  </Col>
+                                  {props.delay_reason ? (
+                                    <>
+                                      <Col md={5}>
+                                        <p>
+                                          <b style={{ color: "#B6B6B6" }}>
+                                            Delay For Date of Purchase{" "}
+                                          </b>{" "}
+                                        </p>
+                                      </Col>
+                                      <Col md={7}>
+                                        <b>{props.delay_reason}</b>
+                                      </Col>
+                                    </>
+                                  ) : null}
+                                  {props.delay_reason2 ? (
+                                    <>
+                                      <Col md={5}>
+                                        <p>
+                                          <b style={{ color: "#B6B6B6" }}>
+                                            Delay For Final Installation{" "}
+                                          </b>{" "}
+                                        </p>
+                                      </Col>
+                                      <Col md={7}>
+                                        <b>{props.delay_reason2}</b>
+                                      </Col>
+                                    </>
+                                  ) : null}
+                                </Row>
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-2">
                               <Table size="lg" striped bordered hover>
                                 <thead className="bg-info text-white">
                                   <tr className="py-5">
-                                    <th className="p-3">QTY</th>
-                                    <th className="p-3">Rebate</th>
-                                    <th className="p-3">Partial Total</th>
+                                    <th className="p-3 text-center">QTY</th>
+                                    <th className="p-3 text-center">Rebate</th>
+                                    <th className="p-3 text-center">
+                                      Partial Total
+                                    </th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {props.new_equipments.map((eq) => (
                                     <tr key={eq.id + 1}>
-                                      <td className="p-3">{eq.quantity}</td>
-                                      <td className="p-3">
+                                      <td className="p-3" align="right">
+                                        {eq.quantity}
+                                      </td>
+                                      <td className="p-3" align="right">
                                         $ {!eq.rebate ? 0 : eq.rebate}
                                       </td>
-                                      <td className="p-3">
+                                      <td className="p-3" align="right">
                                         ${" "}
                                         {!eq.rebate
                                           ? 0
@@ -519,7 +575,7 @@ function FinalReview(props) {
                                     <td className="p-3 text-center" colSpan="2">
                                       TOTAL
                                     </td>
-                                    <td className="p-3">
+                                    <td className="p-3" align="right">
                                       ${!total_rebate ? "0.00" : total_rebate}
                                     </td>
                                   </tr>

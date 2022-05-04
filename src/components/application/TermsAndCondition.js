@@ -15,9 +15,23 @@ import { retrievePDFAction } from "../../actions/termsAndConditionActions";
 import { blobToBase64 } from "../../helpers";
 import DisplayPDF from "./Pdf";
 import { useWindowDimensions } from "../../hooks";
+
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+const MySwal = withReactContent(Swal);
 
 function TermsAndCondition(props) {
+
+   const Toast = MySwal.mixin({
+     toast: true,
+     position: "center",
+     showConfirmButton: false,
+     timer: 3000,
+     timerProgressBar: true,
+   });
+
   console.log(props);
   const dispatch = useDispatch();
   const retriveTermsAndCondition = useSelector(
@@ -30,6 +44,13 @@ function TermsAndCondition(props) {
   const [date, setDate] = useState(dayjs(new Date()).format("YYYY-MM-DD"));
 
   useEffect(() => {
+
+    Toast.fire({
+      icon: "info",
+      title: "Loading T&C",
+      text: "Please wait while file is being fetched.",
+    });
+
     window.scrollTo(0, 0);
     let template = "";
     console.log(props.customer_type);

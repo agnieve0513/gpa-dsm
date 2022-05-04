@@ -110,15 +110,31 @@ function NewEuipmentInformation(props) {
   };
 
   const handleModelNo = (me) => {
-    var modelName = me.indoor_model
-      ? me.indoor_model
-      : "" + me.outdoor_model && me.indoor_model
-      ? " / "
-      : " " + me.outdoor_model
-      ? me.outdoor_model
-      : "";
+    var modelName = '';
+    // me.indoor_model
+    //   ? me.indoor_model
+    //   : "" + me.outdoor_model && me.indoor_model
+    //   ? " / "
+    //   : " " + me.outdoor_model
+    //   ? me.outdoor_model
+    //   : "";
 
-      return modelName
+    if(me.package_model)
+    {
+      modelName +=me.package_model;
+    }
+
+    if (me.indoor_model)
+    {
+      modelName = me.indoor_model;
+    }else if (me.outdoor_model)
+    {
+      modelName = me.outdoor_model;
+    }else if (me.indoor_model && me.outdoor_model){
+      modelName = me.indoor_model + " / " + me.outdoor_model;
+    } 
+    
+    return modelName;
   };
 
   const changeModelHandler = (e) => {
@@ -127,6 +143,7 @@ function NewEuipmentInformation(props) {
       (model) => model.id === parseInt(e.target.value)
     );
     var modelName = handleModelNo(selectedModel);
+    console.log("MODEL NAME: ", modelName);
     // console.log('selMod', selectedModel, 'modelN', modelName)
     props.setModelNo(modelName);
     dispatch(loadCustomerEquipmentDetail(e.target.value, props.customer_type));
