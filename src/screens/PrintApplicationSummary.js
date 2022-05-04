@@ -289,6 +289,8 @@ const StatusIcon = ({ check }) => {
 };
 let line1 = 0;
 let line2 = 0;
+  let arr1 = [];
+  let arr2 = [];
 
 const template = {
   Application_Id: 0,
@@ -398,23 +400,26 @@ function PrintApplicationSummary(props) {
     }
   }, [applicationPrintDetail]);
 
+  if (data.Delay_Reason || data.Delay_Reason2)
+  {
   line1 = Math.round(data?.Delay_Reason.length / 18);
   line2 = Math.round(data?.Delay_Reason2.length / 18);
   console.log("LINE1: ", line1);
   console.log("LINE2: ", line2);
-  let arr1=[];
-  let arr2= [];
 
-  for(let i=0; i < line1; i++){
-    arr1.push(data?.Delay_Reason.substring(i * 18, (i+1)*18 ));
+
+  for (let i = 0; i < line1; i++) {
+    arr1.push(data?.Delay_Reason.substring(i * 18, (i + 1) * 18));
   }
 
   for (let i = 0; i < line2; i++) {
     arr2.push(data?.Delay_Reason2.substring(i * 18, (i + 1) * 18));
   }
 
-  console.log("ARR1: ",arr1);
+  console.log("ARR1: ", arr1);
   console.log("ARR2", arr2);
+  }
+  
 
   return (
     <>
@@ -655,18 +660,13 @@ function PrintApplicationSummary(props) {
                       data.Delay_Reason === "N/A" ||
                       data.Delay_Reason === "" ? null : (
                         <View style={styles.textContainer}>
-                          {console.log(
-                            "DELAY REASON1 (2): ",
-                            data?.Delay_Reason
-                          )}
-
                           <Text style={styles.text}>
                             Delay For Date of Purchase{" "}
                           </Text>
 
                           <View style={{ marginLeft: "auto" }}>
                             {arr1.map((arr) => (
-                              <Text style={styles.boldText}>{arr}-</Text>
+                              <Text style={styles.boldText}>{arr}</Text>
                             ))}
                           </View>
                         </View>
@@ -699,19 +699,16 @@ function PrintApplicationSummary(props) {
                         </Text>
                       </View>
 
-                      {data.Delay_Reason2 !== "None" ? (
+                      {data.Delay_Reason2 !== "None" ||
+                      data.Delay_Reason2 !== "" ||
+                      data.Delay_Reason2 !== null ? (
                         <View style={styles.textContainer}>
-                          {console.log(
-                            "DELAY REASON2 (2): ",
-                            data?.Delay_Reason.substring(0, 18)
-                          )}
-
                           <Text style={styles.text}>
                             Delay For Final Installation{" "}
                           </Text>
                           <View style={{ marginLeft: "auto" }}>
                             {arr2.map((arr) => (
-                              <Text style={styles.boldText}>{arr}-</Text>
+                              <Text style={styles.boldText}>{arr}</Text>
                             ))}
                           </View>
                         </View>
@@ -955,9 +952,10 @@ function PrintApplicationSummary(props) {
                       </Text>
                     </View>
 
-                    {data.Delay_Reason === "None" ||
-                    data.Delay_Reason === "N/A" ||
-                    data.Delay_Reason === "" ? null : (
+                    {data.Delay_Reason == "None" ||
+                    data.Delay_Reason == "N/A" ||
+                    data.Delay_Reason == "" ||
+                    data.Delay_Reason == null ? null : (
                       <View style={styles.textContainer}>
                         {console.log("DELAY REASON1: ", data?.Delay_Reason)}
                         <Text style={styles.text}>
@@ -966,7 +964,7 @@ function PrintApplicationSummary(props) {
 
                         <View style={{ marginLeft: "auto" }}>
                           {arr1.map((arr) => (
-                            <Text style={styles.boldText}>{arr}-</Text>
+                            <Text style={styles.boldText}>{arr}</Text>
                           ))}
                         </View>
                       </View>
@@ -999,10 +997,12 @@ function PrintApplicationSummary(props) {
                       </Text>
                     </View>
 
-                    {data.Delay_Reason2 !== "None" ? (
+                    {data.Delay_Reason2 == "None" ||
+                    data.Delay_Reason2 == "N/A" ||
+                    data.Delay_Reason2 == "" ||
+                    data.Delay_Reason2 == null ? null : (
                       <View style={styles.textContainer}>
-                        {console.log("DELAY REASON2: ", data?.Delay_Reason)}
-
+                        {console.log("DELAY REASON2: ", data?.Delay_Reason2)}
                         <Text style={styles.text}>
                           Delay For Final Installation{" "}
                         </Text>
@@ -1013,7 +1013,7 @@ function PrintApplicationSummary(props) {
                           ))}
                         </View>
                       </View>
-                    ) : null}
+                    )}
                   </View>
                 </View>
 

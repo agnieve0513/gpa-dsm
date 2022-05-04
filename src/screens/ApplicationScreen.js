@@ -147,6 +147,7 @@ function ApplicationScreen() {
   const [other_doc1D, setOtherDoc1D] = useState();
   const [other_doc2D, setOtherDoc2D] = useState();
   const [other_doc3D, setOtherDoc3D] = useState();
+  const [alreadyUploaded, setAlreadyUploaded] = useState(false);
 
   const [terms_and_agreement, setTermsAndAgreement] = useState(false);
   const [total_rebate, setTotalRebate] = useState(0);
@@ -205,13 +206,13 @@ function ApplicationScreen() {
               control_no: control_no,
               invoice: invoiceD,
               irs_form: irs_formD,
-              disposal_slip: disposal_slipD ? disposal_slipD : '',
+              disposal_slip: disposal_slipD ? disposal_slipD : "",
               letter_authorization: letter_authorizationD
                 ? letter_authorizationD
                 : "",
               other_doc1: other_doc1D ? other_doc1D : "",
               other_doc2: other_doc2D ? other_doc2D : "",
-              other_doc3: other_doc3D ? other_doc3D : ""
+              other_doc3: other_doc3D ? other_doc3D : "",
             },
           };
 
@@ -327,12 +328,9 @@ function ApplicationScreen() {
         date_final_installation === ""
       ) {
         errorMessage();
-      } 
-      else if( new_equipments.length === 0){
+      } else if (new_equipments.length === 0) {
         errorEmptyEquipmentMessage();
-      }
-      
-      else {
+      } else {
         setStep(currentStep + 2);
         return;
       }
@@ -515,16 +513,19 @@ function ApplicationScreen() {
             date === ""
           ) {
             errorMessage();
-          } 
-          else if(old_equipments.length === 0){
+          } else if (old_equipments.length === 0) {
             errorEmptyEquipmentMessage();
-          }
-          else {
+          } else {
             setStep(currentStep + 1);
           }
         }
       } else if (currentStep === 6) {
-        if (irs_form === null || invoice === "" || irs_formD === "" || invoiceD === "") {
+        if (
+          irs_form === null ||
+          invoice === "" ||
+          irs_formD === "" ||
+          invoiceD === ""
+        ) {
           errorMessage();
         } else {
           setStep(currentStep + 1);
@@ -782,6 +783,8 @@ function ApplicationScreen() {
               />
             ) : step === 6 ? (
               <SubmissionOfDocumentation
+                alreadyUploaded={alreadyUploaded}
+                setAlreadyUploaded={setAlreadyUploaded}
                 verify={verify}
                 setVerify={setVerify}
                 invoice={invoice}

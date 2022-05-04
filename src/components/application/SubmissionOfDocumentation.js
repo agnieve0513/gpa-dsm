@@ -36,6 +36,7 @@ function SubmissionOfDocumentation(props) {
        text: "Please wait while the uploaded file is being fetched.",
      }).then(()=> {
        props.setVerify(true);
+       props.setAlreadyUploaded(true);
      }
      )
   }
@@ -45,8 +46,13 @@ function SubmissionOfDocumentation(props) {
 
   useEffect(() => {
     
-    if(fileCode){
+    if (props.alreadyUploaded) {
+      props.setVerify(true);
+    } else {
       props.setVerify(false);
+    }
+
+    if(fileCode){
 
       switch (docType) {
         case "loa":

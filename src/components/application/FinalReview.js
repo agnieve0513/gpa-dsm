@@ -66,16 +66,22 @@ function FinalReview(props) {
       return <></>;
     } else {
       return (
-        <p>
-          Certification No.{" "}
-          <b>
-            {" "}
-            {
-              props.new_equipments[new_eq_index].installer_information
-                .technician_cert_no
-            }{" "}
-          </b>
-        </p>
+        <>
+          <Col md={5}>
+            <p>
+              <b style={{ color: "#B6B6B6" }}>Certification No. </b>
+            </p>
+          </Col>
+          <Col md={7}>
+            <b>
+              {" "}
+              {
+                props.new_equipments[new_eq_index].installer_information
+                  .technician_cert_no
+              }{" "}
+            </b>
+          </Col>
+        </>
       );
     }
   };
