@@ -952,7 +952,7 @@ function RecordsForm() {
                                   </p>
                                   <p>
                                     <b style={{ color: "#B6B6B6" }}>
-                                      Date of Final
+                                      Date of Final Installation
                                     </b>
                                   </p>
                                 </div>

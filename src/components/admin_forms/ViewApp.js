@@ -1875,7 +1875,7 @@ function ViewApp(props) {
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
-                                  Date of Final
+                                  Date of Final Installation
                                 </b>
                               </p>
                               {enable_installer_edit ? (
@@ -2160,19 +2160,19 @@ function ViewApp(props) {
                       <Table size="lg" striped bordered hover>
                         <thead className="bg-info text-white">
                           <tr className="py-5">
-                            <th className="p-3">QTY</th>
-                            <th className="p-3">Rebate</th>
-                            <th className="p-3">Partial Total</th>
+                            <th className="p-3 text-center">QTY</th>
+                            <th className="p-3 text-center">Rebate</th>
+                            <th className="p-3 text-center">Partial Total</th>
                           </tr>
                         </thead>
                         <tbody>
                           {application?.New_equipment?.map((eq, id) => (
                             <tr key={eq.id + 1}>
-                              <td className="p-3">{eq.newEquip_Quantity}</td>
-                              <td className="p-3">
+                              <td className="p-3" align="right">{eq.newEquip_Quantity}</td>
+                              <td className="p-3" align="right">
                                 $ {!eq.newEquip_rebate ? 0 : eq.newEquip_rebate}
                               </td>
-                              <td className="p-3">
+                              <td className="p-3" align="right">
                                 ${" "}
                                 {!eq.newEquip_rebate
                                   ? 0
@@ -2192,7 +2192,7 @@ function ViewApp(props) {
                             <td className="p-3 text-center" colSpan="2">
                               TOTAL
                             </td>
-                            <td className="p-3">
+                            <td className="p-3" align="right">
                               ${!total_rebate ? "0.00" : total_rebate}
                             </td>
                           </tr>

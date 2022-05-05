@@ -496,7 +496,7 @@ function FinalReview(props) {
                                   <Col md={5}>
                                     <p>
                                       <b style={{ color: "#B6B6B6" }}>
-                                        Date of Final
+                                        Date of Final Installation
                                       </b>
                                     </p>
                                   </Col>

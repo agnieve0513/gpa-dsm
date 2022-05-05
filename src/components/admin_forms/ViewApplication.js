@@ -1636,7 +1636,7 @@ function ViewApplication({
                               </p>
                               <p>
                                 <b style={{ color: "#B6B6B6" }}>
-                                  Date of Final
+                                  Date of Final Installation
                                 </b>
                               </p>
                               {enable_installer_edit ? <br /> : null}
