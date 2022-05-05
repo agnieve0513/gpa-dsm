@@ -501,7 +501,6 @@ function PrintApplicationSummary(props) {
                             <Text style={styles.boldText}>{arr}</Text>
                           ))}
                         </View>
-
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>City: </Text>
@@ -696,7 +695,7 @@ function PrintApplicationSummary(props) {
                       {data.New_equipment[0].newEquip_System_type === "Dryer" ||
                       data.New_equipment[0].newEquip_System_type === "Washer" ||
                       data.New_equipment[0].newEquip_System_type ===
-                        "Window AC" ? null : (
+                        "Airconditioner-Window" ? null : (
                         <View style={styles.textContainer}>
                           <Text style={styles.text}>Certification No: </Text>
                           <Text style={styles.boldText}>
@@ -811,7 +810,6 @@ function PrintApplicationSummary(props) {
                           <Text style={styles.boldText}>{arr}</Text>
                         ))}
                       </View>
-
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>City: </Text>
@@ -1001,7 +999,7 @@ function PrintApplicationSummary(props) {
                     {data.New_equipment[0].newEquip_System_type === "Dryer" ||
                     data.New_equipment[0].newEquip_System_type === "Washer" ||
                     data.New_equipment[0].newEquip_System_type ===
-                      "Window AC" ? null : (
+                      "Airconditioner-Window" ? null : (
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>Certification No: </Text>
                         <Text style={styles.boldText}>
