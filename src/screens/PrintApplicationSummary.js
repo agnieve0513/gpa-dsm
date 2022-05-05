@@ -403,8 +403,13 @@ function PrintApplicationSummary(props) {
       let arr1 = [];
       if (line > 0) {
         for (let i = 0; i < line; i++) {
+
+          console.log("TEXT STRING: ", text.substring(i * 18, (i + 1) * 18));
           arr1.push(text.substring(i * 18, (i + 1) * 18));
         }
+          if(line == 1){
+            arr1.push(text.substring(line * 18));
+          }
       }
       else{
         arr1.push(text);
