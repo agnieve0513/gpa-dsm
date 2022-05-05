@@ -47,7 +47,7 @@ function TcTemplateForm() {
   const [customer_type, setCustomerType] = useState();
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [code, setCode] = useState("resd_dryer_washer");
-  const WrapperRef = React.useRef(null);
+  const WrapperRef = React.useRef();
   const { width, height } = useWindowDimensions();
   const temp = width <= 990 ? 95 : 100;
   const per = (width / 100) * temp;
