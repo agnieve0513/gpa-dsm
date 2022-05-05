@@ -1859,7 +1859,7 @@ function ViewApp(props) {
                               application.New_equipment[0]
                                 .newEquip_System_type === "Dryer" ||
                               application.New_equipment[0]
-                                .newEquip_System_type === "Window AC" ? null : (
+                                .newEquip_System_type === "Airconditioner-Window" ? null : (
                                 <>
                                   <p>
                                     <b style={{ color: "#B6B6B6" }}>
@@ -1983,7 +1983,7 @@ function ViewApp(props) {
                                   .newEquip_System_type === "Dryer" ||
                                 application.New_equipment[0]
                                   .newEquip_System_type ===
-                                  "Window AC" ? null : (
+                                  "Airconditioner-Window" ? null : (
                                   <>
                                     {enable_installer_edit ? (
                                       <FormControl
