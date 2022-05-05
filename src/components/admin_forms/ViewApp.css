@@ -5,3 +5,15 @@
 td{
     word-break:break-all !important;
 }
+
+@media only screen and (min-width: 2239) {
+  canvas.react-pdf__Page__canvas {
+    width: 1200px !important;
+  }
+
+  .react-pdf__Page__canvas {
+    width: 1200px !important;
+  }
+
+}
+

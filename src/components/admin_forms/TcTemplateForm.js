@@ -30,6 +30,7 @@ import {
   logsFileAction,
 } from "../../actions/fileActions";
 import DisplayPDF from "../application/Pdf";
+import './ViewApp.css';
 
 const MySwal = withReactContent(Swal);
 
