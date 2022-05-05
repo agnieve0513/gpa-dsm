@@ -30,7 +30,6 @@ import {
   logsFileAction,
 } from "../../actions/fileActions";
 import DisplayPDF from "../application/Pdf";
-import './ViewApp.css';
 
 const MySwal = withReactContent(Swal);
 
@@ -236,7 +235,6 @@ function TcTemplateForm() {
                   type="file"
                   name="terms_and_condition"
                   onChange={(e) => {
-                   
                     if (e.target.files[0].type === "application/pdf") {
                       changeHandler(e);
                     } else {
@@ -273,12 +271,12 @@ function TcTemplateForm() {
                   placeholder="Terms and Condition"
                   type="file"
                   onChange={(e) => {
-                     if (e.target.files[0].type === "application/pdf") {
-                       changeHandler(e);
-                     } else {
-                       errorFileInvalidMessage();
-                       e.target.value = null;
-                     }
+                    if (e.target.files[0].type === "application/pdf") {
+                      changeHandler(e);
+                    } else {
+                      errorFileInvalidMessage();
+                      e.target.value = null;
+                    }
                   }}
                 />
                 <Form.Select
@@ -400,37 +398,45 @@ function TcTemplateForm() {
           </Col>
         </Row>
         <Tab.Content>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <h5
-              style={{ marginBottom: 10, marginLeft: 10, marginTop: 20 }}
-              className="text-info"
-            >
-              {author}
-            </h5>
-            <h5
-              style={{ marginBottom: 10, marginLeft: "auto", marginTop: 20 }}
-              className="text-info"
-            >
-              {authorDate}
-            </h5>
-          </div>
-          <div
-            ref={WrapperRef}
-            style={{
-              backgroundColor: "#515759",
-              overflow: "scroll",
-              height: per,
-              paddingTop: 50,
-              paddingBottom: 50,
-              marginLeft: 10,
-              marginTop: 10,
-            }}
-          >
-            <DisplayPDF
-              wrapper={WrapperRef}
-              data={retriveTermsAndCondition?.data}
-            />
-          </div>
+          <Row>
+            <Col>
+              <div style={{ display: "flex", flexDirection: "row" }}>
+                <h5
+                  style={{ marginBottom: 10, marginLeft: 10, marginTop: 20 }}
+                  className="text-info"
+                >
+                  {author}
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: 10,
+                    marginLeft: "auto",
+                    marginTop: 20,
+                  }}
+                  className="text-info"
+                >
+                  {authorDate}
+                </h5>
+              </div>
+              <div
+                ref={WrapperRef}
+                style={{
+                  backgroundColor: "#515759",
+                  overflow: "scroll",
+                  height: per,
+                  paddingTop: 50,
+                  paddingBottom: 50,
+                  marginLeft: 10,
+                  marginTop: 10,
+                }}
+              >
+                <DisplayPDF
+                  wrapper={WrapperRef}
+                  data={retriveTermsAndCondition?.data}
+                />
+              </div>
+            </Col>
+          </Row>
         </Tab.Content>
       </Tab.Container>
     </Container>
