@@ -369,27 +369,30 @@ function ExistingEquipmentInformation(props) {
                     ? "LOADING SYSTEM TYPES..."
                     : "SELECT SYSTEM TYPE"}
                 </option>
-                {
-                props.system_type !== "Dryer" && props.system_type !== "Washer" ?
+                {props.system_type !== "Dryer" &&
+                props.system_type !== "Washer" ? (
                   systemTypeLoading ? (
-                  <p>Loading . . .</p>
-                ) : system_types ? (
-                  system_types.map((sys_type) => {
-                    if (sys_type.type == "Washer" || sys_type.type == "Dryer") {
-                      return null;
-                    }
-                    return (
-                      <option value={sys_type.type}>{sys_type.type}</option>
-                    );
-                  })
-                ) : null
-                :
-                <>
+                    <p>Loading . . .</p>
+                  ) : system_types ? (
+                    system_types.map((sys_type) => {
+                      if (
+                        sys_type.type == "Washer" ||
+                        sys_type.type == "Dryer"
+                      ) {
+                        return null;
+                      }
+                      return (
+                        <option value={sys_type.type}>{sys_type.type}</option>
+                      );
+                    })
+                  ) : null
+                ) : (
+                  <>
                     <option value="Dryer">Dryer</option>
                     <option value="Washer">Washer</option>
                   </>
-                }
-                
+                )}
+
                 {/* <option value=""></option>
                 <option value="Central AC">Central AC</option>
                 <option value="Split AC">Split AC</option>
@@ -681,6 +684,8 @@ function ExistingEquipmentInformation(props) {
                 value={props.date}
                 onChange={(e) => props.setDate(e.target.value)}
                 max={currentDate}
+                onKeyDown={(e) => e.preventDefault()}
+                defaultValue={currentDate}
                 required
                 disabled={props.no_existing ? true : false}
               ></Form.Control>

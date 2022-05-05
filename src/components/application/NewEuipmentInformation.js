@@ -119,12 +119,9 @@ function NewEuipmentInformation(props) {
     //   ? me.outdoor_model
     //   : "";
 
-    if(me.package_model)
-    {
-      modelName +=me.package_model;
-    }
-
-    if (me.indoor_model)
+    if (me.package_model) {
+      modelName = me.package_model;
+    }else if (me.indoor_model)
     {
       modelName = me.indoor_model;
     }else if (me.outdoor_model)

@@ -287,10 +287,6 @@ const StatusIcon = ({ check }) => {
     </>
   );
 };
-let line1 = 0;
-let line2 = 0;
-  let arr1 = [];
-  let arr2 = [];
 
 const template = {
   Application_Id: 0,
@@ -400,26 +396,42 @@ function PrintApplicationSummary(props) {
     }
   }, [applicationPrintDetail]);
 
+    function overlapFix(text) {
+      let line = Math.round(text.length / 18);
+      console.log("TEXT: ", text);
+      console.log("LINE: ", line);
+      let arr1 = [];
+      if (line > 0) {
+        for (let i = 0; i < line; i++) {
+          arr1.push(text.substring(i * 18, (i + 1) * 18));
+        }
+      }
+      else{
+        arr1.push(text);
+      }
+      return arr1;
+    }
+
+  let arr1 = [];
+  let arr2 = [];
+  let arr3 = [];
+  let arr4 = [];
+
   if (data.Delay_Reason || data.Delay_Reason2)
   {
-  line1 = Math.round(data?.Delay_Reason.length / 18);
-  line2 = Math.round(data?.Delay_Reason2.length / 18);
-  console.log("LINE1: ", line1);
-  console.log("LINE2: ", line2);
+      arr1 = overlapFix(data.Delay_Reason);
+      arr2 = overlapFix(data.Delay_Reason2);
 
-
-  for (let i = 0; i < line1; i++) {
-    arr1.push(data?.Delay_Reason.substring(i * 18, (i + 1) * 18));
+      console.log("ARR1: ", arr1);
+      console.log("ARR2", arr2);
   }
 
-  for (let i = 0; i < line2; i++) {
-    arr2.push(data?.Delay_Reason2.substring(i * 18, (i + 1) * 18));
-  }
+  // Info_Service_location;
+  arr3 = overlapFix(data.Info_Service_location);
+  arr4 = overlapFix(data.Info_Mailing_address);
+  console.log("ARR3", arr3);
+  console.log("ARR4", arr4);
 
-  console.log("ARR1: ", arr1);
-  console.log("ARR2", arr2);
-  }
-  
 
   return (
     <>
@@ -483,9 +495,13 @@ function PrintApplicationSummary(props) {
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>Installation Address: </Text>
-                        <Text style={styles.boldText}>
-                          {data?.Info_Service_location || "N/A"}
-                        </Text>
+
+                        <View style={{ marginLeft: "auto" }}>
+                          {arr3.map((arr) => (
+                            <Text style={styles.boldText}>{arr}</Text>
+                          ))}
+                        </View>
+
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>City: </Text>
@@ -533,9 +549,11 @@ function PrintApplicationSummary(props) {
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>Mailing Address: </Text>
-                        <Text style={styles.boldText}>
-                          {data?.Info_Mailing_address || "N/A"}
-                        </Text>
+                        <View style={{ marginLeft: "auto" }}>
+                          {arr4.map((arr) => (
+                            <Text style={styles.boldText}>{arr}</Text>
+                          ))}
+                        </View>
                       </View>
 
                       <View style={styles.textContainer}>
@@ -787,9 +805,13 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>Installation Address: </Text>
-                      <Text style={styles.boldText}>
-                        {data?.Info_Service_location || "N/A"}
-                      </Text>
+
+                      <View style={{ marginLeft: "auto" }}>
+                        {arr3.map((arr) => (
+                          <Text style={styles.boldText}>{arr}</Text>
+                        ))}
+                      </View>
+
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>City: </Text>
@@ -835,9 +857,12 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>Mailing Address: </Text>
-                      <Text style={styles.boldText}>
-                        {data?.Info_Mailing_address || "N/A"}
-                      </Text>
+
+                      <View style={{ marginLeft: "auto" }}>
+                        {arr4.map((arr) => (
+                          <Text style={styles.boldText}>{arr}</Text>
+                        ))}
+                      </View>
                     </View>
 
                     <View style={styles.textContainer}>

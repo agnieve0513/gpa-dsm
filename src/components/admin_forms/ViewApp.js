@@ -2127,8 +2127,10 @@ function ViewApp(props) {
                                   </Button>
                                   <Button
                                     variant="secondary"
-                                    onClick={() =>
-                                      setEnableInstallerEdit(false)
+                                    onClick={() =>{
+                                      setInstallerFinalDate(new Date())
+                                       setEnableInstallerEdit(false)
+                                    }
                                     }
                                   >
                                     Cancel
