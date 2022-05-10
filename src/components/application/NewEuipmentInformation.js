@@ -40,6 +40,10 @@ function NewEuipmentInformation(props) {
   const [invoiceTrigger, setInvoiceTrigger] = useState(false);
   const [clTrigger, setClTrigger] = useState(false);
 
+  const [systemtypeTriggered, setSystemTypeTriggered] = useState(false);
+
+  
+
   const { height, width } = useWindowDimensions();
   const screenWidthM = width > 425;
 
@@ -73,7 +77,7 @@ function NewEuipmentInformation(props) {
   } = customerSystemType;
 
   const customerEquipModel = useSelector((state) => state.customerEquipModel);
-  const {
+  let {
     loading: modelLoading,
     error: modelError,
     success: modelSuccess,
@@ -83,7 +87,7 @@ function NewEuipmentInformation(props) {
   const customerEquipmentDetail = useSelector(
     (state) => state.customerEquipmentDetail
   );
-  const {
+  let {
     loading: equipDetailLoading,
     error: equipDetailError,
     success: equipDetailSuccess,
@@ -93,16 +97,43 @@ function NewEuipmentInformation(props) {
   const uploadFile = useSelector((state) => state.uploadFile);
   const { loading: uploadLoading, error: uploadError, fileCode } = uploadFile;
 
+  
+  // useEffect(() => {
+  //   props.setModelList([]);
+  //   models=[];
+  //   equipment_detail = [];
+  // }, [systemtypeTriggered]);
+  
+
   const changeSystemTypeHandler = (e) => {
+    if(systemtypeTriggered === true)
+    {
+      setSystemTypeTriggered(false);
+    }else{
+      setSystemTypeTriggered(true);
+    }
+
     showRebateHandler();
     // props.setVendor("");
     props.setSystemType(e.target.value);
-    props.setNewEquipments([]);
+     if (e.target.value === "Dryer" || e.target.value === "Washer") {
+       console.log("Putaina ni sulod diri oips");
+
+       if (props.system_type === "Dryer" || props.system_type === "Washer") {
+       }else{
+         props.setNewEquipments([]);
+       }
+     }else{
+         props.setNewEquipments([]);
+     }
+    
     props.setTotalQuantity(0);
     dispatch(loadCustomerEquipManufacturer(e.target.value));
+    
   };
 
   const changeManufacturerHandler = (e) => {
+      setSystemTypeTriggered(false);
     props.setManufacturer(e.target.value);
     dispatch(loadCustomerEquipModel(props.system_type, e.target.value));
     // props.setVendor("");
@@ -865,7 +896,7 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Model
                 </option>
-                {models ? (
+                {systemtypeTriggered ? null : models ? (
                   models.map((me, indx) => {
                     // props.setVendor("");
                     if (me.package_model === null) {
@@ -973,14 +1004,15 @@ function NewEuipmentInformation(props) {
             </Form.Group>
             {props.quantity === "" ? (
               <p className="validate text-danger requiredField">
-                  *This Field is Required
+                *This Field is Required
               </p>
-            ) : 
+            ) : (
               <p className="validate text-danger requiredField">
-                  {props.max_invoice < props.quantity
-                  ? "*Quantity Should not be greater than Max Quantity": null }
+                {props.max_invoice < props.quantity
+                  ? "*Quantity Should not be greater than Max Quantity"
+                  : null}
               </p>
-            }
+            )}
           </Col>
           <Col md={6} className="mb-3">
             <Form.Group controlId="vendor">
@@ -995,7 +1027,7 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Vendor
                 </option>
-                {equipment_detail ? (
+                {systemtypeTriggered ? null : equipment_detail ? (
                   equipment_detail[0]?.vendor.map((val) => (
                     <option value={val}>{val}</option>
                   ))

@@ -246,9 +246,84 @@ function ApplicationScreen() {
                       </a>
                     </Row>
                   </>
-                ) : (
-                  <></>
-                )}
+                ) : track_application ? (
+                  <>
+                    <Row className="px-0 mb-4 mx-0 d-flex align-items-center">
+                      <Col className="px-0">
+                        <b className="px-0 d-flex mx-0" id="trackStep">
+                          {track_application.Status === "Approved" ? (
+                            <>Step 6 of 6</>
+                          ) : (
+                            <>
+                              Step{" "}
+                              {stages.find(
+                                (p) => p.stage === track_application.Stage
+                              ).id + 1}{" "}
+                              of 6{" "}
+                            </>
+                          )}
+                        </b>
+                      </Col>
+                      <Col className="px-0" id="colBar">
+                        <ProgressBar
+                          className="px-0"
+                          id="trackBar"
+                          variant="success"
+                          now={
+                            track_application.Status === "Approved"
+                              ? 100
+                              : stages.find(
+                                  (p) => p.stage === track_application.Stage
+                                ).percent
+                          }
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="px-0 mb-5">
+                      <p className="text-muted mb-3 trackText">
+                        Date Applied:{" "}
+                        <b className="float-end trackText">
+                          {track_application.Application_Date}{" "}
+                        </b>
+                      </p>
+                      <p className="text-muted mb-3 trackText">
+                        Account Number:{" "}
+                        <b className="float-end trackText">
+                          {" "}
+                          *******
+                          {track_application.Account_no.slice(
+                            track_application.Account_no.length - 3
+                          )}{" "}
+                        </b>{" "}
+                      </p>
+                      <p className="text-muted mb-3 trackText">
+                        System Type:{" "}
+                        <b className="float-end trackText">
+                          {" "}
+                          {track_application.System_Type}{" "}
+                        </b>{" "}
+                      </p>
+                      <p className="text-muted mb-3 trackText">
+                        Status:{" "}
+                        <b className="float-end trackText">
+                          {track_application.Status}{" "}
+                        </b>
+                      </p>
+                    </Row>
+                    <Row className="px-0">
+                      <a
+                        style={{ borderRadius: "0.5rem" }}
+                        className="btn btn-success py-3 mt-5 fw-normal"
+                        id="submitbtn"
+                        // href="http://localhost:3000/track"
+                        href="https://gparebates.com/track"
+                        // onClick={() => resetHandler()}
+                      >
+                        <b className="trackButtonText">TRACK NEW APPLICATION</b>
+                      </a>
+                    </Row>
+                  </>
+                ) : null}
               </>
             )}
           </Container>

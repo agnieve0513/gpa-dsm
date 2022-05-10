@@ -396,23 +396,27 @@ function PrintApplicationSummary(props) {
     }
   }, [applicationPrintDetail]);
 
-    function overlapFix(text) {
+    function overlapFix(text) 
+    {
+      const str = text.trim();
       let line = Math.round(text.length / 18);
-      console.log("TEXT: ", text);
+      console.log("TEXT: ", str);
       console.log("LINE: ", line);
       let arr1 = [];
       if (line > 0) {
         for (let i = 0; i < line; i++) {
 
-          console.log("TEXT STRING: ", text.substring(i * 18, (i + 1) * 18));
-          arr1.push(text.substring(i * 18, (i + 1) * 18));
+          console.log("TEXT STRING: ", str.substring(i * 18, (i + 1) * 18));
+          arr1.push(str.substring(i * 18, (i + 1) * 18));
         }
           if(line == 1){
-            arr1.push(text.substring(line * 18));
+            console.log("LINE IS EQUAL TO 1");
+            arr1 =  [];
+            arr1.push(str.substring(line-1 * 18));
           }
       }
       else{
-        arr1.push(text);
+        arr1.push(str);
       }
       return arr1;
     }

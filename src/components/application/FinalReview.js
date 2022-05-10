@@ -405,12 +405,12 @@ function FinalReview(props) {
                                 ? props.new_equipments.map((eq) => (
                                     <tr>
                                       <td>{eq.id + 1}</td>
-                                      <td>{props.system_type}</td>
+                                      <td>{eq.system_type}</td>
                                       <td>{eq.manufacturer}</td>
                                       <td>{eq.model_no}</td>
                                       <td>{eq.vendor}</td>
-                                      {props.system_type === "Dryer" ||
-                                      props.system_type === "Washer" ? null : (
+                                      {eq.system_type === "Dryer" ||
+                                      eq.system_type === "Washer" ? null : (
                                         <td>{eq.seer}</td>
                                       )}
                                       <td>{eq.invoice_no}</td>

@@ -1776,7 +1776,7 @@ function ViewApp(props) {
                                     {equip.newEquip_System_type !== "Washer" ? (
                                       equip.newEquip_System_type !== "Dryer" ? (
                                         <>
-                                          <td>{equip.newEquip_Btu}</td>
+                                          <td>{parseInt(equip.newEquip_Btu) * 12000}</td>
                                           <td>{equip.newEquip_Seer}</td>
                                         </>
                                       ) : null
@@ -3225,6 +3225,7 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(2, 0, "Approve Application");
                                 }}
+                                disabled={application?.Status === "Denied" ? true : false}
                               >
                                 Approve Application
                               </Button>
@@ -3257,6 +3258,7 @@ function ViewApp(props) {
                                   updateStatus(2, 0, "Approve Application");
                                 }}
                                 className="mb-3"
+                                disabled={application?.Status === "Denied" ? true : false}
                               >
                                 Approve Application
                               </Button>
@@ -3315,10 +3317,12 @@ function ViewApp(props) {
                           >
                             Process Sending
                           </Button>
+                          
                           <Button
                             className="me-2 rejectbtn"
                             variant={"danger"}
                             onClick={() => changeStatusHandler(3)}
+                            disabled={application?.Status === "Denied" ? true : false}
                           >
                             Reject
                           </Button>
