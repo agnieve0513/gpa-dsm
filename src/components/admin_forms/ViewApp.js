@@ -1752,6 +1752,7 @@ function ViewApp(props) {
                                 .newEquip_System_type === "Washer" ? null : (
                                 <>
                                   <th>BTU</th>
+                                  <th>TONS</th>
                                   <th>SEER</th>
                                 </>
                               )
@@ -1776,7 +1777,8 @@ function ViewApp(props) {
                                     {equip.newEquip_System_type !== "Washer" ? (
                                       equip.newEquip_System_type !== "Dryer" ? (
                                         <>
-                                          <td>{parseInt(equip.newEquip_Btu) * 12000}</td>
+                                          <td>{parseFloat(equip.newEquip_Btu) * 12000}</td>
+                                          <td>{equip.newEquip_Btu}</td>
                                           <td>{equip.newEquip_Seer}</td>
                                         </>
                                       ) : null

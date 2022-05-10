@@ -112,7 +112,7 @@ function NewEuipmentInformation(props) {
     }else{
       setSystemTypeTriggered(true);
     }
-
+    props.setManufacturer(null);
     showRebateHandler();
     // props.setVendor("");
     props.setSystemType(e.target.value);
@@ -776,7 +776,15 @@ function NewEuipmentInformation(props) {
                   <i style={{ color: "white" }} className="fa fa-upload"></i>
                 </div>
               </InputGroup>
-              {props.invoice === null ? (
+              {invoiceTrigger && uploadError ? (
+                <>
+                  {props.setInvoice(null)}
+                  <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                  <p className="validate text-muted requiredField">
+                    Please Select Different File
+                  </p>
+                </>
+              ) : props.invoice === null ? (
                 <p className="validate text-danger requiredField">
                   *This Field is Required
                 </p>
@@ -785,35 +793,19 @@ function NewEuipmentInformation(props) {
               )}
               {props.invoice ? (
                 <>
-                  {fileCode ? (
+                  {fileCode && fileCode.length !== 0 ? (
                     <>
-                      {fileCode.length !== 0 ? (
-                        <>
-                          {invoiceTrigger == true ? (
-                            <>
-                              {console.log("INVOICE D VALUE: ", props.invoiceD)}
-                              {console.log(
-                                "------------------------------------------"
-                              )}
-                              <Badge bg={"success"}>File Uploaded</Badge> <br />
-                            </>
-                          ) : null}
-                        </>
-                      ) : (
-                        <></>
-                      )}
+                      <Badge bg={"success"}>File Uploaded</Badge> <br />
+                      <p className="text-break m-0">
+                        Filename: {props.invoice.name}
+                      </p>
+                      <p>File Type: {props.invoice.type}</p>
                     </>
                   ) : (
                     <></>
                   )}
-                  <p className="text-break m-0">
-                    Filename: {props.invoice.name}
-                  </p>
-                  <p>File Type: {props.invoice.type}</p>
                 </>
-              ) : (
-                <></>
-              )}
+              ) : null}
             </Form.Group>
           </Col>
         </Row>
@@ -861,7 +853,7 @@ function NewEuipmentInformation(props) {
                 onChange={(e) => changeManufacturerHandler(e)}
                 value={props.manufacturer}
               >
-                <option defaultValue hidden>
+                <option defaultValue selected hidden>
                   Select Manufacturer
                 </option>
 

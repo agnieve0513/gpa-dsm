@@ -117,16 +117,24 @@ function ApplicationInformation(props) {
 
   useEffect(() => {
 
-    if(fileCode){
-      if (loaTrigger == true) {
-        console.log(
-          "File Code Saved After Successful Uploading of file: ",
-          fileCode
-        );
-        props.setLetterAuthorizationD(fileCode);
-        setLoaTrigger(false);
+    console.log("ERROR: ", uploadError);
+    console.log("UPLOADFILE DATA: ", uploadFile);
+
+    if (!uploadError) {
+      if (fileCode) {
+        if (loaTrigger == true) {
+          console.log(
+            "File Code Saved After Successful Uploading of file: ",
+            fileCode
+          );
+          props.setLetterAuthorizationD(fileCode);
+          setLoaTrigger(false);
+        }
       }
+    } else {
+      alert("Error!");
     }
+      
   }, [fileCode]);
 
   useEffect(() => {
@@ -447,22 +455,18 @@ function ApplicationInformation(props) {
             name="file"
             placeholder="Upload Lettter of Authorization"
             type="file"
-            onChange={(e) =>
-              {
-                if (
-                  e.target.files[0].type ===
-                  "application/pdf" ||
-                  e.target.files[0].type === "image/png" ||
-                  e.target.files[0].type === "image/jpeg"
-                ){
-                   handleChangeLOA(e);
-                }else{
-                  errorFileInvalidMessage()
-                  e.target.value = null;
-                  
-                }
+            onChange={(e) => {
+              if (
+                e.target.files[0].type === "application/pdf" ||
+                e.target.files[0].type === "image/png" ||
+                e.target.files[0].type === "image/jpeg"
+              ) {
+                handleChangeLOA(e);
+              } else {
+                errorFileInvalidMessage();
+                e.target.value = null;
               }
-               }
+            }}
           />
           <div
             style={{
@@ -477,22 +481,40 @@ function ApplicationInformation(props) {
             <i style={{ color: "white" }} className="fa fa-upload"></i>
           </div>
         </InputGroup>
-        {props.letter_authorization === null ? (
+        {uploadError ? (
+          <>
+            {props.setLetterAuthorization(null)}
+            <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+            <span className="text-muted">Please Select Different File</span>
+          </>
+        ) : props.letter_authorization === null ? (
           <p className="validate text-danger requiredField">
             *This Field is Required
           </p>
-        ) : (
-          <></>
-        )}
+        ) : null}
         {props.letter_authorization ? (
           <>
-            {fileCode ? (
+            {uploadError ? (
+              <>
+                {props.setLetterAuthorization(null)}
+                <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                <span className="text-muted">Please Select Different File</span>
+              </>
+            ) : fileCode ? (
               <>
                 {fileCode.length !== 0 ? (
                   <>
-                    {console.log("File Code For Letter of Authorization: ", fileCode)}
-                    {console.log("letterAuthorizationD value",props.letter_authorizationD)}
+                    {console.log(
+                      "File Code For Letter of Authorization: ",
+                      fileCode
+                    )}
+                    {console.log(
+                      "letterAuthorizationD value",
+                      props.letter_authorizationD
+                    )}
                     <Badge bg={"success"}>File Uploaded</Badge> <br />
+                    Filename: {props.letter_authorization.name} <br />
+                    File Type: {props.letter_authorization.type} <br />
                   </>
                 ) : (
                   <></>
@@ -501,8 +523,7 @@ function ApplicationInformation(props) {
             ) : (
               <></>
             )}
-            Filename: {props.letter_authorization.name} <br />
-            File Type: {props.letter_authorization.type} <br />
+
             <br />
           </>
         ) : (

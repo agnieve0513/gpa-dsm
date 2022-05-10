@@ -249,13 +249,6 @@ function SubmissionOfDocumentation(props) {
             >
               <i className="fa fa-question-circle ps-2"></i>{" "}
             </span>
-            {props.irs_form ? (
-              <>
-                <Badge bg={"success"}>File Uploaded</Badge>
-              </>
-            ) : (
-              <></>
-            )}
           </p>
           <InputGroup className="mb-1">
             <Form.Control
@@ -270,7 +263,7 @@ function SubmissionOfDocumentation(props) {
                 ) {
                   handleChange(e, "irs_form");
 
-                  setDocType('irs')
+                  setDocType("irs");
                   setIrsFormTrigger(irsFormTrigger + 1);
                 } else {
                   errorFileInvalidMessage();
@@ -280,15 +273,29 @@ function SubmissionOfDocumentation(props) {
             />
             <UploadIcon />
           </InputGroup>
-          {props.irs_form === null ? (
+          {console.log("FILECODEEE: ", fileCode)}
+          {props.irs_form && fileCode ? (
+            <>
+              <Badge bg={"success"}>File Successfully Uploaded</Badge> <br />
+            </>
+          ) : null}
+          {irsFormTrigger && uploadError ? (
+            <>
+              {props.setIrsForm(null)}
+              <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+              <p className="validate text-muted requiredField">
+                Please Select Different File
+              </p>
+            </>
+          ) : props.irs_form === null ? (
             <p className="validate text-danger">*This Field is Required</p>
           ) : (
             <></>
           )}
           {props.irs_form ? (
             <>
-             
               {console.log("IRSD VALUE: ", props.irs_formD)}
+              {/* <Badge bg={"success"}>Uploaded File Successfully</Badge> <br /> */}
               <p className="m-0">Filename: {props.irs_form.name}</p>
               <p className="m-0">File Type: {props.irs_form.type}</p>
             </>
@@ -313,14 +320,7 @@ function SubmissionOfDocumentation(props) {
               <Row className="flex d-flex-row justify-content-between">
                 <p className="px-0 m-0 mb-1 supportingDoc bold fw-bold">
                   Other Supporting Document 1{" "}
-                  <small class="text-muted">
-                    (Consideration Letter)
-                  </small>{" "}
-                  {props.other_doc1 ? (
-                    <Badge bg={"success"}>File Uploaded</Badge>
-                  ) : (
-                    <></>
-                  )}
+                  <small class="text-muted">(Consideration Letter)</small>{" "}
                 </p>
                 <span
                   className="px-0 text-secondary supportingDoc"
@@ -349,7 +349,7 @@ function SubmissionOfDocumentation(props) {
                     ) {
                       handleChange(e, "other_doc1");
 
-                      setDocType('other_doc1');
+                      setDocType("other_doc1");
                       setOtherDoc1Trigger(otherDoc1Trigger + 1);
                     } else {
                       errorFileInvalidMessage();
@@ -359,11 +359,30 @@ function SubmissionOfDocumentation(props) {
                 />
                 <UploadIcon />
               </InputGroup>
+              {props.other_doc1 && fileCode ? (
+                <>
+                  <Badge bg={"success"}>File Successfully Uploaded</Badge>{" "}
+                  <br />
+                </>
+              ) : null}
+              {otherDoc1Trigger && uploadError ? (
+                <>
+                  {props.setOtherDoc1(null)}
+                  <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                  <p className="validate text-muted requiredField">
+                    Please Select Different File
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
               {props.other_doc1 ? (
                 <>
                   {otherDoc1Trigger === true
                     ? props.setOtherDoc1D(fileCode)
                     : null}
+                  {/* <Badge bg={"success"}>Uploaded File Successfully</Badge>{" "} */}
+                  <br />
                   <p className="m-0">Filename: {props.other_doc1.name}</p>
                   <p className="m-0">File Type: {props.other_doc1.type}</p>
                 </>
@@ -376,11 +395,6 @@ function SubmissionOfDocumentation(props) {
               <Row className="flex d-flex-row justify-content-between">
                 <p className="px-0 m-0 mb-1 supportingDoc fw-bold">
                   Other Supporting Document 2{" "}
-                  {props.other_doc2 ? (
-                    <Badge bg={"success"}>File Uploaded</Badge>
-                  ) : (
-                    <></>
-                  )}
                 </p>
                 <span
                   className="px-0 text-secondary supportingDoc"
@@ -409,7 +423,7 @@ function SubmissionOfDocumentation(props) {
                     ) {
                       handleChange(e, "other_doc2");
 
-                      setDocType('other_doc2');
+                      setDocType("other_doc2");
                       setOtherDoc2Trigger(otherDoc2Trigger + 1);
                     } else {
                       errorFileInvalidMessage();
@@ -419,9 +433,27 @@ function SubmissionOfDocumentation(props) {
                 />
                 <UploadIcon />
               </InputGroup>
+              {props.other_doc2 && fileCode ? (
+                <>
+                  <Badge bg={"success"}>File Successfully Uploaded</Badge>{" "}
+                  <br />
+                </>
+              ) : null}
+              {otherDoc2Trigger && uploadError ? (
+                <>
+                  {props.setOtherDoc1(null)}
+                  <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                  <p className="validate text-muted requiredField">
+                    Please Select Different File
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
               {props.other_doc2 ? (
                 <>
                   {otherDoc2Trigger ? props.setOtherDoc2D(fileCode) : null}
+                  {/* <Badge bg={"success"}>Uploaded File Successfully</Badge>{" "} */}
                   <p className="m-0">Filename: {props.other_doc2.name}</p>
                   <p className="m-0">File Type: {props.other_doc2.type}</p>
                 </>
@@ -459,11 +491,6 @@ function SubmissionOfDocumentation(props) {
                 >
                   <i className="fa fa-question-circle"></i>{" "}
                 </span>{" "}
-                {props.letter_authorization ? (
-                  <Badge bg={"success"}>File Uploaded</Badge>
-                ) : (
-                  <></>
-                )}
               </p>
               <InputGroup>
                 <Form.Control
@@ -481,16 +508,34 @@ function SubmissionOfDocumentation(props) {
                       e.target.value = null;
                     }
 
-                    setDocType('loa');
+                    setDocType("loa");
                     setLoaTrigger(loaTrigger + 1);
                   }}
                 />
               </InputGroup>
+              {props.letter_authorization && fileCode ? (
+                <>
+                  <Badge bg={"success"}>File Successfully Uploaded</Badge>{" "}
+                  <br />
+                </>
+              ) : null}
+              {loaTrigger && uploadError ? (
+                <>
+                  {props.setLetterAuthorization(null)}
+                  <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                  <p className="validate text-muted requiredField">
+                    Please Select Different File
+                  </p>
+                </>
+              ) : (
+                <></>
+              )}
               {props.letter_authorization ? (
                 <>
                   {loaTrigger === true
                     ? props.setLetterAuthorizationD(fileCode)
                     : null}
+                  {/* <Badge bg={"success"}>Uploaded File Successfully</Badge>{" "} */}
                   <p className="m-0">
                     Filename: {props.letter_authorization.name}
                   </p>
@@ -530,11 +575,6 @@ function SubmissionOfDocumentation(props) {
               >
                 <i className="fa fa-question-circle"></i>{" "}
               </span>{" "}
-              {props.invoice ? (
-                <Badge bg={"success"}>File Uploaded</Badge>
-              ) : (
-                <></>
-              )}
             </p>
             <InputGroup>
               <Form.Control
@@ -549,7 +589,7 @@ function SubmissionOfDocumentation(props) {
                   ) {
                     handleChange(e, "invoice");
 
-                    setDocType('invoice')
+                    setDocType("invoice");
                     setInvoiceTrigger(invoiceTrigger + 1);
                   } else {
                     errorFileInvalidMessage();
@@ -559,9 +599,26 @@ function SubmissionOfDocumentation(props) {
               />
               <UploadIcon />
             </InputGroup>
+            {props.invoice && fileCode ? (
+              <>
+                <Badge bg={"success"}>File Successfully Uploaded</Badge> <br />
+              </>
+            ) : null}
+            {invoiceTrigger && uploadError ? (
+              <>
+                {props.setInvoice(null)}
+                <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                <p className="validate text-muted requiredField">
+                  Please Select Different File
+                </p>
+              </>
+            ) : (
+              <></>
+            )}
             {props.invoice ? (
               <>
                 {invoiceTrigger === true ? props.setInvoiceD(fileCode) : null}
+                {/* <Badge bg={"success"}>Uploaded File Successfully</Badge>{" "} */}
                 <p className="m-0">Filename: {props.invoice.name}</p>
                 <p className="m-0">File Type: {props.invoice.type}</p>
               </>
@@ -596,7 +653,7 @@ function SubmissionOfDocumentation(props) {
                 <i className="fa fa-question-circle"></i>{" "}
               </span>{" "}
               {props.installer_certification ? (
-                <Badge bg={"success"}>File Uploaded</Badge>
+                // <Badge bg={"success"}>File Uploaded</Badge>
               ) : (
                 <></>
               )}
@@ -648,11 +705,6 @@ function SubmissionOfDocumentation(props) {
               >
                 <i className="fa fa-question-circle"></i>{" "}
               </span>{" "}
-              {props.disposal_slip ? (
-                <Badge bg={"success"}>File Uploaded</Badge>
-              ) : (
-                <></>
-              )}
             </p>
             <InputGroup>
               <Form.Control
@@ -673,11 +725,28 @@ function SubmissionOfDocumentation(props) {
                 }}
               />
             </InputGroup>
+            {props.disposal_slip && fileCode ? (
+              <>
+                <Badge bg={"success"}>File Successfully Uploaded</Badge> <br />
+              </>
+            ) : null}
+            {disposalSlipTrigger && uploadError ? (
+              <>
+                {props.setInvoice(null)}
+                <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+                <p className="validate text-muted requiredField">
+                  Please Select Different File
+                </p>
+              </>
+            ) : (
+              <></>
+            )}
             {props.disposal_slip ? (
               <>
                 {disposalSlipTrigger === true
                   ? props.setDisposalSlipD(fileCode)
                   : null}
+                {/* <Badge bg={"success"}>Uploaded File Successfully</Badge>{" "} */}
                 <p className="m-0">Filename: {props.disposal_slip.name}</p>
                 <p className="m-0">File Type: {props.disposal_slip.type}</p>
               </>

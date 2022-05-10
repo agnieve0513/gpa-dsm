@@ -99,12 +99,11 @@ export const uploadFileAction =
 
      
     } catch (error) {
+      console.log(error.message);
+
       dispatch({
         type: FILE_UPLOAD_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
+        payload: error.message
       });
     }
   };

@@ -301,7 +301,9 @@ function ApplicationScreen() {
         home_age.length !== 4 ||
         home_age > new Date().getFullYear() ||
         is_new_construction === "" ||
-        home_type === ""
+        home_type === "" ||
+        (letter_authorization !== null && letter_authorizationD === null) ||
+        letter_authorizationD === ""
       ) {
         errorMessage();
       } else {

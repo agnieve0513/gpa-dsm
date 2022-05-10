@@ -276,6 +276,14 @@ function ExistingEquipmentInformation(props) {
       </InputGroup>
       {props.no_existing ? (
         <> </>
+      ) : disposalTrigger && uploadError ? (
+        <>
+          {props.setDisposalSlip(null)}
+          <Badge bg={"danger"}>Error Uploading File</Badge> <br />
+          <p className="validate text-muted requiredField">
+            Please Select Different File
+          </p>
+        </>
       ) : props.disposal_slip === null ? (
         <p className="validate text-danger requiredField">
           *This Field is Required
