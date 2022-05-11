@@ -109,6 +109,7 @@ function NewEuipmentInformation(props) {
 
   const changeSystemTypeHandler = (e) => {
     setSystemTypeTriggered(true);
+    setSystemTypeTriggered2(true);
     // if(systemtypeTriggered === true)
     // {
     //   setSystemTypeTriggered(false);
