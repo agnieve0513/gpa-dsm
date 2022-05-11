@@ -109,6 +109,7 @@ function NewEuipmentInformation(props) {
 
   const changeSystemTypeHandler = (e) => {
     setSystemTypeTriggered(true);
+    setSystemTypeTriggered2(true);
     setSystemTypeTriggered3(true);
     // if(systemtypeTriggered === true)
     // {
@@ -1049,7 +1050,7 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Vendor
                 </option>
-                {systemtypeTriggered2 ? null : equipment_detail ? (
+                {systemtypeTriggered3 ? null : equipment_detail ? (
                   equipment_detail[0]?.vendor.map((val) => (
                     <option value={val}>{val}</option>
                   ))
