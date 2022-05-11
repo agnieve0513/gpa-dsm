@@ -850,9 +850,9 @@ function NewEuipmentInformation(props) {
                 placeholder=""
                 min="1"
                 onChange={(e) => {
-                  props.setTotalQuantity(0);
-                  props.setTotalRebate(0);
-                  props.setNewEquipments([]);
+                  // props.setTotalQuantity(0);
+                  // props.setTotalRebate(0);
+                  // props.setNewEquipments([]);
                   props.setMaxInvoice(e.target.value);
                 }}
                 value={props.max_invoice}
