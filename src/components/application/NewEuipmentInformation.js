@@ -41,6 +41,8 @@ function NewEuipmentInformation(props) {
   const [clTrigger, setClTrigger] = useState(false);
 
   const [systemtypeTriggered, setSystemTypeTriggered] = useState(false);
+  const [systemtypeTriggered2, setSystemTypeTriggered2] = useState(true);
+  const [systemtypeTriggered3, setSystemTypeTriggered3] = useState(true);
 
   
 
@@ -106,13 +108,21 @@ function NewEuipmentInformation(props) {
   
 
   const changeSystemTypeHandler = (e) => {
-    if(systemtypeTriggered === true)
-    {
-      setSystemTypeTriggered(false);
-    }else{
-      setSystemTypeTriggered(true);
-    }
+    setSystemTypeTriggered(true);
+    // if(systemtypeTriggered === true)
+    // {
+    //   setSystemTypeTriggered(false);
+    //   setSystemTypeTriggered2(false);
+    // }else{
+    //   setSystemTypeTriggered(true);
+    //   setSystemTypeTriggered2(true);
+    // }
+    
     props.setManufacturer(null);
+    // setModelID(null);
+    // props.setVendor(null);
+    // console.log("REBATE SHOULD CHANGE", props.rebate);
+
     showRebateHandler();
     // props.setVendor("");
     props.setSystemType(e.target.value);
@@ -122,18 +132,23 @@ function NewEuipmentInformation(props) {
        if (props.system_type === "Dryer" || props.system_type === "Washer") {
        }else{
          props.setNewEquipments([]);
+          props.setTotalQuantity(0);
+
        }
      }else{
          props.setNewEquipments([]);
+          props.setTotalQuantity(0);
+
      }
     
-    props.setTotalQuantity(0);
     dispatch(loadCustomerEquipManufacturer(e.target.value));
+    setSystemTypeTriggered(false);
     
   };
 
   const changeManufacturerHandler = (e) => {
       setSystemTypeTriggered(false);
+      setSystemTypeTriggered3(false);
     props.setManufacturer(e.target.value);
     dispatch(loadCustomerEquipModel(props.system_type, e.target.value));
     // props.setVendor("");
@@ -141,7 +156,9 @@ function NewEuipmentInformation(props) {
   };
 
   const handleModelNo = (me) => {
-    var modelName = '';
+    setSystemTypeTriggered2(false);
+
+    var modelName = "";
     // me.indoor_model
     //   ? me.indoor_model
     //   : "" + me.outdoor_model && me.indoor_model
@@ -152,16 +169,14 @@ function NewEuipmentInformation(props) {
 
     if (me.package_model) {
       modelName = me.package_model;
-    }else if (me.indoor_model)
-    {
+    } else if (me.indoor_model) {
       modelName = me.indoor_model;
-    }else if (me.outdoor_model)
-    {
+    } else if (me.outdoor_model) {
       modelName = me.outdoor_model;
-    }else if (me.indoor_model && me.outdoor_model){
+    } else if (me.indoor_model && me.outdoor_model) {
       modelName = me.indoor_model + " / " + me.outdoor_model;
-    } 
-    
+    }
+
     return modelName;
   };
 
@@ -246,6 +261,10 @@ function NewEuipmentInformation(props) {
         text: "Fields should not be empty in order to proceed to next step",
       });
     } else {
+      console.log("TOTAL QUANTITY: ", props.totalQuantity);
+      console.log("QUANTITY: ", props.quantity);
+      console.log("MAX INVOICE: ", props.max_invoice);
+
       if (
         props.max_invoice >=
         parseInt(parseInt(props.totalQuantity) + parseInt(props.quantity))
@@ -282,6 +301,14 @@ function NewEuipmentInformation(props) {
         );
         props.setTotalRebate(props.total_rebate + parseInt(props.rebate));
         props.setNewEquipments(props.new_equipments.concat(obj));
+
+        // props.setSystemType("")
+        props.setManufacturer("");
+        setModelID("");
+        props.setVendor("");
+        setSystemTypeTriggered3(true);
+        setSystemTypeTriggered2(true);
+
       } else {
         Toast.fire({
           icon: "warning",
@@ -541,7 +568,9 @@ function NewEuipmentInformation(props) {
             <Form.Group controlId="system_type">
               <Form.Label className=" applicationTitle">SYSTEM TYPE</Form.Label>
               <Form.Select
-                onChange={(e) => changeSystemTypeHandler(e)}
+                onChange={(e) => {
+                  changeSystemTypeHandler(e);
+                }}
                 value={props.system_type}
               >
                 <option defaultValue hidden>
@@ -857,7 +886,7 @@ function NewEuipmentInformation(props) {
                   Select Manufacturer
                 </option>
 
-                {manufacturers ? (
+                {systemtypeTriggered ? null: manufacturers ? (
                   manufacturers.map((ce) => (
                     <option key={ce.Manufacturer} value={ce.Manufacturer}>
                       {ce.Manufacturer}
@@ -888,7 +917,7 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Model
                 </option>
-                {systemtypeTriggered ? null : models ? (
+                {systemtypeTriggered3 ? null : models ? (
                   models.map((me, indx) => {
                     // props.setVendor("");
                     if (me.package_model === null) {
@@ -1019,7 +1048,7 @@ function NewEuipmentInformation(props) {
                 <option defaultValue hidden>
                   Select Vendor
                 </option>
-                {systemtypeTriggered ? null : equipment_detail ? (
+                {systemtypeTriggered2 ? null : equipment_detail ? (
                   equipment_detail[0]?.vendor.map((val) => (
                     <option value={val}>{val}</option>
                   ))
@@ -1134,43 +1163,62 @@ function NewEuipmentInformation(props) {
             )}
           </Col>
         </Row>
-        {equipment_detail ? (
+        {systemtypeTriggered2 ? null : equipment_detail ? (
           equipment_detail[0] ? (
-            <Row>
-              {equipment_detail[0].display1 ? (
-                <Col md={equipment_detail[0].display2.length > 0 ? 6 : 12}>
-                  <Form.Group controlId="value1">
-                    <Form.Label className=" applicationTitle">
-                      {equipment_detail[0].display1}
-                    </Form.Label>
-                    <Form.Control
-                      type="text"
-                      onChange={(e) => props.setNewSeer(e.target.value)}
-                      value={equipment_detail[0].value1}
-                      required
-                      disabled={true}
-                    ></Form.Control>
-                  </Form.Group>
-                </Col>
-              ) : null}
+            <>
+              <Row>
+                {equipment_detail[0].display1 ? (
+                  <Col md={equipment_detail[0].display2.length > 0 ? 6 : 12}>
+                    <Form.Group controlId="value1">
+                      <Form.Label className=" applicationTitle">
+                        {equipment_detail[0].display1}
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        onChange={(e) => props.setNewSeer(e.target.value)}
+                        value={equipment_detail[0].value1}
+                        required
+                        disabled={true}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                ) : null}
 
-              {equipment_detail[0].display2.length > 0 ? (
-                <Col md={equipment_detail[0].display1 ? 6 : 12}>
-                  <Form.Group controlId="value2">
+                {equipment_detail[0].display2.length > 0 ? (
+                  <Col md={equipment_detail[0].display1 ? 6 : 12}>
+                    <Form.Group controlId="value2">
+                      <Form.Label className=" applicationTitle">
+                        {equipment_detail[0].display2}
+                      </Form.Label>
+                      <Form.Control
+                        type="text"
+                        onChange={(e) => props.setNewSeer(e.target.value)}
+                        value={equipment_detail[0].value2}
+                        required
+                        disabled={true}
+                      ></Form.Control>
+                    </Form.Group>
+                  </Col>
+                ) : null}
+              </Row>
+              <Row>
+                <Col md={props.delay_reason ? 6 : 12}>
+                  {console.log("THIS IS UPDATED REBATE: ", props.rebate)}
+                  <Form.Group controlId="rebate">
                     <Form.Label className=" applicationTitle">
-                      {equipment_detail[0].display2}
+                      REBATE
                     </Form.Label>
                     <Form.Control
-                      type="text"
-                      onChange={(e) => props.setNewSeer(e.target.value)}
-                      value={equipment_detail[0].value2}
+                      type="number"
+                      onChange={(e) => props.setRebate(e.target.value)}
+                      value={props.rebate}
                       required
                       disabled={true}
                     ></Form.Control>
                   </Form.Group>
                 </Col>
-              ) : null}
-            </Row>
+              </Row>
+            </>
           ) : null
         ) : null}
         {/* {
@@ -1217,20 +1265,24 @@ function NewEuipmentInformation(props) {
           </Row>: null
         ):null
         } */}
-        <Row>
-          <Col md={props.delay_reason ? 6 : 12}>
-            <Form.Group controlId="rebate">
-              <Form.Label className=" applicationTitle">REBATE</Form.Label>
-              <Form.Control
-                type="number"
-                onChange={(e) => props.setRebate(e.target.value)}
-                value={props.rebate}
-                required
-                disabled={true}
-              ></Form.Control>
-            </Form.Group>
-          </Col>
-          {/* {props.delay_reason ? (
+        {/* <Row>
+          {systemtypeTriggered2 ? null : (
+            <Col md={props.delay_reason ? 6 : 12}>
+              {console.log("THIS IS UPDATED REBATE: ", props.rebate)}
+              <Form.Group controlId="rebate">
+                <Form.Label className=" applicationTitle">REBATE</Form.Label>
+                <Form.Control
+                  type="number"
+                  onChange={(e) => props.setRebate(e.target.value)}
+                  value={props.rebate}
+                  required
+                  disabled={true}
+                ></Form.Control>
+              </Form.Group>
+            </Col>
+          )} */}
+
+        {/* {props.delay_reason ? (
             <Col md={6}>
               <Form.Group controlId="disposal_slip">
                 <p className="d-flex justify-content-between applicationTitle">
@@ -1315,7 +1367,7 @@ function NewEuipmentInformation(props) {
               </Form.Group>
             </Col>
           ) : null} */}
-        </Row>
+        {/* </Row> */}
 
         {/* Table and button Add Equipment */}
         <Row className="mt-3">

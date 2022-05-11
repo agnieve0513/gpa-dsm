@@ -314,11 +314,6 @@ function ApplicationScreen() {
 
     if (currentStep === 3 && stepOneToStepFive) {
       if (
-        system_type === "" ||
-        manufacturer === "" ||
-        model_no === "" ||
-        quantity === "" ||
-        vendor === "" ||
         work_tel === "" ||
         work_tel.length > 10 ||
         work_tel.length < 10 ||
@@ -372,11 +367,6 @@ function ApplicationScreen() {
 
     if (currentStep === 3 && stepOneToStepSix) {
       if (
-        system_type === "" ||
-        manufacturer === "" ||
-        model_no === "" ||
-        quantity === "" ||
-        vendor === "" ||
         invoice_no === "" ||
         invoice === null ||
         purchase_date === "" ||
@@ -464,11 +454,6 @@ function ApplicationScreen() {
         }
       } else if (currentStep === 3) {
         if (
-          system_type === "" ||
-          manufacturer === "" ||
-          model_no === "" ||
-          quantity === "" ||
-          vendor === "" ||
           invoice_no === "" ||
           invoice === null ||
           purchase_date === "" ||
@@ -931,7 +916,7 @@ function ApplicationScreen() {
                   </Button>
                   <Button
                     onClick={() => handleNextClick(step)}
-                    disabled={step > 1 ? (verify ? false : true) : ""}
+                    disabled={step > 1 ? (step !== 6 ? false : verify ? false : true) : ""}
                     variant={"success"}
                     size={"lg"}
                     className="m-1 px-5 py-2 bottomButton"
