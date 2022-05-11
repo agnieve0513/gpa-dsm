@@ -120,8 +120,8 @@ function NewEuipmentInformation(props) {
     // }
     
     props.setManufacturer(null);
-    // setModelID(null);
-    // props.setVendor(null);
+    setModelID(null);
+    props.setVendor(null);
     // console.log("REBATE SHOULD CHANGE", props.rebate);
 
     showRebateHandler();
