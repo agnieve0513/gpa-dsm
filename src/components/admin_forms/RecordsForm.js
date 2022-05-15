@@ -868,51 +868,73 @@ function RecordsForm() {
                       <Col md={6}></Col>
                     </Row>
                     <Row>
-                      <Col md={12}>
-                        <MaterialTable
-                          columns={[
-                            {
-                              title: "System Type",
-                              field: "newEquip_System_type",
-                            },
-                            { title: "Vendor", field: "newEquip_Vendor" },
-                            { title: "Quantity", field: "newEquip_Quantity" },
-                            { title: "BTU", field: "newEquip_Btu" },
-                            {
-                              title: "Manufacturer",
-                              field: "newEquip_Manufacturer",
-                            },
-                            {
-                              title: "Model Number",
-                              field: "newEquip_Model_no",
-                            },
-                            { title: "Invoice#", field: "newEquip_Invoice_no" },
-                            {
-                              title: "Purchase Date",
-                              field: "newEquip_Purchase_date",
-                            },
-                            { title: "Type", field: "newEquip_Type" },
-                            { title: "Tons", field: "newEquip_Tons" },
-                            {
-                              title: "Install Date",
-                              field: "newEquip_Purchase_date",
-                            },
-                          ]}
-                          data={
-                            application
-                              ? application.New_equipment.length === 0
-                                ? []
-                                : application.New_equipment
-                              : []
-                          }
-                          title="New Equipments"
-                          options={{
-                            headerStyle: {
-                              backgroundColor: "#233f88",
-                              color: "#FFF",
-                            },
-                          }}
-                        />
+                      <Col className="mb-2 px-0" md={12}>
+                        <div table="table-responsive">
+                          <Table striped hover responsive>
+                            <thead className="bg-info text-white">
+                              <tr>
+                                <th>#</th>
+                                <th>System Type</th>
+                                {application ? (
+                                  application.New_equipment[0]
+                                    .newEquip_System_type === "Dryer" ||
+                                  application.New_equipment[0]
+                                    .newEquip_System_type ===
+                                    "Washer" ? null : (
+                                    <>
+                                      <th>BTU</th>
+                                      <th>TONS</th>
+                                      <th>SEER</th>
+                                    </>
+                                  )
+                                ) : null}
+
+                                <th>Vendor</th>
+                                <th>Manu facturer</th>
+                                <th>Model Number</th>
+                                <th>Invoice</th>
+                                <th>Purchase Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {application
+                                ? application?.New_equipment?.length === 0
+                                  ? []
+                                  : application.New_equipment.map(
+                                      (equip, indx) => (
+                                        <tr>
+                                          <td>{indx + 1}</td>
+                                          <td>{equip.newEquip_System_type}</td>
+                                          {equip.newEquip_System_type !==
+                                          "Washer" ? (
+                                            equip.newEquip_System_type !==
+                                            "Dryer" ? (
+                                              <>
+                                                <td>
+                                                  {parseFloat(
+                                                    equip.newEquip_Btu
+                                                  ) * 12000}
+                                                </td>
+                                                <td>{equip.newEquip_Btu}</td>
+                                                <td>{equip.newEquip_Seer}</td>
+                                              </>
+                                            ) : null
+                                          ) : null}
+                                          <td>{equip.newEquip_Vendor} </td>
+                                          <td>{equip.newEquip_Manufacturer}</td>
+                                          <td>{equip.newEquip_Model_no}</td>
+                                          <td>{equip.newEquip_Invoice_no}</td>
+                                          {/* <td>{equip.newEquip_Tons}</td> */}
+                                          <td>
+                                            {equip.newEquip_Purchase_date}
+                                          </td>
+                                        </tr>
+                                      )
+                                    )
+                                : []}
+                            </tbody>
+                          </Table>
+                        </div>
                       </Col>
                       <Col md={6}>
                         {application ? (
@@ -1043,38 +1065,75 @@ function RecordsForm() {
                     <h3 className="mt-3 mb-3 text-info">
                       Existing/Old Equipment Info{" "}
                     </h3>
-                    <MaterialTable
-                      columns={[
-                        { title: "System Type", field: "oldEquip_System_type" },
-                        { title: "Years", field: "oldEquip_Btu" },
-                        { title: "Quantity", field: "oldEquip_Years" },
-                        { title: "BTU", field: "oldEquip_Quantity" },
-                        { title: "Eqpmt. Condition", field: "oldEquip_Tons" },
-                        { title: "Seer", field: "oldEquip_Seer" },
-                        {
-                          title: "Disposal Party",
-                          field: "oldEquip_Disposal_party",
-                        },
-                        {
-                          title: "Date",
-                          field: "oldEquip_Disposal_party",
-                        },
-                      ]}
-                      data={
-                        application
-                          ? application.Old_equipment.length === 0
+                          <div className="table-responsive">
+
+                    <Table striped hover responsive>
+                      <thead className="bg-info text-white">
+                        <tr>
+                          <th>#</th>
+                          <th>System Type</th>
+                          <th>Years</th>
+                          <th>Quantity</th>
+                          {application ? (
+                            application.New_equipment[0]
+                              .newEquip_System_type !== "Washer" ? (
+                              application.New_equipment[0]
+                                .newEquip_System_type !== "Dryer" ? (
+                                <th>TONS</th>
+                              ) : (
+                                <th>CUBIC FEET</th>
+                              )
+                            ) : (
+                              <th>CUBIC FEET</th>
+                            )
+                          ) : null}
+                          <th>Eqpmt. Condition</th>
+                          {application ? (
+                            application.New_equipment[0]
+                              .newEquip_System_type !== "Washer" ? (
+                              application.New_equipment[0]
+                                .newEquip_System_type !== "Dryer" ? (
+                                <th>SEER</th>
+                              ) : null
+                            ) : null
+                          ) : null}
+                          <th>Disposal Party</th>
+                          <th>Disposal Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {application
+                          ? application?.Old_equipment?.length === 0
                             ? []
-                            : application.Old_equipment
-                          : []
-                      }
-                      title="Old Equipments"
-                      options={{
-                        headerStyle: {
-                          backgroundColor: "#233f88",
-                          color: "#FFF",
-                        },
-                      }}
-                    />
+                            : application.Old_equipment.map(
+                                (old_eqiup, indx) => (
+                                  <tr>
+                                    <td>{indx + 1}</td>
+                                    <td>{old_eqiup.oldEquip_System_type}</td>
+                                    <td>{old_eqiup.oldEquip_Years}</td>
+                                    <td>{old_eqiup.oldEquip_Quantity}</td>
+                                    <td>{old_eqiup.oldEquip_Tons}</td>
+                                    <td>{old_eqiup.oldEquip_Conditon}</td>
+                                    {application ? (
+                                      application.New_equipment[0]
+                                        .newEquip_System_type !== "Washer" ? (
+                                        application.New_equipment[0]
+                                          .newEquip_System_type !== "Dryer" ? (
+                                          <td>{old_eqiup.oldEquip_Seer}</td>
+                                        ) : null
+                                      ) : null
+                                    ) : null}
+
+                                    <td>{old_eqiup.oldEquip_Disposal_party}</td>
+                                    <td>{old_eqiup.oldEquip_Disposal_date}</td>
+                                    
+                                  </tr>
+                                )
+                              )
+                          : []}
+                      </tbody>
+                    </Table>
+                    </div>
                   </Tab.Pane>
                   <Tab.Pane eventKey="submission_of_documentation">
                     <ModalImage

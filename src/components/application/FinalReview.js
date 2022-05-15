@@ -160,7 +160,8 @@ function FinalReview(props) {
                   </Row>
                   <Row className="">
                     <Col>
-                      {props.customer_type == "COMM" ? (
+                      {props.customer_type == "COMM" ||
+                      props.customer_type == "E-COM-2" ? (
                         <p className="title">Applicant's Name</p>
                       ) : (
                         <p className="title">First Name</p>
@@ -172,7 +173,8 @@ function FinalReview(props) {
                       </p>
                     </Col>
                   </Row>
-                  {props.customer_type !== "COMM" ? (
+                  {props.customer_type == "COMM" ||
+                  props.customer_type == "E-COM-2" ? null : (
                     <>
                       <Row className="px-0">
                         <Col>
@@ -195,7 +197,7 @@ function FinalReview(props) {
                         </Col>
                       </Row>
                     </>
-                  ) : null}
+                  )}
                   <Row>
                     <Col>
                       <p className="title">Installation Address</p>
@@ -382,45 +384,47 @@ function FinalReview(props) {
                     <Col className="px-0" md={12}>
                       {props.new_equipments.length >= 1 ? (
                         <>
-                          <Table>
-                            <thead className="bg-info text-white">
-                              <tr>
-                                <th>#</th>
-                                <th>System Type</th>
-                                <th>Manufacturer</th>
-                                <th>Model Number</th>
-                                <th>Vendor</th>
-                                {props.system_type === "Dryer" ||
-                                props.system_type === "Washer" ? null : (
-                                  <th>SEER</th>
-                                )}
-                                <th>Invoice#</th>
-                                <th>Quantity</th>
-                                <th>Purchase Date</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {console.log(props.new_equipments)}
-                              {props.new_equipments.length >= 1
-                                ? props.new_equipments.map((eq) => (
-                                    <tr>
-                                      <td>{eq.id + 1}</td>
-                                      <td>{eq.system_type}</td>
-                                      <td>{eq.manufacturer}</td>
-                                      <td>{eq.model_no}</td>
-                                      <td>{eq.vendor}</td>
-                                      {eq.system_type === "Dryer" ||
-                                      eq.system_type === "Washer" ? null : (
-                                        <td>{eq.seer}</td>
-                                      )}
-                                      <td>{eq.invoice_no}</td>
-                                      <td>{eq.quantity}</td>
-                                      <td>{eq.purchase_date}</td>
-                                    </tr>
-                                  ))
-                                : null}
-                            </tbody>
-                          </Table>
+                          <div className="table-responsive">
+                            <Table>
+                              <thead className="bg-info text-white">
+                                <tr>
+                                  <th>#</th>
+                                  <th>System Type</th>
+                                  <th>Manufacturer</th>
+                                  <th>Model Number</th>
+                                  <th>Vendor</th>
+                                  {props.system_type === "Dryer" ||
+                                  props.system_type === "Washer" ? null : (
+                                    <th>SEER</th>
+                                  )}
+                                  <th>Invoice#</th>
+                                  <th>Quantity</th>
+                                  <th>Purchase Date</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {console.log(props.new_equipments)}
+                                {props.new_equipments.length >= 1
+                                  ? props.new_equipments.map((eq) => (
+                                      <tr>
+                                        <td>{eq.id + 1}</td>
+                                        <td>{eq.system_type}</td>
+                                        <td>{eq.manufacturer}</td>
+                                        <td>{eq.model_no}</td>
+                                        <td>{eq.vendor}</td>
+                                        {eq.system_type === "Dryer" ||
+                                        eq.system_type === "Washer" ? null : (
+                                          <td>{eq.seer}</td>
+                                        )}
+                                        <td>{eq.invoice_no}</td>
+                                        <td>{eq.quantity}</td>
+                                        <td>{eq.purchase_date}</td>
+                                      </tr>
+                                    ))
+                                  : null}
+                              </tbody>
+                            </Table>
+                          </div>
                           <Row>
                             <Col md={6}>
                               <Row>

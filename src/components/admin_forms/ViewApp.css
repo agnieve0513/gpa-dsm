@@ -2,10 +2,16 @@
     height:100% !important;
 }
 
-td{
+.this-table td{
+    word-break:break-all ;
+}
+
+@media only screen and (max-width: 1086) {
+    td{
     word-break:break-all !important;
 }
 
+}
 /* @media only screen and (min-width: 2239) {
   canvas.react-pdf__Page__canvas {
     width: 1200px !important;

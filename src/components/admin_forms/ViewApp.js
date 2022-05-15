@@ -428,7 +428,8 @@ function ViewApp(props) {
       return <></>;
     }
   };
-  const changeManufacturerHandler = (e) => {
+
+  const changeManufacturerHandler = (system_type, e) => {
     setManufacturer(e);
     dispatch(loadCustomerEquipModel(system_type, e));
   };
@@ -479,7 +480,7 @@ function ViewApp(props) {
     setShowEditModal(true);
 
     changeSystemTypeHandler(system_type);
-    changeManufacturerHandler(manifacturer);
+    changeManufacturerHandler(system_type, manifacturer);
     changeModelHandler(model_no, type);
     setEnableEquipmentEdit(true);
   };
@@ -1740,7 +1741,7 @@ function ViewApp(props) {
                 <Row className="px-0">
                   <Col className="mb-2 px-0" md={12}>
                     <div table="table-responsive">
-                      <Table striped hover responsive>
+                      <Table striped hover responsive className="this-table">
                         <thead className="bg-info text-white">
                           <tr>
                             <th>#</th>
@@ -1777,7 +1778,12 @@ function ViewApp(props) {
                                     {equip.newEquip_System_type !== "Washer" ? (
                                       equip.newEquip_System_type !== "Dryer" ? (
                                         <>
-                                          <td>{parseFloat(equip.newEquip_Btu) * 12000}</td>
+                                          <td>
+                                            {parseInt(
+                                              parseFloat(equip.newEquip_Btu) *
+                                                12000
+                                            )}
+                                          </td>
                                           <td>{equip.newEquip_Btu}</td>
                                           <td>{equip.newEquip_Seer}</td>
                                         </>
@@ -1861,7 +1867,8 @@ function ViewApp(props) {
                               application.New_equipment[0]
                                 .newEquip_System_type === "Dryer" ||
                               application.New_equipment[0]
-                                .newEquip_System_type === "Airconditioner-Window" ? null : (
+                                .newEquip_System_type ===
+                                "Airconditioner-Window" ? null : (
                                 <>
                                   <p>
                                     <b style={{ color: "#B6B6B6" }}>
@@ -2129,11 +2136,10 @@ function ViewApp(props) {
                                   </Button>
                                   <Button
                                     variant="secondary"
-                                    onClick={() =>{
-                                      setInstallerFinalDate(new Date())
-                                       setEnableInstallerEdit(false)
-                                    }
-                                    }
+                                    onClick={() => {
+                                      setInstallerFinalDate(new Date());
+                                      setEnableInstallerEdit(false);
+                                    }}
                                   >
                                     Cancel
                                   </Button>
@@ -2159,7 +2165,13 @@ function ViewApp(props) {
                         width: "100%",
                       }}
                     >
-                      <Table size="lg" striped bordered hover>
+                      <Table
+                        size="lg"
+                        striped
+                        bordered
+                        hover
+                        className="this-table"
+                      >
                         <thead className="bg-info text-white">
                           <tr className="py-5">
                             <th className="p-3 text-center">QTY</th>
@@ -2170,7 +2182,9 @@ function ViewApp(props) {
                         <tbody>
                           {application?.New_equipment?.map((eq, id) => (
                             <tr key={eq.id + 1}>
-                              <td className="p-3" align="right">{eq.newEquip_Quantity}</td>
+                              <td className="p-3" align="right">
+                                {eq.newEquip_Quantity}
+                              </td>
                               <td className="p-3" align="right">
                                 $ {!eq.newEquip_rebate ? 0 : eq.newEquip_rebate}
                               </td>
@@ -3227,7 +3241,11 @@ function ViewApp(props) {
                                 onClick={() => {
                                   updateStatus(2, 0, "Approve Application");
                                 }}
-                                disabled={application?.Status === "Denied" ? true : false}
+                                disabled={
+                                  application?.Status === "Denied"
+                                    ? true
+                                    : false
+                                }
                               >
                                 Approve Application
                               </Button>
@@ -3260,7 +3278,11 @@ function ViewApp(props) {
                                   updateStatus(2, 0, "Approve Application");
                                 }}
                                 className="mb-3"
-                                disabled={application?.Status === "Denied" ? true : false}
+                                disabled={
+                                  application?.Status === "Denied"
+                                    ? true
+                                    : false
+                                }
                               >
                                 Approve Application
                               </Button>
@@ -3319,12 +3341,14 @@ function ViewApp(props) {
                           >
                             Process Sending
                           </Button>
-                          
+
                           <Button
                             className="me-2 rejectbtn"
                             variant={"danger"}
                             onClick={() => changeStatusHandler(3)}
-                            disabled={application?.Status === "Denied" ? true : false}
+                            disabled={
+                              application?.Status === "Denied" ? true : false
+                            }
                           >
                             Reject
                           </Button>

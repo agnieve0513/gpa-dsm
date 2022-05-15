@@ -153,7 +153,8 @@ function EquipmentReview(props) {
                   </Row>
                   <Row className="px-0">
                     <Col>
-                      {props.customer_type == "COMM" ? (
+                      {props.customer_type == "COMM" ||
+                      props.customer_type == "E-COM-2" ? (
                         <p className="title">Applicant's Name</p>
                       ) : (
                         <p className="title">First Name</p>
@@ -165,7 +166,8 @@ function EquipmentReview(props) {
                       </p>
                     </Col>
                   </Row>
-                  {props.customer_type !== "COMM" ? (
+                  {props.customer_type == "COMM" ||
+                  props.customer_type == "E-COM-2" ? null : (
                     <>
                       <Row className="px-0">
                         <Col>
@@ -188,7 +190,7 @@ function EquipmentReview(props) {
                         </Col>
                       </Row>
                     </>
-                  ) : null}
+                  )}
                   <Row className="px-0">
                     <Col>
                       <p className="title">Installation Address</p>
@@ -379,46 +381,48 @@ function EquipmentReview(props) {
                     <Col className="px-0" md={12}>
                       {props.new_equipments.length >= 1 ? (
                         <>
-                          <Table>
-                            <thead className="bg-info text-white">
-                              <tr>
-                                <th>#</th>
-                                <th>System Type</th>
-                                <th>Manufacturer</th>
-                                <th>Model Number</th>
-                                <th>Vendor</th>
-                                {props.system_type === "Dryer" ||
-                                props.system_type === "Washer" ? null : (
-                                  <th>SEER</th>
-                                )}
-                                <th>Invoice#</th>
-                                <th>Quantity</th>
-                                <th>Purchase Date</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {console.log(props.new_equipments)}
-                              {props.new_equipments.length >= 1
-                                ? props.new_equipments.map((eq) => (
-                                    <tr>
-                                      <td>{eq.id + 1}</td>
-                                      <td>{eq.system_type}</td>
-                                      <td>{eq.manufacturer}</td>
-                                      <td>{eq.model_no}</td>
+                          <div className="table-responsive">
+                            <Table>
+                              <thead className="bg-info text-white">
+                                <tr>
+                                  <th>#</th>
+                                  <th>System Type</th>
+                                  <th>Manufacturer</th>
+                                  <th>Model Number</th>
+                                  <th>Vendor</th>
+                                  {props.system_type === "Dryer" ||
+                                  props.system_type === "Washer" ? null : (
+                                    <th>SEER</th>
+                                  )}
+                                  <th>Invoice#</th>
+                                  <th>Quantity</th>
+                                  <th>Purchase Date</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {console.log(props.new_equipments)}
+                                {props.new_equipments.length >= 1
+                                  ? props.new_equipments.map((eq) => (
+                                      <tr>
+                                        <td>{eq.id + 1}</td>
+                                        <td>{eq.system_type}</td>
+                                        <td>{eq.manufacturer}</td>
+                                        <td>{eq.model_no}</td>
 
-                                      <td>{eq.vendor}</td>
-                                      {eq.system_type === "Dryer" ||
-                                      eq.system_type === "Washer" ? null : (
-                                        <td>{eq.seer}</td>
-                                      )}
-                                      <td>{eq.invoice_no}</td>
-                                      <td>{eq.quantity}</td>
-                                      <td>{eq.purchase_date}</td>
-                                    </tr>
-                                  ))
-                                : null}
-                            </tbody>
-                          </Table>
+                                        <td>{eq.vendor}</td>
+                                        {eq.system_type === "Dryer" ||
+                                        eq.system_type === "Washer" ? null : (
+                                          <td>{eq.seer}</td>
+                                        )}
+                                        <td>{eq.invoice_no}</td>
+                                        <td>{eq.quantity}</td>
+                                        <td>{eq.purchase_date}</td>
+                                      </tr>
+                                    ))
+                                  : null}
+                              </tbody>
+                            </Table>
+                          </div>
 
                           <Row>
                             <Col md={6}>
@@ -545,52 +549,60 @@ function EquipmentReview(props) {
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-3">
-                              <Table size="lg" striped bordered hover>
-                                <thead className="bg-info text-white">
-                                  <tr className="py-5">
-                                    <th className="p-3 text-center">QTY</th>
-                                    <th className="p-3 text-center">Rebate</th>
-                                    <th className="p-3 text-center">
-                                      Partial Total
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {props.new_equipments.map((eq) => (
-                                    <tr key={eq.id + 1}>
-                                      <td className="p-3" align="right">
-                                        {eq.quantity}
+                              <div className="table-responsive">
+                                <Table size="lg" striped bordered hover>
+                                  <thead className="bg-info text-white">
+                                    <tr className="py-5">
+                                      <th className="p-3 text-center">QTY</th>
+                                      <th className="p-3 text-center">
+                                        Rebate
+                                      </th>
+                                      <th className="p-3 text-center">
+                                        Partial Total
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {props.new_equipments.map((eq) => (
+                                      <tr key={eq.id + 1}>
+                                        <td className="p-3" align="right">
+                                          {eq.quantity}
+                                        </td>
+                                        <td className="p-3" align="right">
+                                          $ {!eq.rebate ? 0 : eq.rebate}
+                                        </td>
+                                        <td className="p-3" align="right">
+                                          {" "}
+                                          $
+                                          {!eq.rebate
+                                            ? 0
+                                            : parseInt(eq.quantity) *
+                                              parseInt(eq.rebate)}
+                                        </td>
+                                        <td hidden>
+                                          {
+                                            (total_rebate +=
+                                              parseInt(eq.quantity) *
+                                              parseInt(eq.rebate))
+                                          }
+                                        </td>
+                                      </tr>
+                                    ))}
+                                    <tr>
+                                      <td
+                                        className="p-3 text-center"
+                                        colSpan="2"
+                                      >
+                                        TOTAL
                                       </td>
                                       <td className="p-3" align="right">
-                                        $ {!eq.rebate ? 0 : eq.rebate}
-                                      </td>
-                                      <td className="p-3" align="right">
-                                        {" "}
-                                        $
-                                        {!eq.rebate
-                                          ? 0
-                                          : parseInt(eq.quantity) *
-                                            parseInt(eq.rebate)}
-                                      </td>
-                                      <td hidden>
-                                        {
-                                          (total_rebate +=
-                                            parseInt(eq.quantity) *
-                                            parseInt(eq.rebate))
-                                        }
+                                        ${" "}
+                                        {!total_rebate ? "0.00" : total_rebate}
                                       </td>
                                     </tr>
-                                  ))}
-                                  <tr>
-                                    <td className="p-3 text-center" colSpan="2">
-                                      TOTAL
-                                    </td>
-                                    <td className="p-3" align="right">
-                                      $ {!total_rebate ? "0.00" : total_rebate}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </Table>
+                                  </tbody>
+                                </Table>
+                              </div>
                             </Col>
                           </Row>
                         </>
