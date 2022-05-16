@@ -171,11 +171,17 @@ function NewEuipmentInformation(props) {
 
     if (me.package_model) {
       modelName = me.package_model;
-    } else if (me.indoor_model) {
+    } 
+    
+    if (me.indoor_model) {
       modelName = me.indoor_model;
-    } else if (me.outdoor_model) {
+    } 
+    
+    if (me.outdoor_model) {
       modelName = me.outdoor_model;
-    } else if (me.indoor_model && me.outdoor_model) {
+    } 
+    
+    if (me.indoor_model && me.outdoor_model) {
       modelName = me.indoor_model + " / " + me.outdoor_model;
     }
 
@@ -187,6 +193,7 @@ function NewEuipmentInformation(props) {
     var selectedModel = models.find(
       (model) => model.id === parseInt(e.target.value)
     );
+
     var modelName = handleModelNo(selectedModel);
     console.log("MODEL NAME: ", modelName);
     // console.log('selMod', selectedModel, 'modelN', modelName)

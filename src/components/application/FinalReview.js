@@ -176,7 +176,7 @@ function FinalReview(props) {
                   {props.customer_type == "COMM" ||
                   props.customer_type == "E-COM-2" ? null : (
                     <>
-                      <Row className="px-0">
+                      <Row>
                         <Col>
                           <p className="title">Middle Name</p>
                         </Col>
@@ -186,7 +186,7 @@ function FinalReview(props) {
                           </p>
                         </Col>
                       </Row>
-                      <Row className="px-0">
+                      <Row>
                         <Col>
                           <p className="title">Last Name</p>
                         </Col>

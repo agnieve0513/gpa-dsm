@@ -557,13 +557,23 @@ function ViewApp(props) {
   const handleEditNewEquipment = (control_no, equipment_id, indx) => {
     var me = equipment_detail ? equipment_detail[0] : [];
 
-    var modelName = me.indoor_model
-      ? me.indoor_model
-      : "" + me.outdoor_model && me.indoor_model
-      ? " / "
-      : " " + me.outdoor_model
-      ? me.outdoor_model
-      : "";
+    var modelName="";
+    
+    if (me.package_model) {
+      modelName = me.package_model;
+    }
+
+    if (me.indoor_model) {
+      modelName = me.indoor_model;
+    }
+
+    if (me.outdoor_model) {
+      modelName = me.outdoor_model;
+    }
+
+    if (me.indoor_model && me.outdoor_model) {
+      modelName = me.indoor_model + " / " + me.outdoor_model;
+    }
 
     const obj = {
       new_equipment_information: [
@@ -1519,7 +1529,10 @@ function ViewApp(props) {
                       </Form.Label>
                       <Form.Select
                         onChange={(e) =>
-                          changeManufacturerHandler(e.target.value)
+                          {
+                            console.log("PAYTS: ", e.target.value)
+                            changeManufacturerHandler(system_type, e.target.value)
+                          }
                         }
                         value={manufacturer}
                       >

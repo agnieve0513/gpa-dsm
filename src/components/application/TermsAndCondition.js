@@ -57,44 +57,49 @@ function TermsAndCondition(props) {
     console.log(props.system_type);
     if (props.customer_type === "RESID" && props.system_type === "Washer") {
       template = "resd_dryer_washer";
-    } else if (
+    } 
+     if (
       props.customer_type === "RESID" &&
       props.system_type === "Dryer"
     ) {
       template = "resd_dryer_washer";
-    } else if (
+    } 
+     if (
       props.customer_type === "RESID" &&
       props.system_type === "Airconditioner-Central"
     ) {
-      template = "resd_aircon_ductless";
-    } else if (
+      template = "resd_ducted";
+    } 
+     if (
       props.customer_type === "RESID" &&
       props.system_type === "Airconditioner-Split"
     ) {
       template = "resd_aircon_ductless";
-    } else if (
+    } 
+     if (
       props.customer_type === "RESID" &&
       props.system_type === "Airconditioner-Window"
     ) {
       template = "resd_aircon_window";
-    } else if (
-      props.customer_type === "E-COM-2" &&
-      props.system_type === "Airconditioner-Split"
-    ) {
-      template = "comm_ductless";
-    } else if (
-      props.customer_type === "E-COM-2" &&
-      props.system_type === "Airconditioner-Central"
-    ) {
-      template = "comm_ductless";
-    } else if (
-      props.customer_type === "COMM" &&
-      props.system_type === "Airconditioner-Split"
-    ) {
-      template = "comm_ductless";
-    } else {
-      template = "comm_ducted";
-    }
+    } 
+     if (
+       (props.customer_type === "E-COM-2" &&
+         props.system_type === "Airconditioner-Split") ||
+       (props.customer_type === "COMM" &&
+         props.system_type === "Airconditioner-Split")
+     ) {
+       template = "comm_ductless";
+     } 
+
+     if (
+       (props.customer_type === "E-COM-2" &&
+         props.system_type === "Airconditioner-Central") ||
+       (props.customer_type === "COMM" &&
+         props.system_type === "Airconditioner-Central")
+     ) {
+       template = "comm_ducted";
+     } 
+     
     console.log(template);
     dispatch(retrievePDFAction(template));
   }, []);

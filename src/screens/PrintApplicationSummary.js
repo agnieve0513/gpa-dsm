@@ -155,7 +155,7 @@ const EquipmentTable = ({ data, finalDate, index }) => {
             <View style={styles.textContainer}>
               <Text style={styles.text}>BTU: </Text>
               <Text style={styles.boldText}>
-                {parseFloat(data?.newEquip_Btu) * 12000 || "N/A"}
+                {parseInt(parseFloat(data?.newEquip_Btu) * 12000 || "N/A")}
               </Text>
             </View>
           ) : null}
@@ -163,9 +163,7 @@ const EquipmentTable = ({ data, finalDate, index }) => {
           {data.newEquip_Btu !== "N/A" ? (
             <View style={styles.textContainer}>
               <Text style={styles.text}>TONS: </Text>
-              <Text style={styles.boldText}>
-                {data?.newEquip_Btu || "N/A"}
-              </Text>
+              <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
             </View>
           ) : null}
 
