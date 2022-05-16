@@ -116,6 +116,15 @@ function TcTemplateForm() {
             );
             find = find + 1;
           }
+        } else if (code === "airconditioner_vrf") {
+          if (data.Action.includes("airconditioner_vrf") && find === 0) {
+            setAuthor(data.Made_By);
+            const newdate = new Date(data.Made_On);
+            setAuthorDate(
+              `${`${newdate}`.substring(0, 15)} ${formatAMPM(newdate)}`
+            );
+            find = find + 1;
+          }
         } else {
           if (data.Action.includes("comm_ducted") && find === 0) {
             setAuthor(data.Made_By);
@@ -306,6 +315,9 @@ function TcTemplateForm() {
                   <option value="comm_ducted">
                     Commercial - Central (Ducted Systems)
                   </option>
+                  <option value="airconditioner_vrf">
+                    Airconditioner - VRF
+                  </option>
                 </Form.Select>
                 <Button
                   variant="info"
@@ -384,6 +396,11 @@ function TcTemplateForm() {
                 <Nav.Item onClick={() => setCode("comm_ducted")}>
                   <Nav.Link eventKey="comm_ducted_template">
                     Commercial - Central (Ducted Systems)
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item onClick={() => setCode("airconditioner_vrf")}>
+                  <Nav.Link eventKey="airconditioner_vrf_template">
+                    Airconditioner - VRF
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item

@@ -171,9 +171,13 @@ function NewEuipmentInformation(props) {
 
     if (me.package_model) {
       modelName = me.package_model;
+      return modelName;
     } 
     
-    if (me.indoor_model) {
+    if (
+      me.indoor_model && (me.indoor_model !== "-" ||
+      me.indoor_model !== " ")
+    ) {
       modelName = me.indoor_model;
     } 
     
