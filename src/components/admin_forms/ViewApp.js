@@ -558,12 +558,12 @@ function ViewApp(props) {
     var me = equipment_detail ? equipment_detail[0] : [];
 
     var modelName="";
-    
+
     if (me.package_model) {
       modelName = me.package_model;
     }
 
-    if (me.indoor_model) {
+    if (me.indoor_model !== " ") {
       modelName = me.indoor_model;
     }
 
