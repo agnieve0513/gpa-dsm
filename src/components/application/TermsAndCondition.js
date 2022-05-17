@@ -98,7 +98,25 @@ function TermsAndCondition(props) {
          props.system_type === "Airconditioner-Central")
      ) {
        template = "comm_ducted";
-     } 
+     }
+
+     if (
+       (props.customer_type === "E-COM-2" &&
+         props.system_type === "Airconditioner-Rooftop") ||
+       (props.customer_type === "COMM" &&
+         props.system_type === "Airconditioner-Rooftop")
+     ) {
+       template = "airconditioner_rooftop";
+     }
+
+     if (
+       (props.customer_type === "E-COM-2" &&
+         props.system_type === "Airconditioner-VRF") ||
+       (props.customer_type === "COMM" &&
+         props.system_type === "Airconditioner-VRF")
+     ) {
+       template = "airconditioner_vrf";
+     }
      
     console.log(template);
     dispatch(retrievePDFAction(template));
