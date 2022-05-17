@@ -120,6 +120,8 @@ function ExistingEquipmentInformation(props) {
       props.old_system_type === "" ||
       props.old_quantity === "" ||
       props.old_years === "" ||
+      props.old_tons === "" ||
+      props.old_btu === "" || 
       props.is_equipment_condition === "" ||
       props.disposal_party === "" ||
       (props.disposal_party === "Customer" && props.disposal_slip === null) ||

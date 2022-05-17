@@ -251,9 +251,12 @@ function NewEuipmentInformation(props) {
     if (
       props.system_type === "" ||
       props.manufacturer === "" ||
+      props.manufacturer === null ||
       props.model_no === "" ||
+      props.model_no === null ||
       props.quantity === "" ||
       props.vendor === "" ||
+      props.vendor === null ||
       props.invoice === null ||
       props.invoice_no === "" ||
       props.purchase_date === "" ||
@@ -266,7 +269,7 @@ function NewEuipmentInformation(props) {
       ) /
         (1000 * 3600 * 24) >
         120 &&
-        props.delay_reason === "") 
+        props.delay_reason === "")
     ) {
       Toast.fire({
         icon: "info",
@@ -321,7 +324,6 @@ function NewEuipmentInformation(props) {
         props.setVendor("");
         setSystemTypeTriggered3(true);
         setSystemTypeTriggered2(true);
-
       } else {
         Toast.fire({
           icon: "warning",
@@ -432,36 +434,59 @@ function NewEuipmentInformation(props) {
 
   const showTable = () => {
     return (
-      <MaterialTable
-        columns={[
-          { title: "System Type", field: "system_type" },
-          { title: "Manufacturer", field: "manufacturer" },
-          { title: "Quantity", field: "quantity" },
-          { title: "Purchase Date", field: "purchase_date" },
-          {
-            title: "Action",
-            field: "actions",
-            width: "10%",
-            editComponent: (props) => {
-              return <Button></Button>;
-            },
-            render: (rowdata) => (
-              <>
-                {/* <Button variant="light" size="sm" ><i className="fa fa-edit"></i></Button> */}
-                <Button
-                  variant="danger"
-                  onClick={() => deleteEquipmentHandler(rowdata)}
-                  size="sm"
-                >
-                  <i className="fa fa-trash"></i>
-                </Button>
-              </>
-            ),
-          },
-        ]}
-        data={props.new_equipments.length === 0 ? [] : props.new_equipments}
-        title="Equipments"
-      />
+      <>
+        <div className="table-responsive tableFixHead">
+          <h6>Equipments</h6>
+          <table className="table striped bordered hover">
+            <thead className="bg-info text-white py-2">
+              <tr>
+                <th scope="col">System Type</th>
+                <th scope="col">Manufacturer</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Purchase Date</th>
+                {props.system_type === "Dryer" ||
+                props.system_type === "Washer" ? null : (
+                  <>
+                    <th>SEER</th>
+                    <th>BTU</th>
+                    <th>TONS</th>
+                  </>
+                )}
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.new_equipments.length === 0
+                ? null
+                : props.new_equipments.map((equip) => (
+                    <tr>
+                      <td>{equip.system_type}</td>
+                      <td>{equip.manufacturer}</td>
+                      <td>{equip.quantity}</td>
+                      <td>{equip.purchase_date}</td>
+                      {props.system_type === "Dryer" ||
+                      props.system_type === "Washer" ? null : (
+                        <>
+                          <td>{equip.seer}</td>
+                          <td>{parseInt(parseFloat(equip.btu)* 12000)}</td>
+                          <td>{equip.btu}</td>
+                        </>
+                      )}
+                      <td>
+                        <Button
+                          variant="danger"
+                          onClick={() => deleteEquipmentHandler(equip)}
+                          size="sm"
+                        >
+                          <i className="fa fa-trash"></i>
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
+      </>
     );
   };
 

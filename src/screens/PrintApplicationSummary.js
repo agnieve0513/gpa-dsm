@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 10,
-    color: "#B6B6B6",
+    color: "#696969",
     fontWeight: 400,
     fontFamily: "Montserrat",
   },
@@ -151,21 +151,37 @@ const EquipmentTable = ({ data, finalDate, index }) => {
             </Text>
           </View>
 
-          {data.newEquip_Btu !== "N/A" ? (
+          {data.newEquip_Btu == "N/A" ||
+          data.newEquip_System_type == "Dryer" ||
+          data.newEquip_System_type == "Washer" ? null : (
             <View style={styles.textContainer}>
               <Text style={styles.text}>BTU: </Text>
               <Text style={styles.boldText}>
                 {parseInt(parseFloat(data?.newEquip_Btu) * 12000 || "N/A")}
               </Text>
             </View>
-          ) : null}
+          )}
 
-          {data.newEquip_Btu !== "N/A" ? (
+          {data.newEquip_Btu == "N/A" ||
+          data.newEquip_System_type == "Dryer" ||
+          data.newEquip_System_type == "Washer" ? null : (
             <View style={styles.textContainer}>
               <Text style={styles.text}>TONS: </Text>
               <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
             </View>
-          ) : null}
+          )}
+
+          {data.newEquip_Seer !== "N/A" ||
+          data.newEquip_Seer !== "" ||
+          data.newEquip_System_type !== "Dryer" ||
+          data.newEquip_System_type !== "Washer" ? null : (
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>SEER: </Text>
+              <Text style={styles.boldText}>
+                {data?.newEquip_Seer || "N/A"}
+              </Text>
+            </View>
+          )}
 
           <View style={styles.textContainer}>
             <Text style={styles.text}>Manufacturer: </Text>
@@ -342,6 +358,7 @@ const template = {
       newEquip_Invoice_no: "",
       newEquip_Purchase_date: "",
       newEquip_Type: null,
+      newEquip_Seer:"",
       newEquip_rebate: null,
       newEquip_Tons: null,
     },
@@ -379,6 +396,7 @@ function PrintApplicationSummary(props) {
   let creds = query.get("auth");
   const [data, setData] = useState(template);
   let totalRebate = 0;
+  let totalRebate2 = 0;
 
   useEffect(() => {
 
@@ -474,6 +492,7 @@ function PrintApplicationSummary(props) {
                       width: "100%",
                       backgroundColor: "#233E8B",
                       justifyContent: "center",
+                      marginTop: 25,
                     }}
                   >
                     <Image
@@ -481,6 +500,7 @@ function PrintApplicationSummary(props) {
                       style={{ width: 130, height: 35, marginLeft: 30 }}
                       fixed={true}
                     />
+                    <Text>Payts</Text>
                   </View>
                   <Text style={styles.title}>Application Information</Text>
                   <View style={{ width: "100%", flexDirection: "row" }}>
@@ -554,11 +574,11 @@ function PrintApplicationSummary(props) {
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Owner{" "}
-                          {data?.Type === "RESID"
+                          Property Owner{" "}
+                          {/* {data?.Type === "RESID"
                             ? "Residential"
                             : "Commercial"}{" "}
-                          Property:{" "}
+                          Property:{" "} */}
                         </Text>
                         <Text style={styles.boldText}>
                           {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
@@ -709,7 +729,7 @@ function PrintApplicationSummary(props) {
                     </View>
 
                     <View style={styles.boxContainer}>
-                      {console.log(data)}
+                      {console.log("DATA", data)}
                       {data.New_equipment[0].newEquip_System_type === "Dryer" ||
                       data.New_equipment[0].newEquip_System_type === "Washer" ||
                       data.New_equipment[0].newEquip_System_type ===
@@ -755,16 +775,28 @@ function PrintApplicationSummary(props) {
                   <Text style={styles.title}>New Equipment Information</Text>
 
                   {data?.New_equipment.map((value, index) => {
-                    totalRebate = value?.newEquip_rebate + totalRebate;
+                    totalRebate2 = value?.newEquip_rebate + totalRebate2;
                     return (
-                      <EquipmentTable
-                        key={index}
-                        finalDate={data?.Installer_New_finaldate}
-                        data={value}
-                        index={index}
-                      />
+                      <>
+                        <EquipmentTable
+                          key={index}
+                          finalDate={data?.Installer_New_finaldate}
+                          data={value}
+                          index={index}
+                        />
+                      </>
                     );
                   })}
+
+                  <View style={{ width: "100%", flexDirection: "row" }}>
+                    <View style={styles.boxContainer}>
+                      <View style={styles.textContainer}>
+                        <Text style={styles.text}>Total Rebates: </Text>
+                        <Text style={styles.boldText}>{totalRebate2}</Text>
+                      </View>
+                    </View>
+                    <View style={styles.boxContainer}></View>
+                  </View>
                 </Page>
               </Document>
             }
@@ -779,16 +811,31 @@ function PrintApplicationSummary(props) {
               <Page size="LEGAL">
                 <View
                   style={{
-                    height: 50,
-                    width: "100%",
+                    marginTop: 15,
+                    marginLeft: "2%",
+                    marginRight: "2%",
+                    height: 70,
+                    width: "96%",
                     backgroundColor: "#233E8B",
                     justifyContent: "center",
                   }}
                 >
-                  <Image
+                  {/* <Image
                     source="/icon.png"
-                    style={{ width: 130, height: 35, marginLeft: 30 }}
-                    fixed={true}
+                    style={{
+                      width: 130,
+                      height: 35,
+                      marginLeft: 30,
+                      float: "left !important",
+                    }}
+                  /> */}
+                  <Image
+                    source="/banner.jpg"
+                    style={{
+                      width: "100%",
+                      height: 55,
+                      float: "left !important",
+                    }}
                   />
                 </View>
                 <Text style={styles.title}>Application Information</Text>
@@ -863,9 +910,9 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Owner{" "}
-                        {data?.Type === "RESID" ? "Residential" : "Commercial"}{" "}
-                        Property:{" "}
+                        Property Owner{" "}
+                        {/* {data?.Type === "RESID" ? "Residential" : "Commercial"}{" "}
+                        Property:{" "} */}
                       </Text>
                       <Text style={styles.boldText}>
                         {data?.Info_Is_owner == 1 ? "YES" : "NO" || "N/A"}
@@ -1072,6 +1119,16 @@ function PrintApplicationSummary(props) {
                     />
                   );
                 })}
+
+                <View style={{ width: "100%", flexDirection: "row" }}>
+                  <View style={styles.boxContainer}>
+                    <View style={styles.textContainer}>
+                      <Text style={styles.text}>Total Rebates: </Text>
+                      <Text style={styles.boldText}>{totalRebate}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.boxContainer}></View>
+                </View>
               </Page>
             </Document>
           </PDFViewer>

@@ -60,3 +60,20 @@ main {
 .fa-question-circle {
   color: #666666;
 }
+
+
+.table{
+   /* display: block !important; */
+   overflow-x: auto !important;
+   width: 100% !important;
+   word-break: unset;
+ }
+
+@media screen and (max-width: 992px) {
+  .table{
+   display: block !important;
+   overflow-x: auto !important;
+   width: 100% !important;
+   word-break: unset;
+ }
+}

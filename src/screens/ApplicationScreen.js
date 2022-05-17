@@ -294,6 +294,7 @@ function ApplicationScreen() {
         tel_no.length < 10 ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
+        mailing_country == "" ||
         mailing_city_village === "" ||
         mailing_zipcode === "" ||
         home_size === "" ||
@@ -349,6 +350,7 @@ function ApplicationScreen() {
         tel_no.length < 10 ||
         is_applicant_owner === "" ||
         mailing_address === "" ||
+        mailing_country == "" ||
         mailing_city_village === "" ||
         mailing_zipcode === "" ||
         home_size === "" ||
@@ -438,6 +440,7 @@ function ApplicationScreen() {
           is_applicant_owner === "" ||
           (is_applicant_owner === false && letter_authorization === null) ||
           mailing_address === "" ||
+          mailing_country == "" ||
           mailing_city_village === "" ||
           mailing_zipcode === "" ||
           home_size === "" ||

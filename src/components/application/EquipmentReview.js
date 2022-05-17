@@ -385,11 +385,11 @@ function EquipmentReview(props) {
                             <Table>
                               <thead className="bg-info text-white">
                                 <tr>
-                                  <th>#</th>
-                                  <th>System Type</th>
-                                  <th>Manufacturer</th>
-                                  <th>Model Number</th>
-                                  <th>Vendor</th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">System Type</th>
+                                  <th scope="col">Manufacturer</th>
+                                  <th scope="col">Model Number</th>
+                                  <th scope="col">Vendor</th>
                                   {props.system_type === "Dryer" ||
                                   props.system_type === "Washer" ? null : (
                                     <th>SEER</th>

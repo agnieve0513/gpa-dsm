@@ -2,13 +2,10 @@
     height:100% !important;
 }
 
-.this-table td{
-    word-break:break-all ;
-}
 
 @media only screen and (max-width: 1086) {
     td{
-    word-break:break-all !important;
+    word-break:break-word !important;
 }
 
 }
