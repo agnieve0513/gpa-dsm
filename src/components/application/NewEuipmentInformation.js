@@ -448,15 +448,11 @@ function NewEuipmentInformation(props) {
                 <th scope="col">Model</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Purchase Date</th>
-                <th>
-                  {props.system_type === "Dryer" ||
-                  props.system_type === "Washer"
-                    ? "IEER/EER"
-                    : "SEER"}
-                </th>
 
                 {props.system_type === "Dryer" ||
-                props.system_type === "Washer" ? null : (
+                props.system_type === "Washer" ? (
+                  <th>CUBIC FEET</th>
+                ) : (
                   <>
                     <th>BTU</th>
                     <th>TONS</th>
@@ -473,12 +469,11 @@ function NewEuipmentInformation(props) {
                       <td>{equip.system_type}</td>
                       <td>{equip.manufacturer}</td>
                       <td>{equip.model_no}</td>
-                      <td align="right">{equip.quantity}</td>
+                      <td>{equip.quantity}</td>
                       <td>{equip.purchase_date}</td>
-                      <td>{equip.seer}</td>
 
                       {props.system_type === "Dryer" ||
-                      props.system_type === "Washer" ? null : (
+                      props.system_type === "Washer" ? <td>{equip.seer}</td> : (
                         <>
                           <td>{parseInt(parseFloat(equip.btu) * 12000)}</td>
                           <td>{equip.btu}</td>
