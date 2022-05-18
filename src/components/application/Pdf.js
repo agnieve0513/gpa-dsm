@@ -43,12 +43,13 @@ function DisplayPDF({ data, wrapper }) {
           {Array.from(new Array(numPages), (el, index) => (
             <div style={{ marginBottom: 10 }}>
               <Page
-              // width={width ==0 ? dimension.width >= 2240 ? 1200 : dimension.width - per * 0.50 : width * 0.50 || undefined}
+                // width={width ==0 ? dimension.width >= 2240 ? 1200 : dimension.width - per * 0.50 : width * 0.50 || undefined}
                 width={
                   width == 0
-                    ? dimension.width - per * 0.90
-                    : width * 0.90 || undefined
+                    ? dimension.width - per * 0.9
+                    : width * 0.9 || undefined
                 }
+                scale={dimension.width < 768 ? 3.0 : 1.0}
                 key={`page_${index + 1}`}
                 pageNumber={index + 1}
               />
