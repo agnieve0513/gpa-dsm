@@ -10,7 +10,7 @@ function DisplayPDF({ data, wrapper }) {
   const [numPages, setNumPages] = useState(null);
   const { width, height } = useContainerDimensions(wrapper);
   const dimension = useWindowDimensions();
-  const temp = dimension.width <= 990 ? 30 : 40;
+  const temp = dimension.width <= 990 ? 15 : 40;
   const per = (dimension.width / 100) * temp;
   console.log("WIDTH: ", width);
   console.log("DIMENSION WIDTH: ", dimension.width);

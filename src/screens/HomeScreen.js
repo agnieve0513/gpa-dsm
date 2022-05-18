@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Row, Col, Image } from "react-bootstrap";
 
 // import Swal from 'sweetalert2'
@@ -8,7 +8,31 @@ import { Link } from "react-router-dom";
 
 import "./HomeScreen.css";
 
+function iOS() {
+
+  return (
+    [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod",
+    ].includes(navigator.platform) ||
+    // iPad on iOS 13 detection
+    (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+  );
+}
+
 function HomeScreen() {
+  const [isIOS, setIsIOS] = useState(false);
+  
+  useEffect(()=>{
+    if (iOS()) {
+      setIsIOS(true);
+    }
+  }, []);
+
   return (
     <Row md={3} xs={12} sm={12} id="homeScreen">
       <Col md={2} sm={12} xs={12}></Col>
@@ -60,6 +84,13 @@ function HomeScreen() {
           >
             <h4 className="mb-0 p-1">Apply Online</h4>
           </Link>
+          {isIOS ? (
+            <p className="text-white">
+              *Please be assisted that IOS cannot be used to Register an
+              Application. Please use android mobile or web browser on computer
+              to register
+            </p>
+          ) : null}
           <br />
           <p className="mb-3">
             <Link to={`/track`} className="text-white">

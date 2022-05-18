@@ -122,90 +122,90 @@ function EquipmentReview(props) {
                     </button>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">GPA Electric Account number</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.account_no}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Bill ID</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.bill_id}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Name on GPA Account</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.gpa_holder}</b>
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       {props.customer_type == "COMM" ||
                       props.customer_type == "E-COM-2" ? (
                         <p className="title">Applicant's Name</p>
                       ) : (
                         <p className="title">First Name</p>
                       )}
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.firstname}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   {props.customer_type == "COMM" ||
                   props.customer_type == "E-COM-2" ? null : (
                     <>
                       <Row className="px-0">
-                        <Col>
+                        <div className="col-6">
                           <p className="title">Middle Name</p>
-                        </Col>
-                        <Col>
+                        </div>
+                        <div className="col-6">
                           <p>
                             <b>{props.middlename}</b>{" "}
                           </p>
-                        </Col>
+                        </div>
                       </Row>
                       <Row className="px-0">
-                        <Col>
+                        <div className="col-6">
                           <p className="title">Last Name</p>
-                        </Col>
-                        <Col>
+                        </div>
+                        <div className="col-6">
                           <p>
                             <b>{props.lastname}</b>{" "}
                           </p>
-                        </Col>
+                        </div>
                       </Row>
                     </>
                   )}
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Installation Address</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.service_location}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">City</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>
                           {props.city_village
@@ -215,45 +215,45 @@ function EquipmentReview(props) {
                             : "None"}
                         </b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">ZIP</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.zipcode}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Email</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.email}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Telephone Number</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.tel_no}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title py-4">
                         Is Applicant the owner of the residential property?
                       </p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p className="py-4">
                         <b>
                           {props.is_applicant_owner
@@ -263,100 +263,100 @@ function EquipmentReview(props) {
                             : "No"}
                         </b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Mailing Address</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.mailing_address}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">City</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.mailing_city_village}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">Country</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.mailing_country}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">ZIP Code</p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.mailing_zipcode}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row></Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">
                         {props.customer_type === "RESID" ? "Home" : "Building"}{" "}
                         Size (approx. sq. ft.)
                       </p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.home_size}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">
                         {props.customer_type === "RESID" ? "Home" : "Building"}{" "}
                         Age (appox. year built)
                       </p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.home_age}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">New Construction</p>
                       {console.log(props.is_new_construction)}
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>
                           {props.is_new_construction == "true" ? "Yes" : "No"}
                         </b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                   <Row className="px-0">
-                    <Col>
+                    <div className="col-6">
                       <p className="title">
                         {props.customer_type === "RESID" ? "Home" : "Building"}{" "}
                         Type
                       </p>
-                    </Col>
-                    <Col>
+                    </div>
+                    <div className="col-6">
                       <p>
                         <b>{props.home_type}</b>{" "}
                       </p>
-                    </Col>
+                    </div>
                   </Row>
                 </Container>
               </Tab>

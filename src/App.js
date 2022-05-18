@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import UserForm from "./components/admin_forms/UserForm";
 import AdminScreen from "./screens/AdminScreen";
-
+  
 function App() {
   return (
     <Router>
@@ -24,7 +24,6 @@ function App() {
       <Route path="/application" component={ApplicationScreen} exact />
       <Route path="/track" component={TrackApplicationScreen} exact />
       <Route path="/track/:ctrl_no" component={TrackApplicationScreen} exact />
-
       <Route path="/admin" component={AdminLoginScreen} exact />
       <Route path="/forgot" component={AdminForgotPasswordScreen} exact />
       <Route path="/change" component={AdminChangePasswordScreen} exact />
