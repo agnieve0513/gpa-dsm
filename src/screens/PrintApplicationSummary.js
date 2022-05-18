@@ -166,20 +166,19 @@ const EquipmentTable = ({ data, finalDate, index }) => {
             <View style={styles.textContainer}>
               <Text style={styles.text}>
                 {data.newEquip_System_type == "Dryer" ||
-                  data.newEquip_System_type == "Washer" ? 'CUBIC FEET: ' : 'TONS: '}{" "}
+                data.newEquip_System_type == "Washer"
+                  ? "CUBIC FEET: "
+                  : "TONS: "}{" "}
               </Text>
               <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
             </View>
           )}
 
-          {data.newEquip_Seer == "N/A" || data.newEquip_Seer == "" ? null : (
+          {data.newEquip_Seer == "N/A" ||
+          data.newEquip_Seer == "" ||
+          data.newEquip_Seer == "0.00" ? null : (
             <View style={styles.textContainer}>
-              <Text style={styles.text}>
-                {data.newEquip_System_type == "Dryer" ||
-                data.newEquip_System_type == "Washer"
-                  ? "IEER/EER: "
-                  : "SEER"}{" "}
-              </Text>
+              <Text style={styles.text}>SEER: </Text>
               <Text style={styles.boldText}>
                 {data?.newEquip_Seer || "N/A"}
               </Text>
