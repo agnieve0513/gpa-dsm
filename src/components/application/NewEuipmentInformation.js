@@ -324,6 +324,9 @@ function NewEuipmentInformation(props) {
         props.setVendor("");
         setSystemTypeTriggered3(true);
         setSystemTypeTriggered2(true);
+        props.setQuantity("");
+        props.setInvoiceNo("");
+        props.setPurchaseDate("");
       } else {
         Toast.fire({
           icon: "warning",
@@ -442,12 +445,19 @@ function NewEuipmentInformation(props) {
               <tr>
                 <th scope="col">System Type</th>
                 <th scope="col">Manufacturer</th>
+                <th scope="col">Model</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Purchase Date</th>
+                <th>
+                  {props.system_type === "Dryer" ||
+                  props.system_type === "Washer"
+                    ? "IEER/EER"
+                    : "SEER"}
+                </th>
+
                 {props.system_type === "Dryer" ||
                 props.system_type === "Washer" ? null : (
                   <>
-                    <th>SEER</th>
                     <th>BTU</th>
                     <th>TONS</th>
                   </>
@@ -462,13 +472,15 @@ function NewEuipmentInformation(props) {
                     <tr>
                       <td>{equip.system_type}</td>
                       <td>{equip.manufacturer}</td>
-                      <td>{equip.quantity}</td>
+                      <td>{equip.model_no}</td>
+                      <td align="right">{equip.quantity}</td>
                       <td>{equip.purchase_date}</td>
+                      <td>{equip.seer}</td>
+
                       {props.system_type === "Dryer" ||
                       props.system_type === "Washer" ? null : (
                         <>
-                          <td>{equip.seer}</td>
-                          <td>{parseInt(parseFloat(equip.btu)* 12000)}</td>
+                          <td>{parseInt(parseFloat(equip.btu) * 12000)}</td>
                           <td>{equip.btu}</td>
                         </>
                       )}

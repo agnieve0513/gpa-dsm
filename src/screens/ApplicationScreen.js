@@ -318,8 +318,6 @@ function ApplicationScreen() {
         work_tel === "" ||
         work_tel.length > 10 ||
         work_tel.length < 10 ||
-        invoice_no === "" ||
-        purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
         company_name === "" ||
@@ -369,9 +367,7 @@ function ApplicationScreen() {
 
     if (currentStep === 3 && stepOneToStepSix) {
       if (
-        invoice_no === "" ||
         invoice === null ||
-        purchase_date === "" ||
         technician_name === "" ||
         work_tel === "" ||
         work_tel.length > 10 ||
@@ -457,9 +453,7 @@ function ApplicationScreen() {
         }
       } else if (currentStep === 3) {
         if (
-          invoice_no === "" ||
           invoice === null ||
-          purchase_date === "" ||
           technician_name === "" ||
           work_tel === "" ||
           work_tel.length > 10 ||

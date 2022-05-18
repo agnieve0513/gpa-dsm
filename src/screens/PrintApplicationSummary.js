@@ -162,21 +162,24 @@ const EquipmentTable = ({ data, finalDate, index }) => {
             </View>
           )}
 
-          {data.newEquip_Btu == "N/A" ||
-          data.newEquip_System_type == "Dryer" ||
-          data.newEquip_System_type == "Washer" ? null : (
+          {data.newEquip_Btu == "N/A" ? null : (
             <View style={styles.textContainer}>
-              <Text style={styles.text}>TONS: </Text>
+              <Text style={styles.text}>
+                {data.newEquip_System_type == "Dryer" ||
+                  data.newEquip_System_type == "Washer" ? 'CUBIC FEET: ' : 'TONS: '}{" "}
+              </Text>
               <Text style={styles.boldText}>{data?.newEquip_Btu || "N/A"}</Text>
             </View>
           )}
 
-          {data.newEquip_Seer !== "N/A" ||
-          data.newEquip_Seer !== "" ||
-          data.newEquip_System_type !== "Dryer" ||
-          data.newEquip_System_type !== "Washer" ? null : (
+          {data.newEquip_Seer == "N/A" || data.newEquip_Seer == "" ? null : (
             <View style={styles.textContainer}>
-              <Text style={styles.text}>SEER: </Text>
+              <Text style={styles.text}>
+                {data.newEquip_System_type == "Dryer" ||
+                data.newEquip_System_type == "Washer"
+                  ? "IEER/EER: "
+                  : "SEER"}{" "}
+              </Text>
               <Text style={styles.boldText}>
                 {data?.newEquip_Seer || "N/A"}
               </Text>
@@ -574,7 +577,7 @@ function PrintApplicationSummary(props) {
                       </View>
                       <View style={styles.textContainer}>
                         <Text style={styles.text}>
-                          Property Owner{" "}
+                          Property Owner: {" "}
                           {/* {data?.Type === "RESID"
                             ? "Residential"
                             : "Commercial"}{" "}
@@ -910,7 +913,7 @@ function PrintApplicationSummary(props) {
                     </View>
                     <View style={styles.textContainer}>
                       <Text style={styles.text}>
-                        Property Owner{" "}
+                        Property Owner: {" "}
                         {/* {data?.Type === "RESID" ? "Residential" : "Commercial"}{" "}
                         Property:{" "} */}
                       </Text>
