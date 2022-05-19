@@ -391,8 +391,14 @@ function EquipmentReview(props) {
                                   <th scope="col">Model Number</th>
                                   <th scope="col">Vendor</th>
                                   {props.system_type === "Dryer" ||
-                                  props.system_type === "Washer" ? null : (
-                                    <th>SEER</th>
+                                  props.system_type === "Washer" ? (
+                                    <th>Cubic Feet</th>
+                                  ) : (
+                                    <>
+                                      <th>SEER</th>
+                                      <th>BTU</th>
+                                      <th>TONS</th>
+                                    </>
                                   )}
                                   <th>Invoice#</th>
                                   <th>Quantity</th>
@@ -411,8 +417,18 @@ function EquipmentReview(props) {
 
                                         <td>{eq.vendor}</td>
                                         {eq.system_type === "Dryer" ||
-                                        eq.system_type === "Washer" ? null : (
+                                        eq.system_type === "Washer" ? (
                                           <td>{eq.seer}</td>
+                                        ) : (
+                                          <>
+                                            <td>{eq.seer}</td>
+                                            <td>
+                                              {parseInt(
+                                                parseFloat(eq.btu) * 12000
+                                              )}
+                                            </td>
+                                            <td>{eq.btu}</td>
+                                          </>
                                         )}
                                         <td>{eq.invoice_no}</td>
                                         <td>{eq.quantity}</td>
@@ -549,60 +565,52 @@ function EquipmentReview(props) {
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-3">
-                              <div className="table-responsive">
-                                <Table size="lg" striped bordered hover>
-                                  <thead className="bg-info text-white">
-                                    <tr className="py-5">
-                                      <th className="p-3 text-center">QTY</th>
-                                      <th className="p-3 text-center">
-                                        Rebate
-                                      </th>
-                                      <th className="p-3 text-center">
-                                        Partial Total
-                                      </th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    {props.new_equipments.map((eq) => (
-                                      <tr key={eq.id + 1}>
-                                        <td className="p-3" align="right">
-                                          {eq.quantity}
-                                        </td>
-                                        <td className="p-3" align="right">
-                                          $ {!eq.rebate ? 0 : eq.rebate}
-                                        </td>
-                                        <td className="p-3" align="right">
-                                          {" "}
-                                          $
-                                          {!eq.rebate
-                                            ? 0
-                                            : parseInt(eq.quantity) *
-                                              parseInt(eq.rebate)}
-                                        </td>
-                                        <td hidden>
-                                          {
-                                            (total_rebate +=
-                                              parseInt(eq.quantity) *
-                                              parseInt(eq.rebate))
-                                          }
-                                        </td>
-                                      </tr>
-                                    ))}
-                                    <tr>
-                                      <td
-                                        className="p-3 text-center"
-                                        colSpan="2"
-                                      >
-                                        TOTAL
+                              <table className="table-bordered table3">
+                                <thead className="bg-info text-white">
+                                  <tr className="py-5">
+                                    <th className="p-3 text-center">QTY</th>
+                                    <th className="p-3 text-center">Rebate</th>
+                                    <th className="p-3 text-center">
+                                      Partial Total
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {props.new_equipments.map((eq) => (
+                                    <tr key={eq.id + 1}>
+                                      <td className="p-3" align="right">
+                                        {eq.quantity}
                                       </td>
                                       <td className="p-3" align="right">
-                                        ${" "}
-                                        {!total_rebate ? "0.00" : total_rebate}
+                                        $ {!eq.rebate ? 0 : eq.rebate}
+                                      </td>
+                                      <td className="p-3" align="right">
+                                        {" "}
+                                        $
+                                        {!eq.rebate
+                                          ? 0
+                                          : parseInt(eq.quantity) *
+                                            parseInt(eq.rebate)}
+                                      </td>
+                                      <td hidden>
+                                        {
+                                          (total_rebate +=
+                                            parseInt(eq.quantity) *
+                                            parseInt(eq.rebate))
+                                        }
                                       </td>
                                     </tr>
-                                  </tbody>
-                                </Table>
-                              </div>
+                                  ))}
+                                  <tr>
+                                    <td className="p-3 text-center" colSpan="2">
+                                      TOTAL
+                                    </td>
+                                    <td className="p-3" align="right">
+                                      $ {!total_rebate ? "0.00" : total_rebate}
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </Col>
                           </Row>
                         </>

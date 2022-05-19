@@ -392,14 +392,20 @@ function FinalReview(props) {
                             <Table>
                               <thead className="bg-info text-white">
                                 <tr>
-                                  <th>#</th>
-                                  <th>System Type</th>
-                                  <th>Manufacturer</th>
-                                  <th>Model Number</th>
-                                  <th>Vendor</th>
+                                  <th scope="col">#</th>
+                                  <th scope="col">System Type</th>
+                                  <th scope="col">Manufacturer</th>
+                                  <th scope="col">Model Number</th>
+                                  <th scope="col">Vendor</th>
                                   {props.system_type === "Dryer" ||
-                                  props.system_type === "Washer" ? null : (
-                                    <th>SEER</th>
+                                  props.system_type === "Washer" ? (
+                                    <th>Cubic Feet</th>
+                                  ) : (
+                                    <>
+                                      <th>SEER</th>
+                                      <th>BTU</th>
+                                      <th>TONS</th>
+                                    </>
                                   )}
                                   <th>Invoice#</th>
                                   <th>Quantity</th>
@@ -415,10 +421,21 @@ function FinalReview(props) {
                                         <td>{eq.system_type}</td>
                                         <td>{eq.manufacturer}</td>
                                         <td>{eq.model_no}</td>
+
                                         <td>{eq.vendor}</td>
                                         {eq.system_type === "Dryer" ||
-                                        eq.system_type === "Washer" ? null : (
+                                        eq.system_type === "Washer" ? (
                                           <td>{eq.seer}</td>
+                                        ) : (
+                                          <>
+                                            <td>{eq.seer}</td>
+                                            <td>
+                                              {parseInt(
+                                                parseFloat(eq.btu) * 12000
+                                              )}
+                                            </td>
+                                            <td>{eq.btu}</td>
+                                          </>
                                         )}
                                         <td>{eq.invoice_no}</td>
                                         <td>{eq.quantity}</td>
@@ -554,7 +571,7 @@ function FinalReview(props) {
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-2">
-                              <Table size="lg" striped bordered hover>
+                              <table className="table-bordered table3">
                                 <thead className="bg-info text-white">
                                   <tr className="py-5">
                                     <th className="p-3 text-center">QTY</th>
@@ -574,7 +591,8 @@ function FinalReview(props) {
                                         $ {!eq.rebate ? 0 : eq.rebate}
                                       </td>
                                       <td className="p-3" align="right">
-                                        ${" "}
+                                        {" "}
+                                        $
                                         {!eq.rebate
                                           ? 0
                                           : parseInt(eq.quantity) *
@@ -594,11 +612,11 @@ function FinalReview(props) {
                                       TOTAL
                                     </td>
                                     <td className="p-3" align="right">
-                                      ${!total_rebate ? "0.00" : total_rebate}
+                                      $ {!total_rebate ? "0.00" : total_rebate}
                                     </td>
                                   </tr>
                                 </tbody>
-                              </Table>
+                              </table>
                             </Col>
                           </Row>
                         </>

@@ -1748,13 +1748,9 @@ function ViewApp(props) {
                     </Button>
                   </Modal.Body>
                 </Modal>
-                <Row>
-                  <Col md={6}></Col>
-                </Row>
                 <Row className="px-0">
-                  <Col className="mb-2 px-0" md={12}>
-                    <div table="table-responsive">
-                      <Table striped hover responsive className="this-table">
+                  <Col className="mb-2" md={12}>
+                      <Table striped hover>
                         <thead className="bg-info text-white">
                           <tr>
                             <th>#</th>
@@ -1763,7 +1759,7 @@ function ViewApp(props) {
                               application.New_equipment[0]
                                 .newEquip_System_type === "Dryer" ||
                               application.New_equipment[0]
-                                .newEquip_System_type === "Washer" ? null : (
+                                .newEquip_System_type === "Washer" ? <th>CUBIC FEET</th> : (
                                 <>
                                   <th>BTU</th>
                                   <th>TONS</th>
@@ -1788,8 +1784,8 @@ function ViewApp(props) {
                                   <tr>
                                     <td>{indx + 1}</td>
                                     <td>{equip.newEquip_System_type}</td>
-                                    {equip.newEquip_System_type !== "Washer" ? (
-                                      equip.newEquip_System_type !== "Dryer" ? (
+                                    {equip.newEquip_System_type == "Washer" ||
+                                      equip.newEquip_System_type == "Dryer" ? <td>{equip.newEquip_Seer}</td> : (
                                         <>
                                           <td>
                                             {parseInt(
@@ -1800,8 +1796,7 @@ function ViewApp(props) {
                                           <td>{equip.newEquip_Btu}</td>
                                           <td>{equip.newEquip_Seer}</td>
                                         </>
-                                      ) : null
-                                    ) : null}
+                                      )}
                                     <td>{equip.newEquip_Vendor} </td>
                                     <td>{equip.newEquip_Manufacturer}</td>
                                     <td>{equip.newEquip_Model_no}</td>
@@ -1833,7 +1828,6 @@ function ViewApp(props) {
                             : []}
                         </tbody>
                       </Table>
-                    </div>
                   </Col>
                   <Col md={6}>
                     {application ? (
@@ -2170,7 +2164,7 @@ function ViewApp(props) {
                   </Col>
                   <Col
                     md={6}
-                    className="mt-3 px-0 d-flex justify-content-center"
+                    className="mt-3 d-flex justify-content-center"
                   >
                     <div
                       style={{

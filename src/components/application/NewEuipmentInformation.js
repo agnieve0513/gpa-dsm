@@ -440,7 +440,7 @@ function NewEuipmentInformation(props) {
       <>
         <div className="table-responsive tableFixHead">
           <h6>Equipments</h6>
-          <table className="table striped bordered hover">
+          <table className="table2 striped bordered hover">
             <thead className="bg-info text-white py-2">
               <tr>
                 <th scope="col">System Type</th>

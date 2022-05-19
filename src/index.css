@@ -66,14 +66,66 @@ main {
    /* display: block !important; */
    overflow-x: auto !important;
    width: 100% !important;
-   word-break: unset;
+   display: table !important;
+
  }
 
-@media screen and (max-width: 992px) {
+
+
+ .table td{
+   word-break:normal;
+ }
+
+ .table2{
+   /* display: block !important; */
+   overflow-x: auto !important;
+   width: 100% !important;
+   display: table !important;
+
+ }
+
+  .table3{
+   /* display: block !important; */
+   overflow-x: auto !important;
+   width: 100% !important;
+   display: table !important;
+
+ }
+
+  .table2 td{
+   word-break:normal;
+ }
+
+@media screen and (max-width: 1403px) {
   .table{
    display: block !important;
    overflow-x: auto !important;
    width: 100% !important;
-   word-break: unset;
+ }
+ .table td {
+   word-break: normal;
+
+ }
+
+ .table2{
+   display: block !important;
+   overflow-x: auto !important;
+   width: 100% !important;
+ }
+ .table2 td {
+   word-break: normal;
+
+ }
+}
+
+@media screen and (min-width: 1407px) {
+  .table2{
+   display: block !important;
+   overflow-x: auto !important;
+   width: 100% !important;
+ }
+ .table2 td {
+   word-break: normal;
+
  }
 }
