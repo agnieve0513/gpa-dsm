@@ -571,7 +571,7 @@ function FinalReview(props) {
                               </ListGroup>
                             </Col>
                             <Col md={6} className="mt-2">
-                              <table className="table-bordered table3">
+                              <table className="table table-bordered table3 table-striped table-hover">
                                 <thead className="bg-info text-white">
                                   <tr className="py-5">
                                     <th className="p-3 text-center">QTY</th>

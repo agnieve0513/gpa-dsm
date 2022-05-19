@@ -254,7 +254,7 @@ const EquipmentTable = ({ data, finalDate, index }) => {
 
           <View style={styles.textContainer}>
             <Text style={styles.text}>Rebate: </Text>
-            <Text style={styles.boldText}>{data.newEquip_rebate || "N/A"}</Text>
+            <Text style={styles.boldText}>{data.newEquip_rebate || "0.00"}</Text>
           </View>
         </View>
       </View>
