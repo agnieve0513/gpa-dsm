@@ -61,83 +61,88 @@ main {
   color: #666666;
 }
 
+.table {
+  /* display: block !important; */
+  overflow-x: auto !important;
+  width: 100% !important;
+  display: table !important;
+}
 
-.table{
-   /* display: block !important; */
-   overflow-x: auto !important;
-   width: 100% !important;
-   display: table !important;
+.table td {
+  word-break: break-word;
+}
 
- }
+.table2 {
+  /* display: block !important; */
+  overflow-x: auto !important;
+  width: 100% !important;
+  display: table !important;
+}
 
- .table td{
-   word-break:break-word;
- }
+.table2 th {
+  padding: 15px;
+}
 
- .table2{
-   /* display: block !important; */
-   overflow-x: auto !important;
-   width: 100% !important;
-   display: table !important;
+.table3 {
+  /* display: block !important; */
+  overflow-x: auto !important;
+  width: 100% !important;
+  display: table !important;
+}
 
- }
-
-  .table3{
-   /* display: block !important; */
-   overflow-x: auto !important;
-   width: 100% !important;
-   display: table !important;
-
- }
-
-  .table2 td{
-      word-break:break-word;
- }
+.table2 td {
+  word-break: break-word;
+  padding: 8px;
+}
 
 @media screen and (max-width: 1403px) {
-  .table{
-   display: block !important;
-   overflow-x: auto !important;
-   width: 100% !important;
- }
- .table td {
-         word-break:break-word;
- }
+  .table {
+    display: block !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+  }
+  .table td {
+    word-break: break-word;
+    padding: 8px;
+  }
 
- .table2{
-   display: block !important;
-   overflow-x: auto !important;
-   width: 100% !important;
- }
- .table2 td {
-            word-break:break-word;
+  .table2 {
+    display: block !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+  }
+  .table2 th {
+    padding: 15px;
+  }
 
- }
+  .table2 td {
+    word-break: break-word;
+    padding: 8px;
+  }
 }
 
 @media screen and (min-width: 1407px) {
-  .table2{
-   display: block !important;
-   overflow-x: auto !important;
-   width: 100% !important;
- }
- .table2 td {
-   word-break: normal;
-
- }
+  .table2 {
+    display: block !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+  }
+  .table2 td {
+    word-break: break-word;
+  }
 }
 
 @media screen and (min-width: 2240px) {
-  .table2{
-   display: table !important;
-   overflow-x: auto !important;
-   width: 100% !important;
- }
- .table2 th{
-   padding: 15px;
- }
- .table2 td {
-   word-break: normal;
-   padding : 10px;
- }
+  .table2 {
+    display: table !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+  }
+  .table2 th {
+    padding: 15px;
+  }
+  .table2 td {
+    word-break: break-word;
+    padding: 10px;
+  }
 }
