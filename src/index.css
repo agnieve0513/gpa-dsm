@@ -70,10 +70,8 @@ main {
 
  }
 
-
-
  .table td{
-   word-break:normal;
+   word-break:break-word;
  }
 
  .table2{
@@ -93,7 +91,7 @@ main {
  }
 
   .table2 td{
-   word-break:normal;
+      word-break:break-word;
  }
 
 @media screen and (max-width: 1403px) {
@@ -103,8 +101,7 @@ main {
    width: 100% !important;
  }
  .table td {
-   word-break: normal;
-
+         word-break:break-word;
  }
 
  .table2{
@@ -113,7 +110,7 @@ main {
    width: 100% !important;
  }
  .table2 td {
-   word-break: normal;
+            word-break:break-word;
 
  }
 }
@@ -127,5 +124,20 @@ main {
  .table2 td {
    word-break: normal;
 
+ }
+}
+
+@media screen and (min-width: 2240px) {
+  .table2{
+   display: table !important;
+   overflow-x: auto !important;
+   width: 100% !important;
+ }
+ .table2 th{
+   padding: 15px;
+ }
+ .table2 td {
+   word-break: normal;
+   padding : 10px;
  }
 }

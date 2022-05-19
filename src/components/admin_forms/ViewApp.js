@@ -1528,12 +1528,13 @@ function ViewApp(props) {
                         </b>
                       </Form.Label>
                       <Form.Select
-                        onChange={(e) =>
-                          {
-                            console.log("PAYTS: ", e.target.value)
-                            changeManufacturerHandler(system_type, e.target.value)
-                          }
-                        }
+                        onChange={(e) => {
+                          console.log("PAYTS: ", e.target.value);
+                          changeManufacturerHandler(
+                            system_type,
+                            e.target.value
+                          );
+                        }}
                         value={manufacturer}
                       >
                         <option defaultValue hidden>
@@ -1750,84 +1751,88 @@ function ViewApp(props) {
                 </Modal>
                 <Row className="px-0">
                   <Col className="mb-2" md={12}>
-                      <Table striped hover>
-                        <thead className="bg-info text-white">
-                          <tr>
-                            <th>#</th>
-                            <th>System Type</th>
-                            {application ? (
-                              application.New_equipment[0]
-                                .newEquip_System_type === "Dryer" ||
-                              application.New_equipment[0]
-                                .newEquip_System_type === "Washer" ? <th>CUBIC FEET</th> : (
-                                <>
-                                  <th>BTU</th>
-                                  <th>TONS</th>
-                                  <th>SEER</th>
-                                </>
-                              )
-                            ) : null}
+                    <Table striped hover>
+                      <thead className="bg-info text-white">
+                        <tr>
+                          <th>#</th>
+                          <th>System Type</th>
 
-                            <th>Vendor</th>
-                            <th>Manu facturer</th>
-                            <th>Model Number</th>
-                            <th>Invoice</th>
-                            <th>Purchase Date</th>
-                            {roleId === 10 ? null : <th>Action</th>}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {application
-                            ? application?.New_equipment?.length === 0
-                              ? []
-                              : application.New_equipment.map((equip, indx) => (
-                                  <tr>
-                                    <td>{indx + 1}</td>
-                                    <td>{equip.newEquip_System_type}</td>
-                                    {equip.newEquip_System_type == "Washer" ||
-                                      equip.newEquip_System_type == "Dryer" ? <td>{equip.newEquip_Seer}</td> : (
-                                        <>
-                                          <td>
-                                            {parseInt(
-                                              parseFloat(equip.newEquip_Btu) *
-                                                12000
-                                            )}
-                                          </td>
-                                          <td>{equip.newEquip_Btu}</td>
-                                          <td>{equip.newEquip_Seer}</td>
-                                        </>
-                                      )}
-                                    <td>{equip.newEquip_Vendor} </td>
-                                    <td>{equip.newEquip_Manufacturer}</td>
-                                    <td>{equip.newEquip_Model_no}</td>
-                                    <td>{equip.newEquip_Invoice_no}</td>
-                                    {/* <td>{equip.newEquip_Tons}</td> */}
-                                    <td>{equip.newEquip_Purchase_date}</td>
-                                    {roleId === 10 ? null : (
+                          <th>Vendor</th>
+                          <th>Manu facturer</th>
+                          <th>Model Number</th>
+                          {application ? (
+                            application.New_equipment[0]
+                              .newEquip_System_type === "Dryer" ||
+                            application.New_equipment[0]
+                              .newEquip_System_type === "Washer" ? (
+                              <th>CUBIC FEET</th>
+                            ) : (
+                              <>
+                                <th>BTU</th>
+                                <th>TONS</th>
+                                <th>SEER</th>
+                              </>
+                            )
+                          ) : null}
+                          <th>Invoice</th>
+                          <th>Purchase Date</th>
+                          {roleId === 10 ? null : <th>Action</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {application
+                          ? application?.New_equipment?.length === 0
+                            ? []
+                            : application.New_equipment.map((equip, indx) => (
+                                <tr>
+                                  <td>{indx + 1}</td>
+                                  <td>{equip.newEquip_System_type}</td>
+
+                                  <td>{equip.newEquip_Vendor} </td>
+                                  <td>{equip.newEquip_Manufacturer}</td>
+                                  <td>{equip.newEquip_Model_no}</td>
+                                  {equip.newEquip_System_type == "Washer" ||
+                                  equip.newEquip_System_type == "Dryer" ? (
+                                    <td>{equip.newEquip_Seer}</td>
+                                  ) : (
+                                    <>
                                       <td>
-                                        <Button
-                                          variant="success"
-                                          size="sm"
-                                          onClick={() =>
-                                            handleEquipmentEdit(
-                                              indx,
-                                              equip.newEquip_id,
-                                              equip.newEquip_System_type,
-                                              equip.newEquip_Manufacturer,
-                                              equip.newEquip_Model_no,
-                                              application.Type
-                                            )
-                                          }
-                                        >
-                                          <i className="fa fa-edit"></i>
-                                        </Button>
+                                        {parseInt(
+                                          parseFloat(equip.newEquip_Btu) * 12000
+                                        )}
                                       </td>
-                                    )}
-                                  </tr>
-                                ))
-                            : []}
-                        </tbody>
-                      </Table>
+                                      <td>{equip.newEquip_Btu}</td>
+                                      <td>{equip.newEquip_Seer}</td>
+                                    </>
+                                  )}
+                                  <td>{equip.newEquip_Invoice_no}</td>
+                                  {/* <td>{equip.newEquip_Tons}</td> */}
+                                  <td>{equip.newEquip_Purchase_date}</td>
+                                  {roleId === 10 ? null : (
+                                    <td>
+                                      <Button
+                                        variant="success"
+                                        size="sm"
+                                        onClick={() =>
+                                          handleEquipmentEdit(
+                                            indx,
+                                            equip.newEquip_id,
+                                            equip.newEquip_System_type,
+                                            equip.newEquip_Manufacturer,
+                                            equip.newEquip_Model_no,
+                                            application.Type
+                                          )
+                                        }
+                                      >
+                                        <i className="fa fa-edit"></i>
+                                      </Button>
+                                    </td>
+                                  )}
+                                </tr>
+                              ))
+                          : []}
+                      </tbody>
+                    </Table>
                   </Col>
                   <Col md={6}>
                     {application ? (
@@ -2162,10 +2167,7 @@ function ViewApp(props) {
                       <></>
                     )}
                   </Col>
-                  <Col
-                    md={6}
-                    className="mt-3 d-flex justify-content-center"
-                  >
+                  <Col md={6} className="mt-3 d-flex justify-content-center">
                     <div
                       style={{
                         height: width <= 767 ? "100%" : "200px",
