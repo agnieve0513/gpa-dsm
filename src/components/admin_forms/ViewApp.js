@@ -578,9 +578,7 @@ function ViewApp(props) {
     const obj = {
       new_equipment_information: [
         {
-          application_information: {
-            control_no: control_no,
-          },
+          
           id: equipment_id,
           system_type: system_type
             ? system_type
@@ -612,6 +610,11 @@ function ViewApp(props) {
           seer: equipment_detail ? equipment_detail[0]?.value1 : 0,
           rebate: equipment_detail ? equipment_detail[0]?.rebate : 0,
         },
+      ],
+       application_information: [
+        {
+            control_no: control_no,
+          }
       ],
       // installer_information: {
       //   id: application.Installer_New_id,
