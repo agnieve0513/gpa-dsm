@@ -650,8 +650,8 @@ function FinalReview(props) {
                       <tr>
                         <th>#</th>
                         <th>System Type</th>
-                        {props.system_type === "Dryer" ||
-                        props.system_type === "Washer" ? (
+                        {props.old_equipments[0]?.system_type === "Dryer" ||
+                        props.old_equipments[0]?.system_type === "Washer" ? (
                           <>
                             <th>CUBIC FEET</th>
                           </>
@@ -675,9 +675,9 @@ function FinalReview(props) {
                         ? props.old_equipments.map((eq) => (
                             <tr>
                               <td>{eq.id}</td>
-                              <td>{props.system_type}</td>
-                              {props.system_type === "Dryer" ||
-                              props.system_type === "Washer" ? (
+                              <td>{eq.system_type}</td>
+                              {eq.system_type === "Dryer" ||
+                              eq.system_type === "Washer" ? (
                                 <>
                                   <td>{eq.tons}</td>
                                 </>

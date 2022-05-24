@@ -138,7 +138,8 @@ function NewEuipmentInformation(props) {
 
        }
      }else{
-         props.setNewEquipments([]);
+          props.setTotalRebate(0);
+          props.setNewEquipments([]);
           props.setTotalQuantity(0);
 
      }

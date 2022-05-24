@@ -502,7 +502,7 @@ function PrintApplicationSummary(props) {
                       style={{ width: 130, height: 35, marginLeft: 30 }}
                       fixed={true}
                     />
-                    <Text>Payts</Text>
+                    <Text></Text>
                   </View>
                   <Text style={styles.title}>Application Information</Text>
                   <View style={{ width: "100%", flexDirection: "row" }}>

@@ -658,7 +658,7 @@ function EquipmentReview(props) {
                         )}
                         <th>QUANTITY</th>
                         <th>NO. OF YEARS</th>
-                        <th>Equipment Conditoin</th>
+                        <th>Equipment Condition</th>
                         <th>Disposal Party</th>
                         <th>Date</th>
                       </tr>
@@ -669,9 +669,9 @@ function EquipmentReview(props) {
                         ? props.old_equipments.map((eq) => (
                             <tr>
                               <td>{eq.id}</td>
-                              <td>{props.system_type}</td>
-                              {props.system_type === "Dryer" ||
-                              props.system_type === "Washer" ? (
+                              <td>{eq.system_type}</td>
+                              {eq.system_type === "Dryer" ||
+                              eq.system_type === "Washer" ? (
                                 <>
                                   <td>{eq.tons}</td>
                                 </>
