@@ -397,6 +397,7 @@ function ViewApp(props) {
         : application.Info_New_construction,
       Delay_Reason: delay_reason ? delay_reason : application.Delay_Reason,
       Delay_Reason2: delay_reason2 ? delay_reason2 : application.Delay_Reason2,
+      totalrebate: total_rebate,
     };
 
     dispatch(editApplication(obj));
@@ -546,8 +547,7 @@ function ViewApp(props) {
       },
     };
     dispatch(editEquipment(obj));
-    if(delay_reason || delay_reason2)
-    {
+    if (delay_reason || delay_reason2) {
       handleEditInfo();
     }
     Swal.fire("Success", "Installer's Info has been updated!", "success");
@@ -555,9 +555,13 @@ function ViewApp(props) {
     setReload(reload + 1);
   };
   const handleEditNewEquipment = (control_no, equipment_id, indx) => {
+
+    console.log('equipment id: '+equipment_id);
+    console.log('index of equipment id: '+indx);
+    
     var me = equipment_detail ? equipment_detail[0] : [];
 
-    var modelName="";
+    var modelName = "";
 
     if (me.package_model) {
       modelName = me.package_model;
@@ -578,7 +582,6 @@ function ViewApp(props) {
     const obj = {
       new_equipment_information: [
         {
-          
           id: equipment_id,
           system_type: system_type
             ? system_type
@@ -611,11 +614,6 @@ function ViewApp(props) {
           rebate: equipment_detail ? equipment_detail[0]?.rebate : 0,
         },
       ],
-       application_information: [
-        {
-            control_no: control_no,
-          }
-      ],
       // installer_information: {
       //   id: application.Installer_New_id,
       //   technician_name: installer_name
@@ -642,6 +640,7 @@ function ViewApp(props) {
     console.log("invoice_no: ", invoice_no);
     console.log("purchase_date: ", purchase_date);
     console.log("quantity: ", quantity);
+
     if (
       equipment_id === "" ||
       system_type === "" ||
@@ -654,10 +653,43 @@ function ViewApp(props) {
     ) {
       Swal.fire("Edit Failed", "Please Fill out the required Forms", "error");
     } else {
-      dispatch(editEquipment(obj));
+      
+
+      total_rebate = 0;
+      console.log(application.New_equipment);
+
+      const equipment = application.New_equipment.find(
+        equipment => equipment.newEquip_id === equipment_id
+      );
+      console.log("Change this equipment: ", equipment);
+
+      equipment.newEquip_rebate = equipment_detail ? equipment_detail[0]?.rebate : 0;
+      console.log("The changed equipment: ", equipment);
+
+      application.New_equipment.map((eq) => {
+        total_rebate += eq.newEquip_rebate;
+        console.log("Equipment: " + eq.newEquip_rebate);
+      });
+
+
+      console.log("totalRebate: ", total_rebate);
+      
+      const obj2 = {
+        applicationId: props.applicationId,
+        totalrebate: total_rebate,
+      };
+
+      dispatch(editEquipment(obj)).then((data) => {
+      setReload(reload + 1);
+        dispatch(editApplication(obj2)).then((result) => {
+          setReload(reload + 1);
+        })
+
+      })
+      setReload(reload + 1);
+
       Swal.fire("Success", "Equipment has been updated!", "success");
       setShowEditModal(false);
-      setReload(reload + 1);
     }
   };
 
@@ -1493,7 +1525,15 @@ function ViewApp(props) {
                           <p>Loading . . .</p>
                         ) : system_types ? (
                           system_types.map((sys_type) => (
+                            application?.New_equipment[selectedEquipmentIndex]
+                              .newEquip_System_type === 'Dryer' ||  application?.New_equipment[selectedEquipmentIndex]
+                              .newEquip_System_type === 'Washer'?
+                                sys_type.type === 'Dryer' || sys_type.type === 'Washer'?
                             <option value={sys_type.type}>
+                              {sys_type.type}
+                            </option>:null
+                            :sys_type.type === 'Dryer' || sys_type.type === 'Washer'?
+                           null: <option value={sys_type.type}>
                               {sys_type.type}
                             </option>
                           ))
